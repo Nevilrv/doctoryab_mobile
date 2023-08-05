@@ -1,0 +1,138 @@
+{
+  "project_info": {
+    "project_number": "107133258114",
+    "project_id": "plucky-cascade-303707",
+    "storage_bucket": "plucky-cascade-303707.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107133258114:android:244a1026259a84b395679b",
+        "android_client_info": {
+          "package_name": "com.microcis.doctor_yab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107133258114-0me4jle7g2jdm76cgek48gmuqai2gpv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "aabc645f4d769e8bde3a3622cbb83c288b04698f"
+          }
+        },
+        {
+          "client_id": "107133258114-58cn9fajc91j41fftgc7brshegu7ls36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "f37ad44f2f92b7a7f9968008922122f79ea9a6a3"
+          }
+        },
+        {
+          "client_id": "107133258114-5o5ch6vg2c031gavobbkceil3vh8codk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "ae53b2303d46054ccf59b1bcffd9b15a1a795a28"
+          }
+        },
+        {
+          "client_id": "107133258114-bshokj7357epd150j0028mnhv894u240.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "ae087d2f17273ef1b0470e04d9df49e16bd99b68"
+          }
+        },
+        {
+          "client_id": "107133258114-hcc66v2rkae559lfjnbus805lljdgr3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "f002fc4dab37bd4dace03bb86175a9a14af39d29"
+          }
+        },
+        {
+          "client_id": "107133258114-tqrg3plkitftqgr4sp59kmng8019dpl8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "7ef0dec5c4a73e173d1075674306d465747d1fc9"
+          }
+        },
+        {
+          "client_id": "107133258114-v488mepau7uar7ns15hc0e3uqv2g3mgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microcis.doctor_yab",
+            "certificate_hash": "30a2d99cfcb615526231db1c1c26601403118772"
+          }
+        },
+        {
+          "client_id": "107133258114-lvpngm7gue2ca8ja793rn1jgmphnf8nm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg7UbGg1k55Md0PoqVotVCnkUlCec66gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107133258114-lvpngm7gue2ca8ja793rn1jgmphnf8nm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107133258114-17iknibvjopg77raaqng5r3lv5ppnoku.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.microcis.doctorYab"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107133258114:android:c7bc182eaf3612c895679b",
+        "android_client_info": {
+          "package_name": "com.microcis.doctor_yab.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107133258114-lvpngm7gue2ca8ja793rn1jgmphnf8nm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg7UbGg1k55Md0PoqVotVCnkUlCec66gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107133258114-lvpngm7gue2ca8ja793rn1jgmphnf8nm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107133258114-17iknibvjopg77raaqng5r3lv5ppnoku.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.microcis.doctorYab"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

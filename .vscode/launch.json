@@ -1,0 +1,57 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "UZB",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-t",
+                "lib/main_uzb.dart",
+                "--flavor",
+                "uzb"
+            ]
+        },
+        {
+            "name": "Production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-t",
+                "lib/main_prod.dart",
+                "--flavor",
+                "prod"
+            ]
+        },
+        {
+            "name": "Dev",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-t",
+                "lib/main_dev.dart",
+                "--flavor",
+                "dev"
+            ]
+        },
+        {
+            "name": "IOS DEV",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-t",
+                "lib/main_dev.dart",
+            ]
+        },
+        {
+            "name": "IOS Prod",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-t",
+                "lib/main_prod.dart",
+            ]
+        },
+    ]
+}
