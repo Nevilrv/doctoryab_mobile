@@ -19,7 +19,7 @@ class TabHomeDrugstoreView
       return d.weekday == 7 ? 0 : d.weekday;
     }
 
-    print((DateTime(2021, 7, 30).weekday).toString() + " weakday-now");
+   debugPrint((DateTime(2021, 7, 30).weekday).toString() + " weakday-now");
 
     return NewItems(
       // is24Hour: i % 2 == 0,
