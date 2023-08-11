@@ -52,7 +52,6 @@ class DrugStoreLabView extends StatelessWidget {
       _model.imageUrl = hospital?.photo;
       _model.phoneNumbers = [hospital?.phone?.toEnglishDigit()];
       // model.times = itemp?.times; //* we remove this as hasanzada request
-
     } else {
       //*make the title
       _model.title = itemp.name;
