@@ -4,6 +4,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/statefull_wraper.dart';
@@ -438,7 +439,6 @@ class Utils {
                     "Hi, Mohammad Nabi Hasanzada!",
                     style: AppTextStyle.mediumWhite11,
                   ),
-                  SizedBox(height: 2),
                   Text(
                     "How do you feel that to day?",
                     style: AppTextStyle.mediumWhite11.copyWith(
@@ -478,9 +478,14 @@ class Utils {
           ),
           SizedBox(height: 10),
           TextField(
+            textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               hintText: "Search a subject (Doctor)",
               hintStyle: AppTextStyle.mediumWhite11,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(11),
+                child: SvgPicture.asset(AppImages.search),
+              ),
               filled: true,
               fillColor: AppColors.white.withOpacity(0.1),
               constraints: BoxConstraints(maxHeight: 38),

@@ -99,13 +99,6 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle mediumWhite11 = TextStyle(
-    fontSize: 11,
-    color: AppColors.white,
-    fontWeight: FontWeight.w500,
-    fontFamily: AppFonts.poppins,
-  );
-
   static TextStyle mediumBlack10 = TextStyle(
     fontSize: 10,
     color: AppColors.black,
@@ -185,84 +178,84 @@ class AppTextStyle {
 
   // Bold Black Styles
 
-  static TextStyle boldBlack8 = TextStyle(
+  static TextStyle semiBoldBlack8 = TextStyle(
     fontSize: 8,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack10 = TextStyle(
+  static TextStyle semiBoldBlack10 = TextStyle(
     fontSize: 10,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack12 = TextStyle(
+  static TextStyle semiBoldBlack12 = TextStyle(
     fontSize: 12,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack14 = TextStyle(
+  static TextStyle semiBoldBlack14 = TextStyle(
     fontSize: 14,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack16 = TextStyle(
+  static TextStyle semiBoldBlack16 = TextStyle(
     fontSize: 16,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack18 = TextStyle(
+  static TextStyle semiBoldBlack18 = TextStyle(
     fontSize: 18,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack20 = TextStyle(
+  static TextStyle semiBoldBlack20 = TextStyle(
     fontSize: 20,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack22 = TextStyle(
+  static TextStyle semiBoldBlack22 = TextStyle(
     fontSize: 22,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack24 = TextStyle(
+  static TextStyle semiBoldBlack24 = TextStyle(
     fontSize: 24,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack26 = TextStyle(
+  static TextStyle semiBoldBlack26 = TextStyle(
     fontSize: 26,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack28 = TextStyle(
+  static TextStyle semiBoldBlack28 = TextStyle(
     fontSize: 28,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldBlack30 = TextStyle(
+  static TextStyle semiBoldBlack30 = TextStyle(
     fontSize: 30,
     color: AppColors.black,
     fontWeight: FontWeight.w600,
@@ -367,84 +360,94 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite8 = TextStyle(
+  // MEDIUM WHITE
+  static TextStyle mediumWhite11 = TextStyle(
+    fontSize: 11,
+    color: AppColors.white,
+    fontWeight: FontWeight.w500,
+    fontFamily: AppFonts.poppins,
+  );
+
+  // SEMI BOLD WHITE
+
+  static TextStyle semiBoldWhite8 = TextStyle(
     fontSize: 8,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite10 = TextStyle(
+  static TextStyle semiBoldWhite10 = TextStyle(
     fontSize: 10,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite12 = TextStyle(
+  static TextStyle semiBoldWhite12 = TextStyle(
     fontSize: 12,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite14 = TextStyle(
+  static TextStyle semiBoldWhite14 = TextStyle(
     fontSize: 14,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite16 = TextStyle(
+  static TextStyle semiBoldWhite16 = TextStyle(
     fontSize: 16,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite18 = TextStyle(
+  static TextStyle semiBoldWhite18 = TextStyle(
     fontSize: 18,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite20 = TextStyle(
+  static TextStyle semiBoldWhite20 = TextStyle(
     fontSize: 20,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite22 = TextStyle(
+  static TextStyle semiBoldWhite22 = TextStyle(
     fontSize: 22,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite24 = TextStyle(
+  static TextStyle semiBoldWhite24 = TextStyle(
     fontSize: 24,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite26 = TextStyle(
+  static TextStyle semiBoldWhite26 = TextStyle(
     fontSize: 26,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite28 = TextStyle(
+  static TextStyle semiBoldWhite28 = TextStyle(
     fontSize: 28,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldWhite30 = TextStyle(
+  static TextStyle semiBoldWhite30 = TextStyle(
     fontSize: 30,
     color: AppColors.white,
     fontWeight: FontWeight.w600,
@@ -551,50 +554,50 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
   );
 
-  // Bold Grey Styles
-  static TextStyle boldGrey8 = TextStyle(
+  // semiBold Grey Styles
+  static TextStyle semiBoldGrey8 = TextStyle(
     fontSize: 8,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldGrey10 = TextStyle(
+  static TextStyle semiBoldGrey10 = TextStyle(
     fontSize: 10,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldGrey12 = TextStyle(
+  static TextStyle semiBoldGrey12 = TextStyle(
     fontSize: 12,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldGrey14 = TextStyle(
+  static TextStyle semiBoldGrey14 = TextStyle(
     fontSize: 14,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldGrey16 = TextStyle(
+  static TextStyle semiBoldGrey16 = TextStyle(
     fontSize: 16,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldGrey18 = TextStyle(
+  static TextStyle semiBoldGrey18 = TextStyle(
     fontSize: 18,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldGrey20 = TextStyle(
+  static TextStyle semiBoldGrey20 = TextStyle(
     fontSize: 20,
     color: AppColors.grey,
     fontWeight: FontWeight.w700,
@@ -652,79 +655,79 @@ class AppTextStyle {
   );
 
   // Regular lightGrey Styles
-  static TextStyle boldLightGrey8 = TextStyle(
+  static TextStyle semiBoldLightGrey8 = TextStyle(
     fontSize: 8,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldrLightGrey10 = TextStyle(
+  static TextStyle semiBoldLightGrey10 = TextStyle(
     fontSize: 10,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldLightGrey12 = TextStyle(
+  static TextStyle semiBoldLightGrey12 = TextStyle(
     fontSize: 12,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldLightGrey14 = TextStyle(
+  static TextStyle semiBoldLightGrey14 = TextStyle(
     fontSize: 14,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldLightGrey16 = TextStyle(
+  static TextStyle semiBoldLightGrey16 = TextStyle(
     fontSize: 16,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldLightGrey18 = TextStyle(
+  static TextStyle semiBoldLightGrey18 = TextStyle(
     fontSize: 18,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldLightGrey20 = TextStyle(
+  static TextStyle semiBoldLightGrey20 = TextStyle(
     fontSize: 20,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
-  static TextStyle boldLightGrey22 = TextStyle(
+  static TextStyle semiBoldLightGrey22 = TextStyle(
     fontSize: 22,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
-  static TextStyle boldLightGrey24 = TextStyle(
+  static TextStyle semiBoldLightGrey24 = TextStyle(
     fontSize: 24,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
-  static TextStyle boldLightGrey26 = TextStyle(
+  static TextStyle semiBoldLightGrey26 = TextStyle(
     fontSize: 26,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
-  static TextStyle boldLightGrey28 = TextStyle(
+  static TextStyle semiBoldLightGrey28 = TextStyle(
     fontSize: 28,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
-  static TextStyle boldLightGrey30 = TextStyle(
+  static TextStyle semiBoldLightGrey30 = TextStyle(
     fontSize: 30,
     color: AppColors.lightGrey,
     fontWeight: FontWeight.w600,
@@ -902,86 +905,86 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
   );
 
-  // Bold primary Styles
+  // semiBold primary Styles
 
-  static TextStyle boldPrimary8 = TextStyle(
+  static TextStyle semiBoldPrimary8 = TextStyle(
     fontSize: 8,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary10 = TextStyle(
+  static TextStyle semiBoldPrimary10 = TextStyle(
     fontSize: 10,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary12 = TextStyle(
+  static TextStyle semiBoldPrimary12 = TextStyle(
     fontSize: 12,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary14 = TextStyle(
+  static TextStyle semiBoldPrimary14 = TextStyle(
     fontSize: 14,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary16 = TextStyle(
+  static TextStyle semiBoldPrimary16 = TextStyle(
     fontSize: 16,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary18 = TextStyle(
+  static TextStyle semiBoldPrimary18 = TextStyle(
     fontSize: 18,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary20 = TextStyle(
+  static TextStyle semiBoldPrimary20 = TextStyle(
     fontSize: 20,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary22 = TextStyle(
+  static TextStyle semiBoldPrimary22 = TextStyle(
     fontSize: 22,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary24 = TextStyle(
+  static TextStyle semiBoldPrimary24 = TextStyle(
     fontSize: 24,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary26 = TextStyle(
+  static TextStyle semiBoldPrimary26 = TextStyle(
     fontSize: 26,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary28 = TextStyle(
+  static TextStyle semiBoldPrimary28 = TextStyle(
     fontSize: 28,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.poppins,
   );
 
-  static TextStyle boldPrimary30 = TextStyle(
+  static TextStyle semiBoldPrimary30 = TextStyle(
     fontSize: 30,
     color: AppColors.primary,
     fontWeight: FontWeight.w600,

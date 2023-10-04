@@ -20,7 +20,7 @@ class NewChatView extends GetView<NewChatController> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            titleTextStyle: AppTextStyle.boldPrimary20,
+            titleTextStyle: AppTextStyle.semiBoldPrimary20,
             iconTheme: IconThemeData(
               color: AppColors.white,
             ),
@@ -144,8 +144,8 @@ class NewChatView extends GetView<NewChatController> {
                                     Text(
                                       'ask_question'.tr,
                                       style: controller.inputValidated()
-                                          ? AppTextStyle.boldWhite14
-                                          : AppTextStyle.boldGrey14,
+                                          ? AppTextStyle.semiBoldWhite14
+                                          : AppTextStyle.semiBoldGrey14,
                                     ),
                                 ]),
                           ),
