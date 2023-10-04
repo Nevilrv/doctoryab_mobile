@@ -3,6 +3,7 @@ import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drugs_database_view.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../components/background.dart';
-import '../../../theme/AppColors.dart';
-import '../../../utils/app_text_styles.dart';
+import '../../../../components/background.dart';
+import '../../../../theme/AppColors.dart';
+import '../../../../utils/app_text_styles.dart';
 
 class FavouritesScreenView extends GetView<TabHomeMainController> {
   FavouritesScreenView({Key key}) : super(key: key);
@@ -96,7 +97,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
               Utils.searchBox(),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(15).copyWith(bottom: 0),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: AppColors.lightPurple,
@@ -140,6 +141,11 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                             ),
                             itemBuilder: (context, index) {
                               return GestureDetector(
+                                onTap: () {
+                                  if (index == 0) {
+                                    Get.to(() => DrugsDatabaseView());
+                                  }
+                                },
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 11, vertical: 8),

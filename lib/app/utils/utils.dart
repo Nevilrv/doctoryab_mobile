@@ -478,8 +478,10 @@ class Utils {
           ),
           SizedBox(height: 10),
           TextField(
+            cursorColor: AppColors.white,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: 15),
               hintText: "Search a subject (Doctor)",
               hintStyle: AppTextStyle.mediumWhite11,
               suffixIcon: Padding(
@@ -509,6 +511,28 @@ class Utils {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  static Widget appBar(String title) {
+    return Padding(
+      padding: EdgeInsets.only(top: 45, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: SvgPicture.asset(AppImages.back),
+          ),
+          Text(
+            title,
+            style: AppTextStyle.semiBoldPrimary20,
+          ),
+          SvgPicture.asset(AppImages.blackBell),
         ],
       ),
     );

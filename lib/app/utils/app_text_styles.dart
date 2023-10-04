@@ -835,6 +835,13 @@ class AppTextStyle {
     fontFamily: AppFonts.poppins,
   );
 
+  static TextStyle mediumPrimary11 = TextStyle(
+    fontSize: 11,
+    color: AppColors.primary,
+    fontWeight: FontWeight.w500,
+    fontFamily: AppFonts.poppins,
+  );
+
   static TextStyle mediumPrimary12 = TextStyle(
     fontSize: 12,
     color: AppColors.primary,

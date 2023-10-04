@@ -39,6 +39,7 @@ class AppColors {
   static const red = Color(0xffF31155);
   static const red2 = Color(0xffFF0101);
   static const lightPurple = Color(0xffECEEFF);
+  static const lightPurple2 = Color(0xffEEF0FF);
   static const secondary = Color(0xff0ED2B3);
   static const lightGrey = Color(0xFFF6F8FE);
   static const MaterialColor primarySwatch = MaterialColor(

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
-import 'package:doctor_yab/app/modules/home/views/favourites_screen_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
