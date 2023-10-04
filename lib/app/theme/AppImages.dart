@@ -9,6 +9,9 @@ class AppImages {
   static const search = "assets/svg/search.svg";
   static const backArrow = "assets/svg/back_arrow.svg";
   static const closeCircle = "assets/svg/close_circle.svg";
+  static const back = "assets/svg/back.svg";
+  static const blackBell = "assets/svg/black_bell.svg";
+  static const mic = "assets/svg/mic.svg";
 
   /// PNG
   static const bell = "assets/png/bell.png";
