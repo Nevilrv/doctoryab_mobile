@@ -1,6 +1,6 @@
+import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:get/get.dart';
 
-import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_doctors_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
