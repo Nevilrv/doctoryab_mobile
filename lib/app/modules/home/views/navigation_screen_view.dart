@@ -1,43 +1,59 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:doctor_yab/app/components/shimmer/city_shimmer.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../components/background.dart';
-import '../../../components/category_item.dart';
-import '../../../components/paging_indicators/no_item_list.dart';
-import '../../../components/paging_indicators/paging_error_view.dart';
-import '../../../components/shimmer/categories_grid_shimmer.dart';
-import '../../../controllers/booking_controller.dart';
-import '../../../data/models/categories_model.dart';
-import '../../../routes/app_pages.dart';
 import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
-import '../controllers/messages_list_controller.dart';
+import '../controllers/navigation_screen_controller.dart';
 
-class MessagesListView extends GetView<MessagesListController> {
-  MessagesListView({Key key}) : super(key: key);
+class NavigationScreenView extends GetView<NavigationScreenController> {
+  NavigationScreenView({Key key}) : super(key: key);
 
   TabHomeMainController tabHomeMainController =
       Get.put(TabHomeMainController());
 
   List<Map<String, dynamic>> gridData = [
-    {"color": "", "title": "Drug Database", "image": AppImages.pills},
-    {"color": "", "title": "Disease and Treatment", "image": AppImages.bandage},
-    {"color": "", "title": "Blood Donation", "image": AppImages.blood},
-    {"color": "", "title": "Treatment Abroad", "image": AppImages.airplane},
-    {"color": "", "title": "Pregnancy Tracker", "image": AppImages.baby},
-    {"color": "", "title": "Checkup Packages", "image": AppImages.microscope}
+    {
+      "color": AppColors.lightOrange,
+      "title": "Drug\nDatabase",
+      "image": AppImages.pills
+    },
+    {
+      "color": AppColors.lightGreen,
+      "title": "Disease and\nTreatment",
+      "image": AppImages.bandage
+    },
+    {
+      "color": AppColors.lightRed,
+      "title": "Blood\nDonation",
+      "image": AppImages.blood
+    },
+    {
+      "color": AppColors.lightBlue,
+      "title": "Treatment\nAbroad",
+      "image": AppImages.airplane
+    },
+    {
+      "color": AppColors.lightBlue2,
+      "title": "Pregnancy\nTracker",
+      "image": AppImages.baby
+    },
+    {
+      "color": AppColors.lightYellow,
+      "title": "Checkup\nPackages",
+      "image": AppImages.microscope
+    }
   ];
 
   @override
@@ -87,7 +103,7 @@ class MessagesListView extends GetView<MessagesListController> {
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.symmetric(horizontal: 28),
+                  margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: AppColors.lightPurple,
                     borderRadius:
@@ -114,84 +130,78 @@ class MessagesListView extends GetView<MessagesListController> {
                       ),
                       SizedBox(height: 23),
                       Expanded(
-                        child: PagedGridView(
-                          pagingController: controller.pagingController,
-                          physics: BouncingScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 132 / 169,
-                            crossAxisCount:
-                                MediaQuery.of(context).size.width < 300
-                                    ? 1
-                                    : MediaQuery.of(context).size.width > 600
-                                        ? 3
-                                        : 2,
-                          ),
-                          builderDelegate: PagedChildBuilderDelegate<Category>(
-                            itemBuilder: (BuildContext context, item, int i) {
-                              return Container(
-                                height: height * 0.164,
-                                width: width * 0.350,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    AspectRatio(
-                                      aspectRatio: 1,
-                                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: GridView.builder(
+                            itemCount: gridData.length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 9,
+                              childAspectRatio: 1,
+                            ),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 11, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        height: height * 0.107,
+                                        width: double.infinity,
                                         decoration: BoxDecoration(
+                                          color: gridData[index]["color"],
                                           borderRadius:
-                                              BorderRadius.circular(15),
-                                          color: Utils.hexToColor(
-                                            item.background,
-                                            defaultColorIfInvalid:
-                                                AppColors.disabledButtonColor,
-                                          ).withOpacity(1),
+                                              BorderRadius.circular(5),
                                         ),
                                         child: Center(
-                                          child: SizedBox(
-                                            height: 65,
-                                            // width: 20,
-                                            child: Container(),
+                                          child: Stack(
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              Image.asset(
+                                                gridData[index]["image"],
+                                                height: 63,
+                                              ),
+                                              index == 4
+                                                  ? Positioned(
+                                                      top: -10,
+                                                      right: -10,
+                                                      child: Image.asset(
+                                                        AppImages.dummyCalendar,
+                                                        height: 40,
+                                                      ),
+                                                    )
+                                                  : SizedBox()
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    // Spacer(),
-                                    Expanded(
-                                      child: Center(
-                                        child: FittedBox(
-                                          child: AutoSizeText(
-                                            item.title,
-                                            maxLines: 2,
-                                            minFontSize: 10,
-                                            maxFontSize: 12,
-                                            style: TextStyle(
-                                                color: AppColors.lightBlack),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                      Center(
+                                        child: Text(
+                                          gridData[index]["title"],
+                                          style: AppTextStyle.semiBoldBlack12,
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
-                                    ),
-                                    // Spacer(),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               );
                             },
-                            noItemsFoundIndicatorBuilder: (_) =>
-                                PagingNoItemFountList(),
-                            firstPageErrorIndicatorBuilder: (context) =>
-                                PagingErrorView(
-                              controller: controller.pagingController,
-                            ),
-                            firstPageProgressIndicatorBuilder: (_) =>
-                                gridShimmer(height, width),
-                            newPageProgressIndicatorBuilder: (_) => CityShimmer(
-                              linesCount: 2,
-                            ),
                           ),
                         ),
                       ),
@@ -241,7 +251,7 @@ class MessagesListView extends GetView<MessagesListController> {
     );
   }
 
-  Widget _buildStories(TabHomeMainController storyContorller) {
+  Widget _buildStories(TabHomeMainController storyController) {
     return Flexible(
       child: Obx(
         () => SizedBox(
@@ -251,7 +261,7 @@ class MessagesListView extends GetView<MessagesListController> {
             transitionBuilder: (Widget child, Animation<double> animation) {
               return FadeTransition(opacity: animation, child: child);
             },
-            child: storyContorller.dataList.value == null
+            child: storyController.dataList.value == null
                 ? StoriesShimmer().paddingVertical(8)
                 : ListView.separated(
                     physics: BouncingScrollPhysics(),
@@ -261,17 +271,17 @@ class MessagesListView extends GetView<MessagesListController> {
                     ),
                     itemBuilder: (context, index) => StoryAvatar(
                       assetPath:
-                          "${ApiConsts.hostUrl}${storyContorller.dataList().data[index].img}",
+                          "${ApiConsts.hostUrl}${storyController.dataList().data[index].img}",
                       isActive: true,
                       onTap: () {
                         // controller.resetStrories();
-                        return storyContorller.onTapStoryAvatar(
+                        return storyController.onTapStoryAvatar(
                             // controller.dataList.value.data[index],
                             index);
                       },
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: storyContorller.dataList().data.length,
+                    itemCount: storyController.dataList().data.length,
                   ),
             // : Stories(
             //     displayProgress: true,
@@ -329,3 +339,87 @@ class MessagesListView extends GetView<MessagesListController> {
     );
   }
 }
+
+/// PAGED GRIDVIEW
+// Expanded(
+//   child: PagedGridView(
+//     pagingController: controller.pagingController,
+//     physics: BouncingScrollPhysics(),
+//     gridDelegate:
+//         SliverGridDelegateWithFixedCrossAxisCount(
+//       childAspectRatio: 132 / 169,
+//       crossAxisCount:
+//           MediaQuery.of(context).size.width < 300
+//               ? 1
+//               : MediaQuery.of(context).size.width > 600
+//                   ? 3
+//                   : 2,
+//     ),
+//     builderDelegate: PagedChildBuilderDelegate<Category>(
+//       itemBuilder: (BuildContext context, item, int i) {
+//         return Container(
+//           height: height * 0.164,
+//           width: width * 0.350,
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: BorderRadius.circular(5),
+//           ),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               AspectRatio(
+//                 aspectRatio: 1,
+//                 child: Container(
+//                   decoration: BoxDecoration(
+//                     borderRadius:
+//                         BorderRadius.circular(5),
+//                     color: Utils.hexToColor(
+//                       item.background,
+//                       defaultColorIfInvalid:
+//                           AppColors.disabledButtonColor,
+//                     ).withOpacity(1),
+//                   ),
+//                   child: Center(
+//                     child: SizedBox(
+//                       height: 65,
+//                       // width: 20,
+//                       child: Container(),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               // Spacer(),
+//               Expanded(
+//                 child: Center(
+//                   child: FittedBox(
+//                     child: AutoSizeText(
+//                       item.title,
+//                       maxLines: 2,
+//                       minFontSize: 10,
+//                       maxFontSize: 12,
+//                       style: TextStyle(
+//                           color: AppColors.lightBlack),
+//                       overflow: TextOverflow.ellipsis,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               // Spacer(),
+//             ],
+//           ),
+//         );
+//       },
+//       noItemsFoundIndicatorBuilder: (_) =>
+//           PagingNoItemFountList(),
+//       firstPageErrorIndicatorBuilder: (context) =>
+//           PagingErrorView(
+//         controller: controller.pagingController,
+//       ),
+//       firstPageProgressIndicatorBuilder: (_) =>
+//           gridShimmer(height, width),
+//       newPageProgressIndicatorBuilder: (_) => CityShimmer(
+//         linesCount: 2,
+//       ),
+//     ),
+//   ),
+// ),

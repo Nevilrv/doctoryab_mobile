@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
+import 'package:doctor_yab/app/modules/home/controllers/navigation_screen_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_doctors_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
@@ -16,8 +16,8 @@ import '../controllers/home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MessagesListController>(
-      () => MessagesListController(),
+    Get.lazyPut<NavigationScreenController>(
+      () => NavigationScreenController(),
     );
     // Get.put(MessagesListController());
     // Get.put(ChatController());

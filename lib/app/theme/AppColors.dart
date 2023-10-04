@@ -9,8 +9,15 @@ class AppColors {
   static const scaffoldColor = Color(0xFFF1F6FC);
   static const lgt = Color(0xFFC8C8C8);
   static const lgt2 = Color(0xFF8D8D8D);
+  static const black = Color(0xff000000);
   static const black2 = Color(0xff333333);
   static const lightBlack = Color(0xff404040);
+  static const lightOrange = Color(0xffFFF1ED);
+  static const lightGreen = Color(0xffF0FFED);
+  static const lightRed = Color(0xffFFE3E1);
+  static const lightBlue = Color(0xffB7EAFF);
+  static const lightBlue2 = Color(0xffEDFEFF);
+  static const lightYellow = Color(0xffFFF6D7);
   static const disabledButtonColor = Color(0xff5C65A8);
   static const green = Color(0xff15B76C);
   static const verified = Color(0xff42A5F5);
@@ -28,7 +35,7 @@ class AppColors {
   static const white = Colors.white;
   static final lightWhite = Color(0xFFFFFFFF).withOpacity(0.5);
   static const yellow = Color(0xffFFC702);
-  static const black = Color(0xFF343F54);
+  static const lightBlack2 = Color(0xFF343F54);
   static const red = Color(0xffF31155);
   static const red2 = Color(0xffFF0101);
   static const lightPurple = Color(0xffECEEFF);

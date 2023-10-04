@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:doctor_yab/app/data/models/chat_model.dart';
 import 'package:doctor_yab/app/data/models/chat_notification_model.dart';
 import 'package:doctor_yab/app/modules/chat/controllers/chat_controller.dart';
-import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
+import 'package:doctor_yab/app/modules/home/controllers/navigation_screen_controller.dart';
 import 'package:doctor_yab/app/services/PushNotificationService.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -16,7 +16,7 @@ class ChatNotificationHandler {
   static void handle(ChatNotificationModel chat,
       NotificationPayloadModel notificationPayloadModel) {
     try {
-      Get.find<MessagesListController>().reloadChats(showLoading: false);
+      Get.find<NavigationScreenController>().reloadChats(showLoading: false);
     } catch (e) {}
     try {
       var _msgData = ChatNotificationMessageDataModel.fromJson(
@@ -59,7 +59,7 @@ class ChatNotificationHandler {
             arguments: ChatListApiModel(
                 id: _msgData.chat, chatName: _chatDecoded.chatName));
       }
-      Get.find<MessagesListController>().reloadChats(showLoading: false);
+      Get.find<NavigationScreenController>().reloadChats(showLoading: false);
     } catch (e, s) {
       Logger().e("Failed to open chat", e, s);
     }
