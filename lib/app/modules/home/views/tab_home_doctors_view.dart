@@ -17,6 +17,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class TabHomeDoctorsView extends GetView<TabTabHomeController> {
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
         child: RefreshIndicator(
@@ -34,24 +36,20 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
           ),
           child: PagedGridView(
             pagingController: controller.pagingController,
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
             // shrinkWrap: true,
             physics: BouncingScrollPhysics(),
 
             // itemCount: 9,
             // primary: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 132 / 169,
+              // childAspectRatio: 132 / 169,
               // mainAxisExtent: 2,
-              // mainAxisExtent: 169,
+              mainAxisExtent: h * 0.2,
 
-              crossAxisCount: MediaQuery.of(context).size.width < 300
-                  ? 1
-                  : MediaQuery.of(context).size.width > 600
-                      ? 3
-                      : 2,
-              // mainAxisSpacing: 20,
-              // crossAxisSpacing: 20,
+              crossAxisCount: 3,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
             ),
             // SliverGridDelegateWithMaxCrossAxisExtent(
             //   // childAspectRatio: 1,
@@ -63,7 +61,7 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
               itemBuilder: (BuildContext context, item, int i) {
                 // var item = controller.dummyData[i];
                 // print("vvvvvvvvvvvvv" + context.size.height.toString());
-                return CategoryItem(item).paddingAll(10).onTap(() {
+                return CategoryItem(item).onTap(() {
                   BookingController.to.selectedCategory.value = item;
                   Get.toNamed(Routes.DOCTORS);
                 });
@@ -73,25 +71,15 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
                 controller: controller.pagingController,
               ),
               firstPageProgressIndicatorBuilder: (_) => CategoriesGridShimmer(
-                yCount: MediaQuery.of(context).size.width < 300
-                    ? 2
-                    : MediaQuery.of(context).size.width > 600
-                        ? 2
-                        : 3,
-                xCount: MediaQuery.of(context).size.width < 300
-                    ? 1
-                    : MediaQuery.of(context).size.width > 600
-                        ? 3
-                        : 2,
+                yCount: 3,
+                xCount: 3,
                 // linesCount: 4,
               ),
               newPageProgressIndicatorBuilder: (_) => CityShimmer(
-                linesCount: 2,
+                linesCount: 3,
               ),
             ),
           ),
-        ).size(
-          width: MediaQuery.of(context).size.width > 600 ? 456 : 304,
         ),
       ),
       // SizedBox(

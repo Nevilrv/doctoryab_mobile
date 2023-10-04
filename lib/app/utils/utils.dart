@@ -422,7 +422,7 @@ class Utils {
 
   static Widget searchBox() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 28),
+      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       padding: EdgeInsets.only(top: 13, bottom: 22, left: 17, right: 17),
       decoration: BoxDecoration(
         color: AppColors.primary,

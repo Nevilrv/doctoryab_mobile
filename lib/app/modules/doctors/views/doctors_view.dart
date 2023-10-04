@@ -59,6 +59,8 @@ class DoctorsView extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     // assert(Get.arguments is CategoryBridge && controller.arguments.sId != null);
     return Scaffold(
       appBar: hideAppbar
@@ -130,6 +132,8 @@ class DoctorsView extends StatelessWidget {
   }
 
   Widget _buildItemView(BuildContext context, Doctor item) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 10,
@@ -149,6 +153,71 @@ class DoctorsView extends StatelessWidget {
       ),
       child: Column(
         children: [
+          Container(
+            height: h * 0.2,
+            width: w,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    // color: Colors.black,
+                    // height: 65,
+                    // width: 65,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.lightGrey),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CachedNetworkImage(
+                        imageUrl: "${ApiConsts.hostUrl}${item.photo}",
+                        fit: BoxFit.cover,
+                        placeholder: (_, __) {
+                          return Image.asset(
+                            "assets/png/person-placeholder.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        },
+                        errorWidget: (_, __, ___) {
+                          return Image.asset(
+                            "assets/png/person-placeholder.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              item.fullname ??
+                                  " ${item.name ?? ""} ${item.lname ?? ""}",
+                              style: AppTextTheme.h(15)
+                                  .copyWith(color: AppColors.black2),
+                            ),
+                          ),
+                          if (item.verfied ?? false)
+                            Icon(
+                              Icons.verified,
+                              color: AppColors.verified,
+                            ).paddingHorizontal(6),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
           ListTile(
               leading: AspectRatio(
                 aspectRatio: 1,

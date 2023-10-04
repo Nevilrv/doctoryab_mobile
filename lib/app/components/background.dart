@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 class Background extends StatelessWidget {
   const Background(
@@ -15,9 +16,10 @@ class Background extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(
-                'assets/png/bg${isPrimary ? '_blue' : ''}${isSecond ? 2 : 1}.png'),
-            fit: BoxFit.cover),
+          image: AssetImage(
+              'assets/png/bg${isPrimary ? '_blue' : ''}${isSecond ? 2 : 1}.png'),
+          fit: BoxFit.cover,
+        ),
       ),
       child: child,
     );

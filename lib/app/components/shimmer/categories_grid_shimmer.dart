@@ -23,6 +23,8 @@ class CategoriesGridShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Shimmer.fromColors(
       period: Duration(seconds: 1),
       direction: ShimmerDirection.ltr,
@@ -44,10 +46,10 @@ class CategoriesGridShimmer extends StatelessWidget {
             for (int j = 0; j < (xCount ?? 2); j++) {
               _rowChilds.add(
                 Container(
-                  height: 169,
-                  width: 132,
+                  height: h * 0.2,
+                  width: 100,
                   color: color ?? Colors.white,
-                ).radiusAll(15).paddingAll(10),
+                ).radiusAll(15).paddingAll(5),
               );
               // _tmpList.add(_buildDevider());
             }
