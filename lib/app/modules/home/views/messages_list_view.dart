@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:doctor_yab/app/components/shimmer/city_shimmer.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -6,9 +8,19 @@ import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../components/background.dart';
+import '../../../components/category_item.dart';
+import '../../../components/paging_indicators/no_item_list.dart';
+import '../../../components/paging_indicators/paging_error_view.dart';
+import '../../../components/shimmer/categories_grid_shimmer.dart';
+import '../../../controllers/booking_controller.dart';
+import '../../../data/models/categories_model.dart';
+import '../../../routes/app_pages.dart';
 import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
 import '../controllers/messages_list_controller.dart';
@@ -19,8 +31,19 @@ class MessagesListView extends GetView<MessagesListController> {
   TabHomeMainController tabHomeMainController =
       Get.put(TabHomeMainController());
 
+  List<Map<String, dynamic>> gridData = [
+    {"color": "", "title": "Drug Database", "image": AppImages.pills},
+    {"color": "", "title": "Disease and Treatment", "image": AppImages.bandage},
+    {"color": "", "title": "Blood Donation", "image": AppImages.blood},
+    {"color": "", "title": "Treatment Abroad", "image": AppImages.airplane},
+    {"color": "", "title": "Pregnancy Tracker", "image": AppImages.baby},
+    {"color": "", "title": "Checkup Packages", "image": AppImages.microscope}
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Theme(
       data: ThemeData(
         primarySwatch: AppColors.primarySwatch,
@@ -30,7 +53,7 @@ class MessagesListView extends GetView<MessagesListController> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            titleTextStyle: AppTextStyle.boldPrimary20,
+            titleTextStyle: AppTextStyle.semiBoldPrimary20,
             iconTheme: IconThemeData(
               color: AppColors.white,
             ),
@@ -58,9 +81,124 @@ class MessagesListView extends GetView<MessagesListController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
-                children: [_buildStroies(tabHomeMainController)],
+                children: [_buildStories(tabHomeMainController)],
               ),
               Utils.searchBox(),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  margin: EdgeInsets.symmetric(horizontal: 28),
+                  decoration: BoxDecoration(
+                    color: AppColors.lightPurple,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30)),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset(
+                            AppImages.backArrow,
+                            height: 24,
+                          ),
+                          Text(
+                            "Navigation",
+                            style: AppTextStyle.semiBoldPrimary14,
+                          ),
+                          SvgPicture.asset(
+                            AppImages.closeCircle,
+                            height: 24,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 23),
+                      Expanded(
+                        child: PagedGridView(
+                          pagingController: controller.pagingController,
+                          physics: BouncingScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 132 / 169,
+                            crossAxisCount:
+                                MediaQuery.of(context).size.width < 300
+                                    ? 1
+                                    : MediaQuery.of(context).size.width > 600
+                                        ? 3
+                                        : 2,
+                          ),
+                          builderDelegate: PagedChildBuilderDelegate<Category>(
+                            itemBuilder: (BuildContext context, item, int i) {
+                              return Container(
+                                height: height * 0.164,
+                                width: width * 0.350,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AspectRatio(
+                                      aspectRatio: 1,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Utils.hexToColor(
+                                            item.background,
+                                            defaultColorIfInvalid:
+                                                AppColors.disabledButtonColor,
+                                          ).withOpacity(1),
+                                        ),
+                                        child: Center(
+                                          child: SizedBox(
+                                            height: 65,
+                                            // width: 20,
+                                            child: Container(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // Spacer(),
+                                    Expanded(
+                                      child: Center(
+                                        child: FittedBox(
+                                          child: AutoSizeText(
+                                            item.title,
+                                            maxLines: 2,
+                                            minFontSize: 10,
+                                            maxFontSize: 12,
+                                            style: TextStyle(
+                                                color: AppColors.lightBlack),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // Spacer(),
+                                  ],
+                                ),
+                              );
+                            },
+                            noItemsFoundIndicatorBuilder: (_) =>
+                                PagingNoItemFountList(),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                PagingErrorView(
+                              controller: controller.pagingController,
+                            ),
+                            firstPageProgressIndicatorBuilder: (_) =>
+                                gridShimmer(height, width),
+                            newPageProgressIndicatorBuilder: (_) => CityShimmer(
+                              linesCount: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -68,7 +206,42 @@ class MessagesListView extends GetView<MessagesListController> {
     );
   }
 
-  Widget _buildStroies(TabHomeMainController storyContorller) {
+  Widget gridShimmer(double height, double width) {
+    return Shimmer.fromColors(
+      period: Duration(seconds: 1),
+      direction: ShimmerDirection.ltr,
+      baseColor: Colors.grey[300],
+      highlightColor: Colors.grey[100],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: () {
+          var _tmpList = <Widget>[];
+          for (int i = 0; i < 3; i++) {
+            var _rowChilds = <Widget>[];
+            for (int j = 0; j < 2; j++) {
+              _rowChilds.add(
+                Container(
+                  height: height * 0.164,
+                  width: width * 0.350,
+                  color: Colors.white,
+                ).radiusAll(5).paddingAll(4),
+              );
+            }
+            _tmpList.add(
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: _rowChilds,
+              ),
+            );
+          }
+          return _tmpList;
+        }(),
+      ),
+    );
+  }
+
+  Widget _buildStories(TabHomeMainController storyContorller) {
     return Flexible(
       child: Obx(
         () => SizedBox(
