@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 import '../../../data/repository/ChatRepository.dart';
 import '../../../routes/app_pages.dart';
 
-class NavigationScreenController extends GetxController {
+class MessagesListController extends GetxController {
   final isLoading = true.obs;
   var filterSearch = RxString(null);
   TextEditingController teSearchController = TextEditingController();

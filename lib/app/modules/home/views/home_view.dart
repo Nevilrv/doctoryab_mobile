@@ -1,5 +1,5 @@
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
-import 'package:doctor_yab/app/modules/home/views/navigation_screen_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
@@ -52,7 +52,7 @@ class HomeView extends GetView<HomeController> {
           children: <Widget>[
             TabHomeMainView(),
             TabSearchView(),
-            NavigationScreenView(),
+            FavouritesScreenView(),
             TabBlogView(),
 
             // TabMyDoctorsView(),

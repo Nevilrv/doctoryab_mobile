@@ -7,7 +7,7 @@
 // import 'package:image_picker/image_picker.dart';
 
 // import '../../../data/models/chat_model.dart';
-// import 'navigation_screen_controller.dart';
+// import 'messages_list_controller.dart';
 
 // class TabChatController extends GetxController {
 //   int index = Get.arguments as int;

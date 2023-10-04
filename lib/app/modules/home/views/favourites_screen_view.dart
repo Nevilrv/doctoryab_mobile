@@ -1,10 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
-import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +13,9 @@ import 'package:shimmer/shimmer.dart';
 import '../../../components/background.dart';
 import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
-import '../controllers/navigation_screen_controller.dart';
 
-class NavigationScreenView extends GetView<NavigationScreenController> {
-  NavigationScreenView({Key key}) : super(key: key);
-
-  TabHomeMainController tabHomeMainController =
-      Get.put(TabHomeMainController());
+class FavouritesScreenView extends GetView<TabHomeMainController> {
+  FavouritesScreenView({Key key}) : super(key: key);
 
   List<Map<String, dynamic>> gridData = [
     {
@@ -97,7 +91,7 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
-                children: [_buildStories(tabHomeMainController)],
+                children: [_buildStories()],
               ),
               Utils.searchBox(),
               Expanded(
@@ -167,24 +161,9 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
                                               BorderRadius.circular(5),
                                         ),
                                         child: Center(
-                                          child: Stack(
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Image.asset(
-                                                gridData[index]["image"],
-                                                height: 63,
-                                              ),
-                                              index == 4
-                                                  ? Positioned(
-                                                      top: -10,
-                                                      right: -10,
-                                                      child: Image.asset(
-                                                        AppImages.dummyCalendar,
-                                                        height: 40,
-                                                      ),
-                                                    )
-                                                  : SizedBox()
-                                            ],
+                                          child: Image.asset(
+                                            gridData[index]["image"],
+                                            height: 63,
                                           ),
                                         ),
                                       ),
@@ -251,7 +230,7 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
     );
   }
 
-  Widget _buildStories(TabHomeMainController storyController) {
+  Widget _buildStories() {
     return Flexible(
       child: Obx(
         () => SizedBox(
@@ -261,7 +240,7 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
             transitionBuilder: (Widget child, Animation<double> animation) {
               return FadeTransition(opacity: animation, child: child);
             },
-            child: storyController.dataList.value == null
+            child: controller.dataList.value == null
                 ? StoriesShimmer().paddingVertical(8)
                 : ListView.separated(
                     physics: BouncingScrollPhysics(),
@@ -271,17 +250,17 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
                     ),
                     itemBuilder: (context, index) => StoryAvatar(
                       assetPath:
-                          "${ApiConsts.hostUrl}${storyController.dataList().data[index].img}",
+                          "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
                       isActive: true,
                       onTap: () {
                         // controller.resetStrories();
-                        return storyController.onTapStoryAvatar(
+                        return controller.onTapStoryAvatar(
                             // controller.dataList.value.data[index],
                             index);
                       },
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: storyController.dataList().data.length,
+                    itemCount: controller.dataList().data.length,
                   ),
             // : Stories(
             //     displayProgress: true,

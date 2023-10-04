@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
-import 'package:doctor_yab/app/modules/home/controllers/navigation_screen_controller.dart';
+import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,7 +68,7 @@ class NewChatController extends GetxController {
                     id: value.chat.id, chatName: value.chat.chatName))
             .then((value) {
           try {
-            Get.find<NavigationScreenController>().reloadChats();
+            Get.find<MessagesListController>().reloadChats();
           } catch (e) {}
         });
       }
