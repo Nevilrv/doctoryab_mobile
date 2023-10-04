@@ -89,6 +89,7 @@ class LocationPickerView extends GetView<LocationPickerController> {
           //     children: list,
           //   ),
           // ),
+
           mapOptions: MapOptions(
             myLocationButtonEnabled: true,
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   //TODO Handle light theme and dark theme here
   static const primary = Color(0xFF333E92);
+  static const primaryLight = Color(0xFF999EC8);
   static const easternBlue = Color(0xff15A6B7);
 
   static const scaffoldColor = Color(0xFFF1F6FC);
