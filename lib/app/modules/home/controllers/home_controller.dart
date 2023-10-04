@@ -7,7 +7,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../controllers/settings_controller.dart';
 
-class HomeController extends GetxController with SingleGetTickerProviderMixin {
+class HomeController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   var selectedIndex = 0.obs;
   TabController pageController;
   var dropdownValue = ''.obs;

@@ -5,6 +5,7 @@ import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_drugstore_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_hopistal_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_labs_view.dart';
+import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_doctors_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';

@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -63,72 +64,75 @@ class DoctorsView extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
     // assert(Get.arguments is CategoryBridge && controller.arguments.sId != null);
     return Scaffold(
-      appBar: hideAppbar
-          ? null
-          : AppAppBar.specialAppBar(() {
-              switch (action) {
-                case DOCTORS_LOAD_ACTION.fromCategory:
-                  {
-                    return "doctors_of".trArgs([controller?.category()?.title]);
-                  }
-                case DOCTORS_LOAD_ACTION.myDoctors:
-                  {
-                    return "my_doctors".tr;
-                  }
-                case DOCTORS_LOAD_ACTION.ofhospital:
-                  {
-                    return hospitalName ?? "";
-                  }
-              }
-            }(),
-              showLeading: Navigator.of(context).canPop(),
-              action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
-                  ? IconButton(
-                      onPressed: () {
-                        AppGetDialog.showFilterDialog(
-                          controller.filterList,
-                          controller.selectedSort,
-                          filterCallBack: (i) => controller.changeSort(i),
-                        );
-                      },
-                      icon: Icon(AntDesign.filter),
-                    )
-                  : null),
-      // body: _buildItemView(DoctorBridge()),
-      body: RefreshIndicator(
-        onRefresh: () => Future.sync(
-          () async {
-            Utils.resetPagingController(controller.pagingController);
-            await Future.delayed(Duration.zero, () {
-              controller.cancelToken.cancel();
-            });
-            controller.cancelToken = new CancelToken();
-            controller.fetchDoctors(
-              controller.pagingController.firstPageKey,
-            );
-          },
-        ),
-        child: PagedListView.separated(
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 22),
-          pagingController: controller.pagingController,
-          // physics: BouncingScrollPhysics(),
-          separatorBuilder: (c, i) {
-            return SizedBox(height: 15);
-          },
-          builderDelegate: PagedChildBuilderDelegate<Doctor>(
-            itemBuilder: (context, item, index) {
-              // var item = controller.latestVideos[index];
-              return _buildItemView(context, item);
+        appBar: hideAppbar
+            ? null
+            : AppAppBar.specialAppBar(() {
+                switch (action) {
+                  case DOCTORS_LOAD_ACTION.fromCategory:
+                    {
+                      return "doctors_of"
+                          .trArgs([controller?.category()?.title]);
+                    }
+                  case DOCTORS_LOAD_ACTION.myDoctors:
+                    {
+                      return "my_doctors".tr;
+                    }
+                  case DOCTORS_LOAD_ACTION.ofhospital:
+                    {
+                      return hospitalName ?? "";
+                    }
+                }
+              }(),
+                showLeading: Navigator.of(context).canPop(),
+                action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
+                    ? IconButton(
+                        onPressed: () {
+                          AppGetDialog.showFilterDialog(
+                            controller.filterList,
+                            controller.selectedSort,
+                            filterCallBack: (i) => controller.changeSort(i),
+                          );
+                        },
+                        icon: Icon(AntDesign.filter),
+                      )
+                    : null),
+        // body: _buildItemView(DoctorBridge()),
+        body: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () async {
+              Utils.resetPagingController(controller.pagingController);
+              await Future.delayed(Duration.zero, () {
+                controller.cancelToken.cancel();
+              });
+              controller.cancelToken = new CancelToken();
+              controller.fetchDoctors(
+                controller.pagingController.firstPageKey,
+              );
             },
-            noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
-            noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
-            firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
-              controller: controller.pagingController,
+          ),
+          child: PagedListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 22),
+            pagingController: controller.pagingController,
+            // physics: BouncingScrollPhysics(),
+            separatorBuilder: (c, i) {
+              return SizedBox(height: 15);
+            },
+            builderDelegate: PagedChildBuilderDelegate<Doctor>(
+              itemBuilder: (context, item, index) {
+                // var item = controller.latestVideos[index];
+                return _buildItemView(context, item);
+              },
+              noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
+              noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
+              firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
+                controller: controller.pagingController,
+              ),
             ),
           ),
-        ),
-      ).bgColor(bgColor),
-    );
+        ).bgColor(bgColor),
+        bottomNavigationBar: BottomBarView(
+          isHomeScreen: false,
+        ));
   }
 
   Widget _buildItemView(BuildContext context, Doctor item) {
