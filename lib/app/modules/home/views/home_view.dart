@@ -232,7 +232,15 @@ class BottomBarView extends GetView<HomeController> {
                                   duration: Duration(milliseconds: 500),
                                   curve: Curves.ease);
                               if (isHomeScreen == false) {
-                                Get.offNamed(Routes.HOME);
+                                log("controller.selectedIndex.value--------------> ${controller.selectedIndex.value}");
+
+                                Get.offAllNamed(Routes.HOME).then((value) {
+                                  controller.selectedIndex.value = 1;
+
+                                  controller.pageController.animateTo(1,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.ease);
+                                });
                               }
                             },
                             child: Column(
