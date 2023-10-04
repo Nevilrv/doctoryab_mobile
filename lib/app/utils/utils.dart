@@ -1,5 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/statefull_wraper.dart';
@@ -413,5 +417,95 @@ class Utils {
 
   static String getFullPathOfAssets(String path) {
     return "${ApiConsts.hostUrl}$path";
+  }
+
+  static Widget searchBox() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 28),
+      padding: EdgeInsets.only(top: 13, bottom: 22, left: 17, right: 17),
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Hi, Mohammad Nabi Hasanzada!",
+                    style: AppTextStyle.mediumWhite11,
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    "How do you feel that to day?",
+                    style: AppTextStyle.mediumWhite11.copyWith(
+                      color: AppColors.white.withOpacity(0.5),
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(
+                    AppImages.bell,
+                    height: 22,
+                    width: 22,
+                  ),
+                  Positioned(
+                    right: 2,
+                    top: 2,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.red2,
+                      radius: 4,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 10, left: 8),
+                child: Image.asset(
+                  AppImages.filter,
+                  height: 22,
+                  width: 22,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Search a subject (Doctor)",
+              hintStyle: AppTextStyle.mediumWhite11,
+              filled: true,
+              fillColor: AppColors.white.withOpacity(0.1),
+              constraints: BoxConstraints(maxHeight: 38),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

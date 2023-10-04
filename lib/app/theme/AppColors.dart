@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   //TODO Handle light theme and dark theme here
   static const primary = Color(0xFF333E92);
+  static const primaryLight = Color(0xFF999EC8);
   static const easternBlue = Color(0xff15A6B7);
 
   static const scaffoldColor = Color(0xFFF1F6FC);
@@ -24,9 +25,11 @@ class AppColors {
   );
   static final grey = Color(0xFF585858);
   static const white = Colors.white;
+  static final lightWhite = Color(0xFFFFFFFF).withOpacity(0.5);
   static const yellow = Color(0xffFFC702);
   static const black = Color(0xFF343F54);
   static const red = Color(0xffF31155);
+  static const red2 = Color(0xffFF0101);
   static const secondary = Color(0xff0ED2B3);
   static const lightGrey = Color(0xFFF6F8FE);
   static const MaterialColor primarySwatch = MaterialColor(

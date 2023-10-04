@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/AppColors.dart';
@@ -5,7 +6,7 @@ import '../theme/AppColors.dart';
 class AppTextStyle {
   // Regular Black Styles
 
-  static const TextStyle regularBlack8 = TextStyle(
+  static TextStyle regularBlack8 = TextStyle(
       fontSize: 8, color: AppColors.black, fontWeight: FontWeight.w400);
 
   static const TextStyle regularBlack10 = TextStyle(
@@ -45,6 +46,9 @@ class AppTextStyle {
 
   static const TextStyle mediumBlack8 = TextStyle(
       fontSize: 8, color: AppColors.black, fontWeight: FontWeight.w500);
+
+  static const TextStyle mediumWhite11 = TextStyle(
+      fontSize: 11, color: AppColors.white, fontWeight: FontWeight.w500);
 
   static const TextStyle mediumBlack10 = TextStyle(
       fontSize: 10, color: AppColors.black, fontWeight: FontWeight.w500);

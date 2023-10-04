@@ -5,14 +5,23 @@ import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  List bottomBarItem = [
+    AppImages.home,
+    AppImages.message,
+    AppImages.heart,
+    AppImages.enquiry,
+    AppImages.profile
+  ];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -69,6 +78,108 @@ class HomeView extends GetView<HomeController> {
         //   controller: controller.pageController,
         // ),
         bottomNavigationBar: Obx(
+          () {
+            return Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: AppColors.primary),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: List.generate(bottomBarItem.length, (index) {
+                        return index == 2
+                            ? GestureDetector(
+                                onTap: () {
+                                  controller.selectedIndex.value = index;
+                                  controller.pageController.animateTo(index,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.ease);
+                                },
+                                child: Container(
+                                  height: 65,
+                                  width: 65,
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      SizedBox(),
+                                      Positioned(
+                                        bottom: 15,
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                              color: AppColors.primary,
+                                              shape: BoxShape.circle),
+                                          child: Center(
+                                            child: Container(
+                                              height: 55,
+                                              width: 55,
+                                              decoration: BoxDecoration(
+                                                  color: AppColors.white,
+                                                  shape: BoxShape.circle),
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                    bottomBarItem[index],
+                                                    height: 30,
+                                                    width: 30),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  controller.selectedIndex.value = index;
+                                  controller.pageController.animateTo(index,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.ease);
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    SvgPicture.asset(
+                                      bottomBarItem[index],
+                                      height: 24,
+                                      width: 24,
+                                      color: controller.selectedIndex.value ==
+                                              index
+                                          ? AppColors.white
+                                          : AppColors.primaryLight,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 2,
+                                      backgroundColor:
+                                          controller.selectedIndex.value ==
+                                                  index
+                                              ? AppColors.white
+                                              : AppColors.primary,
+                                    ),
+                                    SizedBox(
+                                      height: 9,
+                                    )
+                                  ],
+                                ),
+                              );
+                      }),
+                    ),
+                  )),
+            );
+          },
+        ) /* Obx(
           () => BottomNavigationBar(
             iconSize: 22,
             elevation: 0,
@@ -124,7 +235,8 @@ class HomeView extends GetView<HomeController> {
               ),
             ],
           ).radiusAll(15).paddingExceptTop(16).paddingOnly(top: 8),
-        ),
+        )*/
+        ,
       ),
     );
   }

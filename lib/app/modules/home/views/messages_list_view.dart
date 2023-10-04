@@ -1,15 +1,24 @@
-import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
+import 'package:doctor_yab/app/components/story_avatar.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/extentions/widget_exts.dart';
+import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../components/background.dart';
-import '../../../components/message_tile.dart';
 import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
 import '../controllers/messages_list_controller.dart';
 
 class MessagesListView extends GetView<MessagesListController> {
-  const MessagesListView({Key key}) : super(key: key);
+  MessagesListView({Key key}) : super(key: key);
+
+  TabHomeMainController tabHomeMainController =
+      Get.put(TabHomeMainController());
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -42,141 +51,105 @@ class MessagesListView extends GetView<MessagesListController> {
         ),
       ),
       child: Background(
-        isSecond: true,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text('messages'.tr),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.notifications_outlined))
-              ],
-            ),
-            body: Column(children: [
-              TextFormField(
-                controller: controller.teSearchController,
-                onChanged: (s) => controller.filterSearch(s),
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 0, horizontal: 14.0),
-                  filled: true,
-                  suffixIcon: Icon(
-                    Icons.search,
-                    size: 20,
-                    color: AppColors.primary,
-                  ),
-                  hintText: 'search...'.tr,
-                  hintStyle:
-                      AppTextStyle.mediumGrey12.copyWith(color: Colors.grey),
-                  fillColor: AppColors.white,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(5.0)),
-                ),
+        isSecond: false,
+        child: Scaffold(
+          body: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [_buildStroies(tabHomeMainController)],
               ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              InkWell(
-                onTap: () {
-                  Get.toNamed(Routes.NEW_CHAT);
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 42.0,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'new_question'.tr,
-                              style: AppTextStyle.boldWhite14,
-                            ),
-                          ]),
+              Utils.searchBox(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStroies(TabHomeMainController storyContorller) {
+    return Flexible(
+      child: Obx(
+        () => SizedBox(
+          height: 90,
+          child: AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            child: storyContorller.dataList.value == null
+                ? StoriesShimmer().paddingVertical(8)
+                : ListView.separated(
+                    physics: BouncingScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    separatorBuilder: (_, __) => const SizedBox(
+                      width: 8,
                     ),
-                    Positioned(top: 10, left: 18, child: Icon(Icons.add)),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 14.0,
-              ),
-              Obx(() {
-                return Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () => Future.sync(
-                      () async {
-                        controller.reloadChats();
+                    itemBuilder: (context, index) => StoryAvatar(
+                      assetPath:
+                          "${ApiConsts.hostUrl}${storyContorller.dataList().data[index].img}",
+                      isActive: true,
+                      onTap: () {
+                        // controller.resetStrories();
+                        return storyContorller.onTapStoryAvatar(
+                            // controller.dataList.value.data[index],
+                            index);
                       },
                     ),
-                    child: controller.isLoading()
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : ListView.separated(
-                            itemBuilder: (context, index) {
-                              return MessageTile(
-                                chat: controller.chats[index],
-                                onTap: () {
-                                  controller.onTapMessageTile(
-                                      controller.chats[index]);
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 14.0,
-                            ),
-                            itemCount: controller.chats.length,
-                          ),
-                    // child: PagedListView.separated(
-                    //   pagingController: controller.pagingController,
-                    //   builderDelegate:
-                    //       PagedChildBuilderDelegate<ChatListApiModel>(
-                    //     itemBuilder: (context, item, index) {
-                    //       // var item = controller.latestVideos[index];
-                    //       return MessageTile(
-                    //         chat: controller.chats[index],
-                    //         onTap: () => controller.onTapMessageTile(index),
-                    //       );
-                    //     },
-                    //     noMoreItemsIndicatorBuilder: (_) =>
-                    //         DotDotPagingNoMoreItems(),
-                    //     noItemsFoundIndicatorBuilder: (_) =>
-                    //         PagingNoItemFountList(),
-                    //     firstPageErrorIndicatorBuilder: (context) =>
-                    //         PagingErrorView(
-                    //       controller: controller.pagingController,
-                    //     ),
-                    //   ),
-                    //   separatorBuilder: (context, index) => const SizedBox(
-                    //     height: 14.0,
-                    //   ),
-                    // ),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: storyContorller.dataList().data.length,
                   ),
-                );
-              }),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80.0),
-                child: Divider(
-                  height: 2,
-                  color: AppColors.primary,
-                ),
-              ),
-
-              ///height for bottomBar
-              // const SizedBox(
-              //   height: 102,
-              // ),
-            ]),
+            // : Stories(
+            //     displayProgress: true,
+            //     showStoryName: false,
+            //     showStoryNameOnFullPage: false,
+            //     showThumbnailOnFullPage: false,
+            //     autoPlayDuration: Duration(seconds: 5),
+            //     storyItemList: [
+            //         // First group of stories
+            //         StoryItem(
+            //             name: "",
+            //             thumbnail: NetworkImage(
+            //               "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
+            //             ),
+            //             stories: [
+            //               // First story
+            //               Scaffold(
+            //                 body: Container(
+            //                   decoration: BoxDecoration(
+            //                     image: DecorationImage(
+            //                       fit: BoxFit.cover,
+            //                       image: NetworkImage(
+            //                         "https://wallpaperaccess.com/full/16568.png",
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //               // Second story in first group
+            //             ]),
+            //         // Second story group
+            //         StoryItem(
+            //           name: "",
+            //           thumbnail: NetworkImage(
+            //             "https://www.shareicon.net/data/512x512/2017/03/29/881758_cup_512x512.png",
+            //           ),
+            //           stories: [
+            //             Scaffold(
+            //               body: Center(
+            //                 child: Text(
+            //                   "That's it, Folks !",
+            //                   style: TextStyle(
+            //                     color: Color(0xff777777),
+            //                     fontSize: 25,
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ]),
           ),
         ),
       ),
