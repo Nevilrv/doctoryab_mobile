@@ -46,7 +46,7 @@ class ChatView extends GetView<ChatController> {
                         children: [
                           Obx(() => Text(
                                 controller.chatArg()?.chatName ?? "N/A",
-                                style: AppTextStyle.semiBoldPrimary20,
+                                style: AppTextStyle.boldPrimary20,
                               )),
                           const SizedBox(
                             width: 8.0,

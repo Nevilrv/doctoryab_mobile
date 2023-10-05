@@ -1,3 +1,8 @@
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/drug_details_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/drugs_database_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/drug_details_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/drugs_database_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/APP_STORY/bindings/app_story_binding.dart';
@@ -208,6 +213,16 @@ class AppPages {
       name: _Paths.NEW_CHAT,
       page: () => const NewChatView(),
       binding: NewChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.DRUGS_DATABASE,
+      page: () => DrugsDatabaseView(),
+      binding: DrugsDatabaseBinding(),
+    ),
+    GetPage(
+      name: _Paths.DRUGS_DETAILS,
+      page: () => DrugDetailsView(),
+      binding: DrugDetailsBinding(),
     ),
   ];
 }

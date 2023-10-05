@@ -3,7 +3,8 @@ import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
-import 'package:doctor_yab/app/modules/home/views/favourites/drugs_database_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/drugs_database_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -21,181 +22,156 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
   List<Map<String, dynamic>> gridData = [
     {
       "color": AppColors.lightOrange,
-      "title": "Drug\nDatabase",
+      "title": "drug_database",
       "image": AppImages.pills
     },
     {
       "color": AppColors.lightGreen,
-      "title": "Disease and\nTreatment",
+      "title": "disease_treatment",
       "image": AppImages.bandage
     },
     {
       "color": AppColors.lightRed,
-      "title": "Blood\nDonation",
+      "title": "blood_donation",
       "image": AppImages.blood
     },
     {
       "color": AppColors.lightBlue,
-      "title": "Treatment\nAbroad",
+      "title": "treatment_abroad",
       "image": AppImages.airplane
     },
     {
       "color": AppColors.lightBlue2,
-      "title": "Pregnancy\nTracker",
+      "title": "pregnancy_tracker",
       "image": AppImages.baby
     },
     {
       "color": AppColors.lightYellow,
-      "title": "Checkup\nPackages",
+      "title": "checkup_packages",
       "image": AppImages.microscope
     }
   ];
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return Theme(
-      data: ThemeData(
-        primarySwatch: AppColors.primarySwatch,
-        scaffoldBackgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: AppColors.white),
-        appBarTheme: AppBarTheme(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            centerTitle: true,
-            titleTextStyle: AppTextStyle.semiBoldPrimary20,
-            iconTheme: IconThemeData(
-              color: AppColors.white,
+    final h = MediaQuery.of(context).size.height;
+    return Background(
+      isSecond: false,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [_buildStories()],
             ),
-            actionsIconTheme: IconThemeData(
-              color: AppColors.primary,
-            )),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.primary,
-            padding: EdgeInsets.symmetric(
-              vertical: 15,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-          ),
-        ),
-      ),
-      child: Background(
-        isSecond: false,
-        child: Scaffold(
-          body: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [_buildStories()],
-              ),
-              Utils.searchBox(),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(15).copyWith(bottom: 0),
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPurple,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30)),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SvgPicture.asset(
-                            AppImages.backArrow,
-                            height: 24,
+            Utils.searchBox(),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(15).copyWith(bottom: 0),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.lightPurple,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset(
+                          AppImages.backArrow,
+                          height: 24,
+                        ),
+                        Text(
+                          "navigation".tr,
+                          style: AppTextStyle.boldPrimary14,
+                        ),
+                        SvgPicture.asset(
+                          AppImages.closeCircle,
+                          height: 24,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 23),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: GridView.builder(
+                          itemCount: gridData.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 9,
+                            childAspectRatio: 1,
                           ),
-                          Text(
-                            "Navigation",
-                            style: AppTextStyle.semiBoldPrimary14,
-                          ),
-                          SvgPicture.asset(
-                            AppImages.closeCircle,
-                            height: 24,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 23),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: GridView.builder(
-                            itemCount: gridData.length,
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            padding: EdgeInsets.zero,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 9,
-                              childAspectRatio: 1,
-                            ),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  if (index == 0) {
-                                    Get.to(() => DrugsDatabaseView());
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 11, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        height: height * 0.107,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: gridData[index]["color"],
-                                          borderRadius:
-                                              BorderRadius.circular(5),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (index == 0) {
+                                  Get.toNamed(Routes.DRUGS_DATABASE);
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                        horizontal: 11, vertical: 8)
+                                    .copyWith(bottom: 0),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      height: h * 0.107,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: gridData[index]["color"],
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Center(
+                                        child: Image.asset(
+                                          gridData[index]["image"],
+                                          height: 63,
                                         ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
                                         child: Center(
-                                          child: Image.asset(
-                                            gridData[index]["image"],
-                                            height: 63,
+                                          child: Text(
+                                            gridData[index]["title"]
+                                                .toString()
+                                                .tr,
+                                            style: AppTextStyle.boldBlack12
+                                                .copyWith(height: 1.2),
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       ),
-                                      Center(
-                                        child: Text(
-                                          gridData[index]["title"],
-                                          style: AppTextStyle.semiBoldBlack12,
-                                          maxLines: 2,
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -259,65 +235,12 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                           "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
                       isActive: true,
                       onTap: () {
-                        // controller.resetStrories();
-                        return controller.onTapStoryAvatar(
-                            // controller.dataList.value.data[index],
-                            index);
+                        return controller.onTapStoryAvatar(index);
                       },
                     ),
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.dataList().data.length,
                   ),
-            // : Stories(
-            //     displayProgress: true,
-            //     showStoryName: false,
-            //     showStoryNameOnFullPage: false,
-            //     showThumbnailOnFullPage: false,
-            //     autoPlayDuration: Duration(seconds: 5),
-            //     storyItemList: [
-            //         // First group of stories
-            //         StoryItem(
-            //             name: "",
-            //             thumbnail: NetworkImage(
-            //               "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
-            //             ),
-            //             stories: [
-            //               // First story
-            //               Scaffold(
-            //                 body: Container(
-            //                   decoration: BoxDecoration(
-            //                     image: DecorationImage(
-            //                       fit: BoxFit.cover,
-            //                       image: NetworkImage(
-            //                         "https://wallpaperaccess.com/full/16568.png",
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ),
-            //               // Second story in first group
-            //             ]),
-            //         // Second story group
-            //         StoryItem(
-            //           name: "",
-            //           thumbnail: NetworkImage(
-            //             "https://www.shareicon.net/data/512x512/2017/03/29/881758_cup_512x512.png",
-            //           ),
-            //           stories: [
-            //             Scaffold(
-            //               body: Center(
-            //                 child: Text(
-            //                   "That's it, Folks !",
-            //                   style: TextStyle(
-            //                     color: Color(0xff777777),
-            //                     fontSize: 25,
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ]),
           ),
         ),
       ),

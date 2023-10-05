@@ -10,7 +10,6 @@ class AppFontWeight {
   static const LIGHT = FontWeight.w300;
   static const REGULAR = FontWeight.w400;
   static const MEDIUM = FontWeight.w500;
-  static const SEMI_BOLD = FontWeight.w600;
   static const BOLD = FontWeight.w700;
   static const EXTRA_BOLD = FontWeight.w900;
 }

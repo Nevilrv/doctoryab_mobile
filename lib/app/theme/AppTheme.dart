@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 class AppTheme {
   static ThemeData light() {
     return ThemeData(
-      fontFamily: AppFonts.poppins,
+      fontFamily: AppFonts.acuminSemiCond,
       brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.scaffoldColor,
       primaryColor: AppColors.primary,
@@ -15,7 +15,7 @@ class AppTheme {
       textTheme: ThemeData.light().textTheme.apply(
             bodyColor: AppColors.black2,
             // fontFamily: AppFonts.avenir_regular,
-            fontFamily: AppFonts.poppins,
+            fontFamily: AppFonts.acuminSemiCond,
           ),
       // primaryTextTheme: ThemeData.light().textTheme.apply(
       //       fontFamily: AppFonts.acuminSemiCond,

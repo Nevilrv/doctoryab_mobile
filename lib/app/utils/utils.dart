@@ -436,11 +436,11 @@ class Utils {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hi, Mohammad Nabi Hasanzada!",
+                    "hi_text".tr,
                     style: AppTextStyle.mediumWhite11,
                   ),
                   Text(
-                    "How do you feel that to day?",
+                    "how_do_you_feel".tr,
                     style: AppTextStyle.mediumWhite11.copyWith(
                       color: AppColors.white.withOpacity(0.5),
                     ),
@@ -478,11 +478,12 @@ class Utils {
           ),
           SizedBox(height: 10),
           TextField(
+            style: AppTextStyle.mediumWhite11,
             cursorColor: AppColors.white,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 15),
-              hintText: "Search a subject (Doctor)",
+              hintText: "search_doctor".tr,
               hintStyle: AppTextStyle.mediumWhite11,
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(11),
@@ -530,7 +531,7 @@ class Utils {
           ),
           Text(
             title,
-            style: AppTextStyle.semiBoldPrimary20,
+            style: AppTextStyle.boldPrimary20,
           ),
           SvgPicture.asset(AppImages.blackBell),
         ],

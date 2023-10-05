@@ -1,31 +1,20 @@
 import 'dart:developer';
 
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_blog_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
+import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  List bottomBarItem = [
-    AppImages.home,
-    AppImages.message,
-    AppImages.heart,
-    AppImages.enquiry,
-    AppImages.profile
-  ];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -248,8 +237,8 @@ class BottomBarView extends GetView<HomeController> {
                               children: [
                                 SvgPicture.asset(
                                   bottomBarItem[index],
-                                  height: 24,
-                                  width: 24,
+                                  height: 22,
+                                  width: 22,
                                   color: controller.selectedIndex.value == index
                                       ? AppColors.white
                                       : AppColors.primaryLight,
