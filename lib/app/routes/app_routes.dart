@@ -34,6 +34,8 @@ abstract class Routes {
   static const NEW_CHAT = _Paths.NEW_CHAT;
   static const DRUGS_DATABASE = _Paths.DRUGS_DATABASE;
   static const DRUGS_DETAILS = _Paths.DRUGS_DETAILS;
+  static const BLOOD_DONATION = _Paths.BLOOD_DONATION;
+  static const DISEASE_TREATMENT = _Paths.DISEASE_TREATMENT;
 }
 
 abstract class _Paths {
@@ -68,4 +70,6 @@ abstract class _Paths {
   static const NEW_CHAT = '/new-chat';
   static const DRUGS_DATABASE = '/drugs-database';
   static const DRUGS_DETAILS = '/drugs-details';
+  static const BLOOD_DONATION = '/blood-donation';
+  static const DISEASE_TREATMENT = '/disease-treatment';
 }

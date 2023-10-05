@@ -33,65 +33,64 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: AppColors.lightGrey,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: GetBuilder<DrugsController>(
-            builder: (controller) {
-              return Column(
-                children: [
-                  Utils.appBar("drug_database".tr),
-                  SizedBox(height: 30),
-                  searchTextField(),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 18,
-                      bottom: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child:
-                              Divider(color: AppColors.primary, thickness: 1),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3),
-                          child: Text(
-                            controller.searchController.text.isEmpty
-                                ? "saved_drugs".tr
-                                : "what_we_found".tr,
-                            style: AppTextStyle.mediumPrimary11,
-                          ),
-                        ),
-                        Expanded(
-                          child:
-                              Divider(color: AppColors.primary, thickness: 1),
-                        ),
-                      ],
-                    ),
+      backgroundColor: AppColors.lightGrey,
+      bottomNavigationBar: BottomBarView(isHomeScreen: false),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: GetBuilder<DrugsController>(
+          builder: (controller) {
+            return Column(
+              children: [
+                Utils.appBar("drug_database".tr),
+                SizedBox(height: 30),
+                searchTextField(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 18,
+                    bottom: 10,
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: medicinesNames.length,
-                      itemBuilder: (context, index) {
-                        if (!medicinesNames[index]
-                            .toUpperCase()
-                            .trim()
-                            .contains(controller.filterSearch.toUpperCase())) {
-                          return const SizedBox();
-                        }
-                        return drugsData(h, w, index);
-                      },
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(color: AppColors.primary, thickness: 1),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: Text(
+                          controller.searchController.text.isEmpty
+                              ? "saved_drugs".tr
+                              : "what_we_found".tr,
+                          style: AppTextStyle.mediumPrimary11,
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(color: AppColors.primary, thickness: 1),
+                      ),
+                    ],
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: medicinesNames.length,
+                    itemBuilder: (context, index) {
+                      if (!medicinesNames[index]
+                          .toUpperCase()
+                          .trim()
+                          .contains(controller.filterSearch.toUpperCase())) {
+                        return const SizedBox();
+                      }
+                      return drugsData(h, w, index);
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
         ),
-        bottomNavigationBar: BottomBarView(isHomeScreen: false));
+      ),
+    );
   }
 
   Widget drugsData(double h, double w, int index) {
@@ -236,7 +235,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               padding: EdgeInsets.all(3),
                               margin: EdgeInsets.only(right: 5),
                               decoration: BoxDecoration(
-                                color: AppColors.lightPurple2,
+                                color: AppColors.lightPurple,
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Image.asset(
