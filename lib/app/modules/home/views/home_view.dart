@@ -30,11 +30,6 @@ class HomeView extends GetView<HomeController> {
   ];
   @override
   Widget build(BuildContext context) {
-    if (data == null) {
-      log("data--------------->nulllll");
-    } else {
-      log("data--------------->${data['id']}");
-    }
     return WillPopScope(
       onWillPop: () async {
         // return controller.pageController.index == 3

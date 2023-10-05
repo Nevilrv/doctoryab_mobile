@@ -21,7 +21,7 @@ class MessagesListView extends GetView<MessagesListController> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            titleTextStyle: AppTextStyle.semiBoldPrimary20,
+            titleTextStyle: AppTextStyle.boldPrimary20,
             iconTheme: IconThemeData(
               color: AppColors.white,
             ),
@@ -97,7 +97,7 @@ class MessagesListView extends GetView<MessagesListController> {
                           children: [
                             Text(
                               'new_question'.tr,
-                              style: AppTextStyle.semiBoldWhite14,
+                              style: AppTextStyle.boldWhite14,
                             ),
                           ]),
                     ),
