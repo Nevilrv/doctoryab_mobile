@@ -234,4 +234,5 @@ const Map<String, String> enUS = {
   "pack_cont": "%s’s Pack",
   "drug_price": "%s AFG",
   "what_we_found": "Here is what we found",
+  "appointment": "Appointment",
 };

@@ -10,6 +10,7 @@ import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 import '../controllers/doctors_controller.dart';
 
 class DoctorsView extends StatelessWidget {
@@ -111,7 +113,7 @@ class DoctorsView extends StatelessWidget {
             },
           ),
           child: PagedListView.separated(
-            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 22),
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             pagingController: controller.pagingController,
             // physics: BouncingScrollPhysics(),
             separatorBuilder: (c, i) {
@@ -139,9 +141,7 @@ class DoctorsView extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 10,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       // height: 220,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -157,287 +157,437 @@ class DoctorsView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Container(
-          //   height: h * 0.2,
-          //   width: w,
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         flex: 2,
-          //         child: Container(
-          //           // color: Colors.black,
-          //           // height: 65,
-          //           // width: 65,
-          //           decoration: BoxDecoration(
-          //               borderRadius: BorderRadius.circular(10),
-          //               color: AppColors.lightGrey),
-          //           child: Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: CachedNetworkImage(
-          //               imageUrl: "${ApiConsts.hostUrl}${item.photo}",
-          //               fit: BoxFit.cover,
-          //               placeholder: (_, __) {
-          //                 return Image.asset(
-          //                   "assets/png/person-placeholder.jpg",
-          //                   fit: BoxFit.cover,
-          //                 );
-          //               },
-          //               errorWidget: (_, __, ___) {
-          //                 return Image.asset(
-          //                   "assets/png/person-placeholder.jpg",
-          //                   fit: BoxFit.cover,
-          //                 );
-          //               },
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         flex: 3,
-          //         child: Column(
-          //           children: [
-          //             Row(
-          //               mainAxisAlignment: MainAxisAlignment.start,
-          //               crossAxisAlignment: CrossAxisAlignment.center,
-          //               mainAxisSize: MainAxisSize.min,
-          //               children: [
-          //                 Flexible(
-          //                   child: Text(
-          //                     item.fullname ??
-          //                         " ${item.name ?? ""} ${item.lname ?? ""}",
-          //                     style: AppTextTheme.h(15)
-          //                         .copyWith(color: AppColors.black2),
-          //                   ),
-          //                 ),
-          //                 if (item.verfied ?? false)
-          //                   Icon(
-          //                     Icons.verified,
-          //                     color: AppColors.verified,
-          //                   ).paddingHorizontal(6),
-          //               ],
-          //             )
-          //           ],
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
-          ListTile(
-              leading: AspectRatio(
-                aspectRatio: 1,
-                child: Container(
-                  // color: Colors.black,
-                  // height: 65,
-                  // width: 65,
-                  child: CachedNetworkImage(
-                    imageUrl: "${ApiConsts.hostUrl}${item.photo}",
-                    fit: BoxFit.cover,
-                    placeholder: (_, __) {
-                      return Image.asset(
-                        "assets/png/person-placeholder.jpg",
+          Container(
+            // height: h * 0.2,
+            width: w,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    // color: Colors.black,
+                    // height: 65,
+                    // width: 65,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.lightGrey),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CachedNetworkImage(
+                        imageUrl: "${ApiConsts.hostUrl}${item.photo}",
                         fit: BoxFit.cover,
-                      );
-                    },
-                    errorWidget: (_, __, ___) {
-                      return Image.asset(
-                        "assets/png/person-placeholder.jpg",
-                        fit: BoxFit.cover,
-                      );
-                    },
-                  ),
-                ).radiusAll(20),
-                //   Image.network(
-                //     "${ApiConsts.hostUrl}${item.photo}",
-                //     fit: BoxFit.cover,
-                //   ),
-                // ).radiusAll(20),
-              ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      item.fullname ??
-                          " ${item.name ?? ""} ${item.lname ?? ""}",
-                      style:
-                          AppTextTheme.h(15).copyWith(color: AppColors.black2),
-                    ),
-                  ),
-                  if (item.verfied ?? false)
-                    Icon(
-                      Icons.verified,
-                      color: AppColors.verified,
-                    ).paddingHorizontal(6),
-                ],
-              ).paddingOnly(top: 8, bottom: 2),
-
-              // Text(
-              //   "${item.name ?? ""} ${item.lname ?? ""}",
-              //   style: AppTextTheme.h(15).copyWith(color: AppColors.black2),
-              // ).paddingOnly(top: 8),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.category.title ?? "",
-                    style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      RatingBar.builder(
-                        ignoreGestures: true,
-                        itemSize: 15,
-                        initialRating: item.stars.toDouble(),
-                        // minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                          // size: 10,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
+                        placeholder: (_, __) {
+                          return Image.asset(
+                            "assets/png/person-placeholder.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        },
+                        errorWidget: (_, __, ___) {
+                          return Image.asset(
+                            "assets/png/person-placeholder.jpg",
+                            fit: BoxFit.cover,
+                          );
                         },
                       ),
-                      SizedBox(width: 4),
-                      Text(
-                        '(${double.tryParse(item.totalStar?.toStringAsFixed(1)) ?? ""})',
-                        style: AppTextTheme.b(10.5)
-                            .copyWith(color: AppColors.lgt2),
-                      ),
-                    ],
+                    ),
                   ),
-                  if (item.address != null)
-                    Row(
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset("assets/svg/location_pin.svg")
-                            .paddingOnly(top: 4),
-                        SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            item.address ?? "",
-                            maxLines: 3,
-                            style: AppTextTheme.b(14)
-                                .copyWith(color: AppColors.lgt2),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        // SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                item.fullname ??
+                                    " ${item.name ?? ""} ${item.lname ?? ""}",
+                                style: AppTextTheme.h(15)
+                                    .copyWith(color: AppColors.black2),
+                              ),
+                            ),
+                            if (item.verfied ?? false)
+                              Icon(
+                                Icons.verified,
+                                color: AppColors.verified,
+                              ).paddingHorizontal(6),
+                          ],
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          item.category.title ?? "",
+                          style: AppTextTheme.b(14)
+                              .copyWith(color: AppColors.lgt2),
+                        ),
+                        SizedBox(height: 2),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RatingBar.builder(
+                              ignoreGestures: true,
+                              itemSize: 15,
+                              initialRating: item.stars.toDouble(),
+                              // minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 1.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                // size: 10,
+                              ),
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              },
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              '(${double.tryParse(item.totalStar?.toStringAsFixed(1)) ?? ""})',
+                              style: AppTextTheme.b(10.5)
+                                  .copyWith(color: AppColors.lgt2),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Utils.openPhoneDialer(context, item.phone);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 5),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.secondary,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: Text(
+                                      "call".tr,
+                                      style: AppTextTheme.m(14)
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  BookingController.to.selectedDoctor(item);
+                                  Get.toNamed(
+                                    Routes.BOOK,
+                                    // arguments: [item, controller.arguments.cCategory],
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 2),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.lightBlack2,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: Text(
+                                      "appointment".tr,
+                                      style: AppTextTheme.m(14)
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ],
-                    ).paddingVertical(8).onTap(() {
-                      if (item.geometry?.coordinates !=
-                          null) if (item.geometry.coordinates.length > 1) {
-                        Utils.openGoogleMaps(item.geometry.coordinates[1],
-                            item.geometry.coordinates[0]);
-                      }
-                    }),
-                ],
-              ),
-              onTap: () => Get.toNamed(Routes.DOCTOR, arguments: [item])),
-          SizedBox(height: 30),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildButton(
-                item,
-                icon: SvgPicture.asset("assets/svg/call-24px.svg"),
-                child: FittedBox(
-                  child: Text(
-                    "call".tr,
-                    style: AppTextTheme.m(14).copyWith(color: Colors.white),
+                    ),
                   ),
                 ),
-                bgColor: AppColors.green,
-                onTap: () => Utils.openPhoneDialer(context, item.phone),
-
-                //  () {
-                //   final Uri _emailLaunchUri = Uri(
-                //     scheme: 'tel',
-                //     path: item.phone,
-                //   );
-                //   launch(_emailLaunchUri.toString())
-                //       .onError((error, stackTrace) {
-                //     //TODO Not tested
-                //     ScaffoldMessenger.of(Get.context).showSnackBar(
-                //       SnackBar(
-                //         content: Text(
-                //           error.toString(),
-                //         ),
-                //       ),
-                //     );
-
-                //     return;
-                //   });
-                // },
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              Utils.openPhoneDialer(context, item.phone);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 5,
               ),
-              _buildButton(
-                item,
-                icon: SvgPicture.asset("assets/svg/date_range-24px.svg"),
-                child: FittedBox(
-                  child: Text(
-                    "book_now".tr,
-                    style: AppTextTheme.m(14).copyWith(color: Colors.white),
-                  ),
+              decoration: BoxDecoration(
+                  color: AppColors.lightGrey,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppImages.calendar,
+                      height: 22,
+                      width: 22,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    FittedBox(
+                      child: Text(
+                        "Monday, August 10, 2022",
+                        style: AppTextTheme.m(14).copyWith(color: Colors.black),
+                      ),
+                    ),
+                    Spacer(),
+                    SvgPicture.asset(
+                      AppImages.clock,
+                      height: 22,
+                      width: 22,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    FittedBox(
+                      child: Text(
+                        "09.00 - 10.00",
+                        style: AppTextTheme.m(14).copyWith(color: Colors.black),
+                      ),
+                    ),
+                  ],
                 ),
-                bgColor: AppColors.easternBlue,
-                onTap:
-                    // loadMyDoctorsMode
-                    //     ? () {
-                    //         if (item.id == null || item.category == null) {
-                    //           // AppGetDialog.show(
-                    //           //     middleText: "doctor_id_or_category_is_null".tr);
-
-                    //           AppGetDialog.showSeleceDoctorCategoryDialog(item,
-                    //               onChange: (cat) {
-                    //             BookingController.to.selectedDoctor(item);
-                    //             BookingController.to.selectedCategory(cat);
-                    //             Get.toNamed(
-                    //               Routes.BOOK,
-                    //               // arguments: [item, controller.arguments.cCategory],
-                    //             );
-                    //           });
-                    //           return;
-                    //         }
-                    //         BookingController.to.selectedDoctor(item);
-                    //         BookingController.to
-                    //             .selectedCategory(Category(id: item.category));
-                    //         Get.toNamed(
-                    //           Routes.BOOK,
-                    //           // arguments: [item.doctor, controller.arguments.cCategory],
-                    //         );
-                    //         //
-                    //         // AppGetDialog.showSeleceDoctorCategoryDialog(item,
-                    //         //     onChange: (cat) {
-                    //         //   BookingController.to.selectedDoctor(item);
-                    //         //   BookingController.to.selectedCategory(cat);
-                    //         //   Get.toNamed(
-                    //         //     Routes.BOOK,
-                    //         //     // arguments: [item, controller.arguments.cCategory],
-                    //         //   );
-                    //         // });
-                    //       }
-                    // :
-                    () {
-                  BookingController.to.selectedDoctor(item);
-                  Get.toNamed(
-                    Routes.BOOK,
-                    // arguments: [item, controller.arguments.cCategory],
-                  );
-                },
               ),
-            ],
-          ).paddingHorizontal(10),
-          SizedBox(height: 20),
+            ),
+          ),
+
+          // ListTile(
+          //     leading: AspectRatio(
+          //       aspectRatio: 1,
+          //       child: Container(
+          //         // color: Colors.black,
+          //         // height: 65,
+          //         // width: 65,
+          //         child: CachedNetworkImage(
+          //           imageUrl: "${ApiConsts.hostUrl}${item.photo}",
+          //           fit: BoxFit.cover,
+          //           placeholder: (_, __) {
+          //             return Image.asset(
+          //               "assets/png/person-placeholder.jpg",
+          //               fit: BoxFit.cover,
+          //             );
+          //           },
+          //           errorWidget: (_, __, ___) {
+          //             return Image.asset(
+          //               "assets/png/person-placeholder.jpg",
+          //               fit: BoxFit.cover,
+          //             );
+          //           },
+          //         ),
+          //       ).radiusAll(20),
+          //       //   Image.network(
+          //       //     "${ApiConsts.hostUrl}${item.photo}",
+          //       //     fit: BoxFit.cover,
+          //       //   ),
+          //       // ).radiusAll(20),
+          //     ),
+          //     title: Row(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         Flexible(
+          //           child: Text(
+          //             item.fullname ??
+          //                 " ${item.name ?? ""} ${item.lname ?? ""}",
+          //             style:
+          //                 AppTextTheme.h(15).copyWith(color: AppColors.black2),
+          //           ),
+          //         ),
+          //         if (item.verfied ?? false)
+          //           Icon(
+          //             Icons.verified,
+          //             color: AppColors.verified,
+          //           ).paddingHorizontal(6),
+          //       ],
+          //     ).paddingOnly(top: 8, bottom: 2),
+          //
+          //     // Text(
+          //     //   "${item.name ?? ""} ${item.lname ?? ""}",
+          //     //   style: AppTextTheme.h(15).copyWith(color: AppColors.black2),
+          //     // ).paddingOnly(top: 8),
+          //     subtitle: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           item.category.title ?? "",
+          //           style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
+          //         ),
+          //         SizedBox(height: 8),
+          //         Row(
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: [
+          //             RatingBar.builder(
+          //               ignoreGestures: true,
+          //               itemSize: 15,
+          //               initialRating: item.stars.toDouble(),
+          //               // minRating: 1,
+          //               direction: Axis.horizontal,
+          //               allowHalfRating: true,
+          //               itemCount: 5,
+          //               itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+          //               itemBuilder: (context, _) => Icon(
+          //                 Icons.star,
+          //                 color: Colors.amber,
+          //                 // size: 10,
+          //               ),
+          //               onRatingUpdate: (rating) {
+          //                 print(rating);
+          //               },
+          //             ),
+          //             SizedBox(width: 4),
+          //             Text(
+          //               '(${double.tryParse(item.totalStar?.toStringAsFixed(1)) ?? ""})',
+          //               style: AppTextTheme.b(10.5)
+          //                   .copyWith(color: AppColors.lgt2),
+          //             ),
+          //           ],
+          //         ),
+          //         if (item.address != null)
+          //           Row(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               SvgPicture.asset("assets/svg/location_pin.svg")
+          //                   .paddingOnly(top: 4),
+          //               SizedBox(width: 8),
+          //               Flexible(
+          //                 child: Text(
+          //                   item.address ?? "",
+          //                   maxLines: 3,
+          //                   style: AppTextTheme.b(14)
+          //                       .copyWith(color: AppColors.lgt2),
+          //                   overflow: TextOverflow.ellipsis,
+          //                 ),
+          //               ),
+          //             ],
+          //           ).paddingVertical(8).onTap(() {
+          //             if (item.geometry?.coordinates !=
+          //                 null) if (item.geometry.coordinates.length > 1) {
+          //               Utils.openGoogleMaps(item.geometry.coordinates[1],
+          //                   item.geometry.coordinates[0]);
+          //             }
+          //           }),
+          //       ],
+          //     ),
+          //     onTap: () => Get.toNamed(Routes.DOCTOR, arguments: [item])),
+          // SizedBox(height: 30),
+          // Wrap(
+          //   spacing: 8,
+          //   runSpacing: 8,
+          //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     _buildButton(
+          //       item,
+          //       icon: SvgPicture.asset("assets/svg/call-24px.svg"),
+          //       child: FittedBox(
+          //         child: Text(
+          //           "call".tr,
+          //           style: AppTextTheme.m(14).copyWith(color: Colors.white),
+          //         ),
+          //       ),
+          //       bgColor: AppColors.green,
+          //       onTap: () => Utils.openPhoneDialer(context, item.phone),
+          //
+          //       //  () {
+          //       //   final Uri _emailLaunchUri = Uri(
+          //       //     scheme: 'tel',
+          //       //     path: item.phone,
+          //       //   );
+          //       //   launch(_emailLaunchUri.toString())
+          //       //       .onError((error, stackTrace) {
+          //       //     //TODO Not tested
+          //       //     ScaffoldMessenger.of(Get.context).showSnackBar(
+          //       //       SnackBar(
+          //       //         content: Text(
+          //       //           error.toString(),
+          //       //         ),
+          //       //       ),
+          //       //     );
+          //
+          //       //     return;
+          //       //   });
+          //       // },
+          //     ),
+          //     _buildButton(
+          //       item,
+          //       icon: SvgPicture.asset("assets/svg/date_range-24px.svg"),
+          //       child: FittedBox(
+          //         child: Text(
+          //           "book_now".tr,
+          //           style: AppTextTheme.m(14).copyWith(color: Colors.white),
+          //         ),
+          //       ),
+          //       bgColor: AppColors.easternBlue,
+          //       onTap:
+          //           // loadMyDoctorsMode
+          //           //     ? () {
+          //           //         if (item.id == null || item.category == null) {
+          //           //           // AppGetDialog.show(
+          //           //           //     middleText: "doctor_id_or_category_is_null".tr);
+          //
+          //           //           AppGetDialog.showSeleceDoctorCategoryDialog(item,
+          //           //               onChange: (cat) {
+          //           //             BookingController.to.selectedDoctor(item);
+          //           //             BookingController.to.selectedCategory(cat);
+          //           //             Get.toNamed(
+          //           //               Routes.BOOK,
+          //           //               // arguments: [item, controller.arguments.cCategory],
+          //           //             );
+          //           //           });
+          //           //           return;
+          //           //         }
+          //           //         BookingController.to.selectedDoctor(item);
+          //           //         BookingController.to
+          //           //             .selectedCategory(Category(id: item.category));
+          //           //         Get.toNamed(
+          //           //           Routes.BOOK,
+          //           //           // arguments: [item.doctor, controller.arguments.cCategory],
+          //           //         );
+          //           //         //
+          //           //         // AppGetDialog.showSeleceDoctorCategoryDialog(item,
+          //           //         //     onChange: (cat) {
+          //           //         //   BookingController.to.selectedDoctor(item);
+          //           //         //   BookingController.to.selectedCategory(cat);
+          //           //         //   Get.toNamed(
+          //           //         //     Routes.BOOK,
+          //           //         //     // arguments: [item, controller.arguments.cCategory],
+          //           //         //   );
+          //           //         // });
+          //           //       }
+          //           // :
+          //           () {
+          //         BookingController.to.selectedDoctor(item);
+          //         Get.toNamed(
+          //           Routes.BOOK,
+          //           // arguments: [item, controller.arguments.cCategory],
+          //         );
+          //       },
+          //     ),
+          //   ],
+          // ).paddingHorizontal(10),
+          // SizedBox(height: 20),
         ],
       ),
     );

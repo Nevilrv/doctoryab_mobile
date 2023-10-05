@@ -15,6 +15,8 @@ class AppImages {
   static const favGolden = "assets/svg/fav_icon_golden.svg";
   static const favGrey = "assets/svg/fav_icon_grey.svg";
   static const circleInfo = "assets/svg/circle_info.svg";
+  static const calendar = "assets/svg/Calendar.svg";
+  static const clock = "assets/svg/clock.svg";
 
   /// PNG
   static const bell = "assets/png/bell.png";
