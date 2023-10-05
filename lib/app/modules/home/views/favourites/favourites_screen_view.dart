@@ -3,7 +3,6 @@ import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
-import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/drugs_database_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -19,36 +18,42 @@ import '../../../../utils/app_text_styles.dart';
 class FavouritesScreenView extends GetView<TabHomeMainController> {
   FavouritesScreenView({Key key}) : super(key: key);
 
-  List<Map<String, dynamic>> gridData = [
+  final List<Map<String, dynamic>> gridData = [
     {
       "color": AppColors.lightOrange,
       "title": "drug_database",
-      "image": AppImages.pills
+      "image": AppImages.pills,
+      "routes": Routes.DRUGS_DATABASE
     },
     {
       "color": AppColors.lightGreen,
       "title": "disease_treatment",
-      "image": AppImages.bandage
+      "image": AppImages.bandage,
+      "routes": ""
     },
     {
       "color": AppColors.lightRed,
       "title": "blood_donation",
-      "image": AppImages.blood
+      "image": AppImages.blood,
+      "routes": Routes.BLOOD_DONATION
     },
     {
       "color": AppColors.lightBlue,
       "title": "treatment_abroad",
-      "image": AppImages.airplane
+      "image": AppImages.airplane,
+      "routes": ""
     },
     {
       "color": AppColors.lightBlue2,
       "title": "pregnancy_tracker",
-      "image": AppImages.baby
+      "image": AppImages.baby,
+      "routes": ""
     },
     {
       "color": AppColors.lightYellow,
       "title": "checkup_packages",
-      "image": AppImages.microscope
+      "image": AppImages.microscope,
+      "routes": ""
     }
   ];
 
@@ -112,8 +117,15 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
+                                // final routeScreen = gridData[index]["routes"];
+                                // Get.toNamed(routeScreen);
+
                                 if (index == 0) {
                                   Get.toNamed(Routes.DRUGS_DATABASE);
+                                } else if (index == 1) {
+                                  Get.toNamed(Routes.DISEASE_TREATMENT);
+                                } else if (index == 2) {
+                                  Get.toNamed(Routes.BLOOD_DONATION);
                                 }
                               },
                               child: Container(

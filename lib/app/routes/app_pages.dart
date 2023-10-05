@@ -1,3 +1,7 @@
+import 'package:doctor_yab/app/modules/home/views/favourites/blood_donation/bindings/blood_donation_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/blood_donation/view/blood_donation_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/bindings/disease_treatment_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/view/disease_treatment_view.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/drug_details_binding.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/drugs_database_binding.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
@@ -223,6 +227,16 @@ class AppPages {
       name: _Paths.DRUGS_DETAILS,
       page: () => DrugDetailsView(),
       binding: DrugDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.BLOOD_DONATION,
+      page: () => BloodDonationView(),
+      binding: BloodDonationBinding(),
+    ),
+    GetPage(
+      name: _Paths.DISEASE_TREATMENT,
+      page: () => DiseaseTreatmentView(),
+      binding: DiseaseTreatmentBinding(),
     ),
   ];
 }

@@ -370,6 +370,13 @@ class AppTextStyle {
 
   // BOLD WHITE
 
+  static TextStyle boldWhite6 = TextStyle(
+    fontSize: 6,
+    color: AppColors.white,
+    fontWeight: AppFontWeight.BOLD,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle boldWhite8 = TextStyle(
     fontSize: 8,
     color: AppColors.white,
@@ -735,6 +742,13 @@ class AppTextStyle {
   );
 
   // primary
+  static TextStyle regularPrimary6 = TextStyle(
+    fontSize: 6,
+    color: AppColors.primary,
+    fontWeight: AppFontWeight.REGULAR,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle regularPrimary8 = TextStyle(
     fontSize: 8,
     color: AppColors.primary,
@@ -824,6 +838,13 @@ class AppTextStyle {
   static TextStyle mediumPrimary8 = TextStyle(
     fontSize: 8,
     color: AppColors.primary,
+    fontWeight: AppFontWeight.MEDIUM,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
+  static TextStyle mediumLightPurple3_8 = TextStyle(
+    fontSize: 8,
+    color: AppColors.lightPurple3,
     fontWeight: AppFontWeight.MEDIUM,
     fontFamily: AppFonts.acuminSemiCond,
   );

@@ -14,6 +14,7 @@ class AppImages {
   static const mic = "assets/svg/mic.svg";
   static const favGolden = "assets/svg/fav_icon_golden.svg";
   static const favGrey = "assets/svg/fav_icon_grey.svg";
+  static const favWhite = "assets/svg/fav_icon_white.svg";
   static const circleInfo = "assets/svg/circle_info.svg";
 
   /// PNG
@@ -31,4 +32,5 @@ class AppImages {
   static const pillbox = "assets/png/pillbox.png";
   static const vitamin = "assets/png/vitamin.png";
   static const vitamins = "assets/png/vitamins.png";
+  static const dummy = "assets/png/dummy.png";
 }

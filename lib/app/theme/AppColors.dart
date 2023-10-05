@@ -16,7 +16,8 @@ class AppColors {
   static const lightGreen = Color(0xffF0FFED);
   static const lightRed = Color(0xffFFE3E1);
   static const lightBlue = Color(0xffB7EAFF);
-  static const lightBlue2 = Color(0xffEDFEFF);
+  static const lightBlue2 = Color(0xffBAF2FF);
+  static const lightBlue3 = Color(0xffEDFEFF);
   static const lightYellow = Color(0xffFFF6D7);
   static const disabledButtonColor = Color(0xff5C65A8);
   static const green = Color(0xff15B76C);
@@ -40,6 +41,7 @@ class AppColors {
   static const red2 = Color(0xffFF0101);
   static const lightPurple = Color(0xffECEEFF);
   static const lightPurple2 = Color(0xffEEF0FF);
+  static const lightPurple3 = Color(0xffD3D8FF);
   static const secondary = Color(0xff0ED2B3);
   static const lightGrey = Color(0xFFF6F8FE);
   static const MaterialColor primarySwatch = MaterialColor(

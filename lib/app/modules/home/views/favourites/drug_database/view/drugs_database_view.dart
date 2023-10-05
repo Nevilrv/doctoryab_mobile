@@ -1,4 +1,5 @@
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 class DrugsDatabaseView extends GetView<DrugsController> {
   DrugsDatabaseView({Key key}) : super(key: key);
 
-  List medicinesNames = [
+  final List medicinesNames = [
     "VITAMIN D3 (1000IU)",
     "VITAMIN C3 (1100IU)",
     "VITAMIN A2 (1000IU)",
@@ -21,7 +22,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     "VITAMIN A4 (1100IU)",
   ];
 
-  List _data = [
+  final List _data = [
     {"image": AppImages.medicine, "title": "drug_type", "text": "capsule"},
     {"image": AppImages.pillbox, "title": "box_cont", "text": "pack_cont"},
     {"image": AppImages.coin, "title": "price", "text": "drug_price"}
@@ -33,6 +34,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
+      bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: GetBuilder<DrugsController>(
@@ -233,7 +235,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               padding: EdgeInsets.all(3),
                               margin: EdgeInsets.only(right: 5),
                               decoration: BoxDecoration(
-                                color: AppColors.lightPurple2,
+                                color: AppColors.lightPurple,
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Image.asset(
