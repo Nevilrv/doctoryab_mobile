@@ -19,6 +19,8 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  var data = Get.arguments;
+
   List bottomBarItem = [
     AppImages.home,
     AppImages.message,
@@ -28,6 +30,11 @@ class HomeView extends GetView<HomeController> {
   ];
   @override
   Widget build(BuildContext context) {
+    if (data == null) {
+      log("data--------------->nulllll");
+    } else {
+      log("data--------------->${data['id']}");
+    }
     return WillPopScope(
       onWillPop: () async {
         // return controller.pageController.index == 3
@@ -146,7 +153,7 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class BottomBarView extends GetView<HomeController> {
+class BottomBarView extends StatelessWidget {
   bool isHomeScreen = true;
 
   BottomBarView({Key key, this.isHomeScreen}) : super(key: key);
@@ -159,8 +166,8 @@ class BottomBarView extends GetView<HomeController> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
+    return GetBuilder<HomeController>(
+      builder: (controller) {
         return Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
           child: Container(
@@ -179,14 +186,15 @@ class BottomBarView extends GetView<HomeController> {
                         ? GestureDetector(
                             onTap: () {
                               log("isHomeScreen--------------> ${isHomeScreen}");
-
-                              if (isHomeScreen == false) {
-                                Get.offAllNamed(Routes.HOME);
-                              }
-                              controller.selectedIndex.value = index;
+                              controller.setIndex(index);
+                              controller.selectedIndex = index;
                               controller.pageController.animateTo(index,
                                   duration: Duration(milliseconds: 500),
                                   curve: Curves.ease);
+                              if (isHomeScreen == false) {
+                                Get.offAllNamed(Routes.HOME,
+                                    arguments: {'id': index});
+                              }
                             },
                             child: Container(
                               height: 65,
@@ -227,20 +235,16 @@ class BottomBarView extends GetView<HomeController> {
                         : GestureDetector(
                             onTap: () {
                               log("isHomeScreen--------------> ${isHomeScreen}");
-                              controller.selectedIndex.value = index;
+                              controller.setIndex(index);
+                              controller.selectedIndex = index;
                               controller.pageController.animateTo(index,
                                   duration: Duration(milliseconds: 500),
                                   curve: Curves.ease);
                               if (isHomeScreen == false) {
-                                log("controller.selectedIndex.value--------------> ${controller.selectedIndex.value}");
+                                log("isHomeScreen--------------> ${isHomeScreen}");
 
-                                Get.offAllNamed(Routes.HOME).then((value) {
-                                  controller.selectedIndex.value = 1;
-
-                                  controller.pageController.animateTo(1,
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.ease);
-                                });
+                                Get.offAllNamed(Routes.HOME,
+                                    arguments: {'id': index});
                               }
                             },
                             child: Column(
@@ -250,7 +254,7 @@ class BottomBarView extends GetView<HomeController> {
                                   bottomBarItem[index],
                                   height: 24,
                                   width: 24,
-                                  color: controller.selectedIndex.value == index
+                                  color: controller.selectedIndex == index
                                       ? AppColors.white
                                       : AppColors.primaryLight,
                                   fit: BoxFit.cover,
@@ -261,7 +265,7 @@ class BottomBarView extends GetView<HomeController> {
                                 CircleAvatar(
                                   radius: 2,
                                   backgroundColor:
-                                      controller.selectedIndex.value == index
+                                      controller.selectedIndex == index
                                           ? AppColors.white
                                           : AppColors.primary,
                                 ),

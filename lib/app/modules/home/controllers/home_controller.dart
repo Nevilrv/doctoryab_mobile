@@ -9,13 +9,20 @@ import '../../../controllers/settings_controller.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  var selectedIndex = 0.obs;
+  var selectedIndex = Get.arguments == null ? 0 : Get.arguments['id'];
   TabController pageController;
   var dropdownValue = ''.obs;
   WebViewController webViewController;
+
+  setIndex(int index) {
+    selectedIndex = Get.arguments == null ? index : Get.arguments['id'];
+    update();
+  }
+
   @override
   void onInit() {
     pageController = TabController(length: 5, vsync: this);
+    pageController.animateTo(Get.arguments == null ? 0 : Get.arguments['id']);
     super.onInit();
     Get.put(ProfileUpdateController());
 

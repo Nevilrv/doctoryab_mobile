@@ -100,7 +100,7 @@ class AppGetDialog {
                         Get.find<HomeController>().pageController.animateTo(2,
                             duration: Duration(milliseconds: 0),
                             curve: Curves.ease);
-                        Get.find<HomeController>().selectedIndex.value = 2;
+                        Get.find<HomeController>().setIndex(2);
                       },
                 ),
               ),
