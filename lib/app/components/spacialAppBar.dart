@@ -13,25 +13,25 @@ class AppAppBar {
       Widget action}) {
     return AppBar(
       elevation: 0,
-      backgroundColor: backgroundColor ?? AppColors.primary,
+      backgroundColor: backgroundColor ?? AppColors.primary, centerTitle: true,
       title: Text(
         title,
-        style: AppTextTheme.m(15).copyWith(
-          color: backgroundColor == AppColors.scaffoldColor
-              ? Colors.black
-              : AppColors.scaffoldColor,
-        ),
+        style: AppTextTheme.m(18).copyWith(
+            color: backgroundColor == AppColors.scaffoldColor
+                ? Colors.black
+                : AppColors.primary,
+            fontWeight: FontWeight.w600),
       ).paddingHorizontal(showLeading ? 0 : 16),
       leading: showLeading
           ? leading ??
               IconButton(
                 onPressed: () => Get.back(),
                 icon: Icon(
-                  Icons.arrow_back,
-                  size: 20,
+                  Icons.arrow_back_ios_new,
+                  size: 22,
                   color: backgroundColor == AppColors.scaffoldColor
                       ? Colors.black
-                      : AppColors.scaffoldColor,
+                      : AppColors.primary,
                 ),
               )
           : null,

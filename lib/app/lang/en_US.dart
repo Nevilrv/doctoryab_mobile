@@ -215,7 +215,8 @@ const Map<String, String> enUS = {
   ///------
   "hi_text": "Hi, Mohammad Nabi Hasanzada!",
   "how_do_you_feel": "How do you feel that to day?",
-  "search_doctor": "Search a subject (Doctor)",
+  "search_doctor":
+      "Search a Doctor, Hospital, Lab, Pharmacy, Drugs and Disease and Treatment",
   "drug_database": "Drug Database",
   "disease_treatment": "Disease and Treatment",
   "blood_donation": "Blood Donation",
@@ -247,4 +248,6 @@ const Map<String, String> enUS = {
   "donor": "Blood Donor",
   "find_donor": "Find Blood Donor",
   "all_diseases": "All Diseases Treatment",
+  "see_open_emergency_services": "See open emergency services",
+  "products": "Products",
 };

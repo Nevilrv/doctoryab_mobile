@@ -21,6 +21,7 @@ class AppColors {
   static const lightYellow = Color(0xffFFF6D7);
   static const disabledButtonColor = Color(0xff5C65A8);
   static const green = Color(0xff15B76C);
+  static const switchGreen = Color(0xff34C759);
   static const verified = Color(0xff42A5F5);
   // the new ui Guy
   static const LinearGradient gradient = LinearGradient(

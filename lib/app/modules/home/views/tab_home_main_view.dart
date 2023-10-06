@@ -81,7 +81,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
               //       ),
               //     ),
               //   ).paddingStart(context, 15).paddingOnly(top: 15, bottom: 8),
-              Utils.searchBox(),
+              Utils.searchBox(isFav: false),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
@@ -125,7 +125,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       .basicShadow(),
                 ),
               ),
-              SizedBox(height: 8),
+
               Expanded(
                 child: TabBarView(
                   physics: BouncingScrollPhysics(),
@@ -176,11 +176,6 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                                 index);
                           },
                         ),
-                        Text(
-                          "Serra",
-                          style:
-                              AppTextStyle.regularBlack8.copyWith(fontSize: 13),
-                        )
                       ],
                     ),
                     scrollDirection: Axis.horizontal,

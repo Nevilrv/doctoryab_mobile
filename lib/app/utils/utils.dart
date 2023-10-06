@@ -420,7 +420,7 @@ class Utils {
     return "${ApiConsts.hostUrl}$path";
   }
 
-  static Widget searchBox() {
+  static Widget searchBox({bool isFav = true}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       padding: EdgeInsets.only(top: 13, bottom: 22, left: 17, right: 17),
@@ -437,13 +437,12 @@ class Utils {
                 children: [
                   Text(
                     "hi_text".tr,
-                    style: AppTextStyle.mediumWhite11,
+                    style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
                   ),
                   Text(
                     "how_do_you_feel".tr,
                     style: AppTextStyle.mediumWhite11.copyWith(
-                      color: AppColors.white.withOpacity(0.5),
-                    ),
+                        color: AppColors.white.withOpacity(0.5), fontSize: 13),
                   ),
                 ],
               ),
@@ -466,25 +465,27 @@ class Utils {
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 10, left: 8),
-                child: Image.asset(
-                  AppImages.filter,
-                  height: 22,
-                  width: 22,
-                ),
-              ),
+              isFav == true
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 10, left: 8),
+                      child: Image.asset(
+                        AppImages.filter,
+                        height: 22,
+                        width: 22,
+                      ),
+                    )
+                  : SizedBox(),
             ],
           ),
           SizedBox(height: 10),
           TextField(
-            style: AppTextStyle.mediumWhite11,
+            style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
             cursorColor: AppColors.white,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 15),
               hintText: "search_doctor".tr,
-              hintStyle: AppTextStyle.mediumWhite11,
+              hintStyle: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(11),
                 child: SvgPicture.asset(AppImages.search),

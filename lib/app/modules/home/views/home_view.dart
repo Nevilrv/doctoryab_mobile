@@ -181,15 +181,15 @@ class BottomBarView extends StatelessWidget {
                         ? GestureDetector(
                             onTap: () {
                               log("isHomeScreen--------------> ${isHomeScreen}");
+                              if (isHomeScreen == false) {
+                                Get.offAllNamed(Routes.HOME,
+                                    arguments: {'id': index});
+                              }
                               controller.setIndex(index);
                               controller.selectedIndex = index;
                               controller.pageController.animateTo(index,
                                   duration: Duration(milliseconds: 500),
                                   curve: Curves.ease);
-                              if (isHomeScreen == false) {
-                                Get.offAllNamed(Routes.HOME,
-                                    arguments: {'id': index});
-                              }
                             },
                             child: Container(
                               height: 65,
@@ -230,17 +230,18 @@ class BottomBarView extends StatelessWidget {
                         : GestureDetector(
                             onTap: () {
                               log("isHomeScreen--------------> ${isHomeScreen}");
-                              controller.setIndex(index);
-                              controller.selectedIndex = index;
-                              controller.pageController.animateTo(index,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.ease);
+                              log("index--------------> ${index}");
                               if (isHomeScreen == false) {
                                 log("isHomeScreen--------------> ${isHomeScreen}");
 
                                 Get.offAllNamed(Routes.HOME,
                                     arguments: {'id': index});
                               }
+                              controller.setIndex(index);
+                              controller.selectedIndex = index;
+                              controller.pageController.animateTo(index,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.ease);
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,

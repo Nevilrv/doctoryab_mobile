@@ -15,6 +15,12 @@ class HomeController extends GetxController
   WebViewController webViewController;
 
   setIndex(int index) {
+    if (Get.arguments == null) {
+      log("index--------------> ${index}");
+    } else {
+      log(" Get.arguments['id']--------------> ${Get.arguments}");
+    }
+
     selectedIndex = Get.arguments == null ? index : Get.arguments['id'];
     update();
   }

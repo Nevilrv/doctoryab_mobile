@@ -15,9 +15,13 @@ class AppImages {
   static const favGolden = "assets/svg/fav_icon_golden.svg";
   static const favGrey = "assets/svg/fav_icon_grey.svg";
   static const favWhite = "assets/svg/fav_icon_white.svg";
-  static const circleInfo = "assets/svg/circle_info.svg";
+  static const circleInfo = "assets/svg/Circle_Info.svg";
   static const calendar = "assets/svg/Calendar.svg";
   static const clock = "assets/svg/clock.svg";
+  static const map = "assets/svg/Map_Pin.svg";
+  static const certificate = "assets/svg/Certificate.svg";
+  static const weather = "assets/svg/weather.svg";
+  static const phone = "assets/svg/Phone.svg";
 
   /// PNG
   static const bell = "assets/png/bell.png";
@@ -35,4 +39,5 @@ class AppImages {
   static const vitamin = "assets/png/vitamin.png";
   static const vitamins = "assets/png/vitamins.png";
   static const dummy = "assets/png/dummy.png";
+  static const fullMap = "assets/png/Full Map.png";
 }
