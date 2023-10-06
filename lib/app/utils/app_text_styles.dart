@@ -199,6 +199,13 @@ class AppTextStyle {
     fontFamily: AppFonts.acuminSemiCond,
   );
 
+  static TextStyle boldBlack13 = TextStyle(
+    fontSize: 13,
+    color: AppColors.black,
+    fontWeight: AppFontWeight.BOLD,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle boldBlack14 = TextStyle(
     fontSize: 14,
     color: AppColors.black,
@@ -405,6 +412,13 @@ class AppTextStyle {
     fontFamily: AppFonts.acuminSemiCond,
   );
 
+  static TextStyle boldWhite15 = TextStyle(
+    fontSize: 15,
+    color: AppColors.white,
+    fontWeight: AppFontWeight.BOLD,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle boldWhite16 = TextStyle(
     fontSize: 16,
     color: AppColors.white,
@@ -435,6 +449,13 @@ class AppTextStyle {
 
   static TextStyle boldWhite24 = TextStyle(
     fontSize: 24,
+    color: AppColors.white,
+    fontWeight: AppFontWeight.BOLD,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
+  static TextStyle boldWhite25 = TextStyle(
+    fontSize: 25,
     color: AppColors.white,
     fontWeight: AppFontWeight.BOLD,
     fontFamily: AppFonts.acuminSemiCond,
@@ -756,6 +777,13 @@ class AppTextStyle {
     fontFamily: AppFonts.acuminSemiCond,
   );
 
+  static TextStyle regularPrimary9 = TextStyle(
+    fontSize: 9,
+    color: AppColors.primary,
+    fontWeight: AppFontWeight.REGULAR,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle regularPrimary10 = TextStyle(
     fontSize: 10,
     color: AppColors.primary,
@@ -949,6 +977,13 @@ class AppTextStyle {
     fontFamily: AppFonts.acuminSemiCond,
   );
 
+  static TextStyle boldPrimary9 = TextStyle(
+    fontSize: 9,
+    color: AppColors.primary,
+    fontWeight: AppFontWeight.BOLD,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle boldPrimary10 = TextStyle(
     fontSize: 10,
     color: AppColors.primary,
@@ -957,7 +992,7 @@ class AppTextStyle {
   );
 
   static TextStyle boldPrimary11 = TextStyle(
-    fontSize: 12,
+    fontSize: 11,
     color: AppColors.primary,
     fontWeight: AppFontWeight.BOLD,
     fontFamily: AppFonts.acuminSemiCond,
@@ -972,6 +1007,13 @@ class AppTextStyle {
 
   static TextStyle boldPrimary14 = TextStyle(
     fontSize: 14,
+    color: AppColors.primary,
+    fontWeight: AppFontWeight.BOLD,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
+  static TextStyle boldPrimary15 = TextStyle(
+    fontSize: 15,
     color: AppColors.primary,
     fontWeight: AppFontWeight.BOLD,
     fontFamily: AppFonts.acuminSemiCond,

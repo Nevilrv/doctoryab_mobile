@@ -10,6 +10,7 @@ class AppImages {
   static const backArrow = "assets/svg/back_arrow.svg";
   static const closeCircle = "assets/svg/close_circle.svg";
   static const back = "assets/svg/back.svg";
+  static const back2 = "assets/svg/back_arrow_2.svg";
   static const blackBell = "assets/svg/black_bell.svg";
   static const mic = "assets/svg/mic.svg";
   static const favGolden = "assets/svg/fav_icon_golden.svg";
@@ -22,6 +23,7 @@ class AppImages {
   static const certificate = "assets/svg/Certificate.svg";
   static const weather = "assets/svg/weather.svg";
   static const phone = "assets/svg/Phone.svg";
+  static const saved = "assets/svg/saved.svg";
 
   /// PNG
   static const bell = "assets/png/bell.png";
@@ -32,6 +34,15 @@ class AppImages {
   static const bandage = "assets/png/bandage.png";
   static const airplane = "assets/png/airplane.png";
   static const baby = "assets/png/baby.png";
+  static const baby1 = "assets/png/baby1.png";
+  static const baby2 = "assets/png/baby2.png";
+  static const baby3 = "assets/png/baby3.png";
+  static const baby4 = "assets/png/baby4.png";
+  static const baby5 = "assets/png/baby5.png";
+  static const baby6 = "assets/png/baby6.png";
+  static const baby7 = "assets/png/baby7.png";
+  static const baby8 = "assets/png/baby8.png";
+  static const baby9 = "assets/png/baby9.png";
   static const dummyCalendar = "assets/png/dummy_calendar.png";
   static const coin = "assets/png/coin.png";
   static const medicine = "assets/png/medicine.png";
@@ -40,4 +51,22 @@ class AppImages {
   static const vitamins = "assets/png/vitamins.png";
   static const dummy = "assets/png/dummy.png";
   static const fullMap = "assets/png/Full Map.png";
+  static const cancer = "assets/png/cancer.png";
+  static const commonDiseases = "assets/png/common_diseases.png";
+  static const eyes = "assets/png/eyes.png";
+  static const glands = "assets/png/glands.png";
+  static const healthCare = "assets/png/health_care.png";
+  static const humanHead = "assets/png/human_head.png";
+  static const immuneSystem = "assets/png/immune_system.png";
+  static const injuries = "assets/png/injuries.png";
+  static const kidney = "assets/png/kidney.png";
+  static const mentalHealth = "assets/png/mental_health.png";
+  static const muscles = "assets/png/muscles.png";
+  static const nails = "assets/png/nails.png";
+  static const poison = "assets/png/poison.png";
+  static const pregnancy = "assets/png/pregnancy.png";
+  static const stomach = "assets/png/stomach.png";
+  static const viruses = "assets/png/viruses.png";
+  static const adBanner = "assets/png/ad_banner.png";
+  static const dummyAudio = "assets/png/dummy_audio.png";
 }

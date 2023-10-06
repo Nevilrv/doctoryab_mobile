@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 class AppFonts {
   //TODO Add Fonts here
   static final acuminSemiCond = "IRANYekan";
-  static final poppins = "Poppins";
 }
 
 class AppFontWeight {

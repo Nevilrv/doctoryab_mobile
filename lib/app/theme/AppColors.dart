@@ -45,6 +45,22 @@ class AppColors {
   static const lightPurple3 = Color(0xffD3D8FF);
   static const secondary = Color(0xff0ED2B3);
   static const lightGrey = Color(0xFFF6F8FE);
+  static const boxPurple = Color(0xFFF8E8FF);
+  static const boxRed = Color(0xFFFFE0E0);
+  static const boxGreen = Color(0xFFD7FFDB);
+  static const boxBlue = Color(0xFFD7E2FF);
+  static const boxPink = Color(0xFFFFD7FB);
+  static const boxGreen2 = Color(0xFFE3FFFD);
+  static const boxGreen3 = Color(0xFFD7FFE7);
+  static const boxYellow = Color(0xFFFFF7DC);
+  static const boxPurple2 = Color(0xFFE7E7FF);
+  static const boxPink2 = Color(0xFFFFD7FD);
+  static const boxYellow2 = Color(0xFFF3FFC1);
+  static const boxYellow3 = Color(0xFFF2FFA5);
+  static const boxPink3 = Color(0xFFFFE7F2);
+  static const boxBlue2 = Color(0xFFDBEBFF);
+  static const boxPurple3 = Color(0xFFE5DCFF);
+
   static const MaterialColor primarySwatch = MaterialColor(
     0xff333e92,
     {

@@ -1,12 +1,24 @@
 import 'package:doctor_yab/app/modules/home/views/favourites/blood_donation/bindings/blood_donation_binding.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/blood_donation/view/blood_donation_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/checkup_packages/bindings/checkup_packages_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/checkup_packages/views/checkup_packages_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/bindings/disease_details_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/bindings/disease_sub_details_binding.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/bindings/disease_treatment_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/view/disease_details_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/view/disease_sub_details_view.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/view/disease_treatment_view.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/drug_details_binding.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/drugs_database_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/bindings/saved_drugs_binding.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/drug_details_view.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/drugs_database_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/view/saved_drugs_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/pregnancy_tracker/bindings/pregnancy_tracker_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/pregnancy_tracker/views/pregnancy_tracker_view.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/treatment_abroad/bindings/treatment_abroad_binding.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/treatment_abroad/views/treatment_abroad_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/APP_STORY/bindings/app_story_binding.dart';
@@ -224,6 +236,11 @@ class AppPages {
       binding: DrugsDatabaseBinding(),
     ),
     GetPage(
+      name: _Paths.SAVED_DRUGS,
+      page: () => SavedDrugsView(),
+      binding: SavedDrugsBinding(),
+    ),
+    GetPage(
       name: _Paths.DRUGS_DETAILS,
       page: () => DrugDetailsView(),
       binding: DrugDetailsBinding(),
@@ -237,6 +254,31 @@ class AppPages {
       name: _Paths.DISEASE_TREATMENT,
       page: () => DiseaseTreatmentView(),
       binding: DiseaseTreatmentBinding(),
+    ),
+    GetPage(
+      name: _Paths.DISEASE_DETAILS,
+      page: () => DiseaseDetailsView(),
+      binding: DiseaseDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.DISEASE_SUB_DETAILS,
+      page: () => DiseaseSubDetailsView(),
+      binding: DiseaseSubDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PREGNANCY_TRACKER,
+      page: () => PregnancyTrackerView(),
+      binding: PregnancyTrackerBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKUP_PACKAGES,
+      page: () => CheckupPackagesView(),
+      binding: CheckupPackagesBinding(),
+    ),
+    GetPage(
+      name: _Paths.TREATMENT_ABROAD,
+      page: () => TreatmentAbroadView(),
+      binding: TreatmentAbroadBinding(),
     ),
   ];
 }

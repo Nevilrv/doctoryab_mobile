@@ -74,11 +74,11 @@ dependencies:
   get: ^4.6.1
   # alice: 0.3.2
   alice: 
-#    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\alice
-    path: C:\Users\admin\Desktop\local_pachages\alice
+    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\alice
+#    path: C:\Users\admin\Desktop\local_pachages\alice
   place_picker:
-#    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\locationpicker
-    path: C:\Users\admin\Desktop\local_pachages\locationpicker
+    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\locationpicker
+#    path: C:\Users\admin\Desktop\local_pachages\locationpicker
 
 
   flutter:
@@ -100,8 +100,8 @@ dependencies:
   flutter_html: ^0.11.1
   webview_flutter: ^3.0.4
   stories_for_flutter: 
-#    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\stories_for_flutter
-    path: C:\Users\admin\Desktop\local_pachages\stories_for_flutter
+    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\stories_for_flutter
+#    path: C:\Users\admin\Desktop\local_pachages\stories_for_flutter
   story_view: ^0.14.0
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0
@@ -160,26 +160,6 @@ flutter:
           weight: 300
         - asset: "fonts/IRANYekanMedium.ttf"
           weight: 500
-    - family: Poppins
-      fonts:
-        - asset: "fonts/Poppins-Light.ttf"
-          weight: 300
-        - asset: "fonts/Poppins-Regular.ttf"
-          weight: 400
-        - asset: "fonts/Poppins-Medium.ttf"
-          weight: 500
-        - asset: "fonts/Poppins-SemiBold.ttf"
-          weight: 600
-        - asset: "fonts/Poppins-Bold.ttf"
-          weight: 700
-        - asset: "fonts/Poppins-ExtraBold.ttf"
-          weight: 900
-        # - asset: "fonts/Acumin Pro SemiCond ExtraLight.otf"
-        #   weight: 200        
-        # - asset: "fonts/Acumin Pro SemiCond Thin.otf"
-        #   weight: 100                
-        # - asset: "fonts/Acumin Pro SemiCond Semibold.otf"
-        #   weight: 600
 
   # fonts:
   #   - family: Schyler

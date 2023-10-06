@@ -242,6 +242,7 @@ class BottomBarView extends StatelessWidget {
                               controller.pageController.animateTo(index,
                                   duration: Duration(milliseconds: 500),
                                   curve: Curves.ease);
+
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
