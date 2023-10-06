@@ -35,4 +35,20 @@ class AppImages {
   static const vitamin = "assets/png/vitamin.png";
   static const vitamins = "assets/png/vitamins.png";
   static const dummy = "assets/png/dummy.png";
+  static const cancer = "assets/png/cancer.png";
+  static const commonDiseases = "assets/png/common_diseases.png";
+  static const eyes = "assets/png/eyes.png";
+  static const glands = "assets/png/glands.png";
+  static const healthCare = "assets/png/health_care.png";
+  static const humanHead = "assets/png/human_head.png";
+  static const immuneSystem = "assets/png/immune_system.png";
+  static const injuries = "assets/png/injuries.png";
+  static const kidney = "assets/png/kidney.png";
+  static const mentalHealth = "assets/png/mental_health.png";
+  static const muscles = "assets/png/muscles.png";
+  static const nails = "assets/png/nails.png";
+  static const poison = "assets/png/poison.png";
+  static const pregnancy = "assets/png/pregnancy.png";
+  static const stomach = "assets/png/stomach.png";
+  static const viruses = "assets/png/viruses.png";
 }
