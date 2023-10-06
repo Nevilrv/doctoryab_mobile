@@ -33,9 +33,15 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const NEW_CHAT = _Paths.NEW_CHAT;
   static const DRUGS_DATABASE = _Paths.DRUGS_DATABASE;
+  static const SAVED_DRUGS = _Paths.SAVED_DRUGS;
   static const DRUGS_DETAILS = _Paths.DRUGS_DETAILS;
   static const BLOOD_DONATION = _Paths.BLOOD_DONATION;
   static const DISEASE_TREATMENT = _Paths.DISEASE_TREATMENT;
+  static const DISEASE_DETAILS = _Paths.DISEASE_DETAILS;
+  static const DISEASE_SUB_DETAILS = _Paths.DISEASE_SUB_DETAILS;
+  static const PREGNANCY_TRACKER = _Paths.PREGNANCY_TRACKER;
+  static const CHECKUP_PACKAGES = _Paths.CHECKUP_PACKAGES;
+  static const TREATMENT_ABROAD = _Paths.TREATMENT_ABROAD;
 }
 
 abstract class _Paths {
@@ -69,7 +75,13 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const NEW_CHAT = '/new-chat';
   static const DRUGS_DATABASE = '/drugs-database';
+  static const SAVED_DRUGS = '/saved-drugs';
   static const DRUGS_DETAILS = '/drugs-details';
   static const BLOOD_DONATION = '/blood-donation';
   static const DISEASE_TREATMENT = '/disease-treatment';
+  static const DISEASE_DETAILS = '/disease-details';
+  static const DISEASE_SUB_DETAILS = '/disease-sub-details';
+  static const PREGNANCY_TRACKER = '/pregnancy-tracker';
+  static const CHECKUP_PACKAGES = '/checkup-packages';
+  static const TREATMENT_ABROAD = '/treatment-abroad';
 }

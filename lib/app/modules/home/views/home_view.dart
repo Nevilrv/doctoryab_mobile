@@ -180,7 +180,7 @@ class BottomBarView extends StatelessWidget {
                     return index == 2
                         ? GestureDetector(
                             onTap: () {
-                              log("isHomeScreen--------------> ${isHomeScreen}");
+                              log("isHomeScreen--------------> $isHomeScreen");
                               controller.setIndex(index);
                               controller.selectedIndex = index;
                               controller.pageController.animateTo(index,

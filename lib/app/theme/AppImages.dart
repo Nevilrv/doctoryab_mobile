@@ -10,6 +10,7 @@ class AppImages {
   static const backArrow = "assets/svg/back_arrow.svg";
   static const closeCircle = "assets/svg/close_circle.svg";
   static const back = "assets/svg/back.svg";
+  static const back2 = "assets/svg/back_arrow_2.svg";
   static const blackBell = "assets/svg/black_bell.svg";
   static const mic = "assets/svg/mic.svg";
   static const favGolden = "assets/svg/fav_icon_golden.svg";
@@ -18,6 +19,7 @@ class AppImages {
   static const circleInfo = "assets/svg/circle_info.svg";
   static const calendar = "assets/svg/Calendar.svg";
   static const clock = "assets/svg/clock.svg";
+  static const saved = "assets/svg/saved.svg";
 
   /// PNG
   static const bell = "assets/png/bell.png";
@@ -28,6 +30,15 @@ class AppImages {
   static const bandage = "assets/png/bandage.png";
   static const airplane = "assets/png/airplane.png";
   static const baby = "assets/png/baby.png";
+  static const baby1 = "assets/png/baby1.png";
+  static const baby2 = "assets/png/baby2.png";
+  static const baby3 = "assets/png/baby3.png";
+  static const baby4 = "assets/png/baby4.png";
+  static const baby5 = "assets/png/baby5.png";
+  static const baby6 = "assets/png/baby6.png";
+  static const baby7 = "assets/png/baby7.png";
+  static const baby8 = "assets/png/baby8.png";
+  static const baby9 = "assets/png/baby9.png";
   static const dummyCalendar = "assets/png/dummy_calendar.png";
   static const coin = "assets/png/coin.png";
   static const medicine = "assets/png/medicine.png";
@@ -51,4 +62,6 @@ class AppImages {
   static const pregnancy = "assets/png/pregnancy.png";
   static const stomach = "assets/png/stomach.png";
   static const viruses = "assets/png/viruses.png";
+  static const adBanner = "assets/png/ad_banner.png";
+  static const dummyAudio = "assets/png/dummy_audio.png";
 }

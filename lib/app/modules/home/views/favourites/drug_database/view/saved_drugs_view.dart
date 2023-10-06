@@ -9,17 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class DrugsDatabaseView extends GetView<DrugsController> {
-  DrugsDatabaseView({Key key}) : super(key: key);
+class SavedDrugsView extends GetView<DrugsController> {
+  SavedDrugsView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: Utils.appBar(title: "saved_drugs".tr),
       backgroundColor: AppColors.lightGrey,
       bottomNavigationBar: BottomBarView(isHomeScreen: false),
-      appBar: Utils.appBar(title: "drug_database".tr, savedIcon: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: GetBuilder<DrugsController>(
@@ -40,7 +40,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 3),
                         child: Text(
-                          "what_we_found".tr,
+                          "saved_drugs".tr,
                           style: AppTextStyle.mediumPrimary11,
                         ),
                       ),
@@ -132,46 +132,42 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                             ).paddingOnly(right: subIndex == 4 ? 0 : 6);
                           },
                         ),
+                        index == 0
+                            ? Padding(
+                                padding: EdgeInsets.only(left: 6),
+                                child: Text(
+                                  "(${"reviews_count".trArgs(["5"])})",
+                                  style: AppTextStyle.boldPrimary6,
+                                ),
+                              )
+                            : SizedBox(),
                       ],
                     ),
                   ),
                 ),
                 Container(
+                  height: h * 0.023,
                   width: w * 0.327,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: h * 0.023,
-                        padding: EdgeInsets.symmetric(horizontal: 9),
-                        decoration: BoxDecoration(
-                          color: AppColors.lightPurple2,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            AppImages.circleInfo,
-                            height: 10,
-                            width: 10,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: h * 0.023,
-                        width: w * 0.24,
-                        decoration: BoxDecoration(
-                          color: AppColors.lightPurple2,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "add_to_list".tr,
-                            style: AppTextStyle.boldPrimary8,
-                          ),
-                        ),
-                      ),
-                    ],
+                  decoration: BoxDecoration(
+                    color: AppColors.lightPurple2,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppImages.circleInfo,
+                          height: 10,
+                          width: 10,
+                          color: AppColors.primary,
+                        ).paddingOnly(right: 2),
+                        Text(
+                          "more_details".tr,
+                          style: AppTextStyle.boldPrimary8,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

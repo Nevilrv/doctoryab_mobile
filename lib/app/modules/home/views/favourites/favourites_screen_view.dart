@@ -1,19 +1,18 @@
+import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/components/story_avatar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../../components/background.dart';
-import '../../../../theme/AppColors.dart';
-import '../../../../utils/app_text_styles.dart';
 
 class FavouritesScreenView extends GetView<TabHomeMainController> {
   FavouritesScreenView({Key key}) : super(key: key);
@@ -29,7 +28,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
       "color": AppColors.lightGreen,
       "title": "disease_treatment",
       "image": AppImages.bandage,
-      "routes": ""
+      "routes": Routes.DISEASE_TREATMENT
     },
     {
       "color": AppColors.lightRed,
@@ -41,19 +40,19 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
       "color": AppColors.lightBlue,
       "title": "treatment_abroad",
       "image": AppImages.airplane,
-      "routes": ""
+      "routes": Routes.TREATMENT_ABROAD
     },
     {
       "color": AppColors.lightBlue2,
       "title": "pregnancy_tracker",
       "image": AppImages.baby,
-      "routes": ""
+      "routes": Routes.PREGNANCY_TRACKER
     },
     {
       "color": AppColors.lightYellow,
       "title": "checkup_packages",
       "image": AppImages.microscope,
-      "routes": ""
+      "routes": Routes.CHECKUP_PACKAGES
     }
   ];
 
@@ -98,7 +97,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 23),
+                    SizedBox(height: 5),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -106,7 +105,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                           itemCount: gridData.length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
-                          padding: EdgeInsets.zero,
+                          padding: EdgeInsets.only(top: 15),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -117,16 +116,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                // final routeScreen = gridData[index]["routes"];
-                                // Get.toNamed(routeScreen);
-
-                                if (index == 0) {
-                                  Get.toNamed(Routes.DRUGS_DATABASE);
-                                } else if (index == 1) {
-                                  Get.toNamed(Routes.DISEASE_TREATMENT);
-                                } else if (index == 2) {
-                                  Get.toNamed(Routes.BLOOD_DONATION);
-                                }
+                                Get.toNamed(gridData[index]["routes"]);
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(
@@ -162,7 +152,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                                             gridData[index]["title"]
                                                 .toString()
                                                 .tr,
-                                            style: AppTextStyle.boldBlack12
+                                            style: AppTextStyle.boldBlack13
                                                 .copyWith(height: 1.2),
                                             maxLines: 2,
                                             textAlign: TextAlign.center,

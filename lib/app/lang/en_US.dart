@@ -262,5 +262,9 @@ const Map<String, String> enUS = {
   "stomach": "Stomach",
   "immune": "Immune System",
   "glands": "Glands",
-  "kidney": "Kidney"
+  "kidney": "Kidney",
+  "calc": "CALCULATOR",
+  "calender": "CALENDAR",
+  "baby_growing": "YOUR BABY IS GROWING!",
+  "add_to_list": "Add to List",
 };
