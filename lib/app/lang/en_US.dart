@@ -183,8 +183,8 @@ const Map<String, String> enUS = {
   "more": "More",
 
   //
-  "male": "Man",
-  "female": "Woman",
+  "male": "Male",
+  "female": "Female",
   "blood_donor": "Blood Donor",
   "select_blood_group": "Select Blood Group",
   "location": "Location",
@@ -196,7 +196,7 @@ const Map<String, String> enUS = {
   "unnamed_location": "Unnamed Location",
   "tap_to_select_this_location": "Tap to Select this Location",
 
-  "i_am_over_18y_and_50kg": "I am over 18 years and 50 kg",
+  "i_am_over_18y_and_50kg": "I’m over 18 years old and my weight is over 50kg.",
   "select_location": "Select Location",
   "select_from_map": "Select from Map",
   "find_blood_donor": "Find Blood Donor",
@@ -270,4 +270,12 @@ const Map<String, String> enUS = {
   "add_to_list": "Add to List",
   "see_open_emergency_services": "See open emergency services",
   "products": "Products",
+  "warnings": "Warnings",
+  "side_effects": "Side Effects",
+  "packaging": "Packaging",
+  "dosages": "Dosages",
+  "origin": "Origin",
+  "comp": "Company",
+  "reg": "Register",
+  "cancel": "Cancel",
 };

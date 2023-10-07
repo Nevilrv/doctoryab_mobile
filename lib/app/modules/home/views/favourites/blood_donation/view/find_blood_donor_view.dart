@@ -1,20 +1,19 @@
 import 'dart:developer';
 
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
+import 'package:doctor_yab/app/modules/home/views/favourites/blood_donation/controller/find_blood_donor_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppTheme.dart';
+import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:place_picker/entities/location_result.dart';
-
-import '../../../components/spacialAppBar.dart';
-import '../../../routes/app_pages.dart';
-import '../../../theme/AppColors.dart';
-import '../../../theme/AppTheme.dart';
-import '../../../theme/TextTheme.dart';
-import '../../../utils/utils.dart';
-import '../controllers/find_blood_donor_controller.dart';
 
 class FindBloodDonorView extends GetView<FindBloodDonorController> {
   const FindBloodDonorView({Key key}) : super(key: key);
@@ -25,6 +24,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
         "find_blood_donor".tr,
         showLeading: false,
       ),
+      bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: Theme(
         data: AppTheme.newTheme().copyWith(
           primaryColor: AppColors.lgt2,

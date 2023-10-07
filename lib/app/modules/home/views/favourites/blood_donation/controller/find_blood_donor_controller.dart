@@ -1,13 +1,13 @@
-import 'package:doctor_yab/app/data/models/blood_donor_update.dart';
-import 'package:flutter/widgets.dart';
+import 'package:doctor_yab/app/controllers/auth_controller.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
+import 'package:doctor_yab/app/data/static.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:place_picker/place_picker.dart';
 
-import '../../../controllers/auth_controller.dart';
-import '../../../controllers/settings_controller.dart';
-import '../../../data/models/blood_donor_search_model.dart';
-import '../../../data/static.dart';
-import '../../../routes/app_pages.dart';
+import '../../../../../../data/models/blood_donor_update.dart';
 
 class FindBloodDonorController extends GetxController {
   var user = SettingsController.savedUserProfile;

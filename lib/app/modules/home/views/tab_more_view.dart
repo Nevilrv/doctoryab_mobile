@@ -244,14 +244,14 @@ class TabMoreView extends GetView {
       _buildSettingsItem(
         'blood_donor'.tr,
         Ionicons.md_heart,
-        () => Get.toNamed(Routes.BLOOD_DONOR),
+        () {},
       ),
 
       _buildSettingsItem(
         'find_blood_donor'.tr,
         AntDesign.medicinebox,
         // () => Get.to(() => TabDocsView()),
-        () => Get.toNamed(Routes.FIND_BLOOD_DONOR),
+        () {},
       ),
 
       //

@@ -517,47 +517,4 @@ class Utils {
       ),
     );
   }
-
-  static PreferredSizeWidget appBar({String title, bool savedIcon = false}) {
-    return AppBar(
-      backgroundColor: AppColors.lightGrey,
-      elevation: 0,
-      leading: GestureDetector(
-        onTap: () {
-          Get.back();
-        },
-        child: Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: AppColors.primary,
-        ),
-      ),
-      title: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: AppTextStyle.boldPrimary20,
-      ),
-      centerTitle: true,
-      actions: [
-        savedIcon
-            ? GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.SAVED_DRUGS);
-                },
-                child: Icon(
-                  Icons.bookmark_border_rounded,
-                  color: AppColors.primary,
-                ),
-              )
-            : SizedBox(),
-        Padding(
-          padding: const EdgeInsets.only(right: 20, left: 10),
-          child: SvgPicture.asset(
-            AppImages.blackBell,
-            height: 24,
-            width: 24,
-          ),
-        ),
-      ],
-    );
-  }
 }
