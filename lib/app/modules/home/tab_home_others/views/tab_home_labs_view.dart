@@ -9,6 +9,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,6 +28,57 @@ class TabHomeLabsView extends GetView<LabsController> {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
+            Row(
+              children: [
+                // Text(
+                //   "see_open_emergency_services".tr,
+                //   style: AppTextStyle.mediumBlack12
+                //       .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
+                // ),
+                Image.asset(
+                  AppImages.googleMap,
+                  width: 25,
+                  height: 25,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Image.asset(
+                  AppImages.emergency,
+                  width: 32,
+                  height: 32,
+                ),
+                Spacer(),
+
+                Container(
+                  padding: EdgeInsets.zero,
+                  width: 80,
+                  height: 60,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Switch(
+                      thumbIcon: MaterialStateProperty.resolveWith<Icon>(
+                        (Set<MaterialState> states) {
+                          return Icon(
+                            FeatherIcons.moon,
+                            color: AppColors.switchGreen,
+                          );
+                        },
+                      ),
+                      activeColor: AppColors.white,
+                      splashRadius: 50,
+                      value: controller.light1.value,
+                      activeTrackColor: AppColors.switchGreen,
+                      inactiveTrackColor: AppColors.switchGreen,
+                      onChanged: (bool value) {
+                        // controller.setEmergencyMode(value);
+                        controller.light1.value = value;
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
             SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -61,34 +113,32 @@ class TabHomeLabsView extends GetView<LabsController> {
                               width: w,
                               child: Row(
                                 children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      // color: Colors.black,
-                                      // height: 65,
-                                      // width: 65,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: AppColors.lightGrey),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CachedNetworkImage(
-                                          imageUrl: "",
-                                          fit: BoxFit.cover,
-                                          placeholder: (_, __) {
-                                            return Image.asset(
-                                              "assets/png/person-placeholder.jpg",
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
-                                          errorWidget: (_, __, ___) {
-                                            return Image.asset(
-                                              "assets/png/person-placeholder.jpg",
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
-                                        ),
+                                  Container(
+                                    // color: Colors.black,
+                                    // height: 65,
+                                    // width: 65,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColors.lightGrey),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: "",
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                        placeholder: (_, __) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                        errorWidget: (_, __, ___) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
@@ -114,7 +164,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                               Flexible(
                                                 child: Text(
                                                   "Afghan Hospital",
-                                                  style: AppTextTheme.h(15)
+                                                  style: AppTextTheme.h(12)
                                                       .copyWith(
                                                           color:
                                                               AppColors.black2),
@@ -122,13 +172,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            "شفاخانه افغان",
-                                            style: AppTextTheme.b(14).copyWith(
-                                                color: AppColors.lgt2),
-                                          ),
-                                          SizedBox(height: 2),
+
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -155,12 +199,12 @@ class TabHomeLabsView extends GetView<LabsController> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                '5.0 - 10 Reviews',
+                                                '(10) Reviews',
                                                 style: AppTextTheme.b(12)
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
-                                              ).marginOnly(top: 3),
+                                              ),
                                             ],
                                           ),
                                           SizedBox(height: 5),
@@ -182,7 +226,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                             AppColors.secondary,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(10)),
+                                                                .circular(20)),
                                                     child: Row(
                                                       children: [
                                                         Spacer(),
@@ -190,7 +234,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                           child: Text(
                                                             "call".tr,
                                                             style: AppTextTheme
-                                                                    .m(14)
+                                                                    .m(12)
                                                                 .copyWith(
                                                                     color: Colors
                                                                         .white),
@@ -229,13 +273,13 @@ class TabHomeLabsView extends GetView<LabsController> {
                                     SvgPicture.asset(
                                       "assets/svg/location_pin.svg",
                                       color: AppColors.primary,
-                                    ).paddingOnly(top: 3),
+                                    ),
                                     SizedBox(width: 8),
                                     Flexible(
                                       child: Text(
                                         "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
                                         maxLines: 1,
-                                        style: AppTextTheme.b(13)
+                                        style: AppTextTheme.b(10)
                                             .copyWith(color: AppColors.lgt2),
                                         overflow: TextOverflow.ellipsis,
                                       ),

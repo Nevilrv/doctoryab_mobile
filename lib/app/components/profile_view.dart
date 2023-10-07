@@ -65,33 +65,32 @@ class ProfileViewNew extends StatelessWidget {
               width: w,
               child: Row(
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      // color: Colors.black,
-                      // height: 65,
-                      // width: 65,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.lightGrey),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CachedNetworkImage(
-                          imageUrl: "",
-                          fit: BoxFit.cover,
-                          placeholder: (_, __) {
-                            return Image.asset(
-                              "assets/png/person-placeholder.jpg",
-                              fit: BoxFit.cover,
-                            );
-                          },
-                          errorWidget: (_, __, ___) {
-                            return Image.asset(
-                              "assets/png/person-placeholder.jpg",
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
+                  Container(
+                    // color: Colors.black,
+                    // height: 65,
+                    // width: 65,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.lightGrey),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CachedNetworkImage(
+                        imageUrl: "",
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                        placeholder: (_, __) {
+                          return Image.asset(
+                            "assets/png/person-placeholder.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        },
+                        errorWidget: (_, __, ___) {
+                          return Image.asset(
+                            "assets/png/person-placeholder.jpg",
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -112,22 +111,16 @@ class ProfileViewNew extends StatelessWidget {
                               Flexible(
                                 child: Text(
                                   "Afghan Hospital",
-                                  style: AppTextTheme.h(15)
+                                  style: AppTextTheme.h(11)
                                       .copyWith(color: AppColors.black2),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 2),
-                          Text(
-                            "شفاخانه افغان",
-                            style: AppTextTheme.b(14)
-                                .copyWith(color: AppColors.lgt2),
-                          ),
+
                           SizedBox(height: 2),
                           Row(
-                            // mainAxisSize: MainAxisSize.min,
-                            // mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               RatingBar.builder(
                                 ignoreGestures: true,
@@ -149,14 +142,11 @@ class ProfileViewNew extends StatelessWidget {
                                 },
                               ),
                               SizedBox(width: 4),
-                              Center(
-                                child: Text(
-                                  '5.0 - 10 Reviews',
-                                  style: AppTextTheme.b(12).copyWith(
-                                      color:
-                                          AppColors.primary.withOpacity(0.5)),
-                                ).paddingOnly(top: 3),
-                              ),
+                              Text(
+                                '(10) Reviews',
+                                style: AppTextTheme.b(11).copyWith(
+                                    color: AppColors.primary.withOpacity(0.5)),
+                              )
                             ],
                           ),
                           SizedBox(height: 5),
@@ -169,18 +159,18 @@ class ProfileViewNew extends StatelessWidget {
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 5),
+                                        vertical: 5, horizontal: 10),
                                     decoration: BoxDecoration(
                                         color: AppColors.secondary,
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                            BorderRadius.circular(20)),
                                     child: Row(
                                       children: [
                                         Spacer(),
                                         Center(
                                           child: Text(
                                             "call".tr,
-                                            style: AppTextTheme.m(14)
+                                            style: AppTextTheme.m(12)
                                                 .copyWith(color: Colors.white),
                                           ),
                                         ),
@@ -223,7 +213,7 @@ class ProfileViewNew extends StatelessWidget {
                         "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
                         maxLines: 1,
                         style:
-                            AppTextTheme.b(13).copyWith(color: AppColors.lgt2),
+                            AppTextTheme.b(11).copyWith(color: AppColors.lgt2),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

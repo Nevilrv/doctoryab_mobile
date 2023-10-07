@@ -92,7 +92,7 @@ class DoctorsView extends StatelessWidget {
                   showLeading: Navigator.of(context).canPop(),
                   backgroundColor: Colors.transparent,
                   action: Padding(
-                    padding: const EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SvgPicture.asset(AppImages.blackBell),
                   )
                   /*action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
@@ -182,8 +182,7 @@ class DoctorsView extends StatelessWidget {
                     flex: 2,
                     child: Container(
                       // color: Colors.black,
-                      // height: 65,
-                      // width: 65,
+
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: AppColors.lightGrey),
@@ -191,6 +190,8 @@ class DoctorsView extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: CachedNetworkImage(
                           imageUrl: "${ApiConsts.hostUrl}${item.photo}",
+                          height: 100,
+                          width: 100,
                           fit: BoxFit.cover,
                           placeholder: (_, __) {
                             return Image.asset(
@@ -226,7 +227,7 @@ class DoctorsView extends StatelessWidget {
                                 child: Text(
                                   item.fullname ??
                                       " ${item.name ?? ""} ${item.lname ?? ""}",
-                                  style: AppTextTheme.h(15)
+                                  style: AppTextTheme.h(12)
                                       .copyWith(color: AppColors.black2),
                                 ),
                               ),
@@ -240,7 +241,7 @@ class DoctorsView extends StatelessWidget {
                           SizedBox(height: 2),
                           Text(
                             item.category.title ?? "",
-                            style: AppTextTheme.b(14)
+                            style: AppTextTheme.b(11)
                                 .copyWith(color: AppColors.lgt2),
                           ),
                           SizedBox(height: 2),
@@ -268,9 +269,9 @@ class DoctorsView extends StatelessWidget {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                '(${double.tryParse(item.totalStar?.toStringAsFixed(1)) ?? ""})',
-                                style: AppTextTheme.b(10.5)
-                                    .copyWith(color: AppColors.lgt2),
+                                '(12) Reviews',
+                                style: AppTextTheme.b(12).copyWith(
+                                    color: AppColors.primary.withOpacity(0.5)),
                               ),
                             ],
                           ),
@@ -278,7 +279,7 @@ class DoctorsView extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: GestureDetector(
                                   onTap: () {
                                     Utils.openPhoneDialer(context, item.phone);
@@ -289,11 +290,11 @@ class DoctorsView extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         color: AppColors.secondary,
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                            BorderRadius.circular(20)),
                                     child: Center(
                                       child: Text(
                                         "call".tr,
-                                        style: AppTextTheme.m(14)
+                                        style: AppTextTheme.m(12)
                                             .copyWith(color: Colors.white),
                                       ),
                                     ),
@@ -319,11 +320,11 @@ class DoctorsView extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         color: AppColors.lightBlack2,
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                            BorderRadius.circular(20)),
                                     child: Center(
                                       child: Text(
                                         "appointment".tr,
-                                        style: AppTextTheme.m(14)
+                                        style: AppTextTheme.m(12)
                                             .copyWith(color: Colors.white),
                                       ),
                                     ),
@@ -349,13 +350,13 @@ class DoctorsView extends StatelessWidget {
                   SvgPicture.asset(
                     "assets/svg/location_pin.svg",
                     color: AppColors.primary,
-                  ).paddingOnly(top: 8),
+                  ).paddingOnly(top: 3),
                   SizedBox(width: 8),
                   Flexible(
                     child: Text(
                       item.address ?? "",
                       maxLines: 3,
-                      style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
+                      style: AppTextTheme.b(12).copyWith(color: AppColors.lgt2),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -387,8 +388,8 @@ class DoctorsView extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AppImages.calendar,
-                        height: 22,
-                        width: 22,
+                        height: 15,
+                        width: 15,
                       ),
                       SizedBox(
                         width: 5,
@@ -397,14 +398,14 @@ class DoctorsView extends StatelessWidget {
                         child: Text(
                           "Monday, August 10, 2022",
                           style:
-                              AppTextTheme.m(14).copyWith(color: Colors.black),
+                              AppTextTheme.m(10).copyWith(color: Colors.black),
                         ),
                       ),
                       Spacer(),
                       SvgPicture.asset(
                         AppImages.clock,
-                        height: 22,
-                        width: 22,
+                        height: 15,
+                        width: 15,
                       ),
                       SizedBox(
                         width: 5,
@@ -413,7 +414,7 @@ class DoctorsView extends StatelessWidget {
                         child: Text(
                           "09.00 - 10.00",
                           style:
-                              AppTextTheme.m(14).copyWith(color: Colors.black),
+                              AppTextTheme.m(10).copyWith(color: Colors.black),
                         ),
                       ),
                     ],

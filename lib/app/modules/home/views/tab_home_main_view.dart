@@ -83,12 +83,12 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
               //   ).paddingStart(context, 15).paddingOnly(top: 15, bottom: 8),
               Utils.searchBox(isFav: false),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Center(
                   child: SizedBox(
                     child: TabBar(
                       labelPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                       labelColor: Colors.white,
                       unselectedLabelColor: AppColors.black,
                       labelStyle: AppTextStyle.regularWhite12

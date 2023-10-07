@@ -33,7 +33,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
         appBar: AppAppBar.specialAppBar("Hospitals",
             backgroundColor: Colors.transparent,
             action: Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SvgPicture.asset(AppImages.blackBell),
             )),
 
@@ -48,43 +48,47 @@ class HospitalNewView extends GetView<HospitalNewController> {
           child: Obx(() {
             return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(
-                      tab.length,
-                      (index) => GestureDetector(
-                            onTap: () {
-                              controller.tabIndex.value = index;
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: controller.tabIndex.value != index
-                                      ? AppColors.white
-                                      : AppColors.primary,
-                                  border: Border.all(color: AppColors.primary)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                child: Center(
-                                  child: Container(
-                                      width: w * 0.25,
-                                      child: Center(
-                                          child: Text(
-                                        tab[index],
-                                        style:
-                                            controller.tabIndex.value != index
-                                                ? AppTextStyle.boldPrimary14
-                                                : AppTextStyle.boldWhite14,
-                                      ))),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(
+                        tab.length,
+                        (index) => GestureDetector(
+                              onTap: () {
+                                controller.tabIndex.value = index;
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: controller.tabIndex.value != index
+                                        ? AppColors.white
+                                        : AppColors.primary,
+                                    border:
+                                        Border.all(color: AppColors.primary)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 5),
+                                  child: Center(
+                                    child: Container(
+                                        width: w * 0.2,
+                                        child: Center(
+                                            child: Text(
+                                          tab[index],
+                                          style:
+                                              controller.tabIndex.value != index
+                                                  ? AppTextStyle.boldPrimary10
+                                                  : AppTextStyle.boldWhite10,
+                                        ))),
+                                  ),
                                 ),
                               ),
-                            ),
-                          )),
+                            )),
+                  ),
                 ),
                 controller.tabIndex.value == 0
                     ? Container(
-                        height: h * 0.263,
+                        height: h * 0.3,
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
                           padding: EdgeInsets.only(top: 10),
@@ -111,42 +115,41 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                         children: [
                                           Container(
                                             // height: h * 0.2,
-                                            width: w,
+                                            // width: w,
                                             child: Row(
                                               children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Container(
-                                                    // color: Colors.black,
-                                                    // height: 65,
-                                                    // width: 65,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: AppColors
-                                                            .lightGrey),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: "",
-                                                        fit: BoxFit.cover,
-                                                        placeholder: (_, __) {
-                                                          return Image.asset(
-                                                            "assets/png/person-placeholder.jpg",
-                                                            fit: BoxFit.cover,
-                                                          );
-                                                        },
-                                                        errorWidget:
-                                                            (_, __, ___) {
-                                                          return Image.asset(
-                                                            "assets/png/person-placeholder.jpg",
-                                                            fit: BoxFit.cover,
-                                                          );
-                                                        },
-                                                      ),
+                                                Container(
+                                                  // color: Colors.black,
+                                                  // height: 65,
+                                                  // width: 65,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color:
+                                                          AppColors.lightGrey),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: "",
+                                                      height: 100,
+                                                      width: 100,
+                                                      fit: BoxFit.cover,
+                                                      placeholder: (_, __) {
+                                                        return Image.asset(
+                                                          "assets/png/person-placeholder.jpg",
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      },
+                                                      errorWidget:
+                                                          (_, __, ___) {
+                                                        return Image.asset(
+                                                          "assets/png/person-placeholder.jpg",
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      },
                                                     ),
                                                   ),
                                                 ),
@@ -179,7 +182,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                               child: Text(
                                                                 "Afghan Hospital",
                                                                 style: AppTextTheme
-                                                                        .h(15)
+                                                                        .h(12)
                                                                     .copyWith(
                                                                         color: AppColors
                                                                             .black2),
@@ -189,13 +192,14 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                         ),
                                                         SizedBox(height: 2),
                                                         Text(
-                                                          "شفاخانه افغان",
+                                                          "Internal Medicine",
                                                           style: AppTextTheme.b(
-                                                                  14)
+                                                                  11)
                                                               .copyWith(
-                                                                  color:
-                                                                      AppColors
-                                                                          .lgt2),
+                                                                  color: AppColors
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.5)),
                                                         ),
                                                         SizedBox(height: 2),
                                                         Row(
@@ -273,7 +277,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                       "appointment"
                                                                           .tr,
                                                                       style: AppTextTheme.m(
-                                                                              14)
+                                                                              12)
                                                                           .copyWith(
                                                                               color: Colors.white),
                                                                     ),
@@ -314,8 +318,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                   children: [
                                                     SvgPicture.asset(
                                                       AppImages.calendar,
-                                                      height: 22,
-                                                      width: 22,
+                                                      height: 15,
+                                                      width: 15,
                                                     ),
                                                     SizedBox(
                                                       width: 5,
@@ -324,7 +328,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                       child: Text(
                                                         "Monday, August 10, 2022",
                                                         style: AppTextTheme.m(
-                                                                14)
+                                                                10)
                                                             .copyWith(
                                                                 color: Colors
                                                                     .black),
@@ -333,8 +337,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                     Spacer(),
                                                     SvgPicture.asset(
                                                       AppImages.clock,
-                                                      height: 22,
-                                                      width: 22,
+                                                      height: 15,
+                                                      width: 15,
                                                     ),
                                                     SizedBox(
                                                       width: 5,
@@ -343,7 +347,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                       child: Text(
                                                         "09.00 - 10.00",
                                                         style: AppTextTheme.m(
-                                                                14)
+                                                                10)
                                                             .copyWith(
                                                                 color: Colors
                                                                     .black),
@@ -362,7 +366,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                       )
                     : controller.tabIndex.value == 1
                         ? Container(
-                            height: h * 0.263,
+                            height: h * 0.3,
                             child: SingleChildScrollView(
                               physics: BouncingScrollPhysics(),
                               padding: EdgeInsets.only(top: 10),
@@ -397,7 +401,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                 .copyWith(
                                                     color:
                                                         AppColors.lightBlack2,
-                                                    fontSize: 14,
+                                                    fontSize: 11,
                                                     fontWeight:
                                                         FontWeight.w500),
                                           ),
@@ -406,7 +410,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                             ),
                           )
                         : Container(
-                            height: h * 0.263,
+                            height: h * 0.3,
                             child: SingleChildScrollView(
                               physics: BouncingScrollPhysics(),
                               padding: EdgeInsets.only(top: 10),
@@ -450,11 +454,11 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                         ),
                                         Text(
                                           "Example Service",
-                                          style: AppTextStyle.boldPrimary14,
+                                          style: AppTextStyle.boldPrimary12,
                                         ),
                                         Text(
                                           "Example service explain",
-                                          style: AppTextStyle.boldPrimary12
+                                          style: AppTextStyle.boldPrimary11
                                               .copyWith(
                                                   color: AppColors.primary
                                                       .withOpacity(0.5)),
@@ -475,7 +479,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                             child: Center(
                                               child: Text(
                                                 "22000 Afghani",
-                                                style: AppTextStyle.boldWhite14,
+                                                style: AppTextStyle.boldWhite12,
                                               ),
                                             ),
                                           ),

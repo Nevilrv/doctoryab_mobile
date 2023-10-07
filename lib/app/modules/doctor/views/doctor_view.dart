@@ -39,7 +39,14 @@ class DoctorView extends GetView<DoctorController> {
         appBar: AppAppBar.specialAppBar(
             'doctor_profile'
                 .trArgs([Utils.getTextOfBlaBla(controller.doctor.type)]),
-            backgroundColor: Colors.transparent),
+            backgroundColor: Colors.transparent,
+            action: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SvgPicture.asset(
+                AppImages.blackBell,
+                height: 24,
+              ),
+            )),
         body: Obx(
           () => SizedBox(
             child: controller.doctorFullData() == null
@@ -81,6 +88,8 @@ class DoctorView extends GetView<DoctorController> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: CachedNetworkImage(
                                       imageUrl: controller.doctor.photo,
+                                      height: 100,
+                                      width: 100,
                                       fit: BoxFit.cover,
                                       placeholder: (_, __) {
                                         return Image.asset(
@@ -120,7 +129,7 @@ class DoctorView extends GetView<DoctorController> {
                                             child: Text(
                                               controller.doctor.fullname ??
                                                   " ${controller.doctor.name ?? ""} ${controller.doctor.lname ?? ""}",
-                                              style: AppTextTheme.h(15)
+                                              style: AppTextTheme.h(12)
                                                   .copyWith(
                                                       color: AppColors.black2),
                                             ),
@@ -136,7 +145,7 @@ class DoctorView extends GetView<DoctorController> {
                                       SizedBox(height: 2),
                                       Text(
                                         controller.doctor.category.title ?? "",
-                                        style: AppTextTheme.b(14)
+                                        style: AppTextTheme.b(11)
                                             .copyWith(color: AppColors.lgt2),
                                       ),
                                       SizedBox(height: 2),
@@ -171,8 +180,8 @@ class DoctorView extends GetView<DoctorController> {
                                           //       .copyWith(color: AppColors.lgt2),
                                           // ),
                                           Text(
-                                            '5.0 - 10 Reviews',
-                                            style: AppTextTheme.b(13).copyWith(
+                                            '(10) Reviews',
+                                            style: AppTextTheme.b(11).copyWith(
                                                 color: AppColors.primary
                                                     .withOpacity(0.5)),
                                           ),
@@ -210,7 +219,7 @@ class DoctorView extends GetView<DoctorController> {
                                                   child: Container(
                                                     padding:
                                                         EdgeInsets.symmetric(
-                                                            vertical: 4,
+                                                            vertical: 3,
                                                             horizontal: 5),
                                                     decoration: BoxDecoration(
                                                         color: AppColors.white,
@@ -219,12 +228,12 @@ class DoctorView extends GetView<DoctorController> {
                                                                 .primary),
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(10)),
+                                                                .circular(20)),
                                                     child: Center(
                                                       child: Text(
                                                         "${"fee".tr}  ${controller.doctorFullData().fee} ${"afn".tr}",
                                                         style: AppTextTheme.m(
-                                                                13)
+                                                                12)
                                                             .copyWith(
                                                                 color: AppColors
                                                                     .primary),
@@ -241,7 +250,7 @@ class DoctorView extends GetView<DoctorController> {
                                                   child: Container(
                                                     padding:
                                                         EdgeInsets.symmetric(
-                                                            vertical: 5,
+                                                            vertical: 3,
                                                             horizontal: 2),
                                                     decoration: BoxDecoration(
                                                         color:
@@ -251,7 +260,7 @@ class DoctorView extends GetView<DoctorController> {
                                                                 .primary),
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(10)),
+                                                                .circular(20)),
                                                     child: Center(
                                                       child: Text(
                                                         " ${"work_experiance".tr} ${controller.doctorFullData().exp.map((e) {
@@ -260,7 +269,7 @@ class DoctorView extends GetView<DoctorController> {
                                                                 return e.year;
                                                             }).toList().fold(0, (p, c) => p + c).toString()} ${"years".tr}",
                                                         style: AppTextTheme.m(
-                                                                13)
+                                                                12)
                                                             .copyWith(
                                                                 color: Colors
                                                                     .white),
@@ -302,7 +311,7 @@ class DoctorView extends GetView<DoctorController> {
                                         ),
                                         Text(
                                           'doctor_addres'.tr,
-                                          style: AppTextTheme.b(16).copyWith(
+                                          style: AppTextTheme.b(11).copyWith(
                                               color: AppColors.primary
                                                   .withOpacity(0.5)),
                                         ),
@@ -358,7 +367,9 @@ class DoctorView extends GetView<DoctorController> {
                                                 child: Row(
                                                   children: [
                                                     SvgPicture.asset(
-                                                        AppImages.map),
+                                                        AppImages.map,
+                                                        height: 22,
+                                                        width: 22),
                                                     Spacer(),
                                                     Text(
                                                       controller.doctor.address,
@@ -431,7 +442,7 @@ class DoctorView extends GetView<DoctorController> {
                                         ),
                                         Text(
                                           'doctors_tags'.tr,
-                                          style: AppTextTheme.b(16).copyWith(
+                                          style: AppTextTheme.b(11).copyWith(
                                               color: AppColors.primary
                                                   .withOpacity(0.5)),
                                         ),
@@ -477,7 +488,9 @@ class DoctorView extends GetView<DoctorController> {
                                               child: Row(
                                                 children: [
                                                   SvgPicture.asset(
-                                                      AppImages.certificate),
+                                                      AppImages.certificate,
+                                                      height: 22,
+                                                      width: 22),
                                                   Spacer(),
                                                   Text(
                                                     controller.doctor.tags
@@ -524,7 +537,7 @@ class DoctorView extends GetView<DoctorController> {
                                         ),
                                         Text(
                                           'about_doctor'.tr,
-                                          style: AppTextTheme.b(16).copyWith(
+                                          style: AppTextTheme.b(11).copyWith(
                                               color: AppColors.primary
                                                   .withOpacity(0.5)),
                                         ),
@@ -571,7 +584,9 @@ class DoctorView extends GetView<DoctorController> {
                                               child: Row(
                                                 children: [
                                                   SvgPicture.asset(
-                                                      AppImages.circleInfo),
+                                                      AppImages.circleInfo,
+                                                      width: 22,
+                                                      height: 22),
                                                   Spacer(),
                                                   Text(
                                                     controller.doctor.detail
@@ -595,6 +610,7 @@ class DoctorView extends GetView<DoctorController> {
                                 ),
                           Container(
                             height: 70,
+                            width: w,
                             child: Hero(
                               tag: "bot_but",
                               child: Center(
@@ -605,12 +621,10 @@ class DoctorView extends GetView<DoctorController> {
                                   disabledColor:
                                       AppColors.easternBlue.withOpacity(0.2),
                                   // height: 50,
-                                  width: MediaQuery.of(context).size.width > 400
-                                      ? 300
-                                      : MediaQuery.of(context).size.width *
-                                          75 /
-                                          100,
+                                  width: w,
                                   text: "book_now".tr,
+                                  textStyle: AppTextStyle.boldWhite14
+                                      .copyWith(fontWeight: FontWeight.w600),
                                   onTap: () {
                                     if (controller.doctor.id == null ||
                                         controller.doctor.category == null) {

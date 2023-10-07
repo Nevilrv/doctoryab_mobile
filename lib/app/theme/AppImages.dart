@@ -12,6 +12,7 @@ class AppImages {
   static const back = "assets/svg/back.svg";
   static const back2 = "assets/svg/back_arrow_2.svg";
   static const blackBell = "assets/svg/black_bell.svg";
+  static const bellwhite = "assets/svg/bellwhite.svg";
   static const mic = "assets/svg/mic.svg";
   static const favGolden = "assets/svg/fav_icon_golden.svg";
   static const favGrey = "assets/svg/fav_icon_grey.svg";
@@ -69,4 +70,6 @@ class AppImages {
   static const viruses = "assets/png/viruses.png";
   static const adBanner = "assets/png/ad_banner.png";
   static const dummyAudio = "assets/png/dummy_audio.png";
+  static const emergency = "assets/png/emergency.jpg";
+  static const googleMap = "assets/png/google-maps.png";
 }

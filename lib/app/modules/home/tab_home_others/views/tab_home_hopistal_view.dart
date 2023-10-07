@@ -48,12 +48,26 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
               children: [
                 Row(
                   children: [
-                    Text(
-                      "see_open_emergency_services".tr,
-                      style: AppTextStyle.mediumBlack12
-                          .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
+                    // Text(
+                    //   "see_open_emergency_services".tr,
+                    //   style: AppTextStyle.mediumBlack12
+                    //       .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
+                    // ),
+                    Image.asset(
+                      AppImages.googleMap,
+                      width: 25,
+                      height: 25,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Image.asset(
+                      AppImages.emergency,
+                      width: 32,
+                      height: 32,
                     ),
                     Spacer(),
+
                     Container(
                       padding: EdgeInsets.zero,
                       width: 80,
@@ -119,34 +133,33 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                   width: w,
                                   child: Row(
                                     children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Container(
-                                          // color: Colors.black,
-                                          // height: 65,
-                                          // width: 65,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: AppColors.lightGrey),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: CachedNetworkImage(
-                                              imageUrl: "",
-                                              fit: BoxFit.cover,
-                                              placeholder: (_, __) {
-                                                return Image.asset(
-                                                  "assets/png/person-placeholder.jpg",
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
-                                              errorWidget: (_, __, ___) {
-                                                return Image.asset(
-                                                  "assets/png/person-placeholder.jpg",
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
-                                            ),
+                                      Container(
+                                        // color: Colors.black,
+                                        // height: 65,
+                                        // width: 65,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: AppColors.lightGrey),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: CachedNetworkImage(
+                                            imageUrl: "",
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                            placeholder: (_, __) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                            errorWidget: (_, __, ___) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),
@@ -172,7 +185,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                                   Flexible(
                                                     child: Text(
                                                       "Afghan Hospital",
-                                                      style: AppTextTheme.h(15)
+                                                      style: AppTextTheme.h(11)
                                                           .copyWith(
                                                               color: AppColors
                                                                   .black2),
@@ -180,36 +193,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(height: 2),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    color: AppColors.green
-                                                        .withOpacity(0.1)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 3),
-                                                  child: Text(
-                                                    "Emergency open",
-                                                    style: AppTextStyle
-                                                        .mediumBlack12
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .green),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(height: 2),
-                                              Text(
-                                                "شفاخانه افغان",
-                                                style: AppTextTheme.b(14)
-                                                    .copyWith(
-                                                        color: AppColors.lgt2),
-                                              ),
+
                                               SizedBox(height: 2),
                                               Row(
                                                 mainAxisSize: MainAxisSize.min,
@@ -237,14 +221,14 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                                   ),
                                                   SizedBox(width: 4),
                                                   Text(
-                                                    '5.0 - 10 Reviews',
-                                                    style: AppTextTheme.b(12)
+                                                    '(10) Reviews',
+                                                    style: AppTextTheme.b(11)
                                                         .copyWith(
                                                             color: AppColors
                                                                 .primary
                                                                 .withOpacity(
                                                                     0.5)),
-                                                  ).paddingOnly(top: 3),
+                                                  )
                                                 ],
                                               ),
                                               SizedBox(height: 5),
@@ -261,14 +245,14 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                                         padding: EdgeInsets
                                                             .symmetric(
                                                                 vertical: 5,
-                                                                horizontal: 5),
+                                                                horizontal: 10),
                                                         decoration: BoxDecoration(
                                                             color: AppColors
                                                                 .secondary,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        10)),
+                                                                        20)),
                                                         child: Row(
                                                           children: [
                                                             Spacer(),
@@ -276,7 +260,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                                               child: Text(
                                                                 "call".tr,
                                                                 style: AppTextTheme
-                                                                        .m(14)
+                                                                        .m(12)
                                                                     .copyWith(
                                                                         color: Colors
                                                                             .white),
@@ -322,7 +306,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                           child: Text(
                                             "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
                                             maxLines: 1,
-                                            style: AppTextTheme.b(13).copyWith(
+                                            style: AppTextTheme.b(11).copyWith(
                                                 color: AppColors.lgt2),
                                             overflow: TextOverflow.ellipsis,
                                           ),

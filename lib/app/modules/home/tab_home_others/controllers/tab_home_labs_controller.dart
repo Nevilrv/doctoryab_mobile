@@ -2,6 +2,7 @@ import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/LabsRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 
@@ -17,6 +18,7 @@ class LabsController extends TabHomeOthersController {
     super.onInit();
   }
 
+  var light1 = true.obs;
   @override
   void onReady() {
     super.onReady();

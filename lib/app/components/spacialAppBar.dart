@@ -16,7 +16,7 @@ class AppAppBar {
       backgroundColor: backgroundColor ?? AppColors.primary, centerTitle: true,
       title: Text(
         title,
-        style: AppTextTheme.m(18).copyWith(
+        style: AppTextTheme.m(20).copyWith(
             color: backgroundColor == AppColors.scaffoldColor
                 ? Colors.black
                 : AppColors.primary,

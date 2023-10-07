@@ -31,7 +31,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
         appBar: AppAppBar.specialAppBar("Pharmacy",
             backgroundColor: Colors.transparent,
             action: Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SvgPicture.asset(AppImages.blackBell),
             )),
 
@@ -75,8 +75,8 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                           tab[index],
                                           style:
                                               controller.tabIndex.value != index
-                                                  ? AppTextStyle.boldPrimary14
-                                                  : AppTextStyle.boldWhite14,
+                                                  ? AppTextStyle.boldPrimary10
+                                                  : AppTextStyle.boldWhite10,
                                         ))),
                                   ),
                                 ),
@@ -86,7 +86,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                 ),
                 controller.tabIndex.value == 0
                     ? Container(
-                        height: h * 0.263,
+                        height: h * 0.3,
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
                           padding: EdgeInsets.only(top: 10),
@@ -129,11 +129,11 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                     ),
                                     Text(
                                       "Example Service",
-                                      style: AppTextStyle.boldPrimary14,
+                                      style: AppTextStyle.boldPrimary12,
                                     ),
                                     Text(
                                       "Example service explain",
-                                      style: AppTextStyle.boldPrimary12
+                                      style: AppTextStyle.boldPrimary11
                                           .copyWith(
                                               color: AppColors.primary
                                                   .withOpacity(0.5)),
@@ -154,7 +154,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                         child: Center(
                                           child: Text(
                                             "22000 Afghani",
-                                            style: AppTextStyle.boldWhite14,
+                                            style: AppTextStyle.boldWhite12,
                                           ),
                                         ),
                                       ),
@@ -167,7 +167,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                         ),
                       )
                     : Container(
-                        height: h * 0.263,
+                        height: h * 0.3,
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
                           padding: EdgeInsets.only(top: 10),
@@ -188,12 +188,12 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                               Text(
                                                 "Example Service",
                                                 style:
-                                                    AppTextStyle.boldPrimary16,
+                                                    AppTextStyle.boldPrimary12,
                                               ),
                                               Text(
                                                 "Example service explain",
                                                 style: AppTextStyle
-                                                    .boldPrimary14
+                                                    .boldPrimary11
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
@@ -217,7 +217,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                 child: Text(
                                                   "22000 Afghani",
                                                   style:
-                                                      AppTextStyle.boldWhite14,
+                                                      AppTextStyle.boldWhite12,
                                                 ),
                                               ),
                                             ),

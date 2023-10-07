@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_docs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_meeting_time_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
@@ -25,76 +29,172 @@ class TabMoreView extends GetView {
   const TabMoreView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldColor,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
-      body: () {
-        // double h;
+    return SpecialAppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text('profile'.tr),
+          centerTitle: true,
+          elevation: 0,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SvgPicture.asset(
+                AppImages.bellwhite,
+                height: 24,
+                color: AppColors.white,
+              ),
+            )
+          ],
+        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        // ),
+        body: () {
+          // double h;
 
-        return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-              // physics: BouncingScrollPhysics(),
-              // mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(child: () {
-                  String _userProfile =
-                      SettingsController.savedUserProfile?.photo;
-                  Widget w = _userProfile == null
-                      ? _profilePlaceHolder()
-                      : CachedNetworkImage(
-                          imageUrl: "${ApiConsts.hostUrl}$_userProfile",
-                          height: 150,
-                          width: 150,
-                          placeholder: (_, __) {
-                            return _profilePlaceHolder();
-                          },
-                          errorWidget: (_, __, ___) {
-                            return _profilePlaceHolder();
-                          },
-                        );
-                  return w;
-                }())
-                    .radiusAll(24),
-                //*
-                if (SettingsController.savedUserProfile != null)
-                  Text(SettingsController.savedUserProfile?.name ?? ""
-                          // "user_id".trArgs(
-                          //   [SettingsController.savedUserProfile?.patientID ?? ""],
-                          // ),
-                          )
-                      .paddingExceptBottom(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                  // physics: BouncingScrollPhysics(),
+                  // mainAxisSize: MainAxisSize.min,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // _button(
-                    //   "change_language".tr,
-                    //   icon: Icons.language,
-                    //   color: Get.theme.primaryColor,
-                    //   onTap: () {
-                    //     AppGetDialog.showChangeLangDialog();
-                    //   },
-                    // ),
-                    // SizedBox(width: 20),
-                    _button(
-                      "update_profile".tr,
-                      icon: Icons.edit,
-                      color: Get.theme.primaryColor,
+                    GestureDetector(
                       onTap: () {
                         Get.to(() => ProfileUpdateView());
                       },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: AppColors.black.withOpacity(0.25),
+                                  blurRadius: 5,
+                                  offset: Offset(0, 4))
+                            ]),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Row(
+                            children: [
+                              SettingsController.savedUserProfile?.photo == null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: _profilePlaceHolder(),
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
+                                        height: 52,
+                                        width: 52,
+                                        placeholder: (_, __) {
+                                          return _profilePlaceHolder();
+                                        },
+                                        errorWidget: (_, __, ___) {
+                                          return _profilePlaceHolder();
+                                        },
+                                      ),
+                                    ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    SettingsController.savedUserProfile?.name ??
+                                        "",
+                                    style: AppTextStyle.boldPrimary14
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    "Patient",
+                                    style: AppTextStyle.boldPrimary14.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color:
+                                            AppColors.primary.withOpacity(0.5)),
+                                  )
+                                ],
+                              ),
+                              Spacer(),
+                              CircleAvatar(
+                                radius: 15,
+                                backgroundColor: AppColors.primary,
+                                child: Icon(Icons.navigate_next_rounded,
+                                    color: AppColors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ],
-                ).paddingExceptBottom(10),
-                ..._buildSettings(),
-              ]).paddingVertical(40),
-        );
-      }(),
+                    // Container(child: () {
+                    //   String _userProfile =
+                    //       SettingsController.savedUserProfile?.photo;
+                    //   Widget w = _userProfile == null
+                    //       ? _profilePlaceHolder()
+                    //       : CachedNetworkImage(
+                    //           imageUrl: "${ApiConsts.hostUrl}$_userProfile",
+                    //           height: 150,
+                    //           width: 150,
+                    //           placeholder: (_, __) {
+                    //             return _profilePlaceHolder();
+                    //           },
+                    //           errorWidget: (_, __, ___) {
+                    //             return _profilePlaceHolder();
+                    //           },
+                    //         );
+                    //   return w;
+                    // }())
+                    //     .radiusAll(24),
+                    // //*
+                    // if (SettingsController.savedUserProfile != null)
+                    //   Text(SettingsController.savedUserProfile?.name ?? ""
+                    //           // "user_id".trArgs(
+                    //           //   [SettingsController.savedUserProfile?.patientID ?? ""],
+                    //           // ),
+                    //           )
+                    //       .paddingExceptBottom(10),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     // _button(
+                    //     //   "change_language".tr,
+                    //     //   icon: Icons.language,
+                    //     //   color: Get.theme.primaryColor,
+                    //     //   onTap: () {
+                    //     //     AppGetDialog.showChangeLangDialog();
+                    //     //   },
+                    //     // ),
+                    //     // SizedBox(width: 20),
+                    //     _button(
+                    //       "update_profile".tr,
+                    //       icon: Icons.edit,
+                    //       color: Get.theme.primaryColor,
+                    //       onTap: () {
+                    //         Get.to(() => ProfileUpdateView());
+                    //       },
+                    //     ),
+                    //   ],
+                    // ).paddingExceptBottom(10),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ..._buildSettings(),
+                  ]),
+            ),
+          );
+        }(),
+      ),
     );
   }
 
@@ -182,8 +282,8 @@ class TabMoreView extends GetView {
   Widget _profilePlaceHolder() {
     return Image.asset(
       "assets/png/person-placeholder.jpg",
-      width: 150,
-      height: 150,
+      width: 52,
+      height: 52,
       fit: BoxFit.cover,
     ).radiusAll(24);
   }
