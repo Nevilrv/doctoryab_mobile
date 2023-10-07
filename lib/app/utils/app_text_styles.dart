@@ -20,6 +20,13 @@ class AppTextStyle {
     fontFamily: AppFonts.acuminSemiCond,
   );
 
+  static TextStyle regularBlack11 = TextStyle(
+    fontSize: 11,
+    color: AppColors.black,
+    fontWeight: AppFontWeight.REGULAR,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
   static TextStyle regularBlack12 = TextStyle(
     fontSize: 12,
     color: AppColors.black,
@@ -765,6 +772,13 @@ class AppTextStyle {
   // primary
   static TextStyle regularPrimary6 = TextStyle(
     fontSize: 6,
+    color: AppColors.primary,
+    fontWeight: AppFontWeight.REGULAR,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
+
+  static TextStyle regularPrimary7 = TextStyle(
+    fontSize: 7,
     color: AppColors.primary,
     fontWeight: AppFontWeight.REGULAR,
     fontFamily: AppFonts.acuminSemiCond,

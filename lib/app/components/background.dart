@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 
 class Background extends StatelessWidget {
   const Background(

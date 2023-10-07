@@ -1,10 +1,10 @@
+import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -19,7 +19,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
       bottomNavigationBar: BottomBarView(isHomeScreen: false),
-      appBar: Utils.appBar(title: "drug_database".tr, savedIcon: true),
+      appBar:
+          AppAppBar.primaryAppBar(title: "drug_database".tr, savedIcon: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: GetBuilder<DrugsController>(
@@ -195,7 +196,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      bottom: 13,
+                      bottom: 7,
                       top: 7,
                       right: 20,
                     ),
@@ -217,8 +218,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              height: h * 0.0335,
-                              width: h * 0.0335,
+                              height: h * 0.04,
+                              width: h * 0.04,
                               padding: EdgeInsets.all(3),
                               margin: EdgeInsets.only(right: 5),
                               decoration: BoxDecoration(

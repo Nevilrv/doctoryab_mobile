@@ -1,9 +1,9 @@
+import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/disease_treatment/controller/disease_treatment_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +15,7 @@ class DiseaseSubDetailsView extends GetView<DiseaseTreatmentController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: Utils.appBar(title: "${Get.arguments[0]}"),
+      appBar: AppAppBar.primaryAppBar(title: "${Get.arguments[0]}"),
       backgroundColor: AppColors.lightGrey,
       bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: SingleChildScrollView(

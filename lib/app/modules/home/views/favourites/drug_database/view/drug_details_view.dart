@@ -1,9 +1,9 @@
+import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ class DrugDetailsView extends GetView<DrugsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: Utils.appBar(title: Get.arguments),
+      appBar: AppAppBar.primaryAppBar(title: Get.arguments),
       backgroundColor: AppColors.lightGrey,
       bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: Container(
@@ -72,8 +72,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     subIndex == 4
                                         ? AppImages.favGrey
                                         : AppImages.favGolden,
-                                    height: 8,
-                                    width: 8,
+                                    height: 9,
+                                    width: 9,
                                   ).paddingOnly(right: subIndex == 4 ? 0 : 3);
                                 },
                               ),
@@ -96,8 +96,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          height: h * 0.0335,
-                          width: h * 0.0335,
+                          height: h * 0.04,
+                          width: h * 0.04,
                           padding: EdgeInsets.all(3),
                           margin: EdgeInsets.only(right: 5),
                           decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                           children: [
                             Text(
                               _data[index]["title"].toString().tr,
-                              style: AppTextStyle.boldPrimary8
+                              style: AppTextStyle.boldPrimary9
                                   .copyWith(height: 1.2),
                             ),
                             Text(
@@ -126,7 +126,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                           .toString()
                                           .trArgs(["1000"])
                                       : _data[index]["text"].toString().tr,
-                              style: AppTextStyle.regularPrimary8
+                              style: AppTextStyle.regularPrimary9
                                   .copyWith(height: 1),
                             ),
                           ],
@@ -136,23 +136,49 @@ class DrugDetailsView extends GetView<DrugsController> {
                   ),
                 ),
               ),
-              commonTitleBox("gen_name".tr),
+              commonTitleBox(text: "gen_name".tr),
               commonTextBox("VITAMIN D3 1000 IU FOOD SUPPLEMENT"),
-              commonTitleBox("barcode".tr),
-              commonTextBox("#59656459461232646"),
-              commonTitleBox("therap_class".tr),
-              commonTextBox("Antibiotics"),
-              commonTitleBox("Pharma_class".tr),
-              commonTextBox("LoremIpsum"),
-              commonTitleBox("usage".tr),
+              commonTitleBox(
+                text: "warnings".tr,
+                color: AppColors.boxRed,
+                textColor: Colors.red,
+              ),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(
+                text: "usage".tr,
+                color: AppColors.boxGreen3,
+                textColor: Colors.green,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   "“Vitamin D contributes to the normal absorption/use of calcium and phosphorus.” “Vitamin D contributes to the maintenance of normal bones, normal muscle function and normal teeth.” “Vitamin D contributes to the normal absorption/use of calcium and phosphorus.” “Vitamin D contributes to the maintenance of normal bones, normal muscle function and normal teeth.”",
-                  style: AppTextStyle.mediumPrimary8.copyWith(height: 1),
+                  style: AppTextStyle.mediumPrimary10.copyWith(height: 1),
                 ),
               ),
-              commonTitleBox("comm_ratings".tr),
+              commonTitleBox(
+                text: "side_effects".tr,
+                color: AppColors.lightYellow,
+                textColor: Colors.yellow.shade700,
+              ),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(text: "drug_type".tr),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(text: "packaging".tr),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(text: "dosages".tr),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(text: "origin".tr),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(text: "comp".tr),
+              commonTextBox("Lorem Ipsum is simply dummy text."),
+              commonTitleBox(
+                text: "price".tr,
+                color: AppColors.lightYellow,
+                textColor: Colors.yellow.shade700,
+              ),
+              commonTextBox("drug_price".trArgs(["1000"])),
+              commonTitleBox(text: "comm_ratings".tr),
               Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 6),
                 child: addCommentsTextField(),
@@ -162,7 +188,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                 children: [
                   Text(
                     "sel_rating".tr,
-                    style: AppTextStyle.regularPrimary8,
+                    style: AppTextStyle.regularPrimary9,
                   ),
                   IntrinsicWidth(
                     child: Container(
@@ -180,8 +206,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                               subIndex == 0
                                   ? AppImages.favGolden
                                   : AppImages.favWhite,
-                              height: 8,
-                              width: 8,
+                              height: 9,
+                              width: 9,
                             ).paddingOnly(right: subIndex == 4 ? 0 : 3);
                           },
                         ),
@@ -198,7 +224,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                     child: Center(
                       child: Text(
                         "send".tr,
-                        style: AppTextStyle.boldWhite6,
+                        style: AppTextStyle.boldWhite8,
                       ),
                     ),
                   ),
@@ -213,6 +239,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                   border: Border.all(color: AppColors.lightPurple),
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: h * 0.045,
@@ -235,7 +262,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                             children: [
                               Text(
                                 "Fatih Resul Göker",
-                                style: AppTextStyle.regularPrimary8,
+                                style: AppTextStyle.regularPrimary9,
                               ),
                               Spacer(),
                               ...List.generate(
@@ -245,8 +272,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     subIndex == 4
                                         ? AppImages.favGrey
                                         : AppImages.favGolden,
-                                    height: 8,
-                                    width: 8,
+                                    height: 9,
+                                    width: 9,
                                   ).paddingOnly(right: subIndex == 4 ? 0 : 3);
                                 },
                               ),
@@ -254,7 +281,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                           ),
                           Text(
                             "ilacı uzun süre kullandım ve gerçekten çok büyük faydaları etkilerini gördüm. Fiyatı da gayet ucuz ve uygundu. İhtiyacı olan herkesin almasını tavsiye ederim.",
-                            style: AppTextStyle.regularPrimary6.copyWith(
+                            style: AppTextStyle.regularPrimary7.copyWith(
                               color: AppColors.primary.withOpacity(0.6),
                               height: 1.2,
                             ),
@@ -272,19 +299,23 @@ class DrugDetailsView extends GetView<DrugsController> {
     );
   }
 
-  Widget commonTitleBox(String text) {
+  Widget commonTitleBox({
+    String text,
+    Color color = AppColors.lightPurple,
+    Color textColor = AppColors.primary,
+  }) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 6, horizontal: 15),
       decoration: BoxDecoration(
-        color: AppColors.lightPurple,
+        color: color,
         borderRadius: BorderRadius.circular(3),
       ),
       child: Text(
         text,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: AppTextStyle.regularPrimary8,
+        style: AppTextStyle.regularPrimary10.copyWith(color: textColor),
       ),
     );
   }
@@ -295,14 +326,18 @@ class DrugDetailsView extends GetView<DrugsController> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
-            radius: 1.2,
-            backgroundColor: AppColors.primary,
+          Padding(
+            padding: const EdgeInsets.only(left: 5, right: 8),
+            child: CircleAvatar(
+              radius: 1.2,
+              backgroundColor: AppColors.primary,
+            ),
           ),
-          SizedBox(width: 8),
-          Text(
-            text,
-            style: AppTextStyle.boldPrimary8.copyWith(height: 1),
+          Expanded(
+            child: Text(
+              text,
+              style: AppTextStyle.boldPrimary10.copyWith(height: 1),
+            ),
           ),
         ],
       ),

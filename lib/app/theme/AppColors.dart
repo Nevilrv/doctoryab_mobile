@@ -60,6 +60,8 @@ class AppColors {
   static const boxPink3 = Color(0xFFFFE7F2);
   static const boxBlue2 = Color(0xFFDBEBFF);
   static const boxPurple3 = Color(0xFFE5DCFF);
+  static const lightPurple4 = Color(0xFF999FC9);
+  static const darkBlue = Color(0xFF333E92);
 
   static const MaterialColor primarySwatch = MaterialColor(
     0xff333e92,

@@ -1,10 +1,10 @@
+import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/modules/home/views/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -17,7 +17,7 @@ class SavedDrugsView extends GetView<DrugsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: Utils.appBar(title: "saved_drugs".tr),
+      appBar: AppAppBar.primaryAppBar(title: "saved_drugs".tr),
       backgroundColor: AppColors.lightGrey,
       bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: Padding(
@@ -191,7 +191,7 @@ class SavedDrugsView extends GetView<DrugsController> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      bottom: 13,
+                      bottom: 7,
                       top: 7,
                       right: 20,
                     ),
@@ -213,8 +213,8 @@ class SavedDrugsView extends GetView<DrugsController> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              height: h * 0.0335,
-                              width: h * 0.0335,
+                              height: h * 0.04,
+                              width: h * 0.04,
                               padding: EdgeInsets.all(3),
                               margin: EdgeInsets.only(right: 5),
                               decoration: BoxDecoration(

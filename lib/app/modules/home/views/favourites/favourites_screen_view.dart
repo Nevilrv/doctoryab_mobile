@@ -59,10 +59,10 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    return Background(
-      isSecond: false,
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: Background(
+        isSecond: false,
+        child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
