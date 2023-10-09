@@ -74,12 +74,10 @@ dependencies:
   get: ^4.6.1
   # alice: 0.3.2
   alice: 
-#    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\alice
-    path: C:\Users\admin\Desktop\local_pachages\alice
-  place_picker:
-#    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\locationpicker
-    path: C:\Users\admin\Desktop\local_pachages\locationpicker
+    path: ..\local_pachages\alice
 
+  place_picker:
+    path: ..\local_pachages\locationpicker
 
   flutter:
     sdk: flutter
@@ -100,8 +98,7 @@ dependencies:
   flutter_html: ^0.11.1
   webview_flutter: ^3.0.4
   stories_for_flutter: 
-#    path: C:\Users\Codeline\AndroidStudioProjects\local_pachages\stories_for_flutter
-    path: C:\Users\admin\Desktop\local_pachages\stories_for_flutter
+    path: ..\local_pachages\stories_for_flutter
   story_view: ^0.14.0
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0

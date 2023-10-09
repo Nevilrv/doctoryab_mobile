@@ -1,19 +1,15 @@
 import 'dart:developer';
 
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
-import 'package:doctor_yab/app/modules/home/views/favourites/favourites_screen_view.dart';
+import 'package:doctor_yab/app/modules/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_blog_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
+import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
