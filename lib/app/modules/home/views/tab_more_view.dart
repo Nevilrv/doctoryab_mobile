@@ -29,7 +29,15 @@ class TabMoreView extends GetView {
   const TabMoreView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SpecialAppBackground(
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
+
+    return Container(
+      height: h,
+      width: w,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/png/bg_blue2.png"), fit: BoxFit.fill)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -43,7 +51,6 @@ class TabMoreView extends GetView {
               child: SvgPicture.asset(
                 AppImages.bellwhite,
                 height: 24,
-                color: AppColors.white,
               ),
             )
           ],
@@ -187,7 +194,14 @@ class TabMoreView extends GetView {
                     //   ],
                     // ).paddingExceptBottom(10),
                     SizedBox(
-                      height: 10,
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Divider(color: AppColors.white, height: 3),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     ..._buildSettings(),
                   ]),
@@ -200,68 +214,244 @@ class TabMoreView extends GetView {
 
   List<Widget> _buildSettings() {
     return [
-      _buildSettingsItem(
-        "${'select_city'.tr} - ${Get.find<TabHomeMainController>().selectedCity().getMultiLangName()}",
-        Icons.language,
-        () => AppGetDialog.showSelctCityDialog(
-            cityChangedCallBack: (City city) =>
-                Get.find<TabHomeMainController>().cityChanged(city)),
+      commonprofilemenu(
+          onTap: () {}, icon: AppImages.map, title: "change_city".tr),
+      commonprofilemenu(
+          onTap: () {}, icon: AppImages.doctor, title: 'my_doctors'.tr),
+      commonprofilemenu(
+          onTap: () {}, icon: AppImages.frame, title: "change_language".tr),
+      commonprofilemenu(
+          onTap: () {},
+          icon: AppImages.history,
+          title: "appointment_history".tr),
+      commonprofilemenu(
+          onTap: () {}, icon: AppImages.map, title: "change_city".tr),
+
+      Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Center(
+                    child: Text(
+                      "complaint".tr,
+                      style: AppTextStyle.boldPrimary14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Center(
+                    child: Text(
+                      "suggestion".tr,
+                      style: AppTextStyle.boldPrimary14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      _buildSettingsItem(
-        "change_language".tr,
-        MaterialCommunityIcons.translate,
-        () => AppGetDialog.showChangeLangDialog(),
+      SizedBox(
+        height: 15,
       ),
+      Container(
+        decoration: BoxDecoration(
+            color: AppColors.red, borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Center(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "logout".tr,
+                style: AppTextStyle.boldWhite14,
+              ),
+              Icon(
+                Icons.logout,
+                color: AppColors.white,
+              )
+            ],
+          )),
+        ),
+      )
       // _buildSettingsItem(
-      //   'blog'.tr,
-      //   FontAwesome.firefox,
+      //   "${'select_city'.tr} - ${Get.find<TabHomeMainController>().selectedCity().getMultiLangName()}",
+      //   Icons.language,
+      //   () => AppGetDialog.showSelctCityDialog(
+      //       cityChangedCallBack: (City city) =>
+      //           Get.find<TabHomeMainController>().cityChanged(city)),
+      // ),
+      // _buildSettingsItem(
+      //   "change_language".tr,
+      //   MaterialCommunityIcons.translate,
+      //   () => AppGetDialog.showChangeLangDialog(),
+      // ),
+      // // _buildSettingsItem(
+      // //   'blog'.tr,
+      // //   FontAwesome.firefox,
+      // //   () => Get.to(
+      // //     () => TabChatView(url: "https://www.doctoryab.info/blog"),
+      // //   ),
+      // // ),
+      // _buildSettingsItem(
+      //   'my_doctors'.tr,
+      //   FontAwesome.stethoscope,
       //   () => Get.to(
-      //     () => TabChatView(url: "https://www.doctoryab.info/blog"),
+      //     () => DoctorsView(
+      //       action: DOCTORS_LOAD_ACTION.myDoctors,
+      //     ),
       //   ),
       // ),
-      _buildSettingsItem(
-        'my_doctors'.tr,
-        FontAwesome.stethoscope,
-        () => Get.to(
-          () => DoctorsView(
-            action: DOCTORS_LOAD_ACTION.myDoctors,
+      // _buildSettingsItem(
+      //   'checkup_time'.tr,
+      //   FontAwesome.stethoscope,
+      //   () => Get.to(
+      //     () => TabMeetingTimeView(),
+      //   ),
+      // ),
+      // _buildSettingsItem(
+      //   'reports'.tr,
+      //   Ionicons.md_document,
+      //   () => Get.to(() => TabDocsView()),
+      // ),
+      //
+      // _buildSettingsItem(
+      //   'blood_donor'.tr,
+      //   Ionicons.md_heart,
+      //   () {},
+      // ),
+      //
+      // _buildSettingsItem(
+      //   'find_blood_donor'.tr,
+      //   AntDesign.medicinebox,
+      //   // () => Get.to(() => TabDocsView()),
+      //   () {},
+      // ),
+      //
+      // //
+      // _buildSettingsItem(
+      //   "logout".tr,
+      //   Icons.logout,
+      //   () =>
+      //       AuthController.to.signOut().then((value) => Utils.whereShouldIGo()),
+      // ), // _buildSettingsItem(
+      //   "${'select_city'.tr} - ${Get.find<TabHomeMainController>().selectedCity().getMultiLangName()}",
+      //   Icons.language,
+      //   () => AppGetDialog.showSelctCityDialog(
+      //       cityChangedCallBack: (City city) =>
+      //           Get.find<TabHomeMainController>().cityChanged(city)),
+      // ),
+      // _buildSettingsItem(
+      //   "change_language".tr,
+      //   MaterialCommunityIcons.translate,
+      //   () => AppGetDialog.showChangeLangDialog(),
+      // ),
+      // // _buildSettingsItem(
+      // //   'blog'.tr,
+      // //   FontAwesome.firefox,
+      // //   () => Get.to(
+      // //     () => TabChatView(url: "https://www.doctoryab.info/blog"),
+      // //   ),
+      // // ),
+      // _buildSettingsItem(
+      //   'my_doctors'.tr,
+      //   FontAwesome.stethoscope,
+      //   () => Get.to(
+      //     () => DoctorsView(
+      //       action: DOCTORS_LOAD_ACTION.myDoctors,
+      //     ),
+      //   ),
+      // ),
+      // _buildSettingsItem(
+      //   'checkup_time'.tr,
+      //   FontAwesome.stethoscope,
+      //   () => Get.to(
+      //     () => TabMeetingTimeView(),
+      //   ),
+      // ),
+      // _buildSettingsItem(
+      //   'reports'.tr,
+      //   Ionicons.md_document,
+      //   () => Get.to(() => TabDocsView()),
+      // ),
+      //
+      // _buildSettingsItem(
+      //   'blood_donor'.tr,
+      //   Ionicons.md_heart,
+      //   () {},
+      // ),
+      //
+      // _buildSettingsItem(
+      //   'find_blood_donor'.tr,
+      //   AntDesign.medicinebox,
+      //   // () => Get.to(() => TabDocsView()),
+      //   () {},
+      // ),
+      //
+      // //
+      // _buildSettingsItem(
+      //   "logout".tr,
+      //   Icons.logout,
+      //   () =>
+      //       AuthController.to.signOut().then((value) => Utils.whereShouldIGo()),
+      // ),
+    ];
+  }
+
+  Widget commonprofilemenu({Function() onTap, String title, String icon}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+              color: AppColors.white, borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                SvgPicture.asset(icon,
+                    color: AppColors.primary, height: 21, width: 21),
+                Spacer(),
+                Text(
+                  title,
+                  style: AppTextStyle.boldPrimary14,
+                ),
+                Spacer(),
+                Icon(
+                  Icons.navigate_next_outlined,
+                  color: AppColors.primary,
+                )
+              ],
+            ),
           ),
         ),
       ),
-      _buildSettingsItem(
-        'checkup_time'.tr,
-        FontAwesome.stethoscope,
-        () => Get.to(
-          () => TabMeetingTimeView(),
-        ),
-      ),
-      _buildSettingsItem(
-        'reports'.tr,
-        Ionicons.md_document,
-        () => Get.to(() => TabDocsView()),
-      ),
-
-      _buildSettingsItem(
-        'blood_donor'.tr,
-        Ionicons.md_heart,
-        () {},
-      ),
-
-      _buildSettingsItem(
-        'find_blood_donor'.tr,
-        AntDesign.medicinebox,
-        // () => Get.to(() => TabDocsView()),
-        () {},
-      ),
-
-      //
-      _buildSettingsItem(
-        "logout".tr,
-        Icons.logout,
-        () =>
-            AuthController.to.signOut().then((value) => Utils.whereShouldIGo()),
-      ),
-    ];
+    );
   }
 
   Widget _buildSettingsItem(String title, IconData icon, VoidCallback onTap) {

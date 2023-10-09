@@ -169,6 +169,9 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 80.0,
+                    ),
                   ],
                 ),
               ),

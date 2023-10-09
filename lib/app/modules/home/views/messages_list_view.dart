@@ -121,6 +121,7 @@ class MessagesListView extends GetView<MessagesListController> {
                             child: CircularProgressIndicator(),
                           )
                         : ListView.separated(
+                            physics: BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
                               return MessageTile(
                                 chat: controller.chats[index],
@@ -170,6 +171,9 @@ class MessagesListView extends GetView<MessagesListController> {
                   height: 2,
                   color: AppColors.primary,
                 ),
+              ),
+              const SizedBox(
+                height: 80.0,
               ),
 
               ///height for bottomBar

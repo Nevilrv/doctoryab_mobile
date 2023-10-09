@@ -19,78 +19,90 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
     return GetBuilder<PregnancyTrackerController>(
       builder: (controller) {
         return Scaffold(
-          bottomNavigationBar: BottomBarView(isHomeScreen: false),
+          // bottomNavigationBar: BottomBarView(isHomeScreen: false),
           backgroundColor: AppColors.white,
-          body: Column(
+          body: Stack(
             children: [
-              appBar(h),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(
-                          top: 48,
-                          bottom: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
+                children: [
+                  appBar(h),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            margin: EdgeInsets.only(
+                              top: 48,
+                              bottom: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Stack(
+                              clipBehavior: Clip.none,
                               children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 100, top: 17, bottom: 32),
-                                    child: Text(
-                                      "baby_growing".tr,
-                                      textAlign: TextAlign.center,
-                                      style: AppTextStyle.boldWhite25
-                                          .copyWith(height: 1),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 100, top: 17, bottom: 32),
+                                        child: Text(
+                                          "baby_growing".tr,
+                                          textAlign: TextAlign.center,
+                                          style: AppTextStyle.boldWhite25
+                                              .copyWith(height: 1),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      height: h * 0.0605,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  height: h * 0.0605,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(8),
+                                Positioned(
+                                  top: -50,
+                                  child: Image.asset(
+                                    AppImages.baby1,
+                                    height: h * 0.15,
                                   ),
                                 ),
                               ],
                             ),
-                            Positioned(
-                              top: -50,
-                              child: Image.asset(
-                                AppImages.baby1,
-                                height: h * 0.15,
-                              ),
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              controller: controller.pageController,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: [
+                                TabCalculatorView(),
+                                TabCalendarView(),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: TabBarView(
-                          controller: controller.pageController,
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
-                            TabCalculatorView(),
-                            TabCalendarView(),
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
+              Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: BottomBarView(
+                    isHomeScreen: false,
+                  ))
             ],
           ),
         );

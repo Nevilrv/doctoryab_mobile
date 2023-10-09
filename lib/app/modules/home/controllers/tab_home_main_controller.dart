@@ -23,6 +23,7 @@ class TabHomeMainController extends GetxController {
     super.onInit();
   }
 
+  var isHomeScreen = true.obs;
   @override
   void onReady() {
     super.onReady();

@@ -14,6 +14,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
@@ -69,33 +70,33 @@ class DoctorsView extends StatelessWidget {
     return Background(
       isSecond: false,
       child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: hideAppbar
-              ? null
-              : AppAppBar.specialAppBar(() {
-                  switch (action) {
-                    case DOCTORS_LOAD_ACTION.fromCategory:
-                      {
-                        return "doctors_of"
-                            .trArgs([controller?.category()?.title]);
-                      }
-                    case DOCTORS_LOAD_ACTION.myDoctors:
-                      {
-                        return "my_doctors".tr;
-                      }
-                    case DOCTORS_LOAD_ACTION.ofhospital:
-                      {
-                        return hospitalName ?? "";
-                      }
-                  }
-                }(),
-                  showLeading: Navigator.of(context).canPop(),
-                  backgroundColor: Colors.transparent,
-                  action: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SvgPicture.asset(AppImages.blackBell),
-                  )
-                  /*action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
+        backgroundColor: Colors.transparent,
+        appBar: hideAppbar
+            ? null
+            : AppAppBar.specialAppBar(() {
+                switch (action) {
+                  case DOCTORS_LOAD_ACTION.fromCategory:
+                    {
+                      return "doctors_of"
+                          .trArgs([controller?.category()?.title]);
+                    }
+                  case DOCTORS_LOAD_ACTION.myDoctors:
+                    {
+                      return "my_doctors".tr;
+                    }
+                  case DOCTORS_LOAD_ACTION.ofhospital:
+                    {
+                      return hospitalName ?? "";
+                    }
+                }
+              }(),
+                showLeading: Navigator.of(context).canPop(),
+                backgroundColor: Colors.transparent,
+                action: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SvgPicture.asset(AppImages.blackBell),
+                )
+                /*action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
                       ? IconButton(
                           onPressed: () {
                             AppGetDialog.showFilterDialog(
@@ -108,9 +109,634 @@ class DoctorsView extends StatelessWidget {
                               Icon(AntDesign.filter, color: AppColors.primary),
                         )
                       : null*/
+                ),
+        // body: _buildItemView(DoctorBridge()),
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: w * 0.7,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.map,
+                                color: AppColors.white,
+                              ),
+                              Text(
+                                "view_all_in_maps".tr,
+                                style: AppTextStyle.boldWhite12
+                                    .copyWith(fontSize: 13),
+                              ),
+                              SizedBox()
+                            ],
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                        width: w * 0.15,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.primary),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 9.5, horizontal: 10),
+                          child: Center(
+                              child: Image.asset(
+                            AppImages.filter,
+                            width: 25,
+                            height: 24,
+                            color: AppColors.primary,
+                          )),
+                        ),
+                      ),
+                    ],
                   ),
-          // body: _buildItemView(DoctorBridge()),
-          body: RefreshIndicator(
+                ),
+                Container(
+                  height: h * 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(
+                                Routes.DOCTOR,
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              // height: 220,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: AppColors.primary),
+                                boxShadow: [
+                                  // BoxShadow(
+                                  //   color: Colors.grey.withOpacity(0.1),
+                                  //   spreadRadius: 7,
+                                  //   blurRadius: 7,
+                                  //   offset: Offset(0, 0),
+                                  // ),
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    // height: h * 0.2,
+                                    width: w,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                            // color: Colors.black,
+
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: AppColors.lightGrey),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: CachedNetworkImage(
+                                                imageUrl: "",
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                                placeholder: (_, __) {
+                                                  return Image.asset(
+                                                    "assets/png/person-placeholder.jpg",
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                                errorWidget: (_, __, ___) {
+                                                  return Image.asset(
+                                                    "assets/png/person-placeholder.jpg",
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                // SizedBox(height: 10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        "Dr. Manu Django Conradine",
+                                                        style: AppTextTheme.h(
+                                                                12)
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .primary),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 2),
+                                                Text(
+                                                  "Internal Medicine",
+                                                  style: AppTextTheme.b(11)
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.5)),
+                                                ),
+                                                SizedBox(height: 2),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    RatingBar.builder(
+                                                      ignoreGestures: true,
+                                                      itemSize: 15,
+                                                      initialRating: 4,
+                                                      // minRating: 1,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      allowHalfRating: true,
+                                                      itemCount: 5,
+                                                      itemPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 1.0),
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                        // size: 10,
+                                                      ),
+                                                      onRatingUpdate: (rating) {
+                                                        print(rating);
+                                                      },
+                                                    ),
+                                                    SizedBox(width: 4),
+                                                    Text(
+                                                      '(12) Reviews',
+                                                      style: AppTextTheme.b(12)
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5)),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Utils.openPhoneDialer(
+                                                              context,
+                                                              "3669595695");
+                                                        },
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 5,
+                                                                  horizontal:
+                                                                      5),
+                                                          decoration: BoxDecoration(
+                                                              color: AppColors
+                                                                  .secondary,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
+                                                          child: Center(
+                                                            child: Text(
+                                                              "call".tr,
+                                                              style: AppTextTheme
+                                                                      .m(12)
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          // BookingController.to.selectedDoctor(item);
+                                                          Get.toNamed(
+                                                            Routes.BOOK,
+                                                            // arguments: [item, controller.arguments.cCategory],
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 5,
+                                                                  horizontal:
+                                                                      2),
+                                                          decoration: BoxDecoration(
+                                                              color: AppColors
+                                                                  .lightBlack2,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
+                                                          child: Center(
+                                                            child: Text(
+                                                              "appointment".tr,
+                                                              style: AppTextTheme
+                                                                      .m(12)
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  // if (item.address != null)
+                                  // Row(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  // children: [
+                                  // SvgPicture.asset(
+                                  // "assets/svg/location_pin.svg",
+                                  // color: AppColors.primary,
+                                  // ).paddingOnly(top: 3),
+                                  // SizedBox(width: 8),
+                                  // Flexible(
+                                  // child: Text(
+                                  // item.address ?? "",
+                                  // maxLines: 3,
+                                  // style: AppTextTheme.b(12).copyWith(color: AppColors.lgt2),
+                                  // overflow: TextOverflow.ellipsis,
+                                  // ),
+                                  // ),
+                                  // ],
+                                  // ).paddingVertical(8).onTap(() {
+                                  // if (item.geometry?.coordinates !=
+                                  // null) if (item.geometry.coordinates.length > 1) {
+                                  // Utils.openGoogleMaps(item.geometry.coordinates[1],
+                                  // item.geometry.coordinates[0]);
+                                  // }
+                                  // }),
+                                  // SizedBox(
+                                  // height: 5,
+                                  // ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Utils.openPhoneDialer(context, item.phone);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.lightGrey,
+                                          border: Border.all(
+                                              color: AppColors.primary),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              AppImages.calendar,
+                                              height: 15,
+                                              width: 15,
+                                              color: AppColors.primary,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            FittedBox(
+                                              child: Text(
+                                                "Monday, August 10, 2022",
+                                                style: AppTextTheme.m(10)
+                                                    .copyWith(
+                                                        color:
+                                                            AppColors.primary),
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            SvgPicture.asset(
+                                              AppImages.clock,
+                                              height: 15,
+                                              width: 15,
+                                              color: AppColors.primary,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            FittedBox(
+                                              child: Text(
+                                                "09.00 - 10.00",
+                                                style: AppTextTheme.m(10)
+                                                    .copyWith(
+                                                        color:
+                                                            AppColors.primary),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // ListTile(
+                                  //     leading: AspectRatio(
+                                  //       aspectRatio: 1,
+                                  //       child: Container(
+                                  //         // color: Colors.black,
+                                  //         // height: 65,
+                                  //         // width: 65,
+                                  //         child: CachedNetworkImage(
+                                  //           imageUrl: "${ApiConsts.hostUrl}${item.photo}",
+                                  //           fit: BoxFit.cover,
+                                  //           placeholder: (_, __) {
+                                  //             return Image.asset(
+                                  //               "assets/png/person-placeholder.jpg",
+                                  //               fit: BoxFit.cover,
+                                  //             );
+                                  //           },
+                                  //           errorWidget: (_, __, ___) {
+                                  //             return Image.asset(
+                                  //               "assets/png/person-placeholder.jpg",
+                                  //               fit: BoxFit.cover,
+                                  //             );
+                                  //           },
+                                  //         ),
+                                  //       ).radiusAll(20),
+                                  //       //   Image.network(
+                                  //       //     "${ApiConsts.hostUrl}${item.photo}",
+                                  //       //     fit: BoxFit.cover,
+                                  //       //   ),
+                                  //       // ).radiusAll(20),
+                                  //     ),
+                                  //     title: Row(
+                                  //       mainAxisAlignment: MainAxisAlignment.start,
+                                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                                  //       mainAxisSize: MainAxisSize.min,
+                                  //       children: [
+                                  //         Flexible(
+                                  //           child: Text(
+                                  //             item.fullname ??
+                                  //                 " ${item.name ?? ""} ${item.lname ?? ""}",
+                                  //             style:
+                                  //                 AppTextTheme.h(15).copyWith(color: AppColors.black2),
+                                  //           ),
+                                  //         ),
+                                  //         if (item.verfied ?? false)
+                                  //           Icon(
+                                  //             Icons.verified,
+                                  //             color: AppColors.verified,
+                                  //           ).paddingHorizontal(6),
+                                  //       ],
+                                  //     ).paddingOnly(top: 8, bottom: 2),
+                                  //
+                                  //     // Text(
+                                  //     //   "${item.name ?? ""} ${item.lname ?? ""}",
+                                  //     //   style: AppTextTheme.h(15).copyWith(color: AppColors.black2),
+                                  //     // ).paddingOnly(top: 8),
+                                  //     subtitle: Column(
+                                  //       mainAxisAlignment: MainAxisAlignment.start,
+                                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         Text(
+                                  //           item.category.title ?? "",
+                                  //           style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
+                                  //         ),
+                                  //         SizedBox(height: 8),
+                                  //         Row(
+                                  //           mainAxisSize: MainAxisSize.min,
+                                  //           children: [
+                                  //             RatingBar.builder(
+                                  //               ignoreGestures: true,
+                                  //               itemSize: 15,
+                                  //               initialRating: item.stars.toDouble(),
+                                  //               // minRating: 1,
+                                  //               direction: Axis.horizontal,
+                                  //               allowHalfRating: true,
+                                  //               itemCount: 5,
+                                  //               itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                  //               itemBuilder: (context, _) => Icon(
+                                  //                 Icons.star,
+                                  //                 color: Colors.amber,
+                                  //                 // size: 10,
+                                  //               ),
+                                  //               onRatingUpdate: (rating) {
+                                  //                 print(rating);
+                                  //               },
+                                  //             ),
+                                  //             SizedBox(width: 4),
+                                  //             Text(
+                                  //               '(${double.tryParse(item.totalStar?.toStringAsFixed(1)) ?? ""})',
+                                  //               style: AppTextTheme.b(10.5)
+                                  //                   .copyWith(color: AppColors.lgt2),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //         if (item.address != null)
+                                  //           Row(
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               SvgPicture.asset("assets/svg/location_pin.svg")
+                                  //                   .paddingOnly(top: 4),
+                                  //               SizedBox(width: 8),
+                                  //               Flexible(
+                                  //                 child: Text(
+                                  //                   item.address ?? "",
+                                  //                   maxLines: 3,
+                                  //                   style: AppTextTheme.b(14)
+                                  //                       .copyWith(color: AppColors.lgt2),
+                                  //                   overflow: TextOverflow.ellipsis,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ).paddingVertical(8).onTap(() {
+                                  //             if (item.geometry?.coordinates !=
+                                  //                 null) if (item.geometry.coordinates.length > 1) {
+                                  //               Utils.openGoogleMaps(item.geometry.coordinates[1],
+                                  //                   item.geometry.coordinates[0]);
+                                  //             }
+                                  //           }),
+                                  //       ],
+                                  //     ),
+                                  //     onTap: () => Get.toNamed(Routes.DOCTOR, arguments: [item])),
+                                  // SizedBox(height: 30),
+                                  // Wrap(
+                                  //   spacing: 8,
+                                  //   runSpacing: 8,
+                                  //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     _buildButton(
+                                  //       item,
+                                  //       icon: SvgPicture.asset("assets/svg/call-24px.svg"),
+                                  //       child: FittedBox(
+                                  //         child: Text(
+                                  //           "call".tr,
+                                  //           style: AppTextTheme.m(14).copyWith(color: Colors.white),
+                                  //         ),
+                                  //       ),
+                                  //       bgColor: AppColors.green,
+                                  //       onTap: () => Utils.openPhoneDialer(context, item.phone),
+                                  //
+                                  //       //  () {
+                                  //       //   final Uri _emailLaunchUri = Uri(
+                                  //       //     scheme: 'tel',
+                                  //       //     path: item.phone,
+                                  //       //   );
+                                  //       //   launch(_emailLaunchUri.toString())
+                                  //       //       .onError((error, stackTrace) {
+                                  //       //     //TODO Not tested
+                                  //       //     ScaffoldMessenger.of(Get.context).showSnackBar(
+                                  //       //       SnackBar(
+                                  //       //         content: Text(
+                                  //       //           error.toString(),
+                                  //       //         ),
+                                  //       //       ),
+                                  //       //     );
+                                  //
+                                  //       //     return;
+                                  //       //   });
+                                  //       // },
+                                  //     ),
+                                  //     _buildButton(
+                                  //       item,
+                                  //       icon: SvgPicture.asset("assets/svg/date_range-24px.svg"),
+                                  //       child: FittedBox(
+                                  //         child: Text(
+                                  //           "book_now".tr,
+                                  //           style: AppTextTheme.m(14).copyWith(color: Colors.white),
+                                  //         ),
+                                  //       ),
+                                  //       bgColor: AppColors.easternBlue,
+                                  //       onTap:
+                                  //           // loadMyDoctorsMode
+                                  //           //     ? () {
+                                  //           //         if (item.id == null || item.category == null) {
+                                  //           //           // AppGetDialog.show(
+                                  //           //           //     middleText: "doctor_id_or_category_is_null".tr);
+                                  //
+                                  //           //           AppGetDialog.showSeleceDoctorCategoryDialog(item,
+                                  //           //               onChange: (cat) {
+                                  //           //             BookingController.to.selectedDoctor(item);
+                                  //           //             BookingController.to.selectedCategory(cat);
+                                  //           //             Get.toNamed(
+                                  //           //               Routes.BOOK,
+                                  //           //               // arguments: [item, controller.arguments.cCategory],
+                                  //           //             );
+                                  //           //           });
+                                  //           //           return;
+                                  //           //         }
+                                  //           //         BookingController.to.selectedDoctor(item);
+                                  //           //         BookingController.to
+                                  //           //             .selectedCategory(Category(id: item.category));
+                                  //           //         Get.toNamed(
+                                  //           //           Routes.BOOK,
+                                  //           //           // arguments: [item.doctor, controller.arguments.cCategory],
+                                  //           //         );
+                                  //           //         //
+                                  //           //         // AppGetDialog.showSeleceDoctorCategoryDialog(item,
+                                  //           //         //     onChange: (cat) {
+                                  //           //         //   BookingController.to.selectedDoctor(item);
+                                  //           //         //   BookingController.to.selectedCategory(cat);
+                                  //           //         //   Get.toNamed(
+                                  //           //         //     Routes.BOOK,
+                                  //           //         //     // arguments: [item, controller.arguments.cCategory],
+                                  //           //         //   );
+                                  //           //         // });
+                                  //           //       }
+                                  //           // :
+                                  //           () {
+                                  //         BookingController.to.selectedDoctor(item);
+                                  //         Get.toNamed(
+                                  //           Routes.BOOK,
+                                  //           // arguments: [item, controller.arguments.cCategory],
+                                  //         );
+                                  //       },
+                                  //     ),
+                                  //   ],
+                                  // ).paddingHorizontal(10),
+                                  // SizedBox(height: 20),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              child: BottomBarView(
+                isHomeScreen: false,
+              ),
+            )
+          ],
+        ) /* RefreshIndicator(
             onRefresh: () => Future.sync(
               () async {
                 Utils.resetPagingController(controller.pagingController);
@@ -133,7 +759,7 @@ class DoctorsView extends StatelessWidget {
               builderDelegate: PagedChildBuilderDelegate<Doctor>(
                 itemBuilder: (context, item, index) {
                   // var item = controller.latestVideos[index];
-                  return _buildItemView(context, item);
+                  // return _buildItemView(context, item);
                 },
                 noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
                 noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
@@ -142,10 +768,9 @@ class DoctorsView extends StatelessWidget {
                 ),
               ),
             ),
-          ).bgColor(bgColor),
-          bottomNavigationBar: BottomBarView(
-            isHomeScreen: false,
-          )),
+          ).bgColor(bgColor)*/
+        ,
+      ),
     );
   }
 

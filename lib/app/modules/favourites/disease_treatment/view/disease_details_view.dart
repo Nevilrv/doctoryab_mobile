@@ -19,116 +19,133 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
     return Scaffold(
       appBar: AppAppBar.primaryAppBar(title: "${Get.arguments["title"]}".tr),
       backgroundColor: AppColors.lightGrey,
-      bottomNavigationBar: BottomBarView(isHomeScreen: false),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Container(
-                height: h * 0.154,
-                margin: EdgeInsets.only(top: 15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage(AppImages.adBanner),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 23, bottom: 15),
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.white,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      // bottomNavigationBar: BottomBarView(isHomeScreen: false),
+      body: Container(
+        height: h,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
                   children: [
                     Container(
-                      height: h * 0.119,
-                      width: w * 0.305,
-                      margin: EdgeInsets.only(right: 15),
+                      height: h * 0.154,
+                      margin: EdgeInsets.only(top: 15),
                       decoration: BoxDecoration(
-                        color: Get.arguments["color"],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          Get.arguments["image"],
-                          height: h * 0.067,
-                          width: w * 0.146,
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: AssetImage(AppImages.adBanner),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Column(
+                    Container(
+                      margin: EdgeInsets.only(top: 23, bottom: 15),
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.white,
+                      ),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "What is Virus?",
-                            style: AppTextStyle.boldPrimary11,
+                          Container(
+                            height: h * 0.119,
+                            width: w * 0.305,
+                            margin: EdgeInsets.only(right: 15),
+                            decoration: BoxDecoration(
+                              color: Get.arguments["color"],
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                Get.arguments["image"],
+                                height: h * 0.067,
+                                width: w * 0.146,
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            "A virus is an infectious microbe consisting of a segment of nucleic acid (either DNA or RNA) surrounded by a protein coat. A virus cannot replicate alone; instead, it must infect cells and use components of the host cell to make copies of itself.",
-                            style: AppTextStyle.mediumPrimary8
-                                .copyWith(height: 1.2),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "What is Virus?",
+                                  style: AppTextStyle.boldPrimary11,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  "A virus is an infectious microbe consisting of a segment of nucleic acid (either DNA or RNA) surrounded by a protein coat. A virus cannot replicate alone; instead, it must infect cells and use components of the host cell to make copies of itself.",
+                                  style: AppTextStyle.mediumPrimary8
+                                      .copyWith(height: 1.2),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
+                      ),
+                    ),
+                    ...List.generate(
+                      5,
+                      (index) => GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.DISEASE_SUB_DETAILS, arguments: [
+                            "Category ${index + 1}",
+                            Get.arguments
+                          ]);
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          margin: EdgeInsets.only(bottom: 7),
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 34,
+                                width: 34,
+                                margin: EdgeInsets.only(right: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.grey.withOpacity(0.1),
+                                ),
+                              ),
+                              Text(
+                                "Category ${index + 1}",
+                                style: AppTextStyle.boldPrimary11,
+                              ),
+                              Spacer(),
+                              RotatedBox(
+                                quarterTurns: 2,
+                                child: SvgPicture.asset(
+                                  AppImages.back,
+                                  height: 13,
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              ...List.generate(
-                5,
-                (index) => GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.DISEASE_SUB_DETAILS,
-                        arguments: ["Category ${index + 1}", Get.arguments]);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    margin: EdgeInsets.only(bottom: 7),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 34,
-                          width: 34,
-                          margin: EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.grey.withOpacity(0.1),
-                          ),
-                        ),
-                        Text(
-                          "Category ${index + 1}",
-                          style: AppTextStyle.boldPrimary11,
-                        ),
-                        Spacer(),
-                        RotatedBox(
-                          quarterTurns: 2,
-                          child: SvgPicture.asset(
-                            AppImages.back,
-                            height: 13,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+            Positioned(
+                bottom: 20,
+                left: 20,
+                right: 20,
+                child: BottomBarView(
+                  isHomeScreen: false,
+                ))
+          ],
         ),
       ),
     );

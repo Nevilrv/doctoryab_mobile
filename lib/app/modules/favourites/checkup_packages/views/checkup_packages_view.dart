@@ -13,10 +13,21 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
     final w = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      bottomNavigationBar: BottomBarView(isHomeScreen: false),
       backgroundColor: AppColors.white,
-      body: Column(
-        children: [],
+      body: Container(
+        height: h,
+        child: Stack(
+          children: [
+            Container(),
+            Positioned(
+                bottom: 20,
+                left: 20,
+                right: 20,
+                child: BottomBarView(
+                  isHomeScreen: false,
+                ))
+          ],
+        ),
       ),
     );
   }

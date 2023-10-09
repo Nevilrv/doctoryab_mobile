@@ -102,6 +102,7 @@ dependencies:
   story_view: ^0.14.0
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0
+  expandable_text: ^2.3.0
 
 
 dev_dependencies:

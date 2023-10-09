@@ -101,11 +101,23 @@ class AppAppBar {
           color: AppColors.white,
         ),
       ),
-      title: Text(
-        "$title ${bloodIcon ? "🩸" : ""}",
-        textAlign: TextAlign.center,
-        style: AppTextStyle.boldWhite20,
-      ),
+      title: bloodIcon == false
+          ? Text(
+              "$title ",
+              textAlign: TextAlign.center,
+              style: AppTextStyle.boldWhite20,
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "$title ",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.boldWhite20,
+                ),
+                Image.asset(AppImages.blood1)
+              ],
+            ),
       centerTitle: true,
       actions: [
         Padding(

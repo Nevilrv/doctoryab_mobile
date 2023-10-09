@@ -18,59 +18,75 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
-      bottomNavigationBar: BottomBarView(isHomeScreen: false),
       appBar:
           AppAppBar.primaryAppBar(title: "drug_database".tr, savedIcon: true),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: GetBuilder<DrugsController>(
-          builder: (controller) {
-            return Column(
-              children: [
-                searchTextField(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 10,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(color: AppColors.primary, thickness: 1),
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: GetBuilder<DrugsController>(
+              builder: (controller) {
+                return Column(
+                  children: [
+                    searchTextField(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 18,
+                        bottom: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: Text(
-                          "what_we_found".tr,
-                          style: AppTextStyle.mediumPrimary11,
-                        ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child:
+                                Divider(color: AppColors.primary, thickness: 1),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 3),
+                            child: Text(
+                              "what_we_found".tr,
+                              style: AppTextStyle.mediumPrimary11,
+                            ),
+                          ),
+                          Expanded(
+                            child:
+                                Divider(color: AppColors.primary, thickness: 1),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Divider(color: AppColors.primary, thickness: 1),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: controller.medicinesNames.length,
+                        itemBuilder: (context, index) {
+                          if (!controller.medicinesNames[index]
+                              .toUpperCase()
+                              .trim()
+                              .contains(
+                                  controller.filterSearch.toUpperCase())) {
+                            return const SizedBox();
+                          }
+                          return drugsData(h, w, index);
+                        },
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: controller.medicinesNames.length,
-                    itemBuilder: (context, index) {
-                      if (!controller.medicinesNames[index]
-                          .toUpperCase()
-                          .trim()
-                          .contains(controller.filterSearch.toUpperCase())) {
-                        return const SizedBox();
-                      }
-                      return drugsData(h, w, index);
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+                    ),
+                    const SizedBox(
+                      height: 80.0,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          Positioned(
+              bottom: 20,
+              left: 20,
+              right: 20,
+              child: BottomBarView(
+                isHomeScreen: false,
+              ))
+        ],
       ),
     );
   }

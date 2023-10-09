@@ -25,6 +25,22 @@ class AppImages {
   static const weather = "assets/svg/weather.svg";
   static const phone = "assets/svg/Phone.svg";
   static const saved = "assets/svg/saved.svg";
+  static const doctor = "assets/svg/doctor.svg";
+  static const document = "assets/svg/document.svg";
+  static const history = "assets/svg/history.svg";
+
+  static const frame = "assets/svg/Frame.svg";
+  static const moon = "assets/svg/Moon.svg";
+  static const emergencyBell = "assets/svg/emergency_bell.svg";
+  static const roundedMoon = "assets/svg/rounded_moon.svg";
+  static const noteEdit = "assets/svg/Note_Edit.svg";
+  static const editName = "assets/svg/edit_name.svg";
+  static const editPen = "assets/svg/Edit_Pen.svg";
+  static const mail = "assets/svg/Mail.svg";
+  static const mobile = "assets/svg/Mobile.svg";
+  static const gift = "assets/svg/Gift.svg";
+  static const user = "assets/svg/User.svg";
+  // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG
   static const bell = "assets/png/bell.png";
@@ -72,4 +88,5 @@ class AppImages {
   static const dummyAudio = "assets/png/dummy_audio.png";
   static const emergency = "assets/png/emergency.jpg";
   static const googleMap = "assets/png/google-maps.png";
+  static const blood1 = "assets/png/blood1.png";
 }

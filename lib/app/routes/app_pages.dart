@@ -94,6 +94,20 @@ class AppPages {
       ],
     ),
     GetPage(
+      name: _Paths.HOME,
+      page: () => HomeView(),
+      binding: HomeBinding(),
+
+      // settings: RouteSettings(),
+      children: [
+        // GetPage(
+        //   name: _Paths.TAB_HOME_OTHERS,
+        //   page: () => TabHomeOthersView(),
+        //   binding: TabHomeOthersBinding(),
+        // ),
+      ],
+    ),
+    GetPage(
       name: _Paths.INTRO,
       page: () => IntroView(),
       binding: IntroBinding(),

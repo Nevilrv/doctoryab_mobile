@@ -40,6 +40,7 @@ class AppColors {
   static const lightBlack2 = Color(0xFF343F54);
   static const red = Color(0xffF31155);
   static const red2 = Color(0xffFF0101);
+  static const red3 = Color(0xffFF3014);
   static const lightPurple = Color(0xffECEEFF);
   static const lightPurple2 = Color(0xffEEF0FF);
   static const lightPurple3 = Color(0xffD3D8FF);
@@ -62,6 +63,8 @@ class AppColors {
   static const boxPurple3 = Color(0xFFE5DCFF);
   static const lightPurple4 = Color(0xFF999FC9);
   static const darkBlue = Color(0xFF333E92);
+  static const grey1 = Color(0xFF8D8E8F);
+  static const grey2 = Color(0xFFF4F5F9);
 
   static const MaterialColor primarySwatch = MaterialColor(
     0xff333e92,

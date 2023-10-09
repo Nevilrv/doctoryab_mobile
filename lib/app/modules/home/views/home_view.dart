@@ -41,47 +41,51 @@ class HomeView extends GetView<HomeController> {
         return true;
       },
       child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 0,
-            backgroundColor: AppColors.primary,
-            elevation: 0,
-            // systemOverlayStyle: SystemUiOverlayStyle.dark,
-          ),
-          body: TabBarView(
-            controller: controller.pageController,
-            physics: NeverScrollableScrollPhysics(),
-            // physics: BouncingScrollPhysics(),
-            children: <Widget>[
-              TabHomeMainView(),
-              MessagesListView(),
-              // TabSearchView(),
-              FavouritesScreenView(),
-              TabBlogView(),
+        appBar: AppBar(
+          toolbarHeight: 0,
+          backgroundColor: AppColors.primary,
+          elevation: 0,
+          // systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ),
+        body: Stack(
+          children: [
+            TabBarView(
+              controller: controller.pageController,
+              physics: NeverScrollableScrollPhysics(),
+              // physics: BouncingScrollPhysics(),
+              children: <Widget>[
+                TabHomeMainView(),
+                MessagesListView(),
+                // TabSearchView(),
+                FavouritesScreenView(),
+                TabBlogView(),
 
-              // TabMyDoctorsView(),
-              // DoctorsView(
-              //   action: DOCTORS_LOAD_ACTION.myDoctors,
-              // ),
-              // TabDocsView(),
-              TabMoreView(),
-              // ProfileUpdateView(
-              //     // height: AppThemeConsts.getWindowHeightInSafeArea(context)
-              //     )
-            ],
-          ),
+                // TabMyDoctorsView(),
+                // DoctorsView(
+                //   action: DOCTORS_LOAD_ACTION.myDoctors,
+                // ),
+                // TabDocsView(),
+                TabMoreView(),
+                // ProfileUpdateView(
+                //     // height: AppThemeConsts.getWindowHeightInSafeArea(context)
+                //     )
+              ],
+            ),
+            Positioned(bottom: 20, left: 20, right: 20, child: BottomBarView())
+          ],
+        ),
 
-          // PageView(
-          //   onPageChanged: (index) {
-          //     Timer(Duration(milliseconds: 1), () {
-          //       print(index);
-          //       controller.selectedIndex.value = index;
-          //     });
-          //   },
-          //   children: controller.screens,
-          //   controller: controller.pageController,
-          // ),
-          bottomNavigationBar:
-              BottomBarView() /* Obx(
+        // PageView(
+        //   onPageChanged: (index) {
+        //     Timer(Duration(milliseconds: 1), () {
+        //       print(index);
+        //       controller.selectedIndex.value = index;
+        //     });
+        //   },
+        //   children: controller.screens,
+        //   controller: controller.pageController,
+        // ),
+        /* Obx(
           () => BottomNavigationBar(
             iconSize: 22,
             elevation: 0,
@@ -138,16 +142,17 @@ class HomeView extends GetView<HomeController> {
             ],
           ).radiusAll(15).paddingExceptTop(16).paddingOnly(top: 8),
         )*/
-
-          ),
+      ),
     );
   }
 }
 
 class BottomBarView extends StatelessWidget {
   bool isHomeScreen = true;
+  bool isBlueBackground = false;
 
-  BottomBarView({Key key, this.isHomeScreen}) : super(key: key);
+  BottomBarView({Key key, this.isHomeScreen, this.isBlueBackground})
+      : super(key: key);
   List bottomBarItem = [
     AppImages.home,
     AppImages.message,
@@ -160,13 +165,124 @@ class BottomBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) {
-        return Container(
-          color: controller.selectedIndex == 4
-              ? AppColors.primary
-              : AppColors.lightGrey,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-            child: Container(
+        return isBlueBackground == true
+            ? Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: AppColors.white),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: List.generate(bottomBarItem.length, (index) {
+                      return index == 2
+                          ? GestureDetector(
+                              onTap: () {
+                                log("isHomeScreen--------------> ${isHomeScreen}");
+                                if (isHomeScreen == false) {
+                                  Get.offAllNamed(Routes.HOME,
+                                      arguments: {'id': index});
+                                }
+                                controller.setIndex(index);
+                                controller.selectedIndex = index;
+
+                                controller.pageController.animateTo(index,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.ease);
+                              },
+                              child: Container(
+                                height: 65,
+                                width: 65,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    SizedBox(),
+                                    Positioned(
+                                      bottom: 15,
+                                      child: Container(
+                                        height: 65,
+                                        width: 65,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.white,
+                                            shape: BoxShape.circle),
+                                        child: Center(
+                                          child: Container(
+                                            height: 55,
+                                            width: 55,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primary,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                  bottomBarItem[index],
+                                                  color: AppColors.white,
+                                                  height: 30,
+                                                  width: 30),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                log("isHomeScreen--------------> ${isHomeScreen}");
+                                log("index--------------> ${index}");
+                                if (isHomeScreen == false) {
+                                  log("isHomeScreen--------------> ${isHomeScreen}");
+
+                                  Get.offAllNamed(Routes.HOME,
+                                      arguments: {'id': index});
+                                }
+
+                                controller.setIndex(index);
+                                controller.selectedIndex = index;
+                                controller.pageController.animateTo(index,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.ease);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  SvgPicture.asset(
+                                    bottomBarItem[index],
+                                    height: 24,
+                                    width: 24,
+                                    color: controller.selectedIndex == index
+                                        ? AppColors.primary
+                                        : AppColors.primaryLight,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  controller.selectedIndex == index
+                                      ? CircleAvatar(
+                                          radius: 2,
+                                          backgroundColor:
+                                              controller.selectedIndex == index
+                                                  ? AppColors.primary
+                                                  : AppColors.primary,
+                                        )
+                                      : SizedBox(
+                                          height: 4,
+                                        ),
+                                  SizedBox(
+                                    height: 9,
+                                  )
+                                ],
+                              ),
+                            );
+                    }),
+                  ),
+                ))
+            : Container(
                 height: 60,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -208,10 +324,9 @@ class BottomBarView extends StatelessWidget {
                                         height: 65,
                                         width: 65,
                                         decoration: BoxDecoration(
-                                            color:
-                                                controller.selectedIndex == true
-                                                    ? AppColors.white
-                                                    : AppColors.primary,
+                                            color: controller.selectedIndex == 4
+                                                ? AppColors.white
+                                                : AppColors.primary,
                                             shape: BoxShape.circle),
                                         child: Center(
                                           child: Container(
@@ -220,7 +335,7 @@ class BottomBarView extends StatelessWidget {
                                             decoration: BoxDecoration(
                                                 color:
                                                     controller.selectedIndex ==
-                                                            true
+                                                            4
                                                         ? AppColors.primary
                                                         : AppColors.white,
                                                 shape: BoxShape.circle),
@@ -229,7 +344,7 @@ class BottomBarView extends StatelessWidget {
                                                   bottomBarItem[index],
                                                   color: controller
                                                               .selectedIndex ==
-                                                          true
+                                                          4
                                                       ? AppColors.white
                                                       : AppColors.primary,
                                                   height: 30,
@@ -257,7 +372,7 @@ class BottomBarView extends StatelessWidget {
                                 controller.setIndex(index);
                                 controller.selectedIndex = index;
                                 controller.pageController.animateTo(index,
-                                    duration: Duration(milliseconds: 500),
+                                    duration: Duration(milliseconds: 10),
                                     curve: Curves.ease);
                               },
                               child: Column(
@@ -299,9 +414,7 @@ class BottomBarView extends StatelessWidget {
                             );
                     }),
                   ),
-                )),
-          ),
-        );
+                ));
       },
     );
   }

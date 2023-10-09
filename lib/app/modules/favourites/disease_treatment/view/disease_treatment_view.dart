@@ -100,68 +100,79 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
     return Scaffold(
       appBar: AppAppBar.primaryAppBar(title: "all_diseases".tr),
       backgroundColor: AppColors.lightGrey,
-      bottomNavigationBar: BottomBarView(isHomeScreen: false),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: GridView.builder(
-          itemCount: diseaseData.length,
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          padding: EdgeInsets.only(top: 18),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 0.7,
-          ),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Get.toNamed(Routes.DISEASE_DETAILS,
-                    arguments: diseaseData[index]);
-              },
-              child: Container(
-                padding: EdgeInsets.all(11).copyWith(bottom: 0),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: h * 0.108,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: diseaseData[index]["color"],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          diseaseData[index]["image"],
-                          height: 52,
-                          width: 52,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          diseaseData[index]["title"].toString().tr,
-                          style:
-                              AppTextStyle.boldPrimary12.copyWith(height: 1.2),
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+      // bottomNavigationBar: BottomBarView(isHomeScreen: false),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 80),
+            child: GridView.builder(
+              itemCount: diseaseData.length,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.only(top: 18),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 0.7,
               ),
-            );
-          },
-        ),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.DISEASE_DETAILS,
+                        arguments: diseaseData[index]);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(11).copyWith(bottom: 0),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: h * 0.108,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: diseaseData[index]["color"],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              diseaseData[index]["image"],
+                              height: 52,
+                              width: 52,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              diseaseData[index]["title"].toString().tr,
+                              style: AppTextStyle.boldPrimary12
+                                  .copyWith(height: 1.2),
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+              bottom: 20,
+              left: 20,
+              right: 20,
+              child: BottomBarView(
+                isHomeScreen: false,
+              ))
+        ],
       ),
     );
   }

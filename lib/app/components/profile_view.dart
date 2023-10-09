@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/modules/hospital_new/tab_main/views/tab_main_view.dart';
+import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
 
 import 'package:doctor_yab/app/data/models/labs_model.dart';
@@ -26,9 +29,11 @@ class ProfileViewNew extends StatelessWidget {
     this.child,
     this.showChildInBox = true,
     this.numberOfusersRated,
+    this.reviewTitle,
   }) : super(key: key);
   final String photo;
   final String name;
+  final String reviewTitle;
   final num star;
   final String address;
   final Geometry geometry;
@@ -111,8 +116,8 @@ class ProfileViewNew extends StatelessWidget {
                               Flexible(
                                 child: Text(
                                   "Afghan Hospital",
-                                  style: AppTextTheme.h(11)
-                                      .copyWith(color: AppColors.black2),
+                                  style: AppTextTheme.h(12)
+                                      .copyWith(color: AppColors.primary),
                                 ),
                               ),
                             ],
@@ -124,7 +129,7 @@ class ProfileViewNew extends StatelessWidget {
                             children: [
                               RatingBar.builder(
                                 ignoreGestures: true,
-                                itemSize: 15,
+                                itemSize: 17,
                                 initialRating: 4,
                                 // minRating: 1,
                                 direction: Axis.horizontal,
@@ -142,10 +147,18 @@ class ProfileViewNew extends StatelessWidget {
                                 },
                               ),
                               SizedBox(width: 4),
-                              Text(
-                                '(10) Reviews',
-                                style: AppTextTheme.b(11).copyWith(
-                                    color: AppColors.primary.withOpacity(0.5)),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(ReviewScreen(
+                                    appBarTitle: reviewTitle,
+                                  ));
+                                },
+                                child: Text(
+                                  '(10) ${"reviews".tr}',
+                                  style: AppTextTheme.b(12).copyWith(
+                                      color:
+                                          AppColors.primary.withOpacity(0.5)),
+                                ),
                               )
                             ],
                           ),
@@ -198,15 +211,38 @@ class ProfileViewNew extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: AppColors.lightGrey),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      "assets/svg/location_pin.svg",
-                      color: AppColors.primary,
-                    ).paddingOnly(top: 3),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 10),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppImages.map,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              "show_map".tr,
+                              style: AppTextStyle.boldWhite12
+                                  .copyWith(fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 8),
                     Flexible(
                       child: Text(
@@ -229,21 +265,6 @@ class ProfileViewNew extends StatelessWidget {
             ),
             SizedBox(
               height: 5,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: h * 0.18,
-                width: w,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    image: DecorationImage(
-                        image: AssetImage(AppImages.fullMap),
-                        fit: BoxFit.fill)),
-              ),
-            ),
-            SizedBox(
-              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),

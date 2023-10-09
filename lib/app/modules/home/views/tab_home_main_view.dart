@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
@@ -28,118 +30,139 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        body: Background(
-          isSecond: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: h * 0.015,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _buildStroies(),
-                  Container(),
-                ],
-              ),
+        body: Obx(() {
+          return Background(
+            isSecond: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: h * 0.015,
+                ),
+                controller.isHomeScreen.value == true
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              _buildStroies(),
+                              Container(),
+                            ],
+                          ),
 
-              // SizedBox(height: 20),
-              //HIDE Change city
-              //TODO remove this after moved to other page
-              // if (2 == 3)
-              //   Container(
-              //     // height: 50,
-              //     // width: 140,
-              //     // decoration: BoxDecoration(
-              //     //     border: Border.all(color: AppColors.lgt),
-              //     //     borderRadius: BorderRadius.circular(15)),
-              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              //     child: Obx(
-              //       () => OutlinedButton.icon(
-              //         icon: Text(
-              //           controller.selectedCity().getMultiLangName(),
-              //           style: TextStyle(color: AppColors.lgt),
-              //         ).paddingSymmetric(horizontal: 4, vertical: 10),
-              //         onPressed: () {
-              //           AppGetDialog.showSelctCityDialog(
-              //               cityChangedCallBack: (City city) =>
-              //                   controller.cityChanged(city));
-              //         },
-              //         label: Icon(
-              //           Icons.arrow_drop_down,
-              //           color: AppColors.lgt,
-              //         ),
-              //         style: OutlinedButton.styleFrom(
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(12.0),
-              //           ),
-              //           // side: BorderSide(width: 2,),
-              //         ),
-              //         // style: ButtonStyle(),
-              //       ),
-              //     ),
-              //   ).paddingStart(context, 15).paddingOnly(top: 15, bottom: 8),
-              Utils.searchBox(isFav: false),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Center(
-                  child: SizedBox(
-                    child: TabBar(
-                      labelPadding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      labelColor: Colors.white,
-                      unselectedLabelColor: AppColors.black,
-                      labelStyle: AppTextStyle.regularWhite12
-                          .copyWith(fontWeight: FontWeight.w500),
-                      unselectedLabelStyle: AppTextStyle.mediumBlack12
-                          .copyWith(fontWeight: FontWeight.w500),
-                      indicator: BoxDecoration(
-                        color: Get.theme.primaryColor,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      tabs: [
-                        // Text("doctors".tr),
-                        // Text("hospitals".tr),
-                        // Text("drug_store".tr),
-                        // Text("labratories".tr),
-                        FittedBox(child: Text("doctors".tr), fit: BoxFit.cover),
-                        FittedBox(child: Text("hospitals".tr)),
-                        FittedBox(child: Text("drug_store".tr)),
-                        FittedBox(child: Text("labratories".tr)),
-                        // Text("doctors".tr),
-                        // Text("doctors".tr),
-                        // Text("doctors".tr),
-                      ],
-                    ) /*.size(
+                          // SizedBox(height: 20),
+                          //HIDE Change city
+                          //TODO remove this after moved to other page
+                          // if (2 == 3)
+                          //   Container(
+                          //     // height: 50,
+                          //     // width: 140,
+                          //     // decoration: BoxDecoration(
+                          //     //     border: Border.all(color: AppColors.lgt),
+                          //     //     borderRadius: BorderRadius.circular(15)),
+                          //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                          //     child: Obx(
+                          //       () => OutlinedButton.icon(
+                          //         icon: Text(
+                          //           controller.selectedCity().getMultiLangName(),
+                          //           style: TextStyle(color: AppColors.lgt),
+                          //         ).paddingSymmetric(horizontal: 4, vertical: 10),
+                          //         onPressed: () {
+                          //           AppGetDialog.showSelctCityDialog(
+                          //               cityChangedCallBack: (City city) =>
+                          //                   controller.cityChanged(city));
+                          //         },
+                          //         label: Icon(
+                          //           Icons.arrow_drop_down,
+                          //           color: AppColors.lgt,
+                          //         ),
+                          //         style: OutlinedButton.styleFrom(
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(12.0),
+                          //           ),
+                          //           // side: BorderSide(width: 2,),
+                          //         ),
+                          //         // style: ButtonStyle(),
+                          //       ),
+                          //     ),
+                          //   ).paddingStart(context, 15).paddingOnly(top: 15, bottom: 8),
+                          Utils.searchBox(isFav: false),
+                        ],
+                      )
+                    : SizedBox(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Center(
+                    child: SizedBox(
+                      child: TabBar(
+                        labelPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                        labelColor: Colors.white,
+                        onTap: (value) {
+                          if (value == 0) {
+                            controller.isHomeScreen.value = true;
+                          } else {
+                            controller.isHomeScreen.value = false;
+                          }
+                          log("value--------------> ${value}");
+                        },
+                        unselectedLabelColor: AppColors.black,
+                        labelStyle: AppTextStyle.regularWhite12
+                            .copyWith(fontWeight: FontWeight.w500),
+                        unselectedLabelStyle: AppTextStyle.mediumBlack12
+                            .copyWith(fontWeight: FontWeight.w500),
+                        indicator: BoxDecoration(
+                          color: Get.theme.primaryColor,
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        tabs: [
+                          // Text("doctors".tr),
+                          // Text("hospitals".tr),
+                          // Text("drug_store".tr),
+                          // Text("labratories".tr),
+                          FittedBox(
+                              child: Text("doctors".tr), fit: BoxFit.cover),
+                          FittedBox(child: Text("hospitals".tr)),
+                          FittedBox(child: Text("drug_store".tr)),
+                          FittedBox(child: Text("labratories".tr)),
+                          // Text("doctors".tr),
+                          // Text("doctors".tr),
+                          // Text("doctors".tr),
+                        ],
+                      ) /*.size(
                       width: MediaQuery.of(context).size.width > 600 ? 500 : 324,
                     )*/
-                    ,
-                  )
-                      .paddingSymmetric(horizontal: 10, vertical: 8)
-                      .bgColor(Colors.white)
-                      .radiusAll(30)
-                      // .paddingAll(2)
-                      .basicShadow(),
+                      ,
+                    )
+                        .paddingSymmetric(horizontal: 10, vertical: 8)
+                        .bgColor(Colors.white)
+                        .radiusAll(30)
+                        // .paddingAll(2)
+                        .basicShadow(),
+                  ),
                 ),
-              ),
-
-              Expanded(
-                child: TabBarView(
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    TabHomeDoctorsView(),
-                    TabHomeHospitalsView(),
-                    TabHomeDrugstoreView(),
-                    TabHomeLabsView(),
-                  ],
+                Expanded(
+                  child: TabBarView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      TabHomeDoctorsView(),
+                      TabHomeHospitalsView(),
+                      TabHomeDrugstoreView(),
+                      TabHomeLabsView(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
+                Container(
+                  height: 80,
+                  color: AppColors.lightGrey,
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

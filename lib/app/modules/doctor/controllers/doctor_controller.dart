@@ -10,6 +10,7 @@ class DoctorController extends GetxController {
   Rxn<DoctorFullModel> doctorFullData = Rxn();
   Doctor doctor;
   var cancelToken = CancelToken();
+  var tabIndex = 0.obs;
   @override
   void onInit() {
     if (!(args is List && args.length > 0 && args[0] is Doctor)) {
@@ -17,7 +18,7 @@ class DoctorController extends GetxController {
     } else {
       doctor = args[0];
     }
-    _fetchDoctorFullData();
+    // _fetchDoctorFullData();
     super.onInit();
   }
 

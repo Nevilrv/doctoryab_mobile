@@ -36,7 +36,10 @@ class ProfileUpdateController extends GetxController {
 
   //*text Edtings
   TextEditingController teName = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController teAge = TextEditingController();
+  TextEditingController city = TextEditingController();
+  TextEditingController gender = TextEditingController();
   TextEditingController teNewNumber = TextEditingController();
 
   @override

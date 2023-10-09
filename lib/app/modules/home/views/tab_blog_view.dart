@@ -120,7 +120,7 @@ class _body extends StatelessWidget {
         Expanded(
           // Wrap Column with Expanded
           child: PagedListView.separated(
-            // physics: BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             separatorBuilder: (c, i) {
               return SizedBox(height: 15);
             },
@@ -146,6 +146,9 @@ class _body extends StatelessWidget {
             //   );
             // },
           ),
+        ),
+        const SizedBox(
+          height: 80.0,
         ),
       ],
     );
