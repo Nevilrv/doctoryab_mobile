@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_docs_view.dart';
+import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_meeting_time_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -12,18 +15,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
-import '../../../controllers/auth_controller.dart';
-import '../../../controllers/settings_controller.dart';
-import '../../../data/ApiConsts.dart';
-import '../../../data/models/city_model.dart';
-import '../../../theme/AppColors.dart';
-import '../../../theme/TextTheme.dart';
-import '../../../utils/AppGetDialog.dart';
-import '../../../utils/utils.dart';
-import '../../doctors/controllers/doctors_controller.dart';
-import '../../doctors/views/doctors_view.dart';
-import '../../profile_update/views/profile_update_view.dart';
-import '../controllers/tab_home_main_controller.dart';
+import '../../../../controllers/auth_controller.dart';
+import '../../../../controllers/settings_controller.dart';
+import '../../../../data/ApiConsts.dart';
+import '../../../../data/models/city_model.dart';
+import '../../../../theme/AppColors.dart';
+import '../../../../theme/TextTheme.dart';
+import '../../../../utils/AppGetDialog.dart';
+import '../../../../utils/utils.dart';
+import '../../../doctors/controllers/doctors_controller.dart';
+import '../../../doctors/views/doctors_view.dart';
+import '../../../profile_update/views/profile_update_view.dart';
+import '../../controllers/tab_home_main_controller.dart';
 
 class TabMoreView extends GetView {
   const TabMoreView({Key key}) : super(key: key);
@@ -215,23 +218,49 @@ class TabMoreView extends GetView {
   List<Widget> _buildSettings() {
     return [
       commonprofilemenu(
-          onTap: () {}, icon: AppImages.map, title: "change_city".tr),
+          onTap: () {
+            Get.toNamed(Routes.CITY_SELECT_PROFILE);
+          },
+          icon: AppImages.map,
+          title: "change_city".tr +
+              " - " +
+              "${Get.find<TabHomeMainController>().selectedCity().getMultiLangName()}"),
       commonprofilemenu(
-          onTap: () {}, icon: AppImages.doctor, title: 'my_doctors'.tr),
+          onTap: () {
+            Get.to(
+              () => DoctorsView(
+                action: DOCTORS_LOAD_ACTION.myDoctors,
+              ),
+            );
+          },
+          icon: AppImages.doctor,
+          title: 'my_doctors'.tr),
       commonprofilemenu(
-          onTap: () {}, icon: AppImages.frame, title: "change_language".tr),
+          onTap: () {
+            Get.toNamed(Routes.REPORT_MEDICAL);
+          },
+          icon: AppImages.frame,
+          title: "reports".tr),
       commonprofilemenu(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(Routes.APPOINTMENT_HISTORY);
+          },
           icon: AppImages.history,
           title: "appointment_history".tr),
       commonprofilemenu(
-          onTap: () {}, icon: AppImages.map, title: "change_city".tr),
+          onTap: () {
+            AppGetDialog.showChangeLangDialog();
+          },
+          icon: AppImages.frame,
+          title: "change_language".tr),
 
       Row(
         children: [
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(ComplaintScreen());
+              },
               child: Container(
                 decoration: BoxDecoration(
                     color: AppColors.white,
@@ -254,7 +283,9 @@ class TabMoreView extends GetView {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(SuggestionScreen());
+              },
               child: Container(
                 decoration: BoxDecoration(
                     color: AppColors.white,
@@ -277,25 +308,30 @@ class TabMoreView extends GetView {
       SizedBox(
         height: 15,
       ),
-      Container(
-        decoration: BoxDecoration(
-            color: AppColors.red, borderRadius: BorderRadius.circular(10)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "logout".tr,
-                style: AppTextStyle.boldWhite14,
-              ),
-              Icon(
-                Icons.logout,
-                color: AppColors.white,
-              )
-            ],
-          )),
+      GestureDetector(
+        onTap: () {
+          AuthController.to.signOut().then((value) => Utils.whereShouldIGo());
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: AppColors.red, borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Center(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "logout".tr,
+                  style: AppTextStyle.boldWhite14,
+                ),
+                Icon(
+                  Icons.logout,
+                  color: AppColors.white,
+                )
+              ],
+            )),
+          ),
         ),
       )
       // _buildSettingsItem(

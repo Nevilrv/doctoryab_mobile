@@ -10,6 +10,7 @@ class ReportsController extends GetxController {
   var pagingController = PagingController<int, Report>(firstPageKey: 1);
 
   CancelToken cancelToken = CancelToken();
+  var tabIndex = 0.obs;
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {

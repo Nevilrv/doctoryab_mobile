@@ -18,7 +18,7 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 class HistoryDetailsView extends GetView<HistoryDetailsController> {
   @override
   Widget build(BuildContext context) {
-    debugPrint(controller.item.createAt);
+    // debugPrint(controller.item.createAt);
     return Scaffold(
         appBar: AppAppBar.specialAppBar("visit_info".tr),
         body: SingleChildScrollView(
@@ -26,48 +26,48 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (controller.item.visited)
-                Column(
-                  children: [
-                    Obx(() => RatingBar.builder(
-                          ignoreGestures: true,
-                          itemSize: 16,
-                          initialRating: controller.currentRate(),
-                          // minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            // size: 10,
-                          ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        )),
-                    SizedBox(height: 10),
-                    OutlinedButton(
-                      onPressed: () async {
-                        var args = jsonEncode({
-                          "doctor":
-                              jsonEncode(controller.item.doctor[0]?.toJson()),
-                          "pid": controller.item.id,
-                        });
-                        var rate =
-                            await Get.toNamed(Routes.RATE, arguments: args);
-                        if (rate != null && rate is double)
-                          controller.currentRate(rate);
-                      },
-                      child: Text("rate".tr),
-                    ),
-                    SizedBox(height: 10),
-                    Divider(),
-                    SizedBox(height: 20),
-                    Row(),
-                  ],
-                ),
+              // if (controller.item.visited)
+              Column(
+                children: [
+                  Obx(() => RatingBar.builder(
+                        ignoreGestures: true,
+                        itemSize: 16,
+                        initialRating: 4,
+                        // minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          // size: 10,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                  SizedBox(height: 10),
+                  OutlinedButton(
+                    onPressed: () async {
+                      var args = jsonEncode({
+                        "doctor":
+                            jsonEncode(controller.item.doctor[0]?.toJson()),
+                        "pid": controller.item.id,
+                      });
+                      var rate =
+                          await Get.toNamed(Routes.RATE, arguments: args);
+                      if (rate != null && rate is double)
+                        controller.currentRate(rate);
+                    },
+                    child: Text("rate".tr),
+                  ),
+                  SizedBox(height: 10),
+                  Divider(),
+                  SizedBox(height: 20),
+                  Row(),
+                ],
+              ),
               _buildSection(
                 "time_info".tr,
                 [

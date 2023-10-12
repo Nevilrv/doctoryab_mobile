@@ -11,6 +11,9 @@ abstract class Routes {
   static const PROFILE_UPDATE = _Paths.PROFILE_UPDATE;
   static const LOGIN_VERIFY = _Paths.LOGIN_VERIFY;
   static const CITY_SELECT = _Paths.CITY_SELECT;
+  static const CITY_SELECT_PROFILE = _Paths.CITY_SELECT_PROFILE;
+  static const REPORT_MEDICAL = _Paths.REPORT_MEDICAL;
+  static const APPOINTMENT_HISTORY = _Paths.APPOINTMENT_HISTORY;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const DOCTORS = _Paths.DOCTORS;
   static const BOOK = _Paths.BOOK;
@@ -53,6 +56,7 @@ abstract class _Paths {
   static const PROFILE_UPDATE = '/profile-update';
   static const LOGIN_VERIFY = '/login-verify';
   static const CITY_SELECT = '/city-select';
+  static const CITY_SELECT_PROFILE = '/city-select-profile';
   static const SPLASH_SCREEN = '/splash-screen';
   static const DOCTORS = '/doctors';
   static const BOOK = '/book';
@@ -84,4 +88,6 @@ abstract class _Paths {
   static const PREGNANCY_TRACKER = '/pregnancy-tracker';
   static const CHECKUP_PACKAGES = '/checkup-packages';
   static const TREATMENT_ABROAD = '/treatment-abroad';
+  static const REPORT_MEDICAL = '/reposrt-medical';
+  static const APPOINTMENT_HISTORY = '/appointment-history';
 }

@@ -22,6 +22,7 @@ class FindBloodDonorController extends GetxController {
   Rx<LocationResult> locationResult = LocationResult().obs;
   var selectedBloodGroupIndex = 0.obs;
   var selectedBloodUnitsIndex = 0.obs;
+  final selectedCritical = 0.obs;
   final List<String> selectGroup = [
     'A+',
     'B+',
@@ -32,12 +33,22 @@ class FindBloodDonorController extends GetxController {
     'AB-',
     'O-'
   ];
+
+  var selectedGroup = "A+".obs;
   final List<String> bloodUnits = [
     '1',
     '2',
     '3',
     '4',
   ];
+  final List<String> aboutConditionList = [
+    'Need for pregnant woman.',
+    'Need for pregnant woman.1',
+    'Need for pregnant woman.2',
+    'Need for pregnant woman.3',
+  ];
+  var selectedUnit = "1".obs;
+  var selectedAboutCondition = "Need for pregnant woman.".obs;
   @override
   void onInit() {
     locationResult.value.locality = "Kabul";

@@ -155,7 +155,7 @@ Total : 253 files,  14377 codes, 1794 comments, 1569 blanks, all 17740 lines
 | [lib/app/modules/home/tab_home_others/views/tab_home_others_view.dart](/lib/app/modules/home/tab_home_others/views/tab_home_others_view.dart) | Dart | 80 | 10 | 5 | 95 |
 | [lib/app/modules/home/views/home_view.dart](/lib/app/modules/home/views/home_view.dart) | Dart | 70 | 32 | 5 | 107 |
 | [lib/app/modules/home/views/reports_view.dart](/lib/app/modules/home/views/reports_view.dart) | Dart | 79 | 6 | 4 | 89 |
-| [lib/app/modules/home/views/tab_docs_view.dart](/lib/app/modules/home/views/tab_docs_view.dart) | Dart | 34 | 5 | 2 | 41 |
+| [lib/app/modules/home/views/tab_docs_view.dart](/lib/app/modules/home/views/profile/tab_docs_view.dart) | Dart | 34 | 5 | 2 | 41 |
 | [lib/app/modules/home/views/tab_home_doctors_view.dart](/lib/app/modules/home/views/tab_home_doctors_view.dart) | Dart | 80 | 19 | 4 | 103 |
 | [lib/app/modules/home/views/tab_home_main_view.dart](/lib/app/modules/home/views/tab_home_main_view.dart) | Dart | 96 | 11 | 2 | 109 |
 | [lib/app/modules/home/views/tab_meeting_time_view.dart](/lib/app/modules/home/views/tab_meeting_time_view.dart) | Dart | 102 | 2 | 3 | 107 |

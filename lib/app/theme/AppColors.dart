@@ -65,6 +65,7 @@ class AppColors {
   static const darkBlue = Color(0xFF333E92);
   static const grey1 = Color(0xFF8D8E8F);
   static const grey2 = Color(0xFFF4F5F9);
+  static const yellow2 = Color(0xFFFFAE11);
 
   static const MaterialColor primarySwatch = MaterialColor(
     0xff333e92,

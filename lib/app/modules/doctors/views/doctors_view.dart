@@ -733,6 +733,7 @@ class DoctorsView extends StatelessWidget {
               bottom: 20,
               child: BottomBarView(
                 isHomeScreen: false,
+                isBlueBottomBar: true,
               ),
             )
           ],

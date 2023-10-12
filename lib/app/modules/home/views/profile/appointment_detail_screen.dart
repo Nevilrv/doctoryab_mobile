@@ -1,0 +1,534 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/components/background.dart';
+import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/appintment_feedback_screen.dart';
+import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+
+class AppointmentDetailScreen extends StatelessWidget {
+  const AppointmentDetailScreen({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
+
+    return Background(
+      isSecond: true,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text('appointment_details'.tr,
+              style: AppTextStyle.boldPrimary20
+                  .copyWith(fontWeight: FontWeight.w600)),
+          centerTitle: true,
+          leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary)),
+          elevation: 0,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SvgPicture.asset(
+                AppImages.blackBell,
+                height: 24,
+              ),
+            )
+          ],
+        ),
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              child: Column(
+                children: [
+                  Container(
+                      height: h * 0.7,
+                      width: w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: AppColors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(0, 4),
+                              blurRadius: 4,
+                              color: AppColors.black.withOpacity(0.25))
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  // color: Colors.black,
+                                  // height: 65,
+                                  // width: 65,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColors.lightGrey),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: "",
+                                      height: 100,
+                                      width: 100,
+                                      fit: BoxFit.cover,
+                                      placeholder: (_, __) {
+                                        return Image.asset(
+                                          "assets/png/person-placeholder.jpg",
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                      errorWidget: (_, __, ___) {
+                                        return Image.asset(
+                                          "assets/png/person-placeholder.jpg",
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                "Afghan Hospital",
+                                                style: AppTextTheme.h(12)
+                                                    .copyWith(
+                                                        color:
+                                                            AppColors.primary),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          "Internal Medicine",
+                                          style: AppTextTheme.h(11).copyWith(
+                                              color: AppColors.primary
+                                                  .withOpacity(0.5),
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(height: 2),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            RatingBar.builder(
+                                              ignoreGestures: true,
+                                              itemSize: 17,
+                                              initialRating: 4,
+                                              // minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 1.0),
+                                              itemBuilder: (context, _) => Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                                // size: 10,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                print(rating);
+                                              },
+                                            ),
+                                            SizedBox(width: 4),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(ReviewScreen(
+                                                  appBarTitle: "Doctor Reviews",
+                                                ));
+                                              },
+                                              child: Text(
+                                                '(10) ${"reviews".tr}',
+                                                style: AppTextTheme.b(12)
+                                                    .copyWith(
+                                                        color: AppColors.primary
+                                                            .withOpacity(0.5)),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    width: w * 0.2,
+                                    child: Divider(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      height: 3,
+                                    )),
+                                SizedBox(
+                                  width: w * 0.02,
+                                ),
+                                Text(
+                                  'time_info'.tr,
+                                  style: AppTextTheme.b(11).copyWith(
+                                      color:
+                                          AppColors.primary.withOpacity(0.5)),
+                                ),
+                                SizedBox(
+                                  width: w * 0.02,
+                                ),
+                                Container(
+                                    width: w * 0.2,
+                                    child: Divider(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      height: 3,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: h * 0.01,
+                            ),
+                            appointmentBox(w),
+                            SizedBox(
+                              height: h * 0.03,
+                            ),
+                            VisitedDoctorBox(w),
+                            SizedBox(
+                              height: h * 0.03,
+                            ),
+                            DateAppointmentBox(w),
+                            SizedBox(
+                              height: h * 0.03,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(AppointmentFeedbackScreen());
+                              },
+                              child: Container(
+                                width: w,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: AppColors.primary,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          offset: Offset(0, 4),
+                                          blurRadius: 4,
+                                          color:
+                                              AppColors.black.withOpacity(0.25))
+                                    ]),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: Center(
+                                    child: Text(
+                                      "give_feedback".tr,
+                                      style: AppTextStyle.boldWhite10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                ],
+              ),
+            ),
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              child: BottomBarView(
+                isHomeScreen: false,
+                isBlueBottomBar: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Stack appointmentBox(double w) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: w,
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 4),
+                    blurRadius: 4,
+                    color: AppColors.black.withOpacity(0.25))
+              ],
+              border: Border.all(color: AppColors.lightPurple4, width: 2)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "18.09.2022",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: w * 0.02,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "/",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: w * 0.02,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "09.00 - 10.00",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: 20,
+          top: -7.5,
+          child: Container(
+            color: AppColors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                "visit_date".tr,
+                style: AppTextTheme.h(11).copyWith(
+                    color: AppColors.lightPurple4, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Stack VisitedDoctorBox(double w) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: w,
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 4),
+                    blurRadius: 4,
+                    color: AppColors.black.withOpacity(0.25))
+              ],
+              border: Border.all(color: AppColors.lightPurple4, width: 2)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "NO",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: 20,
+          top: -7.5,
+          child: Container(
+            color: AppColors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                "visited_by_doctor".tr,
+                style: AppTextTheme.h(11).copyWith(
+                    color: AppColors.lightPurple4, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Stack DateAppointmentBox(double w) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: w,
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 4),
+                    blurRadius: 4,
+                    color: AppColors.black.withOpacity(0.25))
+              ],
+              border: Border.all(color: AppColors.lightPurple4, width: 2)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "18.09.2022",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: w * 0.02,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "/",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: w * 0.02,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        "09.00 - 10.00",
+                        style: AppTextStyle.mediumPrimary12
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: 20,
+          top: -7.5,
+          child: Container(
+            color: AppColors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                "date_of_appointments".tr,
+                style: AppTextTheme.h(11).copyWith(
+                    color: AppColors.lightPurple4, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}

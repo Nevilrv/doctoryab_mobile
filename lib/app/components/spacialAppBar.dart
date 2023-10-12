@@ -123,8 +123,7 @@ class AppAppBar {
         Padding(
           padding: const EdgeInsets.only(right: 20, left: 10),
           child: SvgPicture.asset(
-            AppImages.blackBell,
-            color: Colors.white,
+            AppImages.bellwhite,
             height: 24,
             width: 24,
           ),

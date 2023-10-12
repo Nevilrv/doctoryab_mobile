@@ -153,7 +153,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                hintText: "search_hospital".tr,
+                hintText: "search_pharmacy".tr,
                 hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.all(11),

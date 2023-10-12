@@ -106,7 +106,7 @@ class TabHomeLabsView extends GetView<LabsController> {
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                hintText: "search_hospital".tr,
+                hintText: "search_lab".tr,
                 hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.all(11),

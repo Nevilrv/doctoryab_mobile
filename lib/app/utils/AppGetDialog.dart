@@ -11,11 +11,14 @@ import 'package:doctor_yab/app/data/repository/LocationRepository.dart';
 import 'package:doctor_yab/app/modules/home/controllers/home_controller.dart';
 import 'package:doctor_yab/app/services/LocalizationServices.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
@@ -353,32 +356,116 @@ class AppGetDialog {
   }
 
   static showChangeLangDialog({langChangedCallBack(String languge)}) {
-    Get.defaultDialog(
-      title: "change_language".tr,
-      content: Column(
-        children: [
-          SizedBox(height: 15),
-          Column(
-              children: LocalizationService.langs.map((l) {
-            return Column(
-              children: [
-                ListTile(
-                  title: Center(child: Text(l)),
-                  // leading: Icon(Icons.language),
-                  onTap: () {
-                    Get.back();
+    Get.dialog(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Center(
+          child: Container(
+            // height: Get.height * 0.3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                        width: 10,
+                      ),
+                      SvgPicture.asset(
+                        AppImages.language,
+                        height: 48,
+                        width: 48,
+                        color: AppColors.primary,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(
+                          Icons.cancel_outlined,
+                          color: AppColors.primary,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "select_a_language".tr,
+                    style: AppTextStyle.boldBlack13,
+                  ),
 
-                    LocalizationService().changeLocale(l);
-                    // AuthController.to.setAppLanguge(l);
-                    SettingsController.appLanguge = l;
-                    if (langChangedCallBack != null) langChangedCallBack(l);
-                  },
-                ),
-                Divider(),
-              ],
-            );
-          }).toList()),
-        ],
+                  Text(
+                    "please_select_your_preferred_language".tr,
+                    style: AppTextStyle.boldBlack13
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(height: 15),
+                  Column(
+                      children: LocalizationService.langs.map((l) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.back();
+
+                          LocalizationService().changeLocale(l);
+                          // AuthController.to.setAppLanguge(l);
+                          SettingsController.appLanguge = l;
+                          if (langChangedCallBack != null)
+                            langChangedCallBack(l);
+                        },
+                        child: Container(
+                          width: Get.width * 0.3,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Center(
+                              child: Text(
+                                l,
+                                style: AppTextStyle.boldWhite14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList()),
+                  // Column(
+                  //     children: LocalizationService.langs.map((l) {
+                  //   return Column(
+                  //     children: [
+                  //       ListTile(
+                  //         title: Center(child: Text(l)),
+                  //         // leading: Icon(Icons.language),
+                  //         onTap: () {
+                  //           Get.back();
+                  //
+                  //           LocalizationService().changeLocale(l);
+                  //           // AuthController.to.setAppLanguge(l);
+                  //           SettingsController.appLanguge = l;
+                  //           if (langChangedCallBack != null) langChangedCallBack(l);
+                  //         },
+                  //       ),
+                  //       Divider(),
+                  //     ],
+                  //   );
+                  // }).toList()),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
       // confirm: Text("cooo"),
       // actions: <Widget>[Text("aooo"), Text("aooo")],

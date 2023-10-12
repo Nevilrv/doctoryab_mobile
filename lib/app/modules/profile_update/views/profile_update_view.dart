@@ -75,6 +75,14 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text('update_profile'.tr),
+          leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: AppColors.white,
+              )),
           centerTitle: true,
           elevation: 0,
           actions: [
@@ -88,10 +96,9 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
           ],
         ),
 
-        body: () {
-          // double h;
-
-          return Container(height: h,
+        body: Obx(() {
+          return Container(
+            height: h,
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -112,7 +119,8 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
-                          child: SingleChildScrollView(physics:BouncingScrollPhysics() ,
+                          child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -180,13 +188,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                       fontSize: 11,
                                       fontWeight: FontWeight.w400,
                                       color: AppColors.grey1),
-                                ), SizedBox(height: 5,),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 Container(
                                   width: w,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
-                                          color: AppColors.black.withOpacity(0.2)),
+                                          color:
+                                              AppColors.black.withOpacity(0.2)),
                                       color: AppColors.grey2),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -199,7 +211,10 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           color: AppColors.grey1),
                                     ),
                                   ),
-                                ), SizedBox(height: 5,),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 Container(
                                   child: Form(
                                     key: controller.formKey,
@@ -209,46 +224,61 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                     // autovalidateMode: AutovalidateMode.always,
                                     child: SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Row(
                                             children: [
                                               Text(
                                                 "full_name".tr,
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.primary),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.red3),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: AppColors.red3),
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 5,),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           TextFormField(
-                                            onChanged: (_) => controller.validateForm(),
+                                            onChanged: (_) =>
+                                                controller.validateForm(),
                                             validator: Utils.nameValidator,
-                                            style: AppTextStyle.mediumPrimary12.copyWith(
-                                                color: AppColors.primary.withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12
+                                                .copyWith(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5)),
                                             cursorColor: AppColors.primary,
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.name,
                                             controller: controller.teName,
                                             decoration: InputDecoration(
-                                                hintText: "please_enter_name".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
+                                                hintText:
+                                                    "please_enter_name".tr,
+                                                hintStyle: AppTextStyle
+                                                    .mediumPrimary12
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
@@ -260,15 +290,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, right: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.editName,
                                                   ),
                                                 ),
                                                 suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12, right: 12),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12, right: 12),
                                                   child: SvgPicture.asset(
                                                     AppImages.editPen,
                                                     width: 16,
@@ -276,24 +308,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   ),
                                                 ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
                                                         strokeAlign: 2,
                                                         width: 2)),
-                                                errorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.symmetric(vertical: 0)
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -303,43 +327,62 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 // fillColor: Colors.white,
                                                 // focusColor: Colors.white,
                                                 ),
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           Row(
                                             children: [
                                               Text(
                                                 "eMail".tr,
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.primary),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.red3),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: AppColors.red3),
                                               ),
                                             ],
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           TextFormField(
-                                            onChanged: (_) => controller.validateForm(),
+                                            onChanged: (_) =>
+                                                controller.validateForm(),
                                             validator: Utils.nameValidator,
                                             cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12.copyWith(
-                                                color: AppColors.primary.withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12
+                                                .copyWith(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5)),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                            keyboardType: TextInputType.emailAddress,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
                                             controller: controller.email,
                                             decoration: InputDecoration(
-                                                hintText: "please_enter_email".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
+                                                hintText:
+                                                    "please_enter_email".tr,
+                                                hintStyle: AppTextStyle
+                                                    .mediumPrimary12
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
@@ -351,15 +394,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, right: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.mail,
                                                   ),
                                                 ),
                                                 suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12, right: 12),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12, right: 12),
                                                   child: SvgPicture.asset(
                                                     AppImages.editPen,
                                                     width: 16,
@@ -367,24 +412,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   ),
                                                 ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
                                                         strokeAlign: 2,
                                                         width: 2)),
-                                                errorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -394,36 +431,52 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 // fillColor: Colors.white,
                                                 // focusColor: Colors.white,
                                                 ),
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           Row(
                                             children: [
                                               Text(
                                                 "Phone_number".tr,
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.primary),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.primary),
                                               ),
                                             ],
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           TextFormField(
-                                            onChanged: (_) => controller.validateForm(),
+                                            onChanged: (_) =>
+                                                controller.validateForm(),
                                             validator: Utils.numberValidator,
                                             cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12.copyWith(
-                                                color: AppColors.primary.withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12
+                                                .copyWith(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5)),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.phone,
                                             controller: controller.teNewNumber,
                                             decoration: InputDecoration(
-                                                hintText: "please_enter_email".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
+                                                hintText:
+                                                    "please_enter_email".tr,
+                                                hintStyle: AppTextStyle
+                                                    .mediumPrimary12
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
@@ -435,15 +488,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, right: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.mobile,
                                                   ),
                                                 ),
                                                 suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12, right: 12),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12, right: 12),
                                                   child: SvgPicture.asset(
                                                     AppImages.editPen,
                                                     width: 16,
@@ -451,24 +506,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   ),
                                                 ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
                                                         strokeAlign: 2,
                                                         width: 2)),
-                                                errorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -480,25 +527,38 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 ),
                                             // onChanged: (s) =>
                                             //     controller.onAgeChange(s),
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           Row(
                                             children: [
                                               Text(
                                                 "age".tr,
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.primary),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.primary),
                                               ),
                                             ],
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           TextFormField(
-                                            onChanged: (_) => controller.validateForm(),
-                                            validator: (age) => Utils.ageValidatore(age,
-                                                minAge: 12, maxAge: 120),
+                                            onChanged: (_) =>
+                                                controller.validateForm(),
+                                            validator: (age) =>
+                                                Utils.ageValidatore(age,
+                                                    minAge: 12, maxAge: 120),
                                             cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12.copyWith(
-                                                color: AppColors.primary.withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12
+                                                .copyWith(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5)),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.number,
@@ -510,7 +570,8 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius: BorderRadius.circular(
+                                                        10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
@@ -522,15 +583,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, right: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.gift,
                                                   ),
                                                 ),
                                                 suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12, right: 12),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12, right: 12),
                                                   child: SvgPicture.asset(
                                                     AppImages.editPen,
                                                     width: 16,
@@ -538,7 +601,8 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   ),
                                                 ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderRadius: BorderRadius.circular(
+                                                        10),
                                                     borderSide: BorderSide(
                                                         color: AppColors.primary
                                                             .withOpacity(0.4),
@@ -546,16 +610,8 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                         width: 2)),
                                                 errorBorder: OutlineInputBorder(
                                                     borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                    borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -565,211 +621,232 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 // fillColor: Colors.white,
                                                 // focusColor: Colors.white,
                                                 ),
-                                          ), SizedBox(height: 5,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           Row(
                                             children: [
                                               Text(
                                                 "your_city_selection".tr,
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.primary),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.red3),
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: AppColors.red3),
                                               ),
                                             ],
-                                          ), SizedBox(height: 5,),
-                                          TextFormField(
-                                            // onChanged: (_) => controller.validateForm(),
-                                            // validator: (age) => Utils.ageValidatore(age,
-                                            //     minAge: 12, maxAge: 120),
-                                            cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12.copyWith(
-                                                color: AppColors.primary.withOpacity(0.5)),
-                                            // maxLength: 6,
-                                            // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                            keyboardType: TextInputType.name,
-                                            controller: controller.city,
-                                            decoration: InputDecoration(
-                                                hintText: "Please_select_city".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
-                                                enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                // prefixIconConstraints:
-                                                //     BoxConstraints.expand(
-                                                //   height: 30,
-                                                //   width: 30,
-                                                // ),
-                                                prefixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, right: 10),
-                                                  child: SvgPicture.asset(
-                                                    AppImages.map,
-                                                    color:
-                                                        AppColors.primary.withOpacity(0.5),
-                                                  ),
-                                                ),
-                                                suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12, right: 12),
-                                                  child: Icon(Icons.expand_more,
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.5)),
-                                                ),
-                                                focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                errorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                contentPadding: EdgeInsets.zero
-                                                // errorText: controller.nameLastError() == ""
-                                                //     ? null
-                                                //     : controller.nameLastError(),
-
-                                                // labelStyle: TextStyle(color: Colors.white),
-                                                // fillColor: Colors.white,
-                                                // focusColor: Colors.white,
-                                                ),
-                                          ), SizedBox(height: 5,),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "your_city_selection".tr,
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.primary),
-                                              ),
-                                              Text(
-                                                "*",
-                                                style: AppTextStyle.boldGrey12.copyWith(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.red3),
-                                              ),
-                                            ],
-                                          ), SizedBox(height: 5,),
-                                          TextFormField(
-                                            // onChanged: (_) => controller.validateForm(),
-                                            // validator: (age) => Utils.ageValidatore(age,
-                                            //     minAge: 12, maxAge: 120),
-                                            cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12.copyWith(
-                                                color: AppColors.primary.withOpacity(0.5)),
-                                            // maxLength: 6,
-                                            // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                            keyboardType: TextInputType.name,
-                                            controller: controller.gender,
-                                            decoration: InputDecoration(
-                                                hintText: "Please_select_gender".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
-                                                enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                // prefixIconConstraints:
-                                                //     BoxConstraints.expand(
-                                                //   height: 30,
-                                                //   width: 30,
-                                                // ),
-                                                prefixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, right: 10),
-                                                  child: SvgPicture.asset(
-                                                    AppImages.map,
-                                                    color:
-                                                        AppColors.primary.withOpacity(0.5),
-                                                  ),
-                                                ),
-                                                suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12, right: 12),
-                                                  child: Icon(Icons.expand_more,
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.5)),
-                                                ),
-                                                focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                errorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                contentPadding: EdgeInsets.zero
-                                                // errorText: controller.nameLastError() == ""
-                                                //     ? null
-                                                //     : controller.nameLastError(),
-
-                                                // labelStyle: TextStyle(color: Colors.white),
-                                                // fillColor: Colors.white,
-                                                // focusColor: Colors.white,
-                                                ),
-                                          ), SizedBox(height: 10,),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           Container(
                                             width: w,
+                                            // height: 10,
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                                 border: Border.all(
-                                                    color: AppColors.primary.withOpacity(0.2)),
-                                                color: AppColors.primary),
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.4),
+                                                    width: 2),
+                                                color: AppColors.white),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 20, vertical: 10),
-                                              child: Center(
-                                                child: Text(
-                                                  "save_changes".tr,
-                                                  style: AppTextStyle.boldWhite12.copyWith(
-                                                      fontSize: 11,
-
-                                                     ),
-                                                ),
+                                              padding: const EdgeInsets.only(
+                                                  right: 10,
+                                                  top: 10,
+                                                  bottom: 10,
+                                                  left: 10),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: SvgPicture.asset(
+                                                      AppImages.map,
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.4),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: w * 0.7,
+                                                    child:
+                                                        DropdownButton<String>(
+                                                      underline: SizedBox(),
+                                                      value: controller
+                                                              .selectedLocation
+                                                              .value ??
+                                                          "",
+                                                      icon: Icon(
+                                                          Icons.expand_more,
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.4)),
+                                                      isDense: true,
+                                                      hint: Text(
+                                                          "Please_select_city"
+                                                              .tr,
+                                                          style: AppTextStyle
+                                                              .mediumPrimary12
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.5))),
+                                                      isExpanded: true,
+                                                      items: controller
+                                                          .locations
+                                                          .map((String value) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: value,
+                                                          child: Text(value,
+                                                              style: AppTextStyle
+                                                                  .mediumPrimary12
+                                                                  .copyWith(
+                                                                      color: AppColors
+                                                                          .primary
+                                                                          .withOpacity(
+                                                                              0.5))),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (value) {
+                                                        controller
+                                                            .selectedLocation
+                                                            .value = value;
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "gender".tr,
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.primary),
+                                              ),
+                                              Text(
+                                                "*",
+                                                style: AppTextStyle.boldGrey12
+                                                    .copyWith(
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: AppColors.red3),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                            width: w,
+                                            // height: 10,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.4),
+                                                    width: 2),
+                                                color: AppColors.white),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10,
+                                                  top: 10,
+                                                  bottom: 10,
+                                                  left: 10),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: SvgPicture.asset(
+                                                      AppImages.user,
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child:
+                                                        DropdownButton<String>(
+                                                      underline: SizedBox(),
+                                                      value: controller
+                                                              .selectedGender
+                                                              .value ??
+                                                          "",
+                                                      icon: Icon(
+                                                          Icons.expand_more,
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.4)),
+                                                      isDense: true,
+                                                      hint: Text(
+                                                          "Please_select_gender"
+                                                              .tr,
+                                                          style: AppTextStyle
+                                                              .mediumPrimary12
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.5))),
+                                                      isExpanded: true,
+                                                      items: controller
+                                                          .genderList
+                                                          .map((String value) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: value,
+                                                          child: Text(value,
+                                                              style: AppTextStyle
+                                                                  .mediumPrimary12
+                                                                  .copyWith(
+                                                                      color: AppColors
+                                                                          .primary
+                                                                          .withOpacity(
+                                                                              0.5))),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (value) {
+                                                        controller
+                                                            .selectedGender
+                                                            .value = value;
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
                                           ),
                                         ],
                                       ),
@@ -781,8 +858,14 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                           ),
                         ),
                       ),
-                      SizedBox(height: h*0.01,),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 40),child: Divider(thickness: 2,color: AppColors.white.withOpacity(0.5))),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40),
+                          child: Divider(
+                              thickness: 2,
+                              color: AppColors.white.withOpacity(0.5))),
                       // Obx(
                       //   () => Container(
                       //       child: Stack(
@@ -1008,11 +1091,19 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                       // ),
                     ],
                   ),
-                )).onTap(() {})),  Positioned(bottom: 20, left: 20, right: 20, child: BottomBarView(isHomeScreen: false,isBlueBackground: true,))
+                )).onTap(() {})),
+                Positioned(
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                    child: BottomBarView(
+                      isHomeScreen: false,
+                      isBlueBackground: true,
+                    ))
               ],
             ),
           );
-        }(),
+        }),
         // bottomNavigationBar: Container(
         //   height: 140,
         //   child: Hero(

@@ -4,7 +4,7 @@ import 'package:doctor_yab/app/modules/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_more_view.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/tab_more_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -149,9 +149,11 @@ class HomeView extends GetView<HomeController> {
 
 class BottomBarView extends StatelessWidget {
   bool isHomeScreen = true;
+  bool isBlueBottomBar = false;
   bool isBlueBackground = false;
 
-  BottomBarView({Key key, this.isHomeScreen, this.isBlueBackground})
+  BottomBarView(
+      {Key key, this.isHomeScreen, this.isBlueBackground, this.isBlueBottomBar})
       : super(key: key);
   List bottomBarItem = [
     AppImages.home,
@@ -282,139 +284,260 @@ class BottomBarView extends StatelessWidget {
                     }),
                   ),
                 ))
-            : Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: controller.selectedIndex == 4
-                        ? AppColors.white
-                        : AppColors.primary),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: List.generate(bottomBarItem.length, (index) {
-                      return index == 2
-                          ? GestureDetector(
-                              onTap: () {
-                                log("isHomeScreen--------------> ${isHomeScreen}");
-                                if (isHomeScreen == false) {
-                                  Get.offAllNamed(Routes.HOME,
-                                      arguments: {'id': index});
-                                }
-                                controller.setIndex(index);
-                                controller.selectedIndex = index;
+            : isBlueBottomBar == true
+                ? Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: AppColors.primary),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: List.generate(bottomBarItem.length, (index) {
+                          return index == 2
+                              ? GestureDetector(
+                                  onTap: () {
+                                    log("isHomeScreen--------------> ${isHomeScreen}");
+                                    if (isHomeScreen == false) {
+                                      Get.offAllNamed(Routes.HOME,
+                                          arguments: {'id': index});
+                                    }
+                                    controller.setIndex(index);
+                                    controller.selectedIndex = index;
 
-                                controller.pageController.animateTo(index,
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.ease);
-                              },
-                              child: Container(
-                                height: 65,
-                                width: 65,
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    SizedBox(),
-                                    Positioned(
-                                      bottom: 15,
-                                      child: Container(
-                                        height: 65,
-                                        width: 65,
-                                        decoration: BoxDecoration(
-                                            color: controller.selectedIndex == 4
-                                                ? AppColors.white
-                                                : AppColors.primary,
-                                            shape: BoxShape.circle),
-                                        child: Center(
+                                    controller.pageController.animateTo(index,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease);
+                                  },
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        SizedBox(),
+                                        Positioned(
+                                          bottom: 15,
                                           child: Container(
-                                            height: 55,
-                                            width: 55,
+                                            height: 65,
+                                            width: 65,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primary,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: Container(
+                                                height: 55,
+                                                width: 55,
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.white,
+                                                    shape: BoxShape.circle),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      bottomBarItem[index],
+                                                      color: AppColors.primary,
+                                                      height: 30,
+                                                      width: 30),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    log("isHomeScreen--------------> ${isHomeScreen}");
+                                    log("index--------------> ${index}");
+                                    if (isHomeScreen == false) {
+                                      log("isHomeScreen--------------> ${isHomeScreen}");
+
+                                      Get.offAllNamed(Routes.HOME,
+                                          arguments: {'id': index});
+                                    }
+
+                                    controller.setIndex(index);
+                                    controller.selectedIndex = index;
+                                    controller.pageController.animateTo(index,
+                                        duration: Duration(milliseconds: 10),
+                                        curve: Curves.ease);
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      SvgPicture.asset(
+                                        bottomBarItem[index],
+                                        height: 24,
+                                        width: 24,
+                                        color: controller.selectedIndex == index
+                                            ? AppColors.white
+                                            : AppColors.primaryLight,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      controller.selectedIndex == index
+                                          ? CircleAvatar(
+                                              radius: 2,
+                                              backgroundColor:
+                                                  controller.selectedIndex ==
+                                                          index
+                                                      ? AppColors.white
+                                                      : AppColors.primary,
+                                            )
+                                          : SizedBox(
+                                              height: 4,
+                                            ),
+                                      SizedBox(
+                                        height: 9,
+                                      )
+                                    ],
+                                  ),
+                                );
+                        }),
+                      ),
+                    ))
+                : Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: controller.selectedIndex == 4
+                            ? AppColors.white
+                            : AppColors.primary),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: List.generate(bottomBarItem.length, (index) {
+                          return index == 2
+                              ? GestureDetector(
+                                  onTap: () {
+                                    log("isHomeScreen--------------> ${isHomeScreen}");
+                                    if (isHomeScreen == false) {
+                                      Get.offAllNamed(Routes.HOME,
+                                          arguments: {'id': index});
+                                    }
+                                    controller.setIndex(index);
+                                    controller.selectedIndex = index;
+
+                                    controller.pageController.animateTo(index,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease);
+                                  },
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        SizedBox(),
+                                        Positioned(
+                                          bottom: 15,
+                                          child: Container(
+                                            height: 65,
+                                            width: 65,
                                             decoration: BoxDecoration(
                                                 color:
                                                     controller.selectedIndex ==
                                                             4
-                                                        ? AppColors.primary
-                                                        : AppColors.white,
+                                                        ? AppColors.white
+                                                        : AppColors.primary,
                                                 shape: BoxShape.circle),
                                             child: Center(
-                                              child: SvgPicture.asset(
-                                                  bottomBarItem[index],
-                                                  color: controller
-                                                              .selectedIndex ==
-                                                          4
-                                                      ? AppColors.white
-                                                      : AppColors.primary,
-                                                  height: 30,
-                                                  width: 30),
+                                              child: Container(
+                                                height: 55,
+                                                width: 55,
+                                                decoration: BoxDecoration(
+                                                    color: controller
+                                                                .selectedIndex ==
+                                                            4
+                                                        ? AppColors.primary
+                                                        : AppColors.white,
+                                                    shape: BoxShape.circle),
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                      bottomBarItem[index],
+                                                      color: controller
+                                                                  .selectedIndex ==
+                                                              4
+                                                          ? AppColors.white
+                                                          : AppColors.primary,
+                                                      height: 30,
+                                                      width: 30),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                log("isHomeScreen--------------> ${isHomeScreen}");
-                                log("index--------------> ${index}");
-                                if (isHomeScreen == false) {
-                                  log("isHomeScreen--------------> ${isHomeScreen}");
-
-                                  Get.offAllNamed(Routes.HOME,
-                                      arguments: {'id': index});
-                                }
-
-                                controller.setIndex(index);
-                                controller.selectedIndex = index;
-                                controller.pageController.animateTo(index,
-                                    duration: Duration(milliseconds: 10),
-                                    curve: Curves.ease);
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  SvgPicture.asset(
-                                    bottomBarItem[index],
-                                    height: 24,
-                                    width: 24,
-                                    color: controller.selectedIndex == index
-                                        ? controller.selectedIndex == 4
-                                            ? AppColors.primary
-                                            : AppColors.white
-                                        : AppColors.primaryLight,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  controller.selectedIndex == index
-                                      ? CircleAvatar(
-                                          radius: 2,
-                                          backgroundColor: controller
-                                                      .selectedIndex ==
-                                                  index
-                                              ? controller.selectedIndex == 4
-                                                  ? AppColors.primary
-                                                  : AppColors.white
-                                              : AppColors.primary,
                                         )
-                                      : SizedBox(
-                                          height: 4,
-                                        ),
-                                  SizedBox(
-                                    height: 9,
-                                  )
-                                ],
-                              ),
-                            );
-                    }),
-                  ),
-                ));
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    log("isHomeScreen--------------> ${isHomeScreen}");
+                                    log("index--------------> ${index}");
+                                    if (isHomeScreen == false) {
+                                      log("isHomeScreen--------------> ${isHomeScreen}");
+
+                                      Get.offAllNamed(Routes.HOME,
+                                          arguments: {'id': index});
+                                    }
+
+                                    controller.setIndex(index);
+                                    controller.selectedIndex = index;
+                                    controller.pageController.animateTo(index,
+                                        duration: Duration(milliseconds: 10),
+                                        curve: Curves.ease);
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      SvgPicture.asset(
+                                        bottomBarItem[index],
+                                        height: 24,
+                                        width: 24,
+                                        color: controller.selectedIndex == index
+                                            ? controller.selectedIndex == 4
+                                                ? AppColors.primary
+                                                : AppColors.white
+                                            : AppColors.primaryLight,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      controller.selectedIndex == index
+                                          ? CircleAvatar(
+                                              radius: 2,
+                                              backgroundColor: controller
+                                                          .selectedIndex ==
+                                                      index
+                                                  ? controller.selectedIndex ==
+                                                          4
+                                                      ? AppColors.primary
+                                                      : AppColors.white
+                                                  : AppColors.primary,
+                                            )
+                                          : SizedBox(
+                                              height: 4,
+                                            ),
+                                      SizedBox(
+                                        height: 9,
+                                      )
+                                    ],
+                                  ),
+                                );
+                        }),
+                      ),
+                    ));
       },
     );
   }

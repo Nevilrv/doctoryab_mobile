@@ -41,7 +41,18 @@ class ProfileUpdateController extends GetxController {
   TextEditingController city = TextEditingController();
   TextEditingController gender = TextEditingController();
   TextEditingController teNewNumber = TextEditingController();
-
+  var locations = [
+    'Kâbil',
+    'Herat',
+    'Kandehar',
+    'Mezar-ı Şerif',
+    'Celalabad',
+    'Kunduz',
+    'Puli Humri',
+  ]; // Option 2
+  var genderList = ['Male', "Female", "Other"];
+  var selectedLocation = "Kâbil".obs;
+  var selectedGender = "Male".obs;
   @override
   void onInit() {
     ever(image, (_) {

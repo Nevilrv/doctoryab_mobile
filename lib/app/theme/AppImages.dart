@@ -40,6 +40,11 @@ class AppImages {
   static const mobile = "assets/svg/Mobile.svg";
   static const gift = "assets/svg/Gift.svg";
   static const user = "assets/svg/User.svg";
+  static const attachment = "assets/svg/Attachment.svg";
+  static const profile2 = "assets/svg/Profile2.svg";
+  static const doc = "assets/svg/doc.svg";
+  static const chat = "assets/svg/Chat_Circle_Check.svg";
+  static const language = "assets/svg/Globe.svg";
   // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG

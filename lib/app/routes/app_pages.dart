@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donation_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donor_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/find_blood_donor_binding.dart';
@@ -22,6 +23,8 @@ import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/bindings/pre
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/pregnancy_tracker_view.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/bindings/treatment_abroad_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatment_abroad_view.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/appointment_history_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/APP_STORY/bindings/app_story_binding.dart';
@@ -141,6 +144,16 @@ class AppPages {
       name: _Paths.CITY_SELECT,
       page: () => CitySelectView(),
       binding: CitySelectBinding(),
+    ),
+    GetPage(
+      name: _Paths.CITY_SELECT_PROFILE,
+      page: () => CitySelectProfileView(),
+      binding: CitySelectBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_MEDICAL,
+      page: () => TabDocsView(),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: _Paths.SPLASH_SCREEN,
@@ -290,6 +303,11 @@ class AppPages {
       name: _Paths.TREATMENT_ABROAD,
       page: () => TreatmentAbroadView(),
       binding: TreatmentAbroadBinding(),
+    ),
+    GetPage(
+      name: _Paths.APPOINTMENT_HISTORY,
+      page: () => AppointmentHistoryScreen(),
+      binding: HomeBinding(),
     ),
   ];
 }
