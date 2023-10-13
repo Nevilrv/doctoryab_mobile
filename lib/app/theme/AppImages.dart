@@ -45,6 +45,9 @@ class AppImages {
   static const doc = "assets/svg/doc.svg";
   static const chat = "assets/svg/Chat_Circle_Check.svg";
   static const language = "assets/svg/Globe.svg";
+  static const like = "assets/svg/Dislike.svg";
+  static const dislike = "assets/svg/like.svg";
+  static const babySvg = "assets/svg/baby.svg";
   // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG
@@ -94,4 +97,8 @@ class AppImages {
   static const emergency = "assets/png/emergency.jpg";
   static const googleMap = "assets/png/google-maps.png";
   static const blood1 = "assets/png/blood1.png";
+  static const india = "assets/png/india.png";
+  static const iran = "assets/png/iran.png";
+  static const pakistan = "assets/png/pakistan.png";
+  static const turkey = "assets/png/turkey.png";
 }

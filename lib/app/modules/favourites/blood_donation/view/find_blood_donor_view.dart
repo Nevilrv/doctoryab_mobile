@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/modules/favourites/blood_donation/controller/find
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/AppTheme.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
@@ -39,246 +40,619 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
         // bottomNavigationBar: BottomBarView(isHomeScreen: false),
         body: Obx(() {
           return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Container(
-                height: h * 0.89,
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.white,
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20, right: 20, top: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "requested_blood_group".tr,
-                                  style: AppTextStyle.boldGrey12.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              width: w,
-                              // height: 10,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppColors.primary.withOpacity(0.4),
-                                      width: 2),
-                                  color: AppColors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 10, top: 7, bottom: 7, left: 10),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: DropdownButton<String>(
-                                        underline: SizedBox(),
-                                        value: controller.selectedGroup.value ??
-                                            "",
-                                        icon: Icon(Icons.expand_more,
+            physics: NeverScrollableScrollPhysics(),
+            child: Container(
+              height: h * 0.89,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Container(
+                          height: h * 0.71,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 15, bottom: 15),
+                            child: SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "requested_blood_group".tr,
+                                        style: AppTextStyle.boldGrey12.copyWith(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.primary),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    width: w,
+                                    // height: 10,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
                                             color: AppColors.primary
-                                                .withOpacity(0.4)),
-                                        isDense: true,
-                                        isExpanded: true,
-                                        items: controller.selectGroup
-                                            .map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value,
-                                                style: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5))),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          controller.selectedGroup.value =
-                                              value;
-                                        },
+                                                .withOpacity(0.4),
+                                            width: 2),
+                                        color: AppColors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5,
+                                          left: 10),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: DropdownButton<String>(
+                                              underline: SizedBox(),
+                                              value: controller
+                                                      .selectedGroup.value ??
+                                                  "",
+                                              icon: Icon(Icons.expand_more,
+                                                  color: AppColors.primary
+                                                      .withOpacity(0.4)),
+                                              isDense: true,
+                                              isExpanded: true,
+                                              items: controller.selectGroup
+                                                  .map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value,
+                                                      style: AppTextStyle
+                                                          .mediumPrimary12
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                controller.selectedGroup.value =
+                                                    value;
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "requested_blood_group".tr,
-                                  style: AppTextStyle.boldGrey12.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              width: w,
-                              // height: 10,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppColors.primary.withOpacity(0.4),
-                                      width: 2),
-                                  color: AppColors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 10, top: 7, bottom: 7, left: 10),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: DropdownButton<String>(
-                                        underline: SizedBox(),
-                                        value:
-                                            controller.selectedUnit.value ?? "",
-                                        icon: Icon(Icons.expand_more,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "requested_blood_group".tr,
+                                        style: AppTextStyle.boldGrey12.copyWith(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.primary),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    width: w,
+                                    // height: 10,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
                                             color: AppColors.primary
-                                                .withOpacity(0.4)),
-                                        isDense: true,
-                                        isExpanded: true,
-                                        items: controller.bloodUnits
-                                            .map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value,
-                                                style: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5))),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          controller.selectedUnit.value = value;
-                                        },
+                                                .withOpacity(0.4),
+                                            width: 2),
+                                        color: AppColors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5,
+                                          left: 10),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: DropdownButton<String>(
+                                              underline: SizedBox(),
+                                              value: controller
+                                                      .selectedUnit.value ??
+                                                  "",
+                                              icon: Icon(Icons.expand_more,
+                                                  color: AppColors.primary
+                                                      .withOpacity(0.4)),
+                                              isDense: true,
+                                              isExpanded: true,
+                                              items: controller.bloodUnits
+                                                  .map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value,
+                                                      style: AppTextStyle
+                                                          .mediumPrimary12
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                controller.selectedUnit.value =
+                                                    value;
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "about_condition".tr,
-                                  style: AppTextStyle.boldGrey12.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              width: w,
-                              // height: 10,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppColors.primary.withOpacity(0.4),
-                                      width: 2),
-                                  color: AppColors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 10, top: 7, bottom: 7, left: 10),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: DropdownButton<String>(
-                                        underline: SizedBox(),
-                                        value: controller
-                                                .selectedAboutCondition.value ??
-                                            "",
-                                        icon: Icon(Icons.expand_more,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "about_condition".tr,
+                                        style: AppTextStyle.boldGrey12.copyWith(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.primary),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    width: w,
+                                    // height: 10,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
                                             color: AppColors.primary
-                                                .withOpacity(0.4)),
-                                        isDense: true,
-                                        isExpanded: true,
-                                        items: controller.aboutConditionList
-                                            .map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value,
-                                                style: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5))),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          controller.selectedAboutCondition
-                                              .value = value;
-                                        },
+                                                .withOpacity(0.4),
+                                            width: 2),
+                                        color: AppColors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5,
+                                          left: 10),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: DropdownButton<String>(
+                                              underline: SizedBox(),
+                                              value: controller
+                                                      .selectedAboutCondition
+                                                      .value ??
+                                                  "",
+                                              icon: Icon(Icons.expand_more,
+                                                  color: AppColors.primary
+                                                      .withOpacity(0.4)),
+                                              isDense: true,
+                                              isExpanded: true,
+                                              items: controller
+                                                  .aboutConditionList
+                                                  .map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value,
+                                                      style: AppTextStyle
+                                                          .mediumPrimary12
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                controller
+                                                    .selectedAboutCondition
+                                                    .value = value;
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "its_is_critical?".tr,
+                                        style: AppTextStyle.boldGrey12.copyWith(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.primary),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Flexible(
+                                          child:
+                                              _buildCriticalItem("yes".tr, 0)),
+                                      SizedBox(width: 5),
+                                      Flexible(
+                                          child:
+                                              _buildCriticalItem("no".tr, 1)),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  TextField(
+                                    cursorColor: AppColors.primary,
+                                    style: AppTextTheme.b(12).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5)),
+                                    decoration: InputDecoration(
+                                        labelText: "your_full_name".tr,
+                                        // floatingLabelBehavior:
+                                        //     FloatingLabelBehavior.always,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 10),
+                                        labelStyle: AppTextTheme.b(12).copyWith(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5)),
+                                        floatingLabelAlignment:
+                                            FloatingLabelAlignment.start,
+                                        isDense: true,
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                width: 2)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                width: 2))),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  TextField(
+                                    cursorColor: AppColors.primary,
+                                    style: AppTextTheme.b(12).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5)),
+                                    decoration: InputDecoration(
+                                        labelText: "mobile_number".tr,
+                                        // floatingLabelBehavior:
+                                        //     FloatingLabelBehavior.always,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 10),
+                                        labelStyle: AppTextTheme.b(12).copyWith(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5)),
+                                        floatingLabelAlignment:
+                                            FloatingLabelAlignment.start,
+                                        isDense: true,
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                width: 2)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                width: 2))),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          width: w * 0.2,
+                                          child: Divider(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5),
+                                            height: 3,
+                                          )),
+                                      SizedBox(
+                                        width: w * 0.02,
+                                      ),
+                                      Text(
+                                        'choose_one'.tr,
+                                        style: AppTextTheme.b(11).copyWith(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5)),
+                                      ),
+                                      SizedBox(
+                                        width: w * 0.02,
+                                      ),
+                                      Container(
+                                          width: w * 0.2,
+                                          child: Divider(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5),
+                                            height: 3,
+                                          )),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "near_by_hospital".tr,
+                                        style: AppTextStyle.boldGrey12.copyWith(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.primary),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    width: w,
+                                    // height: 10,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color: AppColors.primary
+                                                .withOpacity(0.4),
+                                            width: 2),
+                                        color: AppColors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5,
+                                          left: 10),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: DropdownButton<String>(
+                                              underline: SizedBox(),
+                                              value: controller
+                                                      .selectedNearByHospital
+                                                      .value ??
+                                                  "",
+                                              icon: Icon(Icons.expand_more,
+                                                  color: AppColors.primary
+                                                      .withOpacity(0.4)),
+                                              isDense: true,
+                                              isExpanded: true,
+                                              items: controller
+                                                  .nearByHospitalList
+                                                  .map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value,
+                                                      style: AppTextStyle
+                                                          .mediumPrimary12
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                controller
+                                                    .selectedNearByHospital
+                                                    .value = value;
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    'or'.tr,
+                                    style: AppTextTheme.b(14).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Container(
+                                        width: w,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            // boxShadow: [
+                                            //   BoxShadow(
+                                            //       offset: Offset(0, 4),
+                                            //       blurRadius: 4,
+                                            //       color: AppColors.black
+                                            //           .withOpacity(0.25))
+                                            // ],
+                                            border: Border.all(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                width: 2)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          child: Row(
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  "current_location".tr,
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.4)),
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Icon(
+                                                Icons.location_on_outlined,
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                size: 25,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 10,
+                                        top: -7.5,
+                                        child: Container(
+                                          color: AppColors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            child: Text(
+                                              "location".tr,
+                                              style: AppTextTheme.h(11)
+                                                  .copyWith(
+                                                      color: AppColors
+                                                          .lightPurple4,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: AppColors.primary,
+                                        border: Border.all(
+                                            color: AppColors.primary),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 4),
+                                              blurRadius: 4,
+                                              color: AppColors.black
+                                                  .withOpacity(0.25))
+                                        ]),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "find_blood_donor".tr,
+                                              style: AppTextStyle.boldWhite14,
+                                            ),
+                                            Image.asset(AppImages.blood1)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: AppColors.white,
+                                        border:
+                                            Border.all(color: AppColors.red),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 4),
+                                              blurRadius: 4,
+                                              color: AppColors.black
+                                                  .withOpacity(0.25))
+                                        ]),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "cancel".tr,
+                                              style: AppTextStyle.boldWhite14
+                                                  .copyWith(
+                                                      color: Color(0xFFFF2B1E)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "its_is_critical".tr,
-                                  style: AppTextStyle.boldGrey12.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Flexible(
-                                    child: _buildCriticalItem("yes".tr, 0)),
-                                SizedBox(width: 5),
-                                Flexible(child: _buildCriticalItem("no".tr, 1)),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      right: 20,
-                      bottom: 20,
-                      child: BottomBarView(
-                        isHomeScreen: false,
-                        isBlueBottomBar: true,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Container(
+                            width: w * 0.6,
+                            child: Divider(
+                              color: AppColors.white.withOpacity(0.5),
+                              thickness: 1,
+                              height: 3,
+                            )),
                       ),
+                    ],
+                  ),
+                  Positioned(
+                    left: 20,
+                    right: 20,
+                    bottom: 20,
+                    child: BottomBarView(
+                      isHomeScreen: false,
+                      isBlueBackground: true,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

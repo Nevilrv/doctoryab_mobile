@@ -47,8 +47,15 @@ class FindBloodDonorController extends GetxController {
     'Need for pregnant woman.2',
     'Need for pregnant woman.3',
   ];
+  final List<String> nearByHospitalList = [
+    'Lorem Ipsum',
+    'Lorem Ipsum.1',
+    'Lorem Ipsum.2',
+    'Lorem Ipsum.3',
+  ];
   var selectedUnit = "1".obs;
   var selectedAboutCondition = "Need for pregnant woman.".obs;
+  var selectedNearByHospital = "Lorem Ipsum".obs;
   @override
   void onInit() {
     locationResult.value.locality = "Kabul";

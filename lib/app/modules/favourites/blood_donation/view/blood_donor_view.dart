@@ -21,6 +21,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Background(
       isPrimary: true,
       isSecond: true,
@@ -34,131 +35,147 @@ class BloodDonorView extends GetView<BloodDonorController> {
           child: Stack(
             children: [
               IntrinsicHeight(
-                child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: <Widget>[
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(
-                                    vertical: 18, horizontal: 25)
-                                .copyWith(bottom: 0),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              border: Border.all(
-                                color: AppColors.darkBlue.withOpacity(0.5),
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(0, 4),
-                                  color: AppColors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: _buildRows(controller.selectGroup),
-                            ),
-                          ),
-                          Positioned(
-                            left: 20,
-                            top: -4,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              color: Colors.white,
-                              child: Text(
-                                'select_blood_group'.tr,
-                                style: AppTextStyle.boldBlack13.copyWith(
-                                  color: AppColors.lightPurple4,
-                                  height: 1,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ).paddingHorizontal(25),
-                      Text(
-                        "location".tr,
-                        style: AppTextStyle.regularBlack11
-                            .copyWith(color: AppColors.lightPurple4),
-                      ).paddingOnly(top: 15, left: 40),
-                      GestureDetector(
-                        onTap: () => Get.toNamed(Routes.LOCATION_PICKER,
-                                preventDuplicates: true,
-                                arguments: controller.locationResult())
-                            .then((v) {
-                          if (v != null && v is LocationResult) {
-                            controller.locationResult.value = v;
-                            var x = v;
-                            log(x.locality);
-                          }
-                        }),
-                        child: Container(
-                          width: double.infinity,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            border: Border.all(
-                              color: AppColors.darkBlue.withOpacity(0.5),
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(4),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 4),
-                                color: AppColors.black.withOpacity(0.1),
-                                blurRadius: 4,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: Color(0xFFBEC2DD),
-                                size: 15,
-                              ),
-                              Obx(
-                                () => Text(
-                                  controller.locationResult()?.locality ??
-                                      'select_location'.tr,
-                                  style: AppTextStyle.mediumBlack12.copyWith(
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 30),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: <Widget>[
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.symmetric(
+                                        vertical: 18, horizontal: 25)
+                                    .copyWith(bottom: 0),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border: Border.all(
                                     color: AppColors.darkBlue.withOpacity(0.5),
-                                    height: 0,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 4),
+                                      color: AppColors.black.withOpacity(0.1),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: _buildRows(controller.selectGroup),
+                                ),
+                              ),
+                              Positioned(
+                                left: 20,
+                                top: -4,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  color: Colors.white,
+                                  child: Text(
+                                    'select_blood_group'.tr,
+                                    style: AppTextStyle.boldBlack13.copyWith(
+                                      color: AppColors.lightPurple4,
+                                      height: 1,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                      ).paddingHorizontal(25),
-                      // Text(
-                      //   "gender".tr,
-                      //   style: AppTextStyle.regularBlack11
-                      //       .copyWith(color: AppColors.lightPurple4),
-                      // ).paddingOnly(top: 15, left: 40),
-                      // _buildGenderRow().paddingHorizontal(25),
-                      _buildCheckbox(),
-                      SizedBox(height: 40),
-                      _buildSaveButton(),
-                      SizedBox(height: 10),
-                      _buildCancelButton(),
-                    ],
-                  ),
+                          ).paddingHorizontal(25),
+                          Text(
+                            "location".tr,
+                            style: AppTextStyle.regularBlack11
+                                .copyWith(color: AppColors.lightPurple4),
+                          ).paddingOnly(top: 15, left: 40),
+                          GestureDetector(
+                            onTap: () => Get.toNamed(Routes.LOCATION_PICKER,
+                                    preventDuplicates: true,
+                                    arguments: controller.locationResult())
+                                .then((v) {
+                              if (v != null && v is LocationResult) {
+                                controller.locationResult.value = v;
+                                var x = v;
+                                log(x.locality);
+                              }
+                            }),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                border: Border.all(
+                                  color: AppColors.darkBlue.withOpacity(0.5),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0, 4),
+                                    color: AppColors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    color: Color(0xFFBEC2DD),
+                                    size: 15,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      controller.locationResult()?.locality ??
+                                          'select_location'.tr,
+                                      style:
+                                          AppTextStyle.mediumBlack12.copyWith(
+                                        color:
+                                            AppColors.darkBlue.withOpacity(0.5),
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ).paddingHorizontal(25),
+                          // Text(
+                          //   "gender".tr,
+                          //   style: AppTextStyle.regularBlack11
+                          //       .copyWith(color: AppColors.lightPurple4),
+                          // ).paddingOnly(top: 15, left: 40),
+                          // _buildGenderRow().paddingHorizontal(25),
+                          _buildCheckbox(),
+                          SizedBox(height: 40),
+                          _buildSaveButton(),
+                          SizedBox(height: 10),
+                          _buildCancelButton(),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Container(
+                          width: w * 0.6,
+                          child: Divider(
+                            color: AppColors.white.withOpacity(0.5),
+                            thickness: 1,
+                            height: 3,
+                          )),
+                    ),
+                  ],
                 ),
               ),
               Positioned(

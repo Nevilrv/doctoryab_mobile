@@ -65,7 +65,14 @@ class AppColors {
   static const darkBlue = Color(0xFF333E92);
   static const grey1 = Color(0xFF8D8E8F);
   static const grey2 = Color(0xFFF4F5F9);
+  static const grey3 = Color(0xFFD9D9D9);
+  static const grey4 = Color(0xFF868686);
   static const yellow2 = Color(0xFFFFAE11);
+  static const yellow3 = Color(0xFFFFCF23);
+  static const green2 = Color(0xFF009B51);
+  static const teal = Color(0xFF1D7972);
+  static const pink = Color(0xFFFF4EE3);
+  static const orange = Color(0xFFFF8F3F);
 
   static const MaterialColor primarySwatch = MaterialColor(
     0xff333e92,
