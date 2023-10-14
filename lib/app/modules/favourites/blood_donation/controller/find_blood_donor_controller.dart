@@ -33,7 +33,7 @@ class FindBloodDonorController extends GetxController {
     'AB-',
     'O-'
   ];
-
+  List<String> selectedCheckBox = [];
   var selectedGroup = "A+".obs;
   final List<String> bloodUnits = [
     '1',

@@ -49,6 +49,7 @@ import '../modules/doctor/bindings/doctor_binding.dart';
 import '../modules/doctor/views/doctor_view.dart';
 import '../modules/doctors/bindings/doctors_binding.dart';
 import '../modules/doctors/views/doctors_view.dart';
+import '../modules/favourites/blood_donation/view/donor_list_screen.dart';
 import '../modules/history_details/bindings/history_details_binding.dart';
 import '../modules/history_details/views/history_details_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -215,6 +216,11 @@ class AppPages {
     GetPage(
       name: _Paths.FIND_BLOOD_DONOR,
       page: () => const FindBloodDonorView(),
+      binding: FindBloodDonorBinding(),
+    ),
+    GetPage(
+      name: _Paths.DONOR_LIST,
+      page: () => const DonorListScreen(),
       binding: FindBloodDonorBinding(),
     ),
     GetPage(

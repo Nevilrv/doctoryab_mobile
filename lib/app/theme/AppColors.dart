@@ -10,6 +10,7 @@ class AppColors {
   static const lgt = Color(0xFFC8C8C8);
   static const lgt2 = Color(0xFF8D8D8D);
   static const black = Color(0xff000000);
+  static const black3 = Color(0xff414141);
   static const black2 = Color(0xff333333);
   static const lightBlack = Color(0xff404040);
   static const lightOrange = Color(0xffFFF1ED);
@@ -21,6 +22,7 @@ class AppColors {
   static const lightYellow = Color(0xffFFF6D7);
   static const disabledButtonColor = Color(0xff5C65A8);
   static const green = Color(0xff15B76C);
+  static const green3 = Color(0xff3CAF2B);
   static const switchGreen = Color(0xff34C759);
   static const verified = Color(0xff42A5F5);
   // the new ui Guy
@@ -63,16 +65,22 @@ class AppColors {
   static const boxPurple3 = Color(0xFFE5DCFF);
   static const lightPurple4 = Color(0xFF999FC9);
   static const darkBlue = Color(0xFF333E92);
+  static const darkBlue1 = Color(0xFF6672D8);
+  static const darkBlue2 = Color(0xFF2A3479);
   static const grey1 = Color(0xFF8D8E8F);
   static const grey2 = Color(0xFFF4F5F9);
   static const grey3 = Color(0xFFD9D9D9);
   static const grey4 = Color(0xFF868686);
+  static const grey5 = Color(0xFFF8F9FB);
+  static const grey6 = Color(0xFF6A6A6A);
   static const yellow2 = Color(0xFFFFAE11);
   static const yellow3 = Color(0xFFFFCF23);
   static const green2 = Color(0xFF009B51);
   static const teal = Color(0xFF1D7972);
   static const pink = Color(0xFFFF4EE3);
   static const orange = Color(0xFFFF8F3F);
+  static const blue = Color(0xFF2F68FF);
+  static const black6 = Color(0xFF373945);
 
   static const MaterialColor primarySwatch = MaterialColor(
     0xff333e92,

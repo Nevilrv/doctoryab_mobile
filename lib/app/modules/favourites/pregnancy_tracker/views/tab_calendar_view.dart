@@ -114,486 +114,174 @@ class TabCalendarView extends GetView<PregnancyTrackerController> {
               height: 10,
             ),
             Container(
-              width: w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.grey3),
-              ),
-              child: Column(
+              height: h * 0.16,
+              child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15),
-                    child: Column(
-                      children: [
-                        Text(
-                          "your_due_date".tr,
-                          style: AppTextStyle.boldWhite16
-                              .copyWith(color: AppColors.grey4),
-                        ),
-                        Text(
-                          "23 December 2023",
-                          style:
-                              AppTextStyle.boldPrimary24.copyWith(fontSize: 25),
-                        ),
-                        Text("Saturday", style: AppTextStyle.boldBlack16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Your baby’s star will be",
-                              style: AppTextStyle.boldWhite16
-                                  .copyWith(color: AppColors.grey4),
-                            ),
-                            Text(" Capricorn",
-                                style: AppTextStyle.boldPrimary16),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(
+                  commonMonthBox(h * 0.07, AppImages.baby1, "1_month", () {
+                    commonDialog(w, h, AppImages.baby1, "1_month");
+                  }),
+                  Spacer(),
+                  VerticalDivider(
                     thickness: 1,
-                    color: AppColors.grey3,
+                    color: AppColors.primary,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Text(
-                      "calculate_date".tr,
-                      style: AppTextStyle.boldWhite12.copyWith(
-                          color: AppColors.grey4,
-                          decoration: TextDecoration.underline),
-                    ),
+                  Spacer(),
+                  commonMonthBox(h * 0.08, AppImages.baby2, "2_month", () {
+                    commonDialog(w, h, AppImages.baby2, "2_month");
+                  }),
+                  Spacer(),
+                  VerticalDivider(
+                    thickness: 1,
+                    color: AppColors.primary,
                   ),
+                  Spacer(),
+                  commonMonthBox(h * 0.09, AppImages.baby2, "3_month", () {
+                    commonDialog(w, h, AppImages.baby3, "3_month");
+                  }),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            commonButton(
+              w,
+              "1_trimaster",
+            ),
+            SizedBox(
+              height: 10,
             ),
             Divider(
               thickness: 1,
               color: AppColors.grey3,
             ),
-            ExpansionTile(
-              backgroundColor: AppColors.yellow3,
-              collapsedBackgroundColor: AppColors.yellow3,
-              collapsedIconColor: AppColors.white,
-              iconColor: AppColors.white,
-              collapsedShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: AppColors.yellow3)),
-              title: Text(
-                "1ST TRIMASTER",
-                style: AppTextStyle.boldWhite15,
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: h * 0.18,
+              child: Row(
+                children: [
+                  commonMonthBox(h * 0.1, AppImages.baby4, "4_month", () {
+                    commonDialog(w, h, AppImages.baby4, "4_month");
+                  }),
+                  Spacer(),
+                  VerticalDivider(
+                    thickness: 1,
+                    color: AppColors.primary,
+                  ),
+                  Spacer(),
+                  commonMonthBox(h * 0.11, AppImages.baby5, "5_month", () {
+                    commonDialog(w, h, AppImages.baby5, "5_month");
+                  }),
+                  Spacer(),
+                  VerticalDivider(
+                    thickness: 1,
+                    color: AppColors.primary,
+                  ),
+                  Spacer(),
+                  commonMonthBox(h * 0.12, AppImages.baby6, "6_month", () {
+                    commonDialog(w, h, AppImages.baby6, "6_month");
+                  }),
+                ],
               ),
-              children: <Widget>[
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.yellow3),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.yellow3, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.yellow3,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: AppColors.yellow3,
-                ),
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.yellow3),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.yellow3, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.yellow3,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: AppColors.yellow3,
-                ),
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.yellow3),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.yellow3, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.yellow3,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-              ],
             ),
             SizedBox(
               height: 10,
             ),
-            ExpansionTile(
-              backgroundColor: AppColors.pink,
-              collapsedBackgroundColor: AppColors.pink,
-              collapsedIconColor: AppColors.white,
-              iconColor: AppColors.white,
-              collapsedShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: AppColors.pink)),
-              title: Text(
-                "1ST TRIMASTER",
-                style: AppTextStyle.boldWhite15,
-              ),
-              children: <Widget>[
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.pink),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.pink, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.pink,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: AppColors.pink,
-                ),
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.pink),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.pink, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.pink,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: AppColors.pink,
-                ),
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.pink),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.pink, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.pink,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+            commonButton(w, "2_trimaster"),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              thickness: 1,
+              color: AppColors.grey3,
             ),
             SizedBox(
               height: 10,
             ),
-            ExpansionTile(
-              backgroundColor: AppColors.orange,
-              collapsedBackgroundColor: AppColors.orange,
-              collapsedIconColor: AppColors.white,
-              iconColor: AppColors.white,
-              collapsedShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: AppColors.orange)),
-              title: Text(
-                "1ST TRIMASTER",
-                style: AppTextStyle.boldWhite15,
+            Container(
+              height: h * 0.19,
+              child: Row(
+                children: [
+                  commonMonthBox(h * 0.12, AppImages.baby7, "7_month", () {
+                    commonDialog(w, h, AppImages.baby7, "7_month");
+                  }),
+                  Spacer(),
+                  VerticalDivider(
+                    thickness: 1,
+                    color: AppColors.primary,
+                  ),
+                  Spacer(),
+                  commonMonthBox(h * 0.13, AppImages.baby8, "8_month", () {
+                    commonDialog(w, h, AppImages.baby8, "8_month");
+                  }),
+                  Spacer(),
+                  VerticalDivider(
+                    thickness: 1,
+                    color: AppColors.primary,
+                  ),
+                  Spacer(),
+                  commonMonthBox(h * 0.135, AppImages.baby9, "9_month", () {
+                    commonDialog(w, h, AppImages.baby9, "9_month");
+                  }),
+                ],
               ),
-              children: <Widget>[
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.orange),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.orange, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.orange,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: AppColors.orange,
-                ),
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.orange),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.orange, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.orange,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: AppColors.orange,
-                ),
-                Container(
-                  width: w * 0.89,
-                  color: AppColors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppImages.babySvg,
-                            color: AppColors.orange),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "01 April 2023",
-                              style: AppTextStyle.boldBlack14.copyWith(
-                                  color: AppColors.orange, fontSize: 15),
-                            ),
-                            Text("Your baby is concived",
-                                style: AppTextStyle.boldBlack14.copyWith(
-                                    color: AppColors.orange,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Spacer(),
-                        Text("fertilization_process".tr,
-                            style: AppTextStyle.boldBlack14.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            commonButton(w, "3_trimaster"),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: w,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.yellow3),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                child: Center(
+                    child: Text(
+                        "${"1_trimaster".tr} - (18/03/2023 - 16/06/2023)",
+                        style: AppTextStyle.boldWhite15)),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: w,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.pink),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                child: Center(
+                    child: Text(
+                        "${"2_trimaster".tr} - (17/06/2023 - 15/09/2023)",
+                        style: AppTextStyle.boldWhite15)),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: w,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.orange),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                child: Center(
+                    child: Text(
+                        "${"3_trimaster".tr} - (16/10/2023 - 23/12/2023)",
+                        style: AppTextStyle.boldWhite15)),
+              ),
             ),
             SizedBox(
               height: 10,
@@ -601,6 +289,120 @@ class TabCalendarView extends GetView<PregnancyTrackerController> {
           ],
         ),
       ),
+    );
+  }
+
+  void commonDialog(double w, double h, String image, String title) {
+    Get.dialog(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Center(
+          child: Container(
+            width: w,
+            // height: Get.height * 0.3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.white,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: h * 0.03, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: h * 0.01,
+                  ),
+                  Image.asset(
+                    image,
+                    height: h * 0.15,
+                  ),
+                  SizedBox(
+                    height: h * 0.01,
+                  ),
+                  Text(
+                    "${"your_baby_is".tr} ${"$title".tr}!",
+                    style: AppTextStyle.boldPrimary24,
+                  ),
+                  SizedBox(
+                    height: h * 0.01,
+                  ),
+                  Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at ligula nisi. Aenean in urna aliquet, maximus turpis eget, blandit urna. Vestibulum nec lacus nec mi scelerisque faucibus. In dictum eget mi in rhoncus. Cras imperdiet lacus eu egestas feugiat. Cras purus nunc, convallis quis risus vitae, sagittis sollicitudin risus. Integer fermentum placerat enim quis molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed iaculis aliquet metus eu imperdiet.",
+                    style: AppTextStyle.mediumBlack16
+                        .copyWith(color: AppColors.black3, fontSize: 15),
+                  ),
+                  SizedBox(
+                    height: h * 0.03,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      width: w,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.primary),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Center(
+                            child: Text("back_to_calendar".tr,
+                                style: AppTextStyle.boldWhite15)),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      // confirm: Text("cooo"),
+      // actions: <Widget>[Text("aooo"), Text("aooo")],
+      // cancel: Text("bla bla"),
+      // content: Text("bla bldddda"),
+    );
+  }
+
+  Container commonButton(double w, String title) {
+    return Container(
+      width: w,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20), color: AppColors.primary),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        child:
+            Center(child: Text("$title".tr, style: AppTextStyle.boldWhite15)),
+      ),
+    );
+  }
+
+  Column commonMonthBox(
+      double h, String image, String title, Function() onTap) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          height: h,
+          child: Center(child: Image.asset(image)),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: AppColors.primary),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+              child: Text("$title".tr, style: AppTextStyle.boldWhite15),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

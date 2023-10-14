@@ -131,4 +131,48 @@ class AppAppBar {
       ],
     );
   }
+
+  static AppBar blueAppBar({String title, bool bloodIcon = false}) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: GestureDetector(
+        onTap: () {
+          Get.back();
+        },
+        child: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: AppColors.primary,
+        ),
+      ),
+      title: bloodIcon == false
+          ? Text(
+              "$title ",
+              textAlign: TextAlign.center,
+              style: AppTextStyle.boldPrimary20,
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "$title ",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.boldPrimary20,
+                ),
+                Image.asset(AppImages.blood1)
+              ],
+            ),
+      centerTitle: true,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 20, left: 10),
+          child: SvgPicture.asset(
+            AppImages.blackBell,
+            height: 24,
+            width: 24,
+          ),
+        ),
+      ],
+    );
+  }
 }

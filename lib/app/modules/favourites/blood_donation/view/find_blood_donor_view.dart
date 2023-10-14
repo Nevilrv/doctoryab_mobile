@@ -5,6 +5,7 @@ import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/controller/find_blood_donor_controller.dart';
+import 'package:doctor_yab/app/modules/favourites/blood_donation/view/donor_list_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -559,33 +560,39 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: AppColors.primary,
-                                        border: Border.all(
-                                            color: AppColors.primary),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(0, 4),
-                                              blurRadius: 4,
-                                              color: AppColors.black
-                                                  .withOpacity(0.25))
-                                        ]),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "find_blood_donor".tr,
-                                              style: AppTextStyle.boldWhite14,
-                                            ),
-                                            Image.asset(AppImages.blood1)
-                                          ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(Routes.DONOR_LIST);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: AppColors.primary,
+                                          border: Border.all(
+                                              color: AppColors.primary),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                offset: Offset(0, 4),
+                                                blurRadius: 4,
+                                                color: AppColors.black
+                                                    .withOpacity(0.25))
+                                          ]),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "find_blood_donor".tr,
+                                                style: AppTextStyle.boldWhite14,
+                                              ),
+                                              Image.asset(AppImages.blood1)
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

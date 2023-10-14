@@ -28,6 +28,7 @@ abstract class Routes {
   static const BLOOD_DONOR = _Paths.BLOOD_DONOR;
   static const LOCATION_PICKER = _Paths.LOCATION_PICKER;
   static const FIND_BLOOD_DONOR = _Paths.FIND_BLOOD_DONOR;
+  static const DONOR_LIST = _Paths.DONOR_LIST;
   static const BLOOD_DONORS_RESULTS = _Paths.BLOOD_DONORS_RESULTS;
   static const BLOG = _Paths.BLOG;
   static const BLOG_FULL_PAGE = _Paths.BLOG_FULL_PAGE;
@@ -71,6 +72,7 @@ abstract class _Paths {
   static const BLOOD_DONOR = '/blood-donor';
   static const LOCATION_PICKER = '/location-picker';
   static const FIND_BLOOD_DONOR = '/find-blood-donor';
+  static const DONOR_LIST = '/donor-list';
   static const BLOOD_DONORS_RESULTS = '/blood-donors-results';
   static const BLOG = '/blog';
   static const BLOG_FULL_PAGE = '/blog-full-page';
