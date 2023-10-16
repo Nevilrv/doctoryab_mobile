@@ -36,6 +36,7 @@ class AppImages {
   static const noteEdit = "assets/svg/Note_Edit.svg";
   static const editName = "assets/svg/edit_name.svg";
   static const editPen = "assets/svg/Edit_Pen.svg";
+  static const editPenBlue = "assets/svg/Edit_Pen_blue.svg";
   static const mail = "assets/svg/Mail.svg";
   static const mobile = "assets/svg/Mobile.svg";
   static const gift = "assets/svg/Gift.svg";
@@ -57,6 +58,14 @@ class AppImages {
   static const success = "assets/svg/success.svg";
   static const Checkbox1 = "assets/svg/Checkbox1.svg";
   static const Checkbox = "assets/svg/Checkbox.svg";
+  static const like1 = "assets/png/like1.png";
+  static const like2 = "assets/svg/Like1.svg";
+  static const comment = "assets/svg/comment.svg";
+  static const share = "assets/svg/Share.svg";
+  static const check = "assets/svg/Circle_Check.svg";
+  static const google = "assets/svg/google.svg";
+  static const userCircle = "assets/svg/User_Circle.svg";
+  static const facebook = "assets/svg/Facebook.svg";
   // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG

@@ -22,17 +22,18 @@ class AuthOtpView extends GetView<AuthOtpController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Spacer(flex: 2),
-            Hero(
-                tag: "doctor_svg",
-                child: SvgPicture.asset("assets/svg/d2.svg")),
+            Spacer(),
+            // Spacer(flex: 2),
+            // Hero(
+            //     tag: "doctor_svg",
+            //     child: SvgPicture.asset("assets/svg/d2.svg")),
             SizedBox(height: 20),
             Text(
               'security_validation'.tr,
               style: AppTextTheme.h1().copyWith(color: Colors.white),
               textAlign: TextAlign.center,
             ),
-            Spacer(flex: 1),
+            // Spacer(flex: 1),
             Hero(
               tag: "info_text",
               //TODO handle [Get.arguments] for web
@@ -43,7 +44,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Obx(() {
               return () {
                 return Theme(
@@ -61,12 +62,14 @@ class AuthOtpView extends GetView<AuthOtpController> {
                       maxLength: 6,
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       keyboardType: TextInputType.phone,
+                      cursorColor: Colors.white,
                       controller: controller.textEditingController,
                       decoration: InputDecoration(
                         errorText: controller.otpValidationError() == ""
                             ? null
                             : controller.otpValidationError(),
                         labelText: 'otp_code'.tr,
+                        labelStyle: TextStyle(color: Colors.white),
                         // labelStyle: TextStyle(color: Colors.white),
                         fillColor: Colors.white,
                         focusColor: Colors.white,
@@ -83,7 +86,8 @@ class AuthOtpView extends GetView<AuthOtpController> {
               child: Obx(
                 () => CustomRoundedButton(
                   text: "confirm".tr,
-                  width: 220,
+                  width: Get.width,
+                  radius: 5,
                   onTap: !controller.otpFormatValid.value
                       ? null
                       : () => controller.verfyOtp(),
@@ -129,9 +133,9 @@ class AuthOtpView extends GetView<AuthOtpController> {
                       )),
                 ],
               ),
-            Spacer(flex: 4),
+            Spacer(),
           ],
-        ).paddingSymmetric(horizontal: 80),
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

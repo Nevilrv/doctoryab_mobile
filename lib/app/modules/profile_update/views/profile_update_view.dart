@@ -467,7 +467,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             controller: controller.teNewNumber,
                                             decoration: InputDecoration(
                                                 hintText:
-                                                    "please_enter_email".tr,
+                                                    "please_enter_phone".tr,
                                                 hintStyle: AppTextStyle
                                                     .mediumPrimary12
                                                     .copyWith(

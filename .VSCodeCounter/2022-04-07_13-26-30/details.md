@@ -120,7 +120,7 @@ Total : 253 files,  14377 codes, 1794 comments, 1569 blanks, all 17740 lines
 | [lib/app/modules/auth_otp/views/auth_otp_view.dart](/lib/app/modules/auth_otp/views/auth_otp_view.dart) | Dart | 127 | 8 | 4 | 139 |
 | [lib/app/modules/auth_phone/bindings/auth_phone_binding.dart](/lib/app/modules/auth_phone/bindings/auth_phone_binding.dart) | Dart | 10 | 0 | 3 | 13 |
 | [lib/app/modules/auth_phone/controllers/auth_phone_controller.dart](/lib/app/modules/auth_phone/controllers/auth_phone_controller.dart) | Dart | 78 | 6 | 8 | 92 |
-| [lib/app/modules/auth_phone/views/auth_phone_view.dart](/lib/app/modules/auth_phone/views/auth_phone_view.dart) | Dart | 85 | 6 | 4 | 95 |
+| [lib/app/modules/auth_phone/views/auth_phone_view.dart](/lib/app/modules/auth_phone/views/auth_option_view.dart) | Dart | 85 | 6 | 4 | 95 |
 | [lib/app/modules/book/bindings/book_binding.dart](/lib/app/modules/book/bindings/book_binding.dart) | Dart | 10 | 0 | 3 | 13 |
 | [lib/app/modules/book/controllers/book_controller.dart](/lib/app/modules/book/controllers/book_controller.dart) | Dart | 140 | 13 | 15 | 168 |
 | [lib/app/modules/book/views/book_view.dart](/lib/app/modules/book/views/book_view.dart) | Dart | 110 | 7 | 4 | 121 |

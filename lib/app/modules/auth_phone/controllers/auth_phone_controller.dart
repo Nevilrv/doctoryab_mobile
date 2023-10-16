@@ -10,10 +10,23 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 
 class AuthPhoneController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
-
+  TextEditingController teNewNumber = TextEditingController();
+  TextEditingController teAge = TextEditingController();
+  TextEditingController teName = TextEditingController();
   var phoneValid = false.obs;
   var phoneValidationError = "".obs;
-
+  var locations = [
+    'Kâbil',
+    'Herat',
+    'Kandehar',
+    'Mezar-ı Şerif',
+    'Celalabad',
+    'Kunduz',
+    'Puli Humri',
+  ];
+  var selectedLocation = "Kâbil".obs;
+  var genderList = ['Male', "Female", "Other"];
+  var selectedGender = "Male".obs;
   @override
   void onInit() {
     ever(phoneValid, (_) {

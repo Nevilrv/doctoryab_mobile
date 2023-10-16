@@ -1,3 +1,6 @@
+import 'package:doctor_yab/app/modules/auth_phone/views/add_personal_info_screen.dart';
+import 'package:doctor_yab/app/modules/auth_phone/views/auth_phone_view.dart';
+import 'package:doctor_yab/app/modules/book/views/confirmation_screen.dart';
 import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donation_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donor_binding.dart';
@@ -32,7 +35,7 @@ import '../modules/APP_STORY/views/app_story_view.dart';
 import '../modules/auth_otp/bindings/auth_otp_binding.dart';
 import '../modules/auth_otp/views/auth_otp_view.dart';
 import '../modules/auth_phone/bindings/auth_phone_binding.dart';
-import '../modules/auth_phone/views/auth_phone_view.dart';
+import '../modules/auth_phone/views/auth_option_view.dart';
 import '../modules/blog/bindings/blog_binding.dart';
 import '../modules/blog/views/blog_view.dart';
 import '../modules/blog_full_page/bindings/blog_full_page_binding.dart';
@@ -122,8 +125,18 @@ class AppPages {
       binding: LangSelectBinding(),
     ),
     GetPage(
+      name: _Paths.AUTH_OPTION,
+      page: () => AuthView(),
+      binding: AuthPhoneBinding(),
+    ),
+    GetPage(
       name: _Paths.AUTH_PHONE,
       page: () => AuthPhoneView(),
+      binding: AuthPhoneBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_PERSONAL_INFO,
+      page: () => AddPersonalInfoScreen(),
       binding: AuthPhoneBinding(),
     ),
     GetPage(
@@ -169,6 +182,11 @@ class AppPages {
     GetPage(
       name: _Paths.BOOK,
       page: () => BookView(),
+      binding: BookBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONFIRMATION,
+      page: () => ConfirmationScreen(),
       binding: BookBinding(),
     ),
     GetPage(

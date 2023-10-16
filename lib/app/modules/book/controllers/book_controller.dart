@@ -15,6 +15,31 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 class BookController extends GetxController {
   var doctor = BookingController.to.selectedDoctor;
   var category = BookingController.to.selectedCategory;
+
+  var selectDate = ["8", "9", "10", "11", "12"].obs;
+  var selectMorningTime = [
+    "09.00 AM",
+    "09.30 AM",
+    "10.00 AM",
+    "10.30 AM",
+    "11.00 AM",
+  ].obs;
+  var selectEveningTime = [
+    "09.00 AM",
+    "09.30 AM",
+    "10.00 AM",
+    "10.30 AM",
+    "11.00 AM",
+  ].obs;
+  var isCheckBox = false.obs;
+  var selectedDates = 0.obs;
+  var selectedMorningTime = 0.obs;
+  var selectedEveningTime = 0.obs;
+  TextEditingController teName = TextEditingController();
+  TextEditingController teNewNumber = TextEditingController();
+  TextEditingController teAge = TextEditingController();
+  var genderList = ['Male', "Female", "Other"];
+  var selectedGender = "Male".obs;
   var pagingController = PagingController<int, ScheduleData>(firstPageKey: 1);
   // RxInt selectedIndex = 0.obs;
   RxString selectedDate = RxString(null);
@@ -26,9 +51,9 @@ class BookController extends GetxController {
   @override
   void onInit() {
     // assert(Get.arguments != null && Get.arguments is Doctor);
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchDoctorTimeTable(pageKey);
-    });
+    // pagingController.addPageRequestListener((pageKey) {
+    //   _fetchDoctorTimeTable(pageKey);
+    // });
 
     super.onInit();
   }

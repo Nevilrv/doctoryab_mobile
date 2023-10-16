@@ -12,7 +12,7 @@ class TabBlogController extends GetxController {
   //*DIO
   CancelToken categoriesCancelToken = CancelToken();
   CancelToken blogCancelToken = CancelToken();
-
+  var tabIndex = 0.obs;
   final isLoading = true.obs;
   final selectedIndex = 0.obs;
   final tabTitles = <BlogCategory>[].obs;

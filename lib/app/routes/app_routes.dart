@@ -6,7 +6,9 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const INTRO = _Paths.INTRO;
   static const LANG_SELECT = _Paths.LANG_SELECT;
+  static const AUTH_OPTION = _Paths.AUTH_OPTION;
   static const AUTH_PHONE = _Paths.AUTH_PHONE;
+  static const ADD_PERSONAL_INFO = _Paths.ADD_PERSONAL_INFO;
   static const AUTH_OTP = _Paths.AUTH_OTP;
   static const PROFILE_UPDATE = _Paths.PROFILE_UPDATE;
   static const LOGIN_VERIFY = _Paths.LOGIN_VERIFY;
@@ -17,6 +19,7 @@ abstract class Routes {
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const DOCTORS = _Paths.DOCTORS;
   static const BOOK = _Paths.BOOK;
+  static const CONFIRMATION = _Paths.CONFIRMATION;
   static const PATIENT_INFO = _Paths.PATIENT_INFO;
   static const DOCTOR = _Paths.DOCTOR;
   static const HISTORY_DETAILS = _Paths.HISTORY_DETAILS;
@@ -52,7 +55,9 @@ abstract class _Paths {
   static const HOME = '/home';
   static const INTRO = '/intro';
   static const LANG_SELECT = '/lang-select';
+  static const AUTH_OPTION = '/auth-option';
   static const AUTH_PHONE = '/auth-phone';
+  static const ADD_PERSONAL_INFO = '/add-personal-info';
   static const AUTH_OTP = '/auth-otp';
   static const PROFILE_UPDATE = '/profile-update';
   static const LOGIN_VERIFY = '/login-verify';
@@ -61,6 +66,7 @@ abstract class _Paths {
   static const SPLASH_SCREEN = '/splash-screen';
   static const DOCTORS = '/doctors';
   static const BOOK = '/book';
+  static const CONFIRMATION = '/confirmation';
   static const PATIENT_INFO = '/patient-info';
   static const DOCTOR = '/doctor';
   static const HISTORY_DETAILS = '/history-details';

@@ -1,6 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -17,51 +24,355 @@ import '../controllers/tab_blog_controller.dart';
 import 'package:html/parser.dart' show parse;
 
 class TabBlogView extends GetView<TabBlogController> {
+  List tab = ["Dentists", "Gyne", "Pediatric"];
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppAppBar.specialAppBar(
-        "blog".tr,
-        showLeading: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'medical_blog'.tr,
+          textAlign: TextAlign.center,
+          style: AppTextStyle.boldPrimary20,
+        ),
+        centerTitle: true,
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SvgPicture.asset(
+              AppImages.blackBell,
+              height: 24,
+            ),
+          )
+        ],
       ),
       body: Obx(() {
-        // if (controller.isLoading.value) {
-        //   return const Center(child: CircularProgressIndicator());
-        // } else {
-        return IndexedStack(
-          index: !controller.isLoading() ? 0 : 1,
+        return Column(
           children: [
-            RefreshIndicator(
-              onRefresh: () => Future.sync(
-                () async {
-                  Utils.resetPagingController(controller.pagingController);
-                  await Future.delayed(Duration.zero, () {
-                    controller.blogCancelToken.cancel();
-                    controller.categoriesCancelToken.cancel();
-                  });
-                  controller.blogCancelToken = new CancelToken();
-                  controller.categoriesCancelToken = new CancelToken();
-                  controller.selectedIndex.value = 0;
-                  controller.isLoading(true);
-
-                  controller.loadCategories(
-                      // controller.pagingController.firstPageKey,
-                      );
-                },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                      tab.length,
+                      (index) => Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.tabIndex.value = index;
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: controller.tabIndex.value != index
+                                        ? AppColors.lightGrey
+                                        : AppColors.primary,
+                                    border: Border.all(
+                                        color:
+                                            controller.tabIndex.value != index
+                                                ? AppColors.lightGrey
+                                                : AppColors.primary)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 8),
+                                  child: Center(
+                                    child: Container(
+                                        width: w * 0.25,
+                                        child: Center(
+                                            child: Text(
+                                          tab[index],
+                                          style:
+                                              controller.tabIndex.value != index
+                                                  ? AppTextStyle.boldPrimary14
+                                                  : AppTextStyle.boldWhite14,
+                                        ))),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )),
+                ),
               ),
-              child: _body(controller: controller),
             ),
-            Center(
-              child: CircularProgressIndicator(
-                color: Colors.grey,
+            Container(
+              height: h * 0.72,
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                    children: List.generate(4, (index) {
+                  return Column(
+                    children: [
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          // height: h * 0.2,
+                          width: w,
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundImage: NetworkImage(
+                                    "https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg"),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Afghan Hospital",
+                                              style: AppTextTheme.h(14)
+                                                  .copyWith(
+                                                      color: AppColors.primary),
+                                            ),
+                                          ),
+                                          SvgPicture.asset(AppImages.check)
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "4h ago ",
+                                            style: AppTextTheme.h(11).copyWith(
+                                                color: AppColors.primary,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Icon(
+                                            Icons.circle,
+                                            size: 3,
+                                            color: AppColors.primary,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 2),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.more_vert,
+                                color: AppColors.primary,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: ExpandableText(
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                          expandText: 'Read more',
+                          collapseText: 'Read less',
+                          maxLines: 3,
+                          linkColor: AppColors.grey.withOpacity(0.6),
+                          style: AppTextStyle.boldPrimary11.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        height: h * 0.3,
+                        width: w,
+                        child: Image.network(
+                            "https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg",
+                            fit: BoxFit.cover),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  AppImages.like1,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  "6.9K ",
+                                  style: AppTextTheme.h(14).copyWith(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Spacer(),
+                                Text(
+                                  "2.9K ",
+                                  style: AppTextTheme.h(14).copyWith(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  "comment".tr,
+                                  style: AppTextTheme.h(14).copyWith(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                SizedBox(width: 5),
+                                Icon(
+                                  Icons.circle,
+                                  size: 5,
+                                  color: AppColors.primary.withOpacity(0.5),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  "20 ",
+                                  style: AppTextTheme.h(14).copyWith(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  "shares".tr,
+                                  style: AppTextTheme.h(14).copyWith(
+                                      color: AppColors.primary.withOpacity(0.5),
+                                      fontWeight: FontWeight.w400),
+                                )
+                              ],
+                            ),
+                            Divider(
+                              color: AppColors.primary.withOpacity(0.5),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppImages.like2,
+                                    width: 20,
+                                    height: 20,
+                                    color: AppColors.primary.withOpacity(0.5),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    "like".tr,
+                                    style: AppTextTheme.h(14).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Spacer(),
+                                  SvgPicture.asset(
+                                    AppImages.comment,
+                                    width: 24,
+                                    height: 24,
+                                    color: AppColors.primary.withOpacity(0.5),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    "comment".tr,
+                                    style: AppTextTheme.h(14).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Spacer(),
+                                  SvgPicture.asset(
+                                    AppImages.share,
+                                    width: 24,
+                                    height: 24,
+                                    color: AppColors.primary.withOpacity(0.5),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    "share".tr,
+                                    style: AppTextTheme.h(14).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: AppColors.primary.withOpacity(0.5),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+                })),
               ),
-            ).bgColor(Colors.white),
+            )
           ],
         );
-      }
-          // },
-          ),
+      }),
     );
+    // return Scaffold(
+    //   appBar: AppAppBar.specialAppBar(
+    //     "blog".tr,
+    //     showLeading: false,
+    //   ),
+    //   body: Obx(() {
+    //     // if (controller.isLoading.value) {
+    //     //   return const Center(child: CircularProgressIndicator());
+    //     // } else {
+    //     return IndexedStack(
+    //       index: !controller.isLoading() ? 0 : 1,
+    //       children: [
+    //         RefreshIndicator(
+    //           onRefresh: () => Future.sync(
+    //             () async {
+    //               Utils.resetPagingController(controller.pagingController);
+    //               await Future.delayed(Duration.zero, () {
+    //                 controller.blogCancelToken.cancel();
+    //                 controller.categoriesCancelToken.cancel();
+    //               });
+    //               controller.blogCancelToken = new CancelToken();
+    //               controller.categoriesCancelToken = new CancelToken();
+    //               controller.selectedIndex.value = 0;
+    //               controller.isLoading(true);
+    //
+    //               controller.loadCategories(
+    //                   // controller.pagingController.firstPageKey,
+    //                   );
+    //             },
+    //           ),
+    //           child: _body(controller: controller),
+    //         ),
+    //         Center(
+    //           child: CircularProgressIndicator(
+    //             color: Colors.grey,
+    //           ),
+    //         ).bgColor(Colors.white),
+    //       ],
+    //     );
+    //   }
+    //       // },
+    //       ),
+    // );
   }
 }
 

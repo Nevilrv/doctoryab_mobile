@@ -73,7 +73,7 @@ class Utils {
         Get.offAllNamed(Routes.INTRO);
         return;
       }
-      Get.offAllNamed(Routes.AUTH_PHONE);
+      Get.offAllNamed(Routes.AUTH_OPTION);
       return;
     } else {
       print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");

@@ -75,7 +75,7 @@ class CustomRoundedButton extends StatelessWidget {
                   AppTextTheme.m(17).copyWith(
                     color: onTap == null
                         ? textDisabledColor ?? Colors.white.withOpacity(0.6)
-                        : textColor ?? AppColors.black2,
+                        : textColor ?? AppColors.primary,
                   ),
             ),
           ),

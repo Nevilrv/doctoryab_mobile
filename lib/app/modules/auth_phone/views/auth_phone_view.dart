@@ -1,13 +1,11 @@
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/modules/auth_phone/controllers/auth_phone_controller.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
-
-import '../controllers/auth_phone_controller.dart';
 
 class AuthPhoneView extends GetView<AuthPhoneController> {
   @override
@@ -21,17 +19,17 @@ class AuthPhoneView extends GetView<AuthPhoneController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Spacer(flex: 2),
-            Hero(
-                tag: "doctor_svg",
-                child: SvgPicture.asset("assets/svg/d2.svg")),
-            SizedBox(height: 20),
+            Spacer(),
+            // Hero(
+            //     tag: "doctor_svg",
+            //     child: SvgPicture.asset("assets/svg/d2.svg")),
+            // SizedBox(height: 20),
             Text(
-              'phone_number'.tr,
+              'Phone_number'.tr,
               style: AppTextTheme.h1().copyWith(color: Colors.white),
               textAlign: TextAlign.center,
             ),
-            Spacer(flex: 1),
+
             Hero(
               tag: "info_text",
               child: Text(
@@ -41,28 +39,28 @@ class AuthPhoneView extends GetView<AuthPhoneController> {
               ),
             ),
             SizedBox(height: 20),
-            Theme(
-              data: Get.theme.copyWith(
-                primaryColor: Colors.white,
-                // accentColor: Colors.red,
-                hintColor: Colors.white,
-              ),
-              child: Obx(
-                () => SizedBox(
-                  width: MediaQuery.of(context).size.width < 400
-                      ? double.infinity
-                      : 400,
-                  child: TextField(
+            Container(
+              width: Get.width,
+              child: Theme(
+                data: Get.theme.copyWith(
+                  primaryColor: Colors.white,
+                  // accentColor: Colors.red,
+                  hintColor: Colors.white,
+                ),
+                child: Obx(
+                  () => TextField(
                     style: TextStyle(color: Colors.white),
                     maxLength: 10,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     keyboardType: TextInputType.phone,
+                    cursorColor: AppColors.white,
                     controller: controller.textEditingController,
                     decoration: InputDecoration(
                       errorText: controller.phoneValidationError() == ""
                           ? null
                           : controller.phoneValidationError(),
                       labelText: 'phone_number'.tr,
+                      labelStyle: TextStyle(color: Colors.white),
                       // labelStyle: TextStyle(color: Colors.white),
                       fillColor: Colors.white,
                       focusColor: Colors.white,
@@ -78,16 +76,17 @@ class AuthPhoneView extends GetView<AuthPhoneController> {
               child: Obx(
                 () => CustomRoundedButton(
                   text: "confirm".tr,
-                  width: 220,
+                  width: Get.width,
+                  radius: 5,
                   onTap: !controller.phoneValid.value
                       ? null
                       : () => controller.signInWithPhone(),
                 ).paddingOnly(bottom: 40),
               ),
             ),
-            Spacer(flex: 4),
+            Spacer(),
           ],
-        ).paddingSymmetric(horizontal: 80),
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

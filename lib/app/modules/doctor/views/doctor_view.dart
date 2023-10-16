@@ -643,50 +643,56 @@ class DoctorView extends GetView<DoctorController> {
                                               .copyWith(
                                                   fontWeight: FontWeight.w600),
                                           onTap: () {
-                                            if (controller.doctor.id == null ||
-                                                controller.doctor.category ==
-                                                    null) {
-                                              // AppGetDialog.show(
-                                              //     middleText: "doctor_id_or_category_is_null".tr);
-
-                                              AppGetDialog
-                                                  .showSeleceDoctorCategoryDialog(
-                                                      controller.doctor,
-                                                      onChange: (cat) {
-                                                BookingController.to
-                                                    .selectedDoctor(
-                                                        controller.doctor);
-                                                BookingController.to
-                                                    .selectedCategory(cat);
-                                                Get.toNamed(
-                                                  Routes.BOOK,
-                                                  // arguments: [item.doctor, controller.arguments.cCategory],
-                                                );
-                                              });
-                                              return;
-                                            }
-                                            BookingController.to.selectedDoctor(
-                                                controller.doctor);
-                                            BookingController.to
-                                                .selectedCategory(Category(
-                                                    id: controller
-                                                        .doctor.category.id));
                                             Get.toNamed(
                                               Routes.BOOK,
                                               // arguments: [item.doctor, controller.arguments.cCategory],
                                             );
-
-                                            //
-                                            //    AppGetDialog.showSeleceDoctorCategoryDialog(
-                                            //     controller.doctor, onChange: (cat) {
-                                            //   BookingController.to.selectedDoctor(controller.doctor);
-                                            //   BookingController.to.selectedCategory(cat);
-                                            //   Get.toNamed(
-                                            //     Routes.BOOK,
-                                            //     // arguments: [item.doctor, controller.arguments.cCategory],
-                                            //   );
-                                            // });
                                           },
+                                          // onTap: () {
+                                          //   if (controller.doctor.id == null ||
+                                          //       controller.doctor.category ==
+                                          //           null) {
+                                          //     // AppGetDialog.show(
+                                          //     //     middleText: "doctor_id_or_category_is_null".tr);
+                                          //
+                                          //     AppGetDialog
+                                          //         .showSeleceDoctorCategoryDialog(
+                                          //             controller.doctor,
+                                          //             onChange: (cat) {
+                                          //       BookingController.to
+                                          //           .selectedDoctor(
+                                          //               controller.doctor);
+                                          //       BookingController.to
+                                          //           .selectedCategory(cat);
+                                          //       Get.toNamed(
+                                          //         Routes.BOOK,
+                                          //         // arguments: [item.doctor, controller.arguments.cCategory],
+                                          //       );
+                                          //     });
+                                          //     return;
+                                          //   }
+                                          //   BookingController.to.selectedDoctor(
+                                          //       controller.doctor);
+                                          //   BookingController.to
+                                          //       .selectedCategory(Category(
+                                          //           id: controller
+                                          //               .doctor.category.id));
+                                          //   Get.toNamed(
+                                          //     Routes.BOOK,
+                                          //     // arguments: [item.doctor, controller.arguments.cCategory],
+                                          //   );
+                                          //
+                                          //   //
+                                          //   //    AppGetDialog.showSeleceDoctorCategoryDialog(
+                                          //   //     controller.doctor, onChange: (cat) {
+                                          //   //   BookingController.to.selectedDoctor(controller.doctor);
+                                          //   //   BookingController.to.selectedCategory(cat);
+                                          //   //   Get.toNamed(
+                                          //   //     Routes.BOOK,
+                                          //   //     // arguments: [item.doctor, controller.arguments.cCategory],
+                                          //   //   );
+                                          //   // });
+                                          // },
                                           // leading: Row(
                                           //   children: [
                                           //     SizedBox(width: 8),
