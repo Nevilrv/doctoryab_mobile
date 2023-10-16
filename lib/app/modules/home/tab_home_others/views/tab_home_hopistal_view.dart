@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/NewItems.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_others_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
@@ -11,6 +12,7 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:feather_icons/feather_icons.dart';
@@ -110,21 +112,30 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                       )),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 9.5, horizontal: 10),
-                      child: Center(
-                          child: Image.asset(
-                        AppImages.filter,
-                        width: 25,
-                        height: 24,
-                        color: AppColors.primary,
-                      )),
+                  GestureDetector(
+                    onTap: () {
+                      AppGetDialog.showFilterDialog(
+                        controller.filterList,
+                        controller.selectedSort,
+                        filterCallBack: (i) => controller.changeSort(i),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 9.5, horizontal: 10),
+                        child: Center(
+                            child: Image.asset(
+                          AppImages.filter,
+                          width: 25,
+                          height: 24,
+                          color: AppColors.primary,
+                        )),
+                      ),
                     ),
                   ),
                 ],
@@ -166,6 +177,10 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            BannerView(),
             SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -201,6 +216,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                               // height: h * 0.2,
                               width: w,
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     // color: Colors.black,
@@ -213,8 +229,8 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: CachedNetworkImage(
                                         imageUrl: "",
-                                        height: 100,
-                                        width: 100,
+                                        height: h * 0.11,
+                                        width: h * 0.11,
                                         fit: BoxFit.cover,
                                         placeholder: (_, __) {
                                           return Image.asset(
@@ -243,25 +259,11 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           // SizedBox(height: 10),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Flexible(
-                                                child: Text(
-                                                  "Afghan Hospital",
-                                                  style: AppTextTheme.h(12)
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary),
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "Afghan Hospital",
+                                            style: AppTextTheme.h(12).copyWith(
+                                                color: AppColors.primary),
                                           ),
-
                                           SizedBox(height: 2),
                                           Row(
                                             mainAxisSize: MainAxisSize.min,

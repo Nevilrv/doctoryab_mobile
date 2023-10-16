@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/data/models/categories_model.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -76,36 +77,34 @@ class DoctorView extends GetView<DoctorController> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                // color: Colors.black,
-                                // height: 65,
-                                // width: 65,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: AppColors.lightGrey),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: "",
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                    placeholder: (_, __) {
-                                      return Image.asset(
-                                        "assets/png/person-placeholder.jpg",
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                    errorWidget: (_, __, ___) {
-                                      return Image.asset(
-                                        "assets/png/person-placeholder.jpg",
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                  ),
+                            Container(
+                              // color: Colors.black,
+                              // height: 65,
+                              // width: 65,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColors.lightGrey),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: "",
+                                  height: h * 0.11,
+                                  width: h * 0.11,
+                                  fit: BoxFit.cover,
+                                  placeholder: (_, __) {
+                                    return Image.asset(
+                                      "assets/png/person-placeholder.jpg",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                  errorWidget: (_, __, ___) {
+                                    return Image.asset(
+                                      "assets/png/person-placeholder.jpg",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -119,21 +118,10 @@ class DoctorView extends GetView<DoctorController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            "Dr. Manu Django Conradine",
-                                            style: AppTextTheme.h(12).copyWith(
-                                                color: AppColors.primary),
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      "Dr. Manu Django Conradine",
+                                      style: AppTextTheme.h(12)
+                                          .copyWith(color: AppColors.primary),
                                     ),
                                     SizedBox(height: 2),
                                     Text(
@@ -208,7 +196,8 @@ class DoctorView extends GetView<DoctorController> {
                                               flex: 2,
                                               child: Container(
                                                 padding: EdgeInsets.symmetric(
-                                                    vertical: 3, horizontal: 5),
+                                                    vertical: 3,
+                                                    horizontal: w * 0.02),
                                                 decoration: BoxDecoration(
                                                     color: AppColors.white,
                                                     border: Border.all(
@@ -220,7 +209,8 @@ class DoctorView extends GetView<DoctorController> {
                                                 child: Center(
                                                   child: Text(
                                                     "${"fee".tr}  ${5} ${"afn".tr}",
-                                                    style: AppTextTheme.m(12)
+                                                    style: AppTextTheme.m(
+                                                            w * 0.032)
                                                         .copyWith(
                                                             color: AppColors
                                                                 .primary),
@@ -229,14 +219,15 @@ class DoctorView extends GetView<DoctorController> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 10,
+                                              width: w * 0.01,
                                             ),
                                             // if (flagExp)
                                             Expanded(
                                               flex: 3,
                                               child: Container(
                                                 padding: EdgeInsets.symmetric(
-                                                    vertical: 3, horizontal: 2),
+                                                    vertical: 3,
+                                                    horizontal: w * 0.01),
                                                 decoration: BoxDecoration(
                                                     color: AppColors.primary,
                                                     border: Border.all(
@@ -246,12 +237,15 @@ class DoctorView extends GetView<DoctorController> {
                                                         BorderRadius.circular(
                                                             20)),
                                                 child: Center(
-                                                  child: Text(
-                                                    " ${"work_experiance".tr} 4 ${"year".tr}",
-                                                    style: AppTextTheme.m(12)
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.white),
+                                                  child: Flexible(
+                                                    child: Text(
+                                                      " ${"work_experiance".tr} 4 ${"year".tr}",
+                                                      style: AppTextTheme.m(
+                                                              w * 0.032)
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.white),
+                                                    ),
                                                   ) /*Text(
                                                         " ${"work_experiance".tr} ${controller.doctorFullData().exp.map((e) {
                                                               if (e.year != null)
@@ -316,6 +310,7 @@ class DoctorView extends GetView<DoctorController> {
                                     ),
                                   )),
                         ),
+                        // BannerView(),
                         controller.tabIndex.value == 0
                             ? Column(
                                 children: [

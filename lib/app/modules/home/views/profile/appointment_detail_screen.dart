@@ -72,7 +72,8 @@ class AppointmentDetailScreen extends StatelessWidget {
                             horizontal: 10, vertical: 10),
                         child: Column(
                           children: [
-                            Row(
+                            Row( crossAxisAlignment:
+                            CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   // color: Colors.black,
@@ -85,8 +86,8 @@ class AppointmentDetailScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: CachedNetworkImage(
                                       imageUrl: "",
-                                      height: 100,
-                                      width: 100,
+                                      height: h * 0.11,
+                                      width: h * 0.11,
                                       fit: BoxFit.cover,
                                       placeholder: (_, __) {
                                         return Image.asset(
@@ -115,23 +116,12 @@ class AppointmentDetailScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         // SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                "Afghan Hospital",
-                                                style: AppTextTheme.h(12)
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.primary),
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          "Afghan Hospital",
+                                          style: AppTextTheme.h(12)
+                                              .copyWith(
+                                              color: AppColors
+                                                  .primary),
                                         ),
                                         Text(
                                           "Internal Medicine",

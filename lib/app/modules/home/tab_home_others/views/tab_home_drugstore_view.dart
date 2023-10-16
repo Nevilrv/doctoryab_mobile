@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/NewItems.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/drug_store_lab_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/pharmacy_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
@@ -12,6 +13,7 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
@@ -127,21 +129,30 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       )),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 9.5, horizontal: 10),
-                      child: Center(
-                          child: Image.asset(
-                        AppImages.filter,
-                        width: 25,
-                        height: 24,
-                        color: AppColors.primary,
-                      )),
+                  GestureDetector(
+                    onTap: () {
+                      AppGetDialog.showFilterDialog(
+                        controller.filterList,
+                        controller.selectedSort,
+                        filterCallBack: (i) => controller.changeSort(i),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 9.5, horizontal: 10),
+                        child: Center(
+                            child: Image.asset(
+                          AppImages.filter,
+                          width: 25,
+                          height: 24,
+                          color: AppColors.primary,
+                        )),
+                      ),
                     ),
                   ),
                 ],
@@ -183,6 +194,10 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            BannerView(),
             SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -216,6 +231,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               // height: h * 0.2,
                               width: w,
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Stack(
                                     clipBehavior: Clip.none,
@@ -232,8 +248,8 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: CachedNetworkImage(
                                             imageUrl: "",
-                                            height: 100,
-                                            width: 100,
+                                            height: h * 0.11,
+                                            width: h * 0.11,
                                             fit: BoxFit.cover,
                                             placeholder: (_, __) {
                                               return Image.asset(
@@ -269,23 +285,10 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           // SizedBox(height: 10),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Flexible(
-                                                child: Text(
-                                                  "Afghan Hospital",
-                                                  style: AppTextTheme.h(12)
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary),
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            "Afghan Hospital",
+                                            style: AppTextTheme.h(12).copyWith(
+                                                color: AppColors.primary),
                                           ),
 
                                           SizedBox(height: 2),

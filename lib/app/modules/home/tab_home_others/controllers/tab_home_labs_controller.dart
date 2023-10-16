@@ -9,7 +9,14 @@ import 'package:logger/logger.dart';
 class LabsController extends TabHomeOthersController {
   @override
   var pageController = PagingController<int, Labs>(firstPageKey: 1);
-
+  List<String> filterList = [
+    'most_rated'.tr,
+    'suggested'.tr,
+    'nearest'.tr,
+    'A-Z'
+  ];
+  String sort = "";
+  String selectedSort = "";
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {
@@ -27,6 +34,70 @@ class LabsController extends TabHomeOthersController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void changeSort(String v) {
+    // if (i == selectedSort) {
+    //   // Get.back();
+    //   return;
+    // }
+    selectedSort = v;
+    //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
+    if (v == 'most_rated'.tr) {
+      sort = "stars";
+      // _refreshPage();
+    } else if (v == 'suggested'.tr) {
+      sort = "";
+      // _refreshPage();
+    } else if (v == 'nearest'.tr) {
+      sort = "close";
+      // if (latLang.value == null)
+      //   _handlePermission();
+      // else {
+      //   _refreshPage();
+      // }
+    } else if (v == 'A-Z') {
+      sort = "name";
+      // _refreshPage();
+    } else {
+      sort = "";
+      // _refreshPage();
+    }
+    // switch (v) {
+    //   case 'most_rated'.tr:
+    //     {
+    //       sort = "stars";
+    //       _refreshPage();
+    //       break;
+    //     }
+    //   case 1:
+    //     {
+    //       sort = "";
+    //       _refreshPage();
+    //       break;
+    //     }
+    //   case 2:
+    //     {
+    //       sort = "close";
+    //       if (latLang.value == null)
+    //         _handlePermission();
+    //       else {
+    //         _refreshPage();
+    //       }
+    //       break;
+    //     }
+    //   case 3:
+    //     {
+    //       sort = "name";
+    //       _refreshPage();
+    //       break;
+    //     }
+    //   default:
+    //     {
+    //       sort = "";
+    //       _refreshPage();
+    //     }
+    // }
   }
 
   void loadData(int page) async {

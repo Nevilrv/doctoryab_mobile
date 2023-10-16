@@ -74,8 +74,8 @@ class ReviewScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: CachedNetworkImage(
                                     imageUrl: "",
-                                    height: 100,
-                                    width: 100,
+                                    height: h * 0.11,
+                                    width: h * 0.11,
                                     fit: BoxFit.cover,
                                     placeholder: (_, __) {
                                       return Image.asset(
@@ -103,21 +103,13 @@ class ReviewScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            "Dr. Manu Django Conradine",
-                                            style: AppTextTheme.h(12).copyWith(
-                                                color: AppColors.primary),
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      "Dr. Manu Django Conradine",
+                                      style: AppTextTheme.h(
+                                          12)
+                                          .copyWith(
+                                          color: AppColors
+                                              .primary),
                                     ),
                                     SizedBox(height: 2),
                                     Text(

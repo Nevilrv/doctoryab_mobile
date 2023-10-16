@@ -84,8 +84,8 @@ class DonorListScreen extends GetView<FindBloodDonorController> {
                                                   imageUrl:
                                                       "https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg",
                                                   fit: BoxFit.cover,
-                                                  width: 100,
-                                                  height: 100,
+                                                  height: h * 0.11,
+                                                  width: h * 0.11,
                                                   placeholder: (_, __) {
                                                     return Image.asset(
                                                       "assets/png/placeholder_hospital.png",

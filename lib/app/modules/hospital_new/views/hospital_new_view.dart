@@ -126,6 +126,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                 // height: h * 0.2,
                                                 // width: w,
                                                 child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
                                                       // color: Colors.black,
@@ -144,8 +146,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                         child:
                                                             CachedNetworkImage(
                                                           imageUrl: "",
-                                                          height: 100,
-                                                          width: 100,
+                                                          height: h * 0.11,
+                                                          width: h * 0.11,
                                                           fit: BoxFit.cover,
                                                           placeholder: (_, __) {
                                                             return Image.asset(
@@ -179,28 +181,13 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   .start,
                                                           children: [
                                                             // SizedBox(height: 10),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Flexible(
-                                                                  child: Text(
-                                                                    "Afghan Hospital",
-                                                                    style: AppTextTheme.h(
-                                                                            12)
-                                                                        .copyWith(
-                                                                            color:
-                                                                                AppColors.primary),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                            Text(
+                                                              "Afghan Hospital",
+                                                              style: AppTextTheme
+                                                                      .h(12)
+                                                                  .copyWith(
+                                                                      color: AppColors
+                                                                          .primary),
                                                             ),
                                                             SizedBox(height: 2),
                                                             Text(
