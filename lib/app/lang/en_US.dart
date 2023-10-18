@@ -286,7 +286,7 @@ const Map<String, String> enUS = {
   "doctor_details": "Doctor Details",
   "show_in_map": "Show in map",
   "doctor_information": "Doctor Information",
-  "view_all_in_maps": "View all in maps",
+  "view_all_in_maps": "Show in map",
   "search_hospital": "Search a hospital (Hospital)",
   "show_map": "Show map",
   "hospital_reviews": "Hospital Reviews",
@@ -400,4 +400,6 @@ const Map<String, String> enUS = {
   "enter_personal_info": "Enter Your Personal Information",
   "drug_name": "Drug Name",
   "sponsored": "Sponsored",
+  "filter_dialog_description":
+      "You can easily access what you want by filtering.",
 };
