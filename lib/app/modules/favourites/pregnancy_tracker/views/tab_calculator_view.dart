@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/controllers/pregnancy_tracker_controller.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -615,6 +616,10 @@ class TabCalculatorView extends GetView<PregnancyTrackerController> {
                 ),
               ],
             ),
+            SizedBox(
+              height: 10,
+            ),
+            BannerView(),
             SizedBox(
               height: 10,
             ),

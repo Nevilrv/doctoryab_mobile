@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/hospital_new/tab_main/views/tab_main_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -16,7 +17,7 @@ import '../modules/drug_store_lab/views/drug_store_lab_view.dart';
 import '../theme/AppColors.dart';
 import '../theme/TextTheme.dart';
 import '../utils/utils.dart';
-
+import 'dart:math' as math;
 class ProfileViewNew extends StatelessWidget {
   const ProfileViewNew({
     Key key,
@@ -182,7 +183,22 @@ class ProfileViewNew extends StatelessWidget {
                                           ),
                                         ),
                                         Spacer(),
-                                        SvgPicture.asset(AppImages.phone)
+                                        SettingsController
+                                            .appLanguge !=
+                                            "English"
+                                            ? Transform(
+                                          alignment:
+                                          Alignment
+                                              .center,
+                                          transform: Matrix4
+                                              .rotationY(
+                                              math.pi),
+                                          child: SvgPicture
+                                              .asset(AppImages
+                                              .phone),
+                                        )
+                                            : SvgPicture.asset(
+                                            AppImages.phone)
                                       ],
                                     ),
                                   ),

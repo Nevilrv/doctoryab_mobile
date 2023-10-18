@@ -1,4 +1,5 @@
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -67,7 +68,12 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   controller.filterSearch.toUpperCase())) {
                             return const SizedBox();
                           }
-                          return drugsData(h, w, index);
+                          return Column(
+                            children: [
+                              index == 0 ? BannerView() : SizedBox(),
+                              drugsData(h, w, index),
+                            ],
+                          );
                         },
                       ),
                     ),

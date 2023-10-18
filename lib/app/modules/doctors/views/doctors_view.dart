@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
@@ -26,6 +27,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import '../controllers/doctors_controller.dart';
+import 'dart:math' as math;
 
 class DoctorsView extends StatelessWidget {
   DoctorsController controller;
@@ -49,6 +51,7 @@ class DoctorsView extends StatelessWidget {
       'most_rated'.tr,
       'suggested'.tr,
       'nearest'.tr,
+      'sponsored'.tr,
       'A-Z'
     ];
     if (action != null && action == DOCTORS_LOAD_ACTION.ofhospital) {
@@ -176,12 +179,24 @@ class DoctorsView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 9.5, horizontal: 10),
                             child: Center(
-                                child: Image.asset(
-                              AppImages.filter,
-                              width: 25,
-                              height: 24,
-                              color: AppColors.primary,
-                            )),
+                                child: SettingsController.appLanguge !=
+                                        "English"
+                                    ? Transform(
+                                        alignment: Alignment.center,
+                                        transform: Matrix4.rotationY(math.pi),
+                                        child: Image.asset(
+                                          AppImages.filter,
+                                          width: 25,
+                                          height: 24,
+                                          color: AppColors.primary,
+                                        ),
+                                      )
+                                    : Image.asset(
+                                        AppImages.filter,
+                                        width: 25,
+                                        height: 24,
+                                        color: AppColors.primary,
+                                      )),
                           ),
                         ),
                       ),

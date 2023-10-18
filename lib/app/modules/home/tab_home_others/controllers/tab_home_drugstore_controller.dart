@@ -23,6 +23,7 @@ class DrugStoreController extends TabHomeOthersController {
     'most_rated'.tr,
     'suggested'.tr,
     'nearest'.tr,
+    'sponsored'.tr,
     'A-Z'
   ];
   String sort = "";

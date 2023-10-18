@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/NewItems.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
@@ -22,6 +23,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../../utils/app_text_styles.dart';
 import '/app/extentions/widget_exts.dart';
+import 'dart:math' as math;
 
 class TabHomeDrugstoreView extends GetView<DrugStoreController> {
   // @override
@@ -146,12 +148,23 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 9.5, horizontal: 10),
                         child: Center(
-                            child: Image.asset(
-                          AppImages.filter,
-                          width: 25,
-                          height: 24,
-                          color: AppColors.primary,
-                        )),
+                            child: SettingsController.appLanguge != "English"
+                                ? Transform(
+                                    alignment: Alignment.center,
+                                    transform: Matrix4.rotationY(math.pi),
+                                    child: Image.asset(
+                                      AppImages.filter,
+                                      width: 25,
+                                      height: 24,
+                                      color: AppColors.primary,
+                                    ),
+                                  )
+                                : Image.asset(
+                                    AppImages.filter,
+                                    width: 25,
+                                    height: 24,
+                                    color: AppColors.primary,
+                                  )),
                       ),
                     ),
                   ),
@@ -370,8 +383,22 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                                           ),
                                                         ),
                                                         Spacer(),
-                                                        SvgPicture.asset(
-                                                            AppImages.phone)
+                                                        SettingsController
+                                                                    .appLanguge !=
+                                                                "English"
+                                                            ? Transform(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                transform: Matrix4
+                                                                    .rotationY(
+                                                                        math.pi),
+                                                                child: SvgPicture
+                                                                    .asset(AppImages
+                                                                        .phone),
+                                                              )
+                                                            : SvgPicture.asset(
+                                                                AppImages.phone)
                                                       ],
                                                     ),
                                                   ),

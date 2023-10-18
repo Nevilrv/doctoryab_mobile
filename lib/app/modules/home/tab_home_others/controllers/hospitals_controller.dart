@@ -21,7 +21,7 @@ class HospitalsController extends TabHomeOthersController {
   List<String> filterList = [
     'most_rated'.tr,
     'suggested'.tr,
-    'nearest'.tr,
+    'nearest'.tr,  'sponsored'.tr,
     'A-Z'
   ];
   String sort = "";

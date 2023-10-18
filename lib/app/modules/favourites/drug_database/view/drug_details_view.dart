@@ -1,4 +1,5 @@
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -184,6 +185,10 @@ class DrugDetailsView extends GetView<DrugsController> {
                     commonTextBox("Lorem Ipsum is simply dummy text."),
                     commonTitleBox(text: "comp".tr),
                     commonTextBox("Lorem Ipsum is simply dummy text."),
+                    BannerView(),
+                    SizedBox(
+                      height: 10,
+                    ),
                     // commonTitleBox(
                     //   text: "price".tr,
                     //   color: AppColors.lightYellow,

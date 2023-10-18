@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.da
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/data/models/schedule_model.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -78,8 +79,9 @@ class BookView extends GetView<BookController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row( crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
                                             flex: 2,
@@ -130,11 +132,10 @@ class BookView extends GetView<BookController> {
                                                   // SizedBox(height: 10),
                                                   Text(
                                                     "Dr. Manu Django Conradine",
-                                                    style: AppTextTheme.h(
-                                                        12)
+                                                    style: AppTextTheme.h(12)
                                                         .copyWith(
-                                                        color: AppColors
-                                                            .primary),
+                                                            color: AppColors
+                                                                .primary),
                                                   ),
                                                   SizedBox(height: 2),
                                                   Text(
@@ -476,7 +477,11 @@ class BookView extends GetView<BookController> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: h * 0.09,
+                                        height: h * 0.015,
+                                      ),
+                                      BannerView(),
+                                      SizedBox(
+                                        height: h * 0.03,
                                       ),
                                       Container(
                                         height: 70,

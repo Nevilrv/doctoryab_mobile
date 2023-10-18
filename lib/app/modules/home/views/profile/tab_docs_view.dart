@@ -1,6 +1,7 @@
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/repository/ReportsRepository.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/reports_view.dart';
@@ -109,6 +110,7 @@ class TabDocsView extends GetView<ReportsController> {
                             ? SingleChildScrollView(
                                 child: Column(
                                   children: [
+                                    BannerView(),
                                     ...List.generate(
                                         8,
                                         (index) => Container(
@@ -285,6 +287,7 @@ class TabDocsView extends GetView<ReportsController> {
                             : SingleChildScrollView(
                                 child: Column(
                                   children: [
+                                    BannerView(),
                                     ...List.generate(
                                         8,
                                         (index) => Container(

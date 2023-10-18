@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/NewItems.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/drug_store_lab_view.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '/app/extentions/widget_exts.dart';
+import 'dart:math' as math;
 
 class TabHomeLabsView extends GetView<LabsController> {
   @override
@@ -99,12 +101,23 @@ class TabHomeLabsView extends GetView<LabsController> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 9.5, horizontal: 10),
                         child: Center(
-                            child: Image.asset(
-                          AppImages.filter,
-                          width: 25,
-                          height: 24,
-                          color: AppColors.primary,
-                        )),
+                            child: SettingsController.appLanguge != "English"
+                                ? Transform(
+                                    alignment: Alignment.center,
+                                    transform: Matrix4.rotationY(math.pi),
+                                    child: Image.asset(
+                                      AppImages.filter,
+                                      width: 25,
+                                      height: 24,
+                                      color: AppColors.primary,
+                                    ),
+                                  )
+                                : Image.asset(
+                                    AppImages.filter,
+                                    width: 25,
+                                    height: 24,
+                                    color: AppColors.primary,
+                                  )),
                       ),
                     ),
                   ),
@@ -320,8 +333,22 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                           ),
                                                         ),
                                                         Spacer(),
-                                                        SvgPicture.asset(
-                                                            AppImages.phone)
+                                                        SettingsController
+                                                                    .appLanguge !=
+                                                                "English"
+                                                            ? Transform(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                transform: Matrix4
+                                                                    .rotationY(
+                                                                        math.pi),
+                                                                child: SvgPicture
+                                                                    .asset(AppImages
+                                                                        .phone),
+                                                              )
+                                                            : SvgPicture.asset(
+                                                                AppImages.phone)
                                                       ],
                                                     ),
                                                   ),

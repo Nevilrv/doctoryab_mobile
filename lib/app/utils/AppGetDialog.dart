@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
@@ -421,6 +423,7 @@ class AppGetDialog {
                           SettingsController.appLanguge = l;
                           if (langChangedCallBack != null)
                             langChangedCallBack(l);
+                          log("SettingsController.appLanguge--------------> ${SettingsController.appLanguge}");
                         },
                         child: Container(
                           width: Get.width * 0.3,

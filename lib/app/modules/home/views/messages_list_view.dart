@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +108,10 @@ class MessagesListView extends GetView<MessagesListController> {
               ),
               SizedBox(
                 height: 14.0,
+              ),
+              BannerView(),
+              SizedBox(
+                height: 10,
               ),
               Obx(() {
                 return Expanded(

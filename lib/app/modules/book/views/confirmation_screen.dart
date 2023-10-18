@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/book/controllers/book_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -73,8 +74,9 @@ class ConfirmationScreen extends GetView<BookController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row( crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
                                             flex: 2,
@@ -125,11 +127,10 @@ class ConfirmationScreen extends GetView<BookController> {
                                                   // SizedBox(height: 10),
                                                   Text(
                                                     "Dr. Manu Django Conradine",
-                                                    style: AppTextTheme.h(
-                                                        12)
+                                                    style: AppTextTheme.h(12)
                                                         .copyWith(
-                                                        color: AppColors
-                                                            .primary),
+                                                            color: AppColors
+                                                                .primary),
                                                   ),
                                                   SizedBox(height: 2),
                                                   Text(
@@ -196,6 +197,10 @@ class ConfirmationScreen extends GetView<BookController> {
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: h * 0.015,
+                                      ),
+                                      BannerView(),
                                       SizedBox(
                                         height: h * 0.015,
                                       ),

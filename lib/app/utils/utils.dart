@@ -36,6 +36,7 @@ import '../data/models/chat_model.dart';
 import '../data/models/post.dart';
 import '../data/models/user_model.dart';
 import '../data/static.dart';
+import 'dart:math' as math;
 
 class Utils {
   static Widget initBuilder(BuildContext context, Widget widget) {
@@ -78,15 +79,15 @@ class Utils {
     } else {
       print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");
     }
-    //
-    if (!SettingsController.isUserLoggedInToApi) {
-      Get.offAllNamed(Routes.LOGIN_VERIFY);
-      return;
-    }
-    if (!SettingsController.isUserProfileComplete) {
-      Get.offAllNamed(Routes.PROFILE_UPDATE);
-      return;
-    }
+
+    // if (!SettingsController.isUserLoggedInToApi) {
+    //   Get.offAllNamed(Routes.LOGIN_VERIFY);
+    //   return;
+    // }
+    // if (!SettingsController.isUserProfileComplete) {
+    //   Get.offAllNamed(Routes.PROFILE_UPDATE);
+    //   return;
+    // }
     if (SettingsController.auth.savedCity == null) {
       Get.offAllNamed(Routes.CITY_SELECT);
       return;
@@ -468,11 +469,24 @@ class Utils {
               isFav == true
                   ? Padding(
                       padding: EdgeInsets.only(right: 10, left: 8),
-                      child: Image.asset(
-                        AppImages.filter,
-                        height: 22,
-                        width: 22,
-                      ),
+                      child: Center(
+                          child: SettingsController.appLanguge != "English"
+                              ? Transform(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.rotationY(math.pi),
+                                  child: Image.asset(
+                                    AppImages.filter,
+                                    width: 25,
+                                    height: 24,
+                                    color: AppColors.primary,
+                                  ),
+                                )
+                              : Image.asset(
+                                  AppImages.filter,
+                                  width: 25,
+                                  height: 24,
+                                  color: AppColors.primary,
+                                )),
                     )
                   : SizedBox(),
             ],

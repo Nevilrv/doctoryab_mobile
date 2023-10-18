@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -72,53 +73,59 @@ class LabDetailScreen extends GetView<DrugStoreController> {
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: 10),
                       child: Column(
-                        children: List.generate(
-                            5,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Example Service",
-                                            style: AppTextStyle.boldPrimary12,
-                                          ),
-                                          Text(
-                                            "Example service explain",
-                                            style: AppTextStyle.boldPrimary11
-                                                .copyWith(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.5)),
-                                          ),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: AppColors.primary,
-                                            border: Border.all(
-                                                color: AppColors.primary)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
-                                          child: Center(
-                                            child: Text(
-                                              "22000 Afghani",
-                                              style: AppTextStyle.boldWhite12,
+                        children: [
+                          BannerView(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ...List.generate(
+                              5,
+                              (index) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Example Service",
+                                              style: AppTextStyle.boldPrimary12,
+                                            ),
+                                            Text(
+                                              "Example service explain",
+                                              style: AppTextStyle.boldPrimary11
+                                                  .copyWith(
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5)),
+                                            ),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: AppColors.primary,
+                                              border: Border.all(
+                                                  color: AppColors.primary)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: Center(
+                                              child: Text(
+                                                "22000 Afghani",
+                                                style: AppTextStyle.boldWhite12,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )),
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                        ],
                       ),
                     ),
                   )

@@ -399,4 +399,5 @@ const Map<String, String> enUS = {
   "sign_phone": "Sign In with Phone Number",
   "enter_personal_info": "Enter Your Personal Information",
   "drug_name": "Drug Name",
+  "sponsored": "Sponsored",
 };

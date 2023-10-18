@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/controllers/pregnancy_tracker_controller.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -283,6 +284,10 @@ class TabCalendarView extends GetView<PregnancyTrackerController> {
                         style: AppTextStyle.boldWhite15)),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            BannerView(),
             SizedBox(
               height: 10,
             ),

@@ -58,8 +58,7 @@ class DoctorView extends GetView<DoctorController> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Container(
-                    // height: 220,
-
+                    height: h * 0.73,
                     padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -237,15 +236,13 @@ class DoctorView extends GetView<DoctorController> {
                                                         BorderRadius.circular(
                                                             20)),
                                                 child: Center(
-                                                  child: Flexible(
-                                                    child: Text(
-                                                      " ${"work_experiance".tr} 4 ${"year".tr}",
-                                                      style: AppTextTheme.m(
-                                                              w * 0.032)
-                                                          .copyWith(
-                                                              color:
-                                                                  Colors.white),
-                                                    ),
+                                                  child: Text(
+                                                    " ${"work_experiance".tr} 4 ${"year".tr}",
+                                                    style: AppTextTheme.m(
+                                                            w * 0.032)
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.white),
                                                   ) /*Text(
                                                         " ${"work_experiance".tr} ${controller.doctorFullData().exp.map((e) {
                                                               if (e.year != null)
@@ -310,544 +307,574 @@ class DoctorView extends GetView<DoctorController> {
                                     ),
                                   )),
                         ),
-                        // BannerView(),
                         controller.tabIndex.value == 0
-                            ? Column(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                            ? Expanded(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
                                     children: [
                                       SizedBox(
                                         height: h * 0.015,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                      BannerView(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                              width: w * 0.2,
-                                              child: Divider(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                                height: 3,
-                                              )),
                                           SizedBox(
-                                            width: w * 0.02,
+                                            height: h * 0.015,
                                           ),
-                                          Text(
-                                            'doctor_addres'.tr,
-                                            style: AppTextTheme.b(11).copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
-                                          ),
-                                          SizedBox(
-                                            width: w * 0.02,
-                                          ),
-                                          Container(
-                                              width: w * 0.2,
-                                              child: Divider(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                                height: 3,
-                                              )),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // Utils.openGoogleMaps(
-                                          //     controller.doctor?.geometry?.coordinates[1] ??
-                                          //         0.0,
-                                          //     controller.doctor?.geometry?.coordinates[0] ??
-                                          //         0.0);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            border: Border.all(
-                                                color: AppColors.primary),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.1),
-                                                blurRadius: 6,
-                                                offset: Offset(0, 4),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  width: w * 0.2,
+                                                  child: Divider(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5),
+                                                    height: 3,
+                                                  )),
+                                              SizedBox(
+                                                width: w * 0.02,
                                               ),
+                                              Text(
+                                                'doctor_addres'.tr,
+                                                style: AppTextTheme.b(11)
+                                                    .copyWith(
+                                                        color: AppColors.primary
+                                                            .withOpacity(0.5)),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Container(
+                                                  width: w * 0.2,
+                                                  child: Divider(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5),
+                                                    height: 3,
+                                                  )),
                                             ],
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(AppImages.map,
-                                                    height: 22, width: 22),
-                                                Spacer(),
-                                                Text(
-                                                  "85, Queen Street,LIVERPOOL,L25 6UG",
-                                                  style: AppTextStyle
-                                                      .mediumBlack12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .lightBlack2,
-                                                          fontSize: 11,
-                                                          fontWeight:
-                                                              FontWeight.w500),
+                                          SizedBox(
+                                            height: h * 0.015,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // Utils.openGoogleMaps(
+                                              //     controller.doctor?.geometry?.coordinates[1] ??
+                                              //         0.0,
+                                              //     controller.doctor?.geometry?.coordinates[0] ??
+                                              //         0.0);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                                border: Border.all(
+                                                    color: AppColors.primary),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.1),
+                                                    blurRadius: 6,
+                                                    offset: Offset(0, 4),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        AppImages.map,
+                                                        height: 22,
+                                                        width: 22),
+                                                    Spacer(),
+                                                    Text(
+                                                      "85, Queen Street,LIVERPOOL,L25 6UG",
+                                                      style: AppTextStyle
+                                                          .mediumBlack12
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .lightBlack2,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                    Spacer(),
+                                                  ],
                                                 ),
-                                                Spacer(),
-                                              ],
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                          SizedBox(
+                                            height: h * 0.015,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // Utils.openGoogleMaps(
+                                              //     controller.doctor?.geometry?.coordinates[1] ??
+                                              //         0.0,
+                                              //     controller.doctor?.geometry?.coordinates[0] ??
+                                              //         0.0);
+                                            },
+                                            child: Container(
+                                              width: w,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                  color: AppColors.primary,
+                                                  border: Border.all(
+                                                      color:
+                                                          AppColors.primary)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Center(
+                                                    child: Text(
+                                                  "show_in_map".tr,
+                                                  style: AppTextStyle
+                                                      .boldWhite10
+                                                      .copyWith(
+                                                    fontSize: 11,
+                                                  ),
+                                                )),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // Utils.openGoogleMaps(
-                                          //     controller.doctor?.geometry?.coordinates[1] ??
-                                          //         0.0,
-                                          //     controller.doctor?.geometry?.coordinates[0] ??
-                                          //         0.0);
-                                        },
-                                        child: Container(
-                                          width: w,
-                                          decoration: BoxDecoration(
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: h * 0.015,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  width: w * 0.2,
+                                                  child: Divider(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5),
+                                                    height: 3,
+                                                  )),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Text(
+                                                'doctors_tags'.tr,
+                                                style: AppTextTheme.b(11)
+                                                    .copyWith(
+                                                        color: AppColors.primary
+                                                            .withOpacity(0.5)),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Container(
+                                                  width: w * 0.2,
+                                                  child: Divider(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5),
+                                                    height: 3,
+                                                  )),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.015,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(7),
-                                              color: AppColors.primary,
                                               border: Border.all(
-                                                  color: AppColors.primary)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
+                                                  color: AppColors.primary),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  blurRadius: 6,
+                                                  offset: Offset(0, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      AppImages.certificate,
+                                                      height: 22,
+                                                      width: 22),
+                                                  Spacer(),
+                                                  Text(
+                                                    "Specialty list text in here",
+                                                    style: AppTextStyle
+                                                        .mediumBlack12
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .lightBlack2,
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                  ),
+                                                  Spacer(),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: h * 0.015,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                  width: w * 0.2,
+                                                  child: Divider(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5),
+                                                    height: 3,
+                                                  )),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Text(
+                                                'about_doctor'.tr,
+                                                style: AppTextTheme.b(11)
+                                                    .copyWith(
+                                                        color: AppColors.primary
+                                                            .withOpacity(0.5)),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Container(
+                                                  width: w * 0.2,
+                                                  child: Divider(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.5),
+                                                    height: 3,
+                                                  )),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.015,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
                                                 vertical: 10),
-                                            child: Center(
-                                                child: Text(
-                                              "show_in_map".tr,
-                                              style: AppTextStyle.boldWhite10
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              border: Border.all(
+                                                  color: AppColors.primary),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  blurRadius: 6,
+                                                  offset: Offset(0, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      AppImages.circleInfo,
+                                                      width: 22,
+                                                      height: 22),
+                                                  Spacer(),
+                                                  Text(
+                                                    "About doctor, licances etc.",
+                                                    style: AppTextStyle
+                                                        .mediumBlack12
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .lightBlack2,
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                  ),
+                                                  Spacer(),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        height: 70,
+                                        width: w,
+                                        child: Hero(
+                                          tag: "bot_but",
+                                          child: Center(
+                                            child: CustomRoundedButton(
+                                              color: AppColors.primary,
+                                              textColor: Colors.white,
+                                              splashColor:
+                                                  Colors.white.withOpacity(0.2),
+                                              disabledColor: AppColors
+                                                  .easternBlue
+                                                  .withOpacity(0.2),
+                                              // height: 50,
+                                              width: w,
+                                              text: "book_now".tr,
+                                              textStyle: AppTextStyle
+                                                  .boldWhite14
                                                   .copyWith(
-                                                fontSize: 11,
-                                              ),
-                                            )),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              width: w * 0.2,
-                                              child: Divider(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                                height: 3,
-                                              )),
-                                          SizedBox(
-                                            width: w * 0.02,
-                                          ),
-                                          Text(
-                                            'doctors_tags'.tr,
-                                            style: AppTextTheme.b(11).copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
-                                          ),
-                                          SizedBox(
-                                            width: w * 0.02,
-                                          ),
-                                          Container(
-                                              width: w * 0.2,
-                                              child: Divider(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                                height: 3,
-                                              )),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          border: Border.all(
-                                              color: AppColors.primary),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.1),
-                                              blurRadius: 6,
-                                              offset: Offset(0, 4),
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                              onTap: () {
+                                                Get.toNamed(
+                                                  Routes.BOOK,
+                                                  // arguments: [item.doctor, controller.arguments.cCategory],
+                                                );
+                                              },
+                                              // onTap: () {
+                                              //   if (controller.doctor.id == null ||
+                                              //       controller.doctor.category ==
+                                              //           null) {
+                                              //     // AppGetDialog.show(
+                                              //     //     middleText: "doctor_id_or_category_is_null".tr);
+                                              //
+                                              //     AppGetDialog
+                                              //         .showSeleceDoctorCategoryDialog(
+                                              //             controller.doctor,
+                                              //             onChange: (cat) {
+                                              //       BookingController.to
+                                              //           .selectedDoctor(
+                                              //               controller.doctor);
+                                              //       BookingController.to
+                                              //           .selectedCategory(cat);
+                                              //       Get.toNamed(
+                                              //         Routes.BOOK,
+                                              //         // arguments: [item.doctor, controller.arguments.cCategory],
+                                              //       );
+                                              //     });
+                                              //     return;
+                                              //   }
+                                              //   BookingController.to.selectedDoctor(
+                                              //       controller.doctor);
+                                              //   BookingController.to
+                                              //       .selectedCategory(Category(
+                                              //           id: controller
+                                              //               .doctor.category.id));
+                                              //   Get.toNamed(
+                                              //     Routes.BOOK,
+                                              //     // arguments: [item.doctor, controller.arguments.cCategory],
+                                              //   );
+                                              //
+                                              //   //
+                                              //   //    AppGetDialog.showSeleceDoctorCategoryDialog(
+                                              //   //     controller.doctor, onChange: (cat) {
+                                              //   //   BookingController.to.selectedDoctor(controller.doctor);
+                                              //   //   BookingController.to.selectedCategory(cat);
+                                              //   //   Get.toNamed(
+                                              //   //     Routes.BOOK,
+                                              //   //     // arguments: [item.doctor, controller.arguments.cCategory],
+                                              //   //   );
+                                              //   // });
+                                              // },
+                                              // leading: Row(
+                                              //   children: [
+                                              //     SizedBox(width: 8),
+                                              //     SvgPicture.asset(
+                                              //         "assets/svg/date_range-24px.svg"),
+                                              //     Spacer(),
+                                              //   ],
+                                              // ),
                                             ),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                  AppImages.certificate,
-                                                  height: 22,
-                                                  width: 22),
-                                              Spacer(),
-                                              Text(
-                                                "Specialty list text in here",
-                                                style: AppTextStyle
-                                                    .mediumBlack12
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .lightBlack2,
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                              ),
-                                              Spacer(),
-                                            ],
                                           ),
                                         ),
-                                      ),
+                                      ).paddingOnly(bottom: 20, top: 8)
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              width: w * 0.2,
-                                              child: Divider(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                                height: 3,
-                                              )),
-                                          SizedBox(
-                                            width: w * 0.02,
-                                          ),
-                                          Text(
-                                            'about_doctor'.tr,
-                                            style: AppTextTheme.b(11).copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
-                                          ),
-                                          SizedBox(
-                                            width: w * 0.02,
-                                          ),
-                                          Container(
-                                              width: w * 0.2,
-                                              child: Divider(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                                height: 3,
-                                              )),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                          border: Border.all(
-                                              color: AppColors.primary),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.1),
-                                              blurRadius: 6,
-                                              offset: Offset(0, 4),
-                                            ),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                  AppImages.circleInfo,
-                                                  width: 22,
-                                                  height: 22),
-                                              Spacer(),
-                                              Text(
-                                                "About doctor, licances etc.",
-                                                style: AppTextStyle
-                                                    .mediumBlack12
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .lightBlack2,
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                              ),
-                                              Spacer(),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 70,
-                                    width: w,
-                                    child: Hero(
-                                      tag: "bot_but",
-                                      child: Center(
-                                        child: CustomRoundedButton(
-                                          color: AppColors.primary,
-                                          textColor: Colors.white,
-                                          splashColor:
-                                              Colors.white.withOpacity(0.2),
-                                          disabledColor: AppColors.easternBlue
-                                              .withOpacity(0.2),
-                                          // height: 50,
-                                          width: w,
-                                          text: "book_now".tr,
-                                          textStyle: AppTextStyle.boldWhite14
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w600),
-                                          onTap: () {
-                                            Get.toNamed(
-                                              Routes.BOOK,
-                                              // arguments: [item.doctor, controller.arguments.cCategory],
-                                            );
-                                          },
-                                          // onTap: () {
-                                          //   if (controller.doctor.id == null ||
-                                          //       controller.doctor.category ==
-                                          //           null) {
-                                          //     // AppGetDialog.show(
-                                          //     //     middleText: "doctor_id_or_category_is_null".tr);
-                                          //
-                                          //     AppGetDialog
-                                          //         .showSeleceDoctorCategoryDialog(
-                                          //             controller.doctor,
-                                          //             onChange: (cat) {
-                                          //       BookingController.to
-                                          //           .selectedDoctor(
-                                          //               controller.doctor);
-                                          //       BookingController.to
-                                          //           .selectedCategory(cat);
-                                          //       Get.toNamed(
-                                          //         Routes.BOOK,
-                                          //         // arguments: [item.doctor, controller.arguments.cCategory],
-                                          //       );
-                                          //     });
-                                          //     return;
-                                          //   }
-                                          //   BookingController.to.selectedDoctor(
-                                          //       controller.doctor);
-                                          //   BookingController.to
-                                          //       .selectedCategory(Category(
-                                          //           id: controller
-                                          //               .doctor.category.id));
-                                          //   Get.toNamed(
-                                          //     Routes.BOOK,
-                                          //     // arguments: [item.doctor, controller.arguments.cCategory],
-                                          //   );
-                                          //
-                                          //   //
-                                          //   //    AppGetDialog.showSeleceDoctorCategoryDialog(
-                                          //   //     controller.doctor, onChange: (cat) {
-                                          //   //   BookingController.to.selectedDoctor(controller.doctor);
-                                          //   //   BookingController.to.selectedCategory(cat);
-                                          //   //   Get.toNamed(
-                                          //   //     Routes.BOOK,
-                                          //   //     // arguments: [item.doctor, controller.arguments.cCategory],
-                                          //   //   );
-                                          //   // });
-                                          // },
-                                          // leading: Row(
-                                          //   children: [
-                                          //     SizedBox(width: 8),
-                                          //     SvgPicture.asset(
-                                          //         "assets/svg/date_range-24px.svg"),
-                                          //     Spacer(),
-                                          //   ],
-                                          // ),
-                                        ),
-                                      ),
-                                    ),
-                                  ).paddingOnly(bottom: 20, top: 8)
-                                ],
+                                ),
                               )
-                            : Padding(
-                                padding: EdgeInsets.only(top: h * 0.015),
-                                child: Column(
-                                  children: List.generate(
-                                      3,
-                                      (index) => Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 10.0),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  child: Row(
+                            : Expanded(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: h * 0.015),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: h * 0.015,
+                                        ),
+                                        BannerView(),
+                                        SizedBox(
+                                          height: h * 0.015,
+                                        ),
+                                        ...List.generate(
+                                            3,
+                                            (index) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 10.0),
+                                                  child: Column(
                                                     children: [
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Column(
+                                                      Container(
+                                                        child: Row(
                                                           children: [
-                                                            CircleAvatar(
-                                                              radius: 35,
-                                                              backgroundImage:
-                                                                  AssetImage(
-                                                                "assets/png/person-placeholder.jpg",
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              "08.12.2023",
-                                                              style: AppTextTheme
-                                                                      .h(12)
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        flex: 4,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      5),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              // SizedBox(height: 10),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: Column(
                                                                 children: [
+                                                                  CircleAvatar(
+                                                                    radius: 35,
+                                                                    backgroundImage:
+                                                                        AssetImage(
+                                                                      "assets/png/person-placeholder.jpg",
+                                                                    ),
+                                                                  ),
                                                                   Text(
-                                                                    "Fatih Resul Göker",
+                                                                    "08.12.2023",
                                                                     style: AppTextTheme.h(
                                                                             12)
                                                                         .copyWith(
                                                                             color:
                                                                                 AppColors.primary),
-                                                                  ),
-                                                                  Spacer(),
-                                                                  RatingBar
-                                                                      .builder(
-                                                                    ignoreGestures:
-                                                                        true,
-                                                                    itemSize:
-                                                                        17,
-                                                                    initialRating:
-                                                                        4,
-                                                                    // minRating: 1,
-                                                                    direction: Axis
-                                                                        .horizontal,
-                                                                    allowHalfRating:
-                                                                        true,
-                                                                    itemCount:
-                                                                        5,
-                                                                    itemPadding:
-                                                                        EdgeInsets.symmetric(
-                                                                            horizontal:
-                                                                                1.0),
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                                _) =>
-                                                                            Icon(
-                                                                      Icons
-                                                                          .star,
-                                                                      color: Colors
-                                                                          .amber,
-                                                                      // size: 10,
-                                                                    ),
-                                                                    onRatingUpdate:
-                                                                        (rating) {
-                                                                      print(
-                                                                          rating);
-                                                                    },
-                                                                  ),
+                                                                  )
                                                                 ],
                                                               ),
-                                                              SizedBox(
-                                                                  height: 2),
-                                                              ExpandableText(
-                                                                "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,...”",
-                                                                expandText:
-                                                                    'Read more',
-                                                                collapseText:
-                                                                    'Read less',
-                                                                maxLines: 3,
-                                                                linkColor:
-                                                                    AppColors
-                                                                        .primary,
-                                                                style: AppTextStyle.boldPrimary11.copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: AppColors
-                                                                        .primary
-                                                                        .withOpacity(
-                                                                            0.5)),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 4,
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        5),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    // SizedBox(height: 10),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      children: [
+                                                                        Text(
+                                                                          "Fatih Resul Göker",
+                                                                          style:
+                                                                              AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                        ),
+                                                                        Spacer(),
+                                                                        RatingBar
+                                                                            .builder(
+                                                                          ignoreGestures:
+                                                                              true,
+                                                                          itemSize:
+                                                                              17,
+                                                                          initialRating:
+                                                                              4,
+                                                                          // minRating: 1,
+                                                                          direction:
+                                                                              Axis.horizontal,
+                                                                          allowHalfRating:
+                                                                              true,
+                                                                          itemCount:
+                                                                              5,
+                                                                          itemPadding:
+                                                                              EdgeInsets.symmetric(horizontal: 1.0),
+                                                                          itemBuilder: (context, _) =>
+                                                                              Icon(
+                                                                            Icons.star,
+                                                                            color:
+                                                                                Colors.amber,
+                                                                            // size: 10,
+                                                                          ),
+                                                                          onRatingUpdate:
+                                                                              (rating) {
+                                                                            print(rating);
+                                                                          },
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            2),
+                                                                    ExpandableText(
+                                                                      "“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,...”",
+                                                                      expandText:
+                                                                          'Read more',
+                                                                      collapseText:
+                                                                          'Read less',
+                                                                      maxLines:
+                                                                          3,
+                                                                      linkColor:
+                                                                          AppColors
+                                                                              .primary,
+                                                                      style: AppTextStyle.boldPrimary11.copyWith(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          color: AppColors
+                                                                              .primary
+                                                                              .withOpacity(0.5)),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
+                                                      index == 2
+                                                          ? SizedBox()
+                                                          : Divider(
+                                                              thickness: 1,
+                                                              color: AppColors
+                                                                  .primary),
                                                     ],
                                                   ),
-                                                ),
-                                                index == 2
-                                                    ? SizedBox()
-                                                    : Divider(
-                                                        thickness: 1,
-                                                        color:
-                                                            AppColors.primary),
-                                              ],
-                                            ),
-                                          )),
+                                                ))
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               )
 

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -330,6 +331,10 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                           Divider(
                             thickness: 1,
                             color: AppColors.grey3,
+                          ),
+                          BannerView(),
+                          SizedBox(
+                            height: 10,
                           ),
                           Row(
                             children: [

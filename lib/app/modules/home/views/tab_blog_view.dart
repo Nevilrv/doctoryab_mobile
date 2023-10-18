@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -110,6 +111,13 @@ class TabBlogView extends GetView<TabBlogController> {
                     children: List.generate(4, (index) {
                   return Column(
                     children: [
+                      index == 0
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: BannerView(),
+                            )
+                          : SizedBox(),
                       SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -1,5 +1,6 @@
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../controllers/auth_phone_controller.dart';
-
+import 'dart:math' as math;
 class AuthView extends GetView<AuthPhoneController> {
   @override
   Widget build(BuildContext context) {
@@ -57,8 +58,23 @@ class AuthView extends GetView<AuthPhoneController> {
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(AppImages.phone,
-                          color: AppColors.primary),
+                      SettingsController
+                          .appLanguge !=
+                          "English"
+                          ? Transform(
+                        alignment:
+                        Alignment
+                            .center,
+                        transform: Matrix4
+                            .rotationY(
+                            math.pi),
+                        child: SvgPicture
+                            .asset(AppImages
+                            .phone,  color: AppColors.primary),
+                      )
+                          : SvgPicture.asset(
+                          AppImages.phone,  color: AppColors.primary),
+
                       SizedBox(
                         width: 5,
                       ),

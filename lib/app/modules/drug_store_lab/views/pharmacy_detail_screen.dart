@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -95,80 +96,92 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                             child: SingleChildScrollView(
                               physics: BouncingScrollPhysics(),
                               padding: EdgeInsets.only(top: 10),
-                              child: GridView.builder(
-                                itemCount: 4,
-                                shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
-                                padding: EdgeInsets.zero,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 9,
-                                        mainAxisExtent: h * 0.26),
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: h * 0.15,
-                                          width: w,
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?size=626&ext=jpg&ga=GA1.1.1413502914.1696464000&semt=sph",
-                                            fit: BoxFit.cover,
-                                            placeholder: (_, __) {
-                                              return Image.asset(
-                                                "assets/png/person-placeholder.jpg",
+                              child: Column(
+                                children: [
+                                  BannerView(),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  GridView.builder(
+                                    itemCount: 4,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    padding: EdgeInsets.zero,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 10,
+                                            crossAxisSpacing: 9,
+                                            mainAxisExtent: h * 0.26),
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: h * 0.15,
+                                              width: w,
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?size=626&ext=jpg&ga=GA1.1.1413502914.1696464000&semt=sph",
                                                 fit: BoxFit.cover,
-                                              );
-                                            },
-                                            errorWidget: (_, __, ___) {
-                                              return Image.asset(
-                                                "assets/png/person-placeholder.jpg",
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        Text(
-                                          "Example Service",
-                                          style: AppTextStyle.boldPrimary12,
-                                        ),
-                                        Text(
-                                          "Example service explain",
-                                          style: AppTextStyle.boldPrimary11
-                                              .copyWith(
-                                                  color: AppColors.primary
-                                                      .withOpacity(0.5)),
-                                        ),
-                                        SizedBox(
-                                          height: 2,
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: AppColors.primary,
-                                              border: Border.all(
-                                                  color: AppColors.primary)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
-                                            child: Center(
-                                              child: Text(
-                                                "22000 Afghani",
-                                                style: AppTextStyle.boldWhite12,
+                                                placeholder: (_, __) {
+                                                  return Image.asset(
+                                                    "assets/png/person-placeholder.jpg",
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                                errorWidget: (_, __, ___) {
+                                                  return Image.asset(
+                                                    "assets/png/person-placeholder.jpg",
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
                                               ),
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
+                                            Text(
+                                              "Example Service",
+                                              style: AppTextStyle.boldPrimary12,
+                                            ),
+                                            Text(
+                                              "Example service explain",
+                                              style: AppTextStyle.boldPrimary11
+                                                  .copyWith(
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5)),
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: AppColors.primary,
+                                                  border: Border.all(
+                                                      color:
+                                                          AppColors.primary)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
+                                                child: Center(
+                                                  child: Text(
+                                                    "22000 Afghani",
+                                                    style: AppTextStyle
+                                                        .boldWhite12,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           )
@@ -178,63 +191,69 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                               physics: BouncingScrollPhysics(),
                               padding: EdgeInsets.only(top: 10),
                               child: Column(
-                                children: List.generate(
-                                    5,
-                                    (index) => Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Example Service",
-                                                    style: AppTextStyle
-                                                        .boldPrimary12,
-                                                  ),
-                                                  Text(
-                                                    "Example service explain",
-                                                    style: AppTextStyle
-                                                        .boldPrimary11
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.5)),
-                                                  ),
-                                                ],
-                                              ),
-                                              Spacer(),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    color: AppColors.primary,
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.primary)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 10),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "22000 Afghani",
+                                children: [
+                                  BannerView(),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  ...List.generate(
+                                      5,
+                                      (index) => Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Example Service",
                                                       style: AppTextStyle
-                                                          .boldWhite12,
+                                                          .boldPrimary12,
+                                                    ),
+                                                    Text(
+                                                      "Example service explain",
+                                                      style: AppTextStyle
+                                                          .boldPrimary11
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5)),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Spacer(),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: AppColors.primary,
+                                                      border: Border.all(
+                                                          color: AppColors
+                                                              .primary)),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "22000 Afghani",
+                                                        style: AppTextStyle
+                                                            .boldWhite12,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )),
+                                                )
+                                              ],
+                                            ),
+                                          ))
+                                ],
                               ),
                             ),
                           )

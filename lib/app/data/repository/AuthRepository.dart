@@ -1,4 +1,5 @@
 // import 'dart:io' as Io;
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
@@ -33,6 +34,7 @@ class AuthRepository {
       ApiConsts.authPath,
       data: {"idtoken": _firebaseIdToken, "fcm": fcmToken ?? ""},
     );
+    log("response--------------> ${response.data}");
 
     return response;
   }

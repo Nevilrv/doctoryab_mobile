@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/NewItems.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
@@ -20,7 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'dart:math' as math;
 import '../../../../data/models/labs_model.dart';
 import '../../../drug_store_lab/views/drug_store_lab_view.dart';
 import '/app/extentions/widget_exts.dart';
@@ -129,12 +130,23 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 9.5, horizontal: 10),
                         child: Center(
-                            child: Image.asset(
-                          AppImages.filter,
-                          width: 25,
-                          height: 24,
-                          color: AppColors.primary,
-                        )),
+                            child: SettingsController.appLanguge != "English"
+                                ? Transform(
+                                    alignment: Alignment.center,
+                                    transform: Matrix4.rotationY(math.pi),
+                                    child: Image.asset(
+                                      AppImages.filter,
+                                      width: 25,
+                                      height: 24,
+                                      color: AppColors.primary,
+                                    ),
+                                  )
+                                : Image.asset(
+                                    AppImages.filter,
+                                    width: 25,
+                                    height: 24,
+                                    color: AppColors.primary,
+                                  )),
                       ),
                     ),
                   ),
@@ -343,8 +355,22 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                                           ),
                                                         ),
                                                         Spacer(),
-                                                        SvgPicture.asset(
-                                                            AppImages.phone)
+                                                        SettingsController
+                                                                    .appLanguge !=
+                                                                "English"
+                                                            ? Transform(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                transform: Matrix4
+                                                                    .rotationY(
+                                                                        math.pi),
+                                                                child: SvgPicture
+                                                                    .asset(AppImages
+                                                                        .phone),
+                                                              )
+                                                            : SvgPicture.asset(
+                                                                AppImages.phone)
                                                       ],
                                                     ),
                                                   ),
