@@ -80,14 +80,14 @@ class Utils {
       print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");
     }
 
-    // if (!SettingsController.isUserLoggedInToApi) {
-    //   Get.offAllNamed(Routes.LOGIN_VERIFY);
-    //   return;
-    // }
-    // if (!SettingsController.isUserProfileComplete) {
-    //   Get.offAllNamed(Routes.PROFILE_UPDATE);
-    //   return;
-    // }
+    if (!SettingsController.isUserLoggedInToApi) {
+      Get.offAllNamed(Routes.LOGIN_VERIFY);
+      return;
+    }
+    if (!SettingsController.isUserProfileComplete) {
+      Get.offAllNamed(Routes.PROFILE_UPDATE);
+      return;
+    }
     if (SettingsController.auth.savedCity == null) {
       Get.offAllNamed(Routes.CITY_SELECT);
       return;

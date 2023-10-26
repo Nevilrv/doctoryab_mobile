@@ -4,6 +4,12 @@
 
 import 'dart:convert';
 
+// DrugStoresModel drugStoresModelFromJson(String str) =>
+//     DrugStoresModel.fromJson(json.decode(str));
+//
+// String drugStoresModelToJson(DrugStoresModel data) =>
+//     json.encode(data.toJson());
+
 DrugStoresModel drugStoresModelFromJson(String str) =>
     DrugStoresModel.fromJson(json.decode(str));
 

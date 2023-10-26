@@ -16,10 +16,10 @@ class DrugStoreRepository {
   static Dio dio = AppDioService.getDioInstance();
 
   static var _cachedDio = AppDioService.getCachedDio;
-  static Future<List<DrugStore>> fetchDrugStores(
+/*  static Future<List<DrugStore>> fetchDrugStores1(
     int page,
     bool the24Hours, {
-    int limitPerPage = 10,
+    int limitPerPage = 50,
     void onError(e),
     CancelToken cancelToken,
   }) async {
@@ -34,8 +34,8 @@ class DrugStoreRepository {
           queryParameters: {
             "limit": limitPerPage,
             "page": page,
-            "sort": "name",
-            "_24hour": the24Hours,
+            */ /*   "sort": "name",
+            "_24hour": the24Hours,*/ /*
           },
           // data: {"name": name},
           // cancelToken: _searchCancelToken,
@@ -44,6 +44,30 @@ class DrugStoreRepository {
       },
       onError: onError,
     );
+  }*/
+
+  Future<Response> fetchDrugStores(
+    int page,
+    bool the24Hours, {
+    int limitPerPage = 50,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    print("Get---Category---${ApiConsts.categoriesByCityPath}");
+    final response = await _cachedDio.get(
+      '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}',
+      cancelToken: cancelToken,
+      queryParameters: {
+        "limit": limitPerPage,
+        "page": page,
+        /*   "sort": "name",
+            "_24hour": the24Hours,*/
+      },
+      // data: {"name": name},
+      // cancelToken: _searchCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
   }
 
   //*

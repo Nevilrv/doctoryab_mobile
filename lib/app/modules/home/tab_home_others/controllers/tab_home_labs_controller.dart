@@ -1,7 +1,11 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/LabsRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
@@ -100,8 +104,8 @@ class LabsController extends TabHomeOthersController {
     //     }
     // }
   }
-
-  void loadData(int page) async {
+/*
+  void loadData1(int page) async {
     LabsRepository.fetchLabs(
       page,
       cancelToken: cancelToken,
@@ -119,6 +123,39 @@ class LabsController extends TabHomeOthersController {
         pageController,
         page,
       );
+    });
+  }*/
+
+  void loadData(int page) {
+    LabsRepository()
+        .fetchLabs(page, the24HourState, cancelToken: cancelToken)
+        .then((data) {
+      //TODO handle all in model
+
+      if (data != null) {
+        if (data == null) {
+          data.data["data"] = [];
+        }
+        print('==labItems===>${data.data}');
+
+        var newItems = <Labs>[];
+        data.data["data"].forEach((item) {
+          newItems.add(Labs.fromJson(item));
+        });
+        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        print('==labItems===>${newItems.length}======${page}');
+        if (newItems == null || newItems.length == 0) {
+          pageController.appendLastPage(newItems);
+        } else {
+          pageController.appendPage(newItems, page + 1);
+        }
+      } else {}
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pageController.error = e;
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
     });
   }
 }

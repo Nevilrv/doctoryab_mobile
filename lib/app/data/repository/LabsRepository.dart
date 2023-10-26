@@ -10,26 +10,31 @@ class LabsRepository {
   static Dio dio = AppDioService.getDioInstance();
 
   static var _cachedDio = AppDioService.getCachedDio;
-  static Future<List<Labs>> fetchLabs(int page,
-      {int limitPerPage = 10, void onError(e), CancelToken cancelToken}) async {
-    return await Utils.parseResponse<Labs>(
-      () async {
-        return await _cachedDio.get(
-          '${ApiConsts.labsByCity}',
-          cancelToken: cancelToken,
-          queryParameters: {
-            "limit": limitPerPage,
-            "page": page,
-            "sort": "name",
-            "cityId": "${SettingsController.auth.savedCity.sId}",
-          },
-          // data: {"name": name},
-          // cancelToken: _searchCancelToken,
-          options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
-        );
+
+  Future<Response> fetchLabs(
+    int page,
+    bool the24Hours, {
+    int limitPerPage = 50,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    print("Get---Category---${ApiConsts.categoriesByCityPath}");
+    final response = await _cachedDio.get(
+      '${ApiConsts.labsByCity}',
+      cancelToken: cancelToken,
+      queryParameters: {
+        "limit": limitPerPage,
+        "page": page,
+        // "sort": "name",
+        // "cityId": "${SettingsController.auth.savedCity.sId}",
       },
-      onError: (e) => onError(e),
+
+      // data: {"name": name},
+      // cancelToken: _searchCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
+
+    return response;
   }
 
   //*

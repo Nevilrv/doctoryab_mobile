@@ -10,11 +10,17 @@ class StoriesRepository {
 
   static var _cachedDio = AppDioService.getCachedDio;
   static Future<AdsModel> fetchAds(
-      {int limitPerPage = 10, CancelToken cancelToken}) async {
+      {int limitPerPage = /*10*/ 50, CancelToken cancelToken}) async {
+    print(
+        "SettingsController.auth.savedCity.sId>>>>${SettingsController.auth.savedCity.sId}");
+
     var data = await dio.get(
       '${ApiConsts.storiesPath}/${SettingsController.auth.savedCity.sId}',
       cancelToken: cancelToken,
-      queryParameters: {},
+      queryParameters: {
+        // "limit": limitPerPage,
+        // "page": page,
+      },
       // data: {"name": name},
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),

@@ -23,21 +23,21 @@ class LoginVerifyController extends GetxController {
   void onClose() {}
 
   void verfyUser() {
-    Utils.whereShouldIGo();
-    // AuthRepository().signin().then((response) async {
-    //   var reponseData = response.data;
-    //   // print(reponseData);
-    //   SettingsController.userToken = reponseData["jwtoken"];
-    //   SettingsController.userProfileComplete = reponseData["profile_completed"];
-    //
-    //   Utils.whereShouldIGo();
-    // }).catchError((e, s) {
-    //   // Utils.whereShouldIGo();
-    //   DioExceptionHandler.handleException(
-    //     exception: e,
-    //     retryCallBak: verfyUser,
-    //   );
-    //   FirebaseCrashlytics.instance.recordError(e, s);
-    // });
+    // Utils.whereShouldIGo();
+    AuthRepository().signin().then((response) async {
+      var reponseData = response.data;
+      // print(reponseData);
+      SettingsController.userToken = reponseData["jwtoken"];
+      SettingsController.userProfileComplete = reponseData["profile_completed"];
+
+      Utils.whereShouldIGo();
+    }).catchError((e, s) {
+      // Utils.whereShouldIGo();
+      DioExceptionHandler.handleException(
+        exception: e,
+        retryCallBak: verfyUser,
+      );
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
   }
 }

@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugStoreRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
@@ -12,7 +17,10 @@ class DrugStoreController extends TabHomeOthersController {
   var tabIndex = 0.obs;
   @override
   void onInit() {
+    print('===onInit===');
+    // loadData(pageController.firstPageKey);
     pageController.addPageRequestListener((pageKey) {
+      print('===LISTNER===');
       loadData(pageKey);
     });
     super.onInit();
@@ -102,25 +110,35 @@ class DrugStoreController extends TabHomeOthersController {
     super.onClose();
   }
 
-  void loadData(int page) async {
-    DrugStoreRepository.fetchDrugStores(
-      page,
-      the24HourState,
-      cancelToken: cancelToken,
-      onError: (e) {
+  void loadData(int page) {
+    DrugStoreRepository()
+        .fetchDrugStores(page, the24HourState, cancelToken: cancelToken)
+        .then((data) {
+      //TODO handle all in model
+
+      if (data != null) {
+        if (data == null) {
+          data.data["data"] = [];
+        }
+
+        var newItems = <DrugStore>[];
+        data.data["data"].forEach((item) {
+          newItems.add(DrugStore.fromJson(item));
+        });
+        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        print('==newItems===>${newItems.length}');
+        if (newItems == null || newItems.length == 0) {
+          pageController.appendLastPage(newItems);
+        } else {
+          pageController.appendPage(newItems, page + 1);
+        }
+      } else {}
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
         pageController.error = e;
-        // super.pageController.error = e;
-        Logger().e(
-          "load-drugStore",
-          e,
-        );
-      },
-    ).then((data) {
-      Utils.addResponseToPagingController<DrugStore>(
-        data,
-        pageController,
-        page,
-      );
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
     });
   }
 }

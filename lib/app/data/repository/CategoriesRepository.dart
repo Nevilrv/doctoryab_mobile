@@ -19,7 +19,8 @@ class CategoriesRepository {
 
   //* update profile
   Future<dynamic> getCategories(int page,
-      {int limitPerPage = 10, CancelToken cancelToken}) async {
+      {int limitPerPage = 50 /*10*/, CancelToken cancelToken}) async {
+    print("Get---Category---${ApiConsts.categoriesByCityPath}");
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
       '${ApiConsts.categoriesByCityPath}',
