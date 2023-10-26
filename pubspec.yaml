@@ -70,7 +70,6 @@ dependencies:
   firebase_dynamic_links: ^5.0.15
   firebase_auth: ^4.7.1
   firebase_core: ^2.15.0
-  geocoder:
 
   get: ^4.6.1
   # alice: 0.3.2

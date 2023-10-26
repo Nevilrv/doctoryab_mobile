@@ -1,14 +1,9 @@
 // import 'dart:io' as Io;
 
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-
-import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
-import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
-import 'package:get/get.dart' hide FormData, MultipartFile, Response;
 // import 'package:file/file.dart';
 // import 'package:dio/dio.dart';
 
@@ -54,6 +49,11 @@ class DrugStoreRepository {
     CancelToken cancelToken,
   }) async {
     print("Get---Category---${ApiConsts.categoriesByCityPath}");
+
+    print(
+        "SettingsController.auth.drugStoreByCity.sId>>>>${SettingsController.auth.savedCity.sId}");
+
+    print("SettingsController.userToken>>>${SettingsController.userToken}");
     final response = await _cachedDio.get(
       '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}',
       cancelToken: cancelToken,
@@ -67,6 +67,7 @@ class DrugStoreRepository {
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
+
     return response;
   }
 

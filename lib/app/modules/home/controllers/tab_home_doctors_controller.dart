@@ -4,11 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/categories_model.dart';
 import 'package:doctor_yab/app/data/repository/CategoriesRepository.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/services.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:location/location.dart';
 
 class TabTabHomeController extends GetxController {
   var pagingController = PagingController<int, Category>(firstPageKey: 1);
@@ -16,7 +13,6 @@ class TabTabHomeController extends GetxController {
   CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
-    getUserLocation();
     pagingController.addPageRequestListener((pageKey) {
       fetchCategories(pageKey);
     });
@@ -30,16 +26,6 @@ class TabTabHomeController extends GetxController {
 
   @override
   void onClose() {}
-
-  getUserLocation() async {
-    final coordinates = new Coordinates(69.16212234646082, 34.529645581970655);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    print(
-        'data>>>>>>>${first.postalCode}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
-    return first;
-  }
 
   void fetchCategories(int pageKey) {
     CategoriesRepository()

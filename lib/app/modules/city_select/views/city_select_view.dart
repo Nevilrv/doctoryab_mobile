@@ -4,8 +4,6 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/city_select_controller.dart';
@@ -47,9 +45,10 @@ class CitySelectView extends GetView<CitySelectController> {
               return GestureDetector(
                 onTap: () {
                   AppGetDialog.showSelctCityDialog(
-                    saveInstantlyAfterClick: false,
-                    cityChangedCallBack: (c) => controller.selectedCity(c),
-                  );
+                      saveInstantlyAfterClick: false,
+                      cityChangedCallBack: (c) {
+                        controller.selectedCity(c);
+                      });
                 },
                 child: Container(
                   decoration: BoxDecoration(

@@ -1,8 +1,7 @@
 // import 'dart:io' as Io;
 
-import 'package:doctor_yab/app/data/ApiConsts.dart';
-
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
 import 'package:doctor_yab/app/data/models/blood_donors.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
@@ -26,7 +25,8 @@ class BloodDonorRepository {
       data: {
         "bloodGroup": bloodGroup,
         "location": location?.locality,
-        "gender": gender,
+        // "gender": gender,
+        "gender": '',
         "geometry": {
           "coordinates": [location.latLng.longitude, location.latLng.latitude]
         }

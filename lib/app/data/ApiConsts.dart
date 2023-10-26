@@ -45,4 +45,5 @@ class ApiConsts {
   static const doctorsFullData = "/doctor/Userdoctor";
   //
   static const updateAndRegisterBloodDonor = "/bloodDonors/profile";
+  static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";
 }

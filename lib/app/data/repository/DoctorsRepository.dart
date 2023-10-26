@@ -1,16 +1,17 @@
 // import 'dart:io' as Io;
 
-import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/categories_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:logger/logger.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 // import 'package:file/file.dart';
 // import 'package:dio/dio.dart';
 
@@ -24,7 +25,7 @@ class DoctorsRepository {
   Future<dynamic> fetchDoctors(
     int page, {
     Category cat,
-    int limitPerPage = 10,
+    int limitPerPage = 50,
     DOCTORS_LOAD_ACTION action = DOCTORS_LOAD_ACTION.fromCategory,
     String hospitalId,
     CancelToken cancelToken,
@@ -34,20 +35,37 @@ class DoctorsRepository {
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
-
     var response;
-    switch (action) {
+
+    log("City----Url---${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}");
+
+    response = await _cachedDio.get(
+      '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
+      cancelToken: cancelToken,
+      queryParameters: {
+        "limit": limitPerPage,
+        "page": page,
+        // "sort": sort,
+        // "lat": lat,
+        // "lng": lon,
+      },
+      // cancelToken: loginCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    /* switch (action) {
       case DOCTORS_LOAD_ACTION.fromCategory:
         {
+          log("City----Url---${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}");
           response = await _cachedDio.get(
             '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
             cancelToken: cancelToken,
             queryParameters: {
               "limit": limitPerPage,
               "page": page,
-              "sort": sort,
-              "lat": lat,
-              "lng": lon,
+              // "sort": sort,
+              // "lat": lat,
+              // "lng": lon,
             },
             // cancelToken: loginCancelToken,
             options:
@@ -89,7 +107,7 @@ class DoctorsRepository {
           );
           break;
         }
-    }
+    }*/
 
     return response;
   }
