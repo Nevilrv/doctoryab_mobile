@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:doctor_yab/app/data/models/post.dart';
+
 BlogLikeResModel blogLikeResModelFromJson(String str) =>
     BlogLikeResModel.fromJson(json.decode(str));
 
@@ -93,37 +95,5 @@ class Data {
         "createAt": createAt,
         "__v": v,
         "publishedAt": publishedAt,
-      };
-}
-
-class Comment {
-  String text;
-  String whoPosted;
-  String postedBy;
-  String createAt;
-  String commentId;
-
-  Comment({
-    this.text,
-    this.whoPosted,
-    this.postedBy,
-    this.createAt,
-    this.commentId,
-  });
-
-  factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-        text: json["text"],
-        whoPosted: json["whoPosted"],
-        postedBy: json["postedBy"],
-        createAt: json["createAt"],
-        commentId: json["commentId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "text": text,
-        "whoPosted": whoPosted,
-        "postedBy": postedBy,
-        "createAt": createAt,
-        "commentId": commentId,
       };
 }
