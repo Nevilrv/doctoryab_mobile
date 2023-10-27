@@ -63,6 +63,14 @@ class SettingsController extends GetxController {
     AppStatics.hive.authBox.put("user_token", s);
   }
 
+  static String get userId {
+    return AppStatics.hive.authBox.get("user_id");
+  }
+
+  static set userId(String s) {
+    AppStatics.hive.authBox.put("user_id", s);
+  }
+
   static bool get isUserLoggedInToApi {
     return userToken != null;
   }

@@ -1,14 +1,23 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/blog_categories.dart';
 import 'package:doctor_yab/app/data/repository/BlogRepository.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/post.dart';
+import '../../../data/models/post.dart' as p;
+import '../../../services/DioService.dart';
 import '../../../utils/utils.dart';
 
 class TabBlogController extends GetxController {
   var pagingController = PagingController<int, Post>(firstPageKey: 1);
+  TextEditingController comment = TextEditingController();
   //*DIO
   CancelToken categoriesCancelToken = CancelToken();
   CancelToken blogCancelToken = CancelToken();
@@ -16,6 +25,10 @@ class TabBlogController extends GetxController {
   final isLoading = true.obs;
   final selectedIndex = 0.obs;
   final tabTitles = <BlogCategory>[].obs;
+  final postList = <Post>[];
+  static Dio dio = AppDioService.getDioInstance();
+  final isLoadingComment = false.obs;
+  List<p.Comment> commentList = [];
 
   @override
   void onInit() {
@@ -47,10 +60,12 @@ class TabBlogController extends GetxController {
       isLoading.value = false;
 
       //
-
-      pagingController.addPageRequestListener((pageKey) {
-        loadPosts(pageKey, selectedIndex());
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        pagingController.addPageRequestListener((pageKey) {
+          loadPosts(pageKey, selectedIndex());
+        });
       });
+
       Utils.resetPagingController(pagingController);
       // pagingController.refresh();
       // loadPosts(pagingController.firstPageKey, selectedIndex());
@@ -92,6 +107,9 @@ class TabBlogController extends GetxController {
         pagingController,
         pageKey,
       );
+      postList.clear();
+      postList.addAll(pagingController.value.itemList);
+      update();
     });
 
     // Replace with actual API call
@@ -104,5 +122,50 @@ class TabBlogController extends GetxController {
     isLoading.value = false;
   }
 
-  void _re() {}
+  Future<void> likeBlog(String postId, int index, Post item) async {
+    BlogRepository.blogLike(
+            userId: SettingsController.userId, postId: postId.toString())
+        .then((v) {
+      // v.data.likes.forEach((element) {
+      //   if(element.)
+      // });
+      log("v--------------> ${v.data}");
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Future.delayed(Duration(seconds: 3), () {});
+    });
+    update();
+  }
+
+  Future<void> shareBlog(String postId, int index, Post item) async {
+    BlogRepository.blogShare(
+            userId: SettingsController.userId, postId: postId.toString())
+        .then((v) {
+      log("v--------------> ${v.data}");
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Future.delayed(Duration(seconds: 3), () {});
+    });
+    update();
+  }
+
+  Future<void> commentBlog(String postId, String text) async {
+    BlogRepository.blogComment(
+            userId: SettingsController.userId,
+            postId: postId.toString(),
+            text: text)
+        .then((v) {
+      commentList.clear();
+      // v.data.comments.forEach((element) {commentList.add(element)});
+
+      log(" controller.comment--------------> ${v.data.comments}");
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Future.delayed(Duration(seconds: 3), () {});
+    });
+    update();
+  }
 }

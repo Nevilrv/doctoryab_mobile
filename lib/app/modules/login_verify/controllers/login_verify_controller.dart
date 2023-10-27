@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart';
+
+import '../../../data/models/user_model.dart';
 
 class LoginVerifyController extends GetxController {
   @override
@@ -29,6 +33,8 @@ class LoginVerifyController extends GetxController {
       // print(reponseData);
       SettingsController.userToken = reponseData["jwtoken"];
       SettingsController.userProfileComplete = reponseData["profile_completed"];
+      SettingsController.userId = reponseData['user']['_id'];
+      log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
 
       Utils.whereShouldIGo();
     }).catchError((e, s) {

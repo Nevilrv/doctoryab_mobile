@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/data/interceptor/JwtTokenInjector.dart';
 import 'package:doctor_yab/app/data/static.dart';
 
 class ApiConsts {
@@ -8,7 +9,13 @@ class ApiConsts {
       "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff";
 
   static const int maxImageSizeLimit = 5000; //in KB after cropped
-
+  var commonHeader = {
+    'apikey':
+        "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff",
+    'jwtoken':
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmYwZGUwZWYyNzFlMDgxZjdkNDUyNSIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJkb2N0b3J5YWIuZGV2QGdtYWlsLmNvbSIsImlhdCI6MTY5ODIwNzA0OSwiZXhwIjoxNzA2ODQ3MDQ5fQ.at9_LMGl2OyJ77PXX5Hi5ERptx7mB3OZ8SVmxabC4vU',
+    'Content-Type': 'application/json'
+  };
   static const String localHostUrl = "https://testserver.doctoryab.app/";
   // static const String liveHostUrl = "https://alt.daktaryabapi.xyz";
   static final String liveHostUrl = AppStatics.envVars.apiURL;
@@ -47,4 +54,9 @@ class ApiConsts {
   //
   static const updateAndRegisterBloodDonor = "/bloodDonors/profile";
   static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";
+
+  ///blog
+  static const String blogLike = '/blogs/like';
+  static const String blogShare = '/blogs/share';
+  static const String blogComment = '/blogs/comment';
 }

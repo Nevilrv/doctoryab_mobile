@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:doctor_yab/app/modules/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_blog_view.dart';
+import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_more_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';

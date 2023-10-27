@@ -402,4 +402,5 @@ const Map<String, String> enUS = {
   "sponsored": "Sponsored",
   "filter_dialog_description":
       "You can easily access what you want by filtering.",
+  "comments":"Comments"
 };
