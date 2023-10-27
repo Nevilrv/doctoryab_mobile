@@ -1,4 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
+import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
+import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -9,6 +15,9 @@ import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
 
 class DrugsDatabaseView extends GetView<DrugsController> {
   DrugsDatabaseView({Key key}) : super(key: key);
@@ -55,7 +64,42 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         ],
                       ),
                     ),
+                    BannerView(),
                     Expanded(
+                      child: PagedListView.separated(
+                        pagingController: controller.pageController,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        separatorBuilder: (c, i) {
+                          return SizedBox(height: 15);
+                        },
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, item, index) {
+                            return drugsData(h, w, context, item);
+                          },
+                          noMoreItemsIndicatorBuilder: (_) =>
+                              DotDotPagingNoMoreItems(),
+                          noItemsFoundIndicatorBuilder: (_) =>
+                              PagingNoItemFountList(),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              PagingErrorView(
+                            controller: controller.pageController,
+                          ),
+                          firstPageProgressIndicatorBuilder: (_) =>
+                              DrugsGridShimmer(
+                            yCount: 5,
+                            xCount: 1,
+                            // linesCount: 4,
+                          ),
+                          newPageProgressIndicatorBuilder: (_) =>
+                              DrugsGridShimmer(
+                            yCount: 5,
+                            xCount: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    /*   Expanded(
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
                         physics: BouncingScrollPhysics(),
@@ -71,12 +115,43 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           return Column(
                             children: [
                               index == 0 ? BannerView() : SizedBox(),
-                              drugsData(h, w, index),
+                              PagedListView.separated(
+                                pagingController: controller.pageController,
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                separatorBuilder: (c, i) {
+                                  return SizedBox(height: 15);
+                                },
+                                builderDelegate: PagedChildBuilderDelegate(
+                                  itemBuilder: (context, item, index) {
+                                    return drugsData(h, w, context, item);
+                                  },
+                                  noMoreItemsIndicatorBuilder: (_) =>
+                                      DotDotPagingNoMoreItems(),
+                                  noItemsFoundIndicatorBuilder: (_) =>
+                                      PagingNoItemFountList(),
+                                  firstPageErrorIndicatorBuilder: (context) =>
+                                      PagingErrorView(
+                                    controller: controller.pageController,
+                                  ),
+                                  firstPageProgressIndicatorBuilder: (_) =>
+                                      DrugsGridShimmer(
+                                    yCount: 5,
+                                    xCount: 1,
+                                    // linesCount: 4,
+                                  ),
+                                  newPageProgressIndicatorBuilder: (_) =>
+                                      DrugsGridShimmer(
+                                    yCount: 5,
+                                    xCount: 1,
+                                  ),
+                                ),
+                              ),
                             ],
                           );
                         },
                       ),
-                    ),
+                    ),*/
                     const SizedBox(
                       height: 80.0,
                     ),
@@ -97,11 +172,20 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     );
   }
 
-  Widget drugsData(double h, double w, int index) {
+  Widget drugsData(
+    double h,
+    double w,
+    context,
+    Datum item,
+  ) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.DRUGS_DETAILS,
-            arguments: controller.medicinesNames[index]);
+        Get.toNamed(Routes.DRUGS_DETAILS, arguments: item);
+        // print(
+        //     "filterSearch>>>>>${controller.filterSearch}====${item.persianName}");
+        // if (controller.filterSearch != "") {
+        //   SettingsController.drugAuth.drugData = [item];
+        // }
       },
       child: Container(
         height: h * 0.216,
@@ -118,20 +202,41 @@ class DrugsDatabaseView extends GetView<DrugsController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: h * 0.119,
-                  width: w * 0.327,
-                  decoration: BoxDecoration(
-                    color: AppColors.lightYellow,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      AppImages.vitamin,
+                    height: h * 0.119,
+                    width: w * 0.327,
+                    decoration: BoxDecoration(
+                      color: AppColors.lightYellow,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: "${ApiConsts.hostUrl}${item.img}",
                       height: h * 0.082,
                       width: w * 0.178,
+                      fit: BoxFit.cover,
+                      placeholder: (_, __) {
+                        return Image.asset(
+                          AppImages.vitamin,
+                          height: h * 0.082,
+                          width: w * 0.178,
+                        );
+                      },
+                      errorWidget: (_, __, ___) {
+                        return Image.asset(
+                          AppImages.vitamin,
+                          height: h * 0.082,
+                          width: w * 0.178,
+                        );
+                      },
+                    )
+
+                    // Center(
+                    //   child: Image.asset(
+                    //     AppImages.vitamin,
+                    //     height: h * 0.082,
+                    //     width: w * 0.178,
+                    //   ),
+                    // ),
                     ),
-                  ),
-                ),
                 Container(
                   height: h * 0.023,
                   width: w * 0.327,
@@ -217,13 +322,13 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    controller.medicinesNames[index],
+                    "${item.persianName} (${item.englishName})",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "company".tr,
+                    "${item.company}",
                     style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -276,20 +381,22 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   style: AppTextStyle.boldPrimary9
                                       .copyWith(height: 1.2),
                                 ),
-                                Text(
-                                  subIndex == 1
-                                      ? controller.data[1]["text"]
-                                          .toString()
-                                          .trArgs(["30"])
-                                      : subIndex == 2
-                                          ? controller.data[2]["text"]
-                                              .toString()
-                                              .trArgs(["1000"])
-                                          : controller.data[subIndex]["text"]
-                                              .toString()
-                                              .tr,
-                                  style: AppTextStyle.regularPrimary9
-                                      .copyWith(height: 1),
+                                Container(
+                                  width: w * 0.35,
+                                  child: Text(
+                                    subIndex == 1
+                                        ? controller.data[1]["text"]
+                                            .toString()
+                                            .trArgs(["30"])
+                                        : subIndex == 2
+                                            ? controller.data[2]["text"]
+                                                .toString()
+                                                .trArgs([item.packsAndPrices])
+                                            : item.drugType ?? "None",
+                                    style: AppTextStyle.regularPrimary9
+                                        .copyWith(height: 1),
+                                    maxLines: 4,
+                                  ),
                                 ),
                               ],
                             ),
@@ -312,7 +419,21 @@ class DrugsDatabaseView extends GetView<DrugsController> {
       padding: const EdgeInsets.only(top: 25),
       child: TextField(
         controller: controller.searchController,
-        onChanged: (s) => controller.search(s),
+        onChanged: (s) async {
+          controller.search(s);
+          if (s.isEmpty) {
+            controller.pageController.itemList.clear();
+            controller.drugData(
+              controller.pageController.firstPageKey,
+            );
+          }
+        },
+        onSubmitted: (v) async {
+          controller.pageController.itemList.clear();
+          controller.drugData(
+            controller.pageController.firstPageKey,
+          );
+        },
         style: AppTextStyle.mediumPrimary11,
         cursorColor: AppColors.primary,
         textAlignVertical: TextAlignVertical.center,

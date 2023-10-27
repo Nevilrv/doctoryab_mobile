@@ -1,41 +1,4 @@
-// To parse this JSON data, do
-//
-//     final drugDatabaseModel = drugDatabaseModelFromJson(jsonString);
-
-import 'dart:convert';
-
-DrugDatabaseModel drugDatabaseModelFromJson(String str) =>
-    DrugDatabaseModel.fromJson(json.decode(str));
-
-String drugDatabaseModelToJson(DrugDatabaseModel data) =>
-    json.encode(data.toJson());
-
-class DrugDatabaseModel {
-  List<Datum> data;
-  int count;
-  int unVerifiedCount;
-
-  DrugDatabaseModel({
-    this.data,
-    this.count,
-    this.unVerifiedCount,
-  });
-
-  factory DrugDatabaseModel.fromJson(Map<String, dynamic> json) =>
-      DrugDatabaseModel(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        count: json["count"],
-        unVerifiedCount: json["unVerifiedCount"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "count": count,
-        "unVerifiedCount": unVerifiedCount,
-      };
-}
-
-class Datum {
+class DrugData {
   bool verified;
   bool active;
   String img;
@@ -64,7 +27,7 @@ class Datum {
   String updatedAt;
   int v;
 
-  Datum({
+  DrugData({
     this.verified,
     this.active,
     this.img,
@@ -94,7 +57,7 @@ class Datum {
     this.v,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory DrugData.fromJson(Map<String, dynamic> json) => DrugData(
         verified: json["verified"] == null ? null : json["verified"],
         active: json["active"] == null ? null : json["active"],
         img: json["img"] == null ? null : json["img"],
