@@ -187,11 +187,23 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           color: AppColors.lightPurple2,
                           borderRadius: BorderRadius.circular(3),
                         ),
-                        child: Center(
-                          child: Text(
-                            "add_to_list".tr,
-                            style: AppTextStyle.boldPrimary8,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "add_to_list".tr,
+                              style: AppTextStyle.boldPrimary8,
+                            ),
+                            SizedBox(
+                              width: w * 0.005,
+                            ),
+                            Icon(
+                              Icons.favorite_border,
+                              size: w * 0.02,
+                              color: AppColors.primary,
+                            ),
+                          ],
                         ),
                       ),
                     ],

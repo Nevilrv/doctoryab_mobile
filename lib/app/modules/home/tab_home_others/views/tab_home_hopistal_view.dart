@@ -1,14 +1,10 @@
-import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:doctor_yab/app/components/NewItems.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
-import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_others_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
-
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -16,15 +12,10 @@ import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'dart:math' as math;
-import '../../../../data/models/labs_model.dart';
-import '../../../drug_store_lab/views/drug_store_lab_view.dart';
-import '/app/extentions/widget_exts.dart';
 
 class TabHomeHospitalsView extends GetView<HospitalsController> {
   // final MaterialStateProperty<Icon> thumbIcon =
@@ -230,34 +221,52 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    // color: Colors.black,
-                                    // height: 65,
-                                    // width: 65,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColors.lightGrey),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: "",
-                                        height: h * 0.11,
-                                        width: h * 0.11,
-                                        fit: BoxFit.cover,
-                                        placeholder: (_, __) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
+                                  Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Container(
+                                        // color: Colors.black,
+                                        // height: 65,
+                                        // width: 65,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: AppColors.lightGrey),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: CachedNetworkImage(
+                                            imageUrl: "",
+                                            height: h * 0.11,
+                                            width: h * 0.11,
                                             fit: BoxFit.cover,
-                                          );
-                                        },
-                                        errorWidget: (_, __, ___) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
+                                            placeholder: (_, __) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                            errorWidget: (_, __, ___) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      SettingsController.appLanguge != "English"
+                                          ? Positioned(
+                                              top: -5,
+                                              right: -5,
+                                              child: SvgPicture.asset(
+                                                  AppImages.emergencyBell),
+                                            )
+                                          : Positioned(
+                                              top: -5,
+                                              left: -5,
+                                              child: SvgPicture.asset(
+                                                  AppImages.emergencyBell))
+                                    ],
                                   ),
                                   Expanded(
                                     flex: 3,

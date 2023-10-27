@@ -521,16 +521,16 @@ class TabHomeLabsView extends GetView<LabsController> {
                           ),
                         ),
                       ),
-                      SettingsController.appLanguge != "English"
-                          ? Positioned(
-                              top: -5,
-                              right: -5,
-                              child: SvgPicture.asset(AppImages.emergencyBell),
-                            )
-                          : Positioned(
-                              top: -5,
-                              left: -5,
-                              child: SvgPicture.asset(AppImages.emergencyBell))
+                      // SettingsController.appLanguge != "English"
+                      //     ? Positioned(
+                      //         top: -5,
+                      //         right: -5,
+                      //         child: SvgPicture.asset(AppImages.emergencyBell),
+                      //       )
+                      //     : Positioned(
+                      //         top: -5,
+                      //         left: -5,
+                      //         child: SvgPicture.asset(AppImages.emergencyBell))
                     ],
                   ),
                   Expanded(

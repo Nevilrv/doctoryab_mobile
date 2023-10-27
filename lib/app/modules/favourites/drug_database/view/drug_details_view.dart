@@ -91,60 +91,63 @@ class DrugDetailsView extends GetView<DrugsController> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.generate(
-                          3,
-                          (index) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: h * 0.04,
-                                width: h * 0.04,
-                                padding: EdgeInsets.all(3),
-                                margin: EdgeInsets.only(right: 5),
-                                decoration: BoxDecoration(
-                                  color: AppColors.lightPurple,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Image.asset(
-                                  _data[index]["image"],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _data[index]["title"].toString().tr,
-                                    style: AppTextStyle.boldPrimary9
-                                        .copyWith(height: 1.2),
-                                  ),
-                                  Text(
-                                    index == 1
-                                        ? _data[1]["text"]
-                                            .toString()
-                                            .trArgs(["30"])
-                                        : index == 2
-                                            ? _data[2]["text"]
-                                                .toString()
-                                                .trArgs(["1000"])
-                                            : _data[index]["text"]
-                                                .toString()
-                                                .tr,
-                                    style: AppTextStyle.regularPrimary9
-                                        .copyWith(height: 1),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 12),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: List.generate(
+                    //       3,
+                    //       (index) => Row(
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         crossAxisAlignment: CrossAxisAlignment.center,
+                    //         children: [
+                    //           Container(
+                    //             height: h * 0.04,
+                    //             width: h * 0.04,
+                    //             padding: EdgeInsets.all(3),
+                    //             margin: EdgeInsets.only(right: 5),
+                    //             decoration: BoxDecoration(
+                    //               color: AppColors.lightPurple,
+                    //               borderRadius: BorderRadius.circular(5),
+                    //             ),
+                    //             child: Image.asset(
+                    //               _data[index]["image"],
+                    //               fit: BoxFit.cover,
+                    //             ),
+                    //           ),
+                    //           Column(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: [
+                    //               Text(
+                    //                 _data[index]["title"].toString().tr,
+                    //                 style: AppTextStyle.boldPrimary9
+                    //                     .copyWith(height: 1.2),
+                    //               ),
+                    //               Text(
+                    //                 index == 1
+                    //                     ? _data[1]["text"]
+                    //                         .toString()
+                    //                         .trArgs(["30"])
+                    //                     : index == 2
+                    //                         ? _data[2]["text"]
+                    //                             .toString()
+                    //                             .trArgs(["1000"])
+                    //                         : _data[index]["text"]
+                    //                             .toString()
+                    //                             .tr,
+                    //                 style: AppTextStyle.regularPrimary9
+                    //                     .copyWith(height: 1),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: h * 0.01,
                     ),
                     commonTitleBox(text: "drug_name".tr),
                     commonTextBox("VITAMIN D3 (1000)"),
