@@ -553,10 +553,10 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                           ),
                         ),
                       ),
-                      Positioned(
-                          top: -5,
-                          left: -5,
-                          child: SvgPicture.asset(AppImages.roundedMoon))
+                      // Positioned(
+                      //     top: -5,
+                      //     left: -5,
+                      //     child: SvgPicture.asset(AppImages.roundedMoon))
                     ],
                   ),
                   Expanded(

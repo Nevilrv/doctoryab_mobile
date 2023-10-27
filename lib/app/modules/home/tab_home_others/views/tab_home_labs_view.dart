@@ -462,7 +462,7 @@ class TabHomeLabsView extends GetView<LabsController> {
   ) {
     return GestureDetector(
       onTap: () {
-        Get.to(PharmacyDetailScreen());
+        Get.to(LabDetailScreen());
         // Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
       },
       child: Container(
@@ -515,7 +515,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                       Positioned(
                           top: -5,
                           left: -5,
-                          child: SvgPicture.asset(AppImages.roundedMoon))
+                          child: SvgPicture.asset(AppImages.emergencyBell))
                     ],
                   ),
                   Expanded(
