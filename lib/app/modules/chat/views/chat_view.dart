@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -352,14 +353,20 @@ class ChatView extends GetView<ChatController> {
                                 // onTap: controller.scrollToEnd,
                                 controller: controller.messageC,
                                 decoration: InputDecoration(
-                                    // prefixIcon: GestureDetector(
-                                    //   onTap: controller.pickImage,
-                                    //   child: Icon(
-                                    //     Icons.share,
-                                    //     color: AppColors.black,
-                                    //     size: 18,
-                                    //   ),
-                                    // ),
+                                    prefixIcon: GestureDetector(
+                                      onTap: controller.pickImage,
+                                      child: IntrinsicWidth(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          child: SvgPicture.asset(
+                                            AppImages.attachment,
+                                            color: AppColors.black,
+                                            height: 23,
+                                            width: 23,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     // suffixIcon: GestureDetector(
                                     //   child: Icon(
                                     //     Icons.emoji_emotions_outlined,

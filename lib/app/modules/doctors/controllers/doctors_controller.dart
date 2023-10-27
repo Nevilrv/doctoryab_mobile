@@ -5,20 +5,20 @@ import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart' hide PermissionStatus;
+import 'package:permission_handler/permission_handler.dart';
 
 enum DOCTORS_LOAD_ACTION {
   fromCategory,
   myDoctors,
   ofhospital,
 }
+
 enum FetechingGPSDataStatus {
   loading,
   failed,
@@ -79,6 +79,7 @@ class DoctorsController extends GetxController {
     )
         .then((data) {
       var newItems = Doctors.fromJson(data.data).data;
+      print("newItems>>newItems>${newItems.length}====${pageKey}");
       if (newItems == null || newItems.length == 0) {
         pagingController.appendLastPage(newItems);
       } else {

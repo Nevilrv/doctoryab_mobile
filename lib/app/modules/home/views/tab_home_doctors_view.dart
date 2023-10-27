@@ -6,11 +6,10 @@ import 'package:doctor_yab/app/components/shimmer/categories_grid_shimmer.dart';
 import 'package:doctor_yab/app/components/shimmer/city_shimmer.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/data/models/categories_model.dart';
+import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_doctors_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -24,11 +23,11 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
         child: RefreshIndicator(
           onRefresh: () => Future.sync(
             () async {
-              Utils.resetPagingController(controller.pagingController);
               await Future.delayed(Duration.zero, () {
                 controller.cancelToken.cancel();
               });
               controller.cancelToken = new CancelToken();
+              controller.pagingController.itemList.clear();
               controller.fetchCategories(
                 controller.pagingController.firstPageKey,
               );
