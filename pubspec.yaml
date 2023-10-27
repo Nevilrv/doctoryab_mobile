@@ -103,7 +103,6 @@ dependencies:
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0
   expandable_text: ^2.3.0
-  get_storage: ^2.1.1
 
 
 dev_dependencies:
