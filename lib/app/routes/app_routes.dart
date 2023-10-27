@@ -35,6 +35,7 @@ abstract class Routes {
   static const BLOOD_DONORS_RESULTS = _Paths.BLOOD_DONORS_RESULTS;
   static const BLOG = _Paths.BLOG;
   static const BLOG_FULL_PAGE = _Paths.BLOG_FULL_PAGE;
+  static const COMMENT_VIEW = _Paths.COMMENT_VIEW;
   static const APP_STORY = _Paths.APP_STORY;
   static const MESSAGES_LIST = _Paths.MESSAGES_LIST;
   static const CHAT = _Paths.CHAT;
@@ -82,6 +83,7 @@ abstract class _Paths {
   static const BLOOD_DONORS_RESULTS = '/blood-donors-results';
   static const BLOG = '/blog';
   static const BLOG_FULL_PAGE = '/blog-full-page';
+  static const COMMENT_VIEW = '/CommentView';
   static const APP_STORY = '/app-story';
   static const MESSAGES_LIST = '/messages-list';
   static const CHAT = '/chat';

@@ -120,4 +120,5 @@ class AppImages {
   static const pakistan = "assets/png/pakistan.png";
   static const turkey = "assets/png/turkey.png";
   static const turkey1 = "assets/png/turkey2.png";
+  static const noProfile = "assets/png/no_profile.jpg";
 }

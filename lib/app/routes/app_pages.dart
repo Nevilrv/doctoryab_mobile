@@ -26,6 +26,7 @@ import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/bindings/pre
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/pregnancy_tracker_view.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/bindings/treatment_abroad_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatment_abroad_view.dart';
+import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appointment_history_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:get/get.dart';
@@ -256,6 +257,11 @@ class AppPages {
       page: () => BlogFullPageView(),
       binding: BlogFullPageBinding(),
     ),
+    // GetPage(
+    //   name: _Paths.COMMENT_VIEW,
+    //   page: () => CommentView(),
+    //   binding: HomeBinding(),
+    // ),
     GetPage(
       name: _Paths.APP_STORY,
       page: () => const AppStoryView(),
