@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/post.dart';
-import '../../../data/models/post.dart' as p;
+import '../../../data/models/post.dart';
 import '../../../services/DioService.dart';
 import '../../../utils/utils.dart';
 
@@ -28,7 +28,7 @@ class TabBlogController extends GetxController {
   final postList = <Post>[];
   static Dio dio = AppDioService.getDioInstance();
   final isLoadingComment = false.obs;
-  List<p.Comment> commentList = [];
+  List<Comment> commentList = [];
 
   @override
   void onInit() {
@@ -157,8 +157,11 @@ class TabBlogController extends GetxController {
             postId: postId.toString(),
             text: text)
         .then((v) {
+      comment.clear();
       commentList.clear();
-      // v.data.comments.forEach((element) {commentList.add(element)});
+      v.data.comments.forEach((element) {
+        commentList.add(element);
+      });
 
       log(" controller.comment--------------> ${v.data.comments}");
     }).catchError((e, s) {

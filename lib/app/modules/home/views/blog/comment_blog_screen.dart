@@ -154,8 +154,16 @@ class CommentView extends GetView<TabBlogController> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  controller.commentBlog(
-                                      data.id, controller.comment.text);
+                                  if (controller.comment.text.isEmpty) {
+                                    Get.showSnackbar(GetSnackBar(
+                                      title: "Error",
+                                      message: "Please enter text",
+                                      // isDismissible: true,
+                                    ));
+                                  } else {
+                                    controller.commentBlog(
+                                        data.id, controller.comment.text);
+                                  }
                                 },
                                 child: Container(
                                   height: 45,
