@@ -10,6 +10,7 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
       isSecond: true,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppAppBar.whiteAppBar(title: "donor".tr, bloodIcon: true),
+        appBar: AppAppBar.whiteAppBar(title: "blood_donor".tr, bloodIcon: true),
         // bottomNavigationBar:
         //     BottomBarView(isHomeScreen: false, isBlueBackground: true),
         body: Container(
@@ -151,15 +152,15 @@ class BloodDonorView extends GetView<BloodDonorController> {
                               ),
                             ),
                           ).paddingHorizontal(25),
-                          // Text(
-                          //   "gender".tr,
-                          //   style: AppTextStyle.regularBlack11
-                          //       .copyWith(color: AppColors.lightPurple4),
-                          // ).paddingOnly(top: 15, left: 40),
-                          // _buildGenderRow().paddingHorizontal(25),
+                          Text(
+                            "gender".tr,
+                            style: AppTextStyle.regularBlack11
+                                .copyWith(color: AppColors.lightPurple4),
+                          ).paddingOnly(top: 15, left: 40),
+                          _buildGenderRow().paddingHorizontal(25),
                           _buildCheckbox(),
                           SizedBox(height: 40),
-                          _buildSaveButton(),
+                          _buildSaveButton(context),
                           SizedBox(height: 10),
                           _buildCancelButton(),
                         ],
@@ -292,37 +293,46 @@ class BloodDonorView extends GetView<BloodDonorController> {
     );
   }
 
-  Widget _buildSaveButton() {
-    return Obx(() => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: GestureDetector(
-            onTap: controller.iAmOver18.value &&
-                    controller.locationResult()?.locality != null
-                ? () => controller.save()
-                : null,
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: AppColors.primary,
-                  border: Border.all(color: AppColors.primary),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 4),
-                        blurRadius: 4,
-                        color: AppColors.black.withOpacity(0.25))
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Center(
-                  child: Text(
-                    "reg".tr,
-                    style: AppTextStyle.boldWhite14,
-                  ),
-                ),
+  Widget _buildSaveButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: GestureDetector(
+        onTap: () {
+          if (controller.locationResult()?.locality == null) {
+            Utils.commonSnackbar(context: context, text: "please_select_loc");
+          } else if (!controller.iAmOver18.value) {
+            Utils.commonSnackbar(context: context, text: "please_check");
+          } else {
+            controller.save();
+          }
+          // controller.iAmOver18.value &&
+          //     controller.locationResult()?.locality != null
+          //     ? () => controller.save()
+          //     : null
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: AppColors.primary,
+              border: Border.all(color: AppColors.primary),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 4),
+                    blurRadius: 4,
+                    color: AppColors.black.withOpacity(0.25))
+              ]),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Center(
+              child: Text(
+                "reg".tr,
+                style: AppTextStyle.boldWhite14,
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _buildCancelButton() {

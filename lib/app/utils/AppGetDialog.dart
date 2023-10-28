@@ -91,7 +91,7 @@ class AppGetDialog {
               height: 70,
               child: Center(
                 child: CustomRoundedButton(
-                  color: AppColors.easternBlue,
+                  color: AppColors.primary,
                   textColor: Colors.white,
                   splashColor: Colors.white.withOpacity(0.2),
                   disabledColor: AppColors.easternBlue.withOpacity(0.2),

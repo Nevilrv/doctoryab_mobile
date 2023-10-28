@@ -246,7 +246,7 @@ const Map<String, String> enUS = {
   "add_comm": "Add your comment...",
   "sel_rating": "Select Rating:",
   "send": "Send",
-  "donor": "Blood Donor",
+  "donor": "Register As Blood Donor",
   "find_donor": "Find Blood Donor",
   "all_diseases": "All Diseases Treatment",
   "com_diseases": "Common Diseases",
@@ -402,5 +402,9 @@ const Map<String, String> enUS = {
   "sponsored": "Sponsored",
   "filter_dialog_description":
       "You can easily access what you want by filtering.",
-  "comments":"Comments"
+  "comments": "Comments",
+  "please_enter_text": "Please enter text",
+  "please_select_loc": "Please select location",
+  "please_check":
+      "Please check I’m over 18 years old and my weight is over 50kg.",
 };

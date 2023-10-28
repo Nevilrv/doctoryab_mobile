@@ -170,6 +170,16 @@ class Utils {
     });
   }
 
+  static commonSnackbar({BuildContext context, String text}) {
+    var snackBar = SnackBar(
+      content: Text(text.tr, style: AppTextStyle.boldPrimary14),
+      backgroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(side: BorderSide(color: AppColors.primary)),
+    );
+
+    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   static Future<List<T>> parseResponse<T>(Future<Response<dynamic>> func(),
       {void onError(e)}) async {
     List<dynamic> _tmpList;

@@ -1,5 +1,7 @@
 // import 'dart:io' as Io;
 
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
@@ -20,13 +22,22 @@ class BloodDonorRepository {
     LocationResult location,
     int gender,
   ) async {
+    log("data---------- ${{
+      "bloodGroup": bloodGroup,
+      "location": location?.locality,
+      "gender": gender,
+      "geometry": {
+        "coordinates": [location.latLng.longitude, location.latLng.latitude]
+      }
+    }}");
+
     final response = await dio.post(
       ApiConsts.updateAndRegisterBloodDonor,
       data: {
         "bloodGroup": bloodGroup,
         "location": location?.locality,
         // "gender": gender,
-        "gender": '',
+        "gender": gender,
         "geometry": {
           "coordinates": [location.latLng.longitude, location.latLng.latitude]
         }

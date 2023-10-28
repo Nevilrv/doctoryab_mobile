@@ -379,12 +379,8 @@ class TabBlogView extends GetView<TabBlogController> {
                                         Spacer(),
                                         GestureDetector(
                                           onTap: () {
-                                            controller.commentList.addAll(
-                                                controller
-                                                    .postList[index].comments);
                                             Get.to(
-                                              CommentView(
-                                                  controller.postList[index]),
+                                              CommentView(index),
                                             );
                                           },
                                           child: Row(

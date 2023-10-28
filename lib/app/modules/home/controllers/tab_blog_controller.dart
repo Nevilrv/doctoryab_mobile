@@ -27,13 +27,16 @@ class TabBlogController extends GetxController {
   final tabTitles = <BlogCategory>[].obs;
   final postList = <Post>[];
   static Dio dio = AppDioService.getDioInstance();
-  final isLoadingComment = false.obs;
-  List<Comment> commentList = [];
+  bool isLoadingComment = false;
 
   @override
   void onInit() {
     super.onInit();
-
+    // scrollController.animateTo(
+    //   scrollController.position.maxScrollExtent,
+    //   duration: Duration(seconds: 2),
+    //   curve: Curves.fastOutSlowIn,
+    // );
     // loadTabTitles();
   }
 
@@ -151,22 +154,28 @@ class TabBlogController extends GetxController {
     update();
   }
 
-  Future<void> commentBlog(String postId, String text) async {
+  Future<void> commentBlog(String postId, String text, int index) async {
+    isLoadingComment = true;
+    update();
     BlogRepository.blogComment(
             userId: SettingsController.userId,
             postId: postId.toString(),
             text: text)
         .then((v) {
+      isLoadingComment = false;
+      update();
       comment.clear();
-      commentList.clear();
-      v.data.comments.forEach((element) {
-        commentList.add(element);
-      });
+      postList[index].comments.clear();
 
+      v.data.comments.forEach((element) {
+        postList[index].comments.add(element);
+      });
+      update();
       log(" controller.comment--------------> ${v.data.comments}");
     }).catchError((e, s) {
       log("e--------------> ${e}");
-
+      isLoadingComment = false;
+      update();
       Future.delayed(Duration(seconds: 3), () {});
     });
     update();

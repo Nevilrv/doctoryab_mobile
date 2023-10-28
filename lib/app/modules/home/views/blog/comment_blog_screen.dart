@@ -8,9 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/utils.dart';
+
 class CommentView extends GetView<TabBlogController> {
-  final Post data;
-  const CommentView(this.data, {Key key}) : super(key: key);
+  // final Post data;
+  final int index;
+  CommentView(this.index, {Key key}) : super(key: key);
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -51,54 +56,51 @@ class CommentView extends GetView<TabBlogController> {
                   //this helps to show the loading of next page
 
                   Expanded(
-                    child: controller.isLoading()
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : controller.commentList.isEmpty
-                            ? Center(child: Text("No comments"))
-                            : ListView.separated(
-                                // reverse: true,
-                                padding: EdgeInsets.only(
-                                    top: 10.0,
-                                    left: Get.width * 0.03,
-                                    right: Get.width * 0.03),
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    decoration:
-                                        BoxDecoration(color: AppColors.white),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              controller
-                                                  .commentList[index].whoPosted,
-                                              style: AppTextStyle.boldBlack16),
-                                          Text(
-                                              controller
-                                                  .commentList[index].text,
-                                              style: AppTextStyle.boldBlack16
-                                                  .copyWith(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400)),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, i) =>
-                                    const SizedBox(
-                                      height: 22,
-                                    ),
-                                itemCount: controller.commentList.length
-                                //  controller.chat.value.messages.length,
-
+                    child: controller.postList[index].comments.isEmpty
+                        ? Center(child: Text("No comments"))
+                        : ListView.separated(
+                            physics: BouncingScrollPhysics(),
+                            controller: scrollController,
+                            // reverse: true,
+                            padding: EdgeInsets.only(
+                                top: 10.0,
+                                left: Get.width * 0.03,
+                                right: Get.width * 0.03),
+                            itemBuilder: (context, i) {
+                              return Container(
+                                decoration:
+                                    BoxDecoration(color: AppColors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          controller.postList[index].comments[i]
+                                              .whoPosted,
+                                          style: AppTextStyle.boldBlack16),
+                                      Text(
+                                          controller
+                                              .postList[index].comments[i].text,
+                                          style: AppTextStyle.boldBlack16
+                                              .copyWith(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400)),
+                                    ],
+                                  ),
                                 ),
+                              );
+                            },
+                            separatorBuilder: (context, i) => const SizedBox(
+                                  height: 22,
+                                ),
+                            itemCount:
+                                controller.postList[index].comments.length
+                            //  controller.chat.value.messages.length,
+
+                            ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(
@@ -154,15 +156,25 @@ class CommentView extends GetView<TabBlogController> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   if (controller.comment.text.isEmpty) {
-                                    Get.showSnackbar(GetSnackBar(
-                                      title: "Error",
-                                      message: "Please enter text",
-                                      // isDismissible: true,
-                                    ));
+                                    Utils.commonSnackbar(
+                                        context: context,
+                                        text: "please_enter_text");
                                   } else {
-                                    controller.commentBlog(
-                                        data.id, controller.comment.text);
+                                    controller
+                                        .commentBlog(
+                                            controller.postList[index].id,
+                                            controller.comment.text,
+                                            index)
+                                        .then((value) {
+                                      scrollController.animateTo(
+                                        scrollController
+                                            .position.maxScrollExtent,
+                                        duration: Duration(seconds: 2),
+                                        curve: Curves.fastOutSlowIn,
+                                      );
+                                    });
                                   }
                                 },
                                 child: Container(
@@ -173,10 +185,13 @@ class CommentView extends GetView<TabBlogController> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.send,
-                                    color: AppColors.white,
-                                  ),
+                                  child: controller.isLoadingComment == true
+                                      ? Center(
+                                          child: CircularProgressIndicator())
+                                      : Icon(
+                                          Icons.send,
+                                          color: AppColors.white,
+                                        ),
                                 ),
                               )
                             ],
