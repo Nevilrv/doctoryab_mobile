@@ -82,7 +82,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                           vertical: 9.5, horizontal: 10),
                       child: Center(
                           child: SvgPicture.asset(
-                        AppImages.moon,
+                        AppImages.emergencyBell,
                         width: 25,
                         height: 24,
                       )),

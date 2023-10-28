@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -6,7 +7,6 @@ import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
 class AppAppBar {
   static AppBar specialAppBar(String title,

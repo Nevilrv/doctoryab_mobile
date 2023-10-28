@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -10,22 +12,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class DrugDetailsView extends GetView<DrugsController> {
-  DrugDetailsView({Key key}) : super(key: key);
-
-  final List _data = [
-    {"image": AppImages.medicine, "title": "drug_type", "text": "capsule"},
-    {"image": AppImages.pillbox, "title": "box_cont", "text": "pack_cont"},
-    {"image": AppImages.coin, "title": "price", "text": "drug_price"}
-  ];
+  DrugDetailsView({Key key}) : super(key: key) {
+    print('==controller.argumentsData==>${Get.arguments}');
+    controller.setData(Get.arguments);
+  }
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppAppBar.primaryAppBar(title: Get.arguments),
+      appBar: AppAppBar.primaryAppBar(
+          title:
+              "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
       backgroundColor: AppColors.lightGrey,
-      // bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: Stack(
         children: [
           Padding(
@@ -57,7 +57,24 @@ class DrugDetailsView extends GetView<DrugsController> {
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
-                            Center(child: Image.asset(AppImages.vitamins)),
+                            Center(
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "${ApiConsts.hostUrl}${controller.argumentsData.img}",
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) {
+                                  return Image.asset(
+                                    AppImages.vitamin,
+                                  );
+                                },
+                                errorWidget: (_, __, ___) {
+                                  return Image.asset(
+                                    AppImages.vitamin,
+                                  );
+                                },
+                              ),
+                            ),
+                            // Center(child: Image.asset(AppImages.vitamins)),
                             Positioned(
                               bottom: -8,
                               child: IntrinsicWidth(
@@ -150,44 +167,101 @@ class DrugDetailsView extends GetView<DrugsController> {
                       height: h * 0.01,
                     ),
                     commonTitleBox(text: "drug_name".tr),
-                    commonTextBox("VITAMIN D3 (1000)"),
-                    commonTitleBox(text: "gen_name".tr),
-                    commonTextBox("VITAMIN D3 1000 IU FOOD SUPPLEMENT"),
-                    commonTitleBox(
-                      text: "usage".tr,
-                      color: AppColors.boxGreen3,
-                      textColor: Colors.green,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "“Vitamin D contributes to the normal absorption/use of calcium and phosphorus.” “Vitamin D contributes to the maintenance of normal bones, normal muscle function and normal teeth.” “Vitamin D contributes to the normal absorption/use of calcium and phosphorus.” “Vitamin D contributes to the maintenance of normal bones, normal muscle function and normal teeth.”",
-                        style: AppTextStyle.mediumPrimary10.copyWith(height: 1),
-                      ),
-                    ),
-                    commonTitleBox(
-                      text: "side_effects".tr,
-                      color: AppColors.lightYellow,
-                      textColor: Colors.yellow.shade700,
-                    ),
-                    commonTextBox("Lorem Ipsum is simply dummy text."),
-                    commonTitleBox(
-                      text: "warnings".tr,
-                      color: AppColors.boxRed,
-                      textColor: Colors.red,
-                    ),
-                    commonTextBox("Lorem Ipsum is simply dummy text."),
+                    commonTextBox(
+                        "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
+                    controller.argumentsData.genericName == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(text: "gen_name".tr),
+                              commonTextBox(
+                                  "${controller.argumentsData.genericName}"),
+                            ],
+                          ),
+                    controller.argumentsData.usage == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(
+                                text: "usage".tr,
+                                color: AppColors.boxGreen3,
+                                textColor: Colors.green,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "${controller.argumentsData.usage}",
+                                  style: AppTextStyle.mediumPrimary10
+                                      .copyWith(height: 1),
+                                ),
+                              ),
+                            ],
+                          ),
+                    controller.argumentsData.sideEffects == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(
+                                text: "side_effects".tr,
+                                color: AppColors.lightYellow,
+                                textColor: Colors.yellow.shade700,
+                              ),
+                              commonTextBox(
+                                  "${controller.argumentsData.sideEffects}"),
+                            ],
+                          ),
+                    controller.argumentsData.warnings == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(
+                                text: "warnings".tr,
+                                color: AppColors.boxRed,
+                                textColor: Colors.red,
+                              ),
+                              commonTextBox(
+                                  "${controller.argumentsData.warnings}"),
+                            ],
+                          ),
 
                     // commonTitleBox(text: "drug_type".tr),
                     // commonTextBox("Lorem Ipsum is simply dummy text."),
                     // commonTitleBox(text: "packaging".tr),
                     // commonTextBox("Lorem Ipsum is simply dummy text."),
-                    commonTitleBox(text: "dosages".tr),
-                    commonTextBox("Lorem Ipsum is simply dummy text."),
-                    commonTitleBox(text: "origin".tr),
-                    commonTextBox("Lorem Ipsum is simply dummy text."),
-                    commonTitleBox(text: "comp".tr),
-                    commonTextBox("Lorem Ipsum is simply dummy text."),
+                    controller.argumentsData.dosages == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(text: "dosages".tr),
+                              commonTextBox(
+                                  "${controller.argumentsData.dosages}"),
+                            ],
+                          ),
+                    controller.argumentsData.origin == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(text: "origin".tr),
+                              commonTextBox(
+                                  "${controller.argumentsData.origin}"),
+                            ],
+                          ),
+                    controller.argumentsData.company == ""
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonTitleBox(text: "comp".tr),
+                              commonTextBox(
+                                  "${controller.argumentsData.company}"),
+                            ],
+                          ),
                     BannerView(),
                     SizedBox(
                       height: 10,

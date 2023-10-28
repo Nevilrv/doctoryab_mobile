@@ -1,10 +1,27 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/repository/DrugDatabaseRepository.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DrugsController extends GetxController {
   String filterSearch = "";
   TextEditingController searchController = TextEditingController();
+  TextEditingController searchSaveController = TextEditingController();
+  var pageController = PagingController<int, Datum>(firstPageKey: 1);
+  CancelToken cancelToken = CancelToken();
+  @override
+  void onInit() {
+    pageController.addPageRequestListener((pageKey) {
+      drugData(pageKey);
+    });
+    super.onInit();
+  }
 
   search(String s) {
     filterSearch = s;
@@ -26,4 +43,48 @@ class DrugsController extends GetxController {
     {"image": AppImages.pillbox, "title": "box_cont", "text": "pack_cont"},
     {"image": AppImages.coin, "title": "price", "text": "drug_price"}
   ];
+
+  void drugData(int page) {
+    DrugDatabaseRepository()
+        .fetchDrugs(page, searchController.text.trim(),
+            cancelToken: cancelToken)
+        .then((data) {
+      //TODO handle all in model
+
+      if (data != null) {
+        if (data == null) {
+          data.data["data"] = [];
+        }
+        print('==Datum=Drug==>${data.data}');
+
+        var newItems = <Datum>[];
+        data.data["data"].forEach((item) {
+          newItems.add(Datum.fromJson(item));
+        });
+        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        print('==Datum=Drug==>${newItems.length}======${page}');
+        if (newItems == null || newItems.length == 0) {
+          pageController.appendLastPage(newItems);
+        } else {
+          pageController.appendPage(newItems, page + 1);
+        }
+      } else {}
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pageController.error = e;
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  Datum argumentsData;
+
+  setData(Datum value) {
+    print('======>value===>${value}');
+
+    argumentsData = value ?? Datum();
+
+    print('======>argumentsData===>${argumentsData.toJson()}');
+  }
 }

@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -16,59 +19,72 @@ class SavedDrugsView extends GetView<DrugsController> {
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppAppBar.primaryAppBar(title: "saved_drugs".tr),
       backgroundColor: AppColors.lightGrey,
       bottomNavigationBar: BottomBarView(isHomeScreen: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: GetBuilder<DrugsController>(
-          builder: (controller) {
-            return Column(
-              children: [
-                searchTextField(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 10,
+        child: Column(
+          children: [
+            searchTextField(),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 18,
+                bottom: 10,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(color: AppColors.primary, thickness: 1),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(color: AppColors.primary, thickness: 1),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: Text(
-                          "saved_drugs".tr,
-                          style: AppTextStyle.mediumPrimary11,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: Text(
+                      "saved_drugs".tr,
+                      style: AppTextStyle.mediumPrimary11,
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(color: AppColors.primary, thickness: 1),
+                  ),
+                ],
+              ),
+            ),
+            SettingsController.drugData == [] ||
+                    SettingsController.drugData.isEmpty
+                ? Padding(
+                    padding: EdgeInsets.only(top: h * 0.25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "list_empty_for_now".tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Divider(color: AppColors.primary, thickness: 1),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("no_item_to_show".tr),
+                      ],
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: SettingsController.drugData.length,
+                      itemBuilder: (context, index) {
+                        return drugsData(h, w, index);
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: controller.medicinesNames.length,
-                    itemBuilder: (context, index) {
-                      if (!controller.medicinesNames[index]
-                          .toUpperCase()
-                          .trim()
-                          .contains(controller.filterSearch.toUpperCase())) {
-                        return const SizedBox();
-                      }
-                      return drugsData(h, w, index);
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
+          ],
         ),
       ),
     );
@@ -78,10 +94,10 @@ class SavedDrugsView extends GetView<DrugsController> {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DRUGS_DETAILS,
-            arguments: controller.medicinesNames[index]);
+            arguments: SettingsController.drugData[index]);
       },
       child: Container(
-        height: h * 0.216,
+        height: h * 0.23,
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
@@ -101,12 +117,26 @@ class SavedDrugsView extends GetView<DrugsController> {
                     color: AppColors.lightYellow,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Center(
-                    child: Image.asset(
-                      AppImages.vitamin,
-                      height: h * 0.082,
-                      width: w * 0.178,
-                    ),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "${ApiConsts.hostUrl}${SettingsController.drugData[index].img}",
+                    height: h * 0.082,
+                    width: w * 0.178,
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) {
+                      return Image.asset(
+                        AppImages.vitamin,
+                        height: h * 0.082,
+                        width: w * 0.178,
+                      );
+                    },
+                    errorWidget: (_, __, ___) {
+                      return Image.asset(
+                        AppImages.vitamin,
+                        height: h * 0.082,
+                        width: w * 0.178,
+                      );
+                    },
                   ),
                 ),
                 Container(
@@ -178,13 +208,19 @@ class SavedDrugsView extends GetView<DrugsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    controller.medicinesNames[index],
+                    "${SettingsController.drugData[index].englishName}",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "company".tr,
+                    "${SettingsController.drugData[index].persianName}",
+                    style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    "${SettingsController.drugData[index].company}",
                     style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -237,20 +273,27 @@ class SavedDrugsView extends GetView<DrugsController> {
                                   style: AppTextStyle.boldPrimary9
                                       .copyWith(height: 1.2),
                                 ),
-                                Text(
-                                  subIndex == 1
-                                      ? controller.data[1]["text"]
-                                          .toString()
-                                          .trArgs(["30"])
-                                      : subIndex == 2
-                                          ? controller.data[2]["text"]
-                                              .toString()
-                                              .trArgs(["1000"])
-                                          : controller.data[subIndex]["text"]
-                                              .toString()
-                                              .tr,
-                                  style: AppTextStyle.regularPrimary9
-                                      .copyWith(height: 1),
+                                Container(
+                                  width: w * 0.35,
+                                  child: Text(
+                                    subIndex == 1
+                                        ? SettingsController
+                                            .drugData[index].pack
+                                        : subIndex == 2
+                                            ? controller.data[2]["text"]
+                                                .toString()
+                                                .trArgs([
+                                                SettingsController
+                                                    .drugData[index]
+                                                    .packsAndPrices
+                                              ])
+                                            : SettingsController
+                                                    .drugData[index].drugType ??
+                                                "None",
+                                    style: AppTextStyle.regularPrimary9
+                                        .copyWith(height: 1),
+                                    maxLines: 4,
+                                  ),
                                 ),
                               ],
                             ),
@@ -272,8 +315,10 @@ class SavedDrugsView extends GetView<DrugsController> {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
       child: TextField(
-        controller: controller.searchController,
-        onChanged: (s) => controller.search(s),
+        controller: controller.searchSaveController,
+        onChanged: (s) {
+          // controller.search(s);
+        },
         style: AppTextStyle.mediumPrimary11,
         cursorColor: AppColors.primary,
         textAlignVertical: TextAlignVertical.center,
