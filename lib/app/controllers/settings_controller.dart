@@ -44,7 +44,7 @@ class SettingsController extends GetxController {
 
   //* Auth
   static final auth = _AuthSettings();
-  static final drugAuth = _DrugSaved();
+  // static final drugAuth = _DrugSaved();
   //*old way
   static bool get isUserProfileComplete {
     //TODO make sure the saved value to database is bool and show error if patched
@@ -98,6 +98,34 @@ class SettingsController extends GetxController {
   static set savedUserProfile(User user) {
     AppStatics.hive.authBox.put("user", user.toJson());
   }
+
+  static List<Datum> get drugData {
+    var _drug = AppStatics.hive.authBox.get("drug");
+    List<Datum> data = _drug == null
+        ? []
+        : List<Datum>.from(_drug
+            .map((x) => Datum.fromJson(Map<String, dynamic>.from(x as Map))));
+    return data;
+  }
+
+  static set drugData(List<Datum> drugItem) {
+    if (drugData == null || drugData.isEmpty) {
+      AppStatics.hive.authBox.put("drug", [drugItem.first.toJson()]);
+    } else {
+      List drugDataList =
+          List<Map<String, dynamic>>.from(drugData.map((x) => x.toJson()));
+
+      int selectedIndex =
+          drugData.indexWhere((element) => element.id == drugItem.first.id);
+
+      if (selectedIndex < 0) {
+        drugDataList.add(drugItem.first.toJson());
+      } else {
+        drugDataList.removeAt(selectedIndex);
+      }
+      AppStatics.hive.authBox.put("drug", drugDataList);
+    }
+  }
 }
 
 class _AuthSettings {
@@ -115,34 +143,5 @@ class _AuthSettings {
 
   set savedCity(City city) {
     AppStatics.hive.authBox.put("city", city.toJson());
-  }
-}
-
-class _DrugSaved {
-  List<Datum> get drugData {
-    var _drug = AppStatics.hive.authBox.get("drug");
-    List<Datum> data = _drug == null
-        ? []
-        : List<Datum>.from(_drug.map((x) => Datum.fromJson(x)));
-    print('==data==>${data.length}');
-    return data;
-  }
-
-  set drugData(List<Datum> drugItem) {
-    print('==drugData===111===>${drugData}');
-
-    if (drugData == null || drugData.isEmpty) {
-      AppStatics.hive.authBox.put("drug", [drugItem.first.toJson()]);
-
-      print('==drugData===IF===>${drugData}');
-    } else {
-      List drugDataList = List<dynamic>.from(drugData.map((x) => x.toJson()));
-
-      drugDataList.add(drugItem.first.toJson());
-
-      AppStatics.hive.authBox.put("drug", drugDataList);
-
-      print('==drugData===ELSE===>${drugData}');
-    }
   }
 }

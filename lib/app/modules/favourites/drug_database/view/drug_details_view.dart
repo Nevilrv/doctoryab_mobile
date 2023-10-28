@@ -24,7 +24,7 @@ class DrugDetailsView extends GetView<DrugsController> {
     return Scaffold(
       appBar: AppAppBar.primaryAppBar(
           title:
-              "${controller.argumentsData.persianName ?? ""}(${controller.argumentsData.englishName ?? ""})"),
+              "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
       backgroundColor: AppColors.lightGrey,
       body: Stack(
         children: [
@@ -168,7 +168,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                     ),
                     commonTitleBox(text: "drug_name".tr),
                     commonTextBox(
-                        "${controller.argumentsData.persianName} (${controller.argumentsData.englishName})"),
+                        "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
                     controller.argumentsData.genericName == ""
                         ? SizedBox()
                         : Column(

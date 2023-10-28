@@ -126,8 +126,10 @@ class Datum {
         notes: json["notes"] == null ? null : json["notes"],
         drugType: json["drugType"] == null ? null : json["drugType"],
         pack: json["pack"] == null ? null : json["pack"],
-        adminId:
-            json["adminId"] == null ? null : AdminId.fromJson(json["adminId"]),
+        adminId: json["adminId"] == null
+            ? null
+            : AdminId.fromJson(
+                Map<String, dynamic>.from(json["adminId"] as Map)),
         createdAt: json["createdAt"] == null ? null : json["createdAt"],
         updatedAt: json["updatedAt"] == null ? null : json["updatedAt"],
         v: json["__v"] == null ? null : json["__v"],

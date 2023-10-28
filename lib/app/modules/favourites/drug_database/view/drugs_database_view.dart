@@ -3,6 +3,7 @@ import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
 import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
@@ -181,14 +182,9 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DRUGS_DETAILS, arguments: item);
-        // print(
-        //     "filterSearch>>>>>${controller.filterSearch}====${item.persianName}");
-        // if (controller.filterSearch != "") {
-        //   SettingsController.drugAuth.drugData = [item];
-        // }
       },
       child: Container(
-        height: h * 0.216,
+        height: h * 0.23,
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
@@ -285,30 +281,50 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           ),
                         ),
                       ),
-                      Container(
-                        height: h * 0.023,
-                        width: w * 0.24,
-                        decoration: BoxDecoration(
-                          color: AppColors.lightPurple2,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "add_to_list".tr,
-                              style: AppTextStyle.boldPrimary8,
-                            ),
-                            SizedBox(
-                              width: w * 0.005,
-                            ),
-                            Icon(
-                              Icons.favorite_border,
-                              size: w * 0.02,
-                              color: AppColors.primary,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          SettingsController.drugData = [item];
+                          controller.update();
+                        },
+                        child: Container(
+                          height: h * 0.023,
+                          width: w * 0.24,
+                          decoration: BoxDecoration(
+                            color: SettingsController.drugData.any(
+                                    (element) => element.id.contains(item.id))
+                                ? AppColors.primary
+                                : AppColors.lightPurple2,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "add_to_list".tr,
+                                style: SettingsController.drugData.any(
+                                        (element) =>
+                                            element.id.contains(item.id))
+                                    ? AppTextStyle.boldWhite8
+                                    : AppTextStyle.boldPrimary8,
+                              ),
+                              SizedBox(
+                                width: w * 0.005,
+                              ),
+                              SettingsController.drugData.any(
+                                      (element) => element.id.contains(item.id))
+                                  ? Icon(
+                                      Icons.favorite,
+                                      size: w * 0.02,
+                                      color: AppColors.white,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                      size: w * 0.02,
+                                      color: AppColors.primary,
+                                    ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -322,7 +338,13 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${item.persianName} (${item.englishName})",
+                    "${item.englishName}",
+                    style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    "${item.persianName}",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -385,9 +407,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   width: w * 0.35,
                                   child: Text(
                                     subIndex == 1
-                                        ? controller.data[1]["text"]
-                                            .toString()
-                                            .trArgs(["30"])
+                                        ? item.pack
                                         : subIndex == 2
                                             ? controller.data[2]["text"]
                                                 .toString()
