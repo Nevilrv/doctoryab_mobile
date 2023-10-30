@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
@@ -13,7 +15,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
-  const CheckUpDetailScreen({Key key}) : super(key: key);
+  Package item;
+  CheckUpDetailScreen(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,34 +146,8 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                     ],
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30)),
-                  child: Container(
-                    height: h * 0.2,
-                    width: w,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg",
-                      fit: BoxFit.cover,
-                      placeholder: (_, __) {
-                        return Image.asset(
-                          "assets/png/person-placeholder.jpg",
-                          fit: BoxFit.cover,
-                        );
-                      },
-                      errorWidget: (_, __, ___) {
-                        return Image.asset(
-                          "assets/png/person-placeholder.jpg",
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
-                  ),
-                ),
                 Container(
-                  height: h * 0.55,
+                  height: h * 0.75,
                   child: SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: Padding(
@@ -178,11 +155,36 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30)),
+                            child: Container(
+                              height: h * 0.2,
+                              width: w,
+                              child: CachedNetworkImage(
+                                imageUrl: "${ApiConsts.hostUrl}${item.img}",
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) {
+                                  return Image.asset(
+                                    "assets/png/person-placeholder.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                errorWidget: (_, __, ___) {
+                                  return Image.asset(
+                                    "assets/png/person-placeholder.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
-                            "Full Body Checkup With Essentials Markers",
+                            item.title ?? "",
                             style: AppTextStyle.boldBlack18.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -190,22 +192,24 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                           SizedBox(
                             height: 5,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                "Full Body Checkup With Essentials Markers ",
-                                style: AppTextStyle.boldBlack12.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                ),
+                          RichText(
+                            text: new TextSpan(
+                              text: item.description ?? "",
+                              style: AppTextStyle.boldBlack12.copyWith(
+                                fontWeight: FontWeight.w400,
                               ),
-                              Text(
-                                "+100 Tests",
-                                style: AppTextStyle.boldBlack12.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.teal,
-                                    decoration: TextDecoration.underline),
-                              ),
-                            ],
+                              children: <TextSpan>[
+                                new TextSpan(
+                                    text:
+                                        item.packageInclude.length.toString() +
+                                            " " +
+                                            "Tests",
+                                    style: AppTextStyle.boldBlack12.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.teal,
+                                        decoration: TextDecoration.underline)),
+                              ],
+                            ),
                           ),
                           Divider(
                             thickness: 1,
@@ -221,7 +225,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                       Row(
                                         children: [
                                           Text(
-                                            '345\$',
+                                            item.price ?? "0.0",
                                             style: AppTextTheme.b(25).copyWith(
                                                 color: AppColors.grey),
                                           ),
@@ -229,7 +233,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                             width: 5,
                                           ),
                                           Text(
-                                            '945\$',
+                                            item.rrp ?? "0.0",
                                             style: AppTextTheme.b(25).copyWith(
                                                 color: AppColors.grey
                                                     .withOpacity(0.5),
@@ -252,7 +256,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                               vertical: 8, horizontal: 10),
                                           child: Center(
                                             child: Text(
-                                              "%59 OFF",
+                                              "%${item.discount ?? 0} OFF",
                                               style:
                                                   AppTextTheme.b(10).copyWith(
                                                 color: AppColors.red2,
@@ -376,7 +380,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                       vertical: 5, horizontal: 10),
                                   child: Center(
                                     child: Text(
-                                      "Blood, Urine",
+                                      "${item.sampleType ?? ""}",
                                       style: AppTextTheme.b(10).copyWith(
                                         color: AppColors.red2,
                                       ),
@@ -429,7 +433,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                       vertical: 5, horizontal: 10),
                                   child: Center(
                                     child: Text(
-                                      "10-12 Hours",
+                                      "${item.fastingRequired ?? ""}",
                                       style: AppTextTheme.b(10).copyWith(
                                         color: AppColors.red2,
                                       ),
@@ -664,7 +668,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: ExpandableText(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,...",
+                                "${item.description}",
                                 expandText: 'Read more',
                                 collapseText: 'Read less',
                                 maxLines: 3,
@@ -682,16 +686,30 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                           ),
                           Row(
                             children: [
-                              Image.asset(
-                                AppImages.turkey1,
-                                width: 24,
-                                height: 24,
+                              CachedNetworkImage(
+                                imageUrl:
+                                    "${ApiConsts.hostUrl}${item.observerImg}",
+                                height: 10,
+                                width: 13,
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) {
+                                  return Image.asset(
+                                    "assets/png/person-placeholder.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                errorWidget: (_, __, ___) {
+                                  return Image.asset(
+                                    "assets/png/person-placeholder.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                "Check by Turkish Doctor",
+                                "Check by ${item.byObservation}",
                                 style: AppTextStyle.mediumBlack12,
                               ),
                               Text(

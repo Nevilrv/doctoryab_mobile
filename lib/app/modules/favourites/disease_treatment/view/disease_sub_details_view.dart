@@ -1,114 +1,594 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/disease_treatment/controller/disease_treatment_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:audioplayers/audioplayers.dart' as ap;
 
-class DiseaseSubDetailsView extends GetView<DiseaseTreatmentController> {
+class DiseaseSubDetailsView extends StatefulWidget {
   DiseaseSubDetailsView({Key key}) : super(key: key);
+
+  @override
+  State<DiseaseSubDetailsView> createState() => _DiseaseSubDetailsViewState();
+}
+
+class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
+  List<int> hi = [
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+  ];
+
+  final _audioPlayer1 = ap.AudioPlayer();
+  final _audioPlayer2 = ap.AudioPlayer();
+
+  StreamSubscription<void> _playerStateChangedSubscription1;
+  StreamSubscription<Duration> _durationChangedSubscription1;
+  StreamSubscription<Duration> _positionChangedSubscription1;
+  StreamSubscription<void> _playerStateChangedSubscription2;
+  StreamSubscription<Duration> _durationChangedSubscription2;
+  StreamSubscription<Duration> _positionChangedSubscription2;
+  Duration _position1;
+  Duration _duration1;
+  int current1 = -1;
+  Duration _position2;
+  Duration _duration2;
+  int current2 = -1;
+
+  int voiceTrackRowSize;
+  @override
+  void initState() {
+    voiceTrackRowSize = hi.length;
+
+    _playerStateChangedSubscription1 =
+        _audioPlayer1.onPlayerComplete.listen((state) async {
+      await stop1();
+      setState(() {});
+    });
+    _playerStateChangedSubscription2 =
+        _audioPlayer2.onPlayerComplete.listen((state) async {
+      await stop2();
+      setState(() {});
+    });
+
+    _positionChangedSubscription1 = _audioPlayer1.onPositionChanged.listen(
+      (position) => setState(() {
+        _position1 = position;
+      }),
+    );
+    _positionChangedSubscription2 = _audioPlayer2.onPositionChanged.listen(
+      (position) => setState(() {
+        _position2 = position;
+      }),
+    );
+
+    _durationChangedSubscription1 = _audioPlayer1.onDurationChanged.listen(
+      (duration) => setState(() {
+        _duration1 = duration;
+
+        log('_duration1_duration1>> ${_duration2.inSeconds}');
+      }),
+    );
+    _durationChangedSubscription2 = _audioPlayer2.onDurationChanged.listen(
+      (duration) => setState(() {
+        _duration2 = duration;
+
+        log('_duration1_duration1>> ${_duration2.inSeconds}');
+      }),
+    );
+
+    super.initState();
+  }
+
+  Future<void> play1({String path}) {
+    if (path == '') {
+    } else {
+      print('audioPath--${path}');
+      return _audioPlayer1.play(
+        ap.UrlSource(path),
+      );
+    }
+    return _audioPlayer1.stop();
+  }
+
+  Future<void> play2({String path}) {
+    if (path == '') {
+    } else {
+      print('audioPath--${path}');
+      return _audioPlayer2.play(
+        ap.UrlSource(path),
+      );
+    }
+    return _audioPlayer2.stop();
+  }
+
+  Future<void> pause1() => _audioPlayer1.pause();
+  Future<void> pause2() => _audioPlayer2.pause();
+
+  Future<void> stop1() async {
+    _audioPlayer1.stop();
+  }
+
+  Future<void> stop2() async {
+    _audioPlayer2.stop();
+  }
+
+  int pauseVal = 0;
+
+  bool isPause1 = false;
+  bool isPause2 = false;
+
+  Timer timers1;
+  Timer timers2;
+
+  @override
+  void dispose() {
+    _playerStateChangedSubscription1.cancel();
+
+    _positionChangedSubscription1.cancel();
+
+    _durationChangedSubscription1.cancel();
+
+    _audioPlayer1.dispose();
+
+    if (timers1.isActive) {
+      timers1.cancel();
+    }
+    _playerStateChangedSubscription2.cancel();
+
+    _positionChangedSubscription2.cancel();
+
+    _durationChangedSubscription2.cancel();
+
+    _audioPlayer2.dispose();
+
+    if (timers2.isActive) {
+      timers2.cancel();
+    }
+
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppAppBar.primaryAppBar(title: "${Get.arguments[0]}"),
-      backgroundColor: AppColors.lightGrey,
-      bottomNavigationBar: BottomBarView(isHomeScreen: false),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                margin: EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.white,
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      "Listen Whole Page (What is Virus?)",
-                      style: AppTextStyle.boldPrimary11,
-                    ),
-                    SizedBox(height: 5),
-                    Image.asset(
-                      AppImages.dummyAudio,
-                      width: double.infinity,
-                    ),
-                  ],
+    return GetBuilder<DiseaseTreatmentController>(
+      builder: (controller) {
+        return Scaffold(
+            appBar: AppBar(
+              backgroundColor: AppColors.lightGrey,
+              elevation: 0,
+              leading: GestureDetector(
+                onTap: () {
+                  _audioPlayer1.pause();
+                  _audioPlayer2.pause();
+                  Get.back();
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: AppColors.primary,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.white,
+              title: Text(
+                "${controller.selectedDieases.category}",
+                textAlign: TextAlign.center,
+                style: AppTextStyle.boldPrimary20,
+              ),
+              centerTitle: true,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20, left: 10),
+                  child: SvgPicture.asset(
+                    AppImages.blackBell,
+                    height: 24,
+                    width: 24,
+                  ),
                 ),
+              ],
+            ),
+            backgroundColor: AppColors.lightGrey,
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+              child: BottomBarView(isHomeScreen: false),
+            ),
+            body: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: h * 0.119,
-                          width: w * 0.305,
-                          margin: EdgeInsets.only(right: 15),
-                          decoration: BoxDecoration(
-                            color: Get.arguments[1]["color"],
-                            borderRadius: BorderRadius.circular(5),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Listen Whole Audio",
+                            style: AppTextStyle.boldPrimary11,
                           ),
-                          child: Center(
+                          SizedBox(height: 5),
+                          controller.selectedDieases.audio == null
+                              ? SizedBox()
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (_audioPlayer2.state ==
+                                              ap.PlayerState.playing) {
+                                            setState(() {
+                                              isPause2 = true;
+                                            });
+
+                                            // stop2();
+                                            _audioPlayer2.pause();
+                                          }
+                                          if (_audioPlayer1.state ==
+                                              ap.PlayerState.playing) {
+                                            setState(() {
+                                              isPause1 = true;
+                                            });
+
+                                            // stop2();
+                                            _audioPlayer1.pause();
+                                          } else if (_audioPlayer1.state ==
+                                                  ap.PlayerState.paused ||
+                                              _audioPlayer1.state ==
+                                                  ap.PlayerState.stopped) {
+                                            log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
+                                            // setState(() {
+
+                                            play1(
+                                              path:
+                                                  "${ApiConsts.hostUrl}${controller.selectedDieases.audio}",
+                                            ).then((value) {
+                                              setState(() {
+                                                isPause1 = false;
+                                              });
+                                              timers1 = Timer.periodic(
+                                                  Duration(
+                                                      milliseconds: _duration1
+                                                              .inMilliseconds
+                                                              .round() ~/
+                                                          voiceTrackRowSize),
+                                                  (timer) {
+                                                print(
+                                                    '{timer.tick}${timer.tick}');
+
+                                                setState(() {
+                                                  if (isPause1 == true) {
+                                                    // current2 = current2 + 0;
+                                                    current1 = current1 + 0;
+                                                    // current2 = -1;
+                                                    timer.cancel();
+                                                  } else {
+                                                    current1++;
+                                                  }
+
+                                                  log('current ${current1}');
+                                                });
+
+                                                if (current1 ==
+                                                    voiceTrackRowSize) {
+                                                  timer.cancel();
+
+                                                  setState(() {
+                                                    isPause1 = false;
+                                                  });
+                                                  current1 = -1;
+                                                }
+                                              });
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          height: Get.height * 0.05,
+                                          width: Get.height * 0.05,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors.primary,
+                                                  width: 2),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                              _audioPlayer1.state ==
+                                                      ap.PlayerState.playing
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
+                                              color: AppColors.primary),
+                                        ),
+                                      ),
+                                      ...List.generate(hi.length, (index1) {
+                                        return Row(
+                                          children: [
+                                            SizedBox(
+                                              width: Get.width * 0.003,
+                                            ),
+                                            AnimatedContainer(
+                                              duration:
+                                                  Duration(milliseconds: 500),
+                                              height: hi[index1].toDouble(),
+                                              width: Get.width * 0.007,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: index1 > current1
+                                                    ? Colors.grey
+                                                    : AppColors.primary,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: Get.width * 0.003),
+                                        child: Text(
+                                          _duration1 == null
+                                              ? ""
+                                              : _position1
+                                                  .toString()
+                                                  .split('.')
+                                                  .first,
+                                          style: AppTextStyle.boldPrimary14,
+                                        ),
+                                      ),
+                                    ]),
+                          Text(
+                            "Listen Whole Pashto Audio",
+                            style: AppTextStyle.boldPrimary11,
+                          ),
+                          controller.selectedDieases.audioPashto == null
+                              ? SizedBox()
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (_audioPlayer1.state ==
+                                              ap.PlayerState.playing) {
+                                            setState(() {
+                                              isPause1 = true;
+                                            });
+
+                                            // stop2();
+                                            _audioPlayer1.pause();
+                                          }
+                                          if (_audioPlayer2.state ==
+                                              ap.PlayerState.playing) {
+                                            setState(() {
+                                              isPause2 = true;
+                                            });
+
+                                            // stop2();
+                                            _audioPlayer2.pause();
+                                          } else if (_audioPlayer2.state ==
+                                                  ap.PlayerState.paused ||
+                                              _audioPlayer2.state ==
+                                                  ap.PlayerState.stopped) {
+                                            log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
+                                            // setState(() {
+
+                                            play2(
+                                              path:
+                                                  "${ApiConsts.hostUrl}${controller.selectedDieases.audioPashto}",
+                                            ).then((value) {
+                                              setState(() {
+                                                isPause2 = false;
+                                              });
+                                              timers2 = Timer.periodic(
+                                                  Duration(
+                                                      milliseconds: _duration2
+                                                              .inMilliseconds
+                                                              .round() ~/
+                                                          voiceTrackRowSize),
+                                                  (timer) {
+                                                print(
+                                                    '{timer.tick}${timer.tick}');
+
+                                                setState(() {
+                                                  if (isPause2 == true) {
+                                                    // current2 = current2 + 0;
+                                                    current2 = current2 + 0;
+                                                    // current2 = -1;
+                                                    timers2.cancel();
+                                                  } else {
+                                                    current2++;
+                                                  }
+
+                                                  log('current ${current2}');
+                                                });
+
+                                                if (current2 ==
+                                                    voiceTrackRowSize) {
+                                                  timer.cancel();
+
+                                                  setState(() {
+                                                    isPause2 = false;
+                                                  });
+                                                  current2 = -1;
+                                                }
+                                              });
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          height: Get.height * 0.05,
+                                          width: Get.height * 0.05,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors.primary,
+                                                  width: 2),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                              _audioPlayer2.state ==
+                                                      ap.PlayerState.playing
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
+                                              color: AppColors.primary),
+                                        ),
+                                      ),
+                                      ...List.generate(hi.length, (index1) {
+                                        return Row(
+                                          children: [
+                                            SizedBox(
+                                              width: Get.width * 0.003,
+                                            ),
+                                            AnimatedContainer(
+                                              duration:
+                                                  Duration(milliseconds: 500),
+                                              height: hi[index1].toDouble(),
+                                              width: Get.width * 0.007,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: index1 > current2
+                                                    ? Colors.grey
+                                                    : AppColors.primary,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: Get.width * 0.003),
+                                        child: Text(
+                                          _duration2 == null
+                                              ? ""
+                                              : _position2
+                                                  .toString()
+                                                  .split('.')
+                                                  .first,
+                                          style: AppTextStyle.boldPrimary14,
+                                        ),
+                                      ),
+                                    ]),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: h * 0.119,
+                                width: w * 0.305,
+                                margin: EdgeInsets.only(right: 15),
+                                decoration: BoxDecoration(
+                                  // color: AppColors.boxPink2,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: CachedNetworkImage(
+                                  height: h * 0.067,
+                                  width: w * 0.146,
+                                  imageUrl:
+                                      "${ApiConsts.hostUrl}${controller.selectedDieases.img}",
+                                  fit: BoxFit.cover,
+                                  placeholder: (_, __) {
+                                    return Image.asset(
+                                      "assets/png/placeholder_hospital.png",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                  errorWidget: (_, __, ___) {
+                                    return Image.asset(
+                                      "assets/png/placeholder_hospital.png",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
+                                /*child: Center(
                             child: Image.asset(
                               Get.arguments[1]["image"],
                               height: h * 0.067,
                               width: w * 0.146,
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "What is Virus?",
-                                style: AppTextStyle.boldPrimary11,
+                          ),*/
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                "A virus is an infectious microbe consisting of a segment of nucleic acid (either DNA or RNA) surrounded by a protein coat. A virus cannot replicate alone; instead, it must infect cells and use components of the host cell to make copies of itself.",
-                                style: AppTextStyle.mediumPrimary8
-                                    .copyWith(height: 1.2),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.selectedDieases.title ?? '',
+                                      style: AppTextStyle.boldPrimary11,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Html(
+                                      data: controller.selectedDieases.desc,
+                                      defaultTextStyle: AppTextStyle
+                                          .mediumPrimary8
+                                          .copyWith(height: 1.2),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    ...List.generate(
-                      6,
-                      (index) => Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          "A virus is an infectious microbe consisting of a segment of nucleic acid (either DNA or RNA) surrounded by a protein coat. A virus cannot replicate alone; instead, it must infect cells and use components of the host cell to make copies of itself.",
-                          style:
-                              AppTextStyle.mediumPrimary8.copyWith(height: 1.2),
-                        ),
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ));
+      },
     );
   }
 }

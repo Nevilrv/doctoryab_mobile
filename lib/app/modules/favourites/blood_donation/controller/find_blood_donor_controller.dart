@@ -12,8 +12,9 @@ import '../../../../data/models/blood_donor_update.dart';
 class FindBloodDonorController extends GetxController {
   var user = SettingsController.savedUserProfile;
   //*text Edtings
-  TextEditingController teName = TextEditingController();
-  TextEditingController teNewNumber = TextEditingController();
+  TextEditingController fullname = TextEditingController();
+  TextEditingController condition = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
 
   //*
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -70,8 +71,8 @@ class FindBloodDonorController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    teName.text = user?.name?.toString() ?? "";
-    teNewNumber.text = AuthController.to.getUser.phoneNumber
+    fullname.text = user?.name?.toString() ?? "";
+    phoneNumber.text = AuthController.to.getUser.phoneNumber
             .replaceFirst(AppStatics.envVars.countryCode, "0") ??
         "";
   }
@@ -92,16 +93,31 @@ class FindBloodDonorController extends GetxController {
     Get.toNamed(
       Routes.BLOOD_DONORS_RESULTS,
       arguments: BloodDonorSearchModel(
-        bloodGroup: selectGroup[selectedBloodGroupIndex()],
-        bloodUnits: int.tryParse(bloodUnits[selectedBloodUnitsIndex()]),
-        condition: "",
-        name: teName.text,
-        number: teNewNumber.text,
+        bloodGroup: selectedGroup.value,
+        bloodUnits: int.parse(selectedUnit.value),
+        condition: condition.text,
+        critical: selectedCritical.value == 0 ? true : false,
+        name: fullname.text,
+        number: phoneNumber.text,
         geometry: Geometry(coordinates: [
           locationResult().latLng.longitude,
           locationResult().latLng.latitude
         ]),
       ),
     );
+    // Get.toNamed(
+    //   Routes.BLOOD_DONORS_RESULTS,
+    //   arguments: BloodDonorSearchModel(
+    //     bloodGroup: selectGroup[selectedBloodGroupIndex()],
+    //     bloodUnits: int.tryParse(bloodUnits[selectedBloodUnitsIndex()]),
+    //     condition: "",
+    //     name: teName.text,
+    //     number: teNewNumber.text,
+    //     geometry: Geometry(coordinates: [
+    //       locationResult().latLng.longitude,
+    //       locationResult().latLng.latitude
+    //     ]),
+    //   ),
+    // );
   }
 }

@@ -202,6 +202,7 @@ const Map<String, String> enUS = {
   "select_from_map": "Select from Map",
   "find_blood_donor": "Find Blood Donor",
   "requested_blood_group": "Requested Blood Group",
+  "enter_your_condition": "Enter your condition",
   "blood_group": "Blood Group",
   "blood_units_required": "Blood Units Required",
   "units": "Units",

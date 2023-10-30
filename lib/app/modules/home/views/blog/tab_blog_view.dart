@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -125,7 +126,14 @@ class TabBlogView extends GetView<TabBlogController> {
                   child: PagedListView.separated(
                     physics: BouncingScrollPhysics(),
                     separatorBuilder: (c, i) {
-                      return SizedBox(height: 15);
+                      if ((i + 1) % 5 == 0) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: BannerView(),
+                        );
+                      } else {
+                        return SizedBox(height: 15);
+                      }
                     },
 
                     // padding: EdgeInsets.symmetric(vertical: 30, horizontal: 22),
@@ -136,13 +144,6 @@ class TabBlogView extends GetView<TabBlogController> {
                       itemBuilder: (context, item, index) {
                         return Column(
                           children: [
-                            index == 0
-                                ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: BannerView(),
-                                  )
-                                : SizedBox(),
                             SizedBox(height: 10),
                             Padding(
                               padding:
@@ -151,19 +152,23 @@ class TabBlogView extends GetView<TabBlogController> {
                                 // height: h * 0.2,
                                 width: w,
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CircleAvatar(
-                                      radius: 25,
-                                      backgroundImage: NetworkImage(
-                                        "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage: NetworkImage(
+                                          "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                                        ),
+                                        onBackgroundImageError:
+                                            (exception, stackTrace) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
                                       ),
-                                      onBackgroundImageError:
-                                          (exception, stackTrace) {
-                                        return Image.asset(
-                                          "assets/png/person-placeholder.jpg",
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
                                     ),
                                     Expanded(
                                       flex: 3,
@@ -186,7 +191,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                               children: [
                                                 Flexible(
                                                   child: Text(
-                                                    "${controller.postList[index].name}",
+                                                    "${controller.postList[index].blogTitle}",
                                                     style: AppTextTheme.h(14)
                                                         .copyWith(
                                                       color: AppColors.primary,
@@ -194,9 +199,26 @@ class TabBlogView extends GetView<TabBlogController> {
                                                     // maxLines: 1,
                                                   ),
                                                 ),
-                                                SvgPicture.asset(
-                                                    AppImages.check)
+                                                controller.postList[index]
+                                                            .isPublished ==
+                                                        true
+                                                    ? SvgPicture.asset(
+                                                        AppImages.check)
+                                                    : SizedBox()
                                               ],
+                                            ),
+                                            Container(
+                                              // color: AppColors.red,
+                                              child: Text(
+                                                  "${controller.postList[index].name}",
+                                                  style: AppTextTheme.h(11)
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.primary,
+                                                          fontWeight:
+                                                              FontWeight.w400)
+                                                  // maxLines: 1,
+                                                  ),
                                             ),
                                             Row(
                                               mainAxisAlignment:
@@ -235,35 +257,34 @@ class TabBlogView extends GetView<TabBlogController> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Html(
-                              data: controller.postList[index].desc,
-                              onImageError: (exception, stackTrace) {
-                                return Image.network(
-                                    "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
-                              },
-                            ),
-                            // Padding(
-                            //   padding:
-                            //       const EdgeInsets.symmetric(horizontal: 20),
-                            //   child: ExpandableText(
-                            //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                            //     expandText: 'Read more',
-                            //     collapseText: 'Read less',
-                            //     maxLines: 3,
-                            //     linkColor: AppColors.grey.withOpacity(0.6),
-                            //     style: AppTextStyle.boldPrimary11.copyWith(
-                            //         fontWeight: FontWeight.w500,
-                            //         color: AppColors.black),
-                            //   ),
+                            controller.postList[index].desc.length < 10
+                                ? Html(
+                                    data: controller.postList[index].desc,
+                                    onImageError: (exception, stackTrace) {
+                                      return Image.network(
+                                          "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                                    },
+                                  )
+                                : ShowMoreLessHTML(
+                                    htmlContent: controller.postList[index]
+                                        .desc, // Replace with your HTML content
+                                    maxLines:
+                                        5, // Specify the number of lines to display initially
+                                  ),
+                            // ReadMoreText(
+                            //   parse(controller.postList[index].desc).body.text,
+                            //   numLines: 5,
+                            //   readMoreText: "...see more",
+                            //   readLessText: '  see less',
                             // ),
-                            // SizedBox(height: 10),
-                            // Container(
-                            //   height: h * 0.3,
-                            //   width: w,
-                            //   child: Image.network(
-                            //       "https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg",
-                            //       fit: BoxFit.cover),
+                            // Html(
+                            //   data: controller.postList[index].desc,
+                            //   onImageError: (exception, stackTrace) {
+                            //     return Image.network(
+                            //         "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                            //   },
                             // ),
+
                             SizedBox(height: 10),
                             Padding(
                               padding:
@@ -810,6 +831,66 @@ class TabBlogView extends GetView<TabBlogController> {
     }
 
     return result;
+  }
+}
+
+class ShowMoreLessHTML extends StatefulWidget {
+  final String htmlContent;
+  final int maxLines;
+
+  ShowMoreLessHTML({this.htmlContent, this.maxLines = 5});
+
+  @override
+  _ShowMoreLessHTMLState createState() => _ShowMoreLessHTMLState();
+}
+
+class _ShowMoreLessHTMLState extends State<ShowMoreLessHTML> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Html(
+          data: isExpanded ? widget.htmlContent : _getTruncatedHtmlContent(),
+
+          // style: {
+          //   'body': Style(
+          //     fontSize: FontSize(14.0),
+          //   ),
+          // },
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isExpanded = !isExpanded;
+            });
+          },
+          child: Text(
+            isExpanded ? '....Show less' : 'Show more....',
+            style: AppTextStyle.boldGrey14.copyWith(color: Colors.grey),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _getTruncatedHtmlContent() {
+    if (widget.htmlContent.isEmpty) return widget.htmlContent;
+
+    final document = parse(widget.htmlContent);
+    final buffer = StringBuffer();
+    final text = document.body?.text;
+
+    if (text != null) {
+      final lines = LineSplitter.split(text).take(widget.maxLines);
+      for (final line in lines) {
+        buffer.writeln(line);
+      }
+    }
+
+    return buffer.toString();
   }
 }
 

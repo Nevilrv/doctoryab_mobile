@@ -12,16 +12,17 @@ class HospitalsController extends TabHomeOthersController {
 
   @override
   void onInit() {
-    // pageController.addPageRequestListener((pageKey) {
-    //   loadData(pageKey);
-    // });
+    pageController.addPageRequestListener((pageKey) {
+      loadData(pageKey);
+    });
     super.onInit();
   }
 
   List<String> filterList = [
     'most_rated'.tr,
     'suggested'.tr,
-    'nearest'.tr,  'sponsored'.tr,
+    'nearest'.tr,
+    'sponsored'.tr,
     'A-Z'
   ];
   String sort = "";

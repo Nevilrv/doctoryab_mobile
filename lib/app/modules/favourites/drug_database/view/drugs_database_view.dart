@@ -40,39 +40,49 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                 return Column(
                   children: [
                     searchTextField(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 18,
-                        bottom: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child:
-                                Divider(color: AppColors.primary, thickness: 1),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 3),
-                            child: Text(
-                              "what_we_found".tr,
-                              style: AppTextStyle.mediumPrimary11,
+                    controller.filterSearch == ""
+                        ? SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.only(
+                              top: 18,
+                              bottom: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                      color: AppColors.primary, thickness: 1),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 3),
+                                  child: Text(
+                                    "what_we_found".tr,
+                                    style: AppTextStyle.mediumPrimary11,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                      color: AppColors.primary, thickness: 1),
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child:
-                                Divider(color: AppColors.primary, thickness: 1),
-                          ),
-                        ],
-                      ),
-                    ),
-                    BannerView(),
                     Expanded(
                       child: PagedListView.separated(
                         pagingController: controller.pageController,
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          return SizedBox(height: 15);
+                          if ((i + 1) % 5 == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: BannerView(),
+                            );
+                          } else {
+                            return SizedBox(height: 15);
+                          }
+                          // return SizedBox(height: 15);
                         },
                         builderDelegate: PagedChildBuilderDelegate(
                           itemBuilder: (context, item, index) {
@@ -356,9 +366,9 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 7,
-                      top: 7,
+                    padding: EdgeInsets.only(
+                      bottom: h * 0.005,
+                      top: h * 0.005,
                       right: 20,
                     ),
                     child: Divider(
@@ -379,8 +389,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              height: h * 0.04,
-                              width: h * 0.04,
+                              height: h * 0.035,
+                              width: h * 0.035,
                               padding: EdgeInsets.all(3),
                               margin: EdgeInsets.only(right: 5),
                               decoration: BoxDecoration(
@@ -404,7 +414,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                       .copyWith(height: 1.2),
                                 ),
                                 Container(
-                                  width: w * 0.35,
+                                  width: w * 0.33,
                                   child: Text(
                                     subIndex == 1
                                         ? item.pack
@@ -440,8 +450,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
       child: TextField(
         controller: controller.searchController,
         onChanged: (s) async {
-          controller.search(s);
           if (s.isEmpty) {
+            controller.search(s);
             controller.pageController.itemList.clear();
             controller.drugData(
               controller.pageController.firstPageKey,
@@ -449,6 +459,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
           }
         },
         onSubmitted: (v) async {
+          controller.search(v);
           controller.pageController.itemList.clear();
           controller.drugData(
             controller.pageController.firstPageKey,

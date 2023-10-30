@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/booking_info_screen.dart';
@@ -9,9 +10,18 @@ import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
+import '../../../../components/paging_indicators/no_item_list.dart';
+import '../../../../components/paging_indicators/paging_error_view.dart';
+import '../../../../components/shimmer/categories_grid_shimmer.dart';
+import '../../../../components/shimmer/drugs_shimmer.dart';
+import '../../../../data/models/checkupPackages_res_model.dart';
 
 class CheckupPackagesView extends GetView<CheckupPackagesController> {
   CheckupPackagesView({Key key}) : super(key: key);
@@ -23,6 +33,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
 
     return Scaffold(
       backgroundColor: AppColors.white,
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: h,
         child: Stack(
@@ -121,6 +132,22 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                         Expanded(
                           child: TextField(
                             controller: controller.searchController,
+                            onChanged: (s) async {
+                              if (s.isEmpty) {
+                                controller.search(s);
+                                controller.pagingController.itemList.clear();
+                                controller.fetchCheckUpPackages(
+                                  controller.pagingController.firstPageKey,
+                                );
+                              }
+                            },
+                            onSubmitted: (v) async {
+                              controller.search(v);
+                              controller.pagingController.itemList.clear();
+                              controller.fetchCheckUpPackages(
+                                controller.pagingController.firstPageKey,
+                              );
+                            },
                             // onChanged: (s) => controller.search(s),
                             style: AppTextStyle.mediumPrimary11,
                             cursorColor: AppColors.primary,
@@ -231,219 +258,266 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                   height: h * 0.57,
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                    ),
-                    child: GridView.builder(
-                      itemCount: 6,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: PagedGridView(
+                      pagingController: controller.pagingController,
                       padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      // padding:
+                      //                       //     EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                      physics: BouncingScrollPhysics(),
+
+                      // itemCount: 9,
+                      // primary: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 9,
-                          mainAxisExtent: h * 0.32),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(CheckUpDetailScreen());
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: AppColors.grey5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                      topLeft: Radius.circular(20)),
-                                  child: Container(
-                                    height: h * 0.1,
-                                    width: w,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://t4.ftcdn.net/jpg/02/60/04/09/360_F_260040900_oO6YW1sHTnKxby4GcjCvtypUCWjnQRg5.jpg",
-                                      fit: BoxFit.cover,
-                                      placeholder: (_, __) {
-                                        return Image.asset(
-                                          "assets/png/person-placeholder.jpg",
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
-                                      errorWidget: (_, __, ___) {
-                                        return Image.asset(
-                                          "assets/png/person-placeholder.jpg",
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
+                        // childAspectRatio: 132 / 169,
+                        // mainAxisExtent: 2,
+                        mainAxisExtent: h * 0.32,
+
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 9,
+                      ),
+                      // SliverGridDelegateWithMaxCrossAxisExtent(
+                      //   // childAspectRatio: 1,
+                      //   mainAxisSpacing: 40,
+                      //   crossAxisSpacing: 20,
+                      //   maxCrossAxisExtent: 120,
+                      // ),
+                      builderDelegate: PagedChildBuilderDelegate<Package>(
+                        itemBuilder: (BuildContext context, item, int i) {
+                          // var item = controller.dummyData[i];
+                          // print("vvvvvvvvvvvvv" + context.size.height.toString());
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(CheckUpDetailScreen(item));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.grey5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20)),
+                                    child: Container(
+                                      height: h * 0.1,
+                                      width: w,
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "${ApiConsts.hostUrl}${item.img}",
+                                        fit: BoxFit.cover,
+                                        placeholder: (_, __) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                        errorWidget: (_, __, ___) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  "Fasting Blood Sugar (FBS) Lorem Ipsum Test Text Text",
-                                  style: AppTextStyle.boldPrimary10
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    buildShowModalBottomSheet(context, h);
-                                  },
-                                  child: Row(
+                                  Text(
+                                    "${item.title}",
+                                    style: AppTextStyle.boldPrimary10
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      buildShowModalBottomSheet(
+                                          context, h, item.packageInclude);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Includes ${item.packageInclude.length} tests",
+                                          style: AppTextStyle.boldPrimary10
+                                              .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 8,
+                                                  color: AppColors.teal,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                        ),
+                                        Icon(
+                                          Icons.navigate_next,
+                                          color: AppColors.teal,
+                                          size: 15,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
                                     children: [
                                       Text(
-                                        "Includes 90 tests",
-                                        style: AppTextStyle.boldPrimary10
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 8,
-                                                color: AppColors.teal,
-                                                decoration:
-                                                    TextDecoration.underline),
+                                        "by ${item.byObservation}",
+                                        style:
+                                            AppTextStyle.boldPrimary10.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 8,
+                                          color: AppColors.darkBlue1,
+                                        ),
                                       ),
-                                      Icon(
-                                        Icons.navigate_next,
-                                        color: AppColors.teal,
-                                        size: 15,
+                                      CachedNetworkImage(
+                                        imageUrl:
+                                            "${ApiConsts.hostUrl}${item.observerImg}",
+                                        height: 10,
+                                        width: 13,
+                                        fit: BoxFit.cover,
+                                        placeholder: (_, __) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                        errorWidget: (_, __, ___) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      RatingBar.builder(
+                                        ignoreGestures: true,
+                                        itemSize: 12,
+                                        initialRating: 4,
+                                        // minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 1.0),
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          // size: 10,
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
+                                      ),
+                                      SizedBox(width: 4),
+                                      GestureDetector(
+                                        onTap: () {},
+                                        child: Text(
+                                          '(${item.countOfPatient}) ${"booked".tr}',
+                                          style: AppTextTheme.b(6)
+                                              .copyWith(color: AppColors.grey4),
+                                        ),
                                       )
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "by Turkish Doctors",
-                                      style:
-                                          AppTextStyle.boldPrimary10.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 8,
-                                        color: AppColors.darkBlue1,
+                                  Spacer(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        item.price,
+                                        style: AppTextTheme.b(12)
+                                            .copyWith(color: AppColors.grey),
                                       ),
-                                    ),
-                                    Image.asset(
-                                      AppImages.turkey1,
-                                      height: 10,
-                                      width: 13,
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    RatingBar.builder(
-                                      ignoreGestures: true,
-                                      itemSize: 12,
-                                      initialRating: 4,
-                                      // minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 1.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                        // size: 10,
+                                      SizedBox(
+                                        width: 5,
                                       ),
-                                      onRatingUpdate: (rating) {
-                                        print(rating);
-                                      },
-                                    ),
-                                    SizedBox(width: 4),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Text(
-                                        '(10) ${"booked".tr}',
-                                        style: AppTextTheme.b(6)
-                                            .copyWith(color: AppColors.grey4),
+                                      Text(
+                                        item.rrp,
+                                        style: AppTextTheme.b(12).copyWith(
+                                            color:
+                                                AppColors.grey.withOpacity(0.5),
+                                            decoration:
+                                                TextDecoration.lineThrough),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                Spacer(),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '345\$',
-                                      style: AppTextTheme.b(12)
-                                          .copyWith(color: AppColors.grey),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      '945\$',
-                                      style: AppTextTheme.b(12).copyWith(
-                                          color:
-                                              AppColors.grey.withOpacity(0.5),
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColors.red2.withOpacity(0.1),
-                                      border: Border.all(
-                                          color:
-                                              AppColors.red2.withOpacity(0.1))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Center(
-                                      child: Text(
-                                        "%59 OFF",
-                                        style: AppTextTheme.b(10).copyWith(
-                                          color: AppColors.red2,
-                                        ),
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: h * 0.01,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.to(BookingInfoScreen());
-                                  },
-                                  child: Container(
+                                  Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
+                                        color: AppColors.red2.withOpacity(0.1),
                                         border: Border.all(
-                                            color: AppColors.primary)),
+                                            color: AppColors.red2
+                                                .withOpacity(0.1))),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 10),
                                       child: Center(
                                         child: Text(
-                                          "book1".tr,
+                                          "%${item.discount} OFF",
                                           style: AppTextTheme.b(10).copyWith(
-                                            color: AppColors.primary,
+                                            color: AppColors.red2,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    "${"report_text".tr} 24-48 Hours",
-                                    style: AppTextTheme.b(8).copyWith(
-                                        color: AppColors.grey.withOpacity(0.5),
-                                        fontWeight: FontWeight.w400),
+                                  SizedBox(
+                                    height: h * 0.01,
                                   ),
-                                ),
-                              ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(BookingInfoScreen());
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: AppColors.primary)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
+                                        child: Center(
+                                          child: Text(
+                                            "book1".tr,
+                                            style: AppTextTheme.b(10).copyWith(
+                                              color: AppColors.primary,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      "${"report_text".tr} 24-48 Hours",
+                                      style: AppTextTheme.b(8).copyWith(
+                                          color:
+                                              AppColors.grey.withOpacity(0.5),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                        noMoreItemsIndicatorBuilder: (_) =>
+                            DotDotPagingNoMoreItems(),
+                        noItemsFoundIndicatorBuilder: (_) =>
+                            PagingNoItemFountList(),
+                        firstPageErrorIndicatorBuilder: (context) =>
+                            PagingErrorView(
+                          controller: controller.pagingController,
+                        ),
+                        firstPageProgressIndicatorBuilder: (_) =>
+                            PackageGridShimmer(yCount: 2, xCount: 2
+                                // linesCount: 4,
+                                ),
+                        newPageProgressIndicatorBuilder: (_) =>
+                            Center(child: CircularProgressIndicator()),
+                      ),
                     ),
                   ),
                 ),
@@ -462,7 +536,8 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
     );
   }
 
-  Future<void> buildShowModalBottomSheet(BuildContext context, double h) {
+  Future<void> buildShowModalBottomSheet(
+      BuildContext context, double h, List<PackageInclude> item) {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -522,7 +597,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                             width: 20,
                           ),
                           Text(
-                            "Package Includes 102 Tests",
+                            "Package Includes ${item.length} Tests",
                             style: AppTextStyle.boldPrimary15,
                           ),
                           Spacer(),
@@ -553,7 +628,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Column(
-                            children: List.generate(6, (index) {
+                            children: List.generate(item.length, (index) {
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -569,9 +644,12 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                     width: 30,
                                   ),
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Immature Granulocyte Percentage",
+                                        item[index].testTitle,
                                         style: AppTextStyle.boldGrey12.copyWith(
                                             color: AppColors.grey6,
                                             fontWeight: FontWeight.w500),
@@ -579,28 +657,17 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       SizedBox(
                                         height: 5,
                                       ),
-                                      ...List.generate(5, (index) {
-                                        return Row(
-                                          children: [
-                                            Icon(
-                                              Icons.circle,
-                                              size: 10,
-                                              color: AppColors.blue,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              "Immature Granulocyte Percentage",
-                                              style: AppTextStyle.boldGrey10
-                                                  .copyWith(
-                                                      color: AppColors.grey6,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                            ),
-                                          ],
-                                        );
-                                      }),
+                                      Container(
+                                        width: Get.width * 0.72,
+                                        child: Html(
+                                            data: item[index].testDesc,
+                                            defaultTextStyle: AppTextStyle
+                                                .boldGrey10
+                                                .copyWith(
+                                                    color: AppColors.grey6,
+                                                    fontWeight:
+                                                        FontWeight.w400)),
+                                      ),
                                       SizedBox(
                                         height: 5,
                                       ),

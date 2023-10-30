@@ -61,7 +61,7 @@ class BloodDonorRepository {
     return await Utils.parseResponse<BloodDonor>(
       () async {
         // var doctorReports;
-        return await _cachedDio.post(
+        var data = await _cachedDio.post(
           // '/findBloodDonors/profile',
           '/findBloodDonors/profile',
           cancelToken: cancelToken,
@@ -87,6 +87,9 @@ class BloodDonorRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
+        log("data--------------> ${data}");
+
+        return data;
       },
       onError: onError,
     );

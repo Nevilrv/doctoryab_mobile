@@ -45,20 +45,22 @@ class DrugDetailsView extends GetView<DrugsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: h * 0.149,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 14),
-                      decoration: BoxDecoration(
-                        color: AppColors.lightYellow,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Center(
+                      // height: h * 0.149,
+                      // width: double.infinity,
+                      // margin: EdgeInsets.only(top: 14),
+                      // decoration: BoxDecoration(
+                      //   color: AppColors.lightYellow,
+                      //   borderRadius: BorderRadius.circular(5),
+                      // ),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            // color: AppColors.red,
+                            child: Center(
                               child: CachedNetworkImage(
+                                height: 250,
+                                width: 250,
                                 imageUrl:
                                     "${ApiConsts.hostUrl}${controller.argumentsData.img}",
                                 fit: BoxFit.cover,
@@ -74,95 +76,100 @@ class DrugDetailsView extends GetView<DrugsController> {
                                 },
                               ),
                             ),
-                            // Center(child: Image.asset(AppImages.vitamins)),
-                            Positioned(
-                              bottom: -8,
-                              child: IntrinsicWidth(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 3),
-                                  margin: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    color: AppColors.white,
-                                  ),
-                                  child: Row(
-                                    children: List.generate(
-                                      5,
-                                      (subIndex) {
-                                        return SvgPicture.asset(
-                                          subIndex == 4
-                                              ? AppImages.favGrey
-                                              : AppImages.favGolden,
-                                          height: 9,
-                                          width: 9,
-                                        ).paddingOnly(
-                                            right: subIndex == 4 ? 0 : 3);
-                                      },
-                                    ),
+                          ),
+                          // Center(child: Image.asset(AppImages.vitamins)),
+                          Positioned(
+                            bottom: -8,
+                            child: IntrinsicWidth(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 3),
+                                margin: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: AppColors.white,
+                                ),
+                                child: Row(
+                                  children: List.generate(
+                                    5,
+                                    (subIndex) {
+                                      return SvgPicture.asset(
+                                        subIndex == 4
+                                            ? AppImages.favGrey
+                                            : AppImages.favGolden,
+                                        height: 9,
+                                        width: 9,
+                                      ).paddingOnly(
+                                          right: subIndex == 4 ? 0 : 3);
+                                    },
                                   ),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          3,
+                          (index) => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: h * 0.04,
+                                width: h * 0.04,
+                                padding: EdgeInsets.all(3),
+                                margin: EdgeInsets.only(right: 5),
+                                decoration: BoxDecoration(
+                                  color: AppColors.lightPurple,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Image.asset(
+                                  controller.data[index]["image"],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    controller.data[index]["title"]
+                                        .toString()
+                                        .tr,
+                                    style: AppTextStyle.boldPrimary9
+                                        .copyWith(height: 1.2),
+                                  ),
+                                  Container(
+                                    width: w * 0.17,
+                                    child: Text(
+                                      index == 1
+                                          ? Get.arguments.pack
+                                          : index == 2
+                                              ? controller.data[2]["text"]
+                                                  .toString()
+                                                  .trArgs([
+                                                  Get.arguments.packsAndPrices
+                                                ])
+                                              : Get.arguments.drugType ??
+                                                  "None",
+                                      style: AppTextStyle.regularPrimary9
+                                          .copyWith(height: 1),
+                                      maxLines: 4,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 12),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: List.generate(
-                    //       3,
-                    //       (index) => Row(
-                    //         mainAxisSize: MainAxisSize.min,
-                    //         crossAxisAlignment: CrossAxisAlignment.center,
-                    //         children: [
-                    //           Container(
-                    //             height: h * 0.04,
-                    //             width: h * 0.04,
-                    //             padding: EdgeInsets.all(3),
-                    //             margin: EdgeInsets.only(right: 5),
-                    //             decoration: BoxDecoration(
-                    //               color: AppColors.lightPurple,
-                    //               borderRadius: BorderRadius.circular(5),
-                    //             ),
-                    //             child: Image.asset(
-                    //               _data[index]["image"],
-                    //               fit: BoxFit.cover,
-                    //             ),
-                    //           ),
-                    //           Column(
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               Text(
-                    //                 _data[index]["title"].toString().tr,
-                    //                 style: AppTextStyle.boldPrimary9
-                    //                     .copyWith(height: 1.2),
-                    //               ),
-                    //               Text(
-                    //                 index == 1
-                    //                     ? _data[1]["text"]
-                    //                         .toString()
-                    //                         .trArgs(["30"])
-                    //                     : index == 2
-                    //                         ? _data[2]["text"]
-                    //                             .toString()
-                    //                             .trArgs(["1000"])
-                    //                         : _data[index]["text"]
-                    //                             .toString()
-                    //                             .tr,
-                    //                 style: AppTextStyle.regularPrimary9
-                    //                     .copyWith(height: 1),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(
                       height: h * 0.01,
                     ),

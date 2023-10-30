@@ -1,5 +1,7 @@
 // import 'dart:io' as Io;
 
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
@@ -16,6 +18,7 @@ class HospitalRepository {
   static Dio dio = AppDioService.getDioInstance();
 
   static var _cachedDio = AppDioService.getCachedDio;
+
   static Future<List<Hospital>> fetchHospitals(int page,
       {int limitPerPage = 10, void onError(e), CancelToken cancelToken}) async {
     // TODO move to some utils func
@@ -24,7 +27,7 @@ class HospitalRepository {
 
     return await Utils.parseResponse<Hospital>(
       () async {
-        return await _cachedDio.get(
+        var respose = await _cachedDio.get(
           '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
           cancelToken: cancelToken,
           queryParameters: {
@@ -36,6 +39,8 @@ class HospitalRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
+        log("respose--------------> ${respose}");
+        return respose;
       },
       onError: onError,
     );

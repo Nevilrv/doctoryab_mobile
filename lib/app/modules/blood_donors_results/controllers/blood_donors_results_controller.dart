@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
 import 'package:doctor_yab/app/data/repository/BloodDonorRepository.dart';
@@ -49,6 +51,8 @@ class BloodDonorsResultsController extends GetxController {
         pagingController.error = e;
       }
     }).then((value) {
+      log("value--------------> ${value}");
+
       Utils.addResponseToPagingController<BloodDonor>(
         value,
         pagingController,

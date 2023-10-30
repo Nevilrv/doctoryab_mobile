@@ -59,4 +59,12 @@ class ApiConsts {
   static const String blogLike = '/blogs/like';
   static const String blogShare = '/blogs/share';
   static const String blogComment = '/blogs/comment';
+
+  ///dieasetreatement
+  static const String deseasecategory = '/Deseasecategory';
+  static const String deseaseDatalist =
+      '/deseasetreatment/getDiseaseTreatmentsByCategory/';
+
+  ///checkup
+  static const String checkupPackage = '/checkupPackage';
 }
