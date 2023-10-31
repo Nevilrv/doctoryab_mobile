@@ -1,11 +1,14 @@
+import 'dart:developer';
 import 'dart:io' as Io;
 
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -22,6 +25,7 @@ import '../../../data/static.dart';
 
 class ProfileUpdateController extends GetxController {
   //TODO this user must be rx and must be in global
+
   var user = SettingsController.savedUserProfile;
   var imagePicked = false.obs;
   Rx<Io.File> image = Io.File("").obs;
@@ -41,17 +45,9 @@ class ProfileUpdateController extends GetxController {
   TextEditingController city = TextEditingController();
   TextEditingController gender = TextEditingController();
   TextEditingController teNewNumber = TextEditingController();
-  var locations = [
-    'Kâbil',
-    'Herat',
-    'Kandehar',
-    'Mezar-ı Şerif',
-    'Celalabad',
-    'Kunduz',
-    'Puli Humri',
-  ]; // Option 2
+  var locations = <City>[].obs; // Option 2
   var genderList = ['Male', "Female", "Other"];
-  var selectedLocation = "Kâbil".obs;
+  var selectedLocation = "".obs;
   var selectedGender = "Male".obs;
   @override
   void onInit() {
@@ -64,11 +60,15 @@ class ProfileUpdateController extends GetxController {
 
   @override
   void onReady() {
+    log("user?.name?.toString()--------------> ${user?.id}");
+    loadCities();
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
-    teNewNumber.text = AuthController.to.getUser.phoneNumber
-            .replaceFirst(AppStatics.envVars.countryCode, "0") ??
-        "";
+    teNewNumber.text = AuthController.to.getUser.phoneNumber == null
+        ? ""
+        : AuthController.to.getUser.phoneNumber
+                .replaceFirst(AppStatics.envVars.countryCode, "0") ??
+            "";
     // formKey = GlobalKey<FormState>();
     super.onReady();
   }
@@ -111,6 +111,29 @@ class ProfileUpdateController extends GetxController {
       // AppGetDialog.show(middleText: e.message.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
     });
+  }
+
+  var _cachedDio = AppDioService.getCachedDio;
+
+  //* City Load
+  Future<dynamic> loadCities() async {
+    final response = await _cachedDio.get(
+      ApiConsts.cityPath,
+      queryParameters: {
+        "limit": '20000',
+        "page": '1',
+      },
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response--------------> ${response.data}");
+    if (response.data['data'] != null) {
+      response.data['data'].forEach((element) {
+        locations.add(City.fromJson(element));
+      });
+    }
+    log("response--------------> ${locations.length}");
+
+    return response;
   }
 
   void updateProfile() {

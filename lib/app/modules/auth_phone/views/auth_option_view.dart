@@ -13,7 +13,9 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_phone_controller.dart';
 import 'dart:math' as math;
+
 class AuthView extends GetView<AuthPhoneController> {
+  AuthPhoneController controller = Get.put(AuthPhoneController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,23 +60,15 @@ class AuthView extends GetView<AuthPhoneController> {
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SettingsController
-                          .appLanguge !=
-                          "English"
+                      SettingsController.appLanguge != "English"
                           ? Transform(
-                        alignment:
-                        Alignment
-                            .center,
-                        transform: Matrix4
-                            .rotationY(
-                            math.pi),
-                        child: SvgPicture
-                            .asset(AppImages
-                            .phone,  color: AppColors.primary),
-                      )
-                          : SvgPicture.asset(
-                          AppImages.phone,  color: AppColors.primary),
-
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(math.pi),
+                              child: SvgPicture.asset(AppImages.phone,
+                                  color: AppColors.primary),
+                            )
+                          : SvgPicture.asset(AppImages.phone,
+                              color: AppColors.primary),
                       SizedBox(
                         width: 5,
                       ),
@@ -123,27 +117,33 @@ class AuthView extends GetView<AuthPhoneController> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5), color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Center(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(AppImages.google),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      "sign_google".tr,
-                      style:
-                          AppTextTheme.b(16).copyWith(color: AppColors.primary),
-                    ),
-                  ],
-                )),
+            GestureDetector(
+              onTap: () {
+                controller.signInWithGoogle();
+              },
+              child: Container(
+                width: Get.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppImages.google),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "sign_google".tr,
+                        style: AppTextTheme.b(16)
+                            .copyWith(color: AppColors.primary),
+                      ),
+                    ],
+                  )),
+                ),
               ),
             ),
             SizedBox(

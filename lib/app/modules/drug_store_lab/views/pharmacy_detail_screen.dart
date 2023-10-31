@@ -98,10 +98,6 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                               padding: EdgeInsets.only(top: 10),
                               child: Column(
                                 children: [
-                                  BannerView(),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
                                   GridView.builder(
                                     itemCount: 4,
                                     shrinkWrap: true,
@@ -192,10 +188,6 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                               padding: EdgeInsets.only(top: 10),
                               child: Column(
                                 children: [
-                                  BannerView(),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
                                   ...List.generate(
                                       5,
                                       (index) => Padding(

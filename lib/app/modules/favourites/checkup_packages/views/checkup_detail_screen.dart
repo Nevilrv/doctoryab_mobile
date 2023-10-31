@@ -115,34 +115,6 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                           ],
                         ),
                       ),
-                      Container(
-                        color: AppColors.darkBlue2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 7),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                AppImages.map,
-                                color: AppColors.grey2,
-                              ),
-                              Spacer(),
-                              Text(
-                                "Türkiye, Ankara",
-                                style: AppTextStyle.boldGrey12.copyWith(
-                                    color: AppColors.grey2,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
-                              ),
-                              Icon(
-                                Icons.expand_more_outlined,
-                                color: AppColors.grey2.withOpacity(0.8),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -215,24 +187,25 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                             thickness: 1,
                             color: AppColors.grey3,
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 80,
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            item.price ?? "0.0",
-                                            style: AppTextTheme.b(25).copyWith(
-                                                color: AppColors.grey),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
+                          Container(
+                            height: 80,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      item.price ?? "0.0",
+                                      style: AppTextTheme.b(25)
+                                          .copyWith(color: AppColors.grey),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    item.discount == "0" ||
+                                            item.discount == null
+                                        ? SizedBox()
+                                        : Text(
                                             item.rrp ?? "0.0",
                                             style: AppTextTheme.b(25).copyWith(
                                                 color: AppColors.grey
@@ -240,9 +213,12 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                                 decoration:
                                                     TextDecoration.lineThrough),
                                           ),
-                                        ],
-                                      ),
-                                      Container(
+                                  ],
+                                ),
+                                item.discount == "0" || item.discount == null
+                                    ? SizedBox()
+                                    : Container(
+                                        width: 200,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(5),
@@ -265,57 +241,30 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border:
-                                          Border.all(color: AppColors.teal)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Center(
-                                      child: Text(
-                                        "book1".tr,
-                                        style: AppTextTheme.b(15).copyWith(
-                                          color: AppColors.teal,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Divider(
                             thickness: 1,
                             color: AppColors.grey3,
                           ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(AppImages.calender1,
-                                  width: 24, height: 24),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "slot_available".tr,
-                                style: AppTextStyle.mediumBlack12,
-                              ),
-                              Text(
-                                " 06:00 AM, Today",
-                                style: AppTextStyle.boldBlack12,
-                              )
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     SvgPicture.asset(AppImages.calender1,
+                          //         width: 24, height: 24),
+                          //     SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     Text(
+                          //       "slot_available".tr,
+                          //       style: AppTextStyle.mediumBlack12,
+                          //     ),
+                          //     Text(
+                          //       " 06:00 AM, Today",
+                          //       style: AppTextStyle.boldBlack12,
+                          //     )
+                          //   ],
+                          // ),
                           SizedBox(
                             height: 5,
                           ),
@@ -327,7 +276,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                 width: 10,
                               ),
                               Text(
-                                "${"report_text".tr} 15 Hours",
+                                "${"report_text".tr} ${item.duration}",
                                 style: AppTextStyle.mediumBlack12,
                               ),
                             ],
@@ -446,198 +395,250 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                           SizedBox(
                             height: 5,
                           ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(AppImages.box,
-                                  width: 24,
-                                  height: 24,
-                                  color: AppColors.black6),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "pack_includes".tr,
-                                style: AppTextStyle.mediumBlack12,
-                              ),
-                              Spacer(),
-                              Container(
-                                width: 5,
-                                decoration: BoxDecoration(
-                                  color: AppColors.red2,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  child: Center(
-                                    child: Text(
-                                      "",
-                                      style: AppTextTheme.b(10).copyWith(
+                          item.packageInclude.isEmpty
+                              ? SizedBox()
+                              : Row(
+                                  children: [
+                                    SvgPicture.asset(AppImages.box,
+                                        width: 24,
+                                        height: 24,
+                                        color: AppColors.black6),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "pack_includes".tr,
+                                      style: AppTextStyle.mediumBlack12,
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                      width: 5,
+                                      decoration: BoxDecoration(
                                         color: AppColors.red2,
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: AppColors.red2.withOpacity(0.1),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  child: Center(
-                                    child: Text(
-                                      "10-12 Hours",
-                                      style: AppTextTheme.b(10).copyWith(
-                                        color: AppColors.red2,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.blue,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: AppColors.white,
-                                            size: 7,
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            "FBS",
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
+                                        child: Center(
+                                          child: Text(
+                                            "",
                                             style: AppTextTheme.b(10).copyWith(
-                                              color: AppColors.white,
+                                              color: AppColors.red2,
                                             ),
                                           ),
-                                          Spacer(),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.blue,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: AppColors.white,
-                                            size: 7,
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            "Amylase",
+                                    Container(
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.red2.withOpacity(0.1),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
+                                        child: Center(
+                                          child: Text(
+                                            "show_all".tr,
                                             style: AppTextTheme.b(10).copyWith(
-                                              color: AppColors.white,
+                                              color: AppColors.red2,
                                             ),
                                           ),
-                                          Spacer(),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.blue,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: AppColors.white,
-                                            size: 7,
+                          item.packageInclude.isEmpty
+                              ? SizedBox()
+                              : SizedBox(
+                                  height: 5,
+                                ),
+                          item.packageInclude.isEmpty
+                              ? SizedBox()
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                      item.packageInclude.length,
+                                      (index) => Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Container(
+                                          // width: Get.width * 0.2,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: AppColors.blue,
                                           ),
-                                          Spacer(),
-                                          Text(
-                                            "Ferritian",
-                                            style: AppTextTheme.b(10).copyWith(
-                                              color: AppColors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: Center(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.circle,
+                                                    color: AppColors.white,
+                                                    size: 7,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    item.packageInclude[index]
+                                                        .testTitle,
+                                                    style: AppTextTheme.b(10)
+                                                        .copyWith(
+                                                      color: AppColors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                          Spacer(),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.blue,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: AppColors.white,
-                                            size: 7,
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            "FBS",
-                                            style: AppTextTheme.b(10).copyWith(
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: Container(
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(5),
+                          //           color: AppColors.blue,
+                          //         ),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.symmetric(
+                          //               vertical: 5, horizontal: 10),
+                          //           child: Center(
+                          //             child: Row(
+                          //               children: [
+                          //                 Icon(
+                          //                   Icons.circle,
+                          //                   color: AppColors.white,
+                          //                   size: 7,
+                          //                 ),
+                          //                 Spacer(),
+                          //                 Text(
+                          //                   "FBS",
+                          //                   style: AppTextTheme.b(10).copyWith(
+                          //                     color: AppColors.white,
+                          //                   ),
+                          //                 ),
+                          //                 Spacer(),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     Expanded(
+                          //       child: Container(
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(5),
+                          //           color: AppColors.blue,
+                          //         ),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.symmetric(
+                          //               vertical: 5, horizontal: 10),
+                          //           child: Center(
+                          //             child: Row(
+                          //               children: [
+                          //                 Icon(
+                          //                   Icons.circle,
+                          //                   color: AppColors.white,
+                          //                   size: 7,
+                          //                 ),
+                          //                 Spacer(),
+                          //                 Text(
+                          //                   "Amylase",
+                          //                   style: AppTextTheme.b(10).copyWith(
+                          //                     color: AppColors.white,
+                          //                   ),
+                          //                 ),
+                          //                 Spacer(),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     Expanded(
+                          //       child: Container(
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(5),
+                          //           color: AppColors.blue,
+                          //         ),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.symmetric(
+                          //               vertical: 5, horizontal: 10),
+                          //           child: Center(
+                          //             child: Row(
+                          //               children: [
+                          //                 Icon(
+                          //                   Icons.circle,
+                          //                   color: AppColors.white,
+                          //                   size: 7,
+                          //                 ),
+                          //                 Spacer(),
+                          //                 Text(
+                          //                   "Ferritian",
+                          //                   style: AppTextTheme.b(10).copyWith(
+                          //                     color: AppColors.white,
+                          //                   ),
+                          //                 ),
+                          //                 Spacer(),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     Expanded(
+                          //       child: Container(
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(5),
+                          //           color: AppColors.blue,
+                          //         ),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.symmetric(
+                          //               vertical: 5, horizontal: 10),
+                          //           child: Center(
+                          //             child: Row(
+                          //               children: [
+                          //                 Icon(
+                          //                   Icons.circle,
+                          //                   color: AppColors.white,
+                          //                   size: 7,
+                          //                 ),
+                          //                 Spacer(),
+                          //                 Text(
+                          //                   "FBS",
+                          //                   style: AppTextTheme.b(10).copyWith(
+                          //                     color: AppColors.white,
+                          //                   ),
+                          //                 ),
+                          //                 Spacer(),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           Divider(
                             thickness: 1,
                             color: AppColors.grey3,
@@ -712,11 +713,11 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                 "Check by ${item.byObservation}",
                                 style: AppTextStyle.mediumBlack12,
                               ),
-                              Text(
-                                " (Cardiology)",
-                                style: AppTextStyle.mediumBlack12
-                                    .copyWith(color: AppColors.teal),
-                              ),
+                              // Text(
+                              //   " (Cardiology)",
+                              //   style: AppTextStyle.mediumBlack12
+                              //       .copyWith(color: AppColors.teal),
+                              // ),
                             ],
                           ),
                           Divider(
@@ -736,7 +737,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                   vertical: 7, horizontal: 10),
                               child: Center(
                                 child: Text(
-                                  "proceed".tr,
+                                  "book1".tr,
                                   style: AppTextTheme.b(15).copyWith(
                                     color: AppColors.white,
                                   ),

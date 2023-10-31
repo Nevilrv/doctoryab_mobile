@@ -211,26 +211,6 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "location".tr,
-                      style: AppTextStyle.boldGrey12
-                          .copyWith(color: AppColors.grey2.withOpacity(0.7)),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Türkiye, Ankara",
-                          style: AppTextStyle.boldGrey12.copyWith(
-                              color: AppColors.grey2,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14),
-                        ),
-                        Icon(
-                          Icons.expand_more_outlined,
-                          color: AppColors.grey2.withOpacity(0.8),
-                        )
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -243,21 +223,13 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                       "health_packages_list".tr,
                       style: AppTextStyle.boldPrimary18,
                     ),
-                    Spacer(),
-                    Text(
-                      "view_all".tr,
-                      style: AppTextStyle.boldLightGrey12.copyWith(
-                          color: AppColors.grey4,
-                          fontSize: 13,
-                          decoration: TextDecoration.underline),
-                    ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
-                  height: h * 0.57,
+                  height: h * 0.62,
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: PagedGridView(
@@ -491,7 +463,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                   ),
                                   Center(
                                     child: Text(
-                                      "${"report_text".tr} 24-48 Hours",
+                                      "${"report_text".tr} ${item.duration}",
                                       style: AppTextTheme.b(8).copyWith(
                                           color:
                                               AppColors.grey.withOpacity(0.5),

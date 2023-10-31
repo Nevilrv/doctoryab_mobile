@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 
 class CitySelectController extends GetxController {
   var selectedCity = City().obs;
+  var selectedCityItem = City().obs;
   var pagedController = PagingController<int, City>(firstPageKey: 1);
 
   _fetchCities(pageKey) {

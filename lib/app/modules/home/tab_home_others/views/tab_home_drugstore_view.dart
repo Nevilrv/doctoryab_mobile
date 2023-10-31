@@ -225,16 +225,17 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
               SizedBox(
                 height: 10,
               ),
-              BannerView(),
-              SizedBox(
-                height: 10,
-              ),
+
               PagedListView.separated(
                 pagingController: controller.pageController,
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
                 separatorBuilder: (c, i) {
-                  return SizedBox(height: 15);
+                  if ((i + 1) % 5 == 0) {
+                    return BannerView();
+                  } else {
+                    return SizedBox(height: 5);
+                  }
                 },
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, item, index) {

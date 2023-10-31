@@ -1,5 +1,7 @@
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/data/models/city_model.dart';
+import 'package:doctor_yab/app/modules/auth_phone/controllers/personal_detail_add_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -14,7 +16,7 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_phone_controller.dart';
 
-class AddPersonalInfoScreen extends GetView<AuthPhoneController> {
+class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -26,6 +28,8 @@ class AddPersonalInfoScreen extends GetView<AuthPhoneController> {
       // ),
       body: Obx(() {
         return SpecialAppBackground(
+            child: Form(
+          // key: controller.formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -260,18 +264,21 @@ class AddPersonalInfoScreen extends GetView<AuthPhoneController> {
                         width: w * 0.75,
                         child: DropdownButton<String>(
                           underline: SizedBox(),
-                          value: controller.selectedLocation.value ?? "",
+                          // value: controller.selectedLocation.value ?? "",
                           icon:
                               Icon(Icons.expand_more, color: AppColors.primary),
                           isDense: true,
-                          hint: Text("Please_select_city".tr,
+                          hint: Text(
+                              controller.selectedLocation.value == ""
+                                  ? "Please_select_city".tr
+                                  : controller.selectedLocation.value,
                               style: AppTextStyle.mediumPrimary12
                                   .copyWith(color: AppColors.primary)),
                           isExpanded: true,
-                          items: controller.locations.map((String value) {
+                          items: controller.locations.map((City value) {
                             return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value,
+                              value: value.eName,
+                              child: Text(value.eName,
                                   style: AppTextStyle.mediumPrimary12
                                       .copyWith(color: AppColors.primary)),
                             );
@@ -361,12 +368,14 @@ class AddPersonalInfoScreen extends GetView<AuthPhoneController> {
                 width: Get.width,
                 radius: 10,
                 padding: EdgeInsets.symmetric(vertical: 8),
-                onTap: () {},
+                onTap: () {
+                  if (controller.formKey.currentState.validate()) {}
+                },
               ).paddingOnly(bottom: 40, top: 20),
               Spacer(),
             ],
           ).paddingSymmetric(horizontal: 20),
-        );
+        ));
       }),
     );
   }

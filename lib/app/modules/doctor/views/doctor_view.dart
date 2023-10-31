@@ -316,7 +316,6 @@ class DoctorView extends GetView<DoctorController> {
                                       SizedBox(
                                         height: h * 0.015,
                                       ),
-                                      BannerView(),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -734,7 +733,6 @@ class DoctorView extends GetView<DoctorController> {
                                         SizedBox(
                                           height: h * 0.015,
                                         ),
-                                        BannerView(),
                                         SizedBox(
                                           height: h * 0.015,
                                         ),

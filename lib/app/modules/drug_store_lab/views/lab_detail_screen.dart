@@ -74,10 +74,6 @@ class LabDetailScreen extends GetView<DrugStoreController> {
                       padding: EdgeInsets.only(top: 10),
                       child: Column(
                         children: [
-                          BannerView(),
-                          SizedBox(
-                            height: 10,
-                          ),
                           ...List.generate(
                               5,
                               (index) => Padding(

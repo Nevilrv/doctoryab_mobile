@@ -28,7 +28,6 @@ class BloodDonationView extends GetView<BloodDonationController> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
               child: Column(
                 children: [
-                  BannerView(),
                   SizedBox(
                     height: 10,
                   ),

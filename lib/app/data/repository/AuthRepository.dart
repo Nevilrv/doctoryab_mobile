@@ -39,6 +39,23 @@ class AuthRepository {
     return response;
   }
 
+  Future<dynamic> signInWithGoogleFacebboklApi(String token) async {
+    //TODO handle exception
+    var fcmToken;
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } catch (e, s) {
+      Logger().e("", e, s);
+    }
+    final response = await dio.post(
+      ApiConsts.authPathGoogleFB,
+      data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English"},
+    );
+    log("response--------------> ${response.data}");
+
+    return response;
+  }
+
   //* update profile image
   Future<dynamic> updateImage(File file,
       [void uploadProgress(double percent)]) async {

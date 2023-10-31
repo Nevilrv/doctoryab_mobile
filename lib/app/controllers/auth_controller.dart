@@ -10,6 +10,7 @@ import 'package:doctor_yab/app/utils/exception_handler/FirebaseAuthExceptionHand
 import 'package:doctor_yab/app/utils/utils.dart';
 // / import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -171,16 +172,16 @@ class AuthController extends GetxController {
       verificationFaildCallBck: verificationFaildCallBck,
     );
   }
-
+  //
   // Future<void> signInWithGoogle({bool forceShowAllAccounts = false}) async {
   //   EasyLoading.show();
-
+  //
   //   //TODO Implement [forceShowAllAccounts]
   //   var isSiginedToGoogle = await GoogleSignIn().isSignedIn();
   //   if (isSiginedToGoogle) {
   //     await GoogleSignIn().disconnect();
   //   }
-
+  //
   //   // Trigger the authentication flow
   //   final GoogleSignInAccount googleUser =
   //       await GoogleSignIn().signIn().whenComplete(() {
@@ -192,11 +193,11 @@ class AuthController extends GetxController {
   //         middleText:
   //             "Something unexpected happend, check your internet connection and retry.\nError 0xFF000000");
   //   });
-
+  //
   //   // Obtain the auth details from the request
   //   final GoogleSignInAuthentication googleAuth =
   //       await googleUser?.authentication;
-
+  //
   //   if (googleAuth == null) {
   //     EasyLoading.dismiss();
   //     return;
@@ -206,19 +207,8 @@ class AuthController extends GetxController {
   //     accessToken: googleAuth.accessToken,
   //     idToken: googleAuth.idToken,
   //   );
-
-  //   // Once signed in, return the UserCredential
-  //   await firebaseAuth.signInWithCredential(credential).then((uc) {
-  //     EasyLoading.dismiss();
-  //     Get.offAllNamed(Routes.afterLoggedIn);
-  //     print("USER ${uc.user.toString()}");
-  //   }).catchError((e) {
-  //     print("e3");
-  //     EasyLoading.dismiss();
-  //     AppGetDialog.show(
-  //         middleText:
-  //             "Something unExpected happend, sorry for that.\nError 0xFF000001");
-  //   });
+  //
+  //
   // }
 
   // Future<void> signInWithFacebook() async {
@@ -300,7 +290,6 @@ class AuthController extends GetxController {
           // GetStorage().write("firebase_auth_complete", true);
           EasyLoading.dismiss();
           // AppGetDialog.show(middleText: "verfied");
-
         }
       });
     } catch (e) {

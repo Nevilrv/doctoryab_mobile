@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
@@ -79,6 +81,7 @@ class SettingsController extends GetxController {
 
   static User get savedUserProfile {
     var _user = AppStatics.hive.authBox.get("user");
+    log("_user--------------> ${_user}");
 
     return _user == null
         ? null

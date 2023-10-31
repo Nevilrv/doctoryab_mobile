@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 
 class HospitalsController extends TabHomeOthersController {
   @override
-  // var pageController = PagingController<int, Hospital>(firstPageKey: 1);
+  var pageController = PagingController<int, Hospital>(firstPageKey: 1);
 
   @override
   void onInit() {

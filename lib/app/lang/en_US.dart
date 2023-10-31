@@ -408,4 +408,6 @@ const Map<String, String> enUS = {
   "please_select_loc": "Please select location",
   "please_check":
       "Please check I’m over 18 years old and my weight is over 50kg.",
+  "show_all": "Show All",
+  "valid_email": "Please enter valid email",
 };

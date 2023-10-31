@@ -139,10 +139,13 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        controller.dieaseDataList(
-                                            controller.category[index].eTitle);
-                                        controller.selectedCategory =
-                                            controller.category[index];
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((timeStamp) {
+                                          controller.dieaseDataList(controller
+                                              .category[index].eTitle);
+                                          controller.selectedCategory =
+                                              controller.category[index];
+                                        });
                                         Get.toNamed(
                                           Routes.DISEASE_DETAILS,
                                         );

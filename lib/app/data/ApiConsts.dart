@@ -26,6 +26,7 @@ class ApiConsts {
 
   static String get baseUrl => "$hostUrl/api/$apiVersion";
   static const String authPath = "/user";
+  static const String authPathGoogleFB = "/user/userAuth";
   static const String updateImagePath = "/user/img";
   static const String cityPath = "/city";
   static const String categoriesByCityPath = "/category";

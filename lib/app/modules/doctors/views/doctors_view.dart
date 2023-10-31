@@ -205,11 +205,11 @@ class DoctorsView extends GetView<DoctorsController> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 15, right: 20, left: 20),
-                  child: BannerView(),
-                ),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.only(bottom: 15, right: 20, left: 20),
+                //   child: BannerView(),
+                // ),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () => Future.sync(
@@ -229,7 +229,15 @@ class DoctorsView extends GetView<DoctorsController> {
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       separatorBuilder: (c, i) {
-                        return SizedBox(height: 5);
+                        if ((i + 1) % 5 == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 15, right: 20, left: 20),
+                            child: BannerView(),
+                          );
+                        } else {
+                          return SizedBox(height: 5);
+                        }
                       },
                       builderDelegate: PagedChildBuilderDelegate(
                         itemBuilder: (context, item, index) {

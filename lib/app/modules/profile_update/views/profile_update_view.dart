@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -75,14 +77,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text('update_profile'.tr),
-          leading: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.white,
-              )),
+          leading: SettingsController.isUserProfileComplete == false
+              ? SizedBox()
+              : GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: AppColors.white,
+                  )),
           centerTitle: true,
           elevation: 0,
           actions: [
@@ -124,63 +128,85 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Container(
-                                      height: h * 0.1,
-                                      decoration: BoxDecoration(
-                                          color: AppColors.primary,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15))),
-                                    ),
-                                    Positioned(
-                                      left: 0,
-                                      right: 0,
-                                      top: h * 0.02,
-                                      child: Container(
-                                        height: h * 0.15,
-                                        width: h * 0.15,
+                                Container(
+                                  height: h * 0.15,
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Container(
+                                        height: h * 0.1,
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
-                                              ),
-                                              onError: (exception, stackTrace) {
-                                                return _profilePlaceHolder();
-                                              },
-                                            )),
+                                            color: AppColors.primary,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15))),
                                       ),
-                                    ),
-                                    Positioned(
-                                      left: w * 0.25,
-                                      top: h * 0.123,
-                                      child: Container(
-                                        height: h * 0.05,
-                                        width: h * 0.05,
-                                        decoration: BoxDecoration(
-                                            color: AppColors.white,
-                                            shape: BoxShape.circle),
-                                        child: Center(
+                                      Positioned(
+                                        left: 0,
+                                        right: 0,
+                                        top: h * 0.02,
+                                        child: Container(
+                                          height: h * 0.15,
+                                          width: h * 0.15,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: controller
+                                                            .lastUploadedImagePath() !=
+                                                        ""
+                                                    ? FileImage(
+                                                        controller.image.value)
+                                                    : SettingsController
+                                                                .savedUserProfile
+                                                                ?.photo ==
+                                                            null
+                                                        ? AssetImage(
+                                                            "assets/png/person-placeholder.jpg")
+                                                        : NetworkImage(
+                                                            "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
+                                                          ),
+                                                onError:
+                                                    (exception, stackTrace) {
+                                                  return _profilePlaceHolder();
+                                                },
+                                              )),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: w * 0.25,
+                                        top: h * 0.123,
+                                        child: GestureDetector(
+                                          // behavior: HitTestBehavior.translucent,
+                                          onTap: () {
+                                            log('tap===');
+                                            controller.pickImage();
+                                          },
                                           child: Container(
-                                            height: h * 0.04,
-                                            width: h * 0.04,
+                                            height: h * 0.05,
+                                            width: h * 0.05,
                                             decoration: BoxDecoration(
-                                                color: AppColors.primary,
+                                                color: AppColors.white,
                                                 shape: BoxShape.circle),
                                             child: Center(
-                                                child: SvgPicture.asset(
-                                                    AppImages.noteEdit)),
+                                              child: Container(
+                                                height: h * 0.04,
+                                                width: h * 0.04,
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.primary,
+                                                    shape: BoxShape.circle),
+                                                child: Center(
+                                                    child: SvgPicture.asset(
+                                                        AppImages.noteEdit)),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: h * 0.08,
+                                  height: h * 0.03,
                                 ),
                                 Text(
                                   "user_ids".tr,
@@ -360,7 +386,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           TextFormField(
                                             onChanged: (_) =>
                                                 controller.validateForm(),
-                                            validator: Utils.nameValidator,
+                                            validator: Utils.emailValidator,
                                             cursorColor: AppColors.primary,
                                             style: AppTextStyle.mediumPrimary12
                                                 .copyWith(
@@ -685,10 +711,11 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                     child:
                                                         DropdownButton<String>(
                                                       underline: SizedBox(),
-                                                      value: controller
-                                                              .selectedLocation
-                                                              .value ??
-                                                          "",
+                                                      // value: controller
+                                                      //         .selectedLocation
+                                                      //         .value
+                                                      //         .toString() ??
+                                                      //     "",
                                                       icon: Icon(
                                                           Icons.expand_more,
                                                           color: AppColors
@@ -697,8 +724,14 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                                   0.4)),
                                                       isDense: true,
                                                       hint: Text(
-                                                          "Please_select_city"
-                                                              .tr,
+                                                          controller.selectedLocation
+                                                                      .value ==
+                                                                  ""
+                                                              ? "Please_select_city"
+                                                                  .tr
+                                                              : controller
+                                                                  .selectedLocation
+                                                                  .value,
                                                           style: AppTextStyle
                                                               .mediumPrimary12
                                                               .copyWith(
@@ -709,11 +742,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                       isExpanded: true,
                                                       items: controller
                                                           .locations
-                                                          .map((String value) {
+                                                          .map((City value) {
                                                         return DropdownMenuItem<
                                                             String>(
-                                                          value: value,
-                                                          child: Text(value,
+                                                          value: value.eName,
+                                                          child: Text(
+                                                              value.eName,
                                                               style: AppTextStyle
                                                                   .mediumPrimary12
                                                                   .copyWith(
@@ -848,6 +882,33 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           SizedBox(
                                             height: 10,
                                           ),
+                                          CustomRoundedButton(
+                                              disabledColor: AppColors.primary
+                                                  .withOpacity(.2),
+                                              color: AppColors.primary,
+                                              textDisabledColor: Colors.white,
+                                              textColor: Colors.white,
+                                              splashColor: AppColors.easternBlue
+                                                  .withAlpha(0),
+                                              text: "save_changes".tr,
+                                              // width: 300,
+                                              onTap: () {
+                                                if (controller
+                                                    .formKey.currentState
+                                                    .validate()) {
+                                                  Get.focusScope.unfocus();
+                                                  controller.updateProfile();
+                                                } else {
+                                                  print("ssssssss");
+                                                  // Utils.restartApp();
+                                                }
+                                              }
+                                              //  () {
+                                              //   AuthController.to
+                                              //       .signOut()
+                                              //       .then((value) => Utils.whereShouldIGo());
+                                              // },
+                                              ),
                                         ],
                                       ),
                                     ),
@@ -886,7 +947,8 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                       //             //     fit: BoxFit.cover,
                       //             //   ).radiusAll(24);
                       //             CachedNetworkImage(
-                      //                 imageUrl: "${ApiConsts.hostUrl}$_userProfile",
+                      //                 imageUrl:
+                      //                     "${ApiConsts.hostUrl}$_userProfile",
                       //                 height: 150,
                       //                 width: 150,
                       //                 placeholder: (_, __) {
@@ -908,9 +970,10 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                       //         //* logic
                       //         if (controller.imagePicked()) {
                       //           if (controller.uploadHadError()) {
-                      //             if (controller.lastUploadedImagePath() != "") {
-                      //               return _imageFromFile(
-                      //                   File(controller.lastUploadedImagePath()));
+                      //             if (controller.lastUploadedImagePath() !=
+                      //                 "") {
+                      //               return _imageFromFile(File(
+                      //                   controller.lastUploadedImagePath()));
                       //             }
                       //             return _paceHolderImage;
                       //           }
@@ -942,8 +1005,9 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                       // //*
                       // if (SettingsController.savedUserProfile != null)
                       //   Text(
-                      //     "user_id".trArgs(
-                      //         [SettingsController.savedUserProfile?.patientID ?? ""]),
+                      //     "user_id".trArgs([
+                      //       SettingsController.savedUserProfile?.patientID ?? ""
+                      //     ]),
                       //   ),
                       // SizedBox(height: 20),
                       // Row(
@@ -1092,14 +1156,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                     ],
                   ),
                 )).onTap(() {})),
-                Positioned(
-                    bottom: 20,
-                    left: 20,
-                    right: 20,
-                    child: BottomBarView(
-                      isHomeScreen: false,
-                      isBlueBackground: true,
-                    ))
+                SettingsController.isUserProfileComplete == false
+                    ? SizedBox()
+                    : Positioned(
+                        bottom: 20,
+                        left: 20,
+                        right: 20,
+                        child: BottomBarView(
+                          isHomeScreen: false,
+                          isBlueBackground: true,
+                        ))
               ],
             ),
           );

@@ -24,6 +24,7 @@ class HospitalRepository {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
+    log("'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'--------------> ${'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'}");
 
     return await Utils.parseResponse<Hospital>(
       () async {

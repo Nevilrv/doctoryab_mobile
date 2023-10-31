@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
+
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -107,9 +107,6 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            index == 0
-                                                ? BannerView()
-                                                : SizedBox(),
                                             index == 0
                                                 ? SizedBox(
                                                     height: 5,

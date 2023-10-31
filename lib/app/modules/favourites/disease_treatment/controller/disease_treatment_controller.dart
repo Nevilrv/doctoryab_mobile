@@ -29,7 +29,6 @@ class DiseaseTreatmentController extends GetxController {
 
   @override
   void onClose() {
-    update();
     super.onClose();
   }
 
