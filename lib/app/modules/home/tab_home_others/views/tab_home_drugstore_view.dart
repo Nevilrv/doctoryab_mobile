@@ -188,7 +188,22 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
               TextField(
                 style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                 cursorColor: AppColors.primary,
+                controller: controller.search,
                 textAlignVertical: TextAlignVertical.center,
+                onChanged: (s) async {
+                  if (s.isEmpty) {
+                    controller.pageController.itemList.clear();
+                    controller.loadData(
+                      controller.pageController.firstPageKey,
+                    );
+                  }
+                },
+                onSubmitted: (value) {
+                  controller.pageController.itemList.clear();
+                  controller.searchData(
+                    controller.pageController.firstPageKey,
+                  );
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(horizontal: 15),
                   hintText: "search_pharmacy".tr,

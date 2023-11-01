@@ -34,6 +34,7 @@ class AuthPhoneController extends GetxController {
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   GoogleSignIn googleSignIn = GoogleSignIn();
+  var isLoading = false.obs;
   @override
   void onInit() {
     // loadCities();
@@ -105,6 +106,8 @@ class AuthPhoneController extends GetxController {
             EasyLoading.dismiss();
           });
     } else {
+      log("calling-------------->-------------->}");
+
       EasyLoading.show(status: "please_wait".tr);
       AuthController.to.registerWithPhoneNumber(
         verfiedCallBack: (_) {
@@ -131,17 +134,22 @@ class AuthPhoneController extends GetxController {
     }
   }
 
-  Future<String> signInWithGoogle() async {
+  Future<String> signInWithGoogle(BuildContext context) async {
     UserCredential authResult;
 
     AuthCredential credential;
-
+    isLoading.value = true;
     try {
       // googleSignIn.currentUser!.clearAuthCache();
       googleSignIn.signOut();
 
       final GoogleSignInAccount googleSignInAccount =
           await googleSignIn.signIn();
+      if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() ==
+          'failed_to_recover_auth') {
+        isLoading.value = false;
+      }
+
       print(
           'GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
 
@@ -167,22 +175,39 @@ class AuthPhoneController extends GetxController {
             .signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken)
             .then((value) {
           var reponseData = value.data;
-          // print(reponseData);
+
           SettingsController.userToken = reponseData["jwtoken"];
+          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
           SettingsController.userProfileComplete =
               reponseData["profile_completed"];
-          SettingsController.userId = reponseData['user']['_id'];
+          log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
+          SettingsController.userId = reponseData['user'] == null
+              ? reponseData['newUser']['_id']
+              : reponseData['user']['_id'];
+          log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
 
+          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+          isLoading.value = false;
           try {
-            SettingsController.savedUserProfile =
-                u.User.fromJson(reponseData['user']);
+            SettingsController.savedUserProfile = u.User.fromJson(
+                reponseData['user'] == null
+                    ? reponseData['newUser']
+                    : reponseData['user']);
+            if (SettingsController.isUserProfileComplete == false) {
+              Get.toNamed(Routes.ADD_PERSONAL_INFO);
+            } else {
+              SettingsController.auth.savedCity =
+                  City.fromJson(reponseData['city']);
+              SettingsController.userLogin = true;
+              Get.offAllNamed(Routes.HOME);
+            }
             log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
           } catch (e) {
+            Utils.commonSnackbar(context: context, text: "Google login failed");
             log("e--------------> ${e}");
           }
           log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
 
-          Utils.whereShouldIGo();
           log("value--------------> ${value}");
         });
       }
@@ -190,7 +215,9 @@ class AuthPhoneController extends GetxController {
       log('token ID:- ${currentUser.uid}');
       log('PROVIDER ID:- ${authResult.credential.providerId}');
     } catch (e) {
-      print('ERROR-----$e');
+      Utils.commonSnackbar(context: context, text: e);
+      isLoading.value = false;
+      log('ERROR-----$e');
       print('hrllo');
 
       // commonSnackbar(message: 'Try Again', title: 'ERROR');

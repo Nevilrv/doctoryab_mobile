@@ -141,76 +141,77 @@ class ProfileUpdateController extends GetxController {
     try {
       _newIntlNumber = _newIntlNumber.toEnglishDigit();
     } catch (e) {}
-    _updateApi({String authToken}) {
-      AuthRepository()
-          .updateProfile(
-              teName.text, int.tryParse(teAge.text?.toEnglishDigit()),
-              firebaseUserToken: authToken)
-          .then((value) {
-        try {
-          User user = User.fromJson(value.data["data"]);
-          SettingsController.savedUserProfile = user;
-          // print(SettingsController.savedUserProfile.toJson());
-          SettingsController.userProfileComplete = true;
-          Utils.whereShouldIGo();
-        } catch (e, s) {
-          //TODO handle
-          Logger().e(e.toString());
-          FirebaseCrashlytics.instance.recordError(e, s);
-        }
+    _updateApi();
 
-        // print(Map.of(response["data"])?.runtimeType);
-        EasyLoading.dismiss();
-      }).catchError((e, s) {
-        DioExceptionHandler.handleException(
-            //TODO not tesetd yet
-            exception: e,
-            retryCallBak: () {
-              updateProfile();
-            });
-        // waitingForUpload(false);
-        // AppGetDialog.show(middleText: e.message.toString());
-        FirebaseCrashlytics.instance.recordError(e, s);
-      });
-    }
-
-    if (_newIntlNumber != AuthController.to.getUser.phoneNumber) {
-      // if(AuthController.to.firebaseAuth.app. ){
-
-      // }
-      // cheack if can change number to this number
-      EasyLoading.show(status: "please_wait".tr);
-      AuthRepository.numberExists(teNewNumber.text).then((value) {
-        if (value) {
-          EasyLoading.dismiss();
-          AppGetDialog.show(middleText: "user_with_same_number_exists".tr);
-        } else {
-          AuthController.to.updatePhoneNumber(
-            phoneNumber: _newIntlNumber,
-            smsSentCallBack: (_, __) {
-              EasyLoading.dismiss();
-              Get.toNamed(
-                Routes.AUTH_OTP,
-                arguments: teNewNumber.text,
-              );
-            },
-            verfiedCallBack: (phoneAuthCredential) async {
-              // EasyLoading.dismiss();
-              EasyLoading.show(status: "please_wait".tr);
-              //TODO critical, Make sure this happens even if net disconnected
-              _updateApi(
-                authToken: await AuthController.to.firebaseAuth.currentUser
-                    .getIdToken(),
-              );
-            },
-          );
-        }
-      });
-    } else {
-      _updateApi();
-    }
+    // if (_newIntlNumber != AuthController.to.getUser.phoneNumber) {
+    //   // if(AuthController.to.firebaseAuth.app. ){
+    //
+    //   // }
+    //   // cheack if can change number to this number
+    //   EasyLoading.show(status: "please_wait".tr);
+    //   AuthRepository.numberExists(teNewNumber.text).then((value) {
+    //     if (value) {
+    //       EasyLoading.dismiss();
+    //       AppGetDialog.show(middleText: "user_with_same_number_exists".tr);
+    //     } else {
+    //       AuthController.to.updatePhoneNumber(
+    //         phoneNumber: _newIntlNumber,
+    //         smsSentCallBack: (_, __) {
+    //           EasyLoading.dismiss();
+    //           Get.toNamed(
+    //             Routes.AUTH_OTP,
+    //             arguments: teNewNumber.text,
+    //           );
+    //         },
+    //         verfiedCallBack: (phoneAuthCredential) async {
+    //           // EasyLoading.dismiss();
+    //           EasyLoading.show(status: "please_wait".tr);
+    //           //TODO critical, Make sure this happens even if net disconnected
+    //           _updateApi(
+    //             authToken: await AuthController.to.firebaseAuth.currentUser
+    //                 .getIdToken(),
+    //           );
+    //         },
+    //       );
+    //     }
+    //   });
+    // } else {
+    //   _updateApi();
+    // }
 
     EasyLoading.show(status: "please_wait".tr);
+  }
+
+  _updateApi({String authToken}) {
+    AuthRepository()
+        .updateProfile(teName.text, int.tryParse(teAge.text?.toEnglishDigit()),
+            firebaseUserToken: authToken)
+        .then((value) {
+      try {
+        User user = User.fromJson(value.data["data"]);
+        SettingsController.savedUserProfile = user;
+
+        SettingsController.userProfileComplete = true;
+        Utils.whereShouldIGo();
+      } catch (e, s) {
+        //TODO handle
+        Logger().e(e.toString());
+        FirebaseCrashlytics.instance.recordError(e, s);
+      }
+
+      // print(Map.of(response["data"])?.runtimeType);
+      EasyLoading.dismiss();
+    }).catchError((e, s) {
+      DioExceptionHandler.handleException(
+          //TODO not tesetd yet
+          exception: e,
+          retryCallBak: () {
+            updateProfile();
+          });
+      // waitingForUpload(false);
+      // AppGetDialog.show(middleText: e.message.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
   }
 
   void pickImage() async {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
@@ -31,6 +33,22 @@ class LabsRepository {
 
       // data: {"name": name},
       // cancelToken: _searchCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
+  Future<Response> searchLabs({
+    String name,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    log("name--------------> ${name}");
+
+    final response = await _cachedDio.get(
+      '${ApiConsts.labsBySearch}$name',
+      cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 

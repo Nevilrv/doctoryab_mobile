@@ -5,10 +5,12 @@ import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugStoreRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DrugStoreController extends TabHomeOthersController {
+  TextEditingController search = TextEditingController();
   @override
   var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
@@ -105,6 +107,39 @@ class DrugStoreController extends TabHomeOthersController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void searchData(int page) {
+    DrugStoreRepository()
+        .searchDrugStores(name: search.text, cancelToken: cancelToken)
+        .then((data) {
+      //TODO handle all in model
+      log("data.data[data]--------------> ${data.data["data"]}");
+
+      if (data != null) {
+        if (data == null) {
+          data.data["data"] = [];
+        }
+
+        var newItems = <DrugStore>[];
+        data.data["data"].forEach((item) {
+          newItems.add(DrugStore.fromJson(item));
+        });
+        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        print('==newItems===>${newItems.length}');
+        // if (newItems == null || newItems.length == 0) {
+        //   pageController.appendLastPage(newItems);
+        // } else {
+        pageController.appendPage(newItems, page + 1);
+        // }
+      } else {}
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pageController.error = e;
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
   }
 
   void loadData(int page) {

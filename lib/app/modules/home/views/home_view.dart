@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
@@ -27,6 +28,9 @@ class HomeView extends GetView<HomeController> {
   ];
   @override
   Widget build(BuildContext context) {
+    log("SettingsController.savedUserProfile.sId-SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
+    log("SettingsController.savedUserProfile.userToken--------------> ${SettingsController.userToken}");
+
     return WillPopScope(
       onWillPop: () async {
         // return controller.pageController.index == 3

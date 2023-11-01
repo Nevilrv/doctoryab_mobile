@@ -55,6 +55,7 @@ class HomeBinding extends Bindings {
     Get.lazyPut<DrugStoreController>(() => DrugStoreController());
     Get.put(DrugStoreController());
     Get.lazyPut<LabsController>(() => LabsController());
+    Get.put(LabsController());
     Get.lazyPut<ReportsController>(() => ReportsController());
     Get.put(ReportsController());
   }

@@ -27,6 +27,8 @@ class ApiConsts {
   static String get baseUrl => "$hostUrl/api/$apiVersion";
   static const String authPath = "/user";
   static const String authPathGoogleFB = "/user/userAuth";
+  static const String guestUserLogin = "/user/guestUserLogin";
+  static const String addPersonalInfo = "/user/userPersonalInformation";
   static const String updateImagePath = "/user/img";
   static const String cityPath = "/city";
   static const String categoriesByCityPath = "/category";
@@ -44,7 +46,9 @@ class ApiConsts {
   static const String rateDoctor = '/patient/rate';
   static const String hospitalByCity = '/hospital/all';
   static const drugStoreByCity = "/pharmacy";
+  static const drugStoreBySearch = "/pharmacy/searchByName/";
   static const labsByCity = "/lab";
+  static const labsBySearch = "/lab/searchByName/";
   static const adsPath = "/ads";
   static const storiesPath = "/stories";
   static const hospitalCheckups = "/hospital/HcheckUp";

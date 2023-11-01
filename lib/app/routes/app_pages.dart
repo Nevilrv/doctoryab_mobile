@@ -1,5 +1,6 @@
 import 'package:doctor_yab/app/modules/auth_phone/views/add_personal_info_screen.dart';
 import 'package:doctor_yab/app/modules/auth_phone/views/auth_phone_view.dart';
+import 'package:doctor_yab/app/modules/auth_phone/views/register_guest_user_screen.dart';
 import 'package:doctor_yab/app/modules/book/views/confirmation_screen.dart';
 import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donation_binding.dart';
@@ -138,6 +139,11 @@ class AppPages {
     GetPage(
       name: _Paths.ADD_PERSONAL_INFO,
       page: () => AddPersonalInfoScreen(),
+      binding: AuthPhoneBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER_GUEST_USER,
+      page: () => RegisterGuestUserScreen(),
       binding: AuthPhoneBinding(),
     ),
     GetPage(

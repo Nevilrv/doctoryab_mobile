@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/data/repository/LabsRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
@@ -22,9 +23,13 @@ class LabsController extends TabHomeOthersController {
   ];
   String sort = "";
   String selectedSort = "";
+  TextEditingController search = TextEditingController();
+  List<Labs> searchDataList = [];
+  bool isSearching = false;
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {
+      print('===LISTNER===');
       loadData(pageKey);
     });
     super.onInit();
@@ -34,6 +39,12 @@ class LabsController extends TabHomeOthersController {
   @override
   void onReady() {
     super.onReady();
+  }
+
+  bool isSearch = false;
+  void setIsSearch(bool value) {
+    isSearch = value;
+    update();
   }
 
   @override
@@ -127,6 +138,7 @@ class LabsController extends TabHomeOthersController {
   }*/
 
   void loadData(int page) {
+    log("loadData--------------->}");
     LabsRepository()
         .fetchLabs(page, the24HourState, cancelToken: cancelToken)
         .then((data) {
@@ -149,6 +161,75 @@ class LabsController extends TabHomeOthersController {
         } else {
           pageController.appendPage(newItems, page + 1);
         }
+      } else {}
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pageController.error = e;
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  void searchData(int page) {
+    isSearching = true;
+    update();
+    LabsRepository()
+        .searchLabs(name: search.text, cancelToken: cancelToken)
+        .then((data) {
+      //TODO handle all in model
+      log("data.data[data]--------------> ${data.data["data"]}");
+
+      if (data != null) {
+        if (data == null) {
+          data.data["data"] = [];
+        }
+        searchDataList.clear();
+        data.data["data"].forEach((item) {
+          searchDataList.add(Labs.fromJson(item));
+        });
+        isSearching = false;
+        update();
+        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        print('==newItems===>${searchDataList.length}');
+        // if (newItems == null || newItems.length == 0) {
+        //   pageController.appendLastPage(newItems);
+        // } else {
+
+        // }
+      } else {
+        searchDataList = [];
+      }
+    }).catchError((e, s) {
+      isSearching = false;
+      update();
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        searchDataList = [];
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  void searchData1(int page) {
+    LabsRepository()
+        .searchLabs(name: search.text, cancelToken: cancelToken)
+        .then((data) {
+      //TODO handle all in model
+
+      if (data != null) {
+        if (data == null) {
+          data.data["data"] = [];
+        }
+        print('==labItems===>${data.data}');
+
+        var newItems = <Labs>[];
+        data.data["data"].forEach((item) {
+          newItems.add(Labs.fromJson(item));
+        });
+        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        print('==labItems===>${newItems.length}======${page}');
+        pageController.appendPage(newItems, page + 1);
       } else {}
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {

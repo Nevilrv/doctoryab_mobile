@@ -1,10 +1,17 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/models/city_model.dart';
+import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
 import 'package:doctor_yab/app/data/static.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
+import 'package:doctor_yab/app/data/models/user_model.dart' as u;
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/FirebaseAuthExceptionHandler.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -69,7 +76,7 @@ class AuthController extends GetxController {
       void Function(Exception e) authExciptionCallBck,
       int resendToken}) async {
     // String intPhoneNum = "+93${phoneNumber.substring(1, 10)}";
-
+    log("calling--------------> ");
     waitingForFirebaseSmsSend(true);
     try {
       phoneNumber = phoneNumber.toEnglishDigit();
@@ -84,6 +91,8 @@ class AuthController extends GetxController {
           UserCredential uc =
               await firebaseAuth.signInWithCredential(phoneAuthCredential);
           // Get.snackbar('Hi', "auto Signin ${firebaseAuth.currentUser.uid}");
+          log("uc--------------> ${uc.user.getIdToken()}");
+          log("uc--------------> ${uc.credential.accessToken}");
 
           if (verfiedCallBack != null) {
             print("oh na nana");
@@ -150,6 +159,9 @@ class AuthController extends GetxController {
   }) async {
     try {
       confirmationResult = await firebaseAuth.signInWithPhoneNumber(phoneNum);
+      log("confirmationResult.verificationId--------------> ${confirmationResult.verificationId}");
+      log("firebaseAuth--------------> ${firebaseAuth.currentUser.getIdToken()}");
+
       if (successCallBack != null) successCallBack();
     } catch (e) {
       if (errorCallBackWeb != null) errorCallBackWeb(e);
@@ -266,6 +278,7 @@ class AuthController extends GetxController {
   signinToFirebaseWithSmsCode(
       {@required String smsCode, String verificationCode}) async {
     assert(verificationCode != null || this.verificationCode != null);
+    log('signinToFirebaseWithSmsCode--');
     waitingForFirebaseotpToVerify(true);
     try {
       smsCode = smsCode.toEnglishDigit();
@@ -277,14 +290,21 @@ class AuthController extends GetxController {
               smsCode: smsCode))
           .then((value) async {
         if (value.user != null) {
-          waitingForFirebaseotpToVerify(false);
+          log("value.user--------------> ${value.credential}");
+          // log("value.user--------------> ${value.credential.accessToken}");
+          // log("value.user--------------> ${value.credential.providerId}");
+          // waitingForFirebaseotpToVerify(false);
+
           // Get.snackbar('Done', 'verfyied by sms. User id: ${value.user.uid}');
           // Get.offAllNamed(Routes.SPLASH);
           // Get.reset();
           // Utils.restartApp();
           if (this.verfiedCallBack == null) {
-            Utils.whereShouldIGo();
+            log('hiiiiii');
+            verfyUser();
+            // Utils.whereShouldIGo();
           } else {
+            log('hiiiiii-------');
             this.verfiedCallBack(value.credential);
           }
           // GetStorage().write("firebase_auth_complete", true);
@@ -300,6 +320,62 @@ class AuthController extends GetxController {
       }
       Get.snackbar('No', e.runtimeType.toString() + " " + e.message);
     }
+  }
+
+  void verfyUser() {
+    // Utils.whereShouldIGo();
+    AuthRepository().signin().then((response) async {
+      var reponseData = response.data;
+      // print(reponseData);
+      log("reponseData--------------> ${reponseData}");
+
+      try {
+        waitingForFirebaseotpToVerify(false);
+        SettingsController.userProfileComplete =
+            reponseData["profile_completed"];
+        if (SettingsController.isUserProfileComplete == false) {
+          Get.toNamed(Routes.ADD_PERSONAL_INFO);
+        } else {
+          SettingsController.userToken = reponseData["jwtoken"];
+          log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userToken}");
+          SettingsController.userProfileComplete =
+              reponseData["profile_completed"];
+          SettingsController.userId = reponseData['user']['_id'];
+          // SettingsController.auth.savedCity = City.fromJson({
+          //   "is_deleted": false,
+          //   "_id": "60a89804c6bd0c1b9839d854",
+          //   "f_name": "هلمند",
+          //   "e_name": "Helmand",
+          //   "p_name": "هلمند",
+          //   "__v": 0,
+          //   "createdAt": "2023-07-15T19:57:14.442Z",
+          //   "updatedAt": "2023-07-25T19:57:16.055Z"
+          // });
+          SettingsController.savedUserProfile =
+              u.User.fromJson(reponseData['user']);
+          SettingsController.userLogin = true;
+          if (SettingsController.auth.savedCity == null) {
+            Get.offAllNamed(Routes.CITY_SELECT);
+          } else {
+            Get.offAllNamed(Routes.HOME);
+          }
+        }
+      } catch (e) {
+        waitingForFirebaseotpToVerify(false);
+        log("e--------------> ${e}");
+      }
+      log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
+
+      // Utils.whereShouldIGo();
+    }).catchError((e, s) {
+      // Utils.whereShouldIGo();
+      waitingForFirebaseotpToVerify(false);
+      DioExceptionHandler.handleException(
+        exception: e,
+        retryCallBak: verfyUser,
+      );
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
   }
 
   String getUserPhoneNumber({NUMBER_TYPE numberType}) {

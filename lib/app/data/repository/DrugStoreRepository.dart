@@ -1,5 +1,7 @@
 // import 'dart:io' as Io;
 
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -65,6 +67,22 @@ class DrugStoreRepository {
       },
       // data: {"name": name},
       // cancelToken: _searchCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
+  Future<Response> searchDrugStores({
+    String name,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    log("name--------------> ${name}");
+
+    final response = await _cachedDio.get(
+      '${ApiConsts.drugStoreBySearch}$name',
+      cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 

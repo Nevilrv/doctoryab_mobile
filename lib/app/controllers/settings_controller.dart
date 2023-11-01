@@ -75,6 +75,16 @@ class SettingsController extends GetxController {
     AppStatics.hive.authBox.put("user_id", s);
   }
 
+  static bool get userLoginGet {
+    return AppStatics.hive.authBox.get("user_Login") == null
+        ? false
+        : AppStatics.hive.authBox.get("user_Login");
+  }
+
+  static set userLogin(bool s) {
+    AppStatics.hive.authBox.put("user_Login", s);
+  }
+
   static bool get isUserLoggedInToApi {
     return userToken != null;
   }

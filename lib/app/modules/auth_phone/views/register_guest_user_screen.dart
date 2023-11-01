@@ -3,6 +3,7 @@ import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/auth_phone/controllers/personal_detail_add_controller.dart';
+import 'package:doctor_yab/app/modules/auth_phone/controllers/register_guest_user_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -17,7 +18,7 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_phone_controller.dart';
 
-class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
+class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;

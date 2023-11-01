@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:logger/logger.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -29,10 +30,11 @@ class AuthRepository {
     //TODO handle exception
     var _firebaseIdToken =
         await AuthController.to.firebaseAuth.currentUser.getIdToken();
-
+    log("AuthController.to.firebaseAuth.currentUse--------------> ${_firebaseIdToken}");
+    var data = {"idtoken": _firebaseIdToken, "fcm": fcmToken ?? ""};
     final response = await dio.post(
       ApiConsts.authPath,
-      data: {"idtoken": _firebaseIdToken, "fcm": fcmToken ?? ""},
+      data: data,
     );
     log("response--------------> ${response.data}");
 
@@ -47,6 +49,7 @@ class AuthRepository {
     } catch (e, s) {
       Logger().e("", e, s);
     }
+
     final response = await dio.post(
       ApiConsts.authPathGoogleFB,
       data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English"},
@@ -54,6 +57,54 @@ class AuthRepository {
     log("response--------------> ${response.data}");
 
     return response;
+  }
+
+  Future<dynamic> registerGuestUserApi(
+      String name, String phone, String gender, String city) async {
+    //TODO handle exception
+    var fcmToken;
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } catch (e, s) {
+      Logger().e("", e, s);
+    }
+    var data = {
+      "name": name,
+      "phone": int.parse(phone),
+      "city": city,
+      "gender": gender,
+      "language": "English",
+      "fcm": fcmToken
+    };
+    final response = await dio.post(
+      ApiConsts.guestUserLogin,
+      data: data,
+    );
+    log("response--------------> ${response.data}");
+
+    return response.data;
+  }
+
+  Future<dynamic> addPersonalInfoApi(
+      String name, String phone, String gender, String city) async {
+    //TODO handle exception
+    var data = {
+      "name": name,
+      "phone": int.parse(phone),
+      "city": city,
+      "gender": gender
+    };
+    log("data--------------> ${data}");
+    log(" ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
+    log(" ApiConsts.addPersonalInfo--------------> ${SettingsController.userToken}");
+
+    final response = await dio.put(
+      ApiConsts.addPersonalInfo,
+      data: data,
+    );
+    log("response--------------> ${response.statusCode}");
+
+    return response.data;
   }
 
   //* update profile image

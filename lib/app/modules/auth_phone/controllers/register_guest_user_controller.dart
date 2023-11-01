@@ -1,24 +1,21 @@
 import 'dart:developer';
 
-import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
+
 import 'package:doctor_yab/app/services/DioService.dart';
-import 'package:doctor_yab/app/utils/PhoneNumberValidator.dart';
-import 'package:doctor_yab/app/utils/exception_handler/FirebaseAuthExceptionHandler.dart';
+
 import 'package:doctor_yab/app/utils/utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
+
 import 'package:doctor_yab/app/data/models/user_model.dart' as u;
 
-class AddPersonalInfoController extends GetxController {
+class RegisterGuestUserController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController teNewNumber = TextEditingController();
   TextEditingController teAge = TextEditingController();
@@ -31,13 +28,13 @@ class AddPersonalInfoController extends GetxController {
   var _cachedDio = AppDioService.getCachedDio;
 
   var selectedLocation = "".obs;
-  var selectedLocationId = "".obs;
+  var selectedLocationId = "60a8951de268152534502e57".obs;
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   var isLoading = false.obs;
   @override
   void onInit() {
-    loadCities();
+    // loadCities();
 
     super.onInit();
   }
@@ -75,22 +72,20 @@ class AddPersonalInfoController extends GetxController {
   void addPersonalInfo() {
     isLoading.value = true;
     AuthRepository()
-        .addPersonalInfoApi(teName.text, teNewNumber.text, selectedGender.value,
-            selectedLocationId.value)
+        .registerGuestUserApi(teName.text, teNewNumber.text,
+            selectedGender.value, selectedLocationId.value)
         .then((value) {
+      log('value-------------->${value}');
       try {
-        // SettingsController.userToken = value["jwtoken"];
+        SettingsController.userToken = value["jwtoken"];
         SettingsController.userProfileComplete = value["profile_completed"];
-        SettingsController.userId = value['user']['_id'];
-        SettingsController.savedUserProfile = u.User.fromJson(value['user']);
+        SettingsController.userId = value['guestUser']['_id'];
+        SettingsController.savedUserProfile =
+            u.User.fromJson(value['guestUser']);
+        SettingsController.auth.savedCity = City.fromJson(value['city']);
         SettingsController.userLogin = true;
         isLoading.value = false;
-        if (SettingsController.auth.savedCity == null) {
-          Get.offAllNamed(Routes.CITY_SELECT);
-        } else {
-          Utils.whereShouldIGo();
-        }
-
+        Utils.whereShouldIGo();
         log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.name}");
       } catch (e) {
         isLoading.value = false;

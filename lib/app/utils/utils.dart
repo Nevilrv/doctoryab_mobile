@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppFonts.dart';
@@ -66,45 +67,51 @@ class Utils {
   }
 
   static void whereShouldIGo({bool updateProfile = true}) {
+    if (SettingsController.userLoginGet == true) {
+      Get.offAllNamed(Routes.HOME);
+    } else {
+      Get.offAllNamed(Routes.INTRO);
+    }
+    // Get.offAllNamed(Routes.INTRO);
     // FbAuth.FirebaseAuth.instance.authStateChanges().listen((user) {
     //   print('Current user id: ${user?.uid}');
     // });
-    if (!AuthController.to.isUserSignedInedToFirebase()) {
-      if (!SettingsController.isAppLanguageSet) {
-        Get.offAllNamed(Routes.INTRO);
-        return;
-      }
-      Get.offAllNamed(Routes.AUTH_OPTION);
-      return;
-    } else {
-      print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");
-    }
-
-    if (!SettingsController.isUserLoggedInToApi) {
-      Get.offAllNamed(Routes.LOGIN_VERIFY);
-      return;
-    }
-    if (!SettingsController.isUserProfileComplete) {
-      Get.offAllNamed(Routes.PROFILE_UPDATE);
-      return;
-    }
-    if (SettingsController.auth.savedCity == null) {
-      Get.offAllNamed(Routes.CITY_SELECT);
-      return;
-    }
-    if (updateProfile) {
-      _updateProfile();
-    } else {
-      if (Get.currentRoute == Routes.HOME) {
-        Get.offAllNamed(AppPages.INITIAL);
-      } else {
-        //! Fix bug, not sure how
-        // Get.reset();
-        Get.offAllNamed(Routes.afterLoggedIn);
-      }
-
-      return;
-    }
+    // if (!AuthController.to.isUserSignedInedToFirebase()) {
+    //   if (!SettingsController.isAppLanguageSet) {
+    //     Get.offAllNamed(Routes.INTRO);
+    //     return;
+    //   }
+    //   Get.offAllNamed(Routes.AUTH_OPTION);
+    //   return;
+    // } else {
+    //   print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");
+    // }
+    //
+    // if (!SettingsController.isUserLoggedInToApi) {
+    //   Get.offAllNamed(Routes.LOGIN_VERIFY);
+    //   return;
+    // }
+    // if (!SettingsController.isUserProfileComplete) {
+    //   Get.offAllNamed(Routes.PROFILE_UPDATE);
+    //   return;
+    // }
+    // if (SettingsController.auth.savedCity == null) {
+    //   Get.offAllNamed(Routes.CITY_SELECT);
+    //   return;
+    // }
+    // if (updateProfile) {
+    //   _updateProfile();
+    // } else {
+    //   if (Get.currentRoute == Routes.HOME) {
+    //     Get.offAllNamed(AppPages.INITIAL);
+    //   } else {
+    //     //! Fix bug, not sure how
+    //     // Get.reset();
+    //     Get.offAllNamed(Routes.afterLoggedIn);
+    //   }
+    //
+    //   return;
+    // }
   }
 
   //TODO move this to a service

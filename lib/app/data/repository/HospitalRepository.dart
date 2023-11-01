@@ -34,7 +34,7 @@ class HospitalRepository {
           queryParameters: {
             "limit": limitPerPage,
             "page": page,
-            "sort": "name",
+            // "sort": "name",
           },
           // data: {"name": name},
           // cancelToken: _searchCancelToken,
