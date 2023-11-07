@@ -9,11 +9,15 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../../data/models/labs_model.dart';
+
 class DrugStoreController extends TabHomeOthersController {
   TextEditingController search = TextEditingController();
   @override
   var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
+  List<Geometry> locationData = [];
+  List<String> locationTitle = [];
   @override
   void onInit() {
     print('===onInit===');
@@ -109,6 +113,27 @@ class DrugStoreController extends TabHomeOthersController {
     super.onClose();
   }
 
+  void show24HoursData() {
+    List<DrugStore> hoursList = [];
+    pageController.itemList.forEach((element) {
+      if (element.the24Hours.contains(DateTime.now().weekday)) {
+        hoursList.add(element);
+      }
+    });
+    pageController.itemList.clear();
+
+    update();
+    pageController.appendLastPage(hoursList);
+  }
+
+  void getDrugDetails(String id) {
+    DrugStoreRepository()
+        .getDrugDetails(id: id, cancelToken: cancelToken)
+        .then((value) {
+      log("value--------------> ${value}");
+    });
+  }
+
   void searchData(int page) {
     DrugStoreRepository()
         .searchDrugStores(name: search.text, cancelToken: cancelToken)
@@ -131,6 +156,14 @@ class DrugStoreController extends TabHomeOthersController {
         //   pageController.appendLastPage(newItems);
         // } else {
         pageController.appendPage(newItems, page + 1);
+        locationData.clear();
+        locationTitle.clear();
+        pageController.itemList.forEach((element) {
+          if (element.geometry.coordinates != null) {
+            locationData.add(element.geometry);
+            locationTitle.add(element.name);
+          }
+        });
         // }
       } else {}
     }).catchError((e, s) {
@@ -161,8 +194,25 @@ class DrugStoreController extends TabHomeOthersController {
         print('==newItems===>${newItems.length}');
         if (newItems == null || newItems.length == 0) {
           pageController.appendLastPage(newItems);
+          locationData.clear();
+          locationTitle.clear();
+          pageController.itemList.forEach((element) {
+            if (element.geometry.coordinates != null) {
+              locationData.add(element.geometry);
+              locationTitle.add(element.name);
+            }
+          });
         } else {
           pageController.appendPage(newItems, page + 1);
+          locationData.clear();
+          locationTitle.clear();
+          pageController.itemList.forEach((element) {
+            if (element.geometry.coordinates != null) {
+              locationData.add(element.geometry);
+              locationTitle.add(element.name);
+            }
+          });
+          log("locationData--------------> ${locationData}");
         }
       } else {}
     }).catchError((e, s) {

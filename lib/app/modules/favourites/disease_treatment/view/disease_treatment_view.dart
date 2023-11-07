@@ -141,10 +141,10 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                       onTap: () {
                                         WidgetsBinding.instance
                                             .addPostFrameCallback((timeStamp) {
-                                          controller.dieaseDataList(controller
-                                              .category[index].eTitle);
                                           controller.selectedCategory =
                                               controller.category[index];
+                                          controller.dieaseDataList(controller
+                                              .category[index].eTitle);
                                         });
                                         Get.toNamed(
                                           Routes.DISEASE_DETAILS,

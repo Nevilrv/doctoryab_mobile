@@ -89,6 +89,22 @@ class DrugStoreRepository {
     return response;
   }
 
+  Future<Response> getDrugDetails({
+    String id,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    log("name--------------> ${id}");
+
+    final response = await _cachedDio.get(
+      '${ApiConsts.getDrugDetails}1',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
   //*
   Future<Response<dynamic>> fetchCheckup(String drugStoreID) async {
     final response = await _cachedDio.get(

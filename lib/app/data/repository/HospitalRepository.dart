@@ -47,6 +47,34 @@ class HospitalRepository {
     );
   }
 
+  static Future<List<Hospital>> searchHospitals(int page,
+      {int limitPerPage = 10,
+      String name,
+      void onError(e),
+      CancelToken cancelToken}) async {
+    // TODO move to some utils func
+
+    return await Utils.parseResponse<Hospital>(
+      () async {
+        var respose = await _cachedDio.get(
+          '${ApiConsts.searchHospital}$name',
+          cancelToken: cancelToken,
+          // queryParameters: {
+          //   "limit": limitPerPage,
+          //   "page": page,
+          //   // "sort": "name",
+          // },
+          // data: {"name": name},
+          // cancelToken: _searchCancelToken,
+          options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+        );
+        log("respose--------------> ${respose}");
+        return respose;
+      },
+      onError: onError,
+    );
+  }
+
   Future<dynamic> fetchReviews(
     int page, {
     int limitPerPage = 10,
@@ -68,5 +96,69 @@ class HospitalRepository {
     );
 
     return response;
+  }
+
+  Future<dynamic> fetchHospitalDetails({
+    String hospitalId,
+    CancelToken cancelToken,
+  }) async {
+    assert(SettingsController.auth.savedCity != null);
+    // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
+
+    var response = await _cachedDio.get(
+      '${ApiConsts.hospitalDetails}/$hospitalId',
+      cancelToken: cancelToken,
+
+      // cancelToken: loginCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response.data;
+  }
+
+  Future<dynamic> fetchHospitalDoctors({
+    String hospitalId,
+    CancelToken cancelToken,
+  }) async {
+    assert(SettingsController.auth.savedCity != null);
+    // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
+
+    var response = await _cachedDio.get(
+      '${ApiConsts.hospitalDoctors}/$hospitalId',
+      cancelToken: cancelToken,
+
+      // cancelToken: loginCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response.data;
+  }
+
+  static Future<List<Hospital>> fetchHospitalsDropdown(int page,
+      {int limitPerPage = 1000000,
+      void onError(e),
+      CancelToken cancelToken}) async {
+    // TODO move to some utils func
+    // _searchCancelToken.cancel();
+    // _searchCancelToken = CancelToken();
+    return await Utils.parseResponse<Hospital>(
+      () async {
+        var respose = await _cachedDio.get(
+          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
+          cancelToken: cancelToken,
+          queryParameters: {
+            "limit": limitPerPage,
+            "page": 1,
+            // "sort": "name",
+          },
+          // data: {"name": name},
+          // cancelToken: _searchCancelToken,
+          options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+        );
+        log("respose--------------> ${respose}");
+        return respose;
+      },
+      onError: onError,
+    );
   }
 }

@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -19,6 +21,11 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class LabDetailScreen extends GetView<DrugStoreController> {
+  Labs item;
+  LabDetailScreen({
+    Key key,
+    this.item,
+  }) : super(key: key);
 // class HospitalNewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,13 +45,13 @@ class LabDetailScreen extends GetView<DrugStoreController> {
         body: Stack(
           children: [
             ProfileViewNew(
-              address: "",
+              address: item.address,
               reviewTitle: "laboratories_reviews",
-              photo: "",
+              photo: "${ApiConsts.hostUrl}${item.photo}",
               star: 4,
-              geometry: null,
-              name: "controller.hospital.name",
-              phoneNumbers: ["26589658985"],
+              geometry: item.geometry,
+              name: item.name ?? "",
+              phoneNumbers: item.phone[0],
               numberOfusersRated: 5,
               child: Column(
                 children: [
@@ -72,57 +79,76 @@ class LabDetailScreen extends GetView<DrugStoreController> {
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          ...List.generate(
-                              5,
-                              (index) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Example Service",
-                                              style: AppTextStyle.boldPrimary12,
-                                            ),
-                                            Text(
-                                              "Example service explain",
-                                              style: AppTextStyle.boldPrimary11
-                                                  .copyWith(
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.5)),
-                                            ),
-                                          ],
-                                        ),
-                                        Spacer(),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: AppColors.primary,
-                                              border: Border.all(
-                                                  color: AppColors.primary)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
-                                            child: Center(
-                                              child: Text(
-                                                "22000 Afghani",
-                                                style: AppTextStyle.boldWhite12,
+                      child: item.checkUp.isEmpty
+                          ? Center(
+                              child: Padding(
+                              padding: EdgeInsets.only(top: Get.height * 0.2),
+                              child: Text("no_result_found".tr),
+                            ))
+                          : Column(
+                              children: [
+                                ...List.generate(
+                                    item.checkUp.length,
+                                    (index) => Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "${item.checkUp[index].title ?? ""}",
+                                                    style: AppTextStyle
+                                                        .boldPrimary12,
+                                                  ),
+                                                  Container(
+                                                    width: Get.width * 0.6,
+                                                    child: Text(
+                                                      "${item.checkUp[index].content ?? ""}",
+                                                      style: AppTextStyle
+                                                          .boldPrimary11
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5)),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
+                                              Spacer(),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: AppColors.primary,
+                                                    border: Border.all(
+                                                        color:
+                                                            AppColors.primary)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 10),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "${item.checkUp[index].price} Afghani",
+                                                      style: AppTextStyle
+                                                          .boldWhite12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ))
-                        ],
-                      ),
+                                        ))
+                              ],
+                            ),
                     ),
                   )
 

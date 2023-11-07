@@ -88,7 +88,7 @@ class DrugStoreLabView extends StatelessWidget {
           _model.lat,
         ]),
         name: _model.title,
-        phoneNumbers: _model.phoneNumbers,
+        phoneNumbers: "",
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -609,7 +609,7 @@ class DrugStoreLabView extends StatelessWidget {
     try {
       var resp = drugStoreLabPageType == DRUG_STORE_LAB_PAGE_TYPE.hospital
           ? await LabsRepository().fetchCheckup(hospital.id)
-          : await DrugStoreRepository().fetchCheckup(itemp.id);
+          : await DrugStoreRepository().fetchCheckup(itemp.id.toString());
       var res =
           List<CheckUp>.from(resp.data["data"].map((x) => CheckUp.fromJson(x)));
       _model.checkUp = res;

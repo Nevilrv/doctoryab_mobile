@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,6 +9,7 @@ import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -20,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class TabHomeHospitalsView extends GetView<HospitalsController> {
@@ -66,29 +69,48 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 20),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              AppImages.map,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              "view_all_in_maps".tr,
-                              style: AppTextStyle.boldWhite12
-                                  .copyWith(fontSize: 13),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        List<LatLng> latLng = [];
+                        controller.locationData.forEach((element) {
+                          log("element.coordinates[1]--------------> ${element.coordinates}");
+                          if (element.coordinates != null) {
+                            log(" element.coordinates[0]--------------> ${element.coordinates[0]}");
+                            log("element.coordinates[1]--------------> ${element.coordinates[1]}");
+                            latLng.add(LatLng(element.coordinates[1],
+                                element.coordinates[0]));
+                          }
+                        });
+                        Get.to(MapScreen(
+                          latLng: latLng,
+                          name: controller.locationTitle,
+                          title: "Hospital location",
+                        ));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 20),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.map,
+                                color: AppColors.white,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "view_all_in_maps".tr,
+                                style: AppTextStyle.boldWhite12
+                                    .copyWith(fontSize: 13),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -167,7 +189,23 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
               TextField(
                 style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                 cursorColor: AppColors.primary,
+                controller: controller.search,
                 textAlignVertical: TextAlignVertical.center,
+                onChanged: (s) async {
+                  if (s.isEmpty) {
+                    controller.pageController.itemList.clear();
+                    controller.loadData(
+                      controller.pageController.firstPageKey,
+                    );
+                  }
+                },
+                onSubmitted: (value) {
+                  controller.pageController.itemList.clear();
+                  controller.searchData(
+                    controller.pageController.firstPageKey,
+                  );
+                  controller.update();
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(horizontal: 15),
                   hintText: "search_hospital".tr,
@@ -201,6 +239,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                   ),
                 ),
               ),
+
               SizedBox(
                 height: 10,
               ),
@@ -243,9 +282,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
       padding: EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(
-            Routes.HOSPITAL_NEW,
-          );
+          Get.toNamed(Routes.HOSPITAL_NEW, arguments: item);
           // Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
         },
         child: Container(
@@ -303,18 +340,10 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                             ),
                           ),
                         ),
-                        SettingsController.appLanguge != "English"
-                            ? Positioned(
-                                top: -5,
-                                right: -5,
-                                child:
-                                    SvgPicture.asset(AppImages.emergencyBell),
-                              )
-                            : Positioned(
-                                top: -5,
-                                left: -5,
-                                child:
-                                    SvgPicture.asset(AppImages.emergencyBell))
+                        Positioned(
+                            top: -5,
+                            left: -5,
+                            child: SvgPicture.asset(AppImages.emergencyBell))
                       ],
                     ),
                     Expanded(
@@ -358,9 +387,13 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                 SizedBox(width: 4),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(ReviewScreen(
-                                      appBarTitle: "hospital_reviews",
-                                    ));
+                                    // Get.toNamed(Routes.REVIEW, arguments: [
+                                    //   "Doctor_Review",
+                                    //   controller
+                                    // ]);
+                                    // Get.to(ReviewScreen(
+                                    //   appBarTitle: "hospital_reviews",
+                                    // ));
                                   },
                                   child: Text(
                                     '(${"${item.usersStaredCount ?? ""}"})  ${"reviews".tr}',

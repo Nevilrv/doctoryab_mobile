@@ -171,45 +171,51 @@ class AuthPhoneController extends GetxController {
       log('CREDINTILA :- ${googleSignInAuthentication.idToken}');
 
       if (googleSignInAuthentication.idToken != null) {
-        AuthRepository()
-            .signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken)
-            .then((value) {
-          var reponseData = value.data;
+        try {
+          AuthRepository()
+              .signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken)
+              .then((value) {
+            var reponseData = value.data;
 
-          SettingsController.userToken = reponseData["jwtoken"];
-          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
-          SettingsController.userProfileComplete =
-              reponseData["profile_completed"];
-          log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
-          SettingsController.userId = reponseData['user'] == null
-              ? reponseData['newUser']['_id']
-              : reponseData['user']['_id'];
-          log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
+            SettingsController.userToken = reponseData["jwtoken"];
+            log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+            SettingsController.userProfileComplete =
+                reponseData["profile_completed"];
+            log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
+            SettingsController.userId = reponseData['user'] == null
+                ? reponseData['newUser']['_id']
+                : reponseData['user']['_id'];
+            log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
 
-          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
-          isLoading.value = false;
-          try {
-            SettingsController.savedUserProfile = u.User.fromJson(
-                reponseData['user'] == null
-                    ? reponseData['newUser']
-                    : reponseData['user']);
-            if (SettingsController.isUserProfileComplete == false) {
-              Get.toNamed(Routes.ADD_PERSONAL_INFO);
-            } else {
-              SettingsController.auth.savedCity =
-                  City.fromJson(reponseData['city']);
-              SettingsController.userLogin = true;
-              Get.offAllNamed(Routes.HOME);
+            log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+            isLoading.value = false;
+            try {
+              SettingsController.savedUserProfile = u.User.fromJson(
+                  reponseData['user'] == null
+                      ? reponseData['newUser']
+                      : reponseData['user']);
+              if (SettingsController.isUserProfileComplete == false) {
+                Get.toNamed(Routes.ADD_PERSONAL_INFO);
+              } else {
+                SettingsController.auth.savedCity =
+                    City.fromJson(reponseData['city']);
+                SettingsController.userLogin = true;
+                Get.offAllNamed(Routes.HOME);
+              }
+              log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
+            } catch (e) {
+              Utils.commonSnackbar(
+                  context: context, text: "Google login failed");
+              log("e--------------> ${e}");
             }
-            log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
-          } catch (e) {
-            Utils.commonSnackbar(context: context, text: "Google login failed");
-            log("e--------------> ${e}");
-          }
-          log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
+            log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
 
-          log("value--------------> ${value}");
-        });
+            log("value--------------> ${value}");
+          });
+        } catch (e) {
+          Utils.commonSnackbar(context: context, text: "Google login failed");
+          isLoading.value = false;
+        }
       }
       log('token ID:- ${authResult.credential.token}');
       log('token ID:- ${currentUser.uid}');

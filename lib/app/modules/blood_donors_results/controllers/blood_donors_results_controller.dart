@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -22,6 +23,7 @@ class BloodDonorsResultsController extends GetxController {
     });
     if (Get.arguments is BloodDonorSearchModel) {
       bloodDonorSearchModel = Get.arguments;
+      log("bloodDonorSearchModel--------------> ${jsonEncode(bloodDonorSearchModel)}");
     }
   }
 

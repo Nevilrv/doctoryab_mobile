@@ -71,6 +71,7 @@ dependencies:
   firebase_auth: ^4.7.1
   firebase_core: ^2.15.0
 
+
   get: ^4.6.1
   # alice: 0.3.2
   alice: 
@@ -106,6 +107,8 @@ dependencies:
   share_plus:
   audioplayers:
   google_sign_in: ^6.1.5
+  google_maps_flutter:
+
 
 
 

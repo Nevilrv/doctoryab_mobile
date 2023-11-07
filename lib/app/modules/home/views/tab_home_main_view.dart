@@ -9,12 +9,16 @@ import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_hopis
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_labs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_doctors_view.dart';
+import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
@@ -88,7 +92,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                           //       ),
                           //     ),
                           //   ).paddingStart(context, 15).paddingOnly(top: 15, bottom: 8),
-                          Utils.searchBox(isFav: false),
+                          searchBox(),
                         ],
                       )
                     : SizedBox(),
@@ -163,6 +167,99 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
             ),
           );
         }),
+      ),
+    );
+  }
+
+  Container searchBox() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      padding: EdgeInsets.only(top: 13, bottom: 22, left: 17, right: 17),
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "hi_text".tr,
+                    style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
+                  ),
+                  Text(
+                    "how_do_you_feel".tr,
+                    style: AppTextStyle.mediumWhite11.copyWith(
+                        color: AppColors.white.withOpacity(0.5), fontSize: 13),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(
+                    AppImages.bell,
+                    height: 22,
+                    width: 22,
+                  ),
+                  Positioned(
+                    right: 2,
+                    top: 2,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.red2,
+                      radius: 4,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          TextField(
+            controller: controller.searchDoctor,
+            style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
+            cursorColor: AppColors.white,
+            readOnly: true,
+            onTap: () {
+              Get.toNamed(Routes.SEARCH_DOCTOR);
+            },
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: 15),
+              hintText: "search_doctor".tr,
+              hintStyle: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(11),
+                child: SvgPicture.asset(AppImages.search),
+              ),
+              filled: true,
+              fillColor: AppColors.white.withOpacity(0.1),
+              constraints: BoxConstraints(maxHeight: 38),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

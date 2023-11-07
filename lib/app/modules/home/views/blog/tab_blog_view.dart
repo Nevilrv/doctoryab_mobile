@@ -377,13 +377,25 @@ class TabBlogView extends GetView<TabBlogController> {
                                           },
                                           child: Row(
                                             children: [
-                                              SvgPicture.asset(
-                                                AppImages.like2,
-                                                width: 20,
-                                                height: 20,
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5),
-                                              ),
+                                              controller.postList[index].likes
+                                                      .contains(
+                                                          SettingsController
+                                                              .userId
+                                                              .toString())
+                                                  ? SvgPicture.asset(
+                                                      AppImages.likeFill,
+                                                      width: 20,
+                                                      height: 20,
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5),
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      AppImages.like2,
+                                                      width: 20,
+                                                      height: 20,
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5),
+                                                    ),
                                               SizedBox(width: 5),
                                               Text(
                                                 "like".tr,

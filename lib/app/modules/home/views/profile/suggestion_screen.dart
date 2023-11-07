@@ -1,14 +1,16 @@
+import 'package:doctor_yab/app/modules/home/controllers/comp_sugge_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
-class SuggestionScreen extends StatelessWidget {
+class SuggestionScreen extends GetView<ComplaintSuggestionController> {
   const SuggestionScreen({Key key}) : super(key: key);
 
   @override
@@ -105,6 +107,7 @@ class SuggestionScreen extends StatelessWidget {
                             ),
                             TextField(
                               cursorColor: AppColors.primary,
+                              controller: controller.sTitle,
                               style: AppTextTheme.b(12).copyWith(
                                   color: AppColors.primary.withOpacity(0.5)),
                               decoration: InputDecoration(
@@ -133,6 +136,7 @@ class SuggestionScreen extends StatelessWidget {
                             TextField(
                               maxLines: 10,
                               cursorColor: AppColors.primary,
+                              controller: controller.sDesc,
                               style: AppTextTheme.b(12).copyWith(
                                   color: AppColors.primary.withOpacity(0.5)),
                               decoration: InputDecoration(
@@ -159,7 +163,10 @@ class SuggestionScreen extends StatelessWidget {
                               height: h * 0.02,
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                controller.image.value = null;
+                                controller.pickImage();
+                              },
                               child: Container(
                                 width: w * 0.4,
                                 decoration: BoxDecoration(
@@ -206,7 +213,19 @@ class SuggestionScreen extends StatelessWidget {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                if (controller.sTitle.text.isEmpty) {
+                                  Utils.commonSnackbar(
+                                      context: context,
+                                      text: "Please enter title");
+                                } else if (controller.sDesc.text.isEmpty) {
+                                  Utils.commonSnackbar(
+                                      context: context,
+                                      text: "Please enter description");
+                                } else {
+                                  controller.suggestionApi(context);
+                                }
+                              },
                               child: Container(
                                 width: w,
                                 decoration: BoxDecoration(

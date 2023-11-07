@@ -179,6 +179,8 @@ class DoctorsRepository {
 
       _doctors = _data.map((e) => Doctor.fromJson(e)).toList();
     } catch (e, s) {
+      log("e--------------> ${e}");
+
       Logger().e(e.toString());
       if (onError != null) {
         if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -217,6 +219,43 @@ class DoctorsRepository {
       '${ApiConsts.doctorsFullData}/$doctorID',
       cancelToken: cancelToken,
       queryParameters: {},
+      // cancelToken: loginCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
+  }
+
+  Future<Response<dynamic>> postDoctorFeedback(
+      {CancelToken cancelToken,
+      String comment,
+      double cRating,
+      double sRating,
+      double eRating,
+      String id,
+      String url}) async {
+    var data = {
+      "comment": comment,
+      "cleaningRating": cRating.toString(),
+      "satifyRating": sRating.toString(),
+      "expertiseRating": eRating.toString(),
+      "doctorId": id
+    };
+    final response = await _cachedDio.post(
+      url,
+      cancelToken: cancelToken,
+      data: data,
+      // cancelToken: loginCancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
+  }
+
+  Future<Response<dynamic>> getDoctorFeedback(
+      {CancelToken cancelToken, String url}) async {
+    final response = await _cachedDio.get(
+      url,
+      cancelToken: cancelToken,
+
       // cancelToken: loginCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );

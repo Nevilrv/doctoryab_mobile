@@ -18,6 +18,7 @@ import '../theme/AppColors.dart';
 import '../theme/TextTheme.dart';
 import '../utils/utils.dart';
 import 'dart:math' as math;
+
 class ProfileViewNew extends StatelessWidget {
   const ProfileViewNew({
     Key key,
@@ -35,10 +36,10 @@ class ProfileViewNew extends StatelessWidget {
   final String photo;
   final String name;
   final String reviewTitle;
-  final num star;
+  final int star;
   final String address;
   final Geometry geometry;
-  final List<String> phoneNumbers;
+  final String phoneNumbers;
   final Widget child;
   final bool showChildInBox;
   final num numberOfusersRated;
@@ -69,8 +70,8 @@ class ProfileViewNew extends StatelessWidget {
             Container(
               // height: h * 0.2,
               width: w,
-              child: Row( crossAxisAlignment:
-              CrossAxisAlignment.start,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     // color: Colors.black,
@@ -82,7 +83,7 @@ class ProfileViewNew extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CachedNetworkImage(
-                        imageUrl: "",
+                        imageUrl: photo,
                         height: h * 0.11,
                         width: h * 0.11,
                         fit: BoxFit.cover,
@@ -111,12 +112,9 @@ class ProfileViewNew extends StatelessWidget {
                         children: [
                           // SizedBox(height: 10),
                           Text(
-                            "Dr. Manu Django Conradine",
-                            style: AppTextTheme.h(
-                                12)
-                                .copyWith(
-                                color: AppColors
-                                    .primary),
+                            name ?? "",
+                            style: AppTextTheme.h(12)
+                                .copyWith(color: AppColors.primary),
                           ),
                           SizedBox(height: 2),
                           Row(
@@ -125,7 +123,7 @@ class ProfileViewNew extends StatelessWidget {
                               RatingBar.builder(
                                 ignoreGestures: true,
                                 itemSize: 17,
-                                initialRating: 4,
+                                initialRating: double.parse(star.toString()),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -163,7 +161,8 @@ class ProfileViewNew extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Utils.openPhoneDialer(context, "369988888");
+                                    Utils.openPhoneDialer(
+                                        context, phoneNumbers ?? "");
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -183,22 +182,16 @@ class ProfileViewNew extends StatelessWidget {
                                           ),
                                         ),
                                         Spacer(),
-                                        SettingsController
-                                            .appLanguge !=
-                                            "English"
+                                        SettingsController.appLanguge !=
+                                                "English"
                                             ? Transform(
-                                          alignment:
-                                          Alignment
-                                              .center,
-                                          transform: Matrix4
-                                              .rotationY(
-                                              math.pi),
-                                          child: SvgPicture
-                                              .asset(AppImages
-                                              .phone),
-                                        )
-                                            : SvgPicture.asset(
-                                            AppImages.phone)
+                                                alignment: Alignment.center,
+                                                transform:
+                                                    Matrix4.rotationY(math.pi),
+                                                child: SvgPicture.asset(
+                                                    AppImages.phone),
+                                              )
+                                            : SvgPicture.asset(AppImages.phone)
                                       ],
                                     ),
                                   ),
@@ -227,36 +220,42 @@ class ProfileViewNew extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 10),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              AppImages.map,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              "show_map".tr,
-                              style: AppTextStyle.boldWhite12
-                                  .copyWith(fontSize: 13),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0,
+                            geometry?.coordinates[0] ?? 0.0);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 10),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.map,
+                                color: AppColors.white,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "show_map".tr,
+                                style: AppTextStyle.boldWhite12
+                                    .copyWith(fontSize: 13),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(width: 8),
                     Flexible(
                       child: Text(
-                        "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
+                        address ?? "",
                         maxLines: 1,
                         style:
                             AppTextTheme.b(11).copyWith(color: AppColors.lgt2),
@@ -324,143 +323,143 @@ class ProfileViewNew extends StatelessWidget {
     // );
   }
 
-  Widget _header(BuildContext context) {
-    return Container(
-      // height: 300,
-      padding: EdgeInsets.only(top: 70),
-      width: double.infinity,
-      child: Column(
-        children: [
-          FittedBox(
-            child: Text(
-              name ?? "",
-              style: AppTextTheme.b(14),
-              maxLines: 1,
-            ),
-          ),
-          if (star != null) ...[
-            SizedBox(height: 8),
-            RatingBar.builder(
-              ignoreGestures: true,
-              itemSize: 15,
-              initialRating: double.tryParse(star?.toStringAsFixed(1)) ?? 0.0,
-              // minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.amber,
-                // size: 10,
-              ),
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
-            ),
-          ],
-          if (numberOfusersRated != null) ...[
-            SizedBox(height: 8),
-            FittedBox(
-              child: Text(
-                "overal_rating_from_visitors"
-                    .trArgs(['${numberOfusersRated.toStringAsFixed(0) ?? 0}']),
-                style: AppTextTheme.l(13),
-                maxLines: 1,
-              ),
-            ),
-          ],
-          if (address != null) ...[
-            SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SvgPicture.asset("assets/svg/location_pin.svg")
-                    .paddingOnly(top: 4),
-                SizedBox(width: 8),
-                Flexible(
-                  child: Text(
-                    address ?? "",
-                    maxLines: 3,
-                    style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
-                    overflow: TextOverflow.ellipsis,
-                    // textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ).paddingVertical(8),
-            SizedBox(height: 8),
-            OutlinedButton.icon(
-              onPressed: () {
-                if (geometry.coordinates != null) {
-                  var g = geometry.coordinates;
-                  Utils.openGoogleMaps(g[1], g[0]);
-                } else {
-                  Utils.showSnackBar(context, "No Location Found");
-                }
-              },
-              icon: SvgPicture.asset("assets/svg/google_maps-icon.svg")
-                  .paddingVertical(8)
-                  .paddingEnd(context, 4),
-              label: Row(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: FittedBox(
-                      child: Text(
-                        "show_on_map".tr ?? "",
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style:
-                            AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
-                      ).paddingAll(4),
-                    ),
-                  ),
-                  Icon(Icons.arrow_forward).paddingAll(4),
-                ],
-              ),
-            ),
-          ],
-          if (phoneNumbers != null) ...[
-            SizedBox(height: 16),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: phoneNumbers
-                  .map((e) => Container(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset("assets/svg/call-24px.svg"),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              e,
-                              style: AppTextTheme.m(14)
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      )
-                          .paddingSymmetric(horizontal: 20, vertical: 8)
-                          .bgColor(AppColors.green)
-                          .radiusAll(12)
-                          .onTap(() {
-                        Utils.openPhoneDialer(context, e);
-                      }))
-                  .toList(),
-            )
-          ]
-        ],
-      ).paddingExceptTop(16),
-    )
-        .bgColor(Colors.white)
-        .radiusAll(15)
-        .basicShadow()
-        .paddingAll(4)
-        .paddingOnly(top: 60);
-  }
+  // Widget _header(BuildContext context) {
+  //   return Container(
+  //     // height: 300,
+  //     padding: EdgeInsets.only(top: 70),
+  //     width: double.infinity,
+  //     child: Column(
+  //       children: [
+  //         FittedBox(
+  //           child: Text(
+  //             name ?? "",
+  //             style: AppTextTheme.b(14),
+  //             maxLines: 1,
+  //           ),
+  //         ),
+  //         if (star != null) ...[
+  //           SizedBox(height: 8),
+  //           RatingBar.builder(
+  //             ignoreGestures: true,
+  //             itemSize: 15,
+  //             initialRating: double.tryParse(star?.toStringAsFixed(1)) ?? 0.0,
+  //             // minRating: 1,
+  //             direction: Axis.horizontal,
+  //             allowHalfRating: true,
+  //             itemCount: 5,
+  //             itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+  //             itemBuilder: (context, _) => Icon(
+  //               Icons.star,
+  //               color: Colors.amber,
+  //               // size: 10,
+  //             ),
+  //             onRatingUpdate: (rating) {
+  //               print(rating);
+  //             },
+  //           ),
+  //         ],
+  //         if (numberOfusersRated != null) ...[
+  //           SizedBox(height: 8),
+  //           FittedBox(
+  //             child: Text(
+  //               "overal_rating_from_visitors"
+  //                   .trArgs(['${numberOfusersRated.toStringAsFixed(0) ?? 0}']),
+  //               style: AppTextTheme.l(13),
+  //               maxLines: 1,
+  //             ),
+  //           ),
+  //         ],
+  //         if (address != null) ...[
+  //           SizedBox(height: 10),
+  //           Row(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               SvgPicture.asset("assets/svg/location_pin.svg")
+  //                   .paddingOnly(top: 4),
+  //               SizedBox(width: 8),
+  //               Flexible(
+  //                 child: Text(
+  //                   address ?? "",
+  //                   maxLines: 3,
+  //                   style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
+  //                   overflow: TextOverflow.ellipsis,
+  //                   // textAlign: TextAlign.center,
+  //                 ),
+  //               ),
+  //             ],
+  //           ).paddingVertical(8),
+  //           SizedBox(height: 8),
+  //           OutlinedButton.icon(
+  //             onPressed: () {
+  //               if (geometry.coordinates != null) {
+  //                 var g = geometry.coordinates;
+  //                 Utils.openGoogleMaps(g[1], g[0]);
+  //               } else {
+  //                 Utils.showSnackBar(context, "No Location Found");
+  //               }
+  //             },
+  //             icon: SvgPicture.asset("assets/svg/google_maps-icon.svg")
+  //                 .paddingVertical(8)
+  //                 .paddingEnd(context, 4),
+  //             label: Row(
+  //               // mainAxisAlignment: MainAxisAlignment.center,
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Flexible(
+  //                   child: FittedBox(
+  //                     child: Text(
+  //                       "show_on_map".tr ?? "",
+  //                       maxLines: 3,
+  //                       overflow: TextOverflow.ellipsis,
+  //                       style:
+  //                           AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
+  //                     ).paddingAll(4),
+  //                   ),
+  //                 ),
+  //                 Icon(Icons.arrow_forward).paddingAll(4),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //         if (phoneNumbers != null) ...[
+  //           SizedBox(height: 16),
+  //           Wrap(
+  //             spacing: 10,
+  //             runSpacing: 10,
+  //             children: phoneNumbers
+  //                 .map((e) => Container(
+  //                       child: Row(
+  //                         mainAxisSize: MainAxisSize.min,
+  //                         children: [
+  //                           SvgPicture.asset("assets/svg/call-24px.svg"),
+  //                           SizedBox(
+  //                             width: 8,
+  //                           ),
+  //                           Text(
+  //                             e,
+  //                             style: AppTextTheme.m(14)
+  //                                 .copyWith(color: Colors.white),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     )
+  //                         .paddingSymmetric(horizontal: 20, vertical: 8)
+  //                         .bgColor(AppColors.green)
+  //                         .radiusAll(12)
+  //                         .onTap(() {
+  //                       Utils.openPhoneDialer(context, e);
+  //                     }))
+  //                 .toList(),
+  //           )
+  //         ]
+  //       ],
+  //     ).paddingExceptTop(16),
+  //   )
+  //       .bgColor(Colors.white)
+  //       .radiusAll(15)
+  //       .basicShadow()
+  //       .paddingAll(4)
+  //       .paddingOnly(top: 60);
+  // }
 }

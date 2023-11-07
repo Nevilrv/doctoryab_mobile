@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/interceptor/JwtTokenInjector.dart';
 import 'package:doctor_yab/app/data/static.dart';
 
@@ -12,8 +13,7 @@ class ApiConsts {
   var commonHeader = {
     'apikey':
         "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff",
-    'jwtoken':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmYwZGUwZWYyNzFlMDgxZjdkNDUyNSIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJkb2N0b3J5YWIuZGV2QGdtYWlsLmNvbSIsImlhdCI6MTY5ODIwNzA0OSwiZXhwIjoxNzA2ODQ3MDQ5fQ.at9_LMGl2OyJ77PXX5Hi5ERptx7mB3OZ8SVmxabC4vU',
+    'jwtoken': SettingsController.userToken.toString(),
     'Content-Type': 'application/json'
   };
   static const String localHostUrl = "https://testserver.doctoryab.app/";
@@ -26,6 +26,7 @@ class ApiConsts {
 
   static String get baseUrl => "$hostUrl/api/$apiVersion";
   static const String authPath = "/user";
+
   static const String authPathGoogleFB = "/user/userAuth";
   static const String guestUserLogin = "/user/guestUserLogin";
   static const String addPersonalInfo = "/user/userPersonalInformation";
@@ -43,10 +44,14 @@ class ApiConsts {
   static const String doctorReportsPath = "/patientReport/patientReports";
   static const String labReportsPath = '/laboratory/patientReports';
   static const String hospitalPath = '/hospital';
+  static const String hospitalDetails = '/hospital/info/';
+  static const String hospitalDoctors = '/hospital/';
   static const String rateDoctor = '/patient/rate';
   static const String hospitalByCity = '/hospital/all';
+  static const String searchHospital = '/hospital/search-by-name/';
   static const drugStoreByCity = "/pharmacy";
   static const drugStoreBySearch = "/pharmacy/searchByName/";
+  static const getDrugDetails = "/pharmacy/searchByID/";
   static const labsByCity = "/lab";
   static const labsBySearch = "/lab/searchByName/";
   static const adsPath = "/ads";
@@ -72,4 +77,14 @@ class ApiConsts {
 
   ///checkup
   static const String checkupPackage = '/checkupPackage';
+
+  ///complaint and suggestion
+  static const String complaint = '/complaint-routes';
+  static const String suggestion = '/suggestion-routes';
+
+  ///feedback
+  static const String postDoctorFeedback = '/doctor/giveFeedbackToDoctor';
+  static const String postPharmacyFeedback = '/pharmacy/giveFeedbackToPharmacy';
+  static const String getDoctorFeedback = '/doctor/getDoctorFeedbacks/';
+  static const String getPharmacyFeedback = '/pharmacy/getPharmacyFeedbacks/';
 }

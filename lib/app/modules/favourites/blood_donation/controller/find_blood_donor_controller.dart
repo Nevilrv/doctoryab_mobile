@@ -1,8 +1,16 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
+import 'package:doctor_yab/app/data/repository/HospitalRepository.dart';
 import 'package:doctor_yab/app/data/static.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:place_picker/place_picker.dart';
@@ -16,6 +24,7 @@ class FindBloodDonorController extends GetxController {
   TextEditingController condition = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
 
+  CancelToken cancelToken = CancelToken();
   //*
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var formValid = false.obs;
@@ -48,15 +57,13 @@ class FindBloodDonorController extends GetxController {
     'Need for pregnant woman.2',
     'Need for pregnant woman.3',
   ];
-  final List<String> nearByHospitalList = [
-    'Lorem Ipsum',
-    'Lorem Ipsum.1',
-    'Lorem Ipsum.2',
-    'Lorem Ipsum.3',
-  ];
+  var nearByHospitalList = <Hospital>[].obs;
+
+  List hospitalList = <Hospital>[].obs;
   var selectedUnit = "1".obs;
   var selectedAboutCondition = "Need for pregnant woman.".obs;
-  var selectedNearByHospital = "Lorem Ipsum".obs;
+  var selectedNearByHospital = "".obs;
+  Hospital selectedNearByHospitalData;
   @override
   void onInit() {
     locationResult.value.locality = "Kabul";
@@ -64,6 +71,7 @@ class FindBloodDonorController extends GetxController {
       34.529699,
       69.171531,
     );
+    getHospitalData();
     //locationResult.value.locality = "Kabul";
     super.onInit();
   }
@@ -99,12 +107,16 @@ class FindBloodDonorController extends GetxController {
         critical: selectedCritical.value == 0 ? true : false,
         name: fullname.text,
         number: phoneNumber.text,
-        geometry: Geometry(coordinates: [
-          locationResult().latLng.longitude,
-          locationResult().latLng.latitude
-        ]),
+        geometry: selectedNearByHospitalData != null
+            ? Geometry(
+                coordinates: selectedNearByHospitalData.geometry.coordinates)
+            : Geometry(coordinates: [
+                locationResult().latLng.longitude,
+                locationResult().latLng.latitude
+              ]),
       ),
     );
+
     // Get.toNamed(
     //   Routes.BLOOD_DONORS_RESULTS,
     //   arguments: BloodDonorSearchModel(
@@ -119,5 +131,13 @@ class FindBloodDonorController extends GetxController {
     //     ]),
     //   ),
     // );
+  }
+
+  void getHospitalData() {
+    HospitalRepository.fetchHospitalsDropdown(1, cancelToken: cancelToken)
+        .then((value) {
+      nearByHospitalList.addAll(value);
+      log("value--------------> ${hospitalList.length}");
+    });
   }
 }

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
+import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/data/models/hospital_detail_res_model.dart';
 import 'package:doctor_yab/app/data/repository/HospitalRepository.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,10 @@ class HospitalNewController extends GetxController
   var reviewsCount = 0.obs;
   Hospital hospital;
   var reviewsPagingController = PagingController<int, Review>(firstPageKey: 1);
-
+  HospitalDetailsResModel resModel;
+  var doctorList = <Doctor>[].obs;
+  var isLoading = false.obs;
+  var isLoadingDoctor = false.obs;
   TabController tabController;
   var tabIndex = 0.obs;
   //*Dio
@@ -24,7 +29,10 @@ class HospitalNewController extends GetxController
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
     hospital = Get.arguments;
+    log("hospital--------------> ${hospital.id}");
 
+    fetchHospitalDetails();
+    fetchHospitalDoctors();
     reviewsPagingController.addPageRequestListener((pageKey) {
       fetchReviews(pageKey);
     });
@@ -38,8 +46,42 @@ class HospitalNewController extends GetxController
 
   @override
   void onClose() {}
+  void fetchHospitalDetails() {
+    isLoading.value = true;
+    try {
+      HospitalRepository()
+          .fetchHospitalDetails(hospitalId: hospital.id)
+          .then((value) {
+        isLoading.value = false;
+        resModel = HospitalDetailsResModel.fromJson(value);
+        log("value--------------> ${resModel.data}");
+      });
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  void fetchHospitalDoctors() {
+    isLoadingDoctor.value = true;
+    try {
+      HospitalRepository()
+          .fetchHospitalDoctors(hospitalId: hospital.id)
+          .then((value) {
+        log("value--------------> ${value}");
+
+        isLoadingDoctor.value = false;
+        value['data'].forEach((element) {
+          doctorList.add(Doctor.fromJson(element));
+        });
+        log("doctorList--------------> ${doctorList.length}");
+      });
+    } catch (e) {
+      isLoadingDoctor.value = false;
+    }
+  }
 
   void fetchReviews(int pageKey) {
+    isLoading.value = true;
     HospitalRepository()
         .fetchReviews(
       pageKey,

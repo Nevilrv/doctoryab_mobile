@@ -43,46 +43,46 @@ class AuthView extends GetView<AuthPhoneController> {
                 style: AppTextTheme.r(15).copyWith(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.AUTH_PHONE);
-                },
-                child: Container(
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SettingsController.appLanguge != "English"
-                            ? Transform(
-                                alignment: Alignment.center,
-                                transform: Matrix4.rotationY(math.pi),
-                                child: SvgPicture.asset(AppImages.phone,
-                                    color: AppColors.primary),
-                              )
-                            : SvgPicture.asset(AppImages.phone,
-                                color: AppColors.primary),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "sign_phone".tr,
-                          style: AppTextTheme.b(16)
-                              .copyWith(color: AppColors.primary),
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.toNamed(Routes.AUTH_PHONE);
+              //   },
+              //   child: Container(
+              //     width: Get.width,
+              //     decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(5),
+              //         color: Colors.white),
+              //     child: Padding(
+              //       padding: const EdgeInsets.symmetric(vertical: 10),
+              //       child: Center(
+              //           child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           SettingsController.appLanguge != "English"
+              //               ? Transform(
+              //                   alignment: Alignment.center,
+              //                   transform: Matrix4.rotationY(math.pi),
+              //                   child: SvgPicture.asset(AppImages.phone,
+              //                       color: AppColors.primary),
+              //                 )
+              //               : SvgPicture.asset(AppImages.phone,
+              //                   color: AppColors.primary),
+              //           SizedBox(
+              //             width: 5,
+              //           ),
+              //           Text(
+              //             "sign_phone".tr,
+              //             style: AppTextTheme.b(16)
+              //                 .copyWith(color: AppColors.primary),
+              //           ),
+              //         ],
+              //       )),
+              //     ),
+              //   ),
+              // ),
               SizedBox(
                 height: 20,
               ),

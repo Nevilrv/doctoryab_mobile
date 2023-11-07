@@ -26,6 +26,8 @@ class LabsController extends TabHomeOthersController {
   TextEditingController search = TextEditingController();
   List<Labs> searchDataList = [];
   bool isSearching = false;
+  List<Geometry> locationData = [];
+  List<String> locationTitle = [];
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {
@@ -158,8 +160,24 @@ class LabsController extends TabHomeOthersController {
         print('==labItems===>${newItems.length}======${page}');
         if (newItems == null || newItems.length == 0) {
           pageController.appendLastPage(newItems);
+          locationData.clear();
+          locationTitle.clear();
+          pageController.itemList.forEach((element) {
+            if (element.geometry.coordinates != null) {
+              locationData.add(element.geometry);
+              locationTitle.add(element.name);
+            }
+          });
         } else {
           pageController.appendPage(newItems, page + 1);
+          locationData.clear();
+          locationTitle.clear();
+          pageController.itemList.forEach((element) {
+            if (element.geometry.coordinates != null) {
+              locationData.add(element.geometry);
+              locationTitle.add(element.name);
+            }
+          });
         }
       } else {}
     }).catchError((e, s) {
@@ -187,6 +205,14 @@ class LabsController extends TabHomeOthersController {
         searchDataList.clear();
         data.data["data"].forEach((item) {
           searchDataList.add(Labs.fromJson(item));
+        });
+        locationData.clear();
+        locationTitle.clear();
+        searchDataList.forEach((element) {
+          if (element.geometry.coordinates != null) {
+            locationData.add(element.geometry);
+            locationTitle.add(element.name);
+          }
         });
         isSearching = false;
         update();

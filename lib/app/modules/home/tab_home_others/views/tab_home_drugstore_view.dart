@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,7 +10,9 @@ import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/pharmacy_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -19,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '/app/extentions/widget_exts.dart';
@@ -87,46 +91,69 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 20),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              AppImages.map,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              "view_all_in_maps".tr,
-                              style: AppTextStyle.boldWhite12
-                                  .copyWith(fontSize: 13),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        List<LatLng> latLng = [];
+                        controller.locationData.forEach((element) {
+                          if (element.coordinates != null) {
+                            latLng.add(LatLng(element.coordinates[1],
+                                element.coordinates[0]));
+                          }
+                          if (controller.locationData.length == latLng.length) {
+                            Get.to(MapScreen(
+                              latLng: latLng,
+                              name: controller.locationTitle,
+                              title: "Pharmacy location",
+                            ));
+                          }
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 20),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.map,
+                                color: AppColors.white,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "view_all_in_maps".tr,
+                                style: AppTextStyle.boldWhite12
+                                    .copyWith(fontSize: 13),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.red3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 9.5, horizontal: 10),
-                        child: Center(
-                            child: SvgPicture.asset(
-                          AppImages.moon,
-                          width: 25,
-                          height: 24,
-                        )),
+                    GestureDetector(
+                      onTap: () {
+                        controller.show24HoursData();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.red3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 9.5, horizontal: 10),
+                          child: Center(
+                              child: SvgPicture.asset(
+                            AppImages.moon,
+                            width: 25,
+                            height: 24,
+                          )),
+                        ),
                       ),
                     ),
                     Container(
@@ -523,9 +550,14 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
     h,
     w,
   ) {
+    log("DateTime.now().weekday--------------> ${DateTime.now().weekday}");
+
     return GestureDetector(
       onTap: () {
-        Get.to(PharmacyDetailScreen());
+        // controller.getDrugDetails(item.id);
+        Get.to(PharmacyDetailScreen(
+          item: item,
+        ));
         // Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
       },
       child: Container(
@@ -575,16 +607,12 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                           ),
                         ),
                       ),
-                      SettingsController.appLanguge != "English"
+                      item.the24Hours.contains(DateTime.now().weekday)
                           ? Positioned(
-                              top: -5,
-                              right: -5,
-                              child: SvgPicture.asset(AppImages.roundedMoon),
-                            )
-                          : Positioned(
                               top: -5,
                               left: -5,
                               child: SvgPicture.asset(AppImages.roundedMoon))
+                          : SizedBox()
                     ],
                   ),
                   Expanded(
@@ -628,9 +656,13 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               SizedBox(width: 4),
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(ReviewScreen(
-                                    appBarTitle: "pharmacy_reviews",
-                                  ));
+                                  log("item--------------> ${item.id}");
+
+                                  Get.toNamed(Routes.REVIEW,
+                                      arguments: ["Pharmacy_Review", item]);
+                                  // Get.to(ReviewScreen(
+                                  //   appBarTitle: "pharmacy_reviews",
+                                  // ));
                                 },
                                 child: Text(
                                   '(10) ${"reviews".tr}',

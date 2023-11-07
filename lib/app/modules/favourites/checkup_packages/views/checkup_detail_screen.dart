@@ -4,6 +4,7 @@ import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
+import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/booking_info_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -187,62 +188,65 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                             thickness: 1,
                             color: AppColors.grey3,
                           ),
-                          Container(
-                            height: 80,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      item.price ?? "0.0",
-                                      style: AppTextTheme.b(25)
-                                          .copyWith(color: AppColors.grey),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    item.discount == "0" ||
-                                            item.discount == null
-                                        ? SizedBox()
-                                        : Text(
-                                            item.rrp ?? "0.0",
-                                            style: AppTextTheme.b(25).copyWith(
-                                                color: AppColors.grey
-                                                    .withOpacity(0.5),
-                                                decoration:
-                                                    TextDecoration.lineThrough),
-                                          ),
-                                  ],
-                                ),
-                                item.discount == "0" || item.discount == null
-                                    ? SizedBox()
-                                    : Container(
-                                        width: 200,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color:
-                                                AppColors.red2.withOpacity(0.1),
-                                            border: Border.all(
-                                                color: AppColors.red2
-                                                    .withOpacity(0.1))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 10),
-                                          child: Center(
-                                            child: Text(
-                                              "%${item.discount ?? 0} OFF",
-                                              style:
-                                                  AppTextTheme.b(10).copyWith(
-                                                color: AppColors.red2,
-                                              ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                AppImages.coin,
+                                height: 30,
+                                width: 30,
+                              ),
+                              Text(
+                                item.price ?? "0.0",
+                                style: AppTextTheme.b(25)
+                                    .copyWith(color: AppColors.grey),
+                              ),
+                              Spacer(),
+                              item.discount == "0" || item.discount == null
+                                  ? SizedBox()
+                                  : Container(
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color:
+                                              AppColors.red2.withOpacity(0.1),
+                                          border: Border.all(
+                                              color: AppColors.red2
+                                                  .withOpacity(0.1))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 10),
+                                        child: Center(
+                                          child: Text(
+                                            "%${item.discount ?? 0} OFF",
+                                            style: AppTextTheme.b(10).copyWith(
+                                              color: AppColors.red2,
                                             ),
                                           ),
                                         ),
                                       ),
-                              ],
-                            ),
+                                    ),
+                              Spacer(),
+                              item.discount == "0" || item.discount == null
+                                  ? SizedBox()
+                                  : Row(
+                                      children: [
+                                        Image.asset(
+                                          AppImages.coin,
+                                          height: 30,
+                                          width: 30,
+                                        ),
+                                        Text(
+                                          item.rrp ?? "0.0",
+                                          style: AppTextTheme.b(25).copyWith(
+                                              color: AppColors.grey
+                                                  .withOpacity(0.5),
+                                              decoration:
+                                                  TextDecoration.lineThrough),
+                                        ),
+                                      ],
+                                    ),
+                            ],
                           ),
                           Divider(
                             thickness: 1,
@@ -285,7 +289,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                             thickness: 1,
                             color: AppColors.grey3,
                           ),
-                          BannerView(),
+
                           SizedBox(
                             height: 10,
                           ),
@@ -727,19 +731,24 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                           SizedBox(
                             height: 5,
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColors.teal,
-                                border: Border.all(color: AppColors.teal)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 7, horizontal: 10),
-                              child: Center(
-                                child: Text(
-                                  "book1".tr,
-                                  style: AppTextTheme.b(15).copyWith(
-                                    color: AppColors.white,
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(BookingInfoScreen());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColors.teal,
+                                  border: Border.all(color: AppColors.teal)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 7, horizontal: 10),
+                                child: Center(
+                                  child: Text(
+                                    "book1".tr,
+                                    style: AppTextTheme.b(15).copyWith(
+                                      color: AppColors.white,
+                                    ),
                                   ),
                                 ),
                               ),

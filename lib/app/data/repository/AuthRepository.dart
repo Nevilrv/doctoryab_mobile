@@ -134,14 +134,21 @@ class AuthRepository {
   }
 
   //* update profile
-  Future<dynamic> updateProfile(String name, int age,
-      {String firebaseUserToken}) async {
+  Future<dynamic> updateProfile({
+    String firebaseUserToken,
+    String name,
+    int age,
+    String gender,
+    String cityId,
+  }) async {
     final response = await dio.put(
       ApiConsts.authPath,
       data: {
         "age": age,
         "name": name,
-        "token": firebaseUserToken,
+        "gender": gender,
+        "city": cityId, "phone": "0777777777"
+        // "token": firebaseUserToken,
       },
       // cancelToken: loginCancelToken,
     );
@@ -171,5 +178,41 @@ class AuthRepository {
             // cancelToken: loginCancelToken,
             );
     return (response?.data['isExist'] ?? true);
+  }
+
+  ///complaint api
+  Future<dynamic> complaintApi({
+    String title,
+    String desc,
+  }) async {
+    log("ApiConsts.complaint--------------> ${ApiConsts.complaint}");
+
+    final response = await _cachedDio.post(
+      ApiConsts.complaint,
+      data: {
+        "title": title,
+        "desc": desc,
+      },
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
+  }
+
+  ///suggestion api
+  Future<dynamic> suggestionApi({
+    String title,
+    String desc,
+  }) async {
+    log("ApiConsts.complaint--------------> ${ApiConsts.complaint}");
+
+    final response = await _cachedDio.post(
+      ApiConsts.suggestion,
+      data: {
+        "title": title,
+        "desc": desc,
+      },
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
   }
 }

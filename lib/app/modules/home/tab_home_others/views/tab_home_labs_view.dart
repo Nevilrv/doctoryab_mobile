@@ -12,6 +12,7 @@ import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/lab_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -23,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '/app/extentions/widget_exts.dart';
@@ -62,29 +64,48 @@ class TabHomeLabsView extends GetView<LabsController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: w * 0.6,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 20),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  AppImages.map,
-                                  color: AppColors.white,
-                                ),
-                                Spacer(),
-                                Text(
-                                  "view_all_in_maps".tr,
-                                  style: AppTextStyle.boldWhite12
-                                      .copyWith(fontSize: 13),
-                                ),
-                                Spacer(),
-                              ],
+                        GestureDetector(
+                          onTap: () {
+                            List<LatLng> latLng = [];
+                            controller.locationData.forEach((element) {
+                              if (element.coordinates != null) {
+                                latLng.add(LatLng(element.coordinates[1],
+                                    element.coordinates[0]));
+                              }
+                              if (controller.locationData.length ==
+                                  latLng.length) {
+                                Get.to(MapScreen(
+                                  latLng: latLng,
+                                  name: controller.locationTitle,
+                                  title: "Laboratories location",
+                                ));
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: w * 0.6,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 20),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppImages.map,
+                                    color: AppColors.white,
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "view_all_in_maps".tr,
+                                    style: AppTextStyle.boldWhite12
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -521,7 +542,9 @@ class TabHomeLabsView extends GetView<LabsController> {
   ) {
     return GestureDetector(
       onTap: () {
-        Get.to(LabDetailScreen());
+        Get.to(LabDetailScreen(
+          item: item,
+        ));
         // Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
       },
       child: Container(

@@ -259,7 +259,7 @@ class TabMoreView extends GetView {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Get.to(ComplaintScreen());
+                Get.toNamed(Routes.COMPLAINT);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -284,7 +284,7 @@ class TabMoreView extends GetView {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Get.to(SuggestionScreen());
+                Get.toNamed(Routes.SUGGESTION);
               },
               child: Container(
                 decoration: BoxDecoration(

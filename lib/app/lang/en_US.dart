@@ -217,8 +217,7 @@ const Map<String, String> enUS = {
   ///------
   "hi_text": "Hi, Mohammad Nabi Hasanzada!",
   "how_do_you_feel": "How do you feel that to day?",
-  "search_doctor":
-      "Search a Doctor, Hospital, Lab, Pharmacy, Drugs and Disease and Treatment",
+  "search_doctor": "Search a Doctor",
   "drug_database": "Drug Database",
   "disease_treatment": "Disease and Treatment",
   "blood_donation": "Blood Donation",
@@ -410,4 +409,11 @@ const Map<String, String> enUS = {
       "Please check I’m over 18 years old and my weight is over 50kg.",
   "show_all": "Show All",
   "valid_email": "Please enter valid email",
+  "profile_update": "Profile update successfully",
+  "add_review": "Add Review",
+  "cleaningRating": "Cleaning Rating",
+  "satisfyRating": "Satisfy Rating",
+  "expertiseRating": "Expertise Rating",
+  "review_successfully": "Review successfully added",
+  "doctor_reviews": "Doctor Reviews",
 };

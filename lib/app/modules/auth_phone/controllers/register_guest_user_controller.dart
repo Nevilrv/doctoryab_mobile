@@ -34,7 +34,7 @@ class RegisterGuestUserController extends GetxController {
   var isLoading = false.obs;
   @override
   void onInit() {
-    // loadCities();
+    loadCities();
 
     super.onInit();
   }

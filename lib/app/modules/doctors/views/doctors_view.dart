@@ -15,6 +15,7 @@ import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -26,7 +27,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/doctors_controller.dart';
 
@@ -125,29 +128,48 @@ class DoctorsView extends GetView<DoctorsController> {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: Row(
                     children: [
-                      Container(
-                        width: w * 0.7,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SvgPicture.asset(
-                                AppImages.map,
-                                color: AppColors.white,
-                              ),
-                              Text(
-                                "view_all_in_maps".tr,
-                                style: AppTextStyle.boldWhite12
-                                    .copyWith(fontSize: 13),
-                              ),
-                              SizedBox()
-                            ],
+                      GestureDetector(
+                        onTap: () async {
+                          List<LatLng> latLng = [];
+                          controller.locationData.forEach((element) {
+                            if (element.coordinates != null) {
+                              latLng.add(LatLng(element.coordinates[1],
+                                  element.coordinates[0]));
+                            }
+                            if (controller.locationData.length ==
+                                latLng.length) {
+                              Get.to(MapScreen(
+                                latLng: latLng,
+                                name: controller.locationTitle,
+                                title: "Doctors location",
+                              ));
+                            }
+                          });
+                        },
+                        child: Container(
+                          width: w * 0.7,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SvgPicture.asset(
+                                  AppImages.map,
+                                  color: AppColors.white,
+                                ),
+                                Text(
+                                  "view_all_in_maps".tr,
+                                  style: AppTextStyle.boldWhite12
+                                      .copyWith(fontSize: 13),
+                                ),
+                                SizedBox()
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -889,9 +911,8 @@ class DoctorsView extends GetView<DoctorsController> {
       padding: const EdgeInsets.only(bottom: 15, right: 20, left: 20),
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(
-            Routes.DOCTOR,
-          );
+          controller.selectedDoctorData = item;
+          Get.toNamed(Routes.DOCTOR, arguments: item);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -960,7 +981,11 @@ class DoctorsView extends GetView<DoctorsController> {
                                 RatingBar.builder(
                                   ignoreGestures: true,
                                   itemSize: 15,
-                                  initialRating: item.stars.toDouble(),
+                                  initialRating: double.parse(
+                                      item.averageRatings == null
+                                          ? "0.0"
+                                          : item.averageRatings.toString() ??
+                                              "0.0"),
                                   // minRating: 1,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
@@ -977,11 +1002,17 @@ class DoctorsView extends GetView<DoctorsController> {
                                   },
                                 ),
                                 SizedBox(width: 4),
-                                Text(
-                                  '(12) Reviews',
-                                  style: AppTextTheme.b(12).copyWith(
-                                      color:
-                                          AppColors.primary.withOpacity(0.5)),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(Routes.REVIEW,
+                                        arguments: ["Doctor_Review", item]);
+                                  },
+                                  child: Text(
+                                    '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks ?? 0}) Reviews',
+                                    style: AppTextTheme.b(12).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5)),
+                                  ),
                                 ),
                               ],
                             ),
@@ -1441,7 +1472,8 @@ class DoctorsView extends GetView<DoctorsController> {
                               RatingBar.builder(
                                 ignoreGestures: true,
                                 itemSize: 15,
-                                initialRating: item.stars.toDouble(),
+                                initialRating: double.parse(
+                                    item.satifyRating.toString() ?? "0.0"),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -1459,7 +1491,7 @@ class DoctorsView extends GetView<DoctorsController> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                '(12) Reviews',
+                                '(${item.feedbacks.length ?? 0}) Reviews',
                                 style: AppTextTheme.b(12).copyWith(
                                     color: AppColors.primary.withOpacity(0.5)),
                               ),

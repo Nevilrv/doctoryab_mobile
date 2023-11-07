@@ -29,7 +29,12 @@ import 'package:doctor_yab/app/modules/favourites/treatment_abroad/bindings/trea
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatment_abroad_view.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appointment_history_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
+import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
+import 'package:doctor_yab/app/modules/review/binding/review_binding.dart';
+import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/APP_STORY/bindings/app_story_binding.dart';
@@ -157,6 +162,16 @@ class AppPages {
       binding: ProfileUpdateBinding(),
     ),
     GetPage(
+      name: _Paths.COMPLAINT,
+      page: () => ComplaintScreen(),
+      binding: ProfileUpdateBinding(),
+    ),
+    GetPage(
+      name: _Paths.SUGGESTION,
+      page: () => SuggestionScreen(),
+      binding: ProfileUpdateBinding(),
+    ),
+    GetPage(
       name: _Paths.LOGIN_VERIFY,
       page: () => LoginVerifyView(),
       binding: LoginVerifyBinding(),
@@ -187,6 +202,11 @@ class AppPages {
       binding: DoctorsBinding(),
     ),
     GetPage(
+      name: _Paths.SEARCH_DOCTOR,
+      page: () => TabSearchView(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
       name: _Paths.BOOK,
       page: () => BookView(),
       binding: BookBinding(),
@@ -205,6 +225,11 @@ class AppPages {
       name: _Paths.DOCTOR,
       page: () => DoctorView(),
       binding: DoctorBinding(),
+    ),
+    GetPage(
+      name: _Paths.REVIEW,
+      page: () => ReviewScreen(),
+      binding: ReviewBinding(),
     ),
     GetPage(
       name: _Paths.HISTORY_DETAILS,

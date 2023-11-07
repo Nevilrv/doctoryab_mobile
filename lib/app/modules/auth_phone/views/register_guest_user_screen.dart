@@ -35,6 +35,21 @@ class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              SizedBox(
+                height: Get.height * 0.064,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
               Spacer(),
               // Hero(
               //     tag: "doctor_svg",

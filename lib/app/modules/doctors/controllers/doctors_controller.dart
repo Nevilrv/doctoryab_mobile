@@ -13,6 +13,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../data/models/labs_model.dart';
+
 enum DOCTORS_LOAD_ACTION {
   fromCategory,
   myDoctors,
@@ -35,12 +37,15 @@ class DoctorsController extends GetxController {
   String sort = "";
   String selectedSort = "";
   List<String> filterList;
+
+  List<Geometry> locationData = [];
+  List<String> locationTitle = [];
   //*Location
   var permissionStatus = Rx<PermissionStatus>(null);
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
   var latLang = Rx<LocationData>(null);
   bool _nearByResturantsPageInitDone = false;
-
+  Doctor selectedDoctorData;
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
 
   //*Dio
@@ -86,6 +91,16 @@ class DoctorsController extends GetxController {
         pagingController.appendPage(newItems, pageKey + 1);
       }
 
+      log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
+      locationData.clear();
+      locationTitle.clear();
+      pagingController.itemList.forEach((element) {
+        if (element.geometry.coordinates != null) {
+          locationData.add(element.geometry);
+          locationTitle.add(element.name);
+        }
+      });
+      log("locationData--------------> ${locationData}");
       // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {

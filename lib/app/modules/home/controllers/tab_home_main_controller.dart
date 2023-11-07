@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/modules/home/controllers/tab_home_doctors_control
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
@@ -17,7 +18,7 @@ class TabHomeMainController extends GetxController {
   var selectedCity = City().obs;
   //ads model is same as story
   var dataList = Rx<AdsModel>(null);
-
+  TextEditingController searchDoctor = TextEditingController();
   //stories
   @override
   void onInit() {

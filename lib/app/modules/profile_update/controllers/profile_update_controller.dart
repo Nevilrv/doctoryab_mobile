@@ -37,7 +37,7 @@ class ProfileUpdateController extends GetxController {
   //*
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var formValid = false.obs;
-
+  var loading = false.obs;
   //*text Edtings
   TextEditingController teName = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -48,6 +48,7 @@ class ProfileUpdateController extends GetxController {
   var locations = <City>[].obs; // Option 2
   var genderList = ['Male', "Female", "Other"];
   var selectedLocation = "".obs;
+  var selectedLocationId = "".obs;
   var selectedGender = "Male".obs;
   @override
   void onInit() {
@@ -61,14 +62,23 @@ class ProfileUpdateController extends GetxController {
   @override
   void onReady() {
     log("user?.name?.toString()--------------> ${user?.id}");
+    log("user?.name?.toString()--------------> ${user?.gender}");
     loadCities();
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
-    teNewNumber.text = AuthController.to.getUser.phoneNumber == null
-        ? ""
-        : AuthController.to.getUser.phoneNumber
-                .replaceFirst(AppStatics.envVars.countryCode, "0") ??
-            "";
+    email.text = user?.email.toString() ?? "";
+    selectedLocation.value = SettingsController.auth.savedCity.eName ?? "";
+    selectedLocationId.value = SettingsController.auth.savedCity.sId ?? "";
+    log("selectedLocationId.value--------------> ${selectedLocationId.value}");
+
+    teNewNumber.text = user?.phone.toString() ?? "";
+    selectedGender.value = user.gender == null ? "Male" : user.gender;
+
+    // teNewNumber.text = AuthController.to.getUser.phoneNumber == null
+    //     ? ""
+    //     : AuthController.to.getUser.phoneNumber
+    //             .replaceFirst(AppStatics.envVars.countryCode, "0") ??
+    //         "";
     // formKey = GlobalKey<FormState>();
     super.onReady();
   }
@@ -82,6 +92,8 @@ class ProfileUpdateController extends GetxController {
     //   updateName(null);
     //   return;
     // }
+    log("isUploadingImage--------------> ${isUploadingImage}");
+
     AuthRepository().updateImage(image.value, (pr) {
       uploadProgress.value = pr / 100;
     }).then((value) {
@@ -94,7 +106,7 @@ class ProfileUpdateController extends GetxController {
 
         if (SettingsController.savedUserProfile?.photo != null) {
           User _user = SettingsController.savedUserProfile;
-          _user.photo = response["name"];
+          // _user.photo = response["photo"];
           SettingsController.savedUserProfile = _user;
         }
       } else {
@@ -141,7 +153,7 @@ class ProfileUpdateController extends GetxController {
     try {
       _newIntlNumber = _newIntlNumber.toEnglishDigit();
     } catch (e) {}
-    _updateApi();
+    // _updateApi();
 
     // if (_newIntlNumber != AuthController.to.getUser.phoneNumber) {
     //   // if(AuthController.to.firebaseAuth.app. ){
@@ -182,26 +194,36 @@ class ProfileUpdateController extends GetxController {
     EasyLoading.show(status: "please_wait".tr);
   }
 
-  _updateApi({String authToken}) {
+  updateApi(BuildContext context) {
+    loading.value = true;
     AuthRepository()
-        .updateProfile(teName.text, int.tryParse(teAge.text?.toEnglishDigit()),
-            firebaseUserToken: authToken)
+        .updateProfile(
+            name: teName.text,
+            age: int.parse(teAge.text),
+            cityId: selectedLocationId.value.toString(),
+            gender: selectedGender.value)
         .then((value) {
+      log("value--------------> ${value}");
+
       try {
         User user = User.fromJson(value.data["data"]);
         SettingsController.savedUserProfile = user;
 
         SettingsController.userProfileComplete = true;
+        Utils.commonSnackbar(text: "update_profile".tr, context: context);
+        loading.value = false;
         Utils.whereShouldIGo();
       } catch (e, s) {
         //TODO handle
+        loading.value = false;
         Logger().e(e.toString());
         FirebaseCrashlytics.instance.recordError(e, s);
       }
 
       // print(Map.of(response["data"])?.runtimeType);
-      EasyLoading.dismiss();
+      // EasyLoading.dismiss();
     }).catchError((e, s) {
+      loading.value = false;
       DioExceptionHandler.handleException(
           //TODO not tesetd yet
           exception: e,

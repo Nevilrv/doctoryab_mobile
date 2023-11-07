@@ -248,30 +248,30 @@ class BloodDonorsResultsView extends GetView<BloodDonorsResultsController> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: w * 0.27,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                        decoration: BoxDecoration(
-                            color: AppColors.lightBlack2,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Center(
-                            child: Text(
-                              "appointment".tr,
-                              style: AppTextTheme.m(12)
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () {},
+                    //   child: Container(
+                    //     width: w * 0.27,
+                    //     padding:
+                    //         EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                    //     decoration: BoxDecoration(
+                    //         color: AppColors.lightBlack2,
+                    //         borderRadius: BorderRadius.circular(20)),
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.symmetric(horizontal: 15),
+                    //       child: Center(
+                    //         child: Text(
+                    //           "appointment".tr,
+                    //           style: AppTextTheme.m(12)
+                    //               .copyWith(color: Colors.white),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

@@ -5,34 +5,39 @@ import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctor_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/models/doctor_full_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
+import 'package:doctor_yab/app/data/models/pharmacy_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DoctorController extends GetxController {
+class ReviewController extends GetxController {
   final args = Get.arguments;
   // var doctorsLoded = false.obs;
-  Rxn<DoctorFullModel> doctorFullData = Rxn();
+
   Doctor doctor;
+  DrugStore drugStore;
   var cancelToken = CancelToken();
   var tabIndex = 0.obs;
   var cRating = 0.0.obs;
   var sRating = 0.0.obs;
   var eRating = 0.0.obs;
+  var appBarTitle = "".obs;
   TextEditingController comment = TextEditingController();
   @override
   void onInit() {
-    doctor = args;
-    log("doctor.datumId--------------> ${doctor.datumId}");
+    if (args[0] == "Doctor_Review") {
+      doctor = args[1];
+      appBarTitle.value = "doctor_reviews";
+      getDocFeedback(url: '${ApiConsts.getDoctorFeedback}${doctor.datumId}');
+    } else if (args[0] == "Pharmacy_Review") {
+      drugStore = args[1];
+      log("drugStore.id--------------> ${drugStore.id}");
+      appBarTitle.value = "pharmacy_reviews";
+      getDocFeedback(url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
+    }
 
-    getDocFeedback(doctorId: doctor.datumId);
-    // if (!(args is List && args.length > 0 && args[0] is Doctor)) {
-    //   Get.back();
-    // } else {
-    //   doctor = args[0];
-    // }
-    // _fetchDoctorFullData();
     super.onInit();
   }
 
@@ -46,26 +51,12 @@ class DoctorController extends GetxController {
     cancelToken.cancel();
   }
 
-  void _fetchDoctorFullData() async {
-    try {
-      var _response =
-          await DoctorsRepository().fetchDoctorFullData(doctor.id.toString());
-      var _data = _response.data;
-      doctorFullData.value = DoctorFullModel.fromJson(_data);
-      doctorFullData.refresh();
-    } on DioError catch (e) {
-      await Future.delayed(Duration(seconds: 2), () {});
-      if (!cancelToken.isCancelled) _fetchDoctorFullData();
-      // throw e;
-      print(e);
-    }
-  }
-
   void addDocFeedback({
-    String doctorId,
     BuildContext context,
   }) async {
     try {
+      log("drugStore.id--------------> ${drugStore.id}");
+
       var _response = await DoctorsRepository()
           .postDoctorFeedback(
               comment: comment.text,
@@ -73,11 +64,19 @@ class DoctorController extends GetxController {
               eRating: eRating.value,
               sRating: sRating.value,
               cancelToken: cancelToken,
-              id: doctorId,
-              url: "${ApiConsts.postDoctorFeedback}")
+              id: args[0] == "Doctor_Review" ? doctor.datumId : drugStore.id,
+              url: args[0] == "Doctor_Review"
+                  ? "${ApiConsts.postDoctorFeedback}"
+                  : "${ApiConsts.postPharmacyFeedback}")
           .then((value) {
         Get.back();
-        getDocFeedback(doctorId: doctor.datumId);
+        if (args[0] == "Doctor_Review") {
+          getDocFeedback(
+              url: '${ApiConsts.getDoctorFeedback}${doctor.datumId}');
+        } else if (args[0] == "Pharmacy_Review") {
+          getDocFeedback(
+              url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
+        }
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
@@ -87,33 +86,45 @@ class DoctorController extends GetxController {
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
-      if (!cancelToken.isCancelled) addDocFeedback(doctorId: doctorId);
+      if (!cancelToken.isCancelled) addDocFeedback(context: context);
       // throw e;
       print(e);
     }
   }
 
   var feedbackData = <FeedbackData>[];
+  var pharmacyFeedback = <PharmacyFeedback>[];
   var loading = false.obs;
   void getDocFeedback({
-    String doctorId,
+    String url,
   }) async {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getDoctorFeedback}${doctorId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: url)
           .then((value) {
-        feedbackData.clear();
-        log("value--------------> ${value.data}");
-        if (value.data['data'] != null) {
-          value.data['data'].forEach((element) {
-            feedbackData.add(FeedbackData.fromJson(element));
-          });
-        } else {
-          feedbackData = [];
+        if (args[0] == "Doctor_Review") {
+          feedbackData.clear();
+          log("value--------------> ${value.data}");
+          if (value.data['data'] != null) {
+            value.data['data'].forEach((element) {
+              feedbackData.add(FeedbackData.fromJson(element));
+            });
+          } else {
+            feedbackData = [];
+          }
+        } else if (args[0] == "Pharmacy_Review") {
+          pharmacyFeedback.clear();
+          log("value--------------> ${value.data}");
+          if (value.data['data'] != null) {
+            value.data['data'].forEach((element) {
+              pharmacyFeedback.add(PharmacyFeedback.fromJson(element));
+            });
+          } else {
+            pharmacyFeedback = [];
+          }
         }
+
         loading.value = false;
         log("feedbackData--------------> ${feedbackData}");
 

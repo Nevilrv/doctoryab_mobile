@@ -79,7 +79,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 15),
                               child: Text(
-                                "checkup_lists".tr,
+                                "health_packages_list".tr,
                                 textAlign: TextAlign.center,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -464,9 +464,9 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                   Center(
                                     child: Text(
                                       "${"report_text".tr} ${item.duration}",
-                                      style: AppTextTheme.b(8).copyWith(
+                                      style: AppTextTheme.b(10).copyWith(
                                           color:
-                                              AppColors.grey.withOpacity(0.5),
+                                              AppColors.black.withOpacity(0.8),
                                           fontWeight: FontWeight.w400),
                                     ),
                                   ),

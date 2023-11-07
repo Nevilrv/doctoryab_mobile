@@ -50,7 +50,7 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
     },
     {
       "color": AppColors.lightYellow,
-      "title": "checkup_packages",
+      "title": "health_packages_list",
       "image": AppImages.microscope,
       "routes": Routes.CHECKUP_PACKAGES
     }
@@ -69,111 +69,110 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
               mainAxisSize: MainAxisSize.max,
               children: [_buildStories()],
             ),
-            Utils.searchBox(),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(15).copyWith(bottom: 0),
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  color: AppColors.lightPurple,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset(
-                          AppImages.backArrow,
-                          height: 24,
+            // Utils.searchBox(),
+            Container(
+              height: Get.height * 0.8,
+              padding: EdgeInsets.all(15).copyWith(bottom: 0),
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: AppColors.lightPurple,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(
+                        AppImages.backArrow,
+                        height: 24,
+                      ),
+                      Text(
+                        "navigation".tr,
+                        style: AppTextStyle.boldPrimary14,
+                      ),
+                      SvgPicture.asset(
+                        AppImages.closeCircle,
+                        height: 24,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: GridView.builder(
+                        itemCount: gridData.length,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.only(top: 15),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 9,
+                          childAspectRatio: 1,
                         ),
-                        Text(
-                          "navigation".tr,
-                          style: AppTextStyle.boldPrimary14,
-                        ),
-                        SvgPicture.asset(
-                          AppImages.closeCircle,
-                          height: 24,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: GridView.builder(
-                          itemCount: gridData.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          padding: EdgeInsets.only(top: 15),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 9,
-                            childAspectRatio: 1,
-                          ),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.toNamed(gridData[index]["routes"]);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                        horizontal: 11, vertical: 8)
-                                    .copyWith(bottom: 0),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      height: h * 0.107,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: gridData[index]["color"],
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset(
-                                          gridData[index]["image"],
-                                          height: 63,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        child: Center(
-                                          child: Text(
-                                            gridData[index]["title"]
-                                                .toString()
-                                                .tr,
-                                            style: AppTextStyle.boldBlack13
-                                                .copyWith(height: 1.2),
-                                            maxLines: 2,
-                                            textAlign: TextAlign.center,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(gridData[index]["routes"]);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                      horizontal: 11, vertical: 8)
+                                  .copyWith(bottom: 0),
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            );
-                          },
-                        ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    height: h * 0.107,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: gridData[index]["color"],
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Center(
+                                      child: Image.asset(
+                                        gridData[index]["image"],
+                                        height: 63,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Center(
+                                        child: Text(
+                                          gridData[index]["title"]
+                                              .toString()
+                                              .tr,
+                                          style: AppTextStyle.boldBlack13
+                                              .copyWith(height: 1.2),
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    const SizedBox(
-                      height: 80.0,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 80.0,
+                  ),
+                ],
               ),
             ),
           ],

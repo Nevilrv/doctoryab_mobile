@@ -66,6 +66,7 @@ class AppImages {
   static const google = "assets/svg/google.svg";
   static const userCircle = "assets/svg/User_Circle.svg";
   static const facebook = "assets/svg/Facebook.svg";
+  static const likeFill = "assets/svg/like_fill.svg";
   // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG

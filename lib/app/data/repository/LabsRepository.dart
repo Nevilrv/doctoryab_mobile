@@ -27,6 +27,7 @@ class LabsRepository {
       queryParameters: {
         "limit": limitPerPage,
         "page": page,
+        "cityId": "${SettingsController.auth.savedCity.sId}",
         // "sort": "name",
         // "cityId": "${SettingsController.auth.savedCity.sId}",
       },

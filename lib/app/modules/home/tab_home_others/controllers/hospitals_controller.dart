@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/repository/HospitalRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+
+import '../../../../data/models/labs_model.dart';
 
 class HospitalsController extends TabHomeOthersController {
   @override
@@ -18,6 +23,9 @@ class HospitalsController extends TabHomeOthersController {
     super.onInit();
   }
 
+  TextEditingController search = TextEditingController();
+  List<Geometry> locationData = [];
+  List<String> locationTitle = [];
   List<String> filterList = [
     'most_rated'.tr,
     'suggested'.tr,
@@ -125,6 +133,50 @@ class HospitalsController extends TabHomeOthersController {
         pageController,
         page,
       );
+      log("pageController.itemList--------------> ${pageController.itemList}");
+
+      locationData.clear();
+      locationTitle.clear();
+      pageController.itemList.forEach((element) {
+        if (element.geometry.coordinates != null) {
+          locationData.add(element.geometry);
+          locationTitle.add(element.name);
+        }
+      });
+      log("locationData--------------> ${locationData}");
+    });
+  }
+
+  void searchData(int page) {
+    HospitalRepository.searchHospitals(
+      page,
+      name: search.text,
+      cancelToken: cancelToken,
+      onError: (e) {
+        pageController.error = e;
+        // super.pageController.error = e;
+        Logger().e(
+          "load-hospitals",
+          e,
+        );
+      },
+    ).then((data) {
+      Utils.addResponseToPagingController<Hospital>(
+        data,
+        pageController,
+        page,
+      );
+      log("pageController.itemList--------------> ${pageController.itemList}");
+
+      locationData.clear();
+      locationTitle.clear();
+      pageController.itemList.forEach((element) {
+        if (element.geometry.coordinates != null) {
+          locationData.add(element.geometry);
+          locationTitle.add(element.name);
+        }
+      });
+      log("locationData--------------> ${locationData}");
     });
   }
 }

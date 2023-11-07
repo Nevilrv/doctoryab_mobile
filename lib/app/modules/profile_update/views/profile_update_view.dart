@@ -77,16 +77,14 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text('update_profile'.tr),
-          leading: SettingsController.isUserProfileComplete == false
-              ? SizedBox()
-              : GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios_new,
-                    color: AppColors.white,
-                  )),
+          leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: AppColors.white,
+              )),
           centerTitle: true,
           elevation: 0,
           actions: [
@@ -388,6 +386,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 controller.validateForm(),
                                             validator: Utils.emailValidator,
                                             cursorColor: AppColors.primary,
+                                            readOnly: true,
                                             style: AppTextStyle.mediumPrimary12
                                                 .copyWith(
                                                     color: AppColors.primary
@@ -427,16 +426,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                     AppImages.mail,
                                                   ),
                                                 ),
-                                                suffixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 12, right: 12),
-                                                  child: SvgPicture.asset(
-                                                    AppImages.editPen,
-                                                    width: 16,
-                                                    height: 16,
-                                                  ),
-                                                ),
+                                                // suffixIcon: Padding(
+                                                //   padding:
+                                                //       const EdgeInsets.only(
+                                                //           left: 12, right: 12),
+                                                //   child: SvgPicture.asset(
+                                                //     AppImages.editPen,
+                                                //     width: 16,
+                                                //     height: 16,
+                                                //   ),
+                                                // ),
                                                 focusedBorder: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -487,6 +486,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 .copyWith(
                                                     color: AppColors.primary
                                                         .withOpacity(0.5)),
+                                            readOnly: true,
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.phone,
@@ -521,16 +521,16 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                     AppImages.mobile,
                                                   ),
                                                 ),
-                                                suffixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 12, right: 12),
-                                                  child: SvgPicture.asset(
-                                                    AppImages.editPen,
-                                                    width: 16,
-                                                    height: 16,
-                                                  ),
-                                                ),
+                                                // suffixIcon: Padding(
+                                                //   padding:
+                                                //       const EdgeInsets.only(
+                                                //           left: 12, right: 12),
+                                                //   child: SvgPicture.asset(
+                                                //     AppImages.editPen,
+                                                //     width: 16,
+                                                //     height: 16,
+                                                //   ),
+                                                // ),
                                                 focusedBorder: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -746,6 +746,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                         return DropdownMenuItem<
                                                             String>(
                                                           value: value.eName,
+                                                          onTap: () {
+                                                            controller
+                                                                .selectedLocationId
+                                                                .value = value.sId;
+                                                            log("controller.selectedLocationId.value--------------> ${controller.selectedLocationId.value}");
+                                                          },
                                                           child: Text(
                                                               value.eName,
                                                               style: AppTextStyle
@@ -882,33 +888,43 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          CustomRoundedButton(
-                                              disabledColor: AppColors.primary
-                                                  .withOpacity(.2),
-                                              color: AppColors.primary,
-                                              textDisabledColor: Colors.white,
-                                              textColor: Colors.white,
-                                              splashColor: AppColors.easternBlue
-                                                  .withAlpha(0),
-                                              text: "save_changes".tr,
-                                              // width: 300,
-                                              onTap: () {
-                                                if (controller
-                                                    .formKey.currentState
-                                                    .validate()) {
-                                                  Get.focusScope.unfocus();
-                                                  controller.updateProfile();
-                                                } else {
-                                                  print("ssssssss");
-                                                  // Utils.restartApp();
-                                                }
-                                              }
-                                              //  () {
-                                              //   AuthController.to
-                                              //       .signOut()
-                                              //       .then((value) => Utils.whereShouldIGo());
-                                              // },
-                                              ),
+                                          controller.loading.value == true
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                  color: AppColors.primary,
+                                                ))
+                                              : CustomRoundedButton(
+                                                  disabledColor: AppColors
+                                                      .primary
+                                                      .withOpacity(.2),
+                                                  color: AppColors.primary,
+                                                  textDisabledColor:
+                                                      Colors.white,
+                                                  textColor: Colors.white,
+                                                  splashColor: AppColors
+                                                      .easternBlue
+                                                      .withAlpha(0),
+                                                  text: "save_changes".tr,
+                                                  // width: 300,
+                                                  onTap: () {
+                                                    if (controller
+                                                        .formKey.currentState
+                                                        .validate()) {
+                                                      Get.focusScope.unfocus();
+                                                      controller
+                                                          .updateApi(context);
+                                                    } else {
+                                                      print("ssssssss");
+                                                      // Utils.restartApp();
+                                                    }
+                                                  }
+                                                  //  () {
+                                                  //   AuthController.to
+                                                  //       .signOut()
+                                                  //       .then((value) => Utils.whereShouldIGo());
+                                                  // },
+                                                  ),
                                         ],
                                       ),
                                     ),

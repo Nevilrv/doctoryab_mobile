@@ -1,5 +1,6 @@
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart';
+import 'package:doctor_yab/app/modules/review/controller/review_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
@@ -25,11 +26,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut<MessagesListController>(
       () => MessagesListController(),
     );
-    // Get.put(MessagesListController());
-    // Get.put(ChatController());
-    // Get.lazyPut<TabChatController>(
-    //   () => TabChatController(),
-    // );
     Get.lazyPut<TabMoreController>(
       () => TabMoreController(),
     );
@@ -42,12 +38,14 @@ class HomeBinding extends Bindings {
     Get.lazyPut<TabTabHomeController>(
       () => TabTabHomeController(),
     );
+    Get.put(TabTabHomeController());
     Get.put(
       TabMeetingTimeController(),
     );
     Get.lazyPut<TabSearchController>(
       () => TabSearchController(),
     );
+    Get.put(TabSearchController());
     Get.put(TabHomeMainController());
     Get.put(HomeController());
     //

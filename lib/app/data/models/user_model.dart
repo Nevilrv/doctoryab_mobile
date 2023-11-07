@@ -42,6 +42,7 @@ class User {
   String fcm;
   String createAt;
   String patientID;
+  String gender;
   String phone;
   int v;
   int age;
@@ -57,6 +58,7 @@ class User {
     this.fcm,
     this.createAt,
     this.patientID,
+    this.gender,
     this.v,
     this.age,
   });
@@ -73,6 +75,7 @@ class User {
         phone: json["phone"],
         createAt: json["createAt"],
         patientID: json["patientID"],
+        gender: json["gender"],
         v: json["__v"],
         age: json["age"],
       );
@@ -88,6 +91,7 @@ class User {
         "phone": phone,
         "createAt": createAt,
         "patientID": patientID,
+        "gender": gender,
         "__v": v,
         "age": age,
       };
