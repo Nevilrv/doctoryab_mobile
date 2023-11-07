@@ -113,17 +113,25 @@ class DrugStoreController extends TabHomeOthersController {
     super.onClose();
   }
 
+  bool is24HourSelected = false;
   void show24HoursData() {
-    List<DrugStore> hoursList = [];
-    pageController.itemList.forEach((element) {
-      if (element.the24Hours.contains(DateTime.now().weekday)) {
-        hoursList.add(element);
-      }
-    });
-    pageController.itemList.clear();
+    if (is24HourSelected == true) {
+      List<DrugStore> hoursList = [];
+      pageController.itemList.forEach((element) {
+        if (element.the24Hours.contains(DateTime.now().weekday)) {
+          hoursList.add(element);
+        }
+      });
+      pageController.itemList.clear();
 
-    update();
-    pageController.appendLastPage(hoursList);
+      update();
+      pageController.appendLastPage(hoursList);
+    } else {
+      pageController.itemList.clear();
+
+      loadData(pageController.firstPageKey);
+      update();
+    }
   }
 
   void getDrugDetails(String id) {

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/hospital_new/tab_main/views/tab_main_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +21,20 @@ import '../utils/utils.dart';
 import 'dart:math' as math;
 
 class ProfileViewNew extends StatelessWidget {
-  const ProfileViewNew({
-    Key key,
-    this.photo,
-    this.name,
-    this.star,
-    this.address,
-    this.geometry,
-    this.phoneNumbers,
-    this.child,
-    this.showChildInBox = true,
-    this.numberOfusersRated,
-    this.reviewTitle,
-  }) : super(key: key);
+  const ProfileViewNew(
+      {Key key,
+      this.photo,
+      this.name,
+      this.star,
+      this.address,
+      this.geometry,
+      this.phoneNumbers,
+      this.child,
+      this.showChildInBox = true,
+      this.numberOfusersRated,
+      this.reviewTitle,
+      this.reviewFunction})
+      : super(key: key);
   final String photo;
   final String name;
   final String reviewTitle;
@@ -43,6 +45,7 @@ class ProfileViewNew extends StatelessWidget {
   final Widget child;
   final bool showChildInBox;
   final num numberOfusersRated;
+  final Function() reviewFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -141,13 +144,9 @@ class ProfileViewNew extends StatelessWidget {
                               ),
                               SizedBox(width: 4),
                               GestureDetector(
-                                onTap: () {
-                                  Get.to(ReviewScreen(
-                                    appBarTitle: reviewTitle,
-                                  ));
-                                },
+                                onTap: reviewFunction,
                                 child: Text(
-                                  '(10) ${"reviews".tr}',
+                                  '(${numberOfusersRated}) ${"reviews".tr}',
                                   style: AppTextTheme.b(12).copyWith(
                                       color:
                                           AppColors.primary.withOpacity(0.5)),

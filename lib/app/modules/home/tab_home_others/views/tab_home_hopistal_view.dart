@@ -59,220 +59,240 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
           },
         ),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            physics: BouncingScrollPhysics(),
+            child: GetBuilder<HospitalsController>(
+              builder: (controller) {
+                return Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        List<LatLng> latLng = [];
-                        controller.locationData.forEach((element) {
-                          log("element.coordinates[1]--------------> ${element.coordinates}");
-                          if (element.coordinates != null) {
-                            log(" element.coordinates[0]--------------> ${element.coordinates[0]}");
-                            log("element.coordinates[1]--------------> ${element.coordinates[1]}");
-                            latLng.add(LatLng(element.coordinates[1],
-                                element.coordinates[0]));
-                          }
-                        });
-                        Get.to(MapScreen(
-                          latLng: latLng,
-                          name: controller.locationTitle,
-                          title: "Hospital location",
-                        ));
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              List<LatLng> latLng = [];
+                              controller.locationData.forEach((element) {
+                                log("element.coordinates[1]--------------> ${element.coordinates}");
+                                if (element.coordinates != null) {
+                                  log(" element.coordinates[0]--------------> ${element.coordinates[0]}");
+                                  log("element.coordinates[1]--------------> ${element.coordinates[1]}");
+                                  latLng.add(LatLng(element.coordinates[1],
+                                      element.coordinates[0]));
+                                }
+                              });
+                              Get.to(MapScreen(
+                                latLng: latLng,
+                                name: controller.locationTitle,
+                                title: "Hospital location",
+                              ));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.primary,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 20),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      AppImages.map,
+                                      color: AppColors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Text(
+                                      "view_all_in_maps".tr,
+                                      style: AppTextStyle.boldWhite12
+                                          .copyWith(fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              controller.isEmergencySelect =
+                                  !controller.isEmergencySelect;
+                              controller.update();
+                              controller.emergencyData();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: AppColors.red3,
+                                    width: controller.isEmergencySelect == false
+                                        ? 1
+                                        : 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 9.5, horizontal: 10),
+                                child: Center(
+                                    child: SvgPicture.asset(
+                                  AppImages.emergencyBell,
+                                  width: 25,
+                                  height: 24,
+                                )),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primary),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 9.5, horizontal: 10),
+                              child: Center(
+                                  child: SvgPicture.asset(
+                                AppImages.blackBell,
+                                width: 25,
+                                height: 24,
+                              )),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              AppGetDialog.showFilterDialog(
+                                controller.filterList,
+                                controller.selectedSort,
+                                filterCallBack: (i) => controller.changeSort(i),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.primary),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 9.5, horizontal: 10),
+                                child: Center(
+                                    child: SettingsController.appLanguge !=
+                                            "English"
+                                        ? Transform(
+                                            alignment: Alignment.center,
+                                            transform:
+                                                Matrix4.rotationY(math.pi),
+                                            child: Image.asset(
+                                              AppImages.filter,
+                                              width: 25,
+                                              height: 24,
+                                              color: AppColors.primary,
+                                            ),
+                                          )
+                                        : Image.asset(
+                                            AppImages.filter,
+                                            width: 25,
+                                            height: 24,
+                                            color: AppColors.primary,
+                                          )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    TextField(
+                      style:
+                          AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                      cursorColor: AppColors.primary,
+                      controller: controller.search,
+                      textAlignVertical: TextAlignVertical.center,
+                      onChanged: (s) async {
+                        if (s.isEmpty) {
+                          controller.pageController.itemList.clear();
+                          controller.loadData(
+                            controller.pageController.firstPageKey,
+                          );
+                        }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(10),
+                      onSubmitted: (value) {
+                        controller.pageController.itemList.clear();
+                        controller.searchData(
+                          controller.pageController.firstPageKey,
+                        );
+                        controller.update();
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                        hintText: "search_hospital".tr,
+                        hintStyle:
+                            AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(11),
+                          child: SvgPicture.asset(AppImages.search,
+                              color: AppColors.primary),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 20),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                AppImages.map,
-                                color: AppColors.white,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                "view_all_in_maps".tr,
-                                style: AppTextStyle.boldWhite12
-                                    .copyWith(fontSize: 13),
-                              ),
-                            ],
+                        filled: true,
+                        fillColor: AppColors.white.withOpacity(0.1),
+                        constraints: BoxConstraints(maxHeight: 38),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
                           ),
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.red3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 9.5, horizontal: 10),
-                        child: Center(
-                            child: SvgPicture.asset(
-                          AppImages.emergencyBell,
-                          width: 25,
-                          height: 24,
-                        )),
-                      ),
+
+                    SizedBox(
+                      height: 10,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primary),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 9.5, horizontal: 10),
-                        child: Center(
-                            child: SvgPicture.asset(
-                          AppImages.blackBell,
-                          width: 25,
-                          height: 24,
-                        )),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        AppGetDialog.showFilterDialog(
-                          controller.filterList,
-                          controller.selectedSort,
-                          filterCallBack: (i) => controller.changeSort(i),
-                        );
+                    // BannerView(),
+                    PagedListView.separated(
+                      pagingController: controller.pageController,
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (c, i) {
+                        if ((i + 1) % 5 == 0) {
+                          return BannerView();
+                        } else {
+                          return SizedBox(height: 5);
+                        }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.primary),
-                          borderRadius: BorderRadius.circular(10),
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, item, index) {
+                          return buildItem(w, item, h, context);
+                        },
+                        firstPageProgressIndicatorBuilder: (_) =>
+                            DrugsGridShimmer(
+                          yCount: 5,
+                          xCount: 1,
+                          // linesCount: 4,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 9.5, horizontal: 10),
-                          child: Center(
-                              child: SettingsController.appLanguge != "English"
-                                  ? Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.rotationY(math.pi),
-                                      child: Image.asset(
-                                        AppImages.filter,
-                                        width: 25,
-                                        height: 24,
-                                        color: AppColors.primary,
-                                      ),
-                                    )
-                                  : Image.asset(
-                                      AppImages.filter,
-                                      width: 25,
-                                      height: 24,
-                                      color: AppColors.primary,
-                                    )),
+                        newPageProgressIndicatorBuilder: (_) =>
+                            DrugsGridShimmer(
+                          yCount: 5,
+                          xCount: 1,
                         ),
                       ),
                     ),
                   ],
-                ),
-              ),
-              TextField(
-                style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
-                cursorColor: AppColors.primary,
-                controller: controller.search,
-                textAlignVertical: TextAlignVertical.center,
-                onChanged: (s) async {
-                  if (s.isEmpty) {
-                    controller.pageController.itemList.clear();
-                    controller.loadData(
-                      controller.pageController.firstPageKey,
-                    );
-                  }
-                },
-                onSubmitted: (value) {
-                  controller.pageController.itemList.clear();
-                  controller.searchData(
-                    controller.pageController.firstPageKey,
-                  );
-                  controller.update();
-                },
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                  hintText: "search_hospital".tr,
-                  hintStyle:
-                      AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(11),
-                    child: SvgPicture.asset(AppImages.search,
-                        color: AppColors.primary),
-                  ),
-                  filled: true,
-                  fillColor: AppColors.white.withOpacity(0.1),
-                  constraints: BoxConstraints(maxHeight: 38),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              // BannerView(),
-              PagedListView.separated(
-                pagingController: controller.pageController,
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                separatorBuilder: (c, i) {
-                  if ((i + 1) % 5 == 0) {
-                    return BannerView();
-                  } else {
-                    return SizedBox(height: 5);
-                  }
-                },
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) {
-                    return buildItem(w, item, h, context);
-                  },
-                  firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
-                    yCount: 5,
-                    xCount: 1,
-                    // linesCount: 4,
-                  ),
-                  newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
-                    yCount: 5,
-                    xCount: 1,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+              },
+            )),
       ),
     );
   }
@@ -340,10 +360,13 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                             ),
                           ),
                         ),
-                        Positioned(
-                            top: -5,
-                            left: -5,
-                            child: SvgPicture.asset(AppImages.emergencyBell))
+                        item.isEmergency == false
+                            ? SizedBox()
+                            : Positioned(
+                                top: -5,
+                                left: -5,
+                                child:
+                                    SvgPicture.asset(AppImages.emergencyBell))
                       ],
                     ),
                     Expanded(

@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -49,12 +50,20 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
             ProfileViewNew(
               address: item.address ?? "",
               photo: "${ApiConsts.hostUrl}${item.photo}",
-              star: 4,
+              star: item.satifyRating == null
+                  ? 0
+                  : int.parse(
+                      "${int.parse(item.satifyRating) + int.parse(item.cleaningRating) + int.parse(item.expertiseRating) / 3}"),
               geometry: item.geometry,
               reviewTitle: "pharmacy_reviews",
               name: item.name ?? "",
               phoneNumbers: item.phone[0] ?? "",
-              numberOfusersRated: 5,
+              numberOfusersRated:
+                  item.feedbacks == null ? 0 : item.feedbacks.length,
+              reviewFunction: () {
+                Get.toNamed(Routes.REVIEW,
+                    arguments: ["Pharmacy_Review", item]);
+              },
               child: Obx(() {
                 return Column(
                   children: [

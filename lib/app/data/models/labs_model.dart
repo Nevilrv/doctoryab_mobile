@@ -42,6 +42,8 @@ class Labs {
   int v;
   List<CheckUp> checkUp;
   int id;
+  List<Feedback> feedbacks;
+  String rating;
 
   Labs({
     this.datumId,
@@ -57,6 +59,8 @@ class Labs {
     this.v,
     this.checkUp,
     this.id,
+    this.feedbacks,
+    this.rating,
   });
 
   factory Labs.fromJson(Map<String, dynamic> json) => Labs(
@@ -75,6 +79,11 @@ class Labs {
         checkUp:
             List<CheckUp>.from(json["checkUp"].map((x) => CheckUp.fromJson(x))),
         id: json["ID"],
+        feedbacks: json["feedbacks"] == null
+            ? []
+            : List<Feedback>.from(
+                json["feedbacks"].map((x) => Feedback.fromJson(x))),
+        rating: json["rating"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -92,6 +101,10 @@ class Labs {
         "__v": v,
         "checkUp": List<dynamic>.from(checkUp.map((x) => x.toJson())),
         "ID": id,
+        "feedbacks": feedbacks == null
+            ? []
+            : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
+        "rating": rating,
       };
 }
 
@@ -128,6 +141,50 @@ class CheckUp {
         "title": title,
         "content": content,
         "img": img,
+      };
+}
+
+class Feedback {
+  String comment;
+  String whoPosted;
+  String postedBy;
+  String photo;
+  String createAt;
+  String commentId;
+  int rating;
+  String labId;
+
+  Feedback({
+    this.comment,
+    this.whoPosted,
+    this.postedBy,
+    this.photo,
+    this.createAt,
+    this.commentId,
+    this.rating,
+    this.labId,
+  });
+
+  factory Feedback.fromJson(Map<String, dynamic> json) => Feedback(
+        comment: json["comment"],
+        whoPosted: json["whoPosted"],
+        postedBy: json["postedBy"],
+        photo: json["photo"],
+        createAt: json["createAt"],
+        commentId: json["commentId"],
+        rating: json["rating"],
+        labId: json["labId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "comment": comment,
+        "whoPosted": whoPosted,
+        "postedBy": postedBy,
+        "photo": photo,
+        "createAt": createAt,
+        "commentId": commentId,
+        "rating": rating,
+        "labId": labId,
       };
 }
 

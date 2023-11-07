@@ -66,14 +66,17 @@ class DoctorController extends GetxController {
     BuildContext context,
   }) async {
     try {
+      var data = {
+        "comment": comment,
+        "cleaningRating": cRating.toString(),
+        "satifyRating": sRating.toString(),
+        "expertiseRating": eRating.toString(),
+        "doctorId": doctorId
+      };
       var _response = await DoctorsRepository()
           .postDoctorFeedback(
-              comment: comment.text,
-              cRating: cRating.value,
-              eRating: eRating.value,
-              sRating: sRating.value,
               cancelToken: cancelToken,
-              id: doctorId,
+              body: data,
               url: "${ApiConsts.postDoctorFeedback}")
           .then((value) {
         Get.back();

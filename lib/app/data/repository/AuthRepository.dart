@@ -203,7 +203,7 @@ class AuthRepository {
     String title,
     String desc,
   }) async {
-    log("ApiConsts.complaint--------------> ${ApiConsts.complaint}");
+    log("ApiConsts.complaint--------------> ${ApiConsts.suggestion}");
 
     final response = await _cachedDio.post(
       ApiConsts.suggestion,

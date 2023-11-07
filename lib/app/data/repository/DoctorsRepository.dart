@@ -226,24 +226,13 @@ class DoctorsRepository {
   }
 
   Future<Response<dynamic>> postDoctorFeedback(
-      {CancelToken cancelToken,
-      String comment,
-      double cRating,
-      double sRating,
-      double eRating,
-      String id,
-      String url}) async {
-    var data = {
-      "comment": comment,
-      "cleaningRating": cRating.toString(),
-      "satifyRating": sRating.toString(),
-      "expertiseRating": eRating.toString(),
-      "doctorId": id
-    };
+      {CancelToken cancelToken, var body, String url}) async {
+    log("url--------------> ${url}");
+
     final response = await _cachedDio.post(
       url,
       cancelToken: cancelToken,
-      data: data,
+      data: body,
       // cancelToken: loginCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );

@@ -81,7 +81,10 @@ class ReviewScreen extends GetView<ReviewController> {
                                     imageUrl: controller.appBarTitle.value ==
                                             "doctor_reviews"
                                         ? "${ApiConsts.hostUrl}${controller.doctor.photo}"
-                                        : "${ApiConsts.hostUrl}${controller.drugStore.photo}",
+                                        : controller.appBarTitle.value ==
+                                                "pharmacy_reviews"
+                                            ? "${ApiConsts.hostUrl}${controller.drugStore.photo}"
+                                            : "${ApiConsts.hostUrl}${controller.labsData.photo}",
                                     height: h * 0.11,
                                     width: h * 0.11,
                                     fit: BoxFit.cover,
@@ -115,7 +118,10 @@ class ReviewScreen extends GetView<ReviewController> {
                                         controller.appBarTitle.value ==
                                                 "doctor_reviews"
                                             ? "${controller.doctor.name ?? ""}"
-                                            : "${controller.drugStore.name ?? ""}",
+                                            : controller.appBarTitle.value ==
+                                                    "pharmacy_reviews"
+                                                ? "${controller.drugStore.name ?? ""}"
+                                                : "${controller.labsData.name ?? ""}",
                                         style: AppTextTheme.h(12)
                                             .copyWith(color: AppColors.primary),
                                       ),
@@ -157,8 +163,13 @@ class ReviewScreen extends GetView<ReviewController> {
                                                             .averageRatings
                                                             .toString() ??
                                                         "0.0")
-                                                : double.parse(
-                                                    "${controller.drugStore.satifyRating == null ? "0.0" : "${(double.parse(controller.drugStore.satifyRating) + double.parse(controller.drugStore.expertiseRating) + double.parse(controller.drugStore.cleaningRating)) / 3}"}"),
+                                                : controller.appBarTitle
+                                                            .value ==
+                                                        "pharmacy_reviews"
+                                                    ? double.parse(
+                                                        "${controller.drugStore.satifyRating == null ? "0.0" : "${(double.parse(controller.drugStore.satifyRating) + double.parse(controller.drugStore.expertiseRating) + double.parse(controller.drugStore.cleaningRating)) / 3}"}")
+                                                    : double.parse(
+                                                        "${controller.labsData.rating == null ? "0.0" : "${double.parse(controller.labsData.rating)}"}"),
                                             // minRating: 1,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
@@ -183,8 +194,12 @@ class ReviewScreen extends GetView<ReviewController> {
                                           Text(
                                             controller.appBarTitle.value ==
                                                     "doctor_reviews"
-                                                ? '(${controller.doctor.averageRatings == null ? 0 : controller.doctor.averageRatings ?? 0}) Reviews'
-                                                : '(${controller.drugStore.feedbacks == null ? 0 : controller.drugStore.feedbacks.length ?? 0}) Reviews',
+                                                ? '(${controller.doctor.averageRatings == null ? 0 : controller.doctor.totalFeedbacks ?? 0}) Reviews'
+                                                : controller.appBarTitle
+                                                            .value ==
+                                                        "pharmacy_reviews"
+                                                    ? '(${controller.drugStore.feedbacks == null ? 0 : controller.drugStore.feedbacks.length ?? 0}) Reviews'
+                                                    : '(${controller.labsData.feedbacks == null ? 0 : controller.labsData.feedbacks.length ?? 0}) Reviews',
                                             style: AppTextTheme.b(11).copyWith(
                                                 color: AppColors.primary
                                                     .withOpacity(0.5)),
@@ -532,128 +547,153 @@ class ReviewScreen extends GetView<ReviewController> {
                                           child: CircularProgressIndicator(
                                           color: AppColors.primary,
                                         ))
-                                      : controller.appBarTitle.value ==
-                                              "doctor_reviews"
-                                          ? controller.feedbackData.isEmpty
-                                          : controller.pharmacyFeedback.isEmpty
-                                              ? Center(
-                                                  child: Text(
-                                                      "no_result_found".tr))
-                                              : SingleChildScrollView(
-                                                  physics:
-                                                      BouncingScrollPhysics(),
-                                                  child: Column(
-                                                    children: List.generate(
-                                                        controller.appBarTitle.value ==
-                                                                "doctor_reviews"
+                                      : controller.feedbackData.isEmpty &&
+                                              controller
+                                                  .pharmacyFeedback.isEmpty &&
+                                              controller.labsFeedback.isEmpty
+                                          ? Center(
+                                              child: Text("no_result_found".tr))
+                                          : SingleChildScrollView(
+                                              physics: BouncingScrollPhysics(),
+                                              child: Column(
+                                                children: List.generate(
+                                                    controller.appBarTitle
+                                                                .value ==
+                                                            "doctor_reviews"
+                                                        ? controller
+                                                            .feedbackData.length
+                                                        : controller.appBarTitle
+                                                                    .value ==
+                                                                "pharmacy_reviews"
                                                             ? controller
-                                                                .feedbackData
+                                                                .pharmacyFeedback
                                                                 .length
                                                             : controller
-                                                                .pharmacyFeedback
+                                                                .labsFeedback
                                                                 .length,
-                                                        (index) => Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      bottom:
-                                                                          10.0),
-                                                              child: Column(
-                                                                children: [
-                                                                  Container(
-                                                                    child: Row(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          flex:
-                                                                              1,
-                                                                          child:
-                                                                              Column(
-                                                                            children: [
-                                                                              CircleAvatar(
-                                                                                radius: 35,
-                                                                                backgroundImage: NetworkImage(
-                                                                                  controller.appBarTitle.value == "doctor_reviews" ? "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}" : "${ApiConsts.hostUrl}${controller.pharmacyFeedback[index].photo}",
-                                                                                ),
-                                                                              ),
-                                                                              Text(
-                                                                                controller.appBarTitle.value == "doctor_reviews" ? "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.feedbackData[index].createAt))}" : "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.pharmacyFeedback[index].createAt))}",
-                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                              )
-                                                                            ],
+                                                    (index) => Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                child: Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      flex: 1,
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          CircleAvatar(
+                                                                            radius:
+                                                                                35,
+                                                                            backgroundImage:
+                                                                                NetworkImage(
+                                                                              controller.appBarTitle.value == "doctor_reviews"
+                                                                                  ? "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}"
+                                                                                  : controller.appBarTitle.value == "pharmacy_reviews"
+                                                                                      ? "${ApiConsts.hostUrl}${controller.pharmacyFeedback[index].photo}"
+                                                                                      : "${ApiConsts.hostUrl}${controller.labsFeedback[index].photo}",
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                        Expanded(
-                                                                          flex:
-                                                                              4,
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.symmetric(horizontal: 5),
-                                                                            child:
-                                                                                Column(
+                                                                          Text(
+                                                                            controller.appBarTitle.value == "doctor_reviews"
+                                                                                ? "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.feedbackData[index].createAt))}"
+                                                                                : controller.appBarTitle.value == "pharmacy_reviews"
+                                                                                    ? "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.pharmacyFeedback[index].createAt))}"
+                                                                                    : "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.labsFeedback[index].createAt))}",
+                                                                            style:
+                                                                                AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                      flex: 4,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(horizontal: 5),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            // SizedBox(height: 10),
+                                                                            Row(
                                                                               mainAxisAlignment: MainAxisAlignment.start,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              mainAxisSize: MainAxisSize.min,
                                                                               children: [
-                                                                                // SizedBox(height: 10),
-                                                                                Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                  mainAxisSize: MainAxisSize.min,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      controller.appBarTitle.value == "doctor_reviews" ? controller.feedbackData[index].postedBy.name ?? "" : controller.pharmacyFeedback[index].postedBy.name ?? "",
-                                                                                      style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                    ),
-                                                                                    Spacer(),
-                                                                                    RatingBar.builder(
-                                                                                      ignoreGestures: true,
-                                                                                      itemSize: 17,
-                                                                                      initialRating: controller.appBarTitle.value == "doctor_reviews" ? double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0") : double.parse("${(double.parse(controller.pharmacyFeedback[index].satifyRating.toString()) + double.parse(controller.pharmacyFeedback[index].cleaningRating.toString()) + double.parse(controller.pharmacyFeedback[index].expertiseRating.toString())) / 3}" ?? "0.0"),
-                                                                                      // minRating: 1,
-                                                                                      direction: Axis.horizontal,
-                                                                                      allowHalfRating: true,
-                                                                                      itemCount: 5,
-                                                                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                      itemBuilder: (context, _) => Icon(
-                                                                                        Icons.star,
-                                                                                        color: Colors.amber,
-                                                                                        // size: 10,
-                                                                                      ),
-                                                                                      onRatingUpdate: (rating) {
-                                                                                        print(rating);
-                                                                                      },
-                                                                                    ),
-                                                                                  ],
+                                                                                Text(
+                                                                                  controller.appBarTitle.value == "doctor_reviews"
+                                                                                      ? controller.feedbackData[index].postedBy.name ?? ""
+                                                                                      : controller.appBarTitle.value == "pharmacy_reviews"
+                                                                                          ? controller.pharmacyFeedback[index].postedBy.name ?? ""
+                                                                                          : controller.labsFeedback[index].postedBy.name ?? "",
+                                                                                  style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                 ),
-                                                                                SizedBox(height: 2),
-                                                                                ExpandableText(
-                                                                                  controller.appBarTitle.value == "doctor_reviews" ? controller.feedbackData[index].comment ?? "" : controller.pharmacyFeedback[index].comment ?? "",
-                                                                                  expandText: 'Read more',
-                                                                                  collapseText: 'Read less',
-                                                                                  maxLines: 3,
-                                                                                  linkColor: AppColors.primary,
-                                                                                  style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
+                                                                                Spacer(),
+                                                                                RatingBar.builder(
+                                                                                  ignoreGestures: true,
+                                                                                  itemSize: 17,
+                                                                                  initialRating: controller.appBarTitle.value == "doctor_reviews"
+                                                                                      ? double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0")
+                                                                                      : controller.appBarTitle.value == "pharmacy_reviews"
+                                                                                          ? double.parse("${(double.parse(controller.pharmacyFeedback[index].satifyRating.toString()) + double.parse(controller.pharmacyFeedback[index].cleaningRating.toString()) + double.parse(controller.pharmacyFeedback[index].expertiseRating.toString())) / 3}" ?? "0.0")
+                                                                                          : double.parse("0.0"),
+                                                                                  // minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: true,
+                                                                                  itemCount: 5,
+                                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                  itemBuilder: (context, _) => Icon(
+                                                                                    Icons.star,
+                                                                                    color: Colors.amber,
+                                                                                    // size: 10,
+                                                                                  ),
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    print(rating);
+                                                                                  },
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                          ),
+                                                                            SizedBox(height: 2),
+                                                                            ExpandableText(
+                                                                              controller.appBarTitle.value == "doctor_reviews"
+                                                                                  ? controller.feedbackData[index].comment ?? ""
+                                                                                  : controller.appBarTitle.value == "pharmacy_reviews"
+                                                                                      ? controller.pharmacyFeedback[index].comment ?? ""
+                                                                                      : controller.labsFeedback[index].comment ?? "",
+                                                                              expandText: 'Read more',
+                                                                              collapseText: 'Read less',
+                                                                              maxLines: 3,
+                                                                              linkColor: AppColors.primary,
+                                                                              style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
+                                                                            ),
+                                                                          ],
                                                                         ),
-                                                                      ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: AppColors
-                                                                          .primary),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            )),
-                                                  ),
-                                                ),
+                                                              Divider(
+                                                                  thickness: 1,
+                                                                  color: AppColors
+                                                                      .primary),
+                                                            ],
+                                                          ),
+                                                        )),
+                                              ),
+                                            ),
                                 )
                               ],
                             ),

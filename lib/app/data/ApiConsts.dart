@@ -85,6 +85,8 @@ class ApiConsts {
   ///feedback
   static const String postDoctorFeedback = '/doctor/giveFeedbackToDoctor';
   static const String postPharmacyFeedback = '/pharmacy/giveFeedbackToPharmacy';
+  static const String postLabFeedback = '/lab/giveFeedbackToLab';
   static const String getDoctorFeedback = '/doctor/getDoctorFeedbacks/';
   static const String getPharmacyFeedback = '/pharmacy/getPharmacyFeedbacks/';
+  static const String getLabFeedback = '/lab/getLabFeedbacks/';
 }

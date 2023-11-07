@@ -115,6 +115,28 @@ class HospitalsController extends TabHomeOthersController {
     super.onClose();
   }
 
+  var isEmergencySelect = false;
+  void emergencyData() {
+    if (isEmergencySelect == true) {
+      List<Hospital> hoursList = [];
+      pageController.itemList.forEach((element) {
+        if (element.isEmergency == true) {
+          hoursList.add(element);
+        }
+      });
+      pageController.itemList.clear();
+
+      update();
+      pageController.appendLastPage(hoursList);
+    } else {
+      pageController.itemList.clear();
+      // pageController.addPageRequestListener((pageKey) {
+      loadData(pageController.firstPageKey);
+      // });
+      update();
+    }
+  }
+
   void loadData(int page) async {
     HospitalRepository.fetchHospitals(
       page,

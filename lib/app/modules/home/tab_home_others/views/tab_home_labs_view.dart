@@ -14,6 +14,7 @@ import 'package:doctor_yab/app/modules/drug_store_lab/views/lab_detail_screen.da
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -628,7 +629,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                               RatingBar.builder(
                                 ignoreGestures: true,
                                 itemSize: 17,
-                                initialRating: 4,
+                                initialRating: double.parse(
+                                    item.rating == null ? "0.0" : item.rating),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -647,12 +649,11 @@ class TabHomeLabsView extends GetView<LabsController> {
                               SizedBox(width: 4),
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(ReviewScreen(
-                                    appBarTitle: "pharmacy_reviews",
-                                  ));
+                                  Get.toNamed(Routes.REVIEW,
+                                      arguments: ["Laboratory_Review", item]);
                                 },
                                 child: Text(
-                                  '(10) ${"reviews".tr}',
+                                  '(${item.feedbacks == null ? 0 : item.feedbacks.length}) ${"reviews".tr}',
                                   style: AppTextTheme.b(12).copyWith(
                                       color:
                                           AppColors.primary.withOpacity(0.5)),

@@ -39,25 +39,25 @@ class HospitalsModel {
 }
 
 class Hospital {
-  Hospital({
-    this.id,
-    this.geometry,
-    this.photo,
-    this.type,
-    this.times,
-    this.description,
-    this.email,
-    this.address,
-    this.name,
-    this.city,
-    this.phone,
-    this.createAt,
-    this.checkUp,
-    this.v,
-    this.stars,
-    this.usersStaredCount,
-    this.checkUps,
-  });
+  Hospital(
+      {this.id,
+      this.geometry,
+      this.photo,
+      this.type,
+      this.times,
+      this.description,
+      this.email,
+      this.address,
+      this.name,
+      this.city,
+      this.phone,
+      this.createAt,
+      this.checkUp,
+      this.v,
+      this.stars,
+      this.usersStaredCount,
+      this.checkUps,
+      this.isEmergency});
 
   final String id;
   final Geometry geometry;
@@ -70,6 +70,7 @@ class Hospital {
   final String name;
   final String city;
   final String phone;
+  final bool isEmergency;
   final DateTime createAt;
   final List<CheckUp> checkUp;
   final int v;
@@ -93,6 +94,7 @@ class Hospital {
     List<CheckUp> checkUp,
     int v,
     double stars,
+    bool isEmergency,
     int usersStaredCount,
     List<dynamic> checkUps,
   }) =>
@@ -114,6 +116,7 @@ class Hospital {
         stars: stars ?? this.stars,
         usersStaredCount: usersStaredCount ?? this.usersStaredCount,
         checkUps: checkUps ?? this.checkUps,
+        isEmergency: isEmergency ?? this.isEmergency,
       );
 
   factory Hospital.fromJson(Map<String, dynamic> json) => Hospital(
@@ -141,6 +144,8 @@ class Hospital {
                 json["checkUp"].map((x) => CheckUp.fromJson(x))),
         v: json["__v"] == null ? null : json["__v"],
         stars: json["stars"] == null ? null : json["stars"].toDouble(),
+        isEmergency:
+            json["is_emergency"] == null ? false : json["is_emergency"],
         usersStaredCount: json["users_stared_count"] == null
             ? null
             : json["users_stared_count"],
@@ -165,6 +170,7 @@ class Hospital {
         "city": city == null ? null : city,
         "phone": phone == null ? null : phone,
         "createAt": createAt == null ? null : createAt.toIso8601String(),
+        "is_emergency": isEmergency == null ? false : isEmergency,
         "checkUp": checkUp == null
             ? null
             : List<dynamic>.from(checkUp.map((x) => x.toJson())),

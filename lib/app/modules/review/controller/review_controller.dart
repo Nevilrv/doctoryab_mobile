@@ -6,6 +6,8 @@ import 'package:doctor_yab/app/data/models/doctor_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/models/doctor_full_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
+import 'package:doctor_yab/app/data/models/labs_feedbaxk_res_model.dart';
+import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/models/pharmacy_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -18,6 +20,7 @@ class ReviewController extends GetxController {
 
   Doctor doctor;
   DrugStore drugStore;
+  Labs labsData;
   var cancelToken = CancelToken();
   var tabIndex = 0.obs;
   var cRating = 0.0.obs;
@@ -25,6 +28,10 @@ class ReviewController extends GetxController {
   var eRating = 0.0.obs;
   var appBarTitle = "".obs;
   TextEditingController comment = TextEditingController();
+  var feedbackData = <FeedbackData>[];
+  var pharmacyFeedback = <PharmacyFeedback>[];
+  var labsFeedback = <LabsFeedback>[];
+  var loading = false.obs;
   @override
   void onInit() {
     if (args[0] == "Doctor_Review") {
@@ -36,6 +43,11 @@ class ReviewController extends GetxController {
       log("drugStore.id--------------> ${drugStore.id}");
       appBarTitle.value = "pharmacy_reviews";
       getDocFeedback(url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
+    } else if (args[0] == "Laboratory_Review") {
+      labsData = args[1];
+      log("drugStore.id--------------> ${labsData.datumId}");
+      appBarTitle.value = "laboratories_reviews";
+      getDocFeedback(url: '${ApiConsts.getLabFeedback}${labsData.datumId}');
     }
 
     super.onInit();
@@ -55,28 +67,45 @@ class ReviewController extends GetxController {
     BuildContext context,
   }) async {
     try {
-      log("drugStore.id--------------> ${drugStore.id}");
-
-      var _response = await DoctorsRepository()
+      var data = {
+        "comment": comment.text,
+        "cleaningRating": cRating.toString(),
+        "satifyRating": sRating.toString(),
+        "expertiseRating": eRating.toString(),
+        args[0] == "Doctor_Review"
+            ? "doctorId"
+            : args[0] == "Pharmacy_Review"
+                ? "pharmacyId"
+                : "labId": args[0] == "Doctor_Review"
+            ? doctor.datumId
+            : args[0] == "Pharmacy_Review"
+                ? drugStore.id
+                : labsData.datumId
+      };
+      await DoctorsRepository()
           .postDoctorFeedback(
-              comment: comment.text,
-              cRating: cRating.value,
-              eRating: eRating.value,
-              sRating: sRating.value,
+              body: data,
               cancelToken: cancelToken,
-              id: args[0] == "Doctor_Review" ? doctor.datumId : drugStore.id,
               url: args[0] == "Doctor_Review"
                   ? "${ApiConsts.postDoctorFeedback}"
-                  : "${ApiConsts.postPharmacyFeedback}")
+                  : args[0] == "Pharmacy_Review"
+                      ? "${ApiConsts.postPharmacyFeedback}"
+                      : "${ApiConsts.postLabFeedback}")
           .then((value) {
-        Get.back();
-        if (args[0] == "Doctor_Review") {
-          getDocFeedback(
-              url: '${ApiConsts.getDoctorFeedback}${doctor.datumId}');
-        } else if (args[0] == "Pharmacy_Review") {
-          getDocFeedback(
-              url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
+        if (value != null) {
+          if (args[0] == "Doctor_Review") {
+            getDocFeedback(
+                url: '${ApiConsts.getDoctorFeedback}${doctor.datumId}');
+          } else if (args[0] == "Pharmacy_Review") {
+            log("drugStore.id-----fs---------> ${drugStore.id}");
+            getDocFeedback(
+                url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
+          } else {
+            getDocFeedback(
+                url: '${ApiConsts.getLabFeedback}${labsData.datumId}');
+          }
         }
+        Get.back();
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
@@ -92,9 +121,6 @@ class ReviewController extends GetxController {
     }
   }
 
-  var feedbackData = <FeedbackData>[];
-  var pharmacyFeedback = <PharmacyFeedback>[];
-  var loading = false.obs;
   void getDocFeedback({
     String url,
   }) async {
@@ -114,6 +140,7 @@ class ReviewController extends GetxController {
             feedbackData = [];
           }
         } else if (args[0] == "Pharmacy_Review") {
+          log("drugStore.id-----fs--s-------> ${drugStore.id}");
           pharmacyFeedback.clear();
           log("value--------------> ${value.data}");
           if (value.data['data'] != null) {
@@ -123,10 +150,19 @@ class ReviewController extends GetxController {
           } else {
             pharmacyFeedback = [];
           }
+        } else {
+          labsFeedback.clear();
+          log("value--------------> ${value.data}");
+          if (value.data['data'] != null) {
+            value.data['data'].forEach((element) {
+              labsFeedback.add(LabsFeedback.fromJson(element));
+            });
+          } else {
+            labsFeedback = [];
+          }
         }
 
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });
