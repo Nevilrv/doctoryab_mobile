@@ -4,6 +4,7 @@ import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
+import 'package:doctor_yab/app/data/models/user_model.dart' as u;
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:doctor_yab/app/data/models/user_model.dart' as u;
 
 class AuthPhoneController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
