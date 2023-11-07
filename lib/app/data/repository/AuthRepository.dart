@@ -2,18 +2,16 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:logger/logger.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
-
-import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:file/file.dart';
 import 'package:http_parser/http_parser.dart';
-// import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class AuthRepository {
   static Dio dio = AppDioService.getDioInstance();
@@ -198,6 +196,31 @@ class AuthRepository {
     return response;
   }
 
+  ///complaint image api
+  Future<dynamic> complaintImageApi({
+    File image,
+    String id,
+  }) async {
+    FormData formData = FormData.fromMap(
+      {
+        "img": image.path != ""
+            ? await MultipartFile.fromFile(
+                image.path,
+                filename: image.path.split('/').last,
+                contentType: MediaType('image', 'png'),
+                // contentType: MediaType('img', image.path.split('.').last)
+              )
+            : null,
+      },
+    );
+    final response = await _cachedDio.post(
+      "${ApiConsts.complaint}/$id",
+      data: formData,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
+  }
+
   ///suggestion api
   Future<dynamic> suggestionApi({
     String title,
@@ -211,6 +234,31 @@ class AuthRepository {
         "title": title,
         "desc": desc,
       },
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
+  }
+
+  ///suggestion image api
+  Future<dynamic> suggestionImageApi({
+    File image,
+    String id,
+  }) async {
+    FormData formData = FormData.fromMap(
+      {
+        "img": image.path != ""
+            ? await MultipartFile.fromFile(
+                image.path,
+                filename: image.path.split('/').last,
+                contentType: MediaType('image', 'png'),
+                // contentType: MediaType('img', image.path.split('.').last)
+              )
+            : null,
+      },
+    );
+    final response = await _cachedDio.post(
+      "${ApiConsts.suggestion}/$id",
+      data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
     return response;

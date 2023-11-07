@@ -1,27 +1,16 @@
 import 'dart:developer';
 import 'dart:io' as Io;
 
-import 'package:doctor_yab/app/controllers/auth_controller.dart';
-import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/city_model.dart';
-import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
-import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logger/logger.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
-
-import '../../../data/static.dart';
 
 class ComplaintSuggestionController extends GetxController {
   TextEditingController cTitle = TextEditingController();
@@ -38,10 +27,24 @@ class ComplaintSuggestionController extends GetxController {
         .then((value) {
       cTitle.clear();
       cDesc.clear();
+      var responseData = value.data;
+      String id = responseData['data']['_id'];
 
-      Utils.commonSnackbar(
-          text: "Complaint successfully uploaded", context: context);
-      Get.back();
+      if (image.value.path.isNotEmpty) {
+        AuthRepository()
+            .complaintImageApi(image: image.value, id: id)
+            .then((value) {
+          print("image>>>>value>>>>>>>>>>>>${value}");
+          Get.back();
+          Utils.commonSnackbar(
+              text: "Complaint successfully uploaded", context: context);
+        });
+      } else {
+        Get.back();
+        Utils.commonSnackbar(
+            text: "Complaint successfully uploaded", context: context);
+      }
+
       log("value--------------> ${value}");
     }).catchError((e, s) {
       loading = false;
@@ -63,9 +66,24 @@ class ComplaintSuggestionController extends GetxController {
       sTitle.clear();
       sDesc.clear();
 
-      Utils.commonSnackbar(
-          text: "Suggestion successfully uploaded", context: context);
-      Get.back();
+      var responseData = value.data;
+      String id = responseData['data']['_id'];
+
+      if (image.value.path.isNotEmpty) {
+        AuthRepository()
+            .suggestionImageApi(image: image.value, id: id)
+            .then((value) {
+          print("image>>>>value>>>>>>>>>>>>${value}");
+          Get.back();
+          Utils.commonSnackbar(
+              text: "Suggestion successfully uploaded", context: context);
+        });
+      } else {
+        Utils.commonSnackbar(
+            text: "Suggestion successfully uploaded", context: context);
+        Get.back();
+      }
+
       log("value--------------> ${value}");
     }).catchError((e, s) {
       loading = false;

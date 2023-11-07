@@ -22,7 +22,6 @@ class TabSearchController extends GetxController {
         pagingController.itemList = null;
         pagingController.nextPageKey = pagingController.firstPageKey;
         _search(pagingController.firstPageKey);
-        print("refresh");
         pagingController.refresh();
       } else {
         firstSearchInit(false);
