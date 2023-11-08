@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/statefull_wraper.dart';
@@ -48,6 +49,8 @@ class Utils {
     assert(number.length == 10);
     return "${AppStatics.envVars.countryCode}${number.substring(1, 10)}";
   }
+
+  static const bannerAdId = "ca-app-pub-7346350725133754/9537971919";
 
   static void configEasyLoading() {
     EasyLoading.instance

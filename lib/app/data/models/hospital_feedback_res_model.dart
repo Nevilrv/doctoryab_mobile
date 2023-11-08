@@ -1,44 +1,44 @@
 // To parse this JSON data, do
 //
-//     final labsFeedbackModel = labsFeedbackModelFromJson(jsonString);
+//     final hoapitalFeedBackResModel = hoapitalFeedBackResModelFromJson(jsonString);
 
 import 'dart:convert';
 
 import 'labs_model.dart';
 
-LabsFeedbackModel labsFeedbackModelFromJson(String str) =>
-    LabsFeedbackModel.fromJson(json.decode(str));
+HospitalFeedBackResModel hospitalFeedBackResModelFromJson(String str) =>
+    HospitalFeedBackResModel.fromJson(json.decode(str));
 
-String labsFeedbackModelToJson(LabsFeedbackModel data) =>
+String hospitalFeedBackResModelToJson(HospitalFeedBackResModel data) =>
     json.encode(data.toJson());
 
-class LabsFeedbackModel {
-  List<LabsFeedback> data;
-  int averageRating;
-  int totalRating;
+class HospitalFeedBackResModel {
+  List<HospitalFeedback> data;
+  double averageRating;
+  int totalFeedbacks;
 
-  LabsFeedbackModel({
+  HospitalFeedBackResModel({
     this.data,
     this.averageRating,
-    this.totalRating,
+    this.totalFeedbacks,
   });
 
-  factory LabsFeedbackModel.fromJson(Map<String, dynamic> json) =>
-      LabsFeedbackModel(
-        data: List<LabsFeedback>.from(
-            json["data"].map((x) => LabsFeedback.fromJson(x))),
-        averageRating: json["averageRating"],
-        totalRating: json["totalRating"],
+  factory HospitalFeedBackResModel.fromJson(Map<String, dynamic> json) =>
+      HospitalFeedBackResModel(
+        data: List<HospitalFeedback>.from(
+            json["data"].map((x) => HospitalFeedback.fromJson(x))),
+        averageRating: json["averageRating"]?.toDouble(),
+        totalFeedbacks: json["totalFeedbacks"],
       );
 
   Map<String, dynamic> toJson() => {
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "averageRating": averageRating,
-        "totalRating": totalRating,
+        "totalFeedbacks": totalFeedbacks,
       };
 }
 
-class LabsFeedback {
+class HospitalFeedback {
   String id;
   String comment;
   String whoPosted;
@@ -46,11 +46,13 @@ class LabsFeedback {
   String photo;
   String createAt;
   String commentId;
-  String labId;
-  String rating;
+  String cleaningRating;
+  String satifyRating;
+  String expertiseRating;
+  String doctorId;
   int v;
 
-  LabsFeedback({
+  HospitalFeedback({
     this.id,
     this.comment,
     this.whoPosted,
@@ -58,12 +60,15 @@ class LabsFeedback {
     this.photo,
     this.createAt,
     this.commentId,
-    this.labId,
-    this.rating,
+    this.cleaningRating,
+    this.satifyRating,
+    this.expertiseRating,
+    this.doctorId,
     this.v,
   });
 
-  factory LabsFeedback.fromJson(Map<String, dynamic> json) => LabsFeedback(
+  factory HospitalFeedback.fromJson(Map<String, dynamic> json) =>
+      HospitalFeedback(
         id: json["_id"],
         comment: json["comment"],
         whoPosted: json["whoPosted"],
@@ -71,8 +76,10 @@ class LabsFeedback {
         photo: json["photo"],
         createAt: json["createAt"],
         commentId: json["commentId"],
-        labId: json["labId"],
-        rating: json["rating"],
+        cleaningRating: json["cleaningRating"],
+        satifyRating: json["satifyRating"],
+        expertiseRating: json["expertiseRating"],
+        doctorId: json["doctorId"],
         v: json["__v"],
       );
 
@@ -84,8 +91,10 @@ class LabsFeedback {
         "photo": photo,
         "createAt": createAt,
         "commentId": commentId,
-        "labId": labId,
-        "rating": rating,
+        "cleaningRating": cleaningRating,
+        "satifyRating": satifyRating,
+        "expertiseRating": expertiseRating,
+        "doctorId": doctorId,
         "__v": v,
       };
 }

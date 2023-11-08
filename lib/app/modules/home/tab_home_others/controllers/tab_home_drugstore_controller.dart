@@ -1,13 +1,16 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
+import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/DrugStoreRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 
 import '../../../../data/models/labs_model.dart';
 
@@ -26,6 +29,7 @@ class DrugStoreController extends TabHomeOthersController {
       print('===LISTNER===');
       loadData(pageKey);
     });
+    _fetchAds();
     super.onInit();
   }
 
@@ -229,6 +233,30 @@ class DrugStoreController extends TabHomeOthersController {
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  List<Ad> adList = [];
+  var adIndex = 0;
+  void _fetchAds() {
+    AdsRepository.fetchAds().then((v) {
+      // AdsModel v = AdsModel();
+      log("v.data--------------> ${v.data}");
+
+      if (v.data != null) {
+        v.data.forEach((element) {
+          adList.add(element);
+          update();
+          log("adList--------------> ${adList.length}");
+        });
+      }
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {
+        if (this != null) _fetchAds();
+      });
     });
   }
 }

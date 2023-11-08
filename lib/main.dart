@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'app/routes/app_pages.dart';
@@ -33,6 +34,7 @@ Future<void> main() async {
   // Hive.init(directory.path);
   await Hive.initFlutter();
   await Utils.initApp();
+  MobileAds.instance.initialize();
 
   if (!ApiConsts.debugModeOnRelease) {
     // Get.put(await Hive.openBox("settings"), tag: "hive_sttings");

@@ -84,7 +84,10 @@ class ReviewScreen extends GetView<ReviewController> {
                                         : controller.appBarTitle.value ==
                                                 "pharmacy_reviews"
                                             ? "${ApiConsts.hostUrl}${controller.drugStore.photo}"
-                                            : "${ApiConsts.hostUrl}${controller.labsData.photo}",
+                                            : controller.appBarTitle.value ==
+                                                    "laboratories_reviews"
+                                                ? "${ApiConsts.hostUrl}${controller.labsData.photo}"
+                                                : "${ApiConsts.hostUrl}${controller.hospitalData.photo}",
                                     height: h * 0.11,
                                     width: h * 0.11,
                                     fit: BoxFit.cover,
@@ -121,7 +124,11 @@ class ReviewScreen extends GetView<ReviewController> {
                                             : controller.appBarTitle.value ==
                                                     "pharmacy_reviews"
                                                 ? "${controller.drugStore.name ?? ""}"
-                                                : "${controller.labsData.name ?? ""}",
+                                                : controller.appBarTitle
+                                                            .value ==
+                                                        "laboratories_reviews"
+                                                    ? "${controller.labsData.name ?? ""}"
+                                                    : "${controller.hospitalData.name ?? ""}",
                                         style: AppTextTheme.h(12)
                                             .copyWith(color: AppColors.primary),
                                       ),
@@ -167,9 +174,13 @@ class ReviewScreen extends GetView<ReviewController> {
                                                             .value ==
                                                         "pharmacy_reviews"
                                                     ? double.parse(
-                                                        "${controller.drugStore.satifyRating == null ? "0.0" : "${(double.parse(controller.drugStore.satifyRating) + double.parse(controller.drugStore.expertiseRating) + double.parse(controller.drugStore.cleaningRating)) / 3}"}")
-                                                    : double.parse(
-                                                        "${controller.labsData.rating == null ? "0.0" : "${double.parse(controller.labsData.rating)}"}"),
+                                                        "${controller.drugStore.averageRatings == null ? "0.0" : "${controller.drugStore.averageRatings}"}")
+                                                    : controller.appBarTitle
+                                                                .value ==
+                                                            "laboratories_reviews"
+                                                        ? double.parse(
+                                                            "${controller.labsData.averageRatings == null ? "0.0" : "${double.parse(controller.labsData.averageRatings.toString())}"}")
+                                                        : 0.0,
                                             // minRating: 1,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
@@ -198,8 +209,12 @@ class ReviewScreen extends GetView<ReviewController> {
                                                 : controller.appBarTitle
                                                             .value ==
                                                         "pharmacy_reviews"
-                                                    ? '(${controller.drugStore.feedbacks == null ? 0 : controller.drugStore.feedbacks.length ?? 0}) Reviews'
-                                                    : '(${controller.labsData.feedbacks == null ? 0 : controller.labsData.feedbacks.length ?? 0}) Reviews',
+                                                    ? '(${controller.drugStore.totalFeedbacks == null ? 0 : controller.drugStore.totalFeedbacks ?? 0}) Reviews'
+                                                    : controller.appBarTitle
+                                                                .value ==
+                                                            "laboratories_reviews"
+                                                        ? '(${controller.labsData.totalFeedbacks == null ? 0 : controller.labsData.totalFeedbacks ?? 0}) Reviews'
+                                                        : '(0) Reviews',
                                             style: AppTextTheme.b(11).copyWith(
                                                 color: AppColors.primary
                                                     .withOpacity(0.5)),
@@ -550,7 +565,9 @@ class ReviewScreen extends GetView<ReviewController> {
                                       : controller.feedbackData.isEmpty &&
                                               controller
                                                   .pharmacyFeedback.isEmpty &&
-                                              controller.labsFeedback.isEmpty
+                                              controller.labsFeedback.isEmpty &&
+                                              controller
+                                                  .hospitalFeedback.isEmpty
                                           ? Center(
                                               child: Text("no_result_found".tr))
                                           : SingleChildScrollView(
@@ -568,9 +585,15 @@ class ReviewScreen extends GetView<ReviewController> {
                                                             ? controller
                                                                 .pharmacyFeedback
                                                                 .length
-                                                            : controller
-                                                                .labsFeedback
-                                                                .length,
+                                                            : controller.appBarTitle
+                                                                        .value ==
+                                                                    "laboratories_reviews"
+                                                                ? controller
+                                                                    .labsFeedback
+                                                                    .length
+                                                                : controller
+                                                                    .hospitalFeedback
+                                                                    .length,
                                                     (index) => Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -598,7 +621,9 @@ class ReviewScreen extends GetView<ReviewController> {
                                                                                   ? "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}"
                                                                                   : controller.appBarTitle.value == "pharmacy_reviews"
                                                                                       ? "${ApiConsts.hostUrl}${controller.pharmacyFeedback[index].photo}"
-                                                                                      : "${ApiConsts.hostUrl}${controller.labsFeedback[index].photo}",
+                                                                                      : controller.appBarTitle.value == "laboratories_reviews"
+                                                                                          ? "${ApiConsts.hostUrl}${controller.labsFeedback[index].photo}"
+                                                                                          : "${ApiConsts.hostUrl}${controller.hospitalFeedback[index].photo}",
                                                                             ),
                                                                           ),
                                                                           Text(
@@ -606,7 +631,9 @@ class ReviewScreen extends GetView<ReviewController> {
                                                                                 ? "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.feedbackData[index].createAt))}"
                                                                                 : controller.appBarTitle.value == "pharmacy_reviews"
                                                                                     ? "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.pharmacyFeedback[index].createAt))}"
-                                                                                    : "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.labsFeedback[index].createAt))}",
+                                                                                    : controller.appBarTitle.value == "laboratories_reviews"
+                                                                                        ? "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.labsFeedback[index].createAt))}"
+                                                                                        : "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.hospitalFeedback[index].createAt))}",
                                                                             style:
                                                                                 AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                           )
@@ -637,7 +664,9 @@ class ReviewScreen extends GetView<ReviewController> {
                                                                                       ? controller.feedbackData[index].postedBy.name ?? ""
                                                                                       : controller.appBarTitle.value == "pharmacy_reviews"
                                                                                           ? controller.pharmacyFeedback[index].postedBy.name ?? ""
-                                                                                          : controller.labsFeedback[index].postedBy.name ?? "",
+                                                                                          : controller.appBarTitle.value == "laboratories_reviews"
+                                                                                              ? controller.labsFeedback[index].postedBy.name ?? ""
+                                                                                              : controller.hospitalFeedback[index].postedBy.name ?? "",
                                                                                   style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                 ),
                                                                                 Spacer(),
@@ -648,7 +677,9 @@ class ReviewScreen extends GetView<ReviewController> {
                                                                                       ? double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0")
                                                                                       : controller.appBarTitle.value == "pharmacy_reviews"
                                                                                           ? double.parse("${(double.parse(controller.pharmacyFeedback[index].satifyRating.toString()) + double.parse(controller.pharmacyFeedback[index].cleaningRating.toString()) + double.parse(controller.pharmacyFeedback[index].expertiseRating.toString())) / 3}" ?? "0.0")
-                                                                                          : double.parse("0.0"),
+                                                                                          : controller.appBarTitle.value == "laboratories_reviews"
+                                                                                              ? double.parse(controller.labsFeedback[index].rating)
+                                                                                              : double.parse("${(double.parse(controller.hospitalFeedback[index].satifyRating.toString()) + double.parse(controller.hospitalFeedback[index].cleaningRating.toString()) + double.parse(controller.hospitalFeedback[index].expertiseRating.toString())) / 3}" ?? "0.0"),
                                                                                   // minRating: 1,
                                                                                   direction: Axis.horizontal,
                                                                                   allowHalfRating: true,
@@ -671,7 +702,9 @@ class ReviewScreen extends GetView<ReviewController> {
                                                                                   ? controller.feedbackData[index].comment ?? ""
                                                                                   : controller.appBarTitle.value == "pharmacy_reviews"
                                                                                       ? controller.pharmacyFeedback[index].comment ?? ""
-                                                                                      : controller.labsFeedback[index].comment ?? "",
+                                                                                      : controller.appBarTitle.value == "laboratories_reviews"
+                                                                                          ? controller.labsFeedback[index].comment ?? ""
+                                                                                          : controller.hospitalFeedback[index].comment ?? "",
                                                                               expandText: 'Read more',
                                                                               collapseText: 'Read less',
                                                                               maxLines: 3,

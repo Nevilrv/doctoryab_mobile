@@ -16,6 +16,7 @@ import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
@@ -74,10 +75,19 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          if ((i + 1) % 5 == 0) {
+                          if (i == 5) {
+                            // if ((i + 1) % 5 == 0) {
                             return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: BannerView(),
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Container(
+                                height: Get.height * 0.154,
+                                width:
+                                    controller.bannerAd.size.width.toDouble(),
+                                alignment: Alignment.center,
+                                child: AdWidget(
+                                  ad: controller.bannerAd,
+                                ),
+                              ),
                             );
                           } else {
                             return SizedBox(height: 15);

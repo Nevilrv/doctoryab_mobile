@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 
@@ -61,6 +64,12 @@ class HospitalNewView extends GetView<HospitalNewController> {
                       name: controller.resModel.data.name,
                       phoneNumbers: controller.resModel.data.phone,
                       numberOfusersRated: 5,
+                      reviewFunction: () {
+                        Get.toNamed(Routes.REVIEW, arguments: [
+                          "Hospital_Review",
+                          controller.hospital
+                        ]);
+                      },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [

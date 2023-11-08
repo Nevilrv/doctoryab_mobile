@@ -1,5 +1,6 @@
+import 'dart:developer';
 import 'dart:math' as math;
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/background.dart';
@@ -28,6 +29,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -121,178 +123,250 @@ class DoctorsView extends GetView<DoctorsController> {
         // body: _buildItemView(DoctorBridge()),
         body: Stack(
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          List<LatLng> latLng = [];
-                          controller.locationData.forEach((element) {
-                            if (element.coordinates != null) {
-                              latLng.add(LatLng(element.coordinates[1],
-                                  element.coordinates[0]));
-                            }
-                            if (controller.locationData.length ==
-                                latLng.length) {
-                              Get.to(MapScreen(
-                                latLng: latLng,
-                                name: controller.locationTitle,
-                                title: "Doctors location",
-                              ));
-                            }
-                          });
-                        },
-                        child: Container(
-                          width: w * 0.7,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset(
-                                  AppImages.map,
-                                  color: AppColors.white,
-                                ),
-                                Text(
-                                  "view_all_in_maps".tr,
-                                  style: AppTextStyle.boldWhite12
-                                      .copyWith(fontSize: 13),
-                                ),
-                                SizedBox()
-                              ],
+            GetBuilder<DoctorsController>(builder: (controller) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            List<LatLng> latLng = [];
+                            controller.locationData.forEach((element) {
+                              if (element.coordinates != null) {
+                                latLng.add(LatLng(element.coordinates[1],
+                                    element.coordinates[0]));
+                              }
+                              if (controller.locationData.length ==
+                                  latLng.length) {
+                                Get.to(MapScreen(
+                                  latLng: latLng,
+                                  name: controller.locationTitle,
+                                  title: "Doctors location",
+                                ));
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: w * 0.7,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SvgPicture.asset(
+                                    AppImages.map,
+                                    color: AppColors.white,
+                                  ),
+                                  Text(
+                                    "view_all_in_maps".tr,
+                                    style: AppTextStyle.boldWhite12
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                  SizedBox()
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Spacer(),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     AppGetDialog.showFilterDialog(
-                      //       controller.filterList,
-                      //       controller.selectedSort,
-                      //       filterCallBack: (i) => controller.changeSort(i),
-                      //     );
-                      //   },
-                      //   icon: Icon(AntDesign.filter, color: AppColors.primary),
-                      // ),
-                      GestureDetector(
-                        onTap: () {
-                          AppGetDialog.showFilterDialog(
-                            controller.filterList,
-                            controller.selectedSort,
-                            filterCallBack: (i) => controller.changeSort(i),
-                          );
-                        },
-                        child: Container(
-                          width: w * 0.15,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primary),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 9.5, horizontal: 10),
-                            child: Center(
-                                child: SettingsController.appLanguge !=
-                                        "English"
-                                    ? Transform(
-                                        alignment: Alignment.center,
-                                        transform: Matrix4.rotationY(math.pi),
-                                        child: Image.asset(
+                        Spacer(),
+                        // IconButton(
+                        //   onPressed: () {
+                        //     AppGetDialog.showFilterDialog(
+                        //       controller.filterList,
+                        //       controller.selectedSort,
+                        //       filterCallBack: (i) => controller.changeSort(i),
+                        //     );
+                        //   },
+                        //   icon: Icon(AntDesign.filter, color: AppColors.primary),
+                        // ),
+                        GestureDetector(
+                          onTap: () {
+                            AppGetDialog.showFilterDialog(
+                              controller.filterList,
+                              controller.selectedSort,
+                              filterCallBack: (i) => controller.changeSort(i),
+                            );
+                          },
+                          child: Container(
+                            width: w * 0.15,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primary),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 9.5, horizontal: 10),
+                              child: Center(
+                                  child: SettingsController.appLanguge !=
+                                          "English"
+                                      ? Transform(
+                                          alignment: Alignment.center,
+                                          transform: Matrix4.rotationY(math.pi),
+                                          child: Image.asset(
+                                            AppImages.filter,
+                                            width: 25,
+                                            height: 24,
+                                            color: AppColors.primary,
+                                          ),
+                                        )
+                                      : Image.asset(
                                           AppImages.filter,
                                           width: 25,
                                           height: 24,
                                           color: AppColors.primary,
+                                        )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  // Padding(
+                  //   padding:
+                  //       const EdgeInsets.only(bottom: 15, right: 20, left: 20),
+                  //   child: BannerView(),
+                  // ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () => Future.sync(
+                        () async {
+                          await Future.delayed(Duration.zero, () {
+                            controller.cancelToken.cancel();
+                          });
+                          controller.cancelToken = CancelToken();
+                          controller.pagingController.itemList.clear();
+                          controller.fetchDoctors(
+                            controller.pagingController.firstPageKey,
+                          );
+                        },
+                      ),
+                      child: PagedListView.separated(
+                        pagingController: controller.pagingController,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        separatorBuilder: (c, i) {
+                          if ((i + 1) % 5 == 0) {
+                            log("i--------------> ${i}");
+
+                            // controller.bannerAds();
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 15, right: 20, left: 20),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    child: CarouselSlider(
+                                        options: CarouselOptions(
+                                          autoPlay: true,
+                                          height: Get.height * 0.2,
+                                          viewportFraction: 1.0,
+                                          enlargeCenterPage: false,
+                                          onPageChanged: (index, reason) {
+                                            controller.adIndex = index;
+                                            controller.update();
+                                          },
                                         ),
-                                      )
-                                    : Image.asset(
-                                        AppImages.filter,
-                                        width: 25,
-                                        height: 24,
-                                        color: AppColors.primary,
-                                      )),
+                                        items: controller.adList
+                                            .map((item) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15)),
+                                                    // margin: EdgeInsets.all(5.0),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  15.0)),
+                                                      child: Image.network(
+                                                          "${ApiConsts.hostUrl}${item.img}",
+                                                          fit: BoxFit.cover,
+                                                          width: 1000.0),
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList()),
+                                  ),
+                                  Positioned(
+                                    bottom: Get.height * 0.017,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                            controller.adList.length,
+                                            (index) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 3),
+                                                  child: CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor: controller
+                                                                .adIndex ==
+                                                            index
+                                                        ? AppColors.primary
+                                                        : AppColors.primary
+                                                            .withOpacity(0.2),
+                                                  ),
+                                                )),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          } else {
+                            return SizedBox(height: 5);
+                          }
+                        },
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, item, index) {
+                            return _doctorData(
+                              context,
+                              item,
+                            );
+                          },
+                          noMoreItemsIndicatorBuilder: (_) =>
+                              DotDotPagingNoMoreItems(),
+                          noItemsFoundIndicatorBuilder: (_) =>
+                              PagingNoItemFountList(),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              PagingErrorView(
+                            controller: controller.pagingController,
+                          ),
+                          firstPageProgressIndicatorBuilder: (_) =>
+                              DrugsGridShimmer(
+                            yCount: 5,
+                            xCount: 1,
+                            // linesCount: 4,
+                          ),
+                          newPageProgressIndicatorBuilder: (_) =>
+                              DrugsGridShimmer(
+                            yCount: 5,
+                            xCount: 1,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                // Padding(
-                //   padding:
-                //       const EdgeInsets.only(bottom: 15, right: 20, left: 20),
-                //   child: BannerView(),
-                // ),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () => Future.sync(
-                      () async {
-                        await Future.delayed(Duration.zero, () {
-                          controller.cancelToken.cancel();
-                        });
-                        controller.cancelToken = CancelToken();
-                        controller.pagingController.itemList.clear();
-                        controller.fetchDoctors(
-                          controller.pagingController.firstPageKey,
-                        );
-                      },
-                    ),
-                    child: PagedListView.separated(
-                      pagingController: controller.pagingController,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      separatorBuilder: (c, i) {
-                        if ((i + 1) % 5 == 0) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: 15, right: 20, left: 20),
-                            child: BannerView(),
-                          );
-                        } else {
-                          return SizedBox(height: 5);
-                        }
-                      },
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, item, index) {
-                          return _doctorData(
-                            context,
-                            item,
-                          );
-                        },
-                        noMoreItemsIndicatorBuilder: (_) =>
-                            DotDotPagingNoMoreItems(),
-                        noItemsFoundIndicatorBuilder: (_) =>
-                            PagingNoItemFountList(),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            PagingErrorView(
-                          controller: controller.pagingController,
-                        ),
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            DrugsGridShimmer(
-                          yCount: 5,
-                          xCount: 1,
-                          // linesCount: 4,
-                        ),
-                        newPageProgressIndicatorBuilder: (_) =>
-                            DrugsGridShimmer(
-                          yCount: 5,
-                          xCount: 1,
-                        ),
-                      ),
                     ),
                   ),
-                ),
 
-                /*  Container(
+                  /*  Container(
                   height: h * 0.75,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -854,8 +928,9 @@ class DoctorsView extends GetView<DoctorsController> {
                     ),
                   ),
                 )*/
-              ],
-            ),
+                ],
+              );
+            }),
             Positioned(
               left: 20,
               right: 20,

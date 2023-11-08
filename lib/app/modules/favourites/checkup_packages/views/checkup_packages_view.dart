@@ -34,64 +34,32 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
     return Scaffold(
       backgroundColor: AppColors.white,
       resizeToAvoidBottomInset: false,
-      body: Container(
-        height: h,
-        child: Stack(
-          children: [
-            Column(children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(20),
-                  ),
-                ),
-                padding: EdgeInsets.all(20).copyWith(top: 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 45, bottom: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  AppImages.back2,
-                                  height: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Text(
-                                "health_packages_list".tr,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.boldWhite20,
-                              ),
-                            ),
-                          ),
-                          Stack(
+      body: GetBuilder<CheckupPackagesController>(
+        builder: (controller) {
+          return Container(
+            height: h,
+            child: Stack(
+              children: [
+                Column(children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(20),
+                      ),
+                    ),
+                    padding: EdgeInsets.all(20).copyWith(top: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 45, bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(BasketDetailScreen());
+                                  Get.back();
                                 },
                                 child: Container(
                                   height: 45,
@@ -102,408 +70,473 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                   ),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                      AppImages.bag,
-                                      height: 24,
+                                      AppImages.back2,
+                                      height: 14,
                                     ),
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                right: 0,
-                                // top: -5,
-                                child: CircleAvatar(
-                                  radius: 8,
-                                  backgroundColor: AppColors.red2,
-                                  child: Center(
-                                    child: Text(
-                                      "3",
-                                      style: AppTextStyle.boldWhite10,
-                                    ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
+                                  child: Text(
+                                    "health_packages_list".tr,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyle.boldWhite20,
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: controller.searchController,
-                            onChanged: (s) async {
-                              if (s.isEmpty) {
-                                controller.search(s);
-                                controller.pagingController.itemList.clear();
-                                controller.fetchCheckUpPackages(
-                                  controller.pagingController.firstPageKey,
-                                );
-                              }
-                            },
-                            onSubmitted: (v) async {
-                              controller.search(v);
-                              controller.pagingController.itemList.clear();
-                              controller.fetchCheckUpPackages(
-                                controller.pagingController.firstPageKey,
-                              );
-                            },
-                            // onChanged: (s) => controller.search(s),
-                            style: AppTextStyle.mediumPrimary11,
-                            cursorColor: AppColors.primary,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.zero,
-                              hintText: "search...".tr,
-                              hintStyle: AppTextStyle.boldGrey16.copyWith(
-                                  fontSize: 15,
-                                  color: AppColors.grey4,
-                                  fontWeight: FontWeight.w400),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: SvgPicture.asset(
-                                  AppImages.search,
-                                  color: AppColors.grey4,
-                                ),
                               ),
-                              filled: true,
-                              fillColor: AppColors.lightPurple2,
-                              constraints: BoxConstraints(maxHeight: 46),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColors.lightWhite,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColors.lightWhite,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.lightPurple2,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 13,
-                              vertical: 13,
-                            ),
-                            child: SvgPicture.asset(AppImages.mic),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      "health_packages_list".tr,
-                      style: AppTextStyle.boldPrimary18,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  height: h * 0.62,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: PagedGridView(
-                      pagingController: controller.pagingController,
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      // padding:
-                      //                       //     EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                      physics: BouncingScrollPhysics(),
-
-                      // itemCount: 9,
-                      // primary: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        // childAspectRatio: 132 / 169,
-                        // mainAxisExtent: 2,
-                        mainAxisExtent: h * 0.32,
-
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 9,
-                      ),
-                      // SliverGridDelegateWithMaxCrossAxisExtent(
-                      //   // childAspectRatio: 1,
-                      //   mainAxisSpacing: 40,
-                      //   crossAxisSpacing: 20,
-                      //   maxCrossAxisExtent: 120,
-                      // ),
-                      builderDelegate: PagedChildBuilderDelegate<Package>(
-                        itemBuilder: (BuildContext context, item, int i) {
-                          // var item = controller.dummyData[i];
-                          // print("vvvvvvvvvvvvv" + context.size.height.toString());
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(CheckUpDetailScreen(item));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: AppColors.grey5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Stack(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20)),
-                                    child: Container(
-                                      height: h * 0.1,
-                                      width: w,
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            "${ApiConsts.hostUrl}${item.img}",
-                                        fit: BoxFit.cover,
-                                        placeholder: (_, __) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
-                                        errorWidget: (_, __, ___) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "${item.title}",
-                                    style: AppTextStyle.boldPrimary10
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
                                   GestureDetector(
                                     onTap: () {
-                                      buildShowModalBottomSheet(
-                                          context, h, item.packageInclude);
+                                      Get.to(BasketDetailScreen());
                                     },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Includes ${item.packageInclude.length} tests",
-                                          style: AppTextStyle.boldPrimary10
-                                              .copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 8,
-                                                  color: AppColors.teal,
-                                                  decoration:
-                                                      TextDecoration.underline),
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          AppImages.bag,
+                                          height: 24,
                                         ),
-                                        Icon(
-                                          Icons.navigate_next,
-                                          color: AppColors.teal,
-                                          size: 15,
-                                        )
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "by ${item.byObservation}",
-                                        style:
-                                            AppTextStyle.boldPrimary10.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 8,
-                                          color: AppColors.darkBlue1,
-                                        ),
-                                      ),
-                                      CachedNetworkImage(
-                                        imageUrl:
-                                            "${ApiConsts.hostUrl}${item.observerImg}",
-                                        height: 10,
-                                        width: 13,
-                                        fit: BoxFit.cover,
-                                        placeholder: (_, __) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
-                                        errorWidget: (_, __, ___) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      RatingBar.builder(
-                                        ignoreGestures: true,
-                                        itemSize: 12,
-                                        initialRating: 4,
-                                        // minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemPadding: EdgeInsets.symmetric(
-                                            horizontal: 1.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          // size: 10,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
-                                      SizedBox(width: 4),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Text(
-                                          '(${item.countOfPatient}) ${"booked".tr}',
-                                          style: AppTextTheme.b(6)
-                                              .copyWith(color: AppColors.grey4),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        item.price,
-                                        style: AppTextTheme.b(12)
-                                            .copyWith(color: AppColors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        item.rrp,
-                                        style: AppTextTheme.b(12).copyWith(
-                                            color:
-                                                AppColors.grey.withOpacity(0.5),
-                                            decoration:
-                                                TextDecoration.lineThrough),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColors.red2.withOpacity(0.1),
-                                        border: Border.all(
-                                            color: AppColors.red2
-                                                .withOpacity(0.1))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
+                                  Positioned(
+                                    right: 0,
+                                    // top: -5,
+                                    child: CircleAvatar(
+                                      radius: 8,
+                                      backgroundColor: AppColors.red2,
                                       child: Center(
                                         child: Text(
-                                          "%${item.discount} OFF",
-                                          style: AppTextTheme.b(10).copyWith(
-                                            color: AppColors.red2,
+                                          "3",
+                                          style: AppTextStyle.boldWhite10,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: controller.searchController,
+                                onChanged: (s) async {
+                                  if (s.isEmpty) {
+                                    controller.search(s);
+                                    controller.pagingController.itemList
+                                        .clear();
+                                    controller.fetchCheckUpPackages(
+                                      controller.pagingController.firstPageKey,
+                                    );
+                                  } else {
+                                    controller.search(s);
+                                    controller.pagingController.itemList
+                                        .clear();
+                                    controller.fetchCheckUpPackages(
+                                      controller.pagingController.firstPageKey,
+                                    );
+                                  }
+                                },
+                                onSubmitted: (v) async {
+                                  controller.search(v);
+                                  controller.pagingController.itemList.clear();
+                                  controller.fetchCheckUpPackages(
+                                    controller.pagingController.firstPageKey,
+                                  );
+                                },
+                                // onChanged: (s) => controller.search(s),
+                                style: AppTextStyle.mediumPrimary11,
+                                cursorColor: AppColors.primary,
+                                textAlignVertical: TextAlignVertical.center,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  hintText: "search...".tr,
+                                  hintStyle: AppTextStyle.boldGrey16.copyWith(
+                                      fontSize: 15,
+                                      color: AppColors.grey4,
+                                      fontWeight: FontWeight.w400),
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: SvgPicture.asset(
+                                      AppImages.search,
+                                      color: AppColors.grey4,
+                                    ),
+                                  ),
+                                  filled: true,
+                                  fillColor: AppColors.lightPurple2,
+                                  constraints: BoxConstraints(maxHeight: 46),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: AppColors.lightWhite,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: AppColors.lightWhite,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                controller.start();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.lightPurple2,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 13,
+                                    vertical: 13,
+                                  ),
+                                  child: SvgPicture.asset(AppImages.mic),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        controller.isListening
+                            ? Center(
+                                child: Text(
+                                  'Listening...',
+                                  style: AppTextStyle.boldWhite14,
+                                ),
+                              )
+                            : const SizedBox()
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Row(
+                      children: [
+                        Text(
+                          "health_packages_list".tr,
+                          style: AppTextStyle.boldPrimary18,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      height: h * 0.62,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: PagedGridView(
+                          pagingController: controller.pagingController,
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          // padding:
+                          //                       //     EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                          physics: BouncingScrollPhysics(),
+
+                          // itemCount: 9,
+                          // primary: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            // childAspectRatio: 132 / 169,
+                            // mainAxisExtent: 2,
+                            mainAxisExtent: h * 0.32,
+
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 9,
+                          ),
+                          // SliverGridDelegateWithMaxCrossAxisExtent(
+                          //   // childAspectRatio: 1,
+                          //   mainAxisSpacing: 40,
+                          //   crossAxisSpacing: 20,
+                          //   maxCrossAxisExtent: 120,
+                          // ),
+                          builderDelegate: PagedChildBuilderDelegate<Package>(
+                            itemBuilder: (BuildContext context, item, int i) {
+                              // var item = controller.dummyData[i];
+                              // print("vvvvvvvvvvvvv" + context.size.height.toString());
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(CheckUpDetailScreen(item));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: AppColors.grey5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            topLeft: Radius.circular(20)),
+                                        child: Container(
+                                          height: h * 0.1,
+                                          width: w,
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "${ApiConsts.hostUrl}${item.img}",
+                                            fit: BoxFit.cover,
+                                            placeholder: (_, __) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                            errorWidget: (_, __, ___) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: h * 0.01,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.to(BookingInfoScreen());
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: AppColors.primary)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5, horizontal: 10),
-                                        child: Center(
-                                          child: Text(
-                                            "book1".tr,
-                                            style: AppTextTheme.b(10).copyWith(
-                                              color: AppColors.primary,
+                                      Text(
+                                        "${item.title}",
+                                        style: AppTextStyle.boldPrimary10
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          buildShowModalBottomSheet(
+                                              context, h, item.packageInclude);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Includes ${item.packageInclude.length} tests",
+                                              style: AppTextStyle.boldPrimary10
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 8,
+                                                      color: AppColors.teal,
+                                                      decoration: TextDecoration
+                                                          .underline),
+                                            ),
+                                            Icon(
+                                              Icons.navigate_next,
+                                              color: AppColors.teal,
+                                              size: 15,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "by ${item.byObservation}",
+                                            style: AppTextStyle.boldPrimary10
+                                                .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 8,
+                                              color: AppColors.darkBlue1,
+                                            ),
+                                          ),
+                                          CachedNetworkImage(
+                                            imageUrl:
+                                                "${ApiConsts.hostUrl}${item.observerImg}",
+                                            height: 10,
+                                            width: 13,
+                                            fit: BoxFit.cover,
+                                            placeholder: (_, __) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                            errorWidget: (_, __, ___) {
+                                              return Image.asset(
+                                                "assets/png/person-placeholder.jpg",
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          RatingBar.builder(
+                                            ignoreGestures: true,
+                                            itemSize: 12,
+                                            initialRating: 4,
+                                            // minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            itemPadding: EdgeInsets.symmetric(
+                                                horizontal: 1.0),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                              // size: 10,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              print(rating);
+                                            },
+                                          ),
+                                          SizedBox(width: 4),
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: Text(
+                                              '(${item.countOfPatient}) ${"booked".tr}',
+                                              style: AppTextTheme.b(6).copyWith(
+                                                  color: AppColors.grey4),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            item.price,
+                                            style: AppTextTheme.b(12).copyWith(
+                                                color: AppColors.grey),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            item.rrp,
+                                            style: AppTextTheme.b(12).copyWith(
+                                                color: AppColors.grey
+                                                    .withOpacity(0.5),
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color:
+                                                AppColors.red2.withOpacity(0.1),
+                                            border: Border.all(
+                                                color: AppColors.red2
+                                                    .withOpacity(0.1))),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 10),
+                                          child: Center(
+                                            child: Text(
+                                              "%${item.discount} OFF",
+                                              style:
+                                                  AppTextTheme.b(10).copyWith(
+                                                color: AppColors.red2,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.to(BookingInfoScreen());
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: AppColors.primary)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: Center(
+                                              child: Text(
+                                                "book1".tr,
+                                                style:
+                                                    AppTextTheme.b(10).copyWith(
+                                                  color: AppColors.primary,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          "${"report_text".tr} ${item.duration}",
+                                          style: AppTextTheme.b(10).copyWith(
+                                              color: AppColors.black
+                                                  .withOpacity(0.8),
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Center(
-                                    child: Text(
-                                      "${"report_text".tr} ${item.duration}",
-                                      style: AppTextTheme.b(10).copyWith(
-                                          color:
-                                              AppColors.black.withOpacity(0.8),
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                        noMoreItemsIndicatorBuilder: (_) =>
-                            DotDotPagingNoMoreItems(),
-                        noItemsFoundIndicatorBuilder: (_) =>
-                            PagingNoItemFountList(),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            PagingErrorView(
-                          controller: controller.pagingController,
-                        ),
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            PackageGridShimmer(yCount: 2, xCount: 2
-                                // linesCount: 4,
                                 ),
-                        newPageProgressIndicatorBuilder: (_) =>
-                            Center(child: CircularProgressIndicator()),
+                              );
+                            },
+                            noMoreItemsIndicatorBuilder: (_) =>
+                                DotDotPagingNoMoreItems(),
+                            noItemsFoundIndicatorBuilder: (_) =>
+                                PagingNoItemFountList(),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                PagingErrorView(
+                              controller: controller.pagingController,
+                            ),
+                            firstPageProgressIndicatorBuilder: (_) =>
+                                PackageGridShimmer(yCount: 2, xCount: 2
+                                    // linesCount: 4,
+                                    ),
+                            newPageProgressIndicatorBuilder: (_) =>
+                                Center(child: CircularProgressIndicator()),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              )
-            ]),
-            Positioned(
-                bottom: 20,
-                left: 20,
-                right: 20,
-                child: BottomBarView(
-                  isHomeScreen: false,
-                ))
-          ],
-        ),
+                  )
+                ]),
+                Positioned(
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                    child: BottomBarView(
+                      isHomeScreen: false,
+                    ))
+              ],
+            ),
+          );
+        },
       ),
     );
   }

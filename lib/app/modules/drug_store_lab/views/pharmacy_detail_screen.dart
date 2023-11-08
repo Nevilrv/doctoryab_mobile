@@ -50,16 +50,15 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
             ProfileViewNew(
               address: item.address ?? "",
               photo: "${ApiConsts.hostUrl}${item.photo}",
-              star: item.satifyRating == null
+              star: item.averageRatings == null
                   ? 0
-                  : int.parse(
-                      "${int.parse(item.satifyRating) + int.parse(item.cleaningRating) + int.parse(item.expertiseRating) / 3}"),
+                  : int.parse(item.averageRatings.toString()),
               geometry: item.geometry,
               reviewTitle: "pharmacy_reviews",
               name: item.name ?? "",
               phoneNumbers: item.phone[0] ?? "",
               numberOfusersRated:
-                  item.feedbacks == null ? 0 : item.feedbacks.length,
+                  item.totalFeedbacks == null ? 0 : item.totalFeedbacks,
               reviewFunction: () {
                 Get.toNamed(Routes.REVIEW,
                     arguments: ["Pharmacy_Review", item]);

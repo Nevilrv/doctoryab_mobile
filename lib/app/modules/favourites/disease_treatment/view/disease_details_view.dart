@@ -11,6 +11,7 @@ import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../../controllers/settings_controller.dart';
 
@@ -44,17 +45,28 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Column(
                               children: [
-                                Container(
-                                  height: h * 0.154,
-                                  margin: EdgeInsets.only(top: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      image: AssetImage(AppImages.adBanner),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                                controller.bannerAd == null
+                                    ? SizedBox()
+                                    : Container(
+                                        height: Get.height * 0.154,
+                                        width: controller.bannerAd.size.width
+                                            .toDouble(),
+                                        alignment: Alignment.center,
+                                        child: AdWidget(
+                                          ad: controller.bannerAd,
+                                        ),
+                                      ),
+                                // Container(
+                                //   height: h * 0.154,
+                                //   margin: EdgeInsets.only(top: 15),
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     image: DecorationImage(
+                                //       image: AssetImage(AppImages.adBanner),
+                                //       fit: BoxFit.cover,
+                                //     ),
+                                //   ),
+                                // ),
                                 Container(
                                   margin: EdgeInsets.only(top: 23, bottom: 15),
                                   padding: EdgeInsets.all(15),

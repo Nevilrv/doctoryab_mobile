@@ -44,6 +44,8 @@ class Labs {
   int id;
   List<Feedback> feedbacks;
   String rating;
+  int totalFeedbacks;
+  int averageRatings;
 
   Labs({
     this.datumId,
@@ -61,6 +63,8 @@ class Labs {
     this.id,
     this.feedbacks,
     this.rating,
+    this.totalFeedbacks,
+    this.averageRatings,
   });
 
   factory Labs.fromJson(Map<String, dynamic> json) => Labs(
@@ -84,6 +88,8 @@ class Labs {
             : List<Feedback>.from(
                 json["feedbacks"].map((x) => Feedback.fromJson(x))),
         rating: json["rating"],
+        totalFeedbacks: json["totalFeedbacks"],
+        averageRatings: json["averageRatings"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -105,6 +111,8 @@ class Labs {
             ? []
             : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
         "rating": rating,
+        "totalFeedbacks": totalFeedbacks,
+        "averageRatings": averageRatings,
       };
 }
 

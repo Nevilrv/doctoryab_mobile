@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -129,7 +130,70 @@ class TabBlogView extends GetView<TabBlogController> {
                       if ((i + 1) % 5 == 0) {
                         return Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: BannerView(),
+                          child: Stack(
+                            children: [
+                              Container(
+                                child: CarouselSlider(
+                                    options: CarouselOptions(
+                                      autoPlay: true,
+                                      height: Get.height * 0.2,
+                                      viewportFraction: 1.0,
+                                      enlargeCenterPage: false,
+                                      onPageChanged: (index, reason) {
+                                        controller.adIndex = index;
+                                        controller.update();
+                                      },
+                                    ),
+                                    items: controller.adList
+                                        .map((item) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                // margin: EdgeInsets.all(5.0),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              15.0)),
+                                                  child: Image.network(
+                                                      "${ApiConsts.hostUrl}${item.img}",
+                                                      fit: BoxFit.cover,
+                                                      width: 1000.0),
+                                                ),
+                                              ),
+                                            ))
+                                        .toList()),
+                              ),
+                              Positioned(
+                                bottom: Get.height * 0.017,
+                                left: 0,
+                                right: 0,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: List.generate(
+                                        controller.adList.length,
+                                        (index) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3),
+                                              child: CircleAvatar(
+                                                radius: 5,
+                                                backgroundColor:
+                                                    controller.adIndex == index
+                                                        ? AppColors.primary
+                                                        : AppColors.primary
+                                                            .withOpacity(0.2),
+                                              ),
+                                            )),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         );
                       } else {
                         return SizedBox(height: 15);

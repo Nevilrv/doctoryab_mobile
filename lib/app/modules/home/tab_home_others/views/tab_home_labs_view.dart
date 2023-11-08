@@ -2,13 +2,16 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/paging_indicators/dotdot_nomore_items.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
+import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/lab_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
@@ -27,6 +30,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 
 import '/app/extentions/widget_exts.dart';
 import '../../../../components/paging_indicators/paging_error_view.dart';
@@ -237,7 +241,83 @@ class TabHomeLabsView extends GetView<LabsController> {
                                   },
                                   separatorBuilder: (context, index) {
                                     if ((index + 1) % 5 == 0) {
-                                      return BannerView();
+                                      return Stack(
+                                        children: [
+                                          Container(
+                                            child: CarouselSlider(
+                                                options: CarouselOptions(
+                                                  autoPlay: true,
+                                                  height: Get.height * 0.2,
+                                                  viewportFraction: 1.0,
+                                                  enlargeCenterPage: false,
+                                                  onPageChanged:
+                                                      (index, reason) {
+                                                    controller.adIndex = index;
+                                                    controller.update();
+                                                  },
+                                                ),
+                                                items: controller.adList
+                                                    .map((item) => Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 5),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15)),
+                                                            // margin: EdgeInsets.all(5.0),
+                                                            child: ClipRRect(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          15.0)),
+                                                              child: Image.network(
+                                                                  "${ApiConsts.hostUrl}${item.img}",
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  width:
+                                                                      1000.0),
+                                                            ),
+                                                          ),
+                                                        ))
+                                                    .toList()),
+                                          ),
+                                          Positioned(
+                                            bottom: Get.height * 0.017,
+                                            left: 0,
+                                            right: 0,
+                                            child: Center(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: List.generate(
+                                                    controller.adList.length,
+                                                    (index) => Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 3),
+                                                          child: CircleAvatar(
+                                                            radius: 5,
+                                                            backgroundColor:
+                                                                controller.adIndex ==
+                                                                        index
+                                                                    ? AppColors
+                                                                        .primary
+                                                                    : AppColors
+                                                                        .primary
+                                                                        .withOpacity(
+                                                                            0.2),
+                                                          ),
+                                                        )),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      );
                                     } else {
                                       return SizedBox(height: 5);
                                     }
@@ -249,7 +329,74 @@ class TabHomeLabsView extends GetView<LabsController> {
                           physics: BouncingScrollPhysics(),
                           separatorBuilder: (c, i) {
                             if ((i + 1) % 5 == 0) {
-                              return BannerView();
+                              return Stack(
+                                children: [
+                                  Container(
+                                    child: CarouselSlider(
+                                        options: CarouselOptions(
+                                          autoPlay: true,
+                                          height: Get.height * 0.2,
+                                          viewportFraction: 1.0,
+                                          enlargeCenterPage: false,
+                                          onPageChanged: (index, reason) {
+                                            controller.adIndex = index;
+                                            controller.update();
+                                          },
+                                        ),
+                                        items: controller.adList
+                                            .map((item) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15)),
+                                                    // margin: EdgeInsets.all(5.0),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  15.0)),
+                                                      child: Image.network(
+                                                          "${ApiConsts.hostUrl}${item.img}",
+                                                          fit: BoxFit.cover,
+                                                          width: 1000.0),
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList()),
+                                  ),
+                                  Positioned(
+                                    bottom: Get.height * 0.017,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                            controller.adList.length,
+                                            (index) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 3),
+                                                  child: CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor: controller
+                                                                .adIndex ==
+                                                            index
+                                                        ? AppColors.primary
+                                                        : AppColors.primary
+                                                            .withOpacity(0.2),
+                                                  ),
+                                                )),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
                             } else {
                               return SizedBox(height: 5);
                             }
@@ -541,6 +688,8 @@ class TabHomeLabsView extends GetView<LabsController> {
     h,
     w,
   ) {
+    log("item.averageRatings--------------> ${item.averageRatings}");
+
     return GestureDetector(
       onTap: () {
         Get.to(LabDetailScreen(
@@ -630,7 +779,9 @@ class TabHomeLabsView extends GetView<LabsController> {
                                 ignoreGestures: true,
                                 itemSize: 17,
                                 initialRating: double.parse(
-                                    item.rating == null ? "0.0" : item.rating),
+                                    item.averageRatings == null
+                                        ? "0.0"
+                                        : item.averageRatings.toString()),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -653,7 +804,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                       arguments: ["Laboratory_Review", item]);
                                 },
                                 child: Text(
-                                  '(${item.feedbacks == null ? 0 : item.feedbacks.length}) ${"reviews".tr}',
+                                  '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks}) ${"reviews".tr}',
                                   style: AppTextTheme.b(12).copyWith(
                                       color:
                                           AppColors.primary.withOpacity(0.5)),

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -287,7 +288,70 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       physics: BouncingScrollPhysics(),
                       separatorBuilder: (c, i) {
                         if ((i + 1) % 5 == 0) {
-                          return BannerView();
+                          return Stack(
+                            children: [
+                              Container(
+                                child: CarouselSlider(
+                                    options: CarouselOptions(
+                                      autoPlay: true,
+                                      height: Get.height * 0.2,
+                                      viewportFraction: 1.0,
+                                      enlargeCenterPage: false,
+                                      onPageChanged: (index, reason) {
+                                        controller.adIndex = index;
+                                        controller.update();
+                                      },
+                                    ),
+                                    items: controller.adList
+                                        .map((item) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                // margin: EdgeInsets.all(5.0),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              15.0)),
+                                                  child: Image.network(
+                                                      "${ApiConsts.hostUrl}${item.img}",
+                                                      fit: BoxFit.cover,
+                                                      width: 1000.0),
+                                                ),
+                                              ),
+                                            ))
+                                        .toList()),
+                              ),
+                              Positioned(
+                                bottom: Get.height * 0.017,
+                                left: 0,
+                                right: 0,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: List.generate(
+                                        controller.adList.length,
+                                        (index) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3),
+                                              child: CircleAvatar(
+                                                radius: 5,
+                                                backgroundColor:
+                                                    controller.adIndex == index
+                                                        ? AppColors.primary
+                                                        : AppColors.primary
+                                                            .withOpacity(0.2),
+                                              ),
+                                            )),
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
                         } else {
                           return SizedBox(height: 5);
                         }
@@ -654,7 +718,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                 ignoreGestures: true,
                                 itemSize: 17,
                                 initialRating: double.parse(
-                                    "${item.satifyRating == null ? "0.0" : (double.parse(item.expertiseRating) + double.parse(item.satifyRating) + double.parse(item.cleaningRating)) / 3}"),
+                                    "${item.averageRatings == null ? "0.0" : item.averageRatings}"),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -682,7 +746,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                   // ));
                                 },
                                 child: Text(
-                                  '(${item.feedbacks.length}) ${"reviews".tr}',
+                                  '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks}) ${"reviews".tr}',
                                   style: AppTextTheme.b(12).copyWith(
                                       color:
                                           AppColors.primary.withOpacity(0.5)),

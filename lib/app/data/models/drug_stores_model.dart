@@ -51,6 +51,8 @@ class DrugStore {
   String expertiseRating;
   List<Feedback> feedbacks;
   String satifyRating;
+  int totalFeedbacks;
+  double averageRatings;
   List<CheckUp> checkUp;
   String email;
   String password;
@@ -73,6 +75,8 @@ class DrugStore {
     this.expertiseRating,
     this.feedbacks,
     this.satifyRating,
+    this.totalFeedbacks,
+    this.averageRatings,
     this.checkUp,
     this.email,
     this.password,
@@ -100,6 +104,8 @@ class DrugStore {
             : List<Feedback>.from(
                 json["feedbacks"].map((x) => Feedback.fromJson(x))),
         satifyRating: json["satifyRating"],
+        totalFeedbacks: json["totalFeedbacks"],
+        averageRatings: json["averageRatings"]?.toDouble(),
         checkUp: json["checkUp"] == null
             ? []
             : List<CheckUp>.from(
@@ -131,6 +137,8 @@ class DrugStore {
             ? []
             : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
         "satifyRating": satifyRating,
+        "totalFeedbacks": totalFeedbacks,
+        "averageRatings": averageRatings,
         "checkUp": checkUp == null
             ? []
             : List<dynamic>.from(checkUp.map((x) => x.toJson())),

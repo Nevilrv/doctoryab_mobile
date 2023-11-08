@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/doctor_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/models/doctor_full_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
+import 'package:doctor_yab/app/data/models/hospital_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/models/labs_feedbaxk_res_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/models/pharmacy_feedback_res_model.dart';
@@ -21,6 +23,7 @@ class ReviewController extends GetxController {
   Doctor doctor;
   DrugStore drugStore;
   Labs labsData;
+  Hospital hospitalData;
   var cancelToken = CancelToken();
   var tabIndex = 0.obs;
   var cRating = 0.0.obs;
@@ -31,6 +34,7 @@ class ReviewController extends GetxController {
   var feedbackData = <FeedbackData>[];
   var pharmacyFeedback = <PharmacyFeedback>[];
   var labsFeedback = <LabsFeedback>[];
+  var hospitalFeedback = <HospitalFeedback>[];
   var loading = false.obs;
   @override
   void onInit() {
@@ -48,6 +52,10 @@ class ReviewController extends GetxController {
       log("drugStore.id--------------> ${labsData.datumId}");
       appBarTitle.value = "laboratories_reviews";
       getDocFeedback(url: '${ApiConsts.getLabFeedback}${labsData.datumId}');
+    } else if (args[0] == "Hospital_Review") {
+      hospitalData = args[1];
+      appBarTitle.value = "hospital_reviews";
+      getDocFeedback(url: '${ApiConsts.getHospitalFeedback}${hospitalData.id}');
     }
 
     super.onInit();
@@ -90,7 +98,9 @@ class ReviewController extends GetxController {
                   ? "${ApiConsts.postDoctorFeedback}"
                   : args[0] == "Pharmacy_Review"
                       ? "${ApiConsts.postPharmacyFeedback}"
-                      : "${ApiConsts.postLabFeedback}")
+                      : args[0] == "Laboratory_Review"
+                          ? "${ApiConsts.postLabFeedback}"
+                          : "${ApiConsts.postHospitalFeedback}")
           .then((value) {
         if (value != null) {
           if (args[0] == "Doctor_Review") {
@@ -100,9 +110,12 @@ class ReviewController extends GetxController {
             log("drugStore.id-----fs---------> ${drugStore.id}");
             getDocFeedback(
                 url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
-          } else {
+          } else if (args[0] == "Laboratory_Review") {
             getDocFeedback(
                 url: '${ApiConsts.getLabFeedback}${labsData.datumId}');
+          } else {
+            getDocFeedback(
+                url: '${ApiConsts.getHospitalFeedback}${hospitalData.id}');
           }
         }
         Get.back();
@@ -150,7 +163,7 @@ class ReviewController extends GetxController {
           } else {
             pharmacyFeedback = [];
           }
-        } else {
+        } else if (args[0] == "Laboratory_Review") {
           labsFeedback.clear();
           log("value--------------> ${value.data}");
           if (value.data['data'] != null) {
@@ -159,6 +172,16 @@ class ReviewController extends GetxController {
             });
           } else {
             labsFeedback = [];
+          }
+        } else {
+          hospitalFeedback.clear();
+          log("value--------------> ${value.data}");
+          if (value.data['data'] != null) {
+            value.data['data'].forEach((element) {
+              hospitalFeedback.add(HospitalFeedback.fromJson(element));
+            });
+          } else {
+            hospitalFeedback = [];
           }
         }
 

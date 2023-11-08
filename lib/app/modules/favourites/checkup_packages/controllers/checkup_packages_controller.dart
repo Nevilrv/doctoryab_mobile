@@ -5,6 +5,7 @@ import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/repository/CheckUpRepository.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -45,8 +46,66 @@ class CheckupPackagesController extends GetxController {
     pagingController.addPageRequestListener((pageKey) {
       fetchCheckUpPackages(pageKey);
     });
+    activateSpeechRecognizer();
     super.onInit();
   }
+
+  SpeechRecognition speech;
+  bool speechRecognitionAvailable = false;
+  bool isListening = false;
+
+  void activateSpeechRecognizer() {
+    isListening = false;
+    // print('_MyAppState.activateSpeechRecognizer... ');
+    speech = SpeechRecognition();
+    speech.setAvailabilityHandler(onSpeechAvailability);
+    speech.setRecognitionStartedHandler(onRecognitionStarted);
+    speech.setRecognitionResultHandler(onRecognitionResult);
+    speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    speech.setErrorHandler(errorHandler);
+    speech.activate('en_US').then((res) {
+      speechRecognitionAvailable = res;
+      update();
+    });
+  }
+
+  void start() => speech.activate('en_US').then((_) {
+        return speech.listen().then((result) {
+          // print('_MyAppState.start => result $result');
+
+          isListening = result;
+          update();
+        });
+      });
+
+  void stop() => speech.stop().then((_) {
+        isListening = false;
+        update();
+      });
+
+  void onSpeechAvailability(bool result) {
+    speechRecognitionAvailable = result;
+    update();
+  }
+
+  void onRecognitionStarted() {
+    isListening = true;
+    update();
+  }
+
+  void onRecognitionResult(String text) {
+    log('_MyAppState.onRecognitionResult... $text');
+    searchController.text = text;
+    update();
+  }
+
+  void onRecognitionComplete(String text) {
+    log('_MyAppState.onRecognitionComplete... $text');
+    isListening = false;
+    update();
+  }
+
+  void errorHandler() => activateSpeechRecognizer();
 
   search(String s) {
     filterSearch = s;
@@ -78,6 +137,8 @@ class CheckupPackagesController extends GetxController {
         // print(data.value.success);
       } else {}
     }).catchError((e, s) {
+      log("e--------------> ${e}");
+
       // cancelToken = new CancelToken();
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;

@@ -4,11 +4,14 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/blog_categories.dart';
+import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/BlogRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 
 import '../../../data/models/post.dart';
 import '../../../data/models/post.dart';
@@ -32,6 +35,7 @@ class TabBlogController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _fetchAds();
     // scrollController.animateTo(
     //   scrollController.position.maxScrollExtent,
     //   duration: Duration(seconds: 2),
@@ -179,5 +183,29 @@ class TabBlogController extends GetxController {
       Future.delayed(Duration(seconds: 3), () {});
     });
     update();
+  }
+
+  List<Ad> adList = [];
+  var adIndex = 0;
+  void _fetchAds() {
+    AdsRepository.fetchAds().then((v) {
+      // AdsModel v = AdsModel();
+      log("v.data--------------> ${v.data}");
+
+      if (v.data != null) {
+        v.data.forEach((element) {
+          adList.add(element);
+          update();
+          log("adList--------------> ${adList.length}");
+        });
+      }
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {
+        if (this != null) _fetchAds();
+      });
+    });
   }
 }

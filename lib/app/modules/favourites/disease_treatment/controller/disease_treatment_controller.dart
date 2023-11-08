@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:doctor_yab/app/data/repository/DieaseTreatmentRepository.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:doctor_yab/app/data/models/diaease_data_list_res_model.dart'
     as d;
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../../../data/models/diaese_category_res_model.dart';
 import 'package:audioplayers/audioplayers.dart' as ap;
 
@@ -19,6 +21,7 @@ class DiseaseTreatmentController extends GetxController {
 
   @override
   void onInit() {
+    bannerAds();
     super.onInit();
   }
 
@@ -78,5 +81,28 @@ class DiseaseTreatmentController extends GetxController {
       Future.delayed(Duration(seconds: 3), () {});
     });
     update();
+  }
+
+  BannerAd bannerAd;
+  bool isLoadAd = false;
+
+  bannerAds() {
+    bannerAd = BannerAd(
+        size: AdSize(height: (200).round(), width: Get.width.round()),
+        // size: AdSize.banner,
+        adUnitId: Utils.bannerAdId,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            // isLoadAd = true;
+            // update();
+            log('Banner Ad Loaded...');
+          },
+          onAdFailedToLoad: (ad, error) {
+            log('Banner Ad failed...$error');
+            ad.dispose();
+          },
+        ),
+        request: AdRequest());
+    return bannerAd.load();
   }
 }

@@ -2,15 +2,20 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
+import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:location/location.dart' hide PermissionStatus;
+import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/models/labs_model.dart';
@@ -50,8 +55,13 @@ class DoctorsController extends GetxController {
 
   //*Dio
   CancelToken cancelToken = CancelToken();
+
+  // BannerAd bannerAd;
+  bool isLoadAd = false;
   @override
   void onInit() {
+    // bannerAds();
+    _fetchAds();
     pagingController.addPageRequestListener((pageKey) {
       fetchDoctors(pageKey);
     });
@@ -249,11 +259,57 @@ class DoctorsController extends GetxController {
                 ]);
             break;
           }
+        case PermissionStatus.provisional:
+          // TODO: Handle this case.
+          break;
       }
     } catch (e) {
       AppGetDialog.show(
           middleText:
               e.toString() ?? "Failed to request location permission :-(");
     }
+  }
+
+  // bannerAds() {
+  //   bannerAd = BannerAd(
+  //       size: AdSize(height: (100).round(), width: Get.width.round()),
+  //       // size: AdSize.banner,
+  //       adUnitId: Utils.bannerAdId,
+  //       listener: BannerAdListener(
+  //         onAdLoaded: (ad) {
+  //           isLoadAd = true;
+  //           update();
+  //           log('Banner Ad Loaded...');
+  //         },
+  //         onAdFailedToLoad: (ad, error) {
+  //           log('Banner Ad failed...');
+  //           ad.dispose();
+  //         },
+  //       ),
+  //       request: AdRequest());
+  //   return bannerAd.load();
+  // }
+  List<Ad> adList = [];
+  var adIndex = 0;
+  void _fetchAds() {
+    AdsRepository.fetchAds().then((v) {
+      // AdsModel v = AdsModel();
+      log("v.data--------------> ${v.data}");
+
+      if (v.data != null) {
+        v.data.forEach((element) {
+          adList.add(element);
+          update();
+          log("adList--------------> ${adList.length}");
+        });
+      }
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {
+        if (this != null) _fetchAds();
+      });
+    });
   }
 }

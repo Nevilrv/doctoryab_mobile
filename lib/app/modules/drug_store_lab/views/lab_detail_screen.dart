@@ -48,11 +48,11 @@ class LabDetailScreen extends GetView<DrugStoreController> {
               address: item.address,
               reviewTitle: "laboratories_reviews",
               photo: "${ApiConsts.hostUrl}${item.photo}",
-              star: 4,
+              star:item.averageRatings==null?0:int.parse(item.averageRatings.toString()),
               geometry: item.geometry,
               name: item.name ?? "",
               phoneNumbers: item.phone[0],
-              numberOfusersRated: 5,
+              numberOfusersRated: item.totalFeedbacks==0?0:item.totalFeedbacks,
               child: Column(
                 children: [
                   Container(

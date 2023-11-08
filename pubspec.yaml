@@ -109,9 +109,13 @@ dependencies:
   google_sign_in: ^6.1.5
   http_parser: ^4.0.2
   google_maps_flutter:
+  flutter_speech: ^2.0.0
+  google_mobile_ads: ^0.13.4
+  carousel_slider: ^4.2.1
 
 
-
+#  ca-app-pub-7346350725133754~2691623855
+#  ca-app-pub-7346350725133754/9537971919
 
 dev_dependencies:
   flutter_launcher_icons: 

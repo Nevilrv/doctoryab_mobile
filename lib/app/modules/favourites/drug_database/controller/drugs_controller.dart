@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugDatabaseRepository.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DrugsController extends GetxController {
@@ -17,15 +19,24 @@ class DrugsController extends GetxController {
   CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
+    bannerAds();
     pageController.addPageRequestListener((pageKey) {
       drugData(pageKey);
     });
+    // bannerAds();
     super.onInit();
   }
 
   search(String s) {
     filterSearch = s;
     update();
+  }
+
+  @override
+  void onClose() {
+    bannerAd.dispose();
+    // TODO: implement onClose
+    super.onClose();
   }
 
   final List medicinesNames = [
@@ -86,5 +97,28 @@ class DrugsController extends GetxController {
     argumentsData = value ?? Datum();
 
     print('======>argumentsData===>${argumentsData.toJson()}');
+  }
+
+  BannerAd bannerAd;
+  bool isLoadAd = false;
+
+  bannerAds() {
+    bannerAd = BannerAd(
+        size: AdSize(height: (200).round(), width: Get.width.round()),
+        // size: AdSize.banner,
+        adUnitId: Utils.bannerAdId,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            // isLoadAd = true;
+            // update();
+            log('Banner Ad Loaded...');
+          },
+          onAdFailedToLoad: (ad, error) {
+            log('Banner Ad failed...$error');
+            ad.dispose();
+          },
+        ),
+        request: AdRequest());
+    return bannerAd.load();
   }
 }

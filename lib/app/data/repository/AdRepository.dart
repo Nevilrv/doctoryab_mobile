@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
@@ -19,6 +21,8 @@ class AdsRepository {
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
+    log("data.data--------------> ${data.data}");
+
     return AdsModel.fromJson(data.data);
   }
 }
