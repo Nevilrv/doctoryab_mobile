@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -7,7 +9,9 @@ import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +19,11 @@ class DrugDetailsView extends GetView<DrugsController> {
   DrugDetailsView({Key key}) : super(key: key) {
     print('==controller.argumentsData==>${Get.arguments}');
     controller.setData(Get.arguments);
+    log("controller.argumentsData.id--------------> ${controller.argumentsData.id}");
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.drugReview(drugId: controller.argumentsData.id);
+    });
   }
 
   @override
@@ -26,388 +35,502 @@ class DrugDetailsView extends GetView<DrugsController> {
           title:
               "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
       backgroundColor: AppColors.lightGrey,
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 80),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.symmetric(horizontal: 14),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.white,
-              ),
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // height: h * 0.149,
-                      // width: double.infinity,
-                      // margin: EdgeInsets.only(top: 14),
-                      // decoration: BoxDecoration(
-                      //   color: AppColors.lightYellow,
-                      //   borderRadius: BorderRadius.circular(5),
-                      // ),
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            // color: AppColors.red,
-                            child: Center(
-                              child: CachedNetworkImage(
-                                height: 250,
-                                width: 250,
-                                imageUrl:
-                                    "${ApiConsts.hostUrl}${controller.argumentsData.img}",
-                                fit: BoxFit.cover,
-                                placeholder: (_, __) {
-                                  return Image.asset(
-                                    AppImages.vitamin,
-                                  );
-                                },
-                                errorWidget: (_, __, ___) {
-                                  return Image.asset(
-                                    AppImages.vitamin,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          // Center(child: Image.asset(AppImages.vitamins)),
-                          Positioned(
-                            bottom: -8,
-                            child: IntrinsicWidth(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 3),
-                                margin: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: AppColors.white,
-                                ),
-                                child: Row(
-                                  children: List.generate(
-                                    5,
-                                    (subIndex) {
-                                      return SvgPicture.asset(
-                                        subIndex == 4
-                                            ? AppImages.favGrey
-                                            : AppImages.favGolden,
-                                        height: 9,
-                                        width: 9,
-                                      ).paddingOnly(
-                                          right: subIndex == 4 ? 0 : 3);
+      body: GetBuilder<DrugsController>(
+        builder: (controller) {
+          return Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          // height: h * 0.149,
+                          // width: double.infinity,
+                          // margin: EdgeInsets.only(top: 14),
+                          // decoration: BoxDecoration(
+                          //   color: AppColors.lightYellow,
+                          //   borderRadius: BorderRadius.circular(5),
+                          // ),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                // color: AppColors.red,
+                                child: Center(
+                                  child: CachedNetworkImage(
+                                    height: 250,
+                                    width: 250,
+                                    imageUrl:
+                                        "${ApiConsts.hostUrl}${controller.argumentsData.img}",
+                                    fit: BoxFit.cover,
+                                    placeholder: (_, __) {
+                                      return Image.asset(
+                                        AppImages.vitamin,
+                                      );
+                                    },
+                                    errorWidget: (_, __, ___) {
+                                      return Image.asset(
+                                        AppImages.vitamin,
+                                      );
                                     },
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.generate(
-                          3,
-                          (index) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: h * 0.04,
-                                width: h * 0.04,
-                                padding: EdgeInsets.all(3),
-                                margin: EdgeInsets.only(right: 5),
-                                decoration: BoxDecoration(
-                                  color: AppColors.lightPurple,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Image.asset(
-                                  controller.data[index]["image"],
-                                  fit: BoxFit.cover,
+                              // Center(child: Image.asset(AppImages.vitamins)),
+                              Positioned(
+                                bottom: -8,
+                                child: IntrinsicWidth(
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 3),
+                                    margin: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      color: AppColors.white,
+                                    ),
+                                    child: Row(
+                                      children: List.generate(
+                                        5,
+                                        (subIndex) {
+                                          return SvgPicture.asset(
+                                            subIndex == 4
+                                                ? AppImages.favGrey
+                                                : AppImages.favGolden,
+                                            height: 9,
+                                            width: 9,
+                                          ).paddingOnly(
+                                              right: subIndex == 4 ? 0 : 3);
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.generate(
+                              3,
+                              (index) => Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    controller.data[index]["title"]
-                                        .toString()
-                                        .tr,
-                                    style: AppTextStyle.boldPrimary9
-                                        .copyWith(height: 1.2),
-                                  ),
                                   Container(
-                                    width: w * 0.17,
-                                    child: Text(
-                                      index == 1
-                                          ? Get.arguments.pack
-                                          : index == 2
-                                              ? controller.data[2]["text"]
-                                                  .toString()
-                                                  .trArgs([
-                                                  Get.arguments.packsAndPrices
-                                                ])
-                                              : Get.arguments.drugType ??
-                                                  "None",
-                                      style: AppTextStyle.regularPrimary9
-                                          .copyWith(height: 1),
-                                      maxLines: 4,
+                                    height: h * 0.04,
+                                    width: h * 0.04,
+                                    padding: EdgeInsets.all(3),
+                                    margin: EdgeInsets.only(right: 5),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.lightPurple,
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
-                                  )
+                                    child: Image.asset(
+                                      controller.data[index]["image"],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        controller.data[index]["title"]
+                                            .toString()
+                                            .tr,
+                                        style: AppTextStyle.boldPrimary9
+                                            .copyWith(height: 1.2),
+                                      ),
+                                      Container(
+                                        width: w * 0.17,
+                                        child: Text(
+                                          index == 1
+                                              ? Get.arguments.pack
+                                              : index == 2
+                                                  ? controller.data[2]["text"]
+                                                      .toString()
+                                                      .trArgs([
+                                                      Get.arguments
+                                                          .packsAndPrices
+                                                    ])
+                                                  : Get.arguments.drugType ??
+                                                      "None",
+                                          style: AppTextStyle.regularPrimary9
+                                              .copyWith(height: 1),
+                                          maxLines: 4,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: h * 0.01,
-                    ),
-                    commonTitleBox(text: "drug_name".tr),
-                    commonTextBox(
-                        "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
-                    controller.argumentsData.genericName == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(text: "gen_name".tr),
-                              commonTextBox(
-                                  "${controller.argumentsData.genericName}"),
-                            ],
-                          ),
-                    controller.argumentsData.usage == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(
-                                text: "usage".tr,
-                                color: AppColors.boxGreen3,
-                                textColor: Colors.green,
+                        SizedBox(
+                          height: h * 0.01,
+                        ),
+                        commonTitleBox(text: "drug_name".tr),
+                        commonTextBox(
+                            "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
+                        controller.argumentsData.genericName == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(text: "gen_name".tr),
+                                  commonTextBox(
+                                      "${controller.argumentsData.genericName}"),
+                                ],
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "${controller.argumentsData.usage}",
-                                  style: AppTextStyle.mediumPrimary10
-                                      .copyWith(height: 1),
+                        controller.argumentsData.usage == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(
+                                    text: "usage".tr,
+                                    color: AppColors.boxGreen3,
+                                    textColor: Colors.green,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: Text(
+                                      "${controller.argumentsData.usage}",
+                                      style: AppTextStyle.mediumPrimary10
+                                          .copyWith(height: 1),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        controller.argumentsData.sideEffects == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(
+                                    text: "side_effects".tr,
+                                    color: AppColors.lightYellow,
+                                    textColor: Colors.yellow.shade700,
+                                  ),
+                                  commonTextBox(
+                                      "${controller.argumentsData.sideEffects}"),
+                                ],
+                              ),
+                        controller.argumentsData.warnings == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(
+                                    text: "warnings".tr,
+                                    color: AppColors.boxRed,
+                                    textColor: Colors.red,
+                                  ),
+                                  commonTextBox(
+                                      "${controller.argumentsData.warnings}"),
+                                ],
+                              ),
+
+                        // commonTitleBox(text: "drug_type".tr),
+                        // commonTextBox("Lorem Ipsum is simply dummy text."),
+                        // commonTitleBox(text: "packaging".tr),
+                        // commonTextBox("Lorem Ipsum is simply dummy text."),
+                        controller.argumentsData.dosages == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(text: "dosages".tr),
+                                  commonTextBox(
+                                      "${controller.argumentsData.dosages}"),
+                                ],
+                              ),
+                        controller.argumentsData.origin == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(text: "origin".tr),
+                                  commonTextBox(
+                                      "${controller.argumentsData.origin}"),
+                                ],
+                              ),
+                        controller.argumentsData.company == ""
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonTitleBox(text: "comp".tr),
+                                  commonTextBox(
+                                      "${controller.argumentsData.company}"),
+                                ],
+                              ),
+
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // commonTitleBox(
+                        //   text: "price".tr,
+                        //   color: AppColors.lightYellow,
+                        //   textColor: Colors.yellow.shade700,
+                        // ),
+                        // commonTextBox("drug_price".trArgs(["1000"])),
+                        commonTitleBox(text: "comm_ratings".tr),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10, bottom: 6),
+                          child: addCommentsTextField(),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "sel_rating".tr,
+                              style: AppTextStyle.regularPrimary9,
+                            ),
+                            IntrinsicWidth(
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                margin: EdgeInsets.only(left: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: AppColors.lightPurple,
+                                ),
+                                child: RatingBar.builder(
+                                  itemSize: 15,
+                                  initialRating: controller.ratings,
+                                  // minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 1.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    // size: 10,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                    controller.ratings = rating;
+                                    controller.update();
+                                  },
                                 ),
                               ),
-                            ],
-                          ),
-                    controller.argumentsData.sideEffects == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(
-                                text: "side_effects".tr,
-                                color: AppColors.lightYellow,
-                                textColor: Colors.yellow.shade700,
-                              ),
-                              commonTextBox(
-                                  "${controller.argumentsData.sideEffects}"),
-                            ],
-                          ),
-                    controller.argumentsData.warnings == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(
-                                text: "warnings".tr,
-                                color: AppColors.boxRed,
-                                textColor: Colors.red,
-                              ),
-                              commonTextBox(
-                                  "${controller.argumentsData.warnings}"),
-                            ],
-                          ),
+                            ),
+                            Spacer(),
+                            controller.isLoadingFeedback == true
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 23, vertical: 3),
+                                    child: Center(
+                                      child: Container(
+                                        height: 15,
+                                        width: 15,
+                                        child: Center(
+                                            child: CircularProgressIndicator(
+                                                color: AppColors.primary,
+                                                strokeWidth: 2)),
+                                      ),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      if (controller.comment.text.isEmpty) {
+                                        Utils.commonSnackbar(
+                                            context: context,
+                                            text: "please_add_review".tr);
+                                      } else {
+                                        controller.addDrugFeedback(
+                                            rating:
+                                                controller.ratings.toString(),
+                                            drugId:
+                                                controller.argumentsData.id);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 23, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(3),
+                                        color: AppColors.primary,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "send".tr,
+                                          style: AppTextStyle.boldWhite8,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
 
-                    // commonTitleBox(text: "drug_type".tr),
-                    // commonTextBox("Lorem Ipsum is simply dummy text."),
-                    // commonTitleBox(text: "packaging".tr),
-                    // commonTextBox("Lorem Ipsum is simply dummy text."),
-                    controller.argumentsData.dosages == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(text: "dosages".tr),
-                              commonTextBox(
-                                  "${controller.argumentsData.dosages}"),
-                            ],
-                          ),
-                    controller.argumentsData.origin == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(text: "origin".tr),
-                              commonTextBox(
-                                  "${controller.argumentsData.origin}"),
-                            ],
-                          ),
-                    controller.argumentsData.company == ""
-                        ? SizedBox()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              commonTitleBox(text: "comp".tr),
-                              commonTextBox(
-                                  "${controller.argumentsData.company}"),
-                            ],
-                          ),
-                    BannerView(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    // commonTitleBox(
-                    //   text: "price".tr,
-                    //   color: AppColors.lightYellow,
-                    //   textColor: Colors.yellow.shade700,
-                    // ),
-                    // commonTextBox("drug_price".trArgs(["1000"])),
-                    commonTitleBox(text: "comm_ratings".tr),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 6),
-                      child: addCommentsTextField(),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "sel_rating".tr,
-                          style: AppTextStyle.regularPrimary9,
-                        ),
-                        IntrinsicWidth(
-                          child: Container(
-                            padding: EdgeInsets.all(5),
-                            margin: EdgeInsets.only(left: 4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: AppColors.lightPurple,
-                            ),
-                            child: Row(
-                              children: List.generate(
-                                5,
-                                (subIndex) {
-                                  return SvgPicture.asset(
-                                    subIndex == 0
-                                        ? AppImages.favGolden
-                                        : AppImages.favWhite,
-                                    height: 9,
-                                    width: 9,
-                                  ).paddingOnly(right: subIndex == 4 ? 0 : 3);
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 23, vertical: 3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: AppColors.primary,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "send".tr,
-                              style: AppTextStyle.boldWhite8,
-                            ),
-                          ),
-                        ),
+                        controller.isLoading == true
+                            ? Center(
+                                child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: AppColors.primary,
+                                    ))),
+                              )
+                            : Column(
+                                children: List.generate(
+                                    controller.drugFeedback.length, (index) {
+                                  return Container(
+                                    padding: EdgeInsets.only(
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 8,
+                                        right: 14),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          color: AppColors.lightPurple),
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // CachedNetworkImage(
+                                        //   imageUrl: "${ApiConsts.hostUrl}${  controller
+                                        //       .drugFeedback[index].photo}",
+                                        //   height: h * 0.045,
+                                        //   width: h * 0.045,
+                                        //   fit: BoxFit.cover,
+                                        //   placeholder: (_, __) {
+                                        //     return Image.asset(
+                                        //       "assets/png/person-placeholder.jpg",
+                                        //       fit: BoxFit.cover,
+                                        //     );
+                                        //   },
+                                        //   errorWidget: (_, __, ___) {
+                                        //     return Image.asset(
+                                        //       "assets/png/person-placeholder.jpg",
+                                        //       fit: BoxFit.cover,
+                                        //     );
+                                        //   },
+                                        // )
+
+                                        Container(
+                                          height: h * 0.045,
+                                          width: h * 0.045,
+                                          margin: EdgeInsets.only(right: 8),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  "${ApiConsts.hostUrl}${controller.drugFeedback[index].photo}"),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    controller
+                                                            .drugFeedback[index]
+                                                            .whoPosted ??
+                                                        "",
+                                                    style: AppTextStyle
+                                                        .regularPrimary9,
+                                                  ),
+                                                  Spacer(),
+                                                  RatingBar.builder(
+                                                    ignoreGestures: true,
+                                                    itemSize: 15,
+                                                    initialRating: double.parse(
+                                                        controller
+                                                                    .drugFeedback[
+                                                                        index]
+                                                                    .rating ==
+                                                                null
+                                                            ? "0"
+                                                            : controller
+                                                                    .drugFeedback[
+                                                                        index]
+                                                                    .rating ??
+                                                                "0.0"),
+                                                    // minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    itemPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 1.0),
+                                                    itemBuilder: (context, _) =>
+                                                        Icon(
+                                                      Icons.star,
+                                                      color: Colors.amber,
+                                                      // size: 10,
+                                                    ),
+                                                    onRatingUpdate: (rating) {
+                                                      print(rating);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              Text(
+                                                controller.drugFeedback[index]
+                                                        .comment ??
+                                                    '',
+                                                style: AppTextStyle
+                                                    .regularPrimary7
+                                                    .copyWith(
+                                                  color: AppColors.primary
+                                                      .withOpacity(0.6),
+                                                  height: 1.2,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              )
                       ],
                     ),
-                    SizedBox(height: 10),
-                    Container(
-                      padding: EdgeInsets.only(
-                          top: 10, bottom: 10, left: 8, right: 14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: AppColors.lightPurple),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: h * 0.045,
-                            width: h * 0.045,
-                            margin: EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  AppImages.dummy,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Fatih Resul Göker",
-                                      style: AppTextStyle.regularPrimary9,
-                                    ),
-                                    Spacer(),
-                                    ...List.generate(
-                                      5,
-                                      (subIndex) {
-                                        return SvgPicture.asset(
-                                          subIndex == 4
-                                              ? AppImages.favGrey
-                                              : AppImages.favGolden,
-                                          height: 9,
-                                          width: 9,
-                                        ).paddingOnly(
-                                            right: subIndex == 4 ? 0 : 3);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  "ilacı uzun süre kullandım ve gerçekten çok büyük faydaları etkilerini gördüm. Fiyatı da gayet ucuz ve uygundu. İhtiyacı olan herkesin almasını tavsiye ederim.",
-                                  style: AppTextStyle.regularPrimary7.copyWith(
-                                    color: AppColors.primary.withOpacity(0.6),
-                                    height: 1.2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-              bottom: 20,
-              left: 20,
-              right: 20,
-              child: BottomBarView(
-                isHomeScreen: false,
-              ))
-        ],
+              Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: BottomBarView(
+                    isHomeScreen: false,
+                  ))
+            ],
+          );
+        },
       ),
     );
   }
@@ -462,6 +585,7 @@ class DrugDetailsView extends GetView<DrugsController> {
       style: AppTextStyle.mediumPrimary8,
       cursorColor: AppColors.primary,
       maxLines: 3,
+      controller: controller.comment,
       decoration: InputDecoration(
         hintText: "add_comm".tr,
         hintStyle: AppTextStyle.mediumLightPurple3_8,

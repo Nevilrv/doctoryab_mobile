@@ -51,9 +51,16 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                         height: Get.height * 0.154,
                                         width: controller.bannerAd.size.width
                                             .toDouble(),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
                                         alignment: Alignment.center,
-                                        child: AdWidget(
-                                          ad: controller.bannerAd,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: AdWidget(
+                                            ad: controller.bannerAd,
+                                          ),
                                         ),
                                       ),
                                 // Container(

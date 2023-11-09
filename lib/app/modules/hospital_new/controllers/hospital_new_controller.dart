@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/models/hospital_detail_res_model.dart';
+import 'package:doctor_yab/app/data/models/hospital_feedback_res_model.dart';
+import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/data/repository/HospitalRepository.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -25,17 +28,59 @@ class HospitalNewController extends GetxController
   var tabIndex = 0.obs;
   //*Dio
   CancelToken reviewsCancelToken = CancelToken();
+
+  TextEditingController comment = TextEditingController();
+  var feedbackData = <HospitalFeedback>[];
+  var loading = false.obs;
+  var cRating = 0.0.obs;
+  var sRating = 0.0.obs;
+  var eRating = 0.0.obs;
+  void getHospitalFeedback({
+    String HospitalId,
+  }) async {
+    loading.value = true;
+    try {
+      var _response = await DoctorsRepository()
+          .getDoctorFeedback(
+              cancelToken: reviewsCancelToken,
+              url: '${ApiConsts.getHospitalFeedback}${HospitalId}')
+          .then((value) {
+        feedbackData.clear();
+        log("value--------------> ${value.data}");
+        if (value.data['data'] != null) {
+          value.data['data'].forEach((element) {
+            feedbackData.add(HospitalFeedback.fromJson(element));
+          });
+        } else {
+          feedbackData = [];
+        }
+        loading.value = false;
+        log("feedbackData--------------> ${feedbackData}");
+
+        // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+      });
+    } on DioError catch (e) {
+      loading.value = false;
+      await Future.delayed(Duration(seconds: 2), () {});
+      if (!reviewsCancelToken.isCancelled)
+        // throw e;
+        print(e);
+    }
+  }
+
   @override
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
     hospital = Get.arguments;
+
     log("hospital--------------> ${hospital.id}");
 
     fetchHospitalDetails();
     fetchHospitalDoctors();
-    reviewsPagingController.addPageRequestListener((pageKey) {
-      fetchReviews(pageKey);
-    });
+    // reviewsPagingController.addPageRequestListener((pageKey) {
+    //   fetchReviews(pageKey);
+    // });
+    getHospitalFeedback(HospitalId: hospital.id);
     super.onInit();
   }
 

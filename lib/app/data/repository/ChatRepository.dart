@@ -1,11 +1,15 @@
 // import 'dart:io' as Io;
 
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
 
 import '../../utils/utils.dart';
@@ -124,6 +128,26 @@ class ChatRepository {
     if (_r["chat"] != null) _r["chat"]["users"] = [];
     return ChatApiModel.fromJson(response.data);
     // onError: onError,
+  }
+
+  Future<dynamic> uploadImage({
+    List<File> file,
+  }) async {
+    List uploadList = [];
+    file.forEach((element) async {
+      var multipartFile = await MultipartFile.fromFile(element.path,
+          contentType: MediaType('image', 'png'),
+          filename: element.path.split('/').last);
+      uploadList.add(multipartFile);
+    });
+
+    final response =
+        await dio.post(ApiConsts.updateImagePath, data: {"imgs": uploadList});
+    log("response--------------> ${response.data}");
+    log("response--------------> ${response.statusCode}");
+
+    // print(response);
+    return response;
   }
 
   static Future<ChatApiModel> createNewChat(

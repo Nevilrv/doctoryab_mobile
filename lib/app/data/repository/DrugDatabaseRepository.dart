@@ -28,4 +28,36 @@ class DrugDatabaseRepository {
 
     return response;
   }
+
+  Future<Response> fetchDrugsReview({
+    String drugId,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    final response = await _cachedDio.get(
+      '${ApiConsts.drugDatabaseReview}$drugId',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
+  Future<Response> addDrugsReview({
+    String drugId,
+    String rating,
+    String comment,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    var data = {"comment": comment, "rating": rating, "drugId": drugId};
+    final response = await _cachedDio.post(
+      '${ApiConsts.giveFeedbackToDrug}',
+      cancelToken: cancelToken,
+      data: data,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
 }

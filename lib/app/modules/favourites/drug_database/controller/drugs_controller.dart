@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/models/drug_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugDatabaseRepository.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -15,6 +16,7 @@ class DrugsController extends GetxController {
   String filterSearch = "";
   TextEditingController searchController = TextEditingController();
   TextEditingController searchSaveController = TextEditingController();
+  TextEditingController comment = TextEditingController();
   var pageController = PagingController<int, Datum>(firstPageKey: 1);
   CancelToken cancelToken = CancelToken();
   @override
@@ -120,5 +122,61 @@ class DrugsController extends GetxController {
         ),
         request: AdRequest());
     return bannerAd.load();
+  }
+
+  List<DrugFeedback> drugFeedback = [];
+  bool isLoading = false;
+  bool isLoadingFeedback = false;
+  double ratings = 0.0;
+  void drugReview({String drugId}) {
+    isLoading = true;
+    update();
+    DrugDatabaseRepository()
+        .fetchDrugsReview(drugId: drugId, cancelToken: cancelToken)
+        .then((data) {
+      drugFeedback.clear();
+      if (data.data['data'] != null) {
+        data.data['data'].forEach((element) {
+          drugFeedback.add(DrugFeedback.fromJson(element));
+        });
+      }
+      isLoading = false;
+      update();
+      log("data--------------> ${data.data}");
+      log("drugFeedback--------------> ${drugFeedback.length}");
+    }).catchError((e, s) {
+      isLoading = false;
+      update();
+      if (!(e is DioError && CancelToken.isCancel(e))) {}
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  void addDrugFeedback({String drugId, String rating}) {
+    isLoadingFeedback = true;
+    update();
+    FocusManager.instance.primaryFocus?.unfocus();
+    DrugDatabaseRepository()
+        .addDrugsReview(
+            drugId: drugId,
+            comment: comment.text,
+            rating: rating,
+            cancelToken: cancelToken)
+        .then((data) {
+      comment.clear();
+      ratings = 0.0;
+      isLoadingFeedback = false;
+      update();
+      drugReview(drugId: drugId);
+      log("data--------------> ${data.data}");
+      log("drugFeedback--------------> ${drugFeedback.length}");
+    }).catchError((e, s) {
+      isLoadingFeedback = false;
+      update();
+      if (!(e is DioError && CancelToken.isCancel(e))) {}
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
   }
 }

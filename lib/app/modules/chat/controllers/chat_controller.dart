@@ -1,6 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:dio/dio.dart';
@@ -11,8 +18,10 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-
+import 'package:intl/intl.dart' show DateFormat;
 import '../../../data/repository/ChatRepository.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:path/path.dart' as path;
 
 class ChatController extends GetxController {
   Rx<ChatListApiModel> chatArg = (Get.arguments as ChatListApiModel).obs;
@@ -21,11 +30,97 @@ class ChatController extends GetxController {
   var page = 1;
   var nextPageLoading = false.obs;
   var endOfPage = false.obs;
+  var tapAttachment = false.obs;
+  var attachmentString = "".obs;
   var chatsPerPageLimit = 20;
   // nextPageTrigger will have a value equivalent to 80% of the list size.
   var nextPageTrigger = 0.0;
 
   var messageToSend = "";
+
+  FlutterSoundRecorder recordingSession;
+  final recordingPlayer = AssetsAudioPlayer();
+  String pathToAudio;
+  var playAudio = false.obs;
+  var playRecord = false.obs;
+  var timerText = '00:00:00'.obs;
+  List<StreamSubscription> _subscriptions = [];
+  void initializer() async {
+    pathToAudio = '/sdcard/Download/temp.wav';
+    recordingSession = FlutterSoundRecorder();
+
+    await recordingSession.openAudioSession(
+        focus: AudioFocus.requestFocusAndStopOthers,
+        category: SessionCategory.playAndRecord,
+        mode: SessionMode.modeDefault,
+        device: AudioDevice.speaker);
+    await recordingSession.setSubscriptionDuration(Duration(milliseconds: 10));
+    await initializeDateFormatting();
+    await Permission.microphone.request();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+    _subscriptions.add(recordingPlayer.playlistAudioFinished.listen((data) {
+      print('playlistAudioFinished : $data');
+      playAudio.value = false;
+    }));
+  }
+
+  Future<void> startRecording() async {
+    playRecord.value = true;
+    Directory directory = Directory(path.dirname(pathToAudio));
+    if (!directory.existsSync()) {
+      directory.createSync();
+    }
+    recordingSession.openAudioSession();
+    await recordingSession.startRecorder(
+      toFile: pathToAudio,
+      codec: Codec.pcm16WAV,
+    );
+
+    StreamSubscription _recorderSubscription =
+        recordingSession.onProgress.listen((e) {
+      log("e.duration.inMilliseconds--------------> ${e.duration.inMilliseconds}");
+
+      var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
+          isUtc: true);
+      var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
+      log("timeText--------------> ${timeText}");
+
+      timerText.value = timeText.substring(0, 8);
+      update();
+    });
+    _recorderSubscription.cancel();
+    update();
+  }
+
+  Future<String> stopRecording() async {
+    playRecord.value = false;
+    recordingSession.closeAudioSession();
+    update();
+    return await recordingSession.stopRecorder();
+    update();
+  }
+
+  Future<void> playFunc() async {
+    log("recordingPlayer.isPlaying-------------->11 ${recordingPlayer.playerState.value}");
+    await recordingPlayer
+        .open(
+      Audio.file(pathToAudio),
+      autoStart: true,
+      showNotification: true,
+    )
+        .then((value) {
+      log("recordingPlayer.isPlaying--------------df> ${recordingPlayer.playerState.value}");
+    });
+
+    // if (recordingPlayer.is == true) {
+    //   playAudio.value = false;
+    // }
+  }
+
+  Future<void> stopPlayFunc() async {
+    recordingPlayer.stop();
+  }
 
   ///
   //socket.io
@@ -41,9 +136,10 @@ class ChatController extends GetxController {
   ScrollController scrollC = ScrollController();
   RxList<ChatApiModel> chat = <ChatApiModel>[].obs;
   RxList<XFile> image = <XFile>[].obs;
+  var pdfFile = "".obs;
   init() {
     // nextPageTrigger will have a value equivalent to 80% of the list size.
-
+    initializer();
     Future.delayed(Duration.zero, () {
       scrollC.addListener(() {
         var nextPageTrigger = 0.8 * scrollC.position.maxScrollExtent;
@@ -112,6 +208,19 @@ class ChatController extends GetxController {
     }).catchError((e, s) {
       Logger().e("message", e, s);
     });
+    List<File> file = [];
+    if (image.value.isNotEmpty) {
+      image.value.forEach((element) {
+        file.add(File(element.path));
+      });
+      try {
+        ChatRepository().uploadImage(file: file).then((value) {
+          log("value--------------> ${value}");
+        });
+      } catch (e) {
+        log("e--------------> ${e}");
+      }
+    }
     // if (messageC.text.isNotEmpty || image.isNotEmpty) {
     //   isLoading.value = true;
 
@@ -225,6 +334,20 @@ class ChatController extends GetxController {
 
   void pickImage() async {
     image.value = await ImagePicker().pickMultiImage();
+  }
+
+  void pickCameraImage() async {
+    XFile value = await ImagePicker().pickImage(source: ImageSource.camera);
+    image.add(value);
+  }
+
+  void pickPdf() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+        allowMultiple: false);
+    pdfFile.value = result.files[0].path;
+    update();
   }
 
   @override

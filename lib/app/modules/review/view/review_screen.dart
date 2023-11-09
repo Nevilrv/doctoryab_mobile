@@ -232,7 +232,9 @@ class ReviewScreen extends GetView<ReviewController> {
                             height: h * 0.015,
                           ),
                           Divider(thickness: 1, color: AppColors.primary),
-                          Container(
+                              controller.appBarTitle
+                                  .value ==
+                                  "hospital_reviews"? SizedBox(): Container(
                             height: h * 0.54,
                             child: Column(
                               children: [
@@ -678,7 +680,7 @@ class ReviewScreen extends GetView<ReviewController> {
                                                                                       : controller.appBarTitle.value == "pharmacy_reviews"
                                                                                           ? double.parse("${(double.parse(controller.pharmacyFeedback[index].satifyRating.toString()) + double.parse(controller.pharmacyFeedback[index].cleaningRating.toString()) + double.parse(controller.pharmacyFeedback[index].expertiseRating.toString())) / 3}" ?? "0.0")
                                                                                           : controller.appBarTitle.value == "laboratories_reviews"
-                                                                                              ? double.parse(controller.labsFeedback[index].rating)
+                                                                                              ? double.parse(controller.labsFeedback[index].rating==null?"0.0":controller.labsFeedback[index].rating)
                                                                                               : double.parse("${(double.parse(controller.hospitalFeedback[index].satifyRating.toString()) + double.parse(controller.hospitalFeedback[index].cleaningRating.toString()) + double.parse(controller.hospitalFeedback[index].expertiseRating.toString())) / 3}" ?? "0.0"),
                                                                                   // minRating: 1,
                                                                                   direction: Axis.horizontal,

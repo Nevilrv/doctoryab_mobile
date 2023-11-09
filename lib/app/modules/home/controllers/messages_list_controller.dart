@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
 import 'package:flutter/material.dart';
@@ -155,6 +157,9 @@ class MessagesListController extends GetxController {
       chats.addAll(value);
       print(value.toString());
       chats.refresh();
+      value.forEach((element) {
+        log("value--------------> ${element}");
+      });
 
       isLoading.value = false;
 

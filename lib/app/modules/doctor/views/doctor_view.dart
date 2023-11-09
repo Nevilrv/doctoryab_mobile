@@ -413,78 +413,79 @@ class DoctorView extends GetView<DoctorController> {
                                                         horizontal: 10),
                                                     child: Row(
                                                       children: [
-                                                        SvgPicture.asset(
-                                                            AppImages.map,
-                                                            height: 22,
-                                                            width: 22),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Container(
-                                                          width:
-                                                              Get.width * 0.77,
-                                                          child: Text(
-                                                            "${controller.doctor.address}",
-                                                            style: AppTextStyle
-                                                                .mediumBlack12
-                                                                .copyWith(
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Utils.openGoogleMaps(
+                                                                controller
+                                                                            .doctor
+                                                                            ?.geometry
+                                                                            ?.coordinates[
+                                                                        1] ??
+                                                                    0.0,
+                                                                controller
+                                                                        .doctor
+                                                                        ?.geometry
+                                                                        ?.coordinates[0] ??
+                                                                    0.0);
+                                                          },
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: AppColors
+                                                                  .primary,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 8,
+                                                                  horizontal:
+                                                                      10),
+                                                              child: Row(
+                                                                children: [
+                                                                  SvgPicture
+                                                                      .asset(
+                                                                    AppImages
+                                                                        .map,
                                                                     color: AppColors
-                                                                        .lightBlack2,
-                                                                    fontSize:
-                                                                        11,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
+                                                                        .white,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 15,
+                                                                  ),
+                                                                  Text(
+                                                                    "show_map"
+                                                                        .tr,
+                                                                    style: AppTextStyle
+                                                                        .boldWhite12
+                                                                        .copyWith(
+                                                                            fontSize:
+                                                                                13),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
-                                                        Spacer(),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Utils.openGoogleMaps(
-                                                        controller
-                                                                    .doctor
-                                                                    ?.geometry
-                                                                    ?.coordinates[
-                                                                1] ??
-                                                            0.0,
-                                                        controller
-                                                                    .doctor
-                                                                    ?.geometry
-                                                                    ?.coordinates[
-                                                                0] ??
-                                                            0.0);
-                                                  },
-                                                  child: Container(
-                                                    width: w,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(7),
-                                                        color:
-                                                            AppColors.primary,
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primary)),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 10),
-                                                      child: Center(
+                                                        SizedBox(width: 8),
+                                                        Container(
+                                                          width:
+                                                              Get.width * 0.5,
                                                           child: Text(
-                                                        "show_in_map".tr,
-                                                        style: AppTextStyle
-                                                            .boldWhite10
-                                                            .copyWith(
-                                                          fontSize: 11,
+                                                            "${controller.doctor.address}",
+                                                            // maxLines: 1,
+                                                            style: AppTextTheme
+                                                                    .b(11)
+                                                                .copyWith(
+                                                                    color: AppColors
+                                                                        .lgt2),
+                                                            // overflow: TextOverflow.ellipsis,
+                                                          ),
                                                         ),
-                                                      )),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),

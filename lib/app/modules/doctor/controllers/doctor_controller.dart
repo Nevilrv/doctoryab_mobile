@@ -67,7 +67,7 @@ class DoctorController extends GetxController {
   }) async {
     try {
       var data = {
-        "comment": comment,
+        "comment": comment.text,
         "cleaningRating": cRating.toString(),
         "satifyRating": sRating.toString(),
         "expertiseRating": eRating.toString(),

@@ -252,13 +252,14 @@ class ProfileViewNew extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Flexible(
+                    Container(
+                      width: Get.width * 0.5,
                       child: Text(
                         address ?? "",
-                        maxLines: 1,
+                        // maxLines: 1,
                         style:
                             AppTextTheme.b(11).copyWith(color: AppColors.lgt2),
-                        overflow: TextOverflow.ellipsis,
+                        // overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

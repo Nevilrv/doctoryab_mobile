@@ -634,6 +634,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
 
     return GestureDetector(
       onTap: () {
+        controller.getDocFeedback(pharmacyId: item.id);
         // controller.getDrugDetails(item.id);
         Get.to(PharmacyDetailScreen(
           item: item,

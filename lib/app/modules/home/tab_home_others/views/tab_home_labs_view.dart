@@ -14,6 +14,7 @@ import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/lab_detail_screen.dart';
+import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
@@ -692,6 +693,8 @@ class TabHomeLabsView extends GetView<LabsController> {
 
     return GestureDetector(
       onTap: () {
+        DrugStoreLabController drugStoreLabController = Get.find();
+        drugStoreLabController.getDocFeedback(labId: item.datumId);
         Get.to(LabDetailScreen(
           item: item,
         ));

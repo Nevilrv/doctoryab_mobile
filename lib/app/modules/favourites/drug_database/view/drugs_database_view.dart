@@ -84,8 +84,13 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                 width:
                                     controller.bannerAd.size.width.toDouble(),
                                 alignment: Alignment.center,
-                                child: AdWidget(
-                                  ad: controller.bannerAd,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: AdWidget(
+                                    ad: controller.bannerAd,
+                                  ),
                                 ),
                               ),
                             );

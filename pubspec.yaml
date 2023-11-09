@@ -112,6 +112,9 @@ dependencies:
   flutter_speech: ^2.0.0
   google_mobile_ads: ^0.13.4
   carousel_slider: ^4.2.1
+  file_picker:
+  flutter_sound: ^8.1.9
+  assets_audio_player: ^3.0.3+3
 
 
 #  ca-app-pub-7346350725133754~2691623855

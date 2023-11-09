@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -289,48 +291,338 @@ class ChatView extends GetView<ChatController> {
                   margin: EdgeInsets.symmetric(
                       horizontal: Get.width * 0.03, vertical: 18.0),
                   child: SizedBox(
-                    height: controller.image.isNotEmpty ? 120 : 65,
+                    height: controller.attachmentString.value != ""
+                        ? controller.attachmentString.value == "voice"
+                            ? 110
+                            : 170
+                        : controller.tapAttachment.value == true
+                            ? 110
+                            : 65,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (controller.image.isNotEmpty)
-                          Expanded(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  ...controller.image
-                                      .map((element) => Stack(
-                                            children: [
-                                              Container(
-                                                width: Get.width * 0.2,
-                                                margin: const EdgeInsets.only(
-                                                    bottom: 10, right: 10),
-                                                height: 100,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: FileImage(
-                                                      File(element.path),
+                        controller.attachmentString.value == "image"
+                            ? controller.image.isNotEmpty
+                                ? Expanded(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          ...controller.image
+                                              .map((element) => Stack(
+                                                    children: [
+                                                      Container(
+                                                        width: Get.width * 0.2,
+                                                        margin: const EdgeInsets
+                                                                .only(
+                                                            bottom: 10,
+                                                            right: 10),
+                                                        height: 100,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: FileImage(
+                                                              File(
+                                                                  element.path),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          controller
+                                                              .tapAttachment
+                                                              .value = false;
+
+                                                          controller
+                                                              .attachmentString
+                                                              .value = "";
+                                                          controller.image
+                                                              .remove(element);
+                                                        },
+                                                        child: Icon(
+                                                          Icons.cancel,
+                                                          color: AppColors.red,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ))
+                                              .toList(),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox()
+                            : controller.attachmentString.value == "pdf"
+                                ? controller.pdfFile.value == ""
+                                    ? SizedBox()
+                                    : Stack(
+                                        children: [
+                                          Container(
+                                            width: Get.width * 0.2,
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10, right: 10),
+                                            height: 100,
+                                            color: AppColors.grey,
+                                            child: Center(
+                                                child:
+                                                    Icon(Icons.picture_as_pdf)),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              controller.tapAttachment.value =
+                                                  false;
+                                              controller.pdfFile.value = '';
+                                              controller
+                                                  .attachmentString.value = "";
+                                            },
+                                            child: Icon(
+                                              Icons.cancel,
+                                              color: AppColors.red,
+                                              size: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                : controller.attachmentString.value == "voice"
+                                    ? Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              controller.playRecord.value ==
+                                                      true
+                                                  ? GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .stopRecording();
+                                                        controller.update();
+                                                      },
+                                                      child: Container(
+                                                        height: 45,
+                                                        width: 45,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: AppColors
+                                                                    .primary,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Icon(
+                                                              Icons.stop,
+                                                              color: AppColors
+                                                                  .white),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .startRecording();
+                                                      },
+                                                      child: Container(
+                                                        height: 45,
+                                                        width: 45,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: AppColors
+                                                                    .primary,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Icon(Icons.mic,
+                                                              color: AppColors
+                                                                  .white),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
+                                              SizedBox(
+                                                width: 10,
                                               ),
-                                              GestureDetector(
-                                                onTap: () => controller.image
-                                                    .remove(element),
-                                                child: Icon(
-                                                  Icons.cancel,
-                                                  color: AppColors.red,
-                                                  size: 16,
-                                                ),
-                                              ),
+                                              controller.playRecord.value ==
+                                                      true
+                                                  ? Container(
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Recording.......",
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : SizedBox(),
+                                              Spacer(),
+                                              controller.playRecord.value ==
+                                                      true
+                                                  ? SizedBox()
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        controller.playAudio
+                                                                .value =
+                                                            !controller
+                                                                .playAudio
+                                                                .value;
+
+                                                        if (controller
+                                                            .playAudio.value)
+                                                          controller.playFunc();
+                                                        if (!controller
+                                                            .playAudio.value)
+                                                          controller
+                                                              .stopPlayFunc();
+                                                      },
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3),
+                                                            color: AppColors
+                                                                .primary),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 5),
+                                                          child: controller
+                                                                  .playAudio
+                                                                  .value
+                                                              ? Text(
+                                                                  "Stop Audio",
+                                                                  style: AppTextStyle
+                                                                      .boldWhite15,
+                                                                )
+                                                              : Text(
+                                                                  "Play Audio",
+                                                                  style: AppTextStyle
+                                                                      .boldWhite15),
+                                                        ),
+                                                      ),
+                                                    )
                                             ],
-                                          ))
-                                      .toList(),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      )
+                                    : SizedBox(),
+                        if (controller.tapAttachment.value == true)
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.attachmentString.value =
+                                          "voice";
+                                      controller.tapAttachment.value = false;
+
+                                      controller.startRecording();
+                                    },
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primary,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.mic,
+                                            color: AppColors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      controller.attachmentString.value = "pdf";
+                                      controller.tapAttachment.value = false;
+                                      controller.pickPdf();
+                                    },
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primary,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.picture_as_pdf,
+                                            color: AppColors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      log("tap----");
+                                      controller.attachmentString.value =
+                                          "image";
+                                      controller.tapAttachment.value = false;
+                                      controller.pickImage();
+                                    },
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primary,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.photo,
+                                            color: AppColors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      log("tap----");
+                                      controller.attachmentString.value =
+                                          "image";
+                                      controller.tapAttachment.value = false;
+                                      controller.pickCameraImage();
+                                    },
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primary,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.camera_alt_outlined,
+                                            color: AppColors.white),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
                           ),
                         Row(
                           children: [
@@ -354,7 +646,12 @@ class ChatView extends GetView<ChatController> {
                                 controller: controller.messageC,
                                 decoration: InputDecoration(
                                     prefixIcon: GestureDetector(
-                                      onTap: controller.pickImage,
+                                      onTap: () {
+                                        controller.tapAttachment.value =
+                                            !controller.tapAttachment.value;
+                                        controller.pdfFile.value = '';
+                                        controller.attachmentString.value = "";
+                                      },
                                       child: IntrinsicWidth(
                                         child: Container(
                                           alignment: Alignment.center,

@@ -109,10 +109,7 @@ class MessagesListView extends GetView<MessagesListController> {
               SizedBox(
                 height: 14.0,
               ),
-              BannerView(),
-              SizedBox(
-                height: 10,
-              ),
+
               Obx(() {
                 return Expanded(
                   child: RefreshIndicator(

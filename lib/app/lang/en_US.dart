@@ -416,4 +416,5 @@ const Map<String, String> enUS = {
   "expertiseRating": "Expertise Rating",
   "review_successfully": "Review successfully added",
   "doctor_reviews": "Doctor Reviews",
+  "please_add_review": "Please enter your review",
 };
