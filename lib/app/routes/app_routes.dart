@@ -17,6 +17,7 @@ abstract class Routes {
   static const LOGIN_VERIFY = _Paths.LOGIN_VERIFY;
   static const CITY_SELECT = _Paths.CITY_SELECT;
   static const CITY_SELECT_PROFILE = _Paths.CITY_SELECT_PROFILE;
+  static const My_DOCTOR = _Paths.My_DOCTOR;
   static const REPORT_MEDICAL = _Paths.REPORT_MEDICAL;
   static const APPOINTMENT_HISTORY = _Paths.APPOINTMENT_HISTORY;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
@@ -72,6 +73,7 @@ abstract class _Paths {
   static const LOGIN_VERIFY = '/login-verify';
   static const CITY_SELECT = '/city-select';
   static const CITY_SELECT_PROFILE = '/city-select-profile';
+  static const My_DOCTOR = '/my-doctor';
   static const SPLASH_SCREEN = '/splash-screen';
   static const DOCTORS = '/doctors';
   static const SEARCH_DOCTOR = '/search-doctor';

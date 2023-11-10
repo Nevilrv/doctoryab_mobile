@@ -1,10 +1,10 @@
 // To parse this JSON data, do
 //
-//     final hoapitalFeedBackResModel = hoapitalFeedBackResModelFromJson(jsonString);
+//     final hospitalFeedBackResModel = hospitalFeedBackResModelFromJson(jsonString);
 
 import 'dart:convert';
 
-import 'labs_model.dart';
+import 'drug_feedback_res_model.dart';
 
 HospitalFeedBackResModel hospitalFeedBackResModelFromJson(String str) =>
     HospitalFeedBackResModel.fromJson(json.decode(str));
@@ -49,7 +49,7 @@ class HospitalFeedback {
   String cleaningRating;
   String satifyRating;
   String expertiseRating;
-  String doctorId;
+  String hospitalId;
   int v;
 
   HospitalFeedback({
@@ -63,7 +63,7 @@ class HospitalFeedback {
     this.cleaningRating,
     this.satifyRating,
     this.expertiseRating,
-    this.doctorId,
+    this.hospitalId,
     this.v,
   });
 
@@ -79,7 +79,7 @@ class HospitalFeedback {
         cleaningRating: json["cleaningRating"],
         satifyRating: json["satifyRating"],
         expertiseRating: json["expertiseRating"],
-        doctorId: json["doctorId"],
+        hospitalId: json["hospitalId"],
         v: json["__v"],
       );
 
@@ -94,7 +94,7 @@ class HospitalFeedback {
         "cleaningRating": cleaningRating,
         "satifyRating": satifyRating,
         "expertiseRating": expertiseRating,
-        "doctorId": doctorId,
+        "hospitalId": hospitalId,
         "__v": v,
       };
 }

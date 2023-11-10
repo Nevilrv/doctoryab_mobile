@@ -3,6 +3,7 @@ import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_meeting_time_view.dart';
@@ -227,11 +228,7 @@ class TabMoreView extends GetView {
               "${Get.find<TabHomeMainController>().selectedCity().getMultiLangName()}"),
       commonprofilemenu(
           onTap: () {
-            Get.to(
-              () => DoctorsView(
-                action: DOCTORS_LOAD_ACTION.myDoctors,
-              ),
-            );
+            Get.toNamed(Routes.My_DOCTOR);
           },
           icon: AppImages.doctor,
           title: 'my_doctors'.tr),

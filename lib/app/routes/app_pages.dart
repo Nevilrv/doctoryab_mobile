@@ -30,6 +30,7 @@ import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatme
 import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appointment_history_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
@@ -199,6 +200,11 @@ class AppPages {
     GetPage(
       name: _Paths.DOCTORS,
       page: () => DoctorsView(),
+      binding: DoctorsBinding(),
+    ),
+    GetPage(
+      name: _Paths.My_DOCTOR,
+      page: () => MyDoctorsView(),
       binding: DoctorsBinding(),
     ),
     GetPage(

@@ -1,5 +1,6 @@
 // import 'dart:io' as Io;
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -9,6 +10,7 @@ import 'package:doctor_yab/app/data/models/categories_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:logger/logger.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -36,8 +38,6 @@ class DoctorsRepository {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
     var response;
-
-    log("City----Url---${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}");
 
     response = await _cachedDio.get(
       '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
@@ -112,12 +112,29 @@ class DoctorsRepository {
     return response;
   }
 
+  Future<dynamic> fetchMyDoctors({
+    CancelToken cancelToken,
+  }) async {
+    assert(SettingsController.auth.savedCity != null);
+    // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
+    var response;
+
+    response = await _cachedDio.get(
+      '${ApiConsts.myDoctorsPath}',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
   //* fetchDoctorsTimeTable
-  Future<dynamic> fetchDoctorsTimeTable(int page, Doctor doctor, Category cat,
+  Future<dynamic> fetchDoctorsTimeTable(int page, Doctor doctor,
       {int limitPerPage = 10}) async {
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
-      '${ApiConsts.doctorTimeTablePath}/${doctor.id}',
+      '${ApiConsts.doctorTimeTablePath}/60a8a7e4c6bd0c1b9839d86f',
+      // '${ApiConsts.doctorTimeTablePath}/${doctor.datumId}',
       queryParameters: {
         "limit": limitPerPage,
         "page": page,
@@ -129,28 +146,54 @@ class DoctorsRepository {
   }
 
   //* book
-  Future<dynamic> bookTime(
+  Future<dynamic> bookTime({
     String patId,
-    Doctor doctor,
-    Category cat,
+    String doctor,
     String name,
     String age,
     String phone,
     String time,
-  ) async {
-    assert(SettingsController.auth.savedCity != null);
-    final response = await dio.post(
-      '${ApiConsts.doctorBookPath}/${doctor.id}',
-      data: {
-        "visit_date": time,
-        "name": name,
-        "age": age.toEnglishDigit(),
-        "phone": phone.toEnglishDigit(),
-        "patientId": patId,
-      },
-      // cancelToken: loginCancelToken,
-      // options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    String cancelToken,
+  }) async {
+    var body = {
+      "visit_date": time,
+      // "name": name,
+      // "age": age.toEnglishDigit(),
+      // "phone": phone.toEnglishDigit(),
+      // "patientId": patId,
+    };
+    log("body--------------> ${body}");
+    var data = json.encode({"visit_date": "2023-11-14T09:15:50.328Z"});
+    var dio = Dio();
+    var response = await dio.request(
+      'https://testserver.doctoryab.app/api/v1/patient/620cc2f7a59608105177b941',
+      options: Options(
+        method: 'POST',
+        headers: {
+          'apikey':
+              'zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff',
+          'jwtoken':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmYwZGUwZWYyNzFlMDgxZjdkNDUyNSIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJkb2N0b3J5YWIuZGV2QGdtYWlsLmNvbSIsImlhdCI6MTY5OTA3ODM2OSwiZXhwIjoxNzA3NzE4MzY5fQ.YUg9swVvFcM_ao2-D1J0xEBvRwvoPruOERoNs_VWuyg',
+          'Content-Type': 'application/json'
+        },
+      ),
+      data: data,
     );
+
+    if (response.statusCode == 200) {
+      log(json.encode(response.data));
+    } else {
+      log(response.statusMessage);
+    }
+    // log("'${ApiConsts.doctorBookPath}/${doctor}'--------------> ${'${ApiConsts.doctorBookPath}/${doctor}'}");
+    //
+    // // assert(SettingsController.auth.savedCity != null);
+    // final response = await _cachedDio.post(
+    //   '${ApiConsts.doctorBookPath}/${doctor}',
+    //   data: body,
+    //   // cancelToken: cancelToken,
+    //   options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    // );
     return response;
   }
 

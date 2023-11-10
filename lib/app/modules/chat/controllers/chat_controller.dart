@@ -209,8 +209,8 @@ class ChatController extends GetxController {
       Logger().e("message", e, s);
     });
     List<File> file = [];
-    if (image.value.isNotEmpty) {
-      image.value.forEach((element) {
+    if (image.isNotEmpty) {
+      image.forEach((element) {
         file.add(File(element.path));
       });
       try {
@@ -307,8 +307,9 @@ class ChatController extends GetxController {
         if (m["chat"] != null) m["chat"]["users"] = [];
         // var _json = jsonDecode(m);
         // _json["readBy"] = [];
-        log("json encoded: ${json.encode(m)}");
+        log("_msg------------ encoded: ${json.encode(m)}");
         var _msg = ChatApiModel.fromJson(m);
+        log("_msg--------------> ${_msg}");
 
         chat.insert(0, _msg);
         chat.refresh();
@@ -396,6 +397,8 @@ class ChatController extends GetxController {
         });
       }
     }).then((value) {
+      log("value--------------> ${value}");
+
       if (value != null) {
         if (value.isEmpty) {
           endOfPage.value = true;

@@ -15,8 +15,10 @@ import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
+import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
+import 'package:doctor_yab/app/modules/home/controllers/my_doctors_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -33,45 +35,19 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../controllers/doctors_controller.dart';
-
-class DoctorsView extends GetView<DoctorsController> {
-  DoctorsController controller;
+class MyDoctorsView extends GetView<MyDoctorsController> {
+  MyDoctorsController controller;
   String hospitalId;
   String hospitalName;
   final bool hideAppbar;
   final Color bgColor;
-  // final bool loadMyDoctorsMode;
-  DOCTORS_LOAD_ACTION action;
-  DoctorsView({
-    this.action = DOCTORS_LOAD_ACTION.fromCategory,
+
+  MyDoctorsView({
     this.hospitalId,
     this.hospitalName,
     this.hideAppbar = false,
     this.bgColor,
-  }) {
-    controller =
-        Get.put(DoctorsController(), tag: "doctors_controller_$action");
-    controller.action = action;
-    controller.filterList = [
-      'most_rated'.tr,
-      'suggested'.tr,
-      'nearest'.tr,
-      'sponsored'.tr,
-      'A-Z'
-    ];
-    if (action != null && action == DOCTORS_LOAD_ACTION.ofhospital) {
-      controller.filterList = ['most_rated'.tr, 'A-Z'];
-    }
-    try {
-      controller.selectedSort =
-          controller.filterList[controller.filterList.indexOf('suggested'.tr)];
-    } catch (e) {
-      controller.selectedSort =
-          controller.filterList[controller.filterList.indexOf('most_rated'.tr)];
-    }
-    controller.hospitalId = hospitalId;
-  }
+  }) {}
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -81,49 +57,31 @@ class DoctorsView extends GetView<DoctorsController> {
       isSecond: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: hideAppbar
-            ? null
-            : AppAppBar.specialAppBar(() {
-                switch (action) {
-                  case DOCTORS_LOAD_ACTION.fromCategory:
-                    {
-                      return "doctors_of"
-                          .trArgs([controller?.category()?.title]);
-                    }
-                  case DOCTORS_LOAD_ACTION.myDoctors:
-                    {
-                      return "my_doctors".tr;
-                    }
-                  case DOCTORS_LOAD_ACTION.ofhospital:
-                    {
-                      return hospitalName ?? "";
-                    }
-                }
-              }(),
-                showLeading: Navigator.of(context).canPop(),
-                backgroundColor: Colors.transparent,
-                action: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SvgPicture.asset(AppImages.blackBell),
-                )
-                /*action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
-                      ? IconButton(
-                          onPressed: () {
-                            AppGetDialog.showFilterDialog(
-                              controller.filterList,
-                              controller.selectedSort,
-                              filterCallBack: (i) => controller.changeSort(i),
-                            );
-                          },
-                          icon:
-                              Icon(AntDesign.filter, color: AppColors.primary),
-                        )
-                      : null*/
-                ),
-        // body: _buildItemView(DoctorBridge()),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text("my_doctors".tr,
+              style: AppTextStyle.boldPrimary20
+                  .copyWith(fontWeight: FontWeight.w600)),
+          centerTitle: true,
+          leading: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary)),
+          elevation: 0,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SvgPicture.asset(
+                AppImages.blackBell,
+                height: 24,
+              ),
+            )
+          ],
+        ),
         body: Stack(
           children: [
-            GetBuilder<DoctorsController>(builder: (controller) {
+            GetBuilder<MyDoctorsController>(builder: (controller) {
               return Column(
                 children: [
                   Padding(
@@ -255,85 +213,85 @@ class DoctorsView extends GetView<DoctorsController> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          if ((i + 1) % 5 == 0) {
-                            log("i--------------> ${i}");
-
-                            // controller.bannerAds();
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 15, right: 20, left: 20),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    child: CarouselSlider(
-                                        options: CarouselOptions(
-                                          autoPlay: true,
-                                          height: Get.height * 0.2,
-                                          viewportFraction: 1.0,
-                                          enlargeCenterPage: false,
-                                          onPageChanged: (index, reason) {
-                                            controller.adIndex = index;
-                                            controller.update();
-                                          },
-                                        ),
-                                        items: controller.adList
-                                            .map((item) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 5),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15)),
-                                                    // margin: EdgeInsets.all(5.0),
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  15.0)),
-                                                      child: Image.network(
-                                                          "${ApiConsts.hostUrl}${item.img}",
-                                                          fit: BoxFit.cover,
-                                                          width: 1000.0),
-                                                    ),
-                                                  ),
-                                                ))
-                                            .toList()),
-                                  ),
-                                  Positioned(
-                                    bottom: Get.height * 0.017,
-                                    left: 0,
-                                    right: 0,
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: List.generate(
-                                            controller.adList.length,
-                                            (index) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 3),
-                                                  child: CircleAvatar(
-                                                    radius: 5,
-                                                    backgroundColor: controller
-                                                                .adIndex ==
-                                                            index
-                                                        ? AppColors.primary
-                                                        : AppColors.primary
-                                                            .withOpacity(0.2),
-                                                  ),
-                                                )),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          } else {
-                            return SizedBox(height: 5);
-                          }
+                          // if ((i + 1) % 5 == 0) {
+                          //   log("i--------------> ${i}");
+                          //
+                          //   // controller.bannerAds();
+                          //   return Padding(
+                          //     padding: const EdgeInsets.only(
+                          //         bottom: 15, right: 20, left: 20),
+                          //     child: Stack(
+                          //       children: [
+                          //         Container(
+                          //           child: CarouselSlider(
+                          //               options: CarouselOptions(
+                          //                 autoPlay: true,
+                          //                 height: Get.height * 0.2,
+                          //                 viewportFraction: 1.0,
+                          //                 enlargeCenterPage: false,
+                          //                 onPageChanged: (index, reason) {
+                          //                   controller.adIndex = index;
+                          //                   controller.update();
+                          //                 },
+                          //               ),
+                          //               items: controller.adList
+                          //                   .map((item) => Padding(
+                          //                         padding:
+                          //                             const EdgeInsets.only(
+                          //                                 left: 5),
+                          //                         child: Container(
+                          //                           decoration: BoxDecoration(
+                          //                               borderRadius:
+                          //                                   BorderRadius
+                          //                                       .circular(15)),
+                          //                           // margin: EdgeInsets.all(5.0),
+                          //                           child: ClipRRect(
+                          //                             borderRadius:
+                          //                                 BorderRadius.all(
+                          //                                     Radius.circular(
+                          //                                         15.0)),
+                          //                             child: Image.network(
+                          //                                 "${ApiConsts.hostUrl}${item.img}",
+                          //                                 fit: BoxFit.cover,
+                          //                                 width: 1000.0),
+                          //                           ),
+                          //                         ),
+                          //                       ))
+                          //                   .toList()),
+                          //         ),
+                          //         Positioned(
+                          //           bottom: Get.height * 0.017,
+                          //           left: 0,
+                          //           right: 0,
+                          //           child: Center(
+                          //             child: Row(
+                          //               mainAxisAlignment:
+                          //                   MainAxisAlignment.center,
+                          //               children: List.generate(
+                          //                   controller.adList.length,
+                          //                   (index) => Padding(
+                          //                         padding:
+                          //                             const EdgeInsets.only(
+                          //                                 left: 3),
+                          //                         child: CircleAvatar(
+                          //                           radius: 5,
+                          //                           backgroundColor: controller
+                          //                                       .adIndex ==
+                          //                                   index
+                          //                               ? AppColors.primary
+                          //                               : AppColors.primary
+                          //                                   .withOpacity(0.2),
+                          //                         ),
+                          //                       )),
+                          //             ),
+                          //           ),
+                          //         )
+                          //       ],
+                          //     ),
+                          //   );
+                          // } else {
+                          return SizedBox(height: 5);
+                          // }
                         },
                         builderDelegate: PagedChildBuilderDelegate(
                           itemBuilder: (context, item, index) {
@@ -1126,11 +1084,9 @@ class DoctorsView extends GetView<DoctorsController> {
                                   child: GestureDetector(
                                     onTap: () {
                                       // BookingController.to.selectedDoctor(item);
-                                      log("item--------------> ${item}");
-
                                       Get.toNamed(
                                         Routes.BOOK,
-                                        arguments: item,
+                                        // arguments: [item, controller.arguments.cCategory],
                                       );
                                     },
                                     child: Container(
@@ -1607,10 +1563,10 @@ class DoctorsView extends GetView<DoctorsController> {
                                 flex: 2,
                                 child: GestureDetector(
                                   onTap: () {
-                                    // BookingController.to.selectedDoctor(item);
+                                    BookingController.to.selectedDoctor(item);
                                     Get.toNamed(
                                       Routes.BOOK,
-                                      arguments: item,
+                                      // arguments: [item, controller.arguments.cCategory],
                                     );
                                   },
                                   child: Container(

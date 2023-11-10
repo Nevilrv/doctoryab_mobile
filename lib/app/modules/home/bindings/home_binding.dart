@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/modules/home/controllers/appointmtnet_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart';
 import 'package:doctor_yab/app/modules/review/controller/review_controller.dart';
@@ -52,6 +53,9 @@ class HomeBinding extends Bindings {
     Get.lazyPut<HospitalsController>(() => HospitalsController());
     Get.lazyPut<DrugStoreController>(() => DrugStoreController());
     Get.lazyPut<DrugStoreLabController>(() => DrugStoreLabController());
+    Get.lazyPut<AppointmentHistoryController>(
+        () => AppointmentHistoryController());
+    Get.put(AppointmentHistoryController());
     Get.put(DrugStoreController());
     Get.put(DrugStoreLabController());
     Get.lazyPut<LabsController>(() => LabsController());

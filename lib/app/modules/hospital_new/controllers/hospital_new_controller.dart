@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/data/models/hospital_detail_res_model.dart';
 import 'package:doctor_yab/app/data/models/hospital_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/data/repository/HospitalRepository.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,7 @@ class HospitalNewController extends GetxController
   CancelToken reviewsCancelToken = CancelToken();
 
   TextEditingController comment = TextEditingController();
-  var feedbackData = <HospitalFeedback>[];
+  var feedbackData = <HospitalFeedback>[].obs;
   var loading = false.obs;
   var cRating = 0.0.obs;
   var sRating = 0.0.obs;
@@ -52,8 +53,9 @@ class HospitalNewController extends GetxController
             feedbackData.add(HospitalFeedback.fromJson(element));
           });
         } else {
-          feedbackData = [];
+          feedbackData.value = [];
         }
+        update();
         loading.value = false;
         log("feedbackData--------------> ${feedbackData}");
 
@@ -65,6 +67,42 @@ class HospitalNewController extends GetxController
       if (!reviewsCancelToken.isCancelled)
         // throw e;
         print(e);
+    }
+  }
+
+  void addDocFeedback({
+    String hospitalId,
+    BuildContext context,
+  }) async {
+    try {
+      var data = {
+        "comment": comment.text,
+        "cleaningRating": cRating.toString(),
+        "satifyRating": sRating.toString(),
+        "expertiseRating": eRating.toString(),
+        "hospitalId": hospitalId
+      };
+      var _response = await DoctorsRepository()
+          .postDoctorFeedback(
+              cancelToken: reviewsCancelToken,
+              body: data,
+              url: "${ApiConsts.postHospitalFeedback}")
+          .then((value) {
+        Get.back();
+        getHospitalFeedback(HospitalId: hospitalId);
+        comment.clear();
+        cRating.value = 0.0;
+        eRating.value = 0.0;
+        sRating.value = 0.0;
+        log("value--------------> ${value}");
+        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+      });
+    } on DioError catch (e) {
+      await Future.delayed(Duration(seconds: 2), () {});
+      if (!reviewsCancelToken.isCancelled)
+        addDocFeedback(hospitalId: hospitalId);
+      // throw e;
+      print(e);
     }
   }
 
@@ -80,6 +118,8 @@ class HospitalNewController extends GetxController
     // reviewsPagingController.addPageRequestListener((pageKey) {
     //   fetchReviews(pageKey);
     // });
+    log("hospital.id--------------> ${hospital.id}");
+
     getHospitalFeedback(HospitalId: hospital.id);
     super.onInit();
   }

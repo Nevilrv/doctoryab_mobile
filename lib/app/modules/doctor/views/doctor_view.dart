@@ -258,7 +258,7 @@ class DoctorView extends GetView<DoctorController> {
                                                             20)),
                                                 child: Center(
                                                   child: Text(
-                                                    " ${"work_experiance".tr} 4 ${"year".tr}",
+                                                    "${"exp".tr} 4 ${"year".tr}",
                                                     style: AppTextTheme.m(
                                                             w * 0.032)
                                                         .copyWith(

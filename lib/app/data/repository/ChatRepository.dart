@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
@@ -134,20 +135,43 @@ class ChatRepository {
     List<File> file,
   }) async {
     List uploadList = [];
-    file.forEach((element) async {
-      var multipartFile = await MultipartFile.fromFile(element.path,
-          contentType: MediaType('image', 'png'),
-          filename: element.path.split('/').last);
-      uploadList.add(multipartFile);
-    });
+    // FormData formData;
+    for (var i = 0; i < file.length; i++) {
+      log("file[i].path--------------> ${file[i].path}");
 
-    final response =
-        await dio.post(ApiConsts.updateImagePath, data: {"imgs": uploadList});
+      uploadList.add(await MultipartFile.fromFile(file[i].path,
+          filename: file[i].path.split('/').last,
+          contentType: MediaType(
+              file[i].path.split("/")[0], file[i].path.split("/")[1])));
+    }
+
+    log("uploadList--------------> ${uploadList}");
+
+    var data = FormData.fromMap({
+      'files': uploadList,
+    });
+    log("data--------------> ${data}");
+
+    var dio = Dio();
+    var response = await dio.request(
+      'https://testserver.doctoryab.app/api/v1/message/imgs',
+      options: Options(
+        method: 'POST',
+        headers: {
+          'apikey':
+              "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff",
+          'jwtoken': SettingsController.userToken.toString(),
+          'Content-Type': 'application/json'
+        },
+      ),
+      data: data,
+    );
+
     log("response--------------> ${response.data}");
     log("response--------------> ${response.statusCode}");
 
     // print(response);
-    return response;
+    return response.data;
   }
 
   static Future<ChatApiModel> createNewChat(

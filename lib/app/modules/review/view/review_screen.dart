@@ -232,9 +232,7 @@ class ReviewScreen extends GetView<ReviewController> {
                             height: h * 0.015,
                           ),
                           Divider(thickness: 1, color: AppColors.primary),
-                              controller.appBarTitle
-                                  .value ==
-                                  "hospital_reviews"? SizedBox(): Container(
+                              Container(
                             height: h * 0.54,
                             child: Column(
                               children: [

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/book/controllers/book_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ConfirmationScreen extends GetView<BookController> {
   const ConfirmationScreen({Key key}) : super(key: key);
@@ -92,7 +94,8 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: CachedNetworkImage(
-                                                  imageUrl: "",
+                                                  imageUrl:
+                                                      "${ApiConsts.hostUrl}${controller.doctor.photo}",
                                                   height: h * 0.11,
                                                   width: h * 0.11,
                                                   fit: BoxFit.cover,
@@ -126,7 +129,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 children: [
                                                   // SizedBox(height: 10),
                                                   Text(
-                                                    "Dr. Manu Django Conradine",
+                                                    "${controller.doctor.name ?? ""}",
                                                     style: AppTextTheme.h(12)
                                                         .copyWith(
                                                             color: AppColors
@@ -134,7 +137,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                   ),
                                                   SizedBox(height: 2),
                                                   Text(
-                                                    "Internal Medicine",
+                                                    "${controller.doctor.speciality ?? ""}",
                                                     style: AppTextTheme.b(11)
                                                         .copyWith(
                                                             color: AppColors
@@ -150,7 +153,10 @@ class ConfirmationScreen extends GetView<BookController> {
                                                       RatingBar.builder(
                                                         ignoreGestures: true,
                                                         itemSize: 17,
-                                                        initialRating: 4,
+                                                        initialRating:
+                                                            double.parse(
+                                                          "${controller.doctor.averageRatings == null ? "0.0" : controller.doctor.averageRatings.toString() ?? "0.0"}",
+                                                        ),
                                                         // minRating: 1,
                                                         direction:
                                                             Axis.horizontal,
@@ -179,7 +185,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                       //       .copyWith(color: AppColors.lgt2),
                                                       // ),
                                                       Text(
-                                                        '(10) Reviews',
+                                                        '(${controller.doctor.totalFeedbacks == null ? 0 : controller.doctor.totalFeedbacks}) Reviews',
                                                         style: AppTextTheme.b(
                                                                 11)
                                                             .copyWith(
@@ -197,10 +203,6 @@ class ConfirmationScreen extends GetView<BookController> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
-                                      BannerView(),
                                       SizedBox(
                                         height: h * 0.015,
                                       ),
@@ -269,7 +271,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 ),
                                                 FittedBox(
                                                   child: Text(
-                                                    "Monday, August 10, 2022",
+                                                    "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.selectedDate))}",
                                                     style: AppTextTheme.m(10)
                                                         .copyWith(
                                                             color: AppColors
@@ -288,7 +290,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 ),
                                                 FittedBox(
                                                   child: Text(
-                                                    "09.00 (Morning)",
+                                                    "${DateFormat("HH:MM a").format(DateTime.parse(controller.selectedDate))}",
                                                     style: AppTextTheme.m(12)
                                                         .copyWith(
                                                             color: AppColors
@@ -707,96 +709,26 @@ class ConfirmationScreen extends GetView<BookController> {
                                                     fontWeight:
                                                         FontWeight.w600),
                                             onTap: () {
-                                              Get.dialog(
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 30),
-                                                  child: Center(
-                                                    child: Container(
-                                                      width: w,
-                                                      // height: Get.height * 0.3,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                        color: AppColors.white,
-                                                      ),
-                                                      child: Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal:
-                                                                    h * 0.03,
-                                                                vertical: 10),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: h * 0.01,
-                                                            ),
-                                                            SvgPicture.asset(
-                                                              AppImages.success,
-                                                              height: 230,
-                                                              width: 230,
-                                                            ),
-                                                            SizedBox(
-                                                              height: h * 0.01,
-                                                            ),
-                                                            Text(
-                                                              "a_successful".tr,
-                                                              style: AppTextStyle
-                                                                  .boldPrimary24
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .green3),
-                                                            ),
-                                                            SizedBox(
-                                                              height: h * 0.01,
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Get.offAllNamed(
-                                                                    Routes.HOME,
-                                                                    arguments: {
-                                                                      'id': 0
-                                                                    });
-                                                              },
-                                                              child: Container(
-                                                                width: w,
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    color: AppColors
-                                                                        .primary),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          10,
-                                                                      horizontal:
-                                                                          15),
-                                                                  child: Center(
-                                                                      child: Text(
-                                                                          "back_home"
-                                                                              .tr,
-                                                                          style:
-                                                                              AppTextStyle.boldWhite15)),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                // confirm: Text("cooo"),
-                                                // actions: <Widget>[Text("aooo"), Text("aooo")],
-                                                // cancel: Text("bla bla"),
-                                                // content: Text("bla bldddda"),
-                                              );
+                                              if (controller
+                                                  .teName.text.isEmpty) {
+                                                Utils.commonSnackbar(
+                                                    text:
+                                                        "please_enter_name".tr,
+                                                    context: context);
+                                              } else if (controller
+                                                  .teNewNumber.text.isEmpty) {
+                                                Utils.commonSnackbar(
+                                                    text:
+                                                        "please_enter_phone".tr,
+                                                    context: context);
+                                              } else if (controller
+                                                  .teAge.text.isEmpty) {
+                                                Utils.commonSnackbar(
+                                                    text: "please_enter_age".tr,
+                                                    context: context);
+                                              } else {
+                                                controller.bookNow();
+                                              }
                                             },
                                           ),
                                         ),

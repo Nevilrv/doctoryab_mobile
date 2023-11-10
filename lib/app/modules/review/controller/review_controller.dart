@@ -84,11 +84,15 @@ class ReviewController extends GetxController {
             ? "doctorId"
             : args[0] == "Pharmacy_Review"
                 ? "pharmacyId"
-                : "labId": args[0] == "Doctor_Review"
+                : args[0] == "Laboratory_Review"
+                    ? "labId"
+                    : "hospitalId": args[0] == "Doctor_Review"
             ? doctor.datumId
             : args[0] == "Pharmacy_Review"
                 ? drugStore.id
-                : labsData.datumId
+                : args[0] == "Laboratory_Review"
+                    ? labsData.datumId
+                    : hospitalData.id
       };
       await DoctorsRepository()
           .postDoctorFeedback(

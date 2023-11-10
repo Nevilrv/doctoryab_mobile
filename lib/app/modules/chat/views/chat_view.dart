@@ -119,6 +119,8 @@ class ChatView extends GetView<ChatController> {
                           itemBuilder: (context, index) {
                             // var msg = controller.chat.value?.messages[index];
                             var msg = controller.chat[index];
+                            log("msg--------------> ${msg}");
+
                             return Column(
                               children: [
                                 if (controller.nextPageLoading() &&

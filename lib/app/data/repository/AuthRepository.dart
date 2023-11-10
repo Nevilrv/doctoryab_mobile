@@ -50,7 +50,12 @@ class AuthRepository {
 
     final response = await dio.post(
       ApiConsts.authPathGoogleFB,
-      data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English"},
+      data: {
+        "idtoken": token,
+        "fcm": fcmToken ?? "",
+        "language": "English",
+        "method": "Google"
+      },
     );
     log("response--------------> ${response.data}");
 
@@ -72,7 +77,8 @@ class AuthRepository {
       "city": city,
       "gender": gender,
       "language": "English",
-      "fcm": fcmToken
+      "fcm": fcmToken,
+      "method": "Guest"
     };
     final response = await dio.post(
       ApiConsts.guestUserLogin,
