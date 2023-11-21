@@ -61,7 +61,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 child: Text(
-                                  "basket_details".tr,
+                                  "other_information".tr,
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

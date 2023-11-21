@@ -1,8 +1,10 @@
 // import 'dart:io' as Io;
 
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
@@ -12,7 +14,7 @@ import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
-
+import 'package:http/http.dart' as http;
 import '../../utils/utils.dart';
 import '../models/chat_model.dart';
 // import 'package:file/file.dart';
@@ -132,45 +134,55 @@ class ChatRepository {
   }
 
   Future<dynamic> uploadImage({
-    List<File> file,
+    File file,
   }) async {
-    List uploadList = [];
-    // FormData formData;
-    for (var i = 0; i < file.length; i++) {
-      log("file[i].path--------------> ${file[i].path}");
-
-      uploadList.add(await MultipartFile.fromFile(file[i].path,
-          filename: file[i].path.split('/').last,
-          contentType: MediaType(
-              file[i].path.split("/")[0], file[i].path.split("/")[1])));
-    }
-
-    log("uploadList--------------> ${uploadList}");
-
-    var data = FormData.fromMap({
-      'files': uploadList,
-    });
-    log("data--------------> ${data}");
-
-    var dio = Dio();
-    var response = await dio.request(
-      'https://testserver.doctoryab.app/api/v1/message/imgs',
-      options: Options(
-        method: 'POST',
-        headers: {
-          'apikey':
-              "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff",
-          'jwtoken': SettingsController.userToken.toString(),
-          'Content-Type': 'application/json'
-        },
-      ),
-      data: data,
+    FormData formData = FormData.fromMap(
+      {
+        "imgs": file.path != ""
+            ? await MultipartFile.fromFile(
+                file.path,
+                filename: file.path.split('/').last,
+                contentType: MediaType('image', 'png'),
+                // contentType: MediaType('img', image.path.split('.').last)
+              )
+            : null,
+      },
     );
+    final response = await _cachedDio.post(
+      "https://testserver.doctoryab.app/api/v4/message/imgs",
+      data: formData,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response.data--------------> ${response.data}");
 
-    log("response--------------> ${response.data}");
-    log("response--------------> ${response.statusCode}");
+    return response.data;
+  }
 
-    // print(response);
+  Future<dynamic> uploadAudio({
+    Audio file,
+  }) async {
+    log("file.path--------------> ${file.path}");
+
+    FormData formData = FormData.fromMap(
+      {
+        "audio": file.path != ""
+            ? await MultipartFile.fromFile(
+                file.path,
+                filename: file.path.split('/').last,
+                contentType: MediaType('audio', 'wav'),
+              )
+            : null,
+      },
+    );
+    log("formData--------------> ${formData}");
+
+    final response = await _cachedDio.post(
+      "https://testserver.doctoryab.app/api/v4/message/audio",
+      data: formData,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response.data--------------> ${response.data}");
+
     return response.data;
   }
 

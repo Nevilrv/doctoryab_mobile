@@ -693,7 +693,9 @@ class ChatView extends GetView<ChatController> {
                                       controller.sendingMessage())
                                   ? null
                                   : () {
-                                      if (controller.messageC.text.isNotEmpty) {
+                                      if (controller.messageC.text.isNotEmpty ||
+                                          controller.image.isNotEmpty ||
+                                          controller.pathToAudio != null) {
                                         controller.messageToSend =
                                             controller.messageC.text;
                                         controller.messageC.clear();

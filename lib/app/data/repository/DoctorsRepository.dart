@@ -163,37 +163,16 @@ class DoctorsRepository {
       // "patientId": patId,
     };
     log("body--------------> ${body}");
-    var data = json.encode({"visit_date": "2023-11-14T09:15:50.328Z"});
-    var dio = Dio();
-    var response = await dio.request(
-      'https://testserver.doctoryab.app/api/v1/patient/620cc2f7a59608105177b941',
-      options: Options(
-        method: 'POST',
-        headers: {
-          'apikey':
-              'zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff',
-          'jwtoken':
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmYwZGUwZWYyNzFlMDgxZjdkNDUyNSIsInJvbGUiOiJ1c2VyIiwiZW1haWwiOiJkb2N0b3J5YWIuZGV2QGdtYWlsLmNvbSIsImlhdCI6MTY5OTA3ODM2OSwiZXhwIjoxNzA3NzE4MzY5fQ.YUg9swVvFcM_ao2-D1J0xEBvRwvoPruOERoNs_VWuyg',
-          'Content-Type': 'application/json'
-        },
-      ),
-      data: data,
-    );
 
-    if (response.statusCode == 200) {
-      log(json.encode(response.data));
-    } else {
-      log(response.statusMessage);
-    }
-    // log("'${ApiConsts.doctorBookPath}/${doctor}'--------------> ${'${ApiConsts.doctorBookPath}/${doctor}'}");
-    //
-    // // assert(SettingsController.auth.savedCity != null);
-    // final response = await _cachedDio.post(
-    //   '${ApiConsts.doctorBookPath}/${doctor}',
-    //   data: body,
-    //   // cancelToken: cancelToken,
-    //   options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
-    // );
+    log("ApiConsts.doctorBookPath--------------> ${'${ApiConsts.doctorBookPath}/'}");
+
+    // assert(SettingsController.auth.savedCity != null);
+    final response = await _cachedDio.post(
+      '${ApiConsts.doctorBookPath}/${doctor}',
+      data: body,
+      // cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
     return response;
   }
 

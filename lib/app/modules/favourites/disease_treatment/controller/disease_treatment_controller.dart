@@ -93,11 +93,13 @@ class DiseaseTreatmentController extends GetxController {
         adUnitId: Utils.bannerAdId,
         listener: BannerAdListener(
           onAdLoaded: (ad) {
-            // isLoadAd = true;
-            // update();
+            isLoadAd = true;
+            update();
             log('Banner Ad Loaded...');
           },
           onAdFailedToLoad: (ad, error) {
+            isLoadAd = false;
+            update();
             log('Banner Ad failed...$error');
             ad.dispose();
           },

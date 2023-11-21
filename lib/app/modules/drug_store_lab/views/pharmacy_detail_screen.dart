@@ -197,9 +197,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                 .withOpacity(
                                                                     0.5)),
                                                   ),
-                                                  SizedBox(
-                                                    height: 2,
-                                                  ),
+                                                  Spacer(),
                                                   Container(
                                                     decoration: BoxDecoration(
                                                         borderRadius:
@@ -217,7 +215,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                           horizontal: 10),
                                                       child: Center(
                                                         child: Text(
-                                                          "${"${item.checkUp[index].price ?? ""}"} Afghani",
+                                                          "${"${item.checkUp[index].price ?? ""}"} ${"afghani".tr}",
                                                           style: AppTextStyle
                                                               .boldWhite12,
                                                         ),
@@ -239,7 +237,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                 child: SingleChildScrollView(
                                   physics: BouncingScrollPhysics(),
                                   padding: EdgeInsets.only(top: 10),
-                                  child: item.checkUp.isEmpty
+                                  child: controller.serviceList.isEmpty
                                       ? Center(
                                           child: Padding(
                                           padding: EdgeInsets.only(
@@ -249,7 +247,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                       : Column(
                                           children: [
                                             ...List.generate(
-                                                item.checkUp.length,
+                                                controller.serviceList.length,
                                                 (index) => Padding(
                                                       padding:
                                                           const EdgeInsets.only(
@@ -265,24 +263,24 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                     .start,
                                                             children: [
                                                               Text(
-                                                                "${item.checkUp[index].title ?? ""}",
+                                                                "${controller.serviceList[index].title ?? ""}",
                                                                 style: AppTextStyle
                                                                     .boldPrimary12,
                                                               ),
-                                                              Container(
-                                                                width:
-                                                                    Get.width *
-                                                                        0.6,
-                                                                child: Text(
-                                                                  "${item.checkUp[index].content ?? ""}",
-                                                                  style: AppTextStyle
-                                                                      .boldPrimary11
-                                                                      .copyWith(
-                                                                          color: AppColors
-                                                                              .primary
-                                                                              .withOpacity(0.5)),
-                                                                ),
-                                                              ),
+                                                              // Container(
+                                                              //   width:
+                                                              //       Get.width *
+                                                              //           0.6,
+                                                              //   child: Text(
+                                                              //     "${controller.serviceList[index]. ?? ""}",
+                                                              //     style: AppTextStyle
+                                                              //         .boldPrimary11
+                                                              //         .copyWith(
+                                                              //             color: AppColors
+                                                              //                 .primary
+                                                              //                 .withOpacity(0.5)),
+                                                              //   ),
+                                                              // ),
                                                             ],
                                                           ),
                                                           Spacer(),
@@ -305,7 +303,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                       10),
                                                               child: Center(
                                                                 child: Text(
-                                                                  "${item.checkUp[index].price ?? ""} Afghani",
+                                                                  "${controller.serviceList[index].price ?? ""}  ${"afghani".tr}",
                                                                   style: AppTextStyle
                                                                       .boldWhite12,
                                                                 ),

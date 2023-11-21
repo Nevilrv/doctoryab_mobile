@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -6,6 +7,7 @@ import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/data/models/labs_feedbaxk_res_model.dart';
 import 'package:doctor_yab/app/data/models/pharmacy_feedback_res_model.dart';
+import 'package:doctor_yab/app/data/models/pharmacy_services_res_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/data/repository/DrugStoreRepository.dart';
@@ -312,6 +314,36 @@ class DrugStoreController extends TabHomeOthersController {
           log("locationData--------------> ${locationData}");
         }
       } else {}
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pageController.error = e;
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  List<Services> serviceList = [];
+  void serviceData(String id) {
+    DrugStoreRepository()
+        .fetchPharmacyService(id: id, cancelToken: cancelToken)
+        .then((data) {
+      serviceList.clear();
+      update();
+      PharmacyServicesResModel resModel =
+          PharmacyServicesResModel.fromJson(data.data);
+      if (resModel.data.isNotEmpty) {
+        serviceList.addAll(resModel.data);
+        log("serviceList--------------> ${serviceList.length}");
+
+        update();
+      } else {
+        serviceList = [];
+        update();
+      }
+      //TODO handle all in model
+
+      log("data---data-----data------> ${data}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pageController.error = e;

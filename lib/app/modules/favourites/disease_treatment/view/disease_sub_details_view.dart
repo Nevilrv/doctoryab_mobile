@@ -15,6 +15,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:audioplayers/audioplayers.dart' as ap;
 
+import '../../../../controllers/settings_controller.dart';
+
 class DiseaseSubDetailsView extends StatefulWidget {
   DiseaseSubDetailsView({Key key}) : super(key: key);
 
@@ -212,8 +214,10 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                 ),
               ),
               title: Text(
-                "${controller.selectedDieases.category}",
+                "${controller.selectedDieases.title}",
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.boldPrimary20,
               ),
               centerTitle: true,
@@ -250,7 +254,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                       child: Column(
                         children: [
                           Text(
-                            "Listen Whole Audio",
+                            "${"listen_whole_page".tr} (${"what_is".tr} ${controller.selectedDieases.category} ?)",
                             style: AppTextStyle.boldPrimary11,
                           ),
                           SizedBox(height: 5),
@@ -288,7 +292,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
 
                                             play1(
                                               path:
-                                                  "${ApiConsts.hostUrl}${controller.selectedDieases.audio}",
+                                                  "${ApiConsts.hostUrl}${SettingsController.appLanguge == "English" ? controller.selectedDieases.audio : SettingsController.appLanguge == "فارسی" ? controller.selectedDieases.audioDari : controller.selectedDieases.audioPashto}",
                                             ).then((value) {
                                               setState(() {
                                                 isPause1 = false;
@@ -381,137 +385,141 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                                         ),
                                       ),
                                     ]),
-                          Text(
-                            "Listen Whole Pashto Audio",
-                            style: AppTextStyle.boldPrimary11,
-                          ),
-                          controller.selectedDieases.audioPashto == null
-                              ? SizedBox()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          if (_audioPlayer1.state ==
-                                              ap.PlayerState.playing) {
-                                            setState(() {
-                                              isPause1 = true;
-                                            });
-
-                                            // stop2();
-                                            _audioPlayer1.pause();
-                                          }
-                                          if (_audioPlayer2.state ==
-                                              ap.PlayerState.playing) {
-                                            setState(() {
-                                              isPause2 = true;
-                                            });
-
-                                            // stop2();
-                                            _audioPlayer2.pause();
-                                          } else if (_audioPlayer2.state ==
-                                                  ap.PlayerState.paused ||
-                                              _audioPlayer2.state ==
-                                                  ap.PlayerState.stopped) {
-                                            log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
-                                            // setState(() {
-
-                                            play2(
-                                              path:
-                                                  "${ApiConsts.hostUrl}${controller.selectedDieases.audioPashto}",
-                                            ).then((value) {
-                                              setState(() {
-                                                isPause2 = false;
-                                              });
-                                              timers2 = Timer.periodic(
-                                                  Duration(
-                                                      milliseconds: _duration2
-                                                              .inMilliseconds
-                                                              .round() ~/
-                                                          voiceTrackRowSize),
-                                                  (timer) {
-                                                print(
-                                                    '{timer.tick}${timer.tick}');
-
-                                                setState(() {
-                                                  if (isPause2 == true) {
-                                                    // current2 = current2 + 0;
-                                                    current2 = current2 + 0;
-                                                    // current2 = -1;
-                                                    timers2.cancel();
-                                                  } else {
-                                                    current2++;
-                                                  }
-
-                                                  log('current ${current2}');
-                                                });
-
-                                                if (current2 ==
-                                                    voiceTrackRowSize) {
-                                                  timer.cancel();
-
-                                                  setState(() {
-                                                    isPause2 = false;
-                                                  });
-                                                  current2 = -1;
-                                                }
-                                              });
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: Get.height * 0.05,
-                                          width: Get.height * 0.05,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: AppColors.primary,
-                                                  width: 2),
-                                              shape: BoxShape.circle),
-                                          child: Icon(
-                                              _audioPlayer2.state ==
-                                                      ap.PlayerState.playing
-                                                  ? Icons.pause
-                                                  : Icons.play_arrow,
-                                              color: AppColors.primary),
-                                        ),
-                                      ),
-                                      ...List.generate(hi.length, (index1) {
-                                        return Row(
-                                          children: [
-                                            SizedBox(
-                                              width: Get.width * 0.003,
-                                            ),
-                                            AnimatedContainer(
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              height: hi[index1].toDouble(),
-                                              width: Get.width * 0.007,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: index1 > current2
-                                                    ? Colors.grey
-                                                    : AppColors.primary,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: Get.width * 0.003),
-                                        child: Text(
-                                          _duration2 == null
-                                              ? ""
-                                              : _position2
-                                                  .toString()
-                                                  .split('.')
-                                                  .first,
-                                          style: AppTextStyle.boldPrimary14,
-                                        ),
-                                      ),
-                                    ]),
+                          // Text(
+                          //   "Listen Whole Pashto Audio",
+                          //   style: AppTextStyle.boldPrimary11,
+                          // ),
+                          // Text(
+                          //   "${"listen_whole_page".tr} (${"what_is".tr} ${controller.selectedDieases.category} ?)",
+                          //   style: AppTextStyle.boldPrimary11,
+                          // ),
+                          // controller.selectedDieases.audioPashto == null
+                          //     ? SizedBox()
+                          //     : Row(
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //             GestureDetector(
+                          //               onTap: () {
+                          //                 if (_audioPlayer1.state ==
+                          //                     ap.PlayerState.playing) {
+                          //                   setState(() {
+                          //                     isPause1 = true;
+                          //                   });
+                          //
+                          //                   // stop2();
+                          //                   _audioPlayer1.pause();
+                          //                 }
+                          //                 if (_audioPlayer2.state ==
+                          //                     ap.PlayerState.playing) {
+                          //                   setState(() {
+                          //                     isPause2 = true;
+                          //                   });
+                          //
+                          //                   // stop2();
+                          //                   _audioPlayer2.pause();
+                          //                 } else if (_audioPlayer2.state ==
+                          //                         ap.PlayerState.paused ||
+                          //                     _audioPlayer2.state ==
+                          //                         ap.PlayerState.stopped) {
+                          //                   log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
+                          //                   // setState(() {
+                          //
+                          //                   play2(
+                          //                     path:
+                          //                         "${ApiConsts.hostUrl}${controller.selectedDieases.audioPashto}",
+                          //                   ).then((value) {
+                          //                     setState(() {
+                          //                       isPause2 = false;
+                          //                     });
+                          //                     timers2 = Timer.periodic(
+                          //                         Duration(
+                          //                             milliseconds: _duration2
+                          //                                     .inMilliseconds
+                          //                                     .round() ~/
+                          //                                 voiceTrackRowSize),
+                          //                         (timer) {
+                          //                       print(
+                          //                           '{timer.tick}${timer.tick}');
+                          //
+                          //                       setState(() {
+                          //                         if (isPause2 == true) {
+                          //                           // current2 = current2 + 0;
+                          //                           current2 = current2 + 0;
+                          //                           // current2 = -1;
+                          //                           timers2.cancel();
+                          //                         } else {
+                          //                           current2++;
+                          //                         }
+                          //
+                          //                         log('current ${current2}');
+                          //                       });
+                          //
+                          //                       if (current2 ==
+                          //                           voiceTrackRowSize) {
+                          //                         timer.cancel();
+                          //
+                          //                         setState(() {
+                          //                           isPause2 = false;
+                          //                         });
+                          //                         current2 = -1;
+                          //                       }
+                          //                     });
+                          //                   });
+                          //                 }
+                          //               },
+                          //               child: Container(
+                          //                 height: Get.height * 0.05,
+                          //                 width: Get.height * 0.05,
+                          //                 decoration: BoxDecoration(
+                          //                     border: Border.all(
+                          //                         color: AppColors.primary,
+                          //                         width: 2),
+                          //                     shape: BoxShape.circle),
+                          //                 child: Icon(
+                          //                     _audioPlayer2.state ==
+                          //                             ap.PlayerState.playing
+                          //                         ? Icons.pause
+                          //                         : Icons.play_arrow,
+                          //                     color: AppColors.primary),
+                          //               ),
+                          //             ),
+                          //             ...List.generate(hi.length, (index1) {
+                          //               return Row(
+                          //                 children: [
+                          //                   SizedBox(
+                          //                     width: Get.width * 0.003,
+                          //                   ),
+                          //                   AnimatedContainer(
+                          //                     duration:
+                          //                         Duration(milliseconds: 500),
+                          //                     height: hi[index1].toDouble(),
+                          //                     width: Get.width * 0.007,
+                          //                     decoration: BoxDecoration(
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(10),
+                          //                       color: index1 > current2
+                          //                           ? Colors.grey
+                          //                           : AppColors.primary,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               );
+                          //             }),
+                          //             Padding(
+                          //               padding: EdgeInsets.only(
+                          //                   left: Get.width * 0.003),
+                          //               child: Text(
+                          //                 _duration2 == null
+                          //                     ? ""
+                          //                     : _position2
+                          //                         .toString()
+                          //                         .split('.')
+                          //                         .first,
+                          //                 style: AppTextStyle.boldPrimary14,
+                          //               ),
+                          //             ),
+                          //           ]),
                         ],
                       ),
                     ),
@@ -522,64 +530,67 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                         color: AppColors.white,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: h * 0.119,
-                                width: w * 0.305,
-                                margin: EdgeInsets.only(right: 15),
-                                decoration: BoxDecoration(
-                                  // color: AppColors.boxPink2,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: CachedNetworkImage(
-                                  height: h * 0.067,
-                                  width: w * 0.146,
-                                  imageUrl:
-                                      "${ApiConsts.hostUrl}${controller.selectedDieases.img}",
-                                  fit: BoxFit.cover,
-                                  placeholder: (_, __) {
-                                    return Image.asset(
-                                      "assets/png/placeholder_hospital.png",
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                  errorWidget: (_, __, ___) {
-                                    return Image.asset(
-                                      "assets/png/placeholder_hospital.png",
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                ),
-                                /*child: Center(
-                            child: Image.asset(
-                              Get.arguments[1]["image"],
-                              height: h * 0.067,
-                              width: w * 0.146,
+                          Text(
+                            SettingsController.appLanguge == "English"
+                                ? controller.selectedDieases.title ?? ''
+                                : SettingsController.appLanguge == "فارسی"
+                                    ? controller.selectedDieases.dariTitle ?? ''
+                                    : controller.selectedDieases.pashtoTitle ??
+                                        '',
+                            style: AppTextStyle.boldPrimary15,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: h * 0.15,
+                            width: w,
+                            // margin: EdgeInsets.only(right: 15),
+                            decoration: BoxDecoration(
+                              // color: AppColors.boxPink2,
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                          ),*/
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      controller.selectedDieases.title ?? '',
-                                      style: AppTextStyle.boldPrimary11,
-                                    ),
-                                    SizedBox(height: 10),
-                                    Html(
-                                      data: controller.selectedDieases.desc,
-                                      defaultTextStyle: AppTextStyle
-                                          .mediumPrimary8
-                                          .copyWith(height: 1.2),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
+                            child: CachedNetworkImage(
+                              height: h * 0.15,
+                              width: w,
+                              imageUrl:
+                                  "${ApiConsts.hostUrl}${controller.selectedDieases.img}",
+                              fit: BoxFit.cover,
+                              placeholder: (_, __) {
+                                return Image.asset(
+                                  "assets/png/placeholder_hospital.png",
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  "assets/png/placeholder_hospital.png",
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            ),
+                            /*child: Center(
+                        child: Image.asset(
+                          Get.arguments[1]["image"],
+                          height: h * 0.067,
+                          width: w * 0.146,
+                        ),
+                      ),*/
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Html(
+                            data: SettingsController.appLanguge == "English"
+                                ? controller.selectedDieases.desc ?? ""
+                                : SettingsController.appLanguge == "فارسی"
+                                    ? controller.selectedDieases.dariDesc ?? ""
+                                    : controller.selectedDieases.pashtoDesc ??
+                                        "",
+                            defaultTextStyle: AppTextStyle.mediumPrimary8
+                                .copyWith(height: 1.2),
                           ),
                         ],
                       ),

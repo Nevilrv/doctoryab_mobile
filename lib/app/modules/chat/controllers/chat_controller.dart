@@ -159,68 +159,99 @@ class ChatController extends GetxController {
 
   void sendMessage() async {
     sendingMessage(true);
-
-    ChatRepository.sendMessage(chatArg().id, messageToSend,
-        cancelToken: sendMessageCancelToken, onError: (e) {
-      if (!(e is DioError && CancelToken.isCancel(e))) {
-        // isLoading.value = false;
-        Future.delayed(Duration(seconds: 2), () {
-          sendMessageCancelToken.cancel();
-          sendMessageCancelToken = CancelToken();
-          sendMessage();
-        });
-      }
-    }).then((value) {
-      if (value != null) {
-        // _trySocket() {
-        //   if (socket.connected) {
-        //     socket.emit("new message", value.toJson());
-        //   } else {
-        //     Future.delayed(Duration(seconds: 1), () {
-        //       _trySocket();
-        //     });
-        //   }
-        // }
-
-        // _trySocket();
-        if (socket.disconnected) {
-          print("isDisconnected is true");
-          sendingMessageFailed(true);
-          lastFailedMessage = value;
-          sendingMessage(true);
-          socket.connect();
-        } else {
-          socket.emit("new message", value.toJson());
-          sendingMessageFailed(false);
-          sendingMessage(false);
+    if (messageToSend != '') {
+      ChatRepository.sendMessage(chatArg().id, messageToSend,
+          cancelToken: sendMessageCancelToken, onError: (e) {
+        if (!(e is DioError && CancelToken.isCancel(e))) {
+          // isLoading.value = false;
+          Future.delayed(Duration(seconds: 2), () {
+            sendMessageCancelToken.cancel();
+            sendMessageCancelToken = CancelToken();
+            sendMessage();
+          });
         }
-        // if (value.isEmpty) {
-        //   endOfPage.value = true;
-        // } else {
-        chat.value.insert(0, value);
-        //   log(value.toString());
-        // }
-        chat.refresh();
-        // isLoading.value = false;
-        // nextPageLoading(false);
-        // //
-      }
-    }).catchError((e, s) {
-      Logger().e("message", e, s);
-    });
-    List<File> file = [];
-    if (image.isNotEmpty) {
-      image.forEach((element) {
-        file.add(File(element.path));
+      }).then((value) {
+        if (value != null) {
+          // _trySocket() {
+          //   if (socket.connected) {
+          //     socket.emit("new message", value.toJson());
+          //   } else {
+          //     Future.delayed(Duration(seconds: 1), () {
+          //       _trySocket();
+          //     });
+          //   }
+          // }
+
+          // _trySocket();
+          if (socket.disconnected) {
+            print("isDisconnected is true");
+            sendingMessageFailed(true);
+            lastFailedMessage = value;
+            sendingMessage(true);
+            socket.connect();
+          } else {
+            socket.emit("new message", value.toJson());
+            sendingMessageFailed(false);
+            sendingMessage(false);
+          }
+          // if (value.isEmpty) {
+          //   endOfPage.value = true;
+          // } else {
+          chat.value.insert(0, value);
+          //   log(value.toString());
+          // }
+          chat.refresh();
+          // isLoading.value = false;
+          // nextPageLoading(false);
+          // //
+        }
+      }).catchError((e, s) {
+        Logger().e("message", e, s);
       });
+    }
+    if (attachmentString.value == "image") {
+      sendingMessage(true);
+      if (image.isNotEmpty) {
+        try {
+          image.forEach((element) {
+            ChatRepository()
+                .uploadImage(file: File(element.path))
+                .then((value) {
+              log("value--------------> ${value}");
+              image.clear();
+              attachmentString.value = "";
+              sendingMessage(false);
+              update();
+            });
+          });
+        } catch (e) {
+          sendingMessage(false);
+          log("e--------------> ${e}");
+        }
+      }
+    }
+    if (attachmentString.value == "voice") {
+      sendingMessage(true);
+      log("pathToAudio--------------> ${pathToAudio}");
+
       try {
-        ChatRepository().uploadImage(file: file).then((value) {
-          log("value--------------> ${value}");
-        });
+        if (pathToAudio.isNotEmpty) {
+          ChatRepository()
+              .uploadAudio(file: Audio.file(pathToAudio))
+              .then((value) {
+            log("value--------------> ${value}");
+            pathToAudio = null;
+            attachmentString.value = "";
+            sendingMessage(false);
+            update();
+          });
+        }
       } catch (e) {
+        sendingMessage(false);
         log("e--------------> ${e}");
       }
     }
+
     // if (messageC.text.isNotEmpty || image.isNotEmpty) {
     //   isLoading.value = true;
 

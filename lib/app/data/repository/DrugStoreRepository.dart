@@ -73,6 +73,22 @@ class DrugStoreRepository {
     return response;
   }
 
+  Future<Response> fetchPharmacyService({
+    String id,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    print("SettingsController.userToken>>>${SettingsController.userToken}");
+    final response = await _cachedDio.get(
+      '${ApiConsts.pharmacyService}$id',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response--------------> ${response.data}");
+
+    return response;
+  }
+
   Future<Response> searchDrugStores({
     String name,
     void onError(e),

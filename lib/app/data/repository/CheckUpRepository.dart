@@ -1,12 +1,16 @@
 // import 'dart:io' as Io;
 
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/categories_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:logger/logger.dart';
@@ -64,5 +68,73 @@ class PackageRepository {
       FirebaseCrashlytics.instance.recordError(e, s);
     }
     return _cats;
+  }
+
+  Future<dynamic> fetchPackageReview({
+    String packageId,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    final response = await _cachedDio.get(
+      '${ApiConsts.checkupPackageReview}$packageId',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
+  Future<dynamic> addPackageReview({
+    String packageId,
+    String rating,
+    String comment,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    var data = {"comment": comment, "rating": rating, "packageId": packageId};
+    final response = await _cachedDio.post(
+      '${ApiConsts.giveFeedbackTocheckupPackage}',
+      cancelToken: cancelToken,
+      data: data,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
+  static Future<List<Hospital>> fetchHospitals(
+      {void onError(e), CancelToken cancelToken}) async {
+    // TODO move to some utils func
+    // _searchCancelToken.cancel();
+    // _searchCancelToken = CancelToken();
+    log("'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'--------------> ${'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'}");
+
+    return await Utils.parseResponse<Hospital>(
+      () async {
+        var respose = await _cachedDio.get(
+          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
+          cancelToken: cancelToken,
+          options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+        );
+        log("respose--------------> ${respose}");
+        return respose;
+      },
+      onError: onError,
+    );
+  }
+
+  static Future<dynamic> fetchLabs({
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    print("Get---Category---${ApiConsts.categoriesByCityPath}");
+    final response = await _cachedDio.get(
+      '${ApiConsts.labsByCity}',
+      cancelToken: cancelToken,
+      queryParameters: {"cityId": "${SettingsController.auth.savedCity.sId}"},
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response.data;
   }
 }

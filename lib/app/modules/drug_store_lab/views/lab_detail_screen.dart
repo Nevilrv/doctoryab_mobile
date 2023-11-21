@@ -183,7 +183,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                       10),
                                                           child: Center(
                                                             child: Text(
-                                                              "${item.checkUp[index].price} Afghani",
+                                                              "${item.checkUp[index].price} ${"afghani".tr}",
                                                               style: AppTextStyle
                                                                   .boldWhite12,
                                                             ),

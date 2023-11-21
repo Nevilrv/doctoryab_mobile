@@ -20,7 +20,7 @@ class ApiConsts {
   // static const String liveHostUrl = "https://alt.daktaryabapi.xyz";
   static final String liveHostUrl = AppStatics.envVars.apiURL;
   static String hostUrl = liveHostUrl;
-  static const String apiVersion = "v3";
+  static const String apiVersion = "v4";
 
   static final socketServerURL = "$hostUrl";
 
@@ -50,6 +50,7 @@ class ApiConsts {
   static const String hospitalByCity = '/hospital/all';
   static const String searchHospital = '/hospital/search-by-name/';
   static const drugStoreByCity = "/pharmacy";
+  static const pharmacyService = "/pharmacy/checkUp/services/";
   static const drugStoreBySearch = "/pharmacy/searchByName/";
   static const getDrugDetails = "/pharmacy/searchByID/";
   static const labsByCity = "/lab";
@@ -63,6 +64,9 @@ class ApiConsts {
   static const drugDatabase = "/drugs";
   static const drugDatabaseReview = "/drugs/getDrugFeedbacks/";
   static const giveFeedbackToDrug = "/drugs/giveFeedbackToDrug";
+  static const checkupPackageReview = "/checkupPackage/getPackageFeedbacks/";
+  static const giveFeedbackTocheckupPackage =
+      "/checkupPackage/giveFeedbackToPackage";
   //
   static const updateAndRegisterBloodDonor = "/bloodDonors/profile";
   static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";

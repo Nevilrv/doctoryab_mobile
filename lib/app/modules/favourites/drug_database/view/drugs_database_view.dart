@@ -79,20 +79,23 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                             // if ((i + 1) % 5 == 0) {
                             return Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Container(
-                                height: Get.height * 0.154,
-                                width:
-                                    controller.bannerAd.size.width.toDouble(),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: AdWidget(
-                                    ad: controller.bannerAd,
-                                  ),
-                                ),
-                              ),
+                              child: controller.isLoadAd == false
+                                  ? SizedBox()
+                                  : Container(
+                                      height: Get.height * 0.154,
+                                      width: controller.bannerAd.size.width
+                                          .toDouble(),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: AdWidget(
+                                          ad: controller.bannerAd,
+                                        ),
+                                      ),
+                                    ),
                             );
                           } else {
                             return SizedBox(height: 15);

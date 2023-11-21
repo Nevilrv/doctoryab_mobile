@@ -469,9 +469,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                     .withOpacity(
                                                                         0.5)),
                                                       ),
-                                                      SizedBox(
-                                                        height: 2,
-                                                      ),
+                                                      Spacer(),
                                                       Container(
                                                         decoration: BoxDecoration(
                                                             borderRadius:
@@ -492,7 +490,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                       5),
                                                           child: Center(
                                                             child: Text(
-                                                              "${controller.resModel.data.checkUp[index].price} Afghani",
+                                                              "${controller.resModel.data.checkUp[index].price}  ${"afghani".tr}",
                                                               style: AppTextStyle
                                                                   .boldWhite12,
                                                             ),

@@ -45,7 +45,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Column(
                               children: [
-                                controller.bannerAd == null
+                                controller.isLoadAd == false
                                     ? SizedBox()
                                     : Container(
                                         height: Get.height * 0.154,
@@ -88,7 +88,6 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                       Container(
                                         height: h * 0.119,
                                         width: w * 0.305,
-                                        margin: EdgeInsets.only(right: 15),
                                         decoration: BoxDecoration(
                                           color: Color(int.parse(
                                               "0xff${controller.selectedCategory.background.replaceFirst("#", "")}")),
@@ -117,20 +116,23 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                           ),
                                         ),
                                       ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              controller
-                                                  .selectedCategory.eTitle,
+                                              "${"what_is".tr} ${SettingsController.appLanguge == "English" ? controller.selectedCategory.eTitle ?? "" : SettingsController.appLanguge == "فارسی" ? controller.selectedCategory.fTitle ?? "" : controller.selectedCategory.pTitle ?? ""} ?",
                                               style: AppTextStyle.boldPrimary11,
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              controller
-                                                  .selectedCategory.detail,
+                                              controller.selectedCategory
+                                                      .detail ??
+                                                  "",
                                               style: AppTextStyle.mediumPrimary8
                                                   .copyWith(height: 1.2),
                                             ),
@@ -167,19 +169,41 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                             width: 34,
                                             margin: EdgeInsets.only(right: 10),
                                             decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColors.grey
-                                                  .withOpacity(0.1),
-                                            ),
+                                                shape: BoxShape.circle,
+                                                color: AppColors.grey
+                                                    .withOpacity(0.1),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        "${ApiConsts.hostUrl}${controller.diaseaList[index].img}"))),
                                           ),
-                                          Text(
-                                            controller
-                                                .diaseaList[index].category,
-                                            style: AppTextStyle.boldPrimary11,
+                                          SizedBox(width: 10),
+                                          SizedBox(
+                                            width: Get.width * 0.65,
+                                            child: Text(
+                                              SettingsController.appLanguge ==
+                                                      "English"
+                                                  ? controller.diaseaList[index]
+                                                          .title ??
+                                                      ""
+                                                  : SettingsController
+                                                              .appLanguge ==
+                                                          "فارسی"
+                                                      ? controller
+                                                          .diaseaList[index]
+                                                          .dariTitle
+                                                      : controller
+                                                          .diaseaList[index]
+                                                          .pashtoTitle,
+                                              style: AppTextStyle.boldPrimary11,
+                                            ),
                                           ),
                                           Spacer(),
                                           RotatedBox(
-                                            quarterTurns: 2,
+                                            quarterTurns:
+                                                SettingsController.appLanguge ==
+                                                        "English"
+                                                    ? 2
+                                                    : 0,
                                             child: SvgPicture.asset(
                                               AppImages.back,
                                               height: 13,

@@ -216,50 +216,114 @@ class ProfileViewNew extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 5,
                 ),
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0,
+                    //         geometry?.coordinates[0] ?? 0.0);
+                    //   },
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.primary,
+                    //       borderRadius: BorderRadius.circular(10),
+                    //     ),
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           vertical: 8, horizontal: 10),
+                    //       child: Row(
+                    //         children: [
+                    //           SvgPicture.asset(
+                    //             AppImages.map,
+                    //             color: AppColors.white,
+                    //           ),
+                    //           SizedBox(
+                    //             width: 15,
+                    //           ),
+                    //           Text(
+                    //             "show_map".tr,
+                    //             style: AppTextStyle.boldWhite12
+                    //                 .copyWith(fontSize: 13),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(width: 8),
+                    // Container(
+                    //   width: Get.width * 0.5,
+                    //   child: Text(
+                    //     address ?? "",
+                    //     // maxLines: 1,
+                    //     style:
+                    //         AppTextTheme.b(11).copyWith(color: AppColors.lgt2),
+                    //     // overflow: TextOverflow.ellipsis,
+                    //   ),
+                    // ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(color: AppColors.primary),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(AppImages.map,
+                                height: 22, width: 22),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              width: Get.width * 0.74,
+                              child: Text(
+                                "${address}",
+                                style: AppTextStyle.mediumBlack12.copyWith(
+                                    color: AppColors.lightBlack2,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Spacer(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.015,
+                    ),
                     GestureDetector(
                       onTap: () {
                         Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0,
                             geometry?.coordinates[0] ?? 0.0);
                       },
                       child: Container(
+                        width: w,
                         decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                            borderRadius: BorderRadius.circular(7),
+                            color: AppColors.primary,
+                            border: Border.all(color: AppColors.primary)),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 10),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                AppImages.map,
-                                color: AppColors.white,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                "show_map".tr,
-                                style: AppTextStyle.boldWhite12
-                                    .copyWith(fontSize: 13),
-                              ),
-                            ],
-                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                              child: Text(
+                            "show_in_map".tr,
+                            style: AppTextStyle.boldWhite10.copyWith(
+                              fontSize: 11,
+                            ),
+                          )),
                         ),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Container(
-                      width: Get.width * 0.5,
-                      child: Text(
-                        address ?? "",
-                        // maxLines: 1,
-                        style:
-                            AppTextTheme.b(11).copyWith(color: AppColors.lgt2),
-                        // overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

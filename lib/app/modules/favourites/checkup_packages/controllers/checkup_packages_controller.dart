@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
+import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/CheckUpRepository.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +11,13 @@ import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../../data/models/checkup_package_feedback_res_model.dart';
+
 class CheckupPackagesController extends GetxController {
   TextEditingController searchController = TextEditingController();
   String filterSearch = "";
   CancelToken cancelToken = CancelToken();
+  TextEditingController comment = TextEditingController();
   final List<String> selectHospitalLabList = [
     'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü',
     'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü1',
@@ -43,13 +48,106 @@ class CheckupPackagesController extends GetxController {
   var selectedTime = "21:09 AM".obs;
   @override
   void onInit() {
+    selectedTest = 0;
+    update();
     pagingController.addPageRequestListener((pageKey) {
       fetchCheckUpPackages(pageKey);
     });
+    getLabAndHospitalList();
     activateSpeechRecognizer();
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    selectedTest = 0;
+    update();
+    // TODO: implement onClose
+    super.onClose();
+  }
+
+  List<dynamic> labHospitalList = [];
+  getLabAndHospitalList() {
+    PackageRepository.fetchHospitals(cancelToken: cancelToken).then((value) {
+      List<Hospital> hospitalList = [];
+      hospitalList.addAll(value);
+      hospitalList.forEach((element) {
+        labHospitalList
+            .add({"id": element.id, "name": element.name, "type": "hospital"});
+      });
+      log("value---fetchHospitals-----------> ${labHospitalList.length}");
+    });
+    PackageRepository.fetchLabs(cancelToken: cancelToken).then((value) {
+      List<Labs> labs = [];
+      LabsModel labsModel = LabsModel.fromJson(value);
+
+      labs.addAll(labsModel.data);
+      labs.forEach((element) {
+        labHospitalList
+            .add({"id": element.id, "name": element.name, "type": "lab"});
+      });
+      log("value----fetchLabs----------> ${labs.length}");
+    });
+    log("labHospitalList--------------> ${labHospitalList.length}");
+  }
+
+  List<PackageFeedback> packageFeedback = [];
+  bool isLoading = false;
+  bool isLoadingFeedback = false;
+  double ratings = 0.0;
+  void packageReview({String packageId}) {
+    isLoading = true;
+    update();
+    PackageRepository()
+        .fetchPackageReview(packageId: packageId, cancelToken: cancelToken)
+        .then((data) {
+      packageFeedback.clear();
+      if (data.data['data'] != null) {
+        data.data['data'].forEach((element) {
+          packageFeedback.add(PackageFeedback.fromJson(element));
+        });
+      }
+      isLoading = false;
+      update();
+      log("data--------------> ${data.data}");
+      log("drugFeedback--------------> ${packageFeedback.length}");
+    }).catchError((e, s) {
+      isLoading = false;
+      update();
+      if (!(e is DioError && CancelToken.isCancel(e))) {}
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  void addPackageFeedback({String packageId, String rating}) {
+    isLoadingFeedback = true;
+    update();
+    FocusManager.instance.primaryFocus?.unfocus();
+    PackageRepository()
+        .addPackageReview(
+            packageId: packageId,
+            comment: comment.text,
+            rating: rating,
+            cancelToken: cancelToken)
+        .then((data) {
+      comment.clear();
+      ratings = 0.0;
+      isLoadingFeedback = false;
+      update();
+      packageReview(packageId: packageId);
+      log("data--------------> ${data.data}");
+      log("drugFeedback--------------> ${packageFeedback.length}");
+    }).catchError((e, s) {
+      isLoadingFeedback = false;
+      update();
+      if (!(e is DioError && CancelToken.isCancel(e))) {}
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  int selectedTest = 0;
   SpeechRecognition speech;
   bool speechRecognitionAvailable = false;
   bool isListening = false;

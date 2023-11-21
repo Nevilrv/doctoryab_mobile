@@ -111,12 +111,14 @@ class DrugsController extends GetxController {
         adUnitId: Utils.bannerAdId,
         listener: BannerAdListener(
           onAdLoaded: (ad) {
-            // isLoadAd = true;
-            // update();
+            isLoadAd = true;
+            update();
             log('Banner Ad Loaded...');
           },
           onAdFailedToLoad: (ad, error) {
             log('Banner Ad failed...$error');
+            isLoadAd = false;
+            update();
             ad.dispose();
           },
         ),

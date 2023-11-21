@@ -287,6 +287,10 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                               // print("vvvvvvvvvvvvv" + context.size.height.toString());
                               return GestureDetector(
                                 onTap: () {
+                                  controller.selectedTest = 0;
+
+                                  controller.update();
+                                  controller.packageReview(packageId: item.id);
                                   Get.to(CheckUpDetailScreen(item));
                                 },
                                 child: Container(
@@ -329,42 +333,53 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                             .copyWith(
                                                 fontWeight: FontWeight.bold),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          buildShowModalBottomSheet(
-                                              context, h, item.packageInclude);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Includes ${item.packageInclude.length} tests",
-                                              style: AppTextStyle.boldPrimary10
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 8,
-                                                      color: AppColors.teal,
-                                                      decoration: TextDecoration
-                                                          .underline),
+                                      item.totalTests == "" ||
+                                              item.totalTests == null
+                                          ? SizedBox()
+                                          : GestureDetector(
+                                              onTap: () {
+                                                buildShowModalBottomSheet(
+                                                    context,
+                                                    h,
+                                                    item.packageInclude);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "${item.totalTests}",
+                                                    style: AppTextStyle
+                                                        .boldPrimary10
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 8,
+                                                            color:
+                                                                AppColors.teal,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline),
+                                                  ),
+                                                  Icon(
+                                                    Icons.navigate_next,
+                                                    color: AppColors.teal,
+                                                    size: 15,
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                            Icon(
-                                              Icons.navigate_next,
-                                              color: AppColors.teal,
-                                              size: 15,
-                                            )
-                                          ],
-                                        ),
-                                      ),
                                       Row(
                                         children: [
                                           Text(
-                                            "by ${item.byObservation}",
+                                            "${item.byObservation}",
                                             style: AppTextStyle.boldPrimary10
                                                 .copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 8,
                                               color: AppColors.darkBlue1,
                                             ),
+                                          ),
+                                          SizedBox(
+                                            width: 3,
                                           ),
                                           CachedNetworkImage(
                                             imageUrl:
@@ -393,7 +408,11 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                           RatingBar.builder(
                                             ignoreGestures: true,
                                             itemSize: 12,
-                                            initialRating: 4,
+                                            initialRating: double.parse(
+                                                item.averageRatings == null
+                                                    ? "0"
+                                                    : item.averageRatings
+                                                        .toString()),
                                             // minRating: 1,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
@@ -437,7 +456,9 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                                 color: AppColors.grey
                                                     .withOpacity(0.5),
                                                 decoration:
-                                                    TextDecoration.lineThrough),
+                                                    TextDecoration.lineThrough,
+                                                decorationColor: Colors.red,
+                                                decorationThickness: 2),
                                           ),
                                         ],
                                       ),
@@ -455,7 +476,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                               vertical: 5, horizontal: 10),
                                           child: Center(
                                             child: Text(
-                                              "%${item.discount} OFF",
+                                              "${item.discount} ${"OFF".tr}",
                                               style:
                                                   AppTextTheme.b(10).copyWith(
                                                 color: AppColors.red2,
@@ -494,7 +515,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       ),
                                       Center(
                                         child: Text(
-                                          "${"report_text".tr} ${item.duration}",
+                                          "${item.duration}",
                                           style: AppTextTheme.b(10).copyWith(
                                               color: AppColors.black
                                                   .withOpacity(0.8),
@@ -560,132 +581,127 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30))),
-            child: Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 5,
-                        width: 188,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.black3),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  AppImages.box,
-                                  height: 24,
-                                  width: 24,
-                                ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: 5,
+                      width: 188,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.black3),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 45,
+                            width: 45,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                AppImages.box,
+                                height: 24,
+                                width: 24,
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "Package Includes ${item.length} Tests",
-                            style: AppTextStyle.boldPrimary15,
-                          ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Icon(Icons.cancel_outlined,
-                                    color: AppColors.primary, size: 25),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Column(
-                            children: List.generate(item.length, (index) {
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Icon(
-                                      Icons.circle,
-                                      size: 10,
-                                      color: AppColors.blue,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        item[index].testTitle,
-                                        style: AppTextStyle.boldGrey12.copyWith(
-                                            color: AppColors.grey6,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        width: Get.width * 0.72,
-                                        child: Html(
-                                            data: item[index].testDesc,
-                                            defaultTextStyle: AppTextStyle
-                                                .boldGrey10
-                                                .copyWith(
-                                                    color: AppColors.grey6,
-                                                    fontWeight:
-                                                        FontWeight.w400)),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              );
-                            }),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          "Package Includes ${item.length} Tests",
+                          style: AppTextStyle.boldPrimary15,
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 45,
+                            width: 45,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(Icons.cancel_outlined,
+                                  color: AppColors.primary, size: 25),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          children: List.generate(item.length, (index) {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                    color: AppColors.blue,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item[index].testTitle,
+                                      style: AppTextStyle.boldGrey12.copyWith(
+                                          color: AppColors.grey6,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      width: Get.width * 0.72,
+                                      child: Html(
+                                          data: item[index].testDesc,
+                                          defaultTextStyle:
+                                              AppTextStyle.boldGrey10.copyWith(
+                                                  color: AppColors.grey6,
+                                                  fontWeight: FontWeight.w400)),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          }),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

@@ -40,20 +40,24 @@ class Package {
   List<HospitalLocation> hospitalLocation;
   List<LabLocation> labLocation;
   List<DoctorLocation> doctorLocation;
+  int totalFeedbacks;
+  String averageRating;
+  int countOfPatient;
   String title;
   String description;
   List<PackageInclude> packageInclude;
-  String createAt;
-  int v;
-  String byObservation;
-  String discount;
-  String duration;
+  String sampleType;
   String fastingRequired;
+  String byObservation;
+  String duration;
   String price;
   String rrp;
-  String sampleType;
+  String totalTests;
+  String discount;
+  String createAt;
+  int v;
   String publishedAt;
-  int countOfPatient;
+  double averageRatings;
 
   Package({
     this.id,
@@ -64,20 +68,24 @@ class Package {
     this.hospitalLocation,
     this.labLocation,
     this.doctorLocation,
+    this.totalFeedbacks,
+    this.averageRating,
+    this.countOfPatient,
     this.title,
     this.description,
     this.packageInclude,
-    this.createAt,
-    this.v,
-    this.byObservation,
-    this.discount,
-    this.duration,
+    this.sampleType,
     this.fastingRequired,
+    this.byObservation,
+    this.duration,
     this.price,
     this.rrp,
-    this.sampleType,
+    this.totalTests,
+    this.discount,
+    this.createAt,
+    this.v,
     this.publishedAt,
-    this.countOfPatient,
+    this.averageRatings,
   });
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
@@ -94,21 +102,25 @@ class Package {
             json["labLocation"].map((x) => LabLocation.fromJson(x))),
         doctorLocation: List<DoctorLocation>.from(
             json["doctorLocation"].map((x) => DoctorLocation.fromJson(x))),
+        totalFeedbacks: json["totalFeedbacks"],
+        averageRating: json["averageRating"],
+        countOfPatient: json["countOfPatient"],
         title: json["title"],
         description: json["description"],
         packageInclude: List<PackageInclude>.from(
             json["packageInclude"].map((x) => PackageInclude.fromJson(x))),
-        createAt: json["createAt"],
-        v: json["__v"],
-        byObservation: json["byObservation"],
-        discount: json["discount"],
-        duration: json["duration"],
+        sampleType: json["sampleType"],
         fastingRequired: json["fastingRequired"],
+        byObservation: json["byObservation"],
+        duration: json["duration"],
         price: json["price"],
         rrp: json["rrp"],
-        sampleType: json["sampleType"],
+        totalTests: json["totalTests"],
+        discount: json["discount"],
+        createAt: json["createAt"],
+        v: json["__v"],
         publishedAt: json["publishedAt"],
-        countOfPatient: json["countOfPatient"],
+        averageRatings: json["averageRatings"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -123,21 +135,25 @@ class Package {
         "labLocation": List<dynamic>.from(labLocation.map((x) => x.toJson())),
         "doctorLocation":
             List<dynamic>.from(doctorLocation.map((x) => x.toJson())),
+        "totalFeedbacks": totalFeedbacks,
+        "averageRating": averageRating,
+        "countOfPatient": countOfPatient,
         "title": title,
         "description": description,
         "packageInclude":
             List<dynamic>.from(packageInclude.map((x) => x.toJson())),
-        "createAt": createAt,
-        "__v": v,
-        "byObservation": byObservation,
-        "discount": discount,
-        "duration": duration,
+        "sampleType": sampleType,
         "fastingRequired": fastingRequired,
+        "byObservation": byObservation,
+        "duration": duration,
         "price": price,
         "rrp": rrp,
-        "sampleType": sampleType,
+        "totalTests": totalTests,
+        "discount": discount,
+        "createAt": createAt,
+        "__v": v,
         "publishedAt": publishedAt,
-        "countOfPatient": countOfPatient,
+        "averageRatings": averageRatings,
       };
 }
 

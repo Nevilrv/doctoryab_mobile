@@ -340,157 +340,168 @@ class DoctorView extends GetView<DoctorController> {
                                       controller.doctor.address == "" ||
                                               controller.doctor.address == null
                                           ? SizedBox()
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                          : controller.doctor.address == "" ||
+                                                  controller.doctor.address ==
+                                                      null
+                                              ? SizedBox()
+                                              : Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Container(
-                                                        width: w * 0.2,
-                                                        child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                          height: 3,
-                                                        )),
                                                     SizedBox(
-                                                      width: w * 0.02,
+                                                      height: h * 0.015,
                                                     ),
-                                                    Text(
-                                                      'doctor_addres'.tr,
-                                                      style: AppTextTheme.b(11)
-                                                          .copyWith(
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                            width: w * 0.2,
+                                                            child: Divider(
                                                               color: AppColors
                                                                   .primary
                                                                   .withOpacity(
-                                                                      0.5)),
-                                                    ),
-                                                    SizedBox(
-                                                      width: w * 0.02,
-                                                    ),
-                                                    Container(
-                                                        width: w * 0.2,
-                                                        child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                          height: 3,
-                                                        )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.primary),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.black
-                                                            .withOpacity(0.1),
-                                                        blurRadius: 6,
-                                                        offset: Offset(0, 4),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
-                                                    child: Row(
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            Utils.openGoogleMaps(
-                                                                controller
-                                                                            .doctor
-                                                                            ?.geometry
-                                                                            ?.coordinates[
-                                                                        1] ??
-                                                                    0.0,
-                                                                controller
-                                                                        .doctor
-                                                                        ?.geometry
-                                                                        ?.coordinates[0] ??
-                                                                    0.0);
-                                                          },
-                                                          child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: AppColors
-                                                                  .primary,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                            ),
-                                                            child: Padding(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical: 8,
-                                                                  horizontal:
-                                                                      10),
-                                                              child: Row(
-                                                                children: [
-                                                                  SvgPicture
-                                                                      .asset(
-                                                                    AppImages
-                                                                        .map,
-                                                                    color: AppColors
-                                                                        .white,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 15,
-                                                                  ),
-                                                                  Text(
-                                                                    "show_map"
-                                                                        .tr,
-                                                                    style: AppTextStyle
-                                                                        .boldWhite12
-                                                                        .copyWith(
-                                                                            fontSize:
-                                                                                13),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
+                                                                      0.5),
+                                                              height: 3,
+                                                            )),
+                                                        SizedBox(
+                                                          width: w * 0.02,
                                                         ),
-                                                        SizedBox(width: 8),
+                                                        Text(
+                                                          'doctor_addres'.tr,
+                                                          style: AppTextTheme.b(
+                                                                  11)
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.5)),
+                                                        ),
+                                                        SizedBox(
+                                                          width: w * 0.02,
+                                                        ),
                                                         Container(
-                                                          width:
-                                                              Get.width * 0.5,
-                                                          child: Text(
-                                                            "${controller.doctor.address}",
-                                                            // maxLines: 1,
-                                                            style: AppTextTheme
-                                                                    .b(11)
-                                                                .copyWith(
-                                                                    color: AppColors
-                                                                        .lgt2),
-                                                            // overflow: TextOverflow.ellipsis,
-                                                          ),
-                                                        ),
+                                                            width: w * 0.2,
+                                                            child: Divider(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              height: 3,
+                                                            )),
                                                       ],
                                                     ),
-                                                  ),
+                                                    SizedBox(
+                                                      height: h * 0.015,
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(7),
+                                                        border: Border.all(
+                                                            color: AppColors
+                                                                .primary),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            blurRadius: 6,
+                                                            offset:
+                                                                Offset(0, 4),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 10),
+                                                        child: Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                                AppImages.map,
+                                                                height: 22,
+                                                                width: 22),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Container(
+                                                              width: Get.width *
+                                                                  0.77,
+                                                              child: Text(
+                                                                "${controller.doctor.address}",
+                                                                style: AppTextStyle
+                                                                    .mediumBlack12
+                                                                    .copyWith(
+                                                                        color: AppColors
+                                                                            .lightBlack2,
+                                                                        fontSize:
+                                                                            11,
+                                                                        fontWeight:
+                                                                            FontWeight.w500),
+                                                              ),
+                                                            ),
+                                                            Spacer(),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: h * 0.015,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Utils.openGoogleMaps(
+                                                            controller
+                                                                        .doctor
+                                                                        ?.geometry
+                                                                        ?.coordinates[
+                                                                    1] ??
+                                                                0.0,
+                                                            controller
+                                                                    .doctor
+                                                                    ?.geometry
+                                                                    ?.coordinates[0] ??
+                                                                0.0);
+                                                      },
+                                                      child: Container(
+                                                        width: w,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        7),
+                                                            color: AppColors
+                                                                .primary,
+                                                            border: Border.all(
+                                                                color: AppColors
+                                                                    .primary)),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 10),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "show_in_map".tr,
+                                                            style: AppTextStyle
+                                                                .boldWhite10
+                                                                .copyWith(
+                                                              fontSize: 11,
+                                                            ),
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
                                       controller.doctor.speciality == "" ||
                                               controller.doctor.speciality ==
                                                   null
@@ -733,7 +744,7 @@ class DoctorView extends GetView<DoctorController> {
                                               onTap: () {
                                                 Get.toNamed(
                                                   Routes.BOOK,
-                                                  // arguments: [item.doctor, controller.arguments.cCategory],
+                                                  arguments: controller.doctor,
                                                 );
                                               },
                                               // onTap: () {
