@@ -354,7 +354,9 @@ class AuthController extends GetxController {
           SettingsController.savedUserProfile =
               u.User.fromJson(reponseData['user']);
           SettingsController.userLogin = true;
-          if (SettingsController.auth.savedCity == null) {
+          if (SettingsController.isUserProfileComplete == false) {
+            Get.toNamed(Routes.ADD_PERSONAL_INFO, arguments: "phone");
+          } else if (SettingsController.auth.savedCity == null) {
             Get.offAllNamed(Routes.CITY_SELECT);
           } else {
             Get.offAllNamed(Routes.HOME);

@@ -83,6 +83,8 @@ class ApiConsts {
 
   ///checkup
   static const String checkupPackage = '/checkupPackage';
+  static const String labSchedule = '/labSchedule/getById?id=';
+  static const String hospitalSchedule = '/hospitalSchedule/getById?id=';
 
   ///complaint and suggestion
   static const String complaint = '/complaint-routes';

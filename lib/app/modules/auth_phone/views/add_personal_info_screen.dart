@@ -150,89 +150,95 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
               SizedBox(
                 height: 5,
               ),
-              Row(
-                children: [
-                  Text(
-                    "Phone_number".tr,
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                // onChanged: (_) =>
-                //     controller.validateForm(),
-                validator: Utils.numberValidator,
-                cursorColor: AppColors.primary,
-                style: AppTextStyle.mediumPrimary12
-                    .copyWith(color: AppColors.primary),
-                // maxLength: 6,
-                // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                keyboardType: TextInputType.phone,
-                controller: controller.teNewNumber,
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColors.white,
-                    hintText: "please_enter_phone".tr,
-                    hintStyle: AppTextStyle.mediumPrimary12,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: AppColors.white,
-                        )),
-                    // prefixIconConstraints:
-                    //     BoxConstraints.expand(
-                    //   height: 30,
-                    //   width: 30,
-                    // ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SvgPicture.asset(
-                        AppImages.mobile,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12),
-                      child: SvgPicture.asset(
-                        AppImages.editPenBlue,
-                        color: AppColors.primary,
-                        width: 16,
-                        height: 16,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: AppColors.white,
-                        )),
-                    errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: AppColors.red,
-                        )),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: AppColors.red,
-                        )),
-                    contentPadding: EdgeInsets.zero
-                    // errorText: controller.nameLastError() == ""
-                    //     ? null
-                    //     : controller.nameLastError(),
+              controller.loginType == ""
+                  ? Row(
+                      children: [
+                        Text(
+                          "Phone_number".tr,
+                          style: AppTextStyle.boldGrey12.copyWith(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.white),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
+              controller.loginType == ""
+                  ? SizedBox(
+                      height: 5,
+                    )
+                  : SizedBox(),
+              controller.loginType == ""
+                  ? TextFormField(
+                      // onChanged: (_) =>
+                      //     controller.validateForm(),
+                      validator: Utils.numberValidator,
+                      cursorColor: AppColors.primary,
+                      style: AppTextStyle.mediumPrimary12
+                          .copyWith(color: AppColors.primary),
+                      // maxLength: 6,
+                      // maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      keyboardType: TextInputType.phone,
+                      controller: controller.teNewNumber,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.white,
+                          hintText: "please_enter_phone".tr,
+                          hintStyle: AppTextStyle.mediumPrimary12,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColors.white,
+                              )),
+                          // prefixIconConstraints:
+                          //     BoxConstraints.expand(
+                          //   height: 30,
+                          //   width: 30,
+                          // ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: SvgPicture.asset(
+                              AppImages.mobile,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 12, right: 12),
+                            child: SvgPicture.asset(
+                              AppImages.editPenBlue,
+                              color: AppColors.primary,
+                              width: 16,
+                              height: 16,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColors.white,
+                              )),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColors.red,
+                              )),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColors.red,
+                              )),
+                          contentPadding: EdgeInsets.zero
+                          // errorText: controller.nameLastError() == ""
+                          //     ? null
+                          //     : controller.nameLastError(),
 
-                    // labelStyle: TextStyle(color: Colors.white),
-                    // fillColor: Colors.white,
-                    // focusColor: Colors.white,
-                    ),
-                // onChanged: (s) =>
-                //     controller.onAgeChange(s),
-              ),
+                          // labelStyle: TextStyle(color: Colors.white),
+                          // fillColor: Colors.white,
+                          // focusColor: Colors.white,
+                          ),
+                      // onChanged: (s) =>
+                      //     controller.onAgeChange(s),
+                    )
+                  : SizedBox(),
               SizedBox(
                 height: 5,
               ),

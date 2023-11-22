@@ -22,6 +22,7 @@ class AuthRepository {
     var fcmToken;
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
+      log("fcmToken--------------> ${fcmToken}");
     } catch (e, s) {
       Logger().e("", e, s);
     }
@@ -29,7 +30,12 @@ class AuthRepository {
     var _firebaseIdToken =
         await AuthController.to.firebaseAuth.currentUser.getIdToken();
     log("AuthController.to.firebaseAuth.currentUse--------------> ${_firebaseIdToken}");
-    var data = {"idtoken": _firebaseIdToken, "fcm": fcmToken ?? ""};
+    var data = {
+      "idtoken": _firebaseIdToken,
+      "fcm": fcmToken ?? "",
+      "method": "Phone",
+      "language": SettingsController.appLanguge
+    };
     final response = await dio.post(
       ApiConsts.authPath,
       data: data,
@@ -104,6 +110,29 @@ class AuthRepository {
 
     final response = await dio.put(
       ApiConsts.addPersonalInfo,
+      data: data,
+    );
+    log("response--------------> ${response.statusCode}");
+
+    return response.data;
+  }
+
+  Future<dynamic> addPersonalInfoPhoneApi(
+      String name, String phone, String gender, String city) async {
+    //TODO handle exception
+    var data = {
+      // "age": age,
+      "name": name,
+      "gender": gender,
+      "city": city, "phone": "0777777777"
+      // "token": firebaseUserToken,
+    };
+    log("data--------------> ${data}");
+    log(" ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
+    log(" ApiConsts.addPersonalInfo--------------> ${SettingsController.userToken}");
+
+    final response = await dio.put(
+      ApiConsts.authPath,
       data: data,
     );
     log("response--------------> ${response.statusCode}");

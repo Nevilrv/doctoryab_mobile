@@ -104,26 +104,26 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(
-                                          AppImages.bag,
+                                          AppImages.history,
                                           height: 24,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Positioned(
-                                    right: 0,
-                                    // top: -5,
-                                    child: CircleAvatar(
-                                      radius: 8,
-                                      backgroundColor: AppColors.red2,
-                                      child: Center(
-                                        child: Text(
-                                          "3",
-                                          style: AppTextStyle.boldWhite10,
-                                        ),
-                                      ),
-                                    ),
-                                  )
+                                  // Positioned(
+                                  //   right: 0,
+                                  //   // top: -5,
+                                  //   child: CircleAvatar(
+                                  //     radius: 8,
+                                  //     backgroundColor: AppColors.red2,
+                                  //     child: Center(
+                                  //       child: Text(
+                                  //         "3",
+                                  //         style: AppTextStyle.boldWhite10,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // )
                                 ],
                               ),
                             ],
@@ -473,12 +473,12 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                                     .withOpacity(0.1))),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
+                                              vertical: 4, horizontal: 10),
                                           child: Center(
                                             child: Text(
                                               "${item.discount} ${"OFF".tr}",
                                               style:
-                                                  AppTextTheme.b(10).copyWith(
+                                                  AppTextTheme.b(13).copyWith(
                                                 color: AppColors.red2,
                                               ),
                                             ),

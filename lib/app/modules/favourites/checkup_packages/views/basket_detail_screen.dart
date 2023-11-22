@@ -107,34 +107,6 @@ class BasketDetailScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
-                        color: AppColors.darkBlue2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 7),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                AppImages.map,
-                                color: AppColors.grey2,
-                              ),
-                              Spacer(),
-                              Text(
-                                "Türkiye, Ankara",
-                                style: AppTextStyle.boldGrey12.copyWith(
-                                    color: AppColors.grey2,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
-                              ),
-                              Icon(
-                                Icons.expand_more_outlined,
-                                color: AppColors.grey2.withOpacity(0.8),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

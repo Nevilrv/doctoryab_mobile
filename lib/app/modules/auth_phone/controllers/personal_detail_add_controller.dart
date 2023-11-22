@@ -24,6 +24,8 @@ class AddPersonalInfoController extends GetxController {
   TextEditingController teAge = TextEditingController();
   TextEditingController teName = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  var loginType = '';
   var phoneValid = false.obs;
   var phoneValidationError = "".obs;
   var locations = <City>[].obs;
@@ -37,6 +39,7 @@ class AddPersonalInfoController extends GetxController {
   var isLoading = false.obs;
   @override
   void onInit() {
+    loginType = Get.arguments ?? "";
     loadCities();
 
     super.onInit();
@@ -74,29 +77,31 @@ class AddPersonalInfoController extends GetxController {
 
   void addPersonalInfo() {
     isLoading.value = true;
-    AuthRepository()
-        .addPersonalInfoApi(teName.text, teNewNumber.text, selectedGender.value,
-            selectedLocationId.value)
-        .then((value) {
-      try {
-        // SettingsController.userToken = value["jwtoken"];
-        SettingsController.userProfileComplete = value["profile_completed"];
-        SettingsController.userId = value['user']['_id'];
-        SettingsController.savedUserProfile = u.User.fromJson(value['user']);
-        SettingsController.userLogin = true;
-        isLoading.value = false;
-        if (SettingsController.auth.savedCity == null) {
-          Get.offAllNamed(Routes.CITY_SELECT);
-        } else {
-          Utils.whereShouldIGo();
-        }
+    if (loginType == "") {
+      AuthRepository()
+          .addPersonalInfoApi(teName.text, teNewNumber.text,
+              selectedGender.value, selectedLocationId.value)
+          .then((value) {
+        try {
+          // SettingsController.userToken = value["jwtoken"];
+          SettingsController.userProfileComplete = value["profile_completed"];
+          SettingsController.userId = value['user']['_id'];
+          SettingsController.savedUserProfile = u.User.fromJson(value['user']);
+          SettingsController.userLogin = true;
+          isLoading.value = false;
+          if (SettingsController.auth.savedCity == null) {
+            Get.offAllNamed(Routes.CITY_SELECT);
+          } else {
+            Utils.whereShouldIGo();
+          }
 
-        log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.name}");
-      } catch (e) {
-        isLoading.value = false;
-        log("e--------------> ${e}");
-      }
-      log("value--------------> ${value}");
-    });
+          log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.name}");
+        } catch (e) {
+          isLoading.value = false;
+          log("e--------------> ${e}");
+        }
+        log("value--------------> ${value}");
+      });
+    }
   }
 }

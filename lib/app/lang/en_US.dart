@@ -422,4 +422,9 @@ const Map<String, String> enUS = {
   "what_is": "What is",
   "OFF": "OFF",
   "other_information": "Other Information",
+  "please_select_clinic,hospital_or_lab":
+      "Please select clinic,hospital or lab",
+  "please_select_date": "Please Select Date",
+  "please_select_time": "Please Select Time",
+  "please_select_hospital_lab": "Please Select Hospital Or Lab"
 };

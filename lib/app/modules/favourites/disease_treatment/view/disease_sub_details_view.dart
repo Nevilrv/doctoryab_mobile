@@ -214,7 +214,11 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                 ),
               ),
               title: Text(
-                "${controller.selectedDieases.title}",
+                SettingsController.appLanguge == "English"
+                    ? controller.selectedDieases.title ?? ''
+                    : SettingsController.appLanguge == "فارسی"
+                        ? controller.selectedDieases.dariTitle ?? ''
+                        : controller.selectedDieases.pashtoTitle ?? '',
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -254,7 +258,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                       child: Column(
                         children: [
                           Text(
-                            "${"listen_whole_page".tr} (${"what_is".tr} ${controller.selectedDieases.category} ?)",
+                            "${"listen_whole_page".tr}",
                             style: AppTextStyle.boldPrimary11,
                           ),
                           SizedBox(height: 5),
@@ -524,7 +528,6 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: AppColors.white,
@@ -532,56 +535,16 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            SettingsController.appLanguge == "English"
-                                ? controller.selectedDieases.title ?? ''
-                                : SettingsController.appLanguge == "فارسی"
-                                    ? controller.selectedDieases.dariTitle ?? ''
-                                    : controller.selectedDieases.pashtoTitle ??
-                                        '',
-                            style: AppTextStyle.boldPrimary15,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: h * 0.15,
-                            width: w,
-                            // margin: EdgeInsets.only(right: 15),
-                            decoration: BoxDecoration(
-                              // color: AppColors.boxPink2,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: CachedNetworkImage(
-                              height: h * 0.15,
-                              width: w,
-                              imageUrl:
-                                  "${ApiConsts.hostUrl}${controller.selectedDieases.img}",
-                              fit: BoxFit.cover,
-                              placeholder: (_, __) {
-                                return Image.asset(
-                                  "assets/png/placeholder_hospital.png",
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                              errorWidget: (_, __, ___) {
-                                return Image.asset(
-                                  "assets/png/placeholder_hospital.png",
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                            ),
-                            /*child: Center(
-                        child: Image.asset(
-                          Get.arguments[1]["image"],
-                          height: h * 0.067,
-                          width: w * 0.146,
-                        ),
-                      ),*/
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          // Text(
+                          //   SettingsController.appLanguge == "English"
+                          //       ? controller.selectedDieases.title ?? ''
+                          //       : SettingsController.appLanguge == "فارسی"
+                          //           ? controller.selectedDieases.dariTitle ?? ''
+                          //           : controller.selectedDieases.pashtoTitle ??
+                          //               '',
+                          //   style: AppTextStyle.boldPrimary15,
+                          // ),
+
                           Html(
                             data: SettingsController.appLanguge == "English"
                                 ? controller.selectedDieases.desc ?? ""
@@ -589,6 +552,29 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                                     ? controller.selectedDieases.dariDesc ?? ""
                                     : controller.selectedDieases.pashtoDesc ??
                                         "",
+                            padding: EdgeInsets.all(
+                                SettingsController.appLanguge == "English"
+                                    ? controller.selectedDieases.desc == "" ||
+                                            controller.selectedDieases.desc ==
+                                                '<p></p>\n'
+                                        ? 0
+                                        : 15
+                                    : SettingsController.appLanguge == "فارسی"
+                                        ? controller.selectedDieases.dariDesc ==
+                                                    "" ||
+                                                controller.selectedDieases
+                                                        .dariDesc ==
+                                                    '<p></p>\n'
+                                            ? 0
+                                            : 15
+                                        : controller.selectedDieases
+                                                        .pashtoDesc ==
+                                                    "" ||
+                                                controller.selectedDieases
+                                                        .pashtoDesc ==
+                                                    '<p></p>\n'
+                                            ? 0
+                                            : 15),
                             defaultTextStyle: AppTextStyle.mediumPrimary8
                                 .copyWith(height: 1.2),
                           ),

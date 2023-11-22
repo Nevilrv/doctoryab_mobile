@@ -103,16 +103,13 @@ class PackageRepository {
   }
 
   static Future<List<Hospital>> fetchHospitals(
-      {void onError(e), CancelToken cancelToken}) async {
+      {void onError(e), String cityId, CancelToken cancelToken}) async {
     // TODO move to some utils func
-    // _searchCancelToken.cancel();
-    // _searchCancelToken = CancelToken();
-    log("'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'--------------> ${'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'}");
 
     return await Utils.parseResponse<Hospital>(
       () async {
         var respose = await _cachedDio.get(
-          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
+          '${ApiConsts.hospitalByCity}/${cityId}',
           cancelToken: cancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
@@ -125,13 +122,41 @@ class PackageRepository {
 
   static Future<dynamic> fetchLabs({
     void onError(e),
+    String cityId,
     CancelToken cancelToken,
   }) async {
-    print("Get---Category---${ApiConsts.categoriesByCityPath}");
     final response = await _cachedDio.get(
       '${ApiConsts.labsByCity}',
       cancelToken: cancelToken,
-      queryParameters: {"cityId": "${SettingsController.auth.savedCity.sId}"},
+      queryParameters: {"cityId": "${cityId}"},
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response.data;
+  }
+
+  static Future<dynamic> fetchLabsSchedule({
+    void onError(e),
+    String labId,
+    CancelToken cancelToken,
+  }) async {
+    final response = await _cachedDio.get(
+      '${ApiConsts.labSchedule}${labId}',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response.data;
+  }
+
+  static Future<dynamic> fetchHospitalSchedule({
+    void onError(e),
+    String hospitalId,
+    CancelToken cancelToken,
+  }) async {
+    final response = await _cachedDio.get(
+      '${ApiConsts.hospitalSchedule}${hospitalId}',
+      cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 

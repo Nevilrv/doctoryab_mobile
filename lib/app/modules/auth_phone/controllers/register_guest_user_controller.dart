@@ -28,7 +28,7 @@ class RegisterGuestUserController extends GetxController {
   var _cachedDio = AppDioService.getCachedDio;
 
   var selectedLocation = "".obs;
-  var selectedLocationId = "60a8951de268152534502e57".obs;
+  var selectedLocationId = "".obs;
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   var isLoading = false.obs;

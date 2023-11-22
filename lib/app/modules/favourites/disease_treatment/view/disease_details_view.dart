@@ -125,7 +125,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "${"what_is".tr} ${SettingsController.appLanguge == "English" ? controller.selectedCategory.eTitle ?? "" : SettingsController.appLanguge == "فارسی" ? controller.selectedCategory.fTitle ?? "" : controller.selectedCategory.pTitle ?? ""} ?",
+                                              "${SettingsController.appLanguge == "English" ? controller.selectedCategory.eTitle ?? "" : SettingsController.appLanguge == "فارسی" ? controller.selectedCategory.fTitle ?? "" : controller.selectedCategory.pTitle ?? ""}",
                                               style: AppTextStyle.boldPrimary11,
                                             ),
                                             SizedBox(height: 10),

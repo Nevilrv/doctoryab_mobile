@@ -1,10 +1,14 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
+import 'package:doctor_yab/app/data/models/city_model.dart';
+import 'package:doctor_yab/app/data/models/hospital_lab_schedule_res_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/CheckUpRepository.dart';
+import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
@@ -18,34 +22,57 @@ class CheckupPackagesController extends GetxController {
   String filterSearch = "";
   CancelToken cancelToken = CancelToken();
   TextEditingController comment = TextEditingController();
-  final List<String> selectHospitalLabList = [
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü1',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü2',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü3',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü4',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü5',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü6-',
-    'Ankara Hastanesi Laboratuvarı Kan Testi Bölümü7'
-  ];
-  var selectedHospitalLab =
-      "Ankara Hastanesi Laboratuvarı Kan Testi Bölümü".obs;
+  var selectHospitalLabList = <dynamic>[].obs;
+  var selectedHospitalLabId = "".obs;
+  var selectedHospitalLabName = "".obs;
+  var selectedDate = "".obs;
+  TextEditingController teName = TextEditingController();
+  TextEditingController teNewNumber = TextEditingController();
+  TextEditingController teAge = TextEditingController();
+  var genderList = ['Male', "Female", "Other"];
+  var selectedGender = "Male".obs;
+  Future<void> selectDate(BuildContext context) async {
+    timeList.clear();
+    selectedTime.value = "";
+    update();
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2101));
+    if (picked != null) {
+      selectedDate.value = "${picked.year}-${picked.month}-${picked.day}";
 
-  final List<String> dateList = [
-    "27.08.2023",
-    "28.08.2023",
-    "29.08.2023",
-    "30.08.2023",
-    "31.08.2023",
-  ];
-  var selectedDate = "27.08.2023".obs;
-  final List<String> timeList = [
-    "21:09 AM",
-    "22:09 AM",
-    "23:09 AM",
-    "24:09 AM",
-  ];
-  var selectedTime = "21:09 AM".obs;
+      log("scheduleList--------------> ${scheduleList.length}");
+
+      List<String> data = [];
+      log("picked.weekday.toString()--------------> ${picked.weekday.toString()}");
+
+      scheduleList.forEach((element) {
+        if (element.dayOfWeek.toString() == picked.weekday.toString()) {
+          data.addAll(element.times);
+          update();
+          log("element--------------> ${element}");
+        } else if (picked.weekday.toString() == "7") {
+          if (element.dayOfWeek.toString() == "0") {
+            data.addAll(element.times);
+            update();
+            log("element--------------> ${element}");
+          }
+        }
+      });
+      data.forEach((element) {
+        timeList.add(
+            "${DateTime(picked.year, picked.month, picked.day, int.parse(element.split(":").first), int.parse(element.split(":").last), 0, 0, 0).toLocal()}");
+      });
+      log("timeList--------------> ${timeList}");
+
+      update();
+    }
+  }
+
+  var timeList = <String>[].obs;
+  var selectedTime = "".obs;
   @override
   void onInit() {
     selectedTest = 0;
@@ -53,42 +80,120 @@ class CheckupPackagesController extends GetxController {
     pagingController.addPageRequestListener((pageKey) {
       fetchCheckUpPackages(pageKey);
     });
-    getLabAndHospitalList();
+    loadCities();
+
     activateSpeechRecognizer();
     super.onInit();
   }
 
+  var locations = <City>[].obs;
+
+  var _cachedDio = AppDioService.getCachedDio;
+
+  var selectedLocation = "".obs;
+  var selectedLocationId = "".obs;
+  Future<dynamic> loadCities() async {
+    final response = await _cachedDio.get(
+      ApiConsts.cityPath,
+      queryParameters: {
+        "limit": '200000',
+        "page": '1',
+      },
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response--------------> ${response.data}");
+    log("response-statusCode-------------> ${response.statusCode}");
+    if (response.data['data'] != null) {
+      response.data['data'].forEach((element) {
+        locations.add(City.fromJson(element));
+      });
+    }
+    log("response--------------> ${locations.length}");
+
+    return response;
+  }
+
   @override
   void onClose() {
-    selectedTest = 0;
-    update();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      selectedTest = 0;
+      update();
+    });
     // TODO: implement onClose
     super.onClose();
   }
 
+  var scheduleList = <Schedule>[].obs;
+  getLabScheduleList({String labId, String hospitalId, String type}) {
+    scheduleList.clear();
+
+    selectedTime.value = "";
+    timeList.clear();
+    selectedDate.value = "";
+    if (type == "lab") {
+      PackageRepository.fetchLabsSchedule(
+              cancelToken: cancelToken, labId: labId)
+          .then((value) {
+        HospitalLabScheduleResModel resModel =
+            HospitalLabScheduleResModel.fromJson(value);
+        scheduleList.addAll(resModel.data);
+        log("value---value-----------> ${value}");
+        log("resModel---resModel-----------> ${resModel}");
+      });
+    } else {
+      PackageRepository.fetchHospitalSchedule(
+        cancelToken: cancelToken,
+        hospitalId: hospitalId,
+      ).then((value) {
+        HospitalLabScheduleResModel resModel =
+            HospitalLabScheduleResModel.fromJson(value);
+        scheduleList.addAll(resModel.data);
+
+        log("value---value-----------> ${value}");
+        log("resModel---resModel-----------> ${resModel}");
+      });
+    }
+    update();
+  }
+
   List<dynamic> labHospitalList = [];
   getLabAndHospitalList() {
-    PackageRepository.fetchHospitals(cancelToken: cancelToken).then((value) {
+    selectHospitalLabList.clear();
+    selectedHospitalLabId.value = "";
+    selectedHospitalLabName.value = "";
+    scheduleList.clear();
+    selectedTime.value = "";
+    timeList.clear();
+    selectedDate.value = "";
+    PackageRepository.fetchHospitals(
+            cancelToken: cancelToken, cityId: selectedLocationId.value)
+        .then((value) {
       List<Hospital> hospitalList = [];
       hospitalList.addAll(value);
       hospitalList.forEach((element) {
-        labHospitalList
+        selectHospitalLabList
             .add({"id": element.id, "name": element.name, "type": "hospital"});
       });
-      log("value---fetchHospitals-----------> ${labHospitalList.length}");
+      log("hospitalList--------------> ${hospitalList.length}");
+
+      log("value---fetchHospitals-----------> ${selectHospitalLabList.length}");
     });
-    PackageRepository.fetchLabs(cancelToken: cancelToken).then((value) {
+    update();
+    PackageRepository.fetchLabs(
+            cancelToken: cancelToken, cityId: selectedLocationId.value)
+        .then((value) {
       List<Labs> labs = [];
       LabsModel labsModel = LabsModel.fromJson(value);
 
       labs.addAll(labsModel.data);
       labs.forEach((element) {
-        labHospitalList
-            .add({"id": element.id, "name": element.name, "type": "lab"});
+        selectHospitalLabList
+            .add({"id": element.datumId, "name": element.name, "type": "lab"});
       });
+      log("labHospitalList--------------> ${selectHospitalLabList.length}");
       log("value----fetchLabs----------> ${labs.length}");
     });
-    log("labHospitalList--------------> ${labHospitalList.length}");
+    update();
   }
 
   List<PackageFeedback> packageFeedback = [];

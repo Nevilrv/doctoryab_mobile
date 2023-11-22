@@ -448,7 +448,7 @@ class BookView extends GetView<BookController> {
                                                                         15),
                                                             child: Center(
                                                               child: Text(
-                                                                "${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toString()))}",
+                                                                "${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))}",
                                                                 style: AppTextTheme
                                                                         .b(11)
                                                                     .copyWith(
