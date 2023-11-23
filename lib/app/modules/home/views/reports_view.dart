@@ -13,15 +13,14 @@ import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart'
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-class ReportsView extends StatelessWidget {
-  ReportsController controller;
-  final REPORT_TYPE reportType;
-  ReportsView(
-    this.reportType,
+class ReportsView extends GetView<ReportsController> {
+  /*ReportsView(
+
   ) {
     controller = Get.put(ReportsController(), tag: reportType.toString());
     controller.reportType = reportType;
-  }
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +36,16 @@ class ReportsView extends StatelessWidget {
               controller.cancelToken.cancel();
             });
             controller.cancelToken = new CancelToken();
-            controller.fetchReports(
-              controller.pagingController.firstPageKey,
-            );
+
+            if (controller.tabIndex.value == 0) {
+              controller.fetchReportsDoctor(
+                controller.pagingController.firstPageKey,
+              );
+            } else {
+              controller.fetchReportsLab(
+                controller.pagingController.firstPageKey,
+              );
+            }
           },
         ),
         child: PagedListView.separated(
@@ -65,11 +71,12 @@ class ReportsView extends StatelessWidget {
   }
 
   Widget _buildItemView(BuildContext context, Report item) {
-    var _trailing = Text(
-      item?.createAt
-              ?.toPersianDateStr(strMonth: true, useAfghaniMonthName: true) ??
+    var _trailing /* = Text(
+      item?.visitDate
+              .toPersianDateStr(strMonth: true, useAfghaniMonthName: true) ??
           "",
-    );
+    )*/
+        ;
     // return Text(item.title);
     return ListTile(
       title: Text(item.title ?? ""),

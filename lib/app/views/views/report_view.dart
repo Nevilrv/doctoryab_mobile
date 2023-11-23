@@ -37,9 +37,9 @@ class ReportView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (report.doctor.length > 0)
-              DoctorListTileItem(report?.doctor[0] ?? Doctor()),
-            //
-            SizedBox(height: 20),
+              // DoctorListTileItem(report?.doctor[0] ?? Doctor()),
+              //
+              SizedBox(height: 20),
             // _buildSection(
             //   "patient_info".tr,
             //   [

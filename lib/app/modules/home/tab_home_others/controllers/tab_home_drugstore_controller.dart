@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/data/models/labs_feedbaxk_res_model.dart';
 import 'package:doctor_yab/app/data/models/pharmacy_feedback_res_model.dart';
+import 'package:doctor_yab/app/data/models/pharmacy_product_res_model.dart';
 import 'package:doctor_yab/app/data/models/pharmacy_services_res_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
@@ -323,7 +324,8 @@ class DrugStoreController extends TabHomeOthersController {
     });
   }
 
-  List<Services> serviceList = [];
+  var serviceList = <Services>[].obs;
+  var productList = <ProductData>[].obs;
   void serviceData(String id) {
     DrugStoreRepository()
         .fetchPharmacyService(id: id, cancelToken: cancelToken)
@@ -338,7 +340,36 @@ class DrugStoreController extends TabHomeOthersController {
 
         update();
       } else {
-        serviceList = [];
+        serviceList.value = [];
+        update();
+      }
+      //TODO handle all in model
+
+      log("data---data-----data------> ${data}");
+    }).catchError((e, s) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pageController.error = e;
+      }
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
+  void productData(String id) {
+    DrugStoreRepository()
+        .fetchPharmacyProduct(id: id, cancelToken: cancelToken)
+        .then((data) {
+      productList.clear();
+      update();
+      PharmacyProductResModel resModel =
+          PharmacyProductResModel.fromJson(data.data);
+      if (resModel.data.isNotEmpty) {
+        productList.addAll(resModel.data);
+        log("serviceList--------------> ${productList.length}");
+
+        update();
+      } else {
+        productList.value = [];
         update();
       }
       //TODO handle all in model

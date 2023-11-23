@@ -532,53 +532,35 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                         borderRadius: BorderRadius.circular(10),
                         color: AppColors.white,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Text(
-                          //   SettingsController.appLanguge == "English"
-                          //       ? controller.selectedDieases.title ?? ''
-                          //       : SettingsController.appLanguge == "فارسی"
-                          //           ? controller.selectedDieases.dariTitle ?? ''
-                          //           : controller.selectedDieases.pashtoTitle ??
-                          //               '',
-                          //   style: AppTextStyle.boldPrimary15,
-                          // ),
-
-                          Html(
-                            data: SettingsController.appLanguge == "English"
-                                ? controller.selectedDieases.desc ?? ""
-                                : SettingsController.appLanguge == "فارسی"
-                                    ? controller.selectedDieases.dariDesc ?? ""
-                                    : controller.selectedDieases.pashtoDesc ??
-                                        "",
-                            padding: EdgeInsets.all(
-                                SettingsController.appLanguge == "English"
-                                    ? controller.selectedDieases.desc == "" ||
-                                            controller.selectedDieases.desc ==
-                                                '<p></p>\n'
-                                        ? 0
-                                        : 15
-                                    : SettingsController.appLanguge == "فارسی"
-                                        ? controller.selectedDieases.dariDesc ==
-                                                    "" ||
-                                                controller.selectedDieases
-                                                        .dariDesc ==
-                                                    '<p></p>\n'
-                                            ? 0
-                                            : 15
-                                        : controller.selectedDieases
-                                                        .pashtoDesc ==
-                                                    "" ||
-                                                controller.selectedDieases
-                                                        .pashtoDesc ==
-                                                    '<p></p>\n'
-                                            ? 0
-                                            : 15),
-                            defaultTextStyle: AppTextStyle.mediumPrimary8
-                                .copyWith(height: 1.2),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              SettingsController.appLanguge == "English"
+                                  ? controller.selectedDieases.title ?? ''
+                                  : SettingsController.appLanguge == "فارسی"
+                                      ? controller.selectedDieases.dariTitle ??
+                                          ''
+                                      : controller
+                                              .selectedDieases.pashtoTitle ??
+                                          '',
+                              style: AppTextStyle.boldPrimary15,
+                            ),
+                            Html(
+                              data: SettingsController.appLanguge == "English"
+                                  ? controller.selectedDieases.desc ?? ""
+                                  : SettingsController.appLanguge == "فارسی"
+                                      ? controller.selectedDieases.dariDesc ??
+                                          ""
+                                      : controller.selectedDieases.pashtoDesc ??
+                                          "",
+                              defaultTextStyle: AppTextStyle.mediumPrimary8
+                                  .copyWith(height: 1.2),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

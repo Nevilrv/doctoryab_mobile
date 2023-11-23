@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/reports.dart';
 import 'package:doctor_yab/app/data/repository/ReportsRepository.dart';
@@ -13,9 +15,11 @@ class ReportsController extends GetxController {
   var tabIndex = 0.obs;
   @override
   void onInit() {
+    tabIndex.value = 0;
     pagingController.addPageRequestListener((pageKey) {
-      fetchReports(pageKey);
+      fetchReportsDoctor(pageKey);
     });
+
     super.onInit();
   }
 
@@ -27,13 +31,31 @@ class ReportsController extends GetxController {
   @override
   void onClose() {}
 
-  void fetchReports(int pageKey) {
-    ReportsRepository.fetchReports(pageKey, reportType,
-        cancelToken: cancelToken, onError: (e) {
+  void fetchReportsLab(int pageKey) {
+    ReportsRepository.fetchLabReports(pageKey, cancelToken: cancelToken,
+        onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;
       }
     }).then((value) {
+      log("value----pagingController1----------> ${value}");
+
+      Utils.addResponseToPagingController<Report>(
+        value,
+        pagingController,
+        pageKey,
+      );
+    });
+  }
+
+  void fetchReportsDoctor(int pageKey) {
+    ReportsRepository.fetchDoctorReports(pageKey, cancelToken: cancelToken,
+        onError: (e) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pagingController.error = e;
+      }
+    }).then((value) {
+      log("value--------------> ${value}");
       Utils.addResponseToPagingController<Report>(
         value,
         pagingController,

@@ -130,12 +130,12 @@ class MyDoctorsController extends GetxController {
     )
         .then((data) {
       var newItems = Doctors.fromJson(data.data).data;
-      print("newItems>>newItems>${newItems.length}====${pageKey}");
-      if (newItems == null || newItems.length == 0) {
+      log("newItems>>newItems>${newItems.length}====${pageKey}");
+      if (newItems != null || newItems.length != 0) {
         pagingController.appendLastPage(newItems);
+        log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
       }
 
-      log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
       locationData.clear();
       locationTitle.clear();
       if (pagingController.itemList.isNotEmpty) {

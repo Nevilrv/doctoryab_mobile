@@ -51,6 +51,7 @@ class ApiConsts {
   static const String searchHospital = '/hospital/search-by-name/';
   static const drugStoreByCity = "/pharmacy";
   static const pharmacyService = "/pharmacy/checkUp/services/";
+  static const pharmacyProduct = "/pharmacy/checkUp/products/";
   static const drugStoreBySearch = "/pharmacy/searchByName/";
   static const getDrugDetails = "/pharmacy/searchByID/";
   static const labsByCity = "/lab";

@@ -636,6 +636,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
       onTap: () {
         controller.getDocFeedback(pharmacyId: item.id);
         controller.serviceData(item.id);
+        controller.productData(item.id);
         // controller.getDrugDetails(item.id);
         Get.to(PharmacyDetailScreen(
           item: item,

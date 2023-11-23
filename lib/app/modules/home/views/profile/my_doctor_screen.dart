@@ -944,6 +944,9 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
       padding: const EdgeInsets.only(bottom: 15, right: 20, left: 20),
       child: GestureDetector(
         onTap: () {
+          log("item--------------> ${item}");
+
+          DoctorsController controller = Get.put(DoctorsController());
           controller.selectedDoctorData = item;
           Get.toNamed(Routes.DOCTOR, arguments: item);
         },
@@ -1086,7 +1089,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                       // BookingController.to.selectedDoctor(item);
                                       Get.toNamed(
                                         Routes.BOOK,
-                                        // arguments: [item, controller.arguments.cCategory],
+                                        arguments: item,
                                       );
                                     },
                                     child: Container(

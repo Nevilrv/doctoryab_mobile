@@ -13,6 +13,7 @@ class AppointmentRepository {
 
   static Future<AppointmentHistoryResModel> fetchAppointmentHistory(
       {CancelToken cancelToken}) async {
+    log("url===========>${ApiConsts.getAppointmentHistory}/${SettingsController.userId}}");
     var data = await dio.get(
       // '${ApiConsts.getAppointmentHistory}/60a8b056e8c8b437ad3d2d06',
       '${ApiConsts.getAppointmentHistory}/${SettingsController.userId}',

@@ -38,16 +38,16 @@ class Doctor {
   List<dynamic> exp;
   List<dynamic> edu;
   String photo;
-  int stars;
+  dynamic stars;
   int popularity;
-  int treatment;
-  int knowledge;
-  int cleaning;
+  dynamic treatment;
+  dynamic knowledge;
+  dynamic cleaning;
   int countOfPatient;
-  int totalStar;
-  int totalCleaning;
-  int totalTreatment;
-  int totalknowledge;
+  dynamic totalStar;
+  dynamic totalCleaning;
+  dynamic totalTreatment;
+  dynamic totalknowledge;
   List<dynamic> comments;
   int doctor;
   List<String> tags;
@@ -76,7 +76,7 @@ class Doctor {
   String expertiseRating;
   List<Feedback> feedbacks;
   String satifyRating;
-  int totalFeedbacks;
+  dynamic totalFeedbacks;
   double averageRatings;
   Coordinate coordinate;
 

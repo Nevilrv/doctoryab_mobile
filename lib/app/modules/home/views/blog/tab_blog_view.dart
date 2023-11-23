@@ -307,15 +307,10 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 )
                                               ],
                                             ),
-                                            SizedBox(height: 2),
                                           ],
                                         ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.more_vert,
-                                      color: AppColors.primary,
-                                    )
                                   ],
                                 ),
                               ),

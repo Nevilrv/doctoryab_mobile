@@ -330,14 +330,12 @@ class BookView extends GetView<BookController> {
                                                                             color:
                                                                                 AppColors.white),
                                                                       ),
-                                                                      // Text(
-                                                                      //   "میزان",
-                                                                      //   style: AppTextTheme
-                                                                      //           .b(16)
-                                                                      //       .copyWith(
-                                                                      //           color: AppColors
-                                                                      //               .white),
-                                                                      // ),
+                                                                      Text(
+                                                                        "${DateFormat('MMM').format(controller.dataList[index].date)}",
+                                                                        style: AppTextTheme.b(14).copyWith(
+                                                                            color:
+                                                                                AppColors.white),
+                                                                      ),
                                                                       Text(
                                                                         "(${controller.dataList[index].times.length}) Free Slots",
                                                                         style: AppTextTheme.b(8).copyWith(

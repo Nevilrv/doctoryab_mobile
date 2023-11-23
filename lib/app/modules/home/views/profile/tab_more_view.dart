@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
+import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
@@ -234,6 +235,8 @@ class TabMoreView extends GetView {
           title: 'my_doctors'.tr),
       commonprofilemenu(
           onTap: () {
+            ReportsController repo = Get.put(ReportsController());
+            repo.tabIndex.value = 0;
             Get.toNamed(Routes.REPORT_MEDICAL);
           },
           icon: AppImages.frame,

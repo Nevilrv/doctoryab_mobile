@@ -400,5 +400,22 @@ const Map<String, String> psAF = {
   "please_check": "زه د ۱۸ کلو پورته یم او وزن می له ۵۰ کیلو زیات دی",
   "show_all": "د ټولو شیانو ښودل ",
   "valid_email": "مهرباني وکړئ د اعتبار ایمیل آدرس دننه کړئ",
-  "exp": "تجربه"
+  "profile_update": "ستاسی پروفایل په بریالیتوب سره ثبت شو",
+  "add_review": "امتیاز ورکړئ",
+  "cleaningRating": "د پاکولوالی لپاره امتیاز ورکول",
+  "satisfyRating": "د خدماتو امتیاز",
+  "expertiseRating": "د مهارت امتیاز",
+  "review_successfully": "امتیاز مو په بریالیتوب سره ثبت شو",
+  "doctor_reviews": "د ډاکټر امتیاز",
+  "please_add_review": "مهرباني وکړئ خپل نظر وړاندی کړئ",
+  "exp": "تجربه",
+  "listen_whole_page": "دا عنوان صوتی  واورئ",
+  "what_is": "What is",
+  "OFF": "تخفیف",
+  "other_information": "نور معلومات",
+  "please_select_clinic,hospital_or_lab":
+      "Please select clinic,hospital or lab",
+  "please_select_date": "Please Select Date",
+  "please_select_time": "Please Select Time",
+  "please_select_hospital_lab": "Please Select Hospital Or Lab"
 };

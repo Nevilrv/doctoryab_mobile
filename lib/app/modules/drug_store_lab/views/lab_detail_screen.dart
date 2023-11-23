@@ -67,13 +67,13 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                 },
                 child: Column(
                   children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                            tab.length,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.only(left: 10),
+                    Row(
+                      children: List.generate(
+                          tab.length,
+                          (index) => Expanded(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: GestureDetector(
                                     onTap: () {
                                       controller.tabIndex.value = index;
@@ -107,8 +107,8 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                       ),
                                     ),
                                   ),
-                                )),
-                      ),
+                                ),
+                              )),
                     ),
                     controller.tabIndex.value == 0
                         ? Container(
@@ -151,6 +151,10 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                 Get.width * 0.6,
                                                             child: Text(
                                                               "${item.checkUp[index].content ?? ""}",
+                                                              maxLines: 2,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               style: AppTextStyle
                                                                   .boldPrimary11
                                                                   .copyWith(
@@ -183,7 +187,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                       10),
                                                           child: Center(
                                                             child: Text(
-                                                              "${item.checkUp[index].price} ${"afghani".tr}",
+                                                              "${item.checkUp[index].price} ${"afn".tr}",
                                                               style: AppTextStyle
                                                                   .boldWhite12,
                                                             ),

@@ -127,7 +127,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                               padding: EdgeInsets.only(top: 10),
                               child: Column(
                                 children: [
-                                  item.checkUp.isEmpty
+                                  controller.productList.isEmpty
                                       ? Center(
                                           child: Padding(
                                           padding: EdgeInsets.only(
@@ -135,7 +135,8 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                           child: Text("no_result_found".tr),
                                         ))
                                       : GridView.builder(
-                                          itemCount: item.checkUp.length,
+                                          itemCount:
+                                              controller.productList.length,
                                           shrinkWrap: true,
                                           physics:
                                               const BouncingScrollPhysics(),
@@ -161,7 +162,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                               10),
                                                       child: CachedNetworkImage(
                                                         imageUrl:
-                                                            "${ApiConsts.hostUrl}${item.checkUp[index].img}",
+                                                            "${ApiConsts.hostUrl}${controller.productList[index].img}",
                                                         fit: BoxFit.cover,
                                                         placeholder: (_, __) {
                                                           return Image.asset(
@@ -180,12 +181,12 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    "${item.checkUp[index].title ?? ""}",
+                                                    "${controller.productList[index].title ?? ""}",
                                                     style: AppTextStyle
                                                         .boldPrimary12,
                                                   ),
                                                   Text(
-                                                    "${item.checkUp[index].content ?? ""}",
+                                                    "${controller.productList[index].content ?? ""}",
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -215,7 +216,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                           horizontal: 10),
                                                       child: Center(
                                                         child: Text(
-                                                          "${"${item.checkUp[index].price ?? ""}"} ${"afghani".tr}",
+                                                          "${"${controller.productList[index].price ?? ""}"} ${"afn".tr}",
                                                           style: AppTextStyle
                                                               .boldWhite12,
                                                         ),
@@ -303,7 +304,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                       10),
                                                               child: Center(
                                                                 child: Text(
-                                                                  "${controller.serviceList[index].price ?? ""}  ${"afghani".tr}",
+                                                                  "${controller.serviceList[index].price ?? ""}  ${"afn".tr}",
                                                                   style: AppTextStyle
                                                                       .boldWhite12,
                                                                 ),

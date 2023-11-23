@@ -155,7 +155,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                               onTap: () {
                                                                 DoctorsController
                                                                     docController =
-                                                                    Get.find();
+                                                                    Get.put(
+                                                                        DoctorsController());
                                                                 docController
                                                                         .selectedDoctorData =
                                                                     controller
@@ -267,7 +268,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                                           RatingBar.builder(
                                                                                             ignoreGestures: true,
                                                                                             itemSize: 15,
-                                                                                            initialRating: double.parse("${controller.doctorList[index].stars ?? "0.0"}"),
+                                                                                            initialRating: double.parse("${controller.doctorList[index].averageRatings == null ? "0.0" : controller.doctorList[index].averageRatings.toString() ?? "0.0"}"),
                                                                                             // minRating: 1,
                                                                                             direction: Axis.horizontal,
                                                                                             allowHalfRating: true,
@@ -291,7 +292,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                                             },
                                                                                             child: Center(
                                                                                               child: Text(
-                                                                                                '(10)  ${"reviews".tr}',
+                                                                                                '(${controller.doctorList[index].totalFeedbacks == null ? "0" : controller.doctorList[index].totalFeedbacks})  ${"reviews".tr}',
                                                                                                 style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                                                               ).paddingOnly(top: 3),
                                                                                             ),
@@ -302,7 +303,12 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                                       Row(
                                                                                         children: [
                                                                                           GestureDetector(
-                                                                                            onTap: () {},
+                                                                                            onTap: () {
+                                                                                              Get.toNamed(
+                                                                                                Routes.BOOK,
+                                                                                                arguments: controller.doctorList[index],
+                                                                                              );
+                                                                                            },
                                                                                             child: Container(
                                                                                               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
                                                                                               decoration: BoxDecoration(color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
@@ -490,7 +496,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                       5),
                                                           child: Center(
                                                             child: Text(
-                                                              "${controller.resModel.data.checkUp[index].price}  ${"afghani".tr}",
+                                                              "${controller.resModel.data.checkUp[index].price}  ${"afn".tr}",
                                                               style: AppTextStyle
                                                                   .boldWhite12,
                                                             ),

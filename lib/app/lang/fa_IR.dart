@@ -403,5 +403,22 @@ const Map<String, String> faIR = {
   "please_check": " من بالای 18 سال سن دارم و وزنم بیش از 50 کیلو است.",
   "show_all": "نشان دادن همه ",
   "valid_email": "لطفاً ایمیل معتبر وارد نمایید",
-  "exp": "هزینه"
+  "profile_update": "پروفایل شما موفقانه ثبت شد!",
+  "add_review": "امتیاز دهید!",
+  "cleaningRating": "امتیاز به پاکی و نظافت",
+  "satisfyRating": "امتیاز به خدمات",
+  "expertiseRating": "امتیاز به مهارت",
+  "review_successfully": "امتیاز شما موفقانه ثبت گردید!",
+  "doctor_reviews": "امتیاز داکتر",
+  "please_add_review": "نظریه تانرا درج نمایید",
+  "exp": "تجربه",
+  "listen_whole_page": "این عنوان بطور صوتی بشوید!",
+  "what_is": "What is",
+  "OFF": "تخفیف",
+  "other_information": "دیگر معلومات",
+  "please_select_clinic,hospital_or_lab":
+      "Please select clinic,hospital or lab",
+  "please_select_date": "Please Select Date",
+  "please_select_time": "Please Select Time",
+  "please_select_hospital_lab": "Please Select Hospital Or Lab"
 };

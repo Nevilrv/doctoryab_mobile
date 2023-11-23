@@ -258,7 +258,7 @@ class DoctorView extends GetView<DoctorController> {
                                                             20)),
                                                 child: Center(
                                                   child: Text(
-                                                    "${"exp".tr} 4 ${"year".tr}",
+                                                    "${"exp".tr} ${controller.doctor.exp.isEmpty ? "" : "5"} ${controller.doctor.exp.isEmpty ? "" : "year".tr}",
                                                     style: AppTextTheme.m(
                                                             w * 0.032)
                                                         .copyWith(
@@ -296,33 +296,41 @@ class DoctorView extends GetView<DoctorController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
                               tab.length,
-                              (index) => GestureDetector(
-                                    onTap: () {
-                                      controller.tabIndex.value = index;
-                                    },
-                                    child: Container(
-                                      width: w * 0.4,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color:
-                                              controller.tabIndex.value != index
-                                                  ? AppColors.white
-                                                  : AppColors.primary,
-                                          border: Border.all(
-                                              color: AppColors.primary)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 10),
-                                        child: Center(
-                                          child: Center(
-                                              child: Text(
-                                            tab[index],
-                                            style: controller.tabIndex.value !=
-                                                    index
-                                                ? AppTextStyle.boldPrimary10
-                                                : AppTextStyle.boldWhite10,
-                                          )),
+                              (index) => Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.tabIndex.value = index;
+                                        },
+                                        child: Container(
+                                          width: w * 0.4,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color:
+                                                  controller.tabIndex.value !=
+                                                          index
+                                                      ? AppColors.white
+                                                      : AppColors.primary,
+                                              border: Border.all(
+                                                  color: AppColors.primary)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5, vertical: 10),
+                                            child: Center(
+                                              child: Center(
+                                                  child: Text(
+                                                tab[index],
+                                                style: controller
+                                                            .tabIndex.value !=
+                                                        index
+                                                    ? AppTextStyle.boldPrimary10
+                                                    : AppTextStyle.boldWhite10,
+                                              )),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -502,9 +510,7 @@ class DoctorView extends GetView<DoctorController> {
                                                     ),
                                                   ],
                                                 ),
-                                      controller.doctor.speciality == "" ||
-                                              controller.doctor.speciality ==
-                                                  null
+                                      controller.doctor.tags.isEmpty
                                           ? SizedBox()
                                           : Column(
                                               crossAxisAlignment:
@@ -517,6 +523,11 @@ class DoctorView extends GetView<DoctorController> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
+                                                    SvgPicture.asset(
+                                                        AppImages.certificate,
+                                                        height: 22,
+                                                        width: 22),
+                                                    Spacer(),
                                                     Container(
                                                         width: w * 0.2,
                                                         child: Divider(
@@ -548,6 +559,7 @@ class DoctorView extends GetView<DoctorController> {
                                                               .withOpacity(0.5),
                                                           height: 3,
                                                         )),
+                                                    Spacer(),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -577,28 +589,19 @@ class DoctorView extends GetView<DoctorController> {
                                                     padding: const EdgeInsets
                                                             .symmetric(
                                                         horizontal: 10),
-                                                    child: Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            AppImages
-                                                                .certificate,
-                                                            height: 22,
-                                                            width: 22),
-                                                        Spacer(),
-                                                        Text(
-                                                          "${controller.doctor.speciality ?? ""}",
-                                                          style: AppTextStyle
-                                                              .mediumBlack12
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .lightBlack2,
-                                                                  fontSize: 11,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                        ),
-                                                        Spacer(),
-                                                      ],
+                                                    child: Center(
+                                                      child: Text(
+                                                        "${controller.doctor.tags.join(',') ?? ""}",
+                                                        style: AppTextStyle
+                                                            .mediumBlack12
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontSize: 11,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -618,6 +621,11 @@ class DoctorView extends GetView<DoctorController> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
+                                                    SvgPicture.asset(
+                                                        AppImages.circleInfo,
+                                                        width: 22,
+                                                        height: 22),
+                                                    Spacer(),
                                                     Container(
                                                         width: w * 0.2,
                                                         child: Divider(
@@ -649,6 +657,7 @@ class DoctorView extends GetView<DoctorController> {
                                                               .withOpacity(0.5),
                                                           height: 3,
                                                         )),
+                                                    Spacer(),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -678,42 +687,19 @@ class DoctorView extends GetView<DoctorController> {
                                                     padding: const EdgeInsets
                                                             .symmetric(
                                                         horizontal: 10),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(top: 5),
-                                                          child: SvgPicture.asset(
-                                                              AppImages
-                                                                  .circleInfo,
-                                                              width: 22,
-                                                              height: 22),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Container(
-                                                          width:
-                                                              Get.width * 0.77,
-                                                          child: Text(
-                                                            "${controller.doctor.detail ?? ""}",
-                                                            style: AppTextStyle
-                                                                .mediumBlack12
-                                                                .copyWith(
-                                                                    color: AppColors
-                                                                        .lightBlack2,
-                                                                    fontSize:
-                                                                        11,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    child: Center(
+                                                      child: Text(
+                                                        "${controller.doctor.detail ?? ""}",
+                                                        style: AppTextStyle
+                                                            .mediumBlack12
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontSize: 11,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
