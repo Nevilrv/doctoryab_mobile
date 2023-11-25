@@ -77,7 +77,7 @@ class Doctor {
   List<Feedback> feedbacks;
   String satifyRating;
   dynamic totalFeedbacks;
-  double averageRatings;
+  dynamic averageRatings;
   Coordinate coordinate;
 
   Doctor({

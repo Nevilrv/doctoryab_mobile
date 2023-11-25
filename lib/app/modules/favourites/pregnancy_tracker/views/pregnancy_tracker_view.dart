@@ -105,7 +105,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTextStyle.boldWhite20,
+                      style: AppTextStyle.boldWhite16,
                     ),
                   ),
                 ),

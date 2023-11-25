@@ -49,7 +49,7 @@ class TabBlogView extends GetView<TabBlogController> {
         title: Text(
           'medical_blog'.tr,
           textAlign: TextAlign.center,
-          style: AppTextStyle.boldPrimary20,
+          style: AppTextStyle.boldPrimary16,
         ),
         centerTitle: true,
         elevation: 0,
@@ -319,6 +319,11 @@ class TabBlogView extends GetView<TabBlogController> {
                             controller.postList[index].desc.length < 10
                                 ? Html(
                                     data: controller.postList[index].desc,
+                                    customTextAlign: (_) =>
+                                        SettingsController.appLanguge ==
+                                                "English"
+                                            ? TextAlign.left
+                                            : TextAlign.right,
                                     onImageError: (exception, stackTrace) {
                                       return Image.network(
                                           "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");

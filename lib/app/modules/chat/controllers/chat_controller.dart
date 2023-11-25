@@ -218,6 +218,55 @@ class ChatController extends GetxController {
                 .uploadImage(file: File(element.path))
                 .then((value) {
               log("value--------------> ${value}");
+              ChatRepository.sendMessage(chatArg().id, "",
+                  images: value,
+                  cancelToken: sendMessageCancelToken, onError: (e) {
+                if (!(e is DioError && CancelToken.isCancel(e))) {
+                  // isLoading.value = false;
+                  Future.delayed(Duration(seconds: 2), () {
+                    sendMessageCancelToken.cancel();
+                    sendMessageCancelToken = CancelToken();
+                    sendMessage();
+                  });
+                }
+              }).then((value) {
+                if (value != null) {
+                  // _trySocket() {
+                  //   if (socket.connected) {
+                  //     socket.emit("new message", value.toJson());
+                  //   } else {
+                  //     Future.delayed(Duration(seconds: 1), () {
+                  //       _trySocket();
+                  //     });
+                  //   }
+                  // }
+
+                  // _trySocket();
+                  if (socket.disconnected) {
+                    print("isDisconnected is true");
+                    sendingMessageFailed(true);
+                    lastFailedMessage = value;
+                    sendingMessage(true);
+                    socket.connect();
+                  } else {
+                    socket.emit("new message", value.toJson());
+                    sendingMessageFailed(false);
+                    sendingMessage(false);
+                  }
+                  // if (value.isEmpty) {
+                  //   endOfPage.value = true;
+                  // } else {
+                  chat.value.insert(0, value);
+                  //   log(value.toString());
+                  // }
+                  chat.refresh();
+                  // isLoading.value = false;
+                  // nextPageLoading(false);
+                  // //
+                }
+              }).catchError((e, s) {
+                Logger().e("message", e, s);
+              });
               image.clear();
               attachmentString.value = "";
               sendingMessage(false);
@@ -236,9 +285,7 @@ class ChatController extends GetxController {
 
       try {
         if (pathToAudio.isNotEmpty) {
-          ChatRepository()
-              .uploadAudio(file: Audio.file(pathToAudio))
-              .then((value) {
+          ChatRepository().uploadAudio(file: File(pathToAudio)).then((value) {
             log("value--------------> ${value}");
             pathToAudio = null;
             attachmentString.value = "";
@@ -379,6 +426,8 @@ class ChatController extends GetxController {
         allowedExtensions: ['pdf'],
         allowMultiple: false);
     pdfFile.value = result.files[0].path;
+    log("pdfFile.value --------------> ${pdfFile.value}");
+
     update();
   }
 

@@ -76,7 +76,10 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text('update_profile'.tr),
+          title: Text(
+            'update_profile'.tr,
+            style: TextStyle(fontSize: 16),
+          ),
           leading: GestureDetector(
               onTap: () {
                 Get.back();

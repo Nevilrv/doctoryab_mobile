@@ -27,7 +27,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text('appointment_history'.tr,
-            style: AppTextStyle.boldPrimary20
+            style: AppTextStyle.boldPrimary16
                 .copyWith(fontWeight: FontWeight.w600)),
         centerTitle: true,
         leading: GestureDetector(
@@ -103,7 +103,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                         controller
                                                                     .appointmentList[
                                                                         index]
-                                                                    .packageId ==
+                                                                    .patientId ==
                                                                 null
                                                             ? Row(
                                                                 children: [
@@ -161,7 +161,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                             fontWeight: FontWeight.w400),
                                                                   ),
                                                                   Text(
-                                                                    "${controller.appointmentList[index].packageId.title ?? ''}",
+                                                                    " ${controller.appointmentList[index].doctor[0].category.title ?? ''}",
                                                                     style: AppTextStyle
                                                                         .boldBlack10
                                                                         .copyWith(
@@ -190,7 +190,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                           Center(
                                                                         child:
                                                                             Text(
-                                                                          "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                          "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
                                                                           style: AppTextStyle
                                                                               .mediumPrimary12
                                                                               .copyWith(color: AppColors.red),
@@ -251,7 +251,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                               width: 20,
                                                             ),
                                                             Text(
-                                                              "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate))}",
+                                                              "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
                                                               style: AppTextStyle
                                                                   .boldBlack10
                                                                   .copyWith(
@@ -270,7 +270,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                               width: 5,
                                                             ),
                                                             Text(
-                                                              "${DateFormat("HH.MM").format(DateTime.parse(controller.appointmentList[index].visitDate == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate))}",
+                                                              "${DateFormat("HH.MM").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
                                                               style: AppTextStyle
                                                                   .boldBlack10
                                                                   .copyWith(

@@ -60,7 +60,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text("my_doctors".tr,
-              style: AppTextStyle.boldPrimary20
+              style: AppTextStyle.boldPrimary16
                   .copyWith(fontWeight: FontWeight.w600)),
           centerTitle: true,
           leading: GestureDetector(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
@@ -22,6 +24,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../controllers/book_controller.dart';
 
@@ -210,292 +213,373 @@ class BookView extends GetView<BookController> {
                                           ? Center(
                                               child:
                                                   CircularProgressIndicator())
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                          : controller.dataList.isEmpty
+                                              ? Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: Get.height * 0.2),
+                                                  child: Center(
+                                                      child: Text(
+                                                          "no_slot_available"
+                                                              .tr)),
+                                                )
+                                              : Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Container(
-                                                        width: w * 0.2,
-                                                        child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                          height: 3,
-                                                        )),
                                                     SizedBox(
-                                                      width: w * 0.02,
+                                                      height: h * 0.015,
                                                     ),
-                                                    Text(
-                                                      'select_a_date'.tr,
-                                                      style: AppTextTheme.b(11)
-                                                          .copyWith(
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                            width: w * 0.2,
+                                                            child: Divider(
                                                               color: AppColors
                                                                   .primary
                                                                   .withOpacity(
-                                                                      0.5)),
-                                                    ),
-                                                    SizedBox(
-                                                      width: w * 0.02,
-                                                    ),
-                                                    Container(
-                                                        width: w * 0.2,
-                                                        child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                          height: 3,
-                                                        )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                SingleChildScrollView(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  child: Row(
-                                                    children: List.generate(
-                                                        controller
-                                                            .dataList.length,
-                                                        (index) => Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          10),
-                                                              child:
-                                                                  GestureDetector(
-                                                                onTap: () {
-                                                                  controller
-                                                                      .selectedDates
-                                                                      .value = index;
-                                                                  controller
-                                                                          .selectedDataList =
-                                                                      controller
-                                                                          .dataList[
-                                                                              index]
-                                                                          .times;
-                                                                  controller
-                                                                          .selectedDate =
-                                                                      controller
-                                                                          .dataList[
-                                                                              index]
-                                                                          .date
-                                                                          .toString();
-                                                                  if (controller
-                                                                      .selectedDataList
-                                                                      .isNotEmpty) {
-                                                                    controller
-                                                                            .selectedDataTime =
-                                                                        controller
-                                                                            .selectedDataList[0]
-                                                                            .toString();
-                                                                  }
-                                                                  controller
-                                                                      .update();
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 90,
-                                                                  width: 90,
-                                                                  decoration: BoxDecoration(
-                                                                      color: controller.selectedDates.value ==
-                                                                              index
-                                                                          ? AppColors
-                                                                              .primary
-                                                                          : AppColors.primary.withOpacity(
-                                                                              0.4),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              19)),
-                                                                  child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Text(
-                                                                        controller
-                                                                            .dataList[index]
-                                                                            .date
-                                                                            .day
-                                                                            .toString(),
-                                                                        style: AppTextTheme.b(25).copyWith(
-                                                                            color:
-                                                                                AppColors.white),
-                                                                      ),
-                                                                      Text(
-                                                                        "${DateFormat('MMM').format(controller.dataList[index].date)}",
-                                                                        style: AppTextTheme.b(14).copyWith(
-                                                                            color:
-                                                                                AppColors.white),
-                                                                      ),
-                                                                      Text(
-                                                                        "(${controller.dataList[index].times.length}) Free Slots",
-                                                                        style: AppTextTheme.b(8).copyWith(
-                                                                            color:
-                                                                                AppColors.white,
-                                                                            fontWeight: FontWeight.w400),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                                      0.5),
+                                                              height: 3,
                                                             )),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                        width: w * 0.2,
-                                                        child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                          height: 3,
-                                                        )),
-                                                    SizedBox(
-                                                      width: w * 0.02,
-                                                    ),
-                                                    Text(
-                                                      'select_a_time'.tr,
-                                                      style: AppTextTheme.b(11)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5)),
-                                                    ),
-                                                    SizedBox(
-                                                      width: w * 0.02,
-                                                    ),
-                                                    Container(
-                                                        width: w * 0.2,
-                                                        child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                          height: 3,
-                                                        )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: h * 0.01,
-                                                ),
-                                                GridView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: controller
-                                                      .selectedDataList.length,
-                                                  gridDelegate:
-                                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount: 3,
-                                                          mainAxisSpacing: 10,
-                                                          crossAxisSpacing: 9,
-                                                          mainAxisExtent: 40),
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 10),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          controller
-                                                                  .selectedDataTime =
-                                                              controller
-                                                                  .selectedDataList[
-                                                                      index]
-                                                                  .toString();
-                                                          controller.update();
-                                                        },
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              color: controller.selectedDataTime ==
-                                                                      controller
-                                                                          .selectedDataList[
-                                                                              index]
-                                                                          .toString()
-                                                                  ? AppColors
-                                                                      .primary
-                                                                  : AppColors
+                                                        SizedBox(
+                                                          width: w * 0.02,
+                                                        ),
+                                                        Text(
+                                                          'select_a_date'.tr,
+                                                          style: AppTextTheme.b(
+                                                                  11)
+                                                              .copyWith(
+                                                                  color: AppColors
                                                                       .primary
                                                                       .withOpacity(
-                                                                          0.4),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          11)),
-                                                          child: Padding(
+                                                                          0.5)),
+                                                        ),
+                                                        SizedBox(
+                                                          width: w * 0.02,
+                                                        ),
+                                                        Container(
+                                                            width: w * 0.2,
+                                                            child: Divider(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              height: 3,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: h * 0.015,
+                                                    ),
+                                                    SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      child: Row(
+                                                        children: List.generate(
+                                                            controller.dataList
+                                                                .length,
+                                                            (index) {
+                                                          List<String>
+                                                              parsedDate =
+                                                              controller
+                                                                  .dataList[
+                                                                      index]
+                                                                  .date
+                                                                  .toPersianDateStr(
+                                                                      showDayStr:
+                                                                          true,
+                                                                      useAfghaniMonthName:
+                                                                          true)
+                                                                  .split(' ');
+                                                          bool extraSpaceMode =
+                                                              parsedDate
+                                                                      .length ==
+                                                                  6;
+                                                          String month =
+                                                              extraSpaceMode
+                                                                  ? parsedDate[
+                                                                      3]
+                                                                  : parsedDate[
+                                                                      2];
+                                                          String day =
+                                                              extraSpaceMode
+                                                                  ? parsedDate[
+                                                                      2]
+                                                                  : parsedDate[
+                                                                      1];
+                                                          String dayText =
+                                                              extraSpaceMode
+                                                                  ? parsedDate[
+                                                                          0] +
+                                                                      " " +
+                                                                      parsedDate[
+                                                                          1]
+                                                                  : parsedDate[
+                                                                      0];
+                                                          log("month--------------> ${month}");
+                                                          log("day--------------> ${day}");
+
+                                                          log("dayText--------------> ${dayText}");
+                                                          log("parsedDate--------------> ${parsedDate}");
+
+                                                          return Padding(
                                                             padding:
                                                                 const EdgeInsets
+                                                                        .only(
+                                                                    right: 10),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                controller
+                                                                    .selectedDates
+                                                                    .value = index;
+                                                                controller
+                                                                        .selectedDataList =
+                                                                    controller
+                                                                        .dataList[
+                                                                            index]
+                                                                        .times;
+                                                                controller
+                                                                        .selectedDate =
+                                                                    controller
+                                                                        .dataList[
+                                                                            index]
+                                                                        .date
+                                                                        .toString();
+                                                                if (controller
+                                                                    .selectedDataList
+                                                                    .isNotEmpty) {
+                                                                  controller
+                                                                          .selectedDataTime =
+                                                                      controller
+                                                                          .selectedDataList[
+                                                                              0]
+                                                                          .toString();
+                                                                }
+                                                                controller
+                                                                    .update();
+                                                              },
+                                                              child: Container(
+                                                                height: 90,
+                                                                width: 90,
+                                                                decoration: BoxDecoration(
+                                                                    color: controller.selectedDates.value ==
+                                                                            index
+                                                                        ? AppColors
+                                                                            .primary
+                                                                        : AppColors
+                                                                            .primary
+                                                                            .withOpacity(
+                                                                                0.4),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            19)),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      day.toEnglishDigit(),
+                                                                      // controller
+                                                                      //     .dataList[
+                                                                      //         index]
+                                                                      //     .date
+                                                                      //     .day
+                                                                      //     .toString(),
+                                                                      style: AppTextTheme.b(
+                                                                              22)
+                                                                          .copyWith(
+                                                                              color: AppColors.white),
+                                                                    ),
+                                                                    Text(
+                                                                      "${month}",
+                                                                      // "${DateFormat('MMM').format(controller.dataList[index].date)}",
+                                                                      style: AppTextTheme.b(
+                                                                              14)
+                                                                          .copyWith(
+                                                                              color: AppColors.white),
+                                                                    ),
+                                                                    Text(
+                                                                      "(${controller.dataList[index].times.length}) Free Slots",
+                                                                      style: AppTextTheme.b(8).copyWith(
+                                                                          color: AppColors
+                                                                              .white,
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: h * 0.015,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                            width: w * 0.2,
+                                                            child: Divider(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              height: 3,
+                                                            )),
+                                                        SizedBox(
+                                                          width: w * 0.02,
+                                                        ),
+                                                        Text(
+                                                          'select_a_time'.tr,
+                                                          style: AppTextTheme.b(
+                                                                  11)
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.5)),
+                                                        ),
+                                                        SizedBox(
+                                                          width: w * 0.02,
+                                                        ),
+                                                        Container(
+                                                            width: w * 0.2,
+                                                            child: Divider(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              height: 3,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: h * 0.01,
+                                                    ),
+                                                    GridView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount: controller
+                                                          .selectedDataList
+                                                          .length,
+                                                      gridDelegate:
+                                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                                              crossAxisCount: 3,
+                                                              mainAxisSpacing:
+                                                                  10,
+                                                              crossAxisSpacing:
+                                                                  9,
+                                                              mainAxisExtent:
+                                                                  40),
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 10),
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              controller
+                                                                      .selectedDataTime =
+                                                                  controller
+                                                                      .selectedDataList[
+                                                                          index]
+                                                                      .toString();
+                                                              controller
+                                                                  .update();
+                                                            },
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: controller
+                                                                              .selectedDataTime ==
+                                                                          controller.selectedDataList[index]
+                                                                              .toString()
+                                                                      ? AppColors
+                                                                          .primary
+                                                                      : AppColors
+                                                                          .primary
+                                                                          .withOpacity(
+                                                                              0.4),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              11)),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
                                                                         .symmetric(
                                                                     vertical:
                                                                         10,
                                                                     horizontal:
                                                                         15),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))}",
-                                                                style: AppTextTheme
-                                                                        .b(11)
-                                                                    .copyWith(
-                                                                        color: AppColors
-                                                                            .white),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))}",
+                                                                    style: AppTextTheme.b(
+                                                                            11)
+                                                                        .copyWith(
+                                                                            color:
+                                                                                AppColors.white),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                Container(
-                                                  height: 70,
-                                                  width: w,
-                                                  child: Center(
-                                                    child: CustomRoundedButton(
-                                                      color: AppColors.primary,
-                                                      textColor: Colors.white,
-                                                      splashColor: Colors.white
-                                                          .withOpacity(0.2),
-                                                      disabledColor: AppColors
-                                                          .easternBlue
-                                                          .withOpacity(0.2),
-                                                      // height: 50,
-                                                      width: w,
-                                                      text: "next".tr,
-                                                      textStyle: AppTextStyle
-                                                          .boldWhite14
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                      onTap: () {
-                                                        Get.toNamed(
-                                                          Routes.CONFIRMATION,
-                                                          // arguments: item.doctor, controller.arguments.cCategory],
                                                         );
                                                       },
                                                     ),
-                                                  ),
-                                                ).paddingOnly(
-                                                    bottom: 20, top: 8),
-                                              ],
-                                            )
+                                                    SizedBox(
+                                                      height: h * 0.015,
+                                                    ),
+                                                    Container(
+                                                      height: 70,
+                                                      width: w,
+                                                      child: Center(
+                                                        child:
+                                                            CustomRoundedButton(
+                                                          color:
+                                                              AppColors.primary,
+                                                          textColor:
+                                                              Colors.white,
+                                                          splashColor: Colors
+                                                              .white
+                                                              .withOpacity(0.2),
+                                                          disabledColor:
+                                                              AppColors
+                                                                  .easternBlue
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                          // height: 50,
+                                                          width: w,
+                                                          text: "next".tr,
+                                                          textStyle: AppTextStyle
+                                                              .boldWhite14
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                          onTap: () {
+                                                            Get.toNamed(
+                                                              Routes
+                                                                  .CONFIRMATION,
+                                                              // arguments: item.doctor, controller.arguments.cCategory],
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ).paddingOnly(
+                                                        bottom: 20, top: 8),
+                                                  ],
+                                                )
                                     ]),
                               ),
                             ),

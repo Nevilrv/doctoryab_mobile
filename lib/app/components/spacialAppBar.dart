@@ -20,7 +20,7 @@ class AppAppBar {
       backgroundColor: backgroundColor ?? AppColors.primary, centerTitle: true,
       title: Text(
         title,
-        style: AppTextTheme.m(20).copyWith(
+        style: AppTextTheme.m(16).copyWith(
             color: backgroundColor == AppColors.scaffoldColor
                 ? Colors.black
                 : AppColors.primary,
@@ -61,7 +61,7 @@ class AppAppBar {
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: AppTextStyle.boldPrimary20,
+        style: AppTextStyle.boldPrimary16,
       ),
       centerTitle: true,
       actions: [
@@ -105,7 +105,7 @@ class AppAppBar {
           ? Text(
               "$title ",
               textAlign: TextAlign.center,
-              style: AppTextStyle.boldWhite20,
+              style: AppTextStyle.boldWhite16,
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -113,9 +113,13 @@ class AppAppBar {
                 Text(
                   "$title ",
                   textAlign: TextAlign.center,
-                  style: AppTextStyle.boldWhite20,
+                  style: AppTextStyle.boldWhite16,
                 ),
-                Image.asset(AppImages.blood1)
+                Image.asset(
+                  AppImages.blood1,
+                  height: 17,
+                  width: 17,
+                )
               ],
             ),
       centerTitle: true,
@@ -149,7 +153,7 @@ class AppAppBar {
           ? Text(
               "$title ",
               textAlign: TextAlign.center,
-              style: AppTextStyle.boldPrimary20,
+              style: AppTextStyle.boldPrimary16,
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -157,9 +161,13 @@ class AppAppBar {
                 Text(
                   "$title ",
                   textAlign: TextAlign.center,
-                  style: AppTextStyle.boldPrimary20,
+                  style: AppTextStyle.boldPrimary16,
                 ),
-                Image.asset(AppImages.blood1)
+                Image.asset(
+                  AppImages.blood1,
+                  height: 17,
+                  width: 17,
+                )
               ],
             ),
       centerTitle: true,

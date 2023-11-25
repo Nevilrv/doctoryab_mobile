@@ -38,7 +38,10 @@ class CitySelectProfileView extends GetView<CitySelectController> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text('city_selection'.tr),
+          title: Text(
+            'city_selection'.tr,
+            style: TextStyle(fontSize: 16),
+          ),
           centerTitle: true,
           leading: GestureDetector(
               onTap: () {
@@ -91,7 +94,11 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: AppColors.white,
+                                        color:
+                                            controller.selectedCityItem.value ==
+                                                    item
+                                                ? AppColors.primary
+                                                : AppColors.white,
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
                                           BoxShadow(
@@ -105,7 +112,11 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                                       child: Center(
                                         child: Text(
                                           item.getMultiLangName(),
-                                          style: AppTextStyle.boldPrimary14,
+                                          style: controller
+                                                      .selectedCityItem.value ==
+                                                  item
+                                              ? AppTextStyle.boldWhite14
+                                              : AppTextStyle.boldPrimary14,
                                         ),
                                       ),
                                     ),

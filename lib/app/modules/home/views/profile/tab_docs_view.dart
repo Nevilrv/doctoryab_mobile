@@ -43,7 +43,7 @@ class TabDocsView extends GetView<ReportsController> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             title: Text('reports'.tr,
-                style: AppTextStyle.boldPrimary20
+                style: AppTextStyle.boldPrimary16
                     .copyWith(fontWeight: FontWeight.w600)),
             centerTitle: true,
             leading: GestureDetector(
@@ -75,55 +75,48 @@ class TabDocsView extends GetView<ReportsController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.generate(
                             tab.length,
-                            (index) => Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.tabIndex.value = index;
+                            (index) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.tabIndex.value = index;
 
-                                        if (index == 0) {
-                                          controller.pagingController.itemList
-                                              .clear();
-                                          controller.fetchReportsDoctor(
-                                              controller.pagingController
-                                                  .firstPageKey);
-                                        } else {
-                                          controller.pagingController.itemList
-                                              .clear();
-                                          controller.fetchReportsLab(controller
-                                              .pagingController.firstPageKey);
-                                        }
-                                      },
-                                      child: Expanded(
-                                        child: Container(
-                                          // width: w * 0.4,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color:
-                                                  controller.tabIndex.value !=
-                                                          index
-                                                      ? AppColors.white
-                                                      : AppColors.primary,
-                                              border: Border.all(
-                                                  color: AppColors.primary)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5, vertical: 10),
-                                            child: Center(
-                                              child: Center(
-                                                  child: Text(
-                                                tab[index],
-                                                style: controller
-                                                            .tabIndex.value !=
-                                                        index
-                                                    ? AppTextStyle.boldPrimary10
-                                                    : AppTextStyle.boldWhite10,
-                                              )),
-                                            ),
-                                          ),
+                                      if (index == 0) {
+                                        controller.pagingController.itemList
+                                            .clear();
+                                        controller.fetchReportsDoctor(controller
+                                            .pagingController.firstPageKey);
+                                      } else {
+                                        controller.pagingController.itemList
+                                            .clear();
+                                        controller.fetchReportsLab(controller
+                                            .pagingController.firstPageKey);
+                                      }
+                                    },
+                                    child: Container(
+                                      width: w * 0.4,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color:
+                                              controller.tabIndex.value != index
+                                                  ? AppColors.white
+                                                  : AppColors.primary,
+                                          border: Border.all(
+                                              color: AppColors.primary)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 10),
+                                        child: Center(
+                                          child: Center(
+                                              child: Text(
+                                            tab[index],
+                                            style: controller.tabIndex.value !=
+                                                    index
+                                                ? AppTextStyle.boldPrimary10
+                                                : AppTextStyle.boldWhite10,
+                                          )),
                                         ),
                                       ),
                                     ),

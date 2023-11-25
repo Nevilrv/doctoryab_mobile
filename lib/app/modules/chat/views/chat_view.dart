@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:file_picker/file_picker.dart';
@@ -49,7 +50,7 @@ class ChatView extends GetView<ChatController> {
                         children: [
                           Obx(() => Text(
                                 controller.chatArg()?.chatName ?? "N/A",
-                                style: AppTextStyle.boldPrimary20,
+                                style: AppTextStyle.boldPrimary16,
                               )),
                           const SizedBox(
                             width: 8.0,
@@ -212,16 +213,27 @@ class ChatView extends GetView<ChatController> {
                                                     : AppColors.black,
                                               ),
                                             ).paddingOnly(bottom: 8),
-                                          Text(
-                                            msg.content,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                              color: msg.isUsersMessage
-                                                  ? AppColors.white
-                                                  : AppColors.black,
-                                            ),
-                                          ),
+                                          msg.images.isEmpty
+                                              ? SizedBox()
+                                              : Center(
+                                                  child: Image.network(
+                                                    "${ApiConsts.hostUrl}${msg.images[0]}",
+                                                    height: Get.height * 0.2,
+                                                    width: Get.height * 0.2,
+                                                  ),
+                                                ),
+                                          msg.content == ""
+                                              ? SizedBox()
+                                              : Text(
+                                                  msg.content,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: msg.isUsersMessage
+                                                        ? AppColors.white
+                                                        : AppColors.black,
+                                                  ),
+                                                ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,

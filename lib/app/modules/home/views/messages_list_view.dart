@@ -22,7 +22,7 @@ class MessagesListView extends GetView<MessagesListController> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            titleTextStyle: AppTextStyle.boldPrimary20,
+            titleTextStyle: AppTextStyle.boldPrimary16,
             iconTheme: IconThemeData(
               color: AppColors.white,
             ),

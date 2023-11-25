@@ -222,7 +222,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyle.boldPrimary20,
+                style: AppTextStyle.boldPrimary16,
               ),
               centerTitle: true,
               actions: [
@@ -558,6 +558,10 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                                           "",
                               defaultTextStyle: AppTextStyle.mediumPrimary8
                                   .copyWith(height: 1.2),
+                              customTextAlign: (_) =>
+                                  SettingsController.appLanguge == "English"
+                                      ? TextAlign.left
+                                      : TextAlign.right,
                             ),
                           ],
                         ),

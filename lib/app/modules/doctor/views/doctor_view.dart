@@ -336,15 +336,16 @@ class DoctorView extends GetView<DoctorController> {
                                     ),
                                   )),
                         ),
+                        SizedBox(
+                          height: h * 0.015,
+                        ),
                         controller.tabIndex.value == 0
                             ? Expanded(
                                 child: SingleChildScrollView(
+                                  // padding: EdgeInsets.only(top: 20),
                                   physics: BouncingScrollPhysics(),
                                   child: Column(
                                     children: [
-                                      SizedBox(
-                                        height: h * 0.015,
-                                      ),
                                       controller.doctor.address == "" ||
                                               controller.doctor.address == null
                                           ? SizedBox()
@@ -442,7 +443,7 @@ class DoctorView extends GetView<DoctorController> {
                                                             ),
                                                             Container(
                                                               width: Get.width *
-                                                                  0.77,
+                                                                  0.75,
                                                               child: Text(
                                                                 "${controller.doctor.address}",
                                                                 style: AppTextStyle

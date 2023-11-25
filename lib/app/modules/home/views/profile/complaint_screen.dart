@@ -28,7 +28,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text('complaint'.tr),
+          title: Text('complaint'.tr, style: TextStyle(fontSize: 16)),
           leading: GestureDetector(
               onTap: () {
                 Get.back();

@@ -16,7 +16,7 @@ class BlogView extends GetView<BlogController> {
       body: const Center(
         child: Text(
           'BlogView is working',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );

@@ -63,47 +63,11 @@ class BasketDetailScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppTextStyle.boldWhite20,
+                                  style: AppTextStyle.boldWhite16,
                                 ),
                               ),
                             ),
-                            Stack(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.to(BasketDetailScreen());
-                                  },
-                                  child: Container(
-                                    height: 45,
-                                    width: 45,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        AppImages.bag,
-                                        height: 24,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  // top: -5,
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: AppColors.red2,
-                                    child: Center(
-                                      child: Text(
-                                        "3",
-                                        style: AppTextStyle.boldWhite10,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                            Spacer()
                           ],
                         ),
                       ),

@@ -17,6 +17,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 class ConfirmationScreen extends GetView<BookController> {
   const ConfirmationScreen({Key key}) : super(key: key);
@@ -271,7 +273,8 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 ),
                                                 FittedBox(
                                                   child: Text(
-                                                    "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.selectedDate))}",
+                                                    "${formatedDate}",
+                                                    // "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.selectedDate))}",
                                                     style: AppTextTheme.m(10)
                                                         .copyWith(
                                                             color: AppColors
@@ -290,7 +293,8 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 ),
                                                 FittedBox(
                                                   child: Text(
-                                                    "${DateFormat("HH:MM a").format(DateTime.parse(controller.selectedDate))}",
+                                                    "${formatedTime}",
+                                                    // "${DateFormat("HH:mm a").format(DateTime.parse(controller.selectedDate).toLocal())}",
                                                     style: AppTextTheme.m(12)
                                                         .copyWith(
                                                             color: AppColors
@@ -766,45 +770,66 @@ class ConfirmationScreen extends GetView<BookController> {
                                       Container(
                                         height: 70,
                                         width: w,
-                                        child: Center(
-                                          child: CustomRoundedButton(
-                                            color: AppColors.primary,
-                                            textColor: Colors.white,
-                                            splashColor:
-                                                Colors.white.withOpacity(0.2),
-                                            disabledColor: AppColors.easternBlue
-                                                .withOpacity(0.2),
-                                            // height: 50,
-                                            width: w,
-                                            text: "c_appointment".tr,
-                                            textStyle: AppTextStyle.boldWhite14
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                            onTap: () {
-                                              if (controller
-                                                  .teName.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    text:
-                                                        "please_enter_name".tr,
-                                                    context: context);
-                                              } else if (controller
-                                                  .teNewNumber.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    text:
-                                                        "please_enter_phone".tr,
-                                                    context: context);
-                                              } else if (controller
-                                                  .teAge.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    text: "please_enter_age".tr,
-                                                    context: context);
-                                              } else {
-                                                controller.bookNow();
-                                              }
-                                            },
-                                          ),
-                                        ),
+                                        child: controller.loading.value == true
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AppColors.primary,
+                                                ),
+                                              )
+                                            : Center(
+                                                child: CustomRoundedButton(
+                                                  color: AppColors.primary,
+                                                  textColor: Colors.white,
+                                                  splashColor: Colors.white
+                                                      .withOpacity(0.2),
+                                                  disabledColor: AppColors
+                                                      .easternBlue
+                                                      .withOpacity(0.2),
+                                                  // height: 50,
+                                                  width: w,
+                                                  text: "c_appointment".tr,
+                                                  textStyle: AppTextStyle
+                                                      .boldWhite14
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                  onTap: () {
+                                                    if (controller
+                                                            .isCheckBox.value ==
+                                                        true) {
+                                                      if (controller.teName.text
+                                                          .isEmpty) {
+                                                        Utils.commonSnackbar(
+                                                            text:
+                                                                "please_enter_name"
+                                                                    .tr,
+                                                            context: context);
+                                                      } else if (controller
+                                                          .teNewNumber
+                                                          .text
+                                                          .isEmpty) {
+                                                        Utils.commonSnackbar(
+                                                            text:
+                                                                "please_enter_phone"
+                                                                    .tr,
+                                                            context: context);
+                                                      } else if (controller
+                                                          .teAge.text.isEmpty) {
+                                                        Utils.commonSnackbar(
+                                                            text:
+                                                                "please_enter_age"
+                                                                    .tr,
+                                                            context: context);
+                                                      } else {
+                                                        controller.bookNow();
+                                                      }
+                                                    } else {
+                                                      controller.bookNow();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
                                       ).paddingOnly(bottom: 20, top: 8)
                                     ]),
                               ),
@@ -822,5 +847,18 @@ class ConfirmationScreen extends GetView<BookController> {
                 );
               },
             )));
+  }
+
+  String get formatedDate {
+    var _str = DateTime.parse(controller.selectedDataTime)
+        .toPersianDateStr(useAfghaniMonthName: true);
+
+    return _str.split(" ")[0] + " " + _str.split(" ")[1];
+  }
+
+  String get formatedTime {
+    var _tmp = DateTime.parse(controller.selectedDataTime).toLocal();
+
+    return DateFormat.jm().format(_tmp);
   }
 }

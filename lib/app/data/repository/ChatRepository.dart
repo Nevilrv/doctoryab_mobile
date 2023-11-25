@@ -93,6 +93,7 @@ class ChatRepository {
     String chatID,
     String message, {
     void onError(e),
+    List<dynamic> images,
     CancelToken cancelToken,
   }) async {
     // TODO move to some utils func
@@ -107,6 +108,7 @@ class ChatRepository {
         data: {
           "chatId": "$chatID",
           "content": "$message",
+          "images": images == null || images.isEmpty ? [] : images
         },
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
       );
@@ -159,7 +161,7 @@ class ChatRepository {
   }
 
   Future<dynamic> uploadAudio({
-    Audio file,
+    File file,
   }) async {
     log("file.path--------------> ${file.path}");
 
@@ -167,8 +169,8 @@ class ChatRepository {
       {
         "audio": file.path != ""
             ? await MultipartFile.fromFile(
-                file.path,
-                filename: file.path.split('/').last,
+                "/data/user/0/com.microcis.doctor_yab.dev/cache/file_picker/temp.wav",
+                filename: "temp.wav",
                 contentType: MediaType('audio', 'wav'),
               )
             : null,

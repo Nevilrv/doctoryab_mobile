@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
@@ -13,10 +14,10 @@ import 'package:logger/logger.dart';
 
 import '../../../../data/models/labs_model.dart';
 
-class HospitalsController extends TabHomeOthersController {
+class HospitalsController extends GetxController {
   @override
   var pageController = PagingController<int, Hospital>(firstPageKey: 1);
-
+  CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {

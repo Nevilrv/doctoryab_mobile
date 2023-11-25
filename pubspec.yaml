@@ -115,7 +115,7 @@ dependencies:
   file_picker:
   flutter_sound: ^8.1.9
   assets_audio_player: ^3.0.3+3
-  http:
+  country_provider2: ^1.0.2+4
 
 
 #  ca-app-pub-7346350725133754~2691623855

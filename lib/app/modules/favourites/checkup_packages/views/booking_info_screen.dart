@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
@@ -19,6 +20,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
 
   @override
   Widget build(BuildContext context) {
+    log("id-------->${SettingsController.userId}");
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -71,7 +73,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyle.boldWhite20,
+                                    style: AppTextStyle.boldWhite16,
                                   ),
                                 ),
                               ),
@@ -484,6 +486,8 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       }).toList(),
                                       onChanged: (value) {
                                         controller.selectedTime.value = value;
+
+                                        log("time-------->${DateTime.parse(controller.selectedTime.value).toUtc().toIso8601String()}");
                                       },
                                     ),
                                   ),

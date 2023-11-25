@@ -136,6 +136,7 @@ class CheckupPackagesController extends GetxController {
           .then((value) {
         HospitalLabScheduleResModel resModel =
             HospitalLabScheduleResModel.fromJson(value);
+
         scheduleList.addAll(resModel.data);
         log("value---value-----------> ${value}");
         log("resModel---resModel-----------> ${resModel}");
@@ -171,8 +172,10 @@ class CheckupPackagesController extends GetxController {
       List<Hospital> hospitalList = [];
       hospitalList.addAll(value);
       hospitalList.forEach((element) {
+        // if (element.checkUp.isNotEmpty) {
         selectHospitalLabList
             .add({"id": element.id, "name": element.name, "type": "hospital"});
+        // }
       });
       log("hospitalList--------------> ${hospitalList.length}");
 
@@ -187,8 +190,10 @@ class CheckupPackagesController extends GetxController {
 
       labs.addAll(labsModel.data);
       labs.forEach((element) {
+        // if (element.checkUp.isNotEmpty) {
         selectHospitalLabList
             .add({"id": element.datumId, "name": element.name, "type": "lab"});
+        // }
       });
       log("labHospitalList--------------> ${selectHospitalLabList.length}");
       log("value----fetchLabs----------> ${labs.length}");

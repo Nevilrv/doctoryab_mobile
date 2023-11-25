@@ -133,7 +133,7 @@ class DoctorsRepository {
       {int limitPerPage = 10}) async {
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
-      '${ApiConsts.doctorTimeTablePath}/60a8a7e4c6bd0c1b9839d86f',
+      '${ApiConsts.doctorTimeTablePath}/${doctor.datumId}',
       // '${ApiConsts.doctorTimeTablePath}/${doctor.datumId}',
       queryParameters: {
         "limit": limitPerPage,
@@ -146,37 +146,74 @@ class DoctorsRepository {
   }
 
   //* book
+  // Future<dynamic> bookTime({
+  //   String patId,
+  //   String doctor,
+  //   String name,
+  //   String age,
+  //   String phone,
+  //   String time,
+  //   String cancelToken,
+  // }) async {
+  //   log("doctor--------------> ${doctor}");
+  //
+  //   var body = {
+  //     "visit_date": "2023-11-25T18:00:52.121Z",
+  //     // "name": name,
+  //     // "age": age.toEnglishDigit(),
+  //     // "phone": phone.toEnglishDigit(),
+  //     // "patientId": patId,
+  //   };
+  //   log("body--------------> ${body}");
+  //
+  //   log("ApiConsts.doctorBookPath--------------> ${'${ApiConsts.doctorBookPath}/'}");
+  //
+  //   // assert(SettingsController.auth.savedCity != null);
+  //   final response = await _cachedDio.post(
+  //     '${ApiConsts.doctorBookPath}/${doctor}',
+  //     data: body,
+  //     // cancelToken: cancelToken,
+  //     options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+  //   );
+  //   return response;
+  // }
+
+  //* Search doctors
   Future<dynamic> bookTime({
     String patId,
-    String doctor,
+    Doctor doctor,
+    Category cat,
     String name,
     String age,
     String phone,
     String time,
-    String cancelToken,
   }) async {
-    var body = {
+    log("${ApiConsts.doctorBookPath}/${doctor.id}--------------> ${ApiConsts.doctorBookPath}/${doctor.datumId}");
+    log("ttt------------.${{
       "visit_date": time,
-      // "name": name,
-      // "age": age.toEnglishDigit(),
-      // "phone": phone.toEnglishDigit(),
-      // "patientId": patId,
-    };
-    log("body--------------> ${body}");
+      "name": name,
+      "age": age.toEnglishDigit(),
+      "phone": phone.toEnglishDigit(),
+      "patientId": patId,
+    }}");
 
-    log("ApiConsts.doctorBookPath--------------> ${'${ApiConsts.doctorBookPath}/'}");
+    assert(SettingsController.auth.savedCity != null);
 
-    // assert(SettingsController.auth.savedCity != null);
-    final response = await _cachedDio.post(
-      '${ApiConsts.doctorBookPath}/${doctor}',
-      data: body,
-      // cancelToken: cancelToken,
-      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    final response = await dio.post(
+      '${ApiConsts.doctorBookPath}/${doctor.datumId}',
+      data: {
+        "visit_date": time,
+        "name": name,
+        "age": age.toEnglishDigit(),
+        "phone": phone.toEnglishDigit(),
+        "patientId": patId,
+      },
+      // cancelToken: loginCancelToken,
+      // options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
     return response;
   }
 
-  //* Search doctors
   static Future<List<Doctor>> searchDoctors(int page, String name,
       {int limitPerPage = 10, void onError(e)}) async {
     //TODO move to some utils func

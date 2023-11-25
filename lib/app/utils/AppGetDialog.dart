@@ -100,13 +100,14 @@ class AppGetDialog {
                   text: "done".tr,
                   onTap: onTap ??
                       () {
-                        // Get.offAllNamed(Routes.HOME);
-
-                        Get.until((route) => route.isFirst);
-                        Get.find<HomeController>().pageController.animateTo(2,
-                            duration: Duration(milliseconds: 0),
-                            curve: Curves.ease);
-                        Get.find<HomeController>().setIndex(2);
+                        Get.back();
+                        // // Get.offAllNamed(Routes.HOME);
+                        //
+                        // Get.until((route) => route.isFirst);
+                        // Get.find<HomeController>().pageController.animateTo(2,
+                        //     duration: Duration(milliseconds: 0),
+                        //     curve: Curves.ease);
+                        // Get.find<HomeController>().setIndex(2);
                       },
                 ),
               ),

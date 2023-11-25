@@ -6,6 +6,12 @@ import 'dart:convert';
 
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 
+// To parse this JSON data, do
+//
+//     final hospitalDetailsResModel = hospitalDetailsResModelFromJson(jsonString);
+
+import 'dart:convert';
+
 HospitalDetailsResModel hospitalDetailsResModelFromJson(String str) =>
     HospitalDetailsResModel.fromJson(json.decode(str));
 
@@ -67,10 +73,12 @@ class Data {
   List<List<String>> times;
   String description;
   String email;
+  String totalFeedbacks;
+  String averageRating;
   int stars;
   bool isEmergency;
   int usersStaredCount;
-  String id;
+  String dataId;
   String address;
   String name;
   String city;
@@ -78,6 +86,7 @@ class Data {
   String createAt;
   List<CheckUp> checkUp;
   int v;
+  int id;
 
   Data({
     this.geometry,
@@ -89,10 +98,12 @@ class Data {
     this.times,
     this.description,
     this.email,
+    this.totalFeedbacks,
+    this.averageRating,
     this.stars,
     this.isEmergency,
     this.usersStaredCount,
-    this.id,
+    this.dataId,
     this.address,
     this.name,
     this.city,
@@ -100,6 +111,7 @@ class Data {
     this.createAt,
     this.checkUp,
     this.v,
+    this.id,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -113,10 +125,12 @@ class Data {
             json["times"].map((x) => List<String>.from(x.map((x) => x)))),
         description: json["description"],
         email: json["email"],
+        totalFeedbacks: json["totalFeedbacks"],
+        averageRating: json["averageRating"],
         stars: json["stars"],
         isEmergency: json["is_emergency"],
         usersStaredCount: json["users_stared_count"],
-        id: json["_id"],
+        dataId: json["_id"],
         address: json["address"],
         name: json["name"],
         city: json["city"],
@@ -125,6 +139,7 @@ class Data {
         checkUp:
             List<CheckUp>.from(json["checkUp"].map((x) => CheckUp.fromJson(x))),
         v: json["__v"],
+        id: json["ID"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -138,10 +153,12 @@ class Data {
             times.map((x) => List<dynamic>.from(x.map((x) => x)))),
         "description": description,
         "email": email,
+        "totalFeedbacks": totalFeedbacks,
+        "averageRating": averageRating,
         "stars": stars,
         "is_emergency": isEmergency,
         "users_stared_count": usersStaredCount,
-        "_id": id,
+        "_id": dataId,
         "address": address,
         "name": name,
         "city": city,
@@ -149,6 +166,7 @@ class Data {
         "createAt": createAt,
         "checkUp": List<dynamic>.from(checkUp.map((x) => x.toJson())),
         "__v": v,
+        "ID": id,
       };
 }
 
@@ -194,7 +212,7 @@ class Doct {
   String photo;
   List<Edu> edu;
   List<Exp> exp;
-  int stars;
+  double stars;
   String speciality;
 
   Doct({
@@ -213,7 +231,7 @@ class Doct {
         photo: json["photo"],
         edu: List<Edu>.from(json["Edu"].map((x) => Edu.fromJson(x))),
         exp: List<Exp>.from(json["Exp"].map((x) => Exp.fromJson(x))),
-        stars: json["stars"],
+        stars: json["stars"]?.toDouble(),
         speciality: json["speciality"],
       );
 
@@ -267,7 +285,7 @@ class Edu {
 class Exp {
   String id;
   String name;
-  int year;
+  double year;
   String user;
   int v;
 
@@ -282,7 +300,7 @@ class Exp {
   factory Exp.fromJson(Map<String, dynamic> json) => Exp(
         id: json["_id"],
         name: json["name"],
-        year: json["year"],
+        year: json["year"]?.toDouble(),
         user: json["user"],
         v: json["__v"],
       );

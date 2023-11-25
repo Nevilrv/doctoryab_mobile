@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_drugstore_view.dart';
@@ -26,6 +27,8 @@ import '../../../components/story_avatar.dart';
 import '../../../data/ApiConsts.dart';
 
 class TabHomeMainView extends GetView<TabHomeMainController> {
+  TabHomeMainController tabHomeMainController =
+      Get.put(TabHomeMainController());
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -187,7 +190,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "hi_text".tr,
+                    "Hi, ${SettingsController.savedUserProfile.name ?? ""}!",
                     style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
                   ),
                   Text(

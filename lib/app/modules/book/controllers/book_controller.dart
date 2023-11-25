@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/models/schedule_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,7 +54,9 @@ class BookController extends GetxController {
     log("Get.arguments--------------> ${Get.arguments}");
     doctor = Get.arguments;
     log("doctor--------------> ${doctor.datumId}");
-
+    teName.text = SettingsController.savedUserProfile.name ?? "";
+    teNewNumber.text = SettingsController.savedUserProfile.phone ?? "";
+    teAge.text = SettingsController.savedUserProfile.age.toString() ?? "";
     update();
     // assert(Get.arguments != null && Get.arguments is Doctor);
     pagingController.addPageRequestListener((pageKey) {
@@ -125,11 +130,15 @@ class BookController extends GetxController {
     });
   }
 
+  var loading = false.obs;
   Future<void> bookNow() async {
+    loading.value = true;
+    log("selectedDataTime--------------> ${DateTime.parse(selectedDataTime).toUtc().toIso8601String()}");
+
     await DoctorsRepository()
         .bookTime(
             patId: SettingsController.savedUserProfile.patientID,
-            doctor: doctor.datumId.toString(),
+            doctor: doctor,
             age: teAge.text,
             name: teName.text,
             phone: teNewNumber.text,
@@ -138,15 +147,38 @@ class BookController extends GetxController {
                 .toIso8601String()
                 .toString())
         .then((value) {
+      loading.value = false;
+      var response = value.data;
+      Get.until((route) => route.isFirst);
+      // Get.offAllNamed(Routes.HOME, arguments: {'id': 0});
+      var patId = response['data']['patientId']?.toString() ?? "null";
+      AppGetDialog.showSuccess(
+        middleText: "done".tr +
+            "\n\n" +
+            "remember_pat_id_for_reference".trArgs([patId]),
+      );
       log("value--------------> ${value}");
     }).catchError(
       (e, s) {
-        log("e--------------> ${e}");
+        loading.value = false;
+        log("e--------------> ${e.type}");
+        log("s--------------> ${e.response.data['message']}");
 
-        DioExceptionHandler.handleException(
-          exception: e,
-          retryCallBak: bookNow,
-        );
+        if (e.type == DioErrorType.response) {
+          AppGetDialog.showWithRetryCallBack(
+            middleText: e.response.data['message'] ??
+                "check_internet_connection_and_retry".tr,
+            // "check_internet_connection_and_retry".tr,
+            operationTitle: "",
+            retryButtonText: "",
+            retryCallBak: bookNow,
+          );
+        } else {
+          DioExceptionHandler.handleException(
+            exception: e,
+            retryCallBak: bookNow,
+          );
+        }
         FirebaseCrashlytics.instance.recordError(e, s);
       },
     );

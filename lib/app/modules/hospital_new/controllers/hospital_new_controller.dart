@@ -24,9 +24,9 @@ class HospitalNewController extends GetxController
   HospitalDetailsResModel resModel;
   var doctorList = <Doctor>[].obs;
   var isLoading = false.obs;
-  var isLoadingDoctor = false.obs;
+  var isLoadingDoctor = false;
   TabController tabController;
-  var tabIndex = 0.obs;
+  int tabIndex = 0;
   //*Dio
   CancelToken reviewsCancelToken = CancelToken();
 
@@ -113,7 +113,6 @@ class HospitalNewController extends GetxController
 
     log("hospital--------------> ${hospital.id}");
 
-    fetchHospitalDetails();
     fetchHospitalDoctors();
     // reviewsPagingController.addPageRequestListener((pageKey) {
     //   fetchReviews(pageKey);
@@ -137,8 +136,11 @@ class HospitalNewController extends GetxController
       HospitalRepository()
           .fetchHospitalDetails(hospitalId: hospital.id)
           .then((value) {
-        isLoading.value = false;
+        log("value--------------> ${value}");
+
         resModel = HospitalDetailsResModel.fromJson(value);
+        isLoading.value = false;
+        update();
         log("value--------------> ${resModel.data}");
       });
     } catch (e) {
@@ -147,21 +149,26 @@ class HospitalNewController extends GetxController
   }
 
   void fetchHospitalDoctors() {
-    isLoadingDoctor.value = true;
+    isLoadingDoctor = true;
+    update();
     try {
       HospitalRepository()
           .fetchHospitalDoctors(hospitalId: hospital.id)
           .then((value) {
         log("value--------------> ${value}");
 
-        isLoadingDoctor.value = false;
+        isLoadingDoctor = false;
+        update();
         value['data'].forEach((element) {
           doctorList.add(Doctor.fromJson(element));
         });
+        isLoadingDoctor = false;
+        update();
         log("doctorList--------------> ${doctorList.length}");
       });
     } catch (e) {
-      isLoadingDoctor.value = false;
+      isLoadingDoctor = false;
+      update();
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/appointment_history_res_model.dart';
+import 'package:doctor_yab/app/data/models/histories.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appintment_feedback_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
@@ -18,7 +19,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentDetailScreen extends StatelessWidget {
-  AppointmentHistory history;
+  History history;
   AppointmentDetailScreen({Key key, this.history}) : super(key: key);
 
   @override
@@ -33,7 +34,7 @@ class AppointmentDetailScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text('appointment_details'.tr,
-              style: AppTextStyle.boldPrimary20
+              style: AppTextStyle.boldPrimary16
                   .copyWith(fontWeight: FontWeight.w600)),
           centerTitle: true,
           leading: GestureDetector(
@@ -89,7 +90,8 @@ class AppointmentDetailScreen extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: CachedNetworkImage(
-                                      imageUrl: "${ApiConsts.hostUrl}",
+                                      imageUrl:
+                                          "${ApiConsts.hostUrl}${history.doctor[0].photo}",
                                       height: h * 0.11,
                                       width: h * 0.11,
                                       fit: BoxFit.cover,
@@ -119,20 +121,18 @@ class AppointmentDetailScreen extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // SizedBox(height: 10),
-                                        history.packageId == null
+                                        SizedBox(height: 10),
+                                        history == null
                                             ? SizedBox()
                                             : Text(
-                                                "${history.packageId.hospitalLocation[0].name ?? ""}",
+                                                "${history.doctor[0].name ?? ""}",
                                                 style: AppTextTheme.h(12)
                                                     .copyWith(
                                                         color:
                                                             AppColors.primary),
                                               ),
                                         Text(
-                                          history.packageId == null
-                                              ? ""
-                                              : "${history.packageId.title ?? ""}",
+                                          "${history.doctor[0].category.title}",
                                           style: AppTextTheme.h(11).copyWith(
                                               color: AppColors.primary
                                                   .withOpacity(0.5),
@@ -230,7 +230,9 @@ class AppointmentDetailScreen extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(AppointmentFeedbackScreen());
+                                Get.to(AppointmentFeedbackScreen(
+                                  history: history,
+                                ));
                               },
                               child: Container(
                                 width: w,
@@ -306,7 +308,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate == null ? DateTime.now().toString() : history.visitDate))}",
+                        "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),
@@ -344,7 +346,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate == null ? DateTime.now().toString() : history.visitDate))}",
+                        "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),
@@ -462,7 +464,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate == null ? DateTime.now().toString() : history.visitDate))}",
+                        "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),
@@ -500,7 +502,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate == null ? DateTime.now().toString() : history.visitDate))}",
+                        "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),

@@ -426,5 +426,9 @@ const Map<String, String> enUS = {
       "Please select clinic,hospital or lab",
   "please_select_date": "Please Select Date",
   "please_select_time": "Please Select Time",
-  "please_select_hospital_lab": "Please Select Hospital Or Lab"
+  "please_select_hospital_lab": "Please Select Hospital Or Lab",
+  "no_slot_available": "No Slot Available",
+  "please_select_country": "Please Select Country",
+  "please_enter_your_problem": "Please enter your problem",
+  "abroad_success": "Treatment abroad successfully uploaded",
 };

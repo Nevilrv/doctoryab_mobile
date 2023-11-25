@@ -47,7 +47,10 @@ class TabMoreView extends GetView {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text('profile'.tr),
+          title: Text(
+            'profile'.tr,
+            style: TextStyle(fontSize: 16),
+          ),
           centerTitle: true,
           elevation: 0,
           actions: [
