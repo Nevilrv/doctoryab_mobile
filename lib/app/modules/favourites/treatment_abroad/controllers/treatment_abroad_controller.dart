@@ -62,20 +62,38 @@ class TreatmentAbroadController extends GetxController {
       log("value['data']['_id']--------------> ${value['data']['_id']}");
 
       if (attachmentFile.value != "") {
-        AbroadRepository()
-            .abroadImageApi(
-                image: File(attachmentFile.value), id: value['data']['_id'])
-            .then((value) {
-          Get.back();
+        if (attachmentFile.value.isPDFFileName) {
+          AbroadRepository()
+              .abroadPDFApi(
+                  pdf: File(attachmentFile.value), id: value['data']['_id'])
+              .then((value) {
+            Get.back();
 
-          AppGetDialog.showSuccess(
-              middleText: "done".tr + "\n\n" + "abroad_success".tr);
+            AppGetDialog.showSuccess(
+                middleText: "done".tr + "\n\n" + "abroad_success".tr);
 
-          apiLoading.value = false;
-          log("value--------------> ${value}");
-        }).catchError((e, s) {
-          apiLoading.value = false;
-        });
+            apiLoading.value = false;
+            log("value--------------> ${value}");
+          }).catchError((e, s) {
+            log("e------------------->${e.response.data['msg']}");
+            apiLoading.value = false;
+          });
+        } else {
+          AbroadRepository()
+              .abroadImageApi(
+                  image: File(attachmentFile.value), id: value['data']['_id'])
+              .then((value) {
+            Get.back();
+
+            AppGetDialog.showSuccess(
+                middleText: "done".tr + "\n\n" + "abroad_success".tr);
+
+            apiLoading.value = false;
+            log("value--------------> ${value}");
+          }).catchError((e, s) {
+            apiLoading.value = false;
+          });
+        }
       } else {
         Get.back();
         AppGetDialog.showSuccess(
@@ -100,7 +118,16 @@ class TreatmentAbroadController extends GetxController {
   void pickAttachment() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpeg', 'JPEG', 'png', 'PNG', 'JPG', 'jpg'],
+        allowedExtensions: [
+          'jpeg',
+          'JPEG',
+          'png',
+          'PNG',
+          'JPG',
+          'jpg',
+          "pdf",
+          "PDF"
+        ],
         allowMultiple: false);
     attachmentFile.value = result.files[0].path;
   }

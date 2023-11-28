@@ -1,5 +1,6 @@
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,7 +102,9 @@ class AuthOtpView extends GetView<AuthOtpController> {
                   Obx(
                     () => Container(
                       child: controller.waitingForFirebasToResendOtp.value
-                          ? CircularProgressIndicator()
+                          ? CircularProgressIndicator(
+                              color: AppColors.primary,
+                            )
                           : Countdown(
                               controller: controller.countDountController,
                               seconds: 60,

@@ -16,11 +16,18 @@ import 'package:logger/logger.dart';
 class LabsController extends TabHomeOthersController {
   @override
   var pageController = PagingController<int, Labs>(firstPageKey: 1);
+  // List<String> filterList = [
+  //   'most_rated'.tr,
+  //   'suggested'.tr,
+  //   'nearest'.tr,
+  //   'sponsored'.tr,
+  //   'A-Z'
+  // ];
   List<String> filterList = [
-    'most_rated'.tr,
-    'suggested'.tr,
-    'nearest'.tr,
-    'sponsored'.tr,
+    "Best Rating",
+    'Recommended',
+    'Nearest',
+    'Promoted',
     'A-Z'
   ];
   String sort = "";

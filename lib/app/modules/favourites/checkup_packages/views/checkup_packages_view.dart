@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
@@ -237,18 +239,21 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          "health_packages_list".tr,
-                          style: AppTextStyle.boldPrimary18,
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //       vertical: 10, horizontal: 20),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         "health_packages_list".tr,
+                  //         style: AppTextStyle.boldPrimary18,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
@@ -490,7 +495,33 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          Get.to(BookingInfoScreen());
+                                          List<dynamic> list = [];
+                                          if (item
+                                              .hospitalLocation.isNotEmpty) {
+                                            item.hospitalLocation
+                                                .forEach((element) {
+                                              list.add({
+                                                "id": element.id,
+                                                "name": element.name,
+                                                "type": "hospital",
+                                              });
+                                            });
+                                          }
+                                          if (item.labLocation.isNotEmpty) {
+                                            item.labLocation.forEach((element) {
+                                              list.add({
+                                                "id": element.id,
+                                                "name": element.name,
+                                                "type": "lab",
+                                              });
+                                            });
+                                          }
+                                          log("list--------------> ${list}");
+
+                                          controller
+                                              .getLabAndHospitalList(list);
+                                          Get.to(CheckUpDetailScreen(item));
+                                          // Get.to(BookingInfoScreen());
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -540,7 +571,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                     // linesCount: 4,
                                     ),
                             newPageProgressIndicatorBuilder: (_) =>
-                                Center(child: CircularProgressIndicator()),
+                                Center(child: CircularProgressIndicator(color: AppColors.primary,)),
                           ),
                         ),
                       ),

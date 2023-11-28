@@ -113,6 +113,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               });
                             },
                             child: Container(
+                              width: Get.width * 0.5,
                               decoration: BoxDecoration(
                                 color: AppColors.primary,
                                 borderRadius: BorderRadius.circular(10),
@@ -167,22 +168,22 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               ),
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primary),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 9.5, horizontal: 10),
-                              child: Center(
-                                  child: SvgPicture.asset(
-                                AppImages.blackBell,
-                                width: 25,
-                                height: 24,
-                              )),
-                            ),
-                          ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     border: Border.all(color: AppColors.primary),
+                          //     borderRadius: BorderRadius.circular(10),
+                          //   ),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.symmetric(
+                          //         vertical: 9.5, horizontal: 10),
+                          //     child: Center(
+                          //         child: SvgPicture.asset(
+                          //       AppImages.blackBell,
+                          //       width: 25,
+                          //       height: 24,
+                          //     )),
+                          //   ),
+                          // ),
                           GestureDetector(
                             onTap: () {
                               AppGetDialog.showFilterDialog(
@@ -247,7 +248,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       },
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                        hintText: "search_pharmacy".tr,
+                        hintText: "search_pharmacy..".tr,
                         hintStyle:
                             AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                         suffixIcon: Padding(

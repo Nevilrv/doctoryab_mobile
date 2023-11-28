@@ -28,7 +28,7 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
       body: GetBuilder<DiseaseTreatmentController>(
         builder: (controller) {
           return controller.isLoading == true
-              ? Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator(color: AppColors.primary,))
               : Container(
                   height: h,
                   child: Stack(

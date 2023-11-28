@@ -59,4 +59,28 @@ class AbroadRepository {
     );
     return response;
   }
+
+  Future<dynamic> abroadPDFApi({
+    File pdf,
+    String id,
+  }) async {
+    FormData formData = FormData.fromMap(
+      {
+        "file": pdf.path != ""
+            ? await MultipartFile.fromFile(
+                pdf.path,
+                filename: pdf.path.split('/').last,
+                contentType: MediaType('image', 'png'),
+                // contentType: MediaType('img', image.path.split('.').last)
+              )
+            : null,
+      },
+    );
+    final response = await _cachedDio.post(
+      "${ApiConsts.abroadTreatmentPDFUpload}/$id",
+      data: formData,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
+  }
 }

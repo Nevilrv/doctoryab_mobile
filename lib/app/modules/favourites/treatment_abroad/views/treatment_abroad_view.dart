@@ -13,19 +13,11 @@ import 'package:get/get.dart';
 class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
   TreatmentAbroadView({Key key}) : super(key: key);
 
-  List countryImage = [
-    AppImages.turkey,
-    AppImages.pakistan,
-    AppImages.iran,
-    AppImages.india,
-  ];
-  List countryName = ["Turkiye", "Pakistan", "Iran", "India"];
-
   List question = [
-    "Do you need Visa support?",
-    "Do you pick airport service?",
-    "Do you need translator?",
-    "Do you need accomization?"
+    "do_you_need_support".tr,
+    "do_you_need_airport".tr,
+    "do_you_need_translator".tr,
+    "do_you_need_accomization".tr
   ];
   TreatmentAbroadController treatmentAbroadController = Get.find()
     ..getAllCountries();

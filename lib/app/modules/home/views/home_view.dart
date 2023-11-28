@@ -254,36 +254,42 @@ class BottomBarView extends StatelessWidget {
                                     duration: Duration(milliseconds: 500),
                                     curve: Curves.ease);
                               },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  SvgPicture.asset(
-                                    bottomBarItem[index],
-                                    height: 24,
-                                    width: 24,
-                                    color: controller.selectedIndex == index
-                                        ? AppColors.primary
-                                        : AppColors.primaryLight,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  controller.selectedIndex == index
-                                      ? CircleAvatar(
-                                          radius: 2,
-                                          backgroundColor:
-                                              controller.selectedIndex == index
-                                                  ? AppColors.primary
-                                                  : AppColors.primary,
-                                        )
-                                      : SizedBox(
-                                          height: 4,
-                                        ),
-                                  SizedBox(
-                                    height: 9,
-                                  )
-                                ],
+                              child: Container(
+                                height: 60,
+                                width: Get.width * 0.1,
+                                color: AppColors.red,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    SvgPicture.asset(
+                                      bottomBarItem[index],
+                                      height: 24,
+                                      width: 24,
+                                      color: controller.selectedIndex == index
+                                          ? AppColors.primary
+                                          : AppColors.primaryLight,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    controller.selectedIndex == index
+                                        ? CircleAvatar(
+                                            radius: 2,
+                                            backgroundColor:
+                                                controller.selectedIndex ==
+                                                        index
+                                                    ? AppColors.primary
+                                                    : AppColors.primary,
+                                          )
+                                        : SizedBox(
+                                            height: 4,
+                                          ),
+                                    SizedBox(
+                                      height: 9,
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                     }),
@@ -371,37 +377,44 @@ class BottomBarView extends StatelessWidget {
                                         duration: Duration(milliseconds: 10),
                                         curve: Curves.ease);
                                   },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SvgPicture.asset(
-                                        bottomBarItem[index],
-                                        height: 24,
-                                        width: 24,
-                                        color: controller.selectedIndex == index
-                                            ? AppColors.white
-                                            : AppColors.primaryLight,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      controller.selectedIndex == index
-                                          ? CircleAvatar(
-                                              radius: 2,
-                                              backgroundColor:
-                                                  controller.selectedIndex ==
-                                                          index
-                                                      ? AppColors.white
-                                                      : AppColors.primary,
-                                            )
-                                          : SizedBox(
-                                              height: 4,
-                                            ),
-                                      SizedBox(
-                                        height: 9,
-                                      )
-                                    ],
+                                  child: Container(
+                                    height: 60,
+                                    width: Get.width * 0.1,
+                                    // height: 60,
+                                    // color: AppColors.red,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        SvgPicture.asset(
+                                          bottomBarItem[index],
+                                          height: 24,
+                                          width: 24,
+                                          color:
+                                              controller.selectedIndex == index
+                                                  ? AppColors.white
+                                                  : AppColors.primaryLight,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        controller.selectedIndex == index
+                                            ? CircleAvatar(
+                                                radius: 2,
+                                                backgroundColor:
+                                                    controller.selectedIndex ==
+                                                            index
+                                                        ? AppColors.white
+                                                        : AppColors.primary,
+                                              )
+                                            : SizedBox(
+                                                height: 4,
+                                              ),
+                                        SizedBox(
+                                          height: 9,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                         }),
@@ -502,42 +515,48 @@ class BottomBarView extends StatelessWidget {
                                         duration: Duration(milliseconds: 10),
                                         curve: Curves.ease);
                                   },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SvgPicture.asset(
-                                        bottomBarItem[index],
-                                        height: 24,
-                                        width: 24,
-                                        color: controller.selectedIndex == index
-                                            ? controller.selectedIndex == 4
-                                                ? AppColors.primary
-                                                : AppColors.white
-                                            : AppColors.primaryLight,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      controller.selectedIndex == index
-                                          ? CircleAvatar(
-                                              radius: 2,
-                                              backgroundColor: controller
-                                                          .selectedIndex ==
-                                                      index
-                                                  ? controller.selectedIndex ==
-                                                          4
-                                                      ? AppColors.primary
-                                                      : AppColors.white
-                                                  : AppColors.primary,
-                                            )
-                                          : SizedBox(
-                                              height: 4,
-                                            ),
-                                      SizedBox(
-                                        height: 9,
-                                      )
-                                    ],
+                                  child: Container(
+                                    height: 60,
+                                    width: Get.width * 0.1,
+                                    // color: AppColors.red,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        SvgPicture.asset(
+                                          bottomBarItem[index],
+                                          height: 24,
+                                          width: 24,
+                                          color: controller.selectedIndex ==
+                                                  index
+                                              ? controller.selectedIndex == 4
+                                                  ? AppColors.primary
+                                                  : AppColors.white
+                                              : AppColors.primaryLight,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        controller.selectedIndex == index
+                                            ? CircleAvatar(
+                                                radius: 2,
+                                                backgroundColor: controller
+                                                            .selectedIndex ==
+                                                        index
+                                                    ? controller.selectedIndex ==
+                                                            4
+                                                        ? AppColors.primary
+                                                        : AppColors.white
+                                                    : AppColors.primary,
+                                              )
+                                            : SizedBox(
+                                                height: 4,
+                                              ),
+                                        SizedBox(
+                                          height: 9,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                         }),

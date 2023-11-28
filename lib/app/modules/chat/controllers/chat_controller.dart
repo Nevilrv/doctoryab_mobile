@@ -6,6 +6,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -22,6 +23,7 @@ import 'package:intl/intl.dart' show DateFormat;
 import '../../../data/repository/ChatRepository.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path/path.dart' as path;
+import 'package:audioplayers/audioplayers.dart' as ap;
 
 class ChatController extends GetxController {
   Rx<ChatListApiModel> chatArg = (Get.arguments as ChatListApiModel).obs;
@@ -46,7 +48,10 @@ class ChatController extends GetxController {
   var timerText = '00:00:00'.obs;
   List<StreamSubscription> _subscriptions = [];
   void initializer() async {
-    pathToAudio = '/sdcard/Download/temp.wav';
+    final directory = await getApplicationDocumentsDirectory();
+    log("directory.path--------------> ${directory.path}");
+
+    pathToAudio = '${directory.path}/temp.wav';
     recordingSession = FlutterSoundRecorder();
 
     await recordingSession.openAudioSession(
@@ -67,10 +72,10 @@ class ChatController extends GetxController {
 
   Future<void> startRecording() async {
     playRecord.value = true;
-    Directory directory = Directory(path.dirname(pathToAudio));
-    if (!directory.existsSync()) {
-      directory.createSync();
-    }
+    // Directory directory = Directory(path.dirname(pathToAudio));
+    // if (!directory.existsSync()) {
+    //   directory.createSync();
+    // }
     recordingSession.openAudioSession();
     await recordingSession.startRecorder(
       toFile: pathToAudio,
@@ -121,6 +126,71 @@ class ChatController extends GetxController {
   Future<void> stopPlayFunc() async {
     recordingPlayer.stop();
   }
+
+  List<int> hi = [
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+    25,
+    35,
+    20,
+    30,
+    15,
+  ];
+  int selectedIndex = -1;
+  final audioPlayer1 = ap.AudioPlayer();
+
+  StreamSubscription<void> playerStateChangedSubscription1;
+  StreamSubscription<Duration> durationChangedSubscription1;
+  StreamSubscription<Duration> positionChangedSubscription1;
+
+  Duration position1;
+  Duration duration1;
+  int current1 = -1;
+  int voiceTrackRowSize;
+  Future<void> play1({String path}) {
+    if (path == '') {
+    } else {
+      print('audioPath--${path}');
+      return audioPlayer1.play(
+        ap.UrlSource(path),
+      );
+    }
+    return audioPlayer1.stop();
+  }
+
+  Future<void> pause1() => audioPlayer1.pause();
+  Future<void> stop1() async {
+    audioPlayer1.stop();
+  }
+
+  bool isPause1 = false;
+  Timer timers1;
 
   ///
   //socket.io
@@ -287,6 +357,57 @@ class ChatController extends GetxController {
         if (pathToAudio.isNotEmpty) {
           ChatRepository().uploadAudio(file: File(pathToAudio)).then((value) {
             log("value--------------> ${value}");
+
+            log("value--------------> ${value}");
+            ChatRepository.sendMessage(chatArg().id, "",
+                images: value,
+                cancelToken: sendMessageCancelToken, onError: (e) {
+              if (!(e is DioError && CancelToken.isCancel(e))) {
+                // isLoading.value = false;
+                Future.delayed(Duration(seconds: 2), () {
+                  sendMessageCancelToken.cancel();
+                  sendMessageCancelToken = CancelToken();
+                  sendMessage();
+                });
+              }
+            }).then((value) {
+              if (value != null) {
+                // _trySocket() {
+                //   if (socket.connected) {
+                //     socket.emit("new message", value.toJson());
+                //   } else {
+                //     Future.delayed(Duration(seconds: 1), () {
+                //       _trySocket();
+                //     });
+                //   }
+                // }
+
+                // _trySocket();
+                if (socket.disconnected) {
+                  print("isDisconnected is true");
+                  sendingMessageFailed(true);
+                  lastFailedMessage = value;
+                  sendingMessage(true);
+                  socket.connect();
+                } else {
+                  socket.emit("new message", value.toJson());
+                  sendingMessageFailed(false);
+                  sendingMessage(false);
+                }
+                // if (value.isEmpty) {
+                //   endOfPage.value = true;
+                // } else {
+                chat.value.insert(0, value);
+                //   log(value.toString());
+                // }
+                chat.refresh();
+                // isLoading.value = false;
+                // nextPageLoading(false);
+                // //
+              }
+            }).catchError((e, s) {
+              Logger().e("message", e, s);
+            });
             pathToAudio = null;
             attachmentString.value = "";
             sendingMessage(false);
@@ -296,6 +417,82 @@ class ChatController extends GetxController {
       } catch (e) {
         sendingMessage(false);
         log("e--------------> ${e}");
+      }
+    }
+    if (attachmentString.value == "pdf") {
+      sendingMessage(true);
+      log("pathToAudio--------------> ${pathToAudio}");
+
+      try {
+        if (pdfFile.value != "") {
+          ChatRepository().uploadPDF(file: File(pdfFile.value)).then((value) {
+            log("value--------------> ${value}");
+
+            ChatRepository.sendMessage(chatArg().id, "",
+                images: value,
+                cancelToken: sendMessageCancelToken, onError: (e) {
+              if (!(e is DioError && CancelToken.isCancel(e))) {
+                // isLoading.value = false;
+                Future.delayed(Duration(seconds: 2), () {
+                  sendMessageCancelToken.cancel();
+                  sendMessageCancelToken = CancelToken();
+                  sendMessage();
+                });
+              }
+            }).then((value) {
+              if (value != null) {
+                // _trySocket() {
+                //   if (socket.connected) {
+                //     socket.emit("new message", value.toJson());
+                //   } else {
+                //     Future.delayed(Duration(seconds: 1), () {
+                //       _trySocket();
+                //     });
+                //   }
+                // }
+
+                // _trySocket();
+                if (socket.disconnected) {
+                  print("isDisconnected is true");
+                  sendingMessageFailed(true);
+                  lastFailedMessage = value;
+                  sendingMessage(true);
+                  socket.connect();
+                } else {
+                  socket.emit("new message", value.toJson());
+                  sendingMessageFailed(false);
+                  sendingMessage(false);
+                }
+                // if (value.isEmpty) {
+                //   endOfPage.value = true;
+                // } else {
+                chat.value.insert(0, value);
+                //   log(value.toString());
+                // }
+                chat.refresh();
+                // isLoading.value = false;
+                // nextPageLoading(false);
+                // //
+              }
+            }).catchError((e, s) {
+              sendingMessage(false);
+              Logger().e("message", e, s);
+            });
+            pdfFile.value = "";
+            attachmentString.value = "";
+            sendingMessage(false);
+            update();
+          }).catchError((e, s) {
+            sendingMessage(false);
+            log("e--------------> ${e}");
+            log("s--------------> ${e.response.data['message']}");
+            Logger().e("message", e, s);
+          });
+        }
+      } catch (e) {
+        sendingMessage(false);
+        log("e--------------> ${e}");
+        log("5--------------> ${e}");
       }
     }
 
@@ -434,6 +631,25 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     initSocket();
+    voiceTrackRowSize = hi.length;
+
+    playerStateChangedSubscription1 =
+        audioPlayer1.onPlayerComplete.listen((state) async {
+      await stop1();
+      update();
+    });
+
+    positionChangedSubscription1 =
+        audioPlayer1.onPositionChanged.listen((position) {
+      position1 = position;
+      update();
+    });
+    durationChangedSubscription1 =
+        audioPlayer1.onDurationChanged.listen((duration) {
+      duration1 = duration;
+      update();
+      log('_duration1_duration1>> ${duration1.inSeconds}');
+    });
     super.onInit();
   }
 
@@ -450,6 +666,17 @@ class ChatController extends GetxController {
   void onClose() {
     socket.disconnect();
     socket.dispose();
+    playerStateChangedSubscription1.cancel();
+
+    positionChangedSubscription1.cancel();
+
+    durationChangedSubscription1.cancel();
+
+    audioPlayer1.dispose();
+
+    if (timers1.isActive) {
+      timers1.cancel();
+    }
     super.onClose();
   }
 

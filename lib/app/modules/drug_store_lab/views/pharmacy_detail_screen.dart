@@ -148,82 +148,165 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                   crossAxisSpacing: 9,
                                                   mainAxisExtent: h * 0.27),
                                           itemBuilder: (context, index) {
-                                            return Container(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    height: h * 0.15,
-                                                    width: w,
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "${ApiConsts.hostUrl}${controller.productList[index].img}",
-                                                        fit: BoxFit.cover,
-                                                        placeholder: (_, __) {
-                                                          return Image.asset(
-                                                            "assets/png/person-placeholder.jpg",
-                                                            fit: BoxFit.cover,
-                                                          );
-                                                        },
-                                                        errorWidget:
-                                                            (_, __, ___) {
-                                                          return Image.asset(
-                                                            "assets/png/person-placeholder.jpg",
-                                                            fit: BoxFit.cover,
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${controller.productList[index].title ?? ""}",
-                                                    style: AppTextStyle
-                                                        .boldPrimary12,
-                                                  ),
-                                                  Text(
-                                                    "${controller.productList[index].content ?? ""}",
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: AppTextStyle
-                                                        .boldPrimary11
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.5)),
-                                                  ),
-                                                  Spacer(),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                        color:
-                                                            AppColors.primary,
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primary)),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 5,
-                                                          horizontal: 10),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "${"${controller.productList[index].price ?? ""}"} ${"afn".tr}",
-                                                          style: AppTextStyle
-                                                              .boldWhite12,
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Get.dialog(
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 30),
+                                                    child: Center(
+                                                      child: Container(
+                                                        // height: Get.height * 0.3,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          color:
+                                                              AppColors.white,
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      20,
+                                                                  vertical: 10),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: 20,
+                                                                    width: 20,
+                                                                  ),
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .cancel_outlined,
+                                                                      color: AppColors
+                                                                          .primary,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Text(
+                                                                "${controller.productList[index].title ?? ""}",
+                                                                style: AppTextStyle
+                                                                    .boldBlack13,
+                                                              ),
+                                                              Text(
+                                                                "${controller.productList[index].content ?? ""}" ??
+                                                                    "",
+                                                                style: AppTextStyle
+                                                                    .boldBlack13
+                                                                    .copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight.w400),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  )
-                                                ],
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      height: h * 0.15,
+                                                      width: w,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl:
+                                                              "${ApiConsts.hostUrl}${controller.productList[index].img}",
+                                                          fit: BoxFit.cover,
+                                                          placeholder: (_, __) {
+                                                            return Image.asset(
+                                                              "assets/png/person-placeholder.jpg",
+                                                              fit: BoxFit.cover,
+                                                            );
+                                                          },
+                                                          errorWidget:
+                                                              (_, __, ___) {
+                                                            return Image.asset(
+                                                              "assets/png/person-placeholder.jpg",
+                                                              fit: BoxFit.cover,
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "${controller.productList[index].title ?? ""}",
+                                                      style: AppTextStyle
+                                                          .boldPrimary12,
+                                                    ),
+                                                    Text(
+                                                      "${controller.productList[index].content ?? ""}",
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTextStyle
+                                                          .boldPrimary11
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5)),
+                                                    ),
+                                                    Spacer(),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color:
+                                                              AppColors.primary,
+                                                          border: Border.all(
+                                                              color: AppColors
+                                                                  .primary)),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 5,
+                                                                horizontal: 10),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "${"${controller.productList[index].price ?? ""}"} ${"afn".tr}",
+                                                            style: AppTextStyle
+                                                                .boldWhite12,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           },
@@ -249,69 +332,153 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                           children: [
                                             ...List.generate(
                                                 controller.serviceList.length,
-                                                (index) => Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 10),
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                "${controller.serviceList[index].title ?? ""}",
-                                                                style: AppTextStyle
-                                                                    .boldPrimary12,
-                                                              ),
-                                                              // Container(
-                                                              //   width:
-                                                              //       Get.width *
-                                                              //           0.6,
-                                                              //   child: Text(
-                                                              //     "${controller.serviceList[index]. ?? ""}",
-                                                              //     style: AppTextStyle
-                                                              //         .boldPrimary11
-                                                              //         .copyWith(
-                                                              //             color: AppColors
-                                                              //                 .primary
-                                                              //                 .withOpacity(0.5)),
-                                                              //   ),
-                                                              // ),
-                                                            ],
-                                                          ),
-                                                          Spacer(),
-                                                          Container(
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5),
-                                                                color: AppColors
-                                                                    .primary,
-                                                                border: Border.all(
-                                                                    color: AppColors
-                                                                        .primary)),
-                                                            child: Padding(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical: 5,
-                                                                  horizontal:
-                                                                      10),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "${controller.serviceList[index].price ?? ""}  ${"afn".tr}",
-                                                                  style: AppTextStyle
-                                                                      .boldWhite12,
+                                                (index) => GestureDetector(
+                                                      onTap: () {
+                                                        Get.dialog(
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        30),
+                                                            child: Center(
+                                                              child: Container(
+                                                                // height: Get.height * 0.3,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  color:
+                                                                      AppColors
+                                                                          .white,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          20,
+                                                                      vertical:
+                                                                          10),
+                                                                  child: Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          SizedBox(
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20,
+                                                                          ),
+                                                                          GestureDetector(
+                                                                            onTap:
+                                                                                () {
+                                                                              Get.back();
+                                                                            },
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.cancel_outlined,
+                                                                              color: AppColors.primary,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Text(
+                                                                        "${controller.serviceList[index].title ?? ""}",
+                                                                        style: AppTextStyle
+                                                                            .boldBlack13,
+                                                                      ),
+                                                                      Text(
+                                                                        "${controller.serviceList[index].content ?? ""}" ??
+                                                                            "",
+                                                                        style: AppTextStyle
+                                                                            .boldBlack13
+                                                                            .copyWith(fontWeight: FontWeight.w400),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          )
-                                                        ],
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 10),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  "${controller.serviceList[index].title ?? ""}",
+                                                                  style: AppTextStyle
+                                                                      .boldPrimary12,
+                                                                ),
+                                                                // Container(
+                                                                //   width:
+                                                                //       Get.width *
+                                                                //           0.6,
+                                                                //   child: Text(
+                                                                //     "${controller.serviceList[index]. ?? ""}",
+                                                                //     style: AppTextStyle
+                                                                //         .boldPrimary11
+                                                                //         .copyWith(
+                                                                //             color: AppColors
+                                                                //                 .primary
+                                                                //                 .withOpacity(0.5)),
+                                                                //   ),
+                                                                // ),
+                                                              ],
+                                                            ),
+                                                            Spacer(),
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5),
+                                                                  color: AppColors
+                                                                      .primary,
+                                                                  border: Border.all(
+                                                                      color: AppColors
+                                                                          .primary)),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical: 5,
+                                                                    horizontal:
+                                                                        10),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "${controller.serviceList[index].price ?? ""}  ${"afn".tr}",
+                                                                    style: AppTextStyle
+                                                                        .boldWhite12,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ))
                                           ],

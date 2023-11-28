@@ -225,7 +225,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                               .w400),
                                                             ),
                                                             Text(
-                                                              "Dr. Manu Django Conradine",
+                                                              " ${controller.appointmentList[index].doctor[0].name ?? ""}",
                                                               style: AppTextStyle
                                                                   .boldBlack10
                                                                   .copyWith(

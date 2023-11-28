@@ -431,6 +431,9 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   style: AppTextStyle.boldPrimary9
                                       .copyWith(height: 1.2),
                                 ),
+                                SizedBox(
+                                  height: Get.height * 0.003,
+                                ),
                                 Container(
                                   width: w * 0.33,
                                   child: Text(

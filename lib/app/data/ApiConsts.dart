@@ -102,13 +102,15 @@ class ApiConsts {
   static const String getHospitalFeedback = '/hospital/getHospitalFeedbacks/';
 
   ///appointment
-  // static const String getAppointmentHistory =
-  //     '/packageAppointment/getPatientAppointments';
+  static const String getPackageAppointmentHistory =
+      '/packageAppointment/getPatientAppointments/';
   static const String getAppointmentHistory = '/patient/history';
+  static const String bookPackageAppointment = '/packageAppointment';
   static const String getCheckupPackageHistory = '/packageAppointment';
 
   ///abroad treatment
 
   static const String abroadTreatment = '/treatmentAbroad';
   static const String abroadTreatmentImageUpload = '/treatmentAbroad/imgs/';
+  static const String abroadTreatmentPDFUpload = '/treatmentAbroad/file/';
 }

@@ -1,15 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/modules/home/views/profile/appointment_detail_screen.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-class BasketDetailScreen extends StatelessWidget {
-  const BasketDetailScreen({Key key}) : super(key: key);
+class BasketDetailScreen extends GetView<CheckupPackagesController> {
+  BasketDetailScreen({Key key}) : super(key: key);
+  CheckupPackagesController checkupPackagesController = Get.find()
+    ..getPackageHistory();
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -78,256 +84,423 @@ class BasketDetailScreen extends StatelessWidget {
                   height: h * 0.76,
                   child: SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                                4,
-                                (index) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                color: AppColors.grey3)),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        width: w * 0.7,
-                                                        child: Text(
-                                                          "Full Body Checkup With Essentials Markers",
-                                                          style: AppTextStyle
-                                                              .boldBlack16
-                                                              .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        height: 40,
-                                                        width: 40,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: AppColors.red2,
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child: Center(
-                                                          child: Icon(
-                                                              Icons.delete,
-                                                              color: AppColors
-                                                                  .white,
-                                                              size: 22),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Full Body Checkup With Essentials Markers",
-                                                        style: AppTextStyle
-                                                            .boldBlack12
-                                                            .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        "+100 Tests",
-                                                        style: AppTextStyle
-                                                            .boldBlack12
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: AppColors
-                                                                    .teal,
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .underline),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Container(
-                                                    width: w * 0.4,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                        color: AppColors.red2
-                                                            .withOpacity(0.1),
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .red2
-                                                                .withOpacity(
-                                                                    0.1))),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 8,
-                                                          horizontal: 10),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "%59 OFF",
-                                                          style:
-                                                              AppTextTheme.b(10)
-                                                                  .copyWith(
-                                                            color:
-                                                                AppColors.red2,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        '345\$',
-                                                        style: AppTextTheme.b(
-                                                                25)
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .grey),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        '945\$',
-                                                        style: AppTextTheme.b(
-                                                                25)
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .grey
-                                                                    .withOpacity(
-                                                                        0.5),
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .lineThrough),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                    child: GetBuilder<CheckupPackagesController>(
+                      builder: (controller) {
+                        return Container(
+                          height: h,
+                          child: Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 20, left: 20, top: 20, bottom: 20),
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: controller.historyLoading == true
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              top: Get.height * 0.3),
+                                          child: Center(
+                                              child: CircularProgressIndicator(
+                                            color: AppColors.primary,
+                                          )),
+                                        )
+                                      : controller.packageHistory.isEmpty
+                                          ? Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: Get.height * 0.25),
+                                              child: Center(
+                                                  child: Text(
+                                                      "no_result_found".tr)),
+                                            )
+                                          : Column(
+                                              children: [
+                                                ...List.generate(
+                                                    controller
+                                                        .packageHistory.length,
+                                                    (index) => Column(
+                                                          children: [
+                                                            Container(
+                                                              width: w,
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      AppColors
+                                                                          .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
+                                                                        blurRadius:
+                                                                            4,
+                                                                        color: AppColors
+                                                                            .black
+                                                                            .withOpacity(0.25))
+                                                                  ]),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        10),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        SvgPicture.asset(
+                                                                            AppImages
+                                                                                .doc,
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              15,
+                                                                        ),
+                                                                        Text(
+                                                                          "package_name"
+                                                                              .tr,
+                                                                          style: AppTextStyle.boldBlack10.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.w400),
+                                                                        ),
+                                                                        Text(
+                                                                          " ${controller.packageHistory[index].packageId.title ?? ''}",
+                                                                          style: AppTextStyle.boldBlack10.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                        Spacer(),
+                                                                        Container(
+                                                                          decoration: BoxDecoration(
+                                                                              color: AppColors.red.withOpacity(0.1),
+                                                                              borderRadius: BorderRadius.circular(4)),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                                                            child:
+                                                                                Center(
+                                                                              child: Text(
+                                                                                "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.packageHistory[index].visitDate.toString() == null ? DateTime.now().toString() : controller.packageHistory[index].visitDate.toString()))}",
+                                                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        SvgPicture.asset(
+                                                                            AppImages
+                                                                                .profile2,
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              15,
+                                                                        ),
+                                                                        Text(
+                                                                          "hospital_name"
+                                                                              .tr,
+                                                                          style: AppTextStyle.boldBlack10.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.w400),
+                                                                        ),
+                                                                        Text(
+                                                                          " ${controller.packageHistory[index].hospitalId.name ?? ""}",
+                                                                          style: AppTextStyle.boldBlack10.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        SvgPicture.asset(
+                                                                            AppImages
+                                                                                .calendar,
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              15,
+                                                                        ),
+                                                                        Text(
+                                                                          "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.packageHistory[index].visitDate.toString() == null ? DateTime.now().toString() : controller.packageHistory[index].visitDate.toString()))}",
+                                                                          style: AppTextStyle.boldBlack10.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.w400),
+                                                                        ),
+                                                                        Spacer(),
+                                                                        SvgPicture.asset(
+                                                                            AppImages
+                                                                                .clock,
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              5,
+                                                                        ),
+                                                                        Text(
+                                                                          "${DateFormat("HH.MM").format(DateTime.parse(controller.packageHistory[index].visitDate.toString() == null ? DateTime.now().toString() : controller.packageHistory[index].visitDate.toString()))}",
+                                                                          style: AppTextStyle.boldBlack10.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.w400),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .currency_exchange,
+                                                                          size:
+                                                                              17,
+                                                                          color:
+                                                                              AppColors.lightBlack2,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              20,
+                                                                        ),
+                                                                        Text(
+                                                                          "price"
+                                                                              .tr,
+                                                                          style: AppTextStyle.boldBlack16.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.w400),
+                                                                        ),
+                                                                        Text(
+                                                                          " ${"2800" ?? ""}",
+                                                                          style: AppTextStyle.boldBlack16.copyWith(
+                                                                              color: AppColors.lightBlack2,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    // Row(
+                                                                    //   children: [
+                                                                    //     SvgPicture.asset(
+                                                                    //         AppImages
+                                                                    //             .chat,
+                                                                    //         height:
+                                                                    //             20,
+                                                                    //         width:
+                                                                    //             20),
+                                                                    //     SizedBox(
+                                                                    //       width: 20,
+                                                                    //     ),
+                                                                    //     Text(
+                                                                    //       "You review on this service",
+                                                                    //       style: AppTextStyle.boldBlack10.copyWith(
+                                                                    //           color: AppColors
+                                                                    //               .lightBlack2,
+                                                                    //           fontWeight:
+                                                                    //               FontWeight.w400),
+                                                                    //     ),
+                                                                    //     Spacer(),
+                                                                    //     RatingBar
+                                                                    //         .builder(
+                                                                    //       ignoreGestures:
+                                                                    //           true,
+                                                                    //       itemSize:
+                                                                    //           17,
+                                                                    //       initialRating:
+                                                                    //           4,
+                                                                    //       // minRating: 1,
+                                                                    //       direction:
+                                                                    //           Axis.horizontal,
+                                                                    //       allowHalfRating:
+                                                                    //           true,
+                                                                    //       itemCount:
+                                                                    //           5,
+                                                                    //       itemPadding:
+                                                                    //           EdgeInsets.symmetric(
+                                                                    //               horizontal: 1.0),
+                                                                    //       itemBuilder:
+                                                                    //           (context, _) =>
+                                                                    //               Icon(
+                                                                    //         Icons
+                                                                    //             .star,
+                                                                    //         color: Colors
+                                                                    //             .amber,
+                                                                    //         // size: 10,
+                                                                    //       ),
+                                                                    //       onRatingUpdate:
+                                                                    //           (rating) {
+                                                                    //         print(
+                                                                    //             rating);
+                                                                    //       },
+                                                                    //     ),
+                                                                    //   ],
+                                                                    // ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                // Get.dialog(
+                                                                //   Padding(
+                                                                //     padding: const EdgeInsets
+                                                                //             .symmetric(
+                                                                //         horizontal:
+                                                                //             30),
+                                                                //     child: Center(
+                                                                //       child:
+                                                                //           Container(
+                                                                //         // height: Get.height * 0.3,
+                                                                //         decoration:
+                                                                //             BoxDecoration(
+                                                                //           borderRadius:
+                                                                //               BorderRadius.circular(
+                                                                //                   10),
+                                                                //           color: AppColors
+                                                                //               .white,
+                                                                //         ),
+                                                                //         child:
+                                                                //             Padding(
+                                                                //           padding: const EdgeInsets
+                                                                //                   .symmetric(
+                                                                //               horizontal:
+                                                                //                   20,
+                                                                //               vertical:
+                                                                //                   10),
+                                                                //           child:
+                                                                //               Column(
+                                                                //             mainAxisSize:
+                                                                //                 MainAxisSize.min,
+                                                                //             crossAxisAlignment:
+                                                                //                 CrossAxisAlignment.start,
+                                                                //             children: [
+                                                                //               Row(
+                                                                //                 mainAxisAlignment:
+                                                                //                     MainAxisAlignment.spaceBetween,
+                                                                //                 crossAxisAlignment:
+                                                                //                     CrossAxisAlignment.start,
+                                                                //                 children: [
+                                                                //                   SizedBox(
+                                                                //                     height: 20,
+                                                                //                     width: 20,
+                                                                //                   ),
+                                                                //                   GestureDetector(
+                                                                //                     onTap: () {
+                                                                //                       Get.back();
+                                                                //                     },
+                                                                //                     child: Icon(
+                                                                //                       Icons.cancel_outlined,
+                                                                //                       color: AppColors.primary,
+                                                                //                     ),
+                                                                //                   ),
+                                                                //                 ],
+                                                                //               ),
+                                                                //               Text(
+                                                                //                 "${controller.packageHistory[index].packageId.title ?? ""}",
+                                                                //                 style:
+                                                                //                     AppTextStyle.boldBlack13,
+                                                                //               ),
+                                                                //               Text(
+                                                                //                 "${controller.resModel.data.checkUp[index].content ?? ""}" ??
+                                                                //                     "",
+                                                                //                 style:
+                                                                //                     AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
+                                                                //               ),
+                                                                //             ],
+                                                                //           ),
+                                                                //         ),
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                // );
+                                                                // Get.to(AppointmentDetailScreen(
+                                                                //   history: controller
+                                                                //       .appointmentList[index],
+                                                                // ));
+                                                                // Get.toNamed(Routes.HISTORY_DETAILS);
+                                                              },
+                                                              child: Container(
+                                                                width: w,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                5),
+                                                                    color: AppColors
+                                                                        .primary,
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                          offset: Offset(0,
+                                                                              4),
+                                                                          blurRadius:
+                                                                              4,
+                                                                          color: AppColors
+                                                                              .black
+                                                                              .withOpacity(0.25))
+                                                                    ]),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          10),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "see_details"
+                                                                          .tr,
+                                                                      style: AppTextStyle
+                                                                          .boldWhite10,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                          ],
+                                                        ))
+                                              ],
                                             ),
-                                            Divider(
-                                              thickness: 1,
-                                              color: AppColors.grey3,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                      AppImages.clock1,
-                                                      width: 24,
-                                                      height: 24,
-                                                      color: AppColors.grey4),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    "${"report_text".tr} 15 Hours",
-                                                    style: AppTextStyle
-                                                        .mediumBlack12
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .grey4),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )),
-                            Container(
-                              height: 55,
-                              decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: AppColors.grey3)),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: w * 0.6,
-                                    decoration: BoxDecoration(
-                                        color: AppColors.teal,
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            bottomLeft: Radius.circular(8))),
-                                    child: Center(
-                                      child: Text(
-                                        "proceed".tr,
-                                        style: AppTextStyle.boldWhite15,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '345\$',
-                                            style: AppTextTheme.b(15).copyWith(
-                                                color: AppColors.black),
-                                          ),
-                                          Text(
-                                            "view".tr,
-                                            style: AppTextStyle.mediumWhite11
-                                                .copyWith(
-                                                    color: AppColors.teal,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 15,
-                                                    decoration: TextDecoration
-                                                        .underline),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                              Positioned(
+                                  bottom: 20,
+                                  left: 20,
+                                  right: 20,
+                                  child: BottomBarView(
+                                    isHomeScreen: false,
+                                  ))
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/schedule_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
@@ -211,8 +212,9 @@ class BookView extends GetView<BookController> {
                                       ),
                                       controller.isLoading == true
                                           ? Center(
-                                              child:
-                                                  CircularProgressIndicator())
+                                              child: CircularProgressIndicator(
+                                              color: AppColors.primary,
+                                            ))
                                           : controller.dataList.isEmpty
                                               ? Padding(
                                                   padding: EdgeInsets.only(
@@ -523,7 +525,7 @@ class BookView extends GetView<BookController> {
                                                                         15),
                                                                 child: Center(
                                                                   child: Text(
-                                                                    "${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))}",
+                                                                    "${DateFormat("hh:mm").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))} ${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString())).toString().contains("AM") ? "am".tr : "pm".tr}",
                                                                     style: AppTextTheme.b(
                                                                             11)
                                                                         .copyWith(

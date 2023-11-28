@@ -135,7 +135,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     height: h * 0.04,
                                     width: h * 0.04,
                                     padding: EdgeInsets.all(3),
-                                    margin: EdgeInsets.only(right: 5),
+                                    // margin: EdgeInsets.only(right: 5),
                                     decoration: BoxDecoration(
                                       color: AppColors.lightPurple,
                                       borderRadius: BorderRadius.circular(5),
@@ -144,6 +144,9 @@ class DrugDetailsView extends GetView<DrugsController> {
                                       controller.data[index]["image"],
                                       fit: BoxFit.cover,
                                     ),
+                                  ),
+                                  SizedBox(
+                                    width: Get.width * 0.01,
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -156,6 +159,9 @@ class DrugDetailsView extends GetView<DrugsController> {
                                             .tr,
                                         style: AppTextStyle.boldPrimary9
                                             .copyWith(height: 1.2),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.003,
                                       ),
                                       Container(
                                         width: w * 0.17,
@@ -214,7 +220,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     child: Text(
                                       "${controller.argumentsData.usage}",
                                       style: AppTextStyle.mediumPrimary10
-                                          .copyWith(height: 1),
+                                          .copyWith(height: 2),
                                     ),
                                   ),
                                 ],
@@ -572,7 +578,7 @@ class DrugDetailsView extends GetView<DrugsController> {
           Expanded(
             child: Text(
               text,
-              style: AppTextStyle.boldPrimary10.copyWith(height: 1),
+              style: AppTextStyle.boldPrimary10.copyWith(height: 2),
             ),
           ),
         ],

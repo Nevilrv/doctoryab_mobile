@@ -928,7 +928,9 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(BookingInfoScreen());
+                                  Get.to(BookingInfoScreen(
+                                    item: item,
+                                  ));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

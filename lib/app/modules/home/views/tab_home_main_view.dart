@@ -194,7 +194,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                     style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
                   ),
                   Text(
-                    "how_do_you_feel".tr,
+                    "how_do_you_feel_today".tr,
                     style: AppTextStyle.mediumWhite11.copyWith(
                         color: AppColors.white.withOpacity(0.5), fontSize: 13),
                   ),

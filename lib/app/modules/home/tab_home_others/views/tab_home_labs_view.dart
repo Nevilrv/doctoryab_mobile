@@ -89,7 +89,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                             });
                           },
                           child: Container(
-                            width: w * 0.6,
+                            width: w * 0.5,
                             decoration: BoxDecoration(
                               color: AppColors.primary,
                               borderRadius: BorderRadius.circular(10),
@@ -195,7 +195,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                      hintText: "search_lab".tr,
+                      hintText: "search_lab..".tr,
                       hintStyle:
                           AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                       suffixIcon: Padding(
@@ -230,7 +230,10 @@ class TabHomeLabsView extends GetView<LabsController> {
 
                   controller.isSearch == true
                       ? controller.isSearching == true
-                          ? Center(child: CircularProgressIndicator())
+                          ? Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            ))
                           : controller.searchDataList.isEmpty
                               ? PagingNoItemFountList()
                               : ListView.separated(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
@@ -14,9 +15,11 @@ import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class BookingInfoScreen extends GetView<CheckupPackagesController> {
-  const BookingInfoScreen({Key key}) : super(key: key);
+  Package item;
+  BookingInfoScreen({Key key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +215,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                         controller.selectedLocationId.value =
                                             value;
 
-                                        controller.getLabAndHospitalList();
+                                        // controller.getLabAndHospitalList();
                                       },
                                     ),
                                   ),
@@ -306,6 +309,8 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       onChanged: (value) {
                                         controller.selectedHospitalLabId.value =
                                             value;
+                                        log("controller.selectedHospitalLabId.value--------------> ${controller.selectedHospitalLabId.value}");
+
                                         controller.selectHospitalLabList
                                             .forEach((element) {
                                           if (element['id'] ==
@@ -315,16 +320,20 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                                 .value = element['name'];
 
                                             if (element['type'] == "lab") {
+                                              controller.selectedType.value =
+                                                  'lab';
                                               controller.getLabScheduleList(
-                                                  labId:
-                                                      "61a0a8557b2fbfe02f03bbd3",
-                                                  // labId: element['id'],
+                                                  // labId:
+                                                  //     "61a0a8557b2fbfe02f03bbd3",
+                                                  labId: element['id'],
                                                   type: 'lab');
                                             } else {
+                                              controller.selectedType.value =
+                                                  'hospital';
                                               controller.getLabScheduleList(
-                                                  hospitalId:
-                                                      "63495ef6390446114d25be0b",
-                                                  // hospitalId: element['id'],
+                                                  // hospitalId:
+                                                  //     "63495ef6390446114d25be0b",
+                                                  hospitalId: element['id'],
                                                   type: 'hospital');
                                             }
                                           }
@@ -368,8 +377,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                               Utils.commonSnackbar(
                                   text: "please_select_hospital_lab".tr,
                                   context: context);
-                            } else {
-                              controller.selectDate(context);
                             }
                           },
                           child: Container(
@@ -395,15 +402,53 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       color: AppColors.primary.withOpacity(0.5),
                                     ),
                                   ),
-                                  Text(
-                                    controller.selectedDate.value == ""
-                                        ? 'please_select_date'.tr
-                                        : controller.selectedDate.toString(),
-                                    style: AppTextStyle.mediumPrimary12
-                                        .copyWith(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5)),
-                                  )
+                                  Expanded(
+                                    child: DropdownButton<dynamic>(
+                                      underline: SizedBox(),
+                                      // value: controller.selectedHospitalLab.value ??
+                                      //     "",
+                                      hint: Text(
+                                        controller.selectedDate.value == ""
+                                            ? 'please_select_date'.tr
+                                            : "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.selectedDate.value))}",
+                                        style: AppTextStyle.mediumPrimary12
+                                            .copyWith(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.5)),
+                                      ),
+                                      onTap: () {},
+                                      icon: Icon(Icons.expand_more,
+                                          color: AppColors.primary
+                                              .withOpacity(0.4)),
+                                      isDense: true,
+                                      isExpanded: true,
+                                      items: controller.scheduleListDate
+                                          .map((DateTime value) {
+                                        return DropdownMenuItem<dynamic>(
+                                          value: value,
+                                          child: Text(
+                                              "${DateFormat("dd.MM.yyyy").format(DateTime.parse(value.toString()))}",
+                                              style: AppTextStyle
+                                                  .mediumPrimary12
+                                                  .copyWith(
+                                                      color:
+                                                          AppColors.primary)),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        controller.selectDate(value);
+                                      },
+                                    ),
+                                  ),
+                                  // Text(
+                                  //   controller.selectedDate.value == ""
+                                  //       ? 'please_select_date'.tr
+                                  //       : controller.selectedDate.toString(),
+                                  //   style: AppTextStyle.mediumPrimary12
+                                  //       .copyWith(
+                                  //           color: AppColors.primary
+                                  //               .withOpacity(0.5)),
+                                  // )
                                 ],
                               ),
                             ),
@@ -487,7 +532,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       onChanged: (value) {
                                         controller.selectedTime.value = value;
 
-                                        log("time-------->${DateTime.parse(controller.selectedTime.value).toUtc().toIso8601String()}");
+                                        // log("time-------->${DateTime.parse(controller.selectedTime.value).toUtc().toIso8601String()}");
                                       },
                                     ),
                                   ),
@@ -513,6 +558,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
 
                               Get.to(BookingOtherInfoScreen(
                                 selectedDate: controller.selectedTime.value,
+                                packageId: item.id,
                               ));
                             }
                           },

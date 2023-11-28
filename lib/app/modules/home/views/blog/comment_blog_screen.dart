@@ -187,7 +187,9 @@ class CommentView extends GetView<TabBlogController> {
                                   alignment: Alignment.center,
                                   child: controller.isLoadingComment == true
                                       ? Center(
-                                          child: CircularProgressIndicator())
+                                          child: CircularProgressIndicator(
+                                          color: AppColors.primary,
+                                        ))
                                       : Icon(
                                           Icons.send,
                                           color: AppColors.white,

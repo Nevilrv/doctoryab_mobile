@@ -1,17 +1,25 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
+import 'package:doctor_yab/app/data/models/checkUp_packge_res_model.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/hospital_lab_schedule_res_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/CheckUpRepository.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -25,50 +33,41 @@ class CheckupPackagesController extends GetxController {
   var selectHospitalLabList = <dynamic>[].obs;
   var selectedHospitalLabId = "".obs;
   var selectedHospitalLabName = "".obs;
+  var isCheckBox = false.obs;
   var selectedDate = "".obs;
   TextEditingController teName = TextEditingController();
   TextEditingController teNewNumber = TextEditingController();
   TextEditingController teAge = TextEditingController();
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
-  Future<void> selectDate(BuildContext context) async {
+  var selectedType = "".obs;
+  selectDate(DateTime picked) async {
     timeList.clear();
     selectedTime.value = "";
     update();
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2101));
-    if (picked != null) {
-      selectedDate.value = "${picked.year}-${picked.month}-${picked.day}";
+    List<String> data = [];
+    log("picked.weekday.toString()--------------> ${picked.weekday.toString()}");
 
-      log("scheduleList--------------> ${scheduleList.length}");
-
-      List<String> data = [];
-      log("picked.weekday.toString()--------------> ${picked.weekday.toString()}");
-
-      scheduleList.forEach((element) {
-        if (element.dayOfWeek.toString() == picked.weekday.toString()) {
+    scheduleList.forEach((element) {
+      if (element.dayOfWeek.toString() == picked.weekday.toString()) {
+        data.addAll(element.times);
+        update();
+        log("element--------------> ${element}");
+      } else if (picked.weekday.toString() == "7") {
+        if (element.dayOfWeek.toString() == "0") {
           data.addAll(element.times);
           update();
           log("element--------------> ${element}");
-        } else if (picked.weekday.toString() == "7") {
-          if (element.dayOfWeek.toString() == "0") {
-            data.addAll(element.times);
-            update();
-            log("element--------------> ${element}");
-          }
         }
-      });
-      data.forEach((element) {
-        timeList.add(
-            "${DateTime(picked.year, picked.month, picked.day, int.parse(element.split(":").first), int.parse(element.split(":").last), 0, 0, 0).toLocal()}");
-      });
-      log("timeList--------------> ${timeList}");
+      }
+    });
+    data.forEach((element) {
+      timeList.add(
+          "${DateTime(picked.year, picked.month, picked.day, int.parse(element.split(":").first), int.parse(element.split(":").last), 0, 0, 0).toLocal()}");
+    });
+    log("timeList--------------> ${timeList}");
 
-      update();
-    }
+    update();
   }
 
   var timeList = <String>[].obs;
@@ -77,6 +76,10 @@ class CheckupPackagesController extends GetxController {
   void onInit() {
     selectedTest = 0;
     update();
+    teName.text = SettingsController.savedUserProfile.name ?? "";
+    teNewNumber.text = SettingsController.savedUserProfile.phone ?? "";
+    teAge.text = SettingsController.savedUserProfile.age.toString() ?? "";
+    update();
     pagingController.addPageRequestListener((pageKey) {
       fetchCheckUpPackages(pageKey);
     });
@@ -84,6 +87,131 @@ class CheckupPackagesController extends GetxController {
 
     activateSpeechRecognizer();
     super.onInit();
+  }
+
+  var loading = false.obs;
+  Future<void> bookNow({
+    String packageId,
+  }) async {
+    loading.value = true;
+    log("selectedDataTime--------------> ${DateTime.parse(selectedTime.value).toUtc().toIso8601String()}");
+
+    await PackageRepository()
+        .bookTime(
+            hospitalId: selectedHospitalLabId.value,
+            packageId: packageId,
+            labId: selectedTime.value,
+            type: selectedType.value,
+            time: DateTime.parse(selectedTime.value)
+                .toLocal()
+                .toIso8601String()
+                .toString())
+        .then((value) {
+      loading.value = false;
+      var response = value.data;
+      Get.until((route) => route.isFirst);
+      // Get.offAllNamed(Routes.HOME, arguments: {'id': 0});
+      var patId = response['data']['patientId']?.toString() ?? "null";
+      Get.dialog(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Center(
+            child: Container(
+              width: Get.width,
+// height: Get.height * 0.3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: AppColors.white,
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Get.height * 0.03, vertical: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    SvgPicture.asset(
+                      AppImages.success,
+                      height: 230,
+                      width: 230,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    Text(
+                      "book_success".tr,
+                      style: AppTextStyle.boldPrimary24
+                          .copyWith(color: AppColors.green3),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                    Text(
+                      "Your booking request succesfully, check your e-mail other details!",
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.mediumBlack16
+                          .copyWith(color: AppColors.black3, fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                        Get.back();
+                      },
+                      child: Container(
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.primary),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Center(
+                              child: Text("back_to_checkup_list".tr,
+                                  style: AppTextStyle.boldWhite15)),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+// confirm: Text("cooo"),
+// actions: <Widget>[Text("aooo"), Text("aooo")],
+// cancel: Text("bla bla"),
+// content: Text("bla bldddda"),
+      );
+      log("value--------------> ${value}");
+    }).catchError(
+      (e, s) {
+        loading.value = false;
+        log("e--------------> ${e.type}");
+        log("s--------------> ${e.response.data['message']}");
+
+        if (e.type == DioErrorType.response) {
+          AppGetDialog.showWithRetryCallBack(
+            middleText: e.response.data['message'] ??
+                "check_internet_connection_and_retry".tr,
+            // "check_internet_connection_and_retry".tr,
+            operationTitle: "",
+            retryButtonText: "",
+            retryCallBak: bookNow,
+          );
+        } else {
+          DioExceptionHandler.handleException(
+            exception: e,
+            retryCallBak: bookNow,
+          );
+        }
+        FirebaseCrashlytics.instance.recordError(e, s);
+      },
+    );
   }
 
   var locations = <City>[].obs;
@@ -123,9 +251,36 @@ class CheckupPackagesController extends GetxController {
     super.onClose();
   }
 
+  List<PackageHistory> packageHistory = [];
+  bool historyLoading = false;
+  getPackageHistory() {
+    packageHistory.clear();
+    historyLoading = true;
+    update();
+    PackageRepository.fetchPackageHistory(
+      cancelToken: cancelToken,
+    ).then((value) {
+      CheckUpPackageResModel checkUpPackageResModel =
+          CheckUpPackageResModel.fromJson(value);
+      packageHistory.addAll(checkUpPackageResModel.data);
+      historyLoading = false;
+      update();
+
+      log("value--------------> ${value}");
+    }).catchError((e, s) {
+      historyLoading = false;
+      update();
+      if (!(e is DioError && CancelToken.isCancel(e))) {}
+      log(e.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
+  }
+
   var scheduleList = <Schedule>[].obs;
+  var scheduleListDate = <DateTime>[].obs;
   getLabScheduleList({String labId, String hospitalId, String type}) {
     scheduleList.clear();
+    scheduleListDate.clear();
 
     selectedTime.value = "";
     timeList.clear();
@@ -138,6 +293,19 @@ class CheckupPackagesController extends GetxController {
             HospitalLabScheduleResModel.fromJson(value);
 
         scheduleList.addAll(resModel.data);
+        scheduleList.forEach((element) {
+          for (var i = 0; i < 15; i++) {
+            if (DateTime.now().add(Duration(days: i)).weekday ==
+                element.dayOfWeek) {
+              scheduleListDate.add(DateTime.now().add(Duration(days: i)));
+              scheduleListDate.sort((a, b) {
+                return a.compareTo(b);
+              });
+            }
+            // log("DateTime.now()----$i----------> ${DateTime.now().add(Duration(days: i)).weekday}");
+            log("scheduleListDate--------------> ${scheduleListDate}");
+          }
+        });
         log("value---value-----------> ${value}");
         log("resModel---resModel-----------> ${resModel}");
       });
@@ -149,7 +317,24 @@ class CheckupPackagesController extends GetxController {
         HospitalLabScheduleResModel resModel =
             HospitalLabScheduleResModel.fromJson(value);
         scheduleList.addAll(resModel.data);
+        scheduleList.forEach((element) {
+          // log(" element.dayOfWeek--------------> ${element.dayOfWeek}");
+          // log("DateTime.now()--------------> ${DateTime.now()}");
 
+          for (var i = 0; i < 15; i++) {
+            if (DateTime.now().add(Duration(days: i)).weekday ==
+                element.dayOfWeek) {
+              scheduleListDate.add(DateTime.now().add(Duration(days: i)));
+              scheduleListDate.sort((a, b) {
+                return a.compareTo(b);
+              });
+            }
+            // log("DateTime.now()----$i----------> ${DateTime.now().add(Duration(days: i)).weekday}");
+            log("scheduleListDate--------------> ${scheduleListDate}");
+          }
+
+          log("scheduleListDate------scheduleListDate--------> ${scheduleListDate}");
+        });
         log("value---value-----------> ${value}");
         log("resModel---resModel-----------> ${resModel}");
       });
@@ -157,8 +342,7 @@ class CheckupPackagesController extends GetxController {
     update();
   }
 
-  List<dynamic> labHospitalList = [];
-  getLabAndHospitalList() {
+  getLabAndHospitalList(List<dynamic> data) {
     selectHospitalLabList.clear();
     selectedHospitalLabId.value = "";
     selectedHospitalLabName.value = "";
@@ -166,38 +350,7 @@ class CheckupPackagesController extends GetxController {
     selectedTime.value = "";
     timeList.clear();
     selectedDate.value = "";
-    PackageRepository.fetchHospitals(
-            cancelToken: cancelToken, cityId: selectedLocationId.value)
-        .then((value) {
-      List<Hospital> hospitalList = [];
-      hospitalList.addAll(value);
-      hospitalList.forEach((element) {
-        // if (element.checkUp.isNotEmpty) {
-        selectHospitalLabList
-            .add({"id": element.id, "name": element.name, "type": "hospital"});
-        // }
-      });
-      log("hospitalList--------------> ${hospitalList.length}");
-
-      log("value---fetchHospitals-----------> ${selectHospitalLabList.length}");
-    });
-    update();
-    PackageRepository.fetchLabs(
-            cancelToken: cancelToken, cityId: selectedLocationId.value)
-        .then((value) {
-      List<Labs> labs = [];
-      LabsModel labsModel = LabsModel.fromJson(value);
-
-      labs.addAll(labsModel.data);
-      labs.forEach((element) {
-        // if (element.checkUp.isNotEmpty) {
-        selectHospitalLabList
-            .add({"id": element.datumId, "name": element.name, "type": "lab"});
-        // }
-      });
-      log("labHospitalList--------------> ${selectHospitalLabList.length}");
-      log("value----fetchLabs----------> ${labs.length}");
-    });
+    selectHospitalLabList.addAll(data);
     update();
   }
 

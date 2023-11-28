@@ -859,6 +859,6 @@ class ConfirmationScreen extends GetView<BookController> {
   String get formatedTime {
     var _tmp = DateTime.parse(controller.selectedDataTime).toLocal();
 
-    return DateFormat.jm().format(_tmp);
+    return "${DateFormat('hh:mm').format(_tmp)} ${DateFormat("hh:mm a").format(_tmp).toString().contains("AM") ? "am".tr : "pm".tr}";
   }
 }

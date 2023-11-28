@@ -213,16 +213,18 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                   color: AppColors.primary,
                 ),
               ),
-              title: Text(
-                SettingsController.appLanguge == "English"
-                    ? controller.selectedDieases.title ?? ''
-                    : SettingsController.appLanguge == "فارسی"
-                        ? controller.selectedDieases.dariTitle ?? ''
-                        : controller.selectedDieases.pashtoTitle ?? '',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyle.boldPrimary16,
+              title: Container(
+                child: Text(
+                  SettingsController.appLanguge == "English"
+                      ? controller.selectedDieases.title ?? ''
+                      : SettingsController.appLanguge == "فارسی"
+                          ? controller.selectedDieases.dariTitle ?? ''
+                          : controller.selectedDieases.pashtoTitle ?? '',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  // textWidthBasis: TextWidthBasis.longestLine,
+                  style: AppTextStyle.boldPrimary16.copyWith(),
+                ),
               ),
               centerTitle: true,
               actions: [
@@ -537,16 +539,19 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              SettingsController.appLanguge == "English"
-                                  ? controller.selectedDieases.title ?? ''
-                                  : SettingsController.appLanguge == "فارسی"
-                                      ? controller.selectedDieases.dariTitle ??
-                                          ''
-                                      : controller
-                                              .selectedDieases.pashtoTitle ??
-                                          '',
-                              style: AppTextStyle.boldPrimary15,
+                            Center(
+                              child: Text(
+                                SettingsController.appLanguge == "English"
+                                    ? controller.selectedDieases.title ?? ''
+                                    : SettingsController.appLanguge == "فارسی"
+                                        ? controller
+                                                .selectedDieases.dariTitle ??
+                                            ''
+                                        : controller
+                                                .selectedDieases.pashtoTitle ??
+                                            '',
+                                style: AppTextStyle.boldPrimary15,
+                              ),
                             ),
                             Html(
                               data: SettingsController.appLanguge == "English"
@@ -557,7 +562,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                                       : controller.selectedDieases.pashtoDesc ??
                                           "",
                               defaultTextStyle: AppTextStyle.mediumPrimary8
-                                  .copyWith(height: 1.2),
+                                  .copyWith(height: 2),
                               customTextAlign: (_) =>
                                   SettingsController.appLanguge == "English"
                                       ? TextAlign.left

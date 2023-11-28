@@ -14,6 +14,7 @@ import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:logger/logger.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 // import 'package:file/file.dart';
 // import 'package:dio/dio.dart';
 
@@ -102,37 +103,36 @@ class PackageRepository {
     return response;
   }
 
-  static Future<List<Hospital>> fetchHospitals(
-      {void onError(e), String cityId, CancelToken cancelToken}) async {
-    // TODO move to some utils func
-
-    return await Utils.parseResponse<Hospital>(
-      () async {
-        var respose = await _cachedDio.get(
-          '${ApiConsts.hospitalByCity}/${cityId}',
-          cancelToken: cancelToken,
-          options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
-        );
-        log("respose--------------> ${respose}");
-        return respose;
-      },
-      onError: onError,
-    );
-  }
-
-  static Future<dynamic> fetchLabs({
-    void onError(e),
-    String cityId,
-    CancelToken cancelToken,
+  Future<dynamic> bookTime({
+    String packageId,
+    String labId,
+    String hospitalId,
+    String type,
+    String time,
   }) async {
-    final response = await _cachedDio.get(
-      '${ApiConsts.labsByCity}',
-      cancelToken: cancelToken,
-      queryParameters: {"cityId": "${cityId}"},
-      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
-    );
+    log("ApiConsts.bookPackageAppointment--------------> ${ApiConsts.bookPackageAppointment}");
 
-    return response.data;
+    log("--resbody------------> ${{
+      "patientId": SettingsController.userId,
+      "packageId": "${packageId}",
+      type == 'hospital' ? "hospitalId" : "labId":
+          type == 'hospital' ? hospitalId : labId,
+      "visit_date": "${time}"
+    }}");
+
+    final response = await dio.post(
+      '${ApiConsts.bookPackageAppointment}',
+      data: {
+        "patientId": SettingsController.userId,
+        "packageId": "${packageId}",
+        type == 'hospital' ? "hospitalId" : "labId":
+            type == 'hospital' ? hospitalId : labId,
+        "visit_date": "${time}"
+      },
+      // cancelToken: loginCancelToken,
+      // options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    return response;
   }
 
   static Future<dynamic> fetchLabsSchedule({
@@ -142,6 +142,19 @@ class PackageRepository {
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.labSchedule}${labId}',
+      cancelToken: cancelToken,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response.data;
+  }
+
+  static Future<dynamic> fetchPackageHistory({
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    final response = await _cachedDio.get(
+      '${ApiConsts.getPackageAppointmentHistory}${SettingsController.userId}',
       cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );

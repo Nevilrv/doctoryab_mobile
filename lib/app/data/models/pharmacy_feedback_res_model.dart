@@ -3,8 +3,7 @@
 //     final pharmacyFeedbackResModel = pharmacyFeedbackResModelFromJson(jsonString);
 
 import 'dart:convert';
-
-import 'labs_model.dart';
+import 'package:doctor_yab/app/data/models/labs_model.dart';
 
 PharmacyFeedbackResModel pharmacyFeedbackResModelFromJson(String str) =>
     PharmacyFeedbackResModel.fromJson(json.decode(str));
@@ -39,7 +38,7 @@ class PharmacyFeedbackResModel {
 }
 
 class PharmacyFeedback {
-  String id;
+  String datumId;
   String comment;
   String whoPosted;
   PostedBy postedBy;
@@ -49,11 +48,13 @@ class PharmacyFeedback {
   String cleaningRating;
   String satifyRating;
   String expertiseRating;
-  String pharmacyId;
+  PharmacyId pharmacyId;
+  String id;
   int v;
+  double averageRating;
 
   PharmacyFeedback({
-    this.id,
+    this.datumId,
     this.comment,
     this.whoPosted,
     this.postedBy,
@@ -64,12 +65,14 @@ class PharmacyFeedback {
     this.satifyRating,
     this.expertiseRating,
     this.pharmacyId,
+    this.id,
     this.v,
+    this.averageRating,
   });
 
   factory PharmacyFeedback.fromJson(Map<String, dynamic> json) =>
       PharmacyFeedback(
-        id: json["_id"],
+        datumId: json["_id"],
         comment: json["comment"],
         whoPosted: json["whoPosted"],
         postedBy: PostedBy.fromJson(json["postedBy"]),
@@ -79,12 +82,14 @@ class PharmacyFeedback {
         cleaningRating: json["cleaningRating"],
         satifyRating: json["satifyRating"],
         expertiseRating: json["expertiseRating"],
-        pharmacyId: json["pharmacyId"],
+        pharmacyId: PharmacyId.fromJson(json["pharmacyId"]),
+        id: json["ID"],
         v: json["__v"],
+        averageRating: json["averageRating"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
+        "_id": datumId,
         "comment": comment,
         "whoPosted": whoPosted,
         "postedBy": postedBy.toJson(),
@@ -94,8 +99,100 @@ class PharmacyFeedback {
         "cleaningRating": cleaningRating,
         "satifyRating": satifyRating,
         "expertiseRating": expertiseRating,
-        "pharmacyId": pharmacyId,
+        "pharmacyId": pharmacyId.toJson(),
+        "ID": id,
         "__v": v,
+        "averageRating": averageRating,
+      };
+}
+
+class PharmacyId {
+  Geometry geometry;
+  String photo;
+  String email;
+  bool isDeleted;
+  List<String> phone;
+  String totalFeedbacks;
+  String averageRating;
+  bool active;
+  List<List<String>> times;
+  List<int> the24Hours;
+  List<int> schedule;
+  String pharmacyIdId;
+  String name;
+  String city;
+  String address;
+  String createAt;
+  int v;
+  int id;
+  List<dynamic> checkUp;
+
+  PharmacyId({
+    this.geometry,
+    this.photo,
+    this.email,
+    this.isDeleted,
+    this.phone,
+    this.totalFeedbacks,
+    this.averageRating,
+    this.active,
+    this.times,
+    this.the24Hours,
+    this.schedule,
+    this.pharmacyIdId,
+    this.name,
+    this.city,
+    this.address,
+    this.createAt,
+    this.v,
+    this.id,
+    this.checkUp,
+  });
+
+  factory PharmacyId.fromJson(Map<String, dynamic> json) => PharmacyId(
+        geometry: Geometry.fromJson(json["geometry"]),
+        photo: json["photo"],
+        email: json["email"],
+        isDeleted: json["is_deleted"],
+        phone: List<String>.from(json["phone"].map((x) => x)),
+        totalFeedbacks: json["totalFeedbacks"],
+        averageRating: json["averageRating"],
+        active: json["active"],
+        times: List<List<String>>.from(
+            json["times"].map((x) => List<String>.from(x.map((x) => x)))),
+        the24Hours: List<int>.from(json["_24Hours"].map((x) => x)),
+        schedule: List<int>.from(json["schedule"].map((x) => x)),
+        pharmacyIdId: json["_id"],
+        name: json["name"],
+        city: json["city"],
+        address: json["address"],
+        createAt: json["createAt"],
+        v: json["__v"],
+        id: json["ID"],
+        checkUp: List<dynamic>.from(json["checkUp"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "geometry": geometry.toJson(),
+        "photo": photo,
+        "email": email,
+        "is_deleted": isDeleted,
+        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "totalFeedbacks": totalFeedbacks,
+        "averageRating": averageRating,
+        "active": active,
+        "times": List<dynamic>.from(
+            times.map((x) => List<dynamic>.from(x.map((x) => x)))),
+        "_24Hours": List<dynamic>.from(the24Hours.map((x) => x)),
+        "schedule": List<dynamic>.from(schedule.map((x) => x)),
+        "_id": pharmacyIdId,
+        "name": name,
+        "city": city,
+        "address": address,
+        "createAt": createAt,
+        "__v": v,
+        "ID": id,
+        "checkUp": List<dynamic>.from(checkUp.map((x) => x)),
       };
 }
 
@@ -103,66 +200,50 @@ class PostedBy {
   Geometry geometry;
   String photo;
   String id;
-  String email;
-  String language;
+  String phone;
   String fcm;
   String createAt;
   String patientId;
   int v;
-  String city;
-  String gender;
-  String name;
-  String phone;
   int age;
+  String name;
 
   PostedBy({
     this.geometry,
     this.photo,
     this.id,
-    this.email,
-    this.language,
+    this.phone,
     this.fcm,
     this.createAt,
     this.patientId,
     this.v,
-    this.city,
-    this.gender,
-    this.name,
-    this.phone,
     this.age,
+    this.name,
   });
 
   factory PostedBy.fromJson(Map<String, dynamic> json) => PostedBy(
         geometry: Geometry.fromJson(json["geometry"]),
         photo: json["photo"],
         id: json["_id"],
-        email: json["email"],
-        language: json["language"],
+        phone: json["phone"],
         fcm: json["fcm"],
         createAt: json["createAt"],
         patientId: json["patientID"],
         v: json["__v"],
-        city: json["city"],
-        gender: json["gender"],
-        name: json["name"],
-        phone: json["phone"],
         age: json["age"],
+        name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
         "geometry": geometry.toJson(),
         "photo": photo,
         "_id": id,
-        "email": email,
-        "language": language,
+        "phone": phone,
         "fcm": fcm,
         "createAt": createAt,
         "patientID": patientId,
         "__v": v,
-        "city": city,
-        "gender": gender,
-        "name": name,
-        "phone": phone,
         "age": age,
+        "name": name,
       };
 }

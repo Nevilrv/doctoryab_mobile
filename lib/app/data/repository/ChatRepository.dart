@@ -1,5 +1,5 @@
 // import 'dart:io' as Io;
-
+import 'package:mime/mime.dart' as mimeManager;
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -144,6 +144,7 @@ class ChatRepository {
             ? await MultipartFile.fromFile(
                 file.path,
                 filename: file.path.split('/').last,
+
                 contentType: MediaType('image', 'png'),
                 // contentType: MediaType('img', image.path.split('.').last)
               )
@@ -160,16 +161,43 @@ class ChatRepository {
     return response.data;
   }
 
-  Future<dynamic> uploadAudio({
+  Future<dynamic> uploadPDF({
     File file,
   }) async {
-    log("file.path--------------> ${file.path}");
+    File pdfFile = File(file.path.toString());
+    log("pdfFile--------------> ${pdfFile.path}");
 
     FormData formData = FormData.fromMap(
       {
-        "audio": file.path != ""
+        "file": pdfFile.path != ""
+            ? await MultipartFile.fromFile("${pdfFile.path}",
+                filename: pdfFile.path.split('/').last,
+                contentType: MediaType('application', 'pdf'))
+            : null,
+      },
+    );
+    log("formData--------------> ${formData}");
+
+    final response = await _cachedDio.post(
+        "https://testserver.doctoryab.app/api/v4/message/file",
+        data: formData,
+        options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge));
+    log("response.data--------------> ${response.data}");
+
+    return response.data;
+  }
+
+  Future<dynamic> uploadAudio({
+    File file,
+  }) async {
+    File audioFile = File(file.path.toString());
+    log("file.path--------------> ${audioFile.path}");
+
+    FormData formData = FormData.fromMap(
+      {
+        "audio": audioFile.path != ""
             ? await MultipartFile.fromFile(
-                "/data/user/0/com.microcis.doctor_yab.dev/cache/file_picker/temp.wav",
+                "${audioFile.path}",
                 filename: "temp.wav",
                 contentType: MediaType('audio', 'wav'),
               )

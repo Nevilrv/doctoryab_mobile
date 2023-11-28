@@ -404,7 +404,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                     Text("no_result_found".tr),
                                               ))
                                             : Container(
-                                                height: h * 0.495,
+                                                height: h * 0.44,
                                                 child: SingleChildScrollView(
                                                   physics:
                                                       BouncingScrollPhysics(),
@@ -429,95 +429,175 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                 h * 0.27),
                                                     itemBuilder:
                                                         (context, index) {
-                                                      return Container(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Container(
-                                                              height: h * 0.15,
-                                                              width: w,
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Get.dialog(
+                                                            Padding(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      30),
+                                                              child: Center(
                                                                 child:
-                                                                    CachedNetworkImage(
-                                                                  imageUrl:
-                                                                      "${ApiConsts.hostUrl}${controller.resModel.data.checkUp[index].img}",
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  placeholder:
-                                                                      (_, __) {
-                                                                    return Image
-                                                                        .asset(
-                                                                      "assets/png/person-placeholder.jpg",
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    );
-                                                                  },
-                                                                  errorWidget:
-                                                                      (_, __,
-                                                                          ___) {
-                                                                    return Image
-                                                                        .asset(
-                                                                      "assets/png/person-placeholder.jpg",
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    );
-                                                                  },
+                                                                    Container(
+                                                                  // height: Get.height * 0.3,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    color: AppColors
+                                                                        .white,
+                                                                  ),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            20,
+                                                                        vertical:
+                                                                            10),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 20,
+                                                                              width: 20,
+                                                                            ),
+                                                                            GestureDetector(
+                                                                              onTap: () {
+                                                                                Get.back();
+                                                                              },
+                                                                              child: Icon(
+                                                                                Icons.cancel_outlined,
+                                                                                color: AppColors.primary,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Text(
+                                                                          "${controller.resModel.data.checkUp[index].title ?? ""}",
+                                                                          style:
+                                                                              AppTextStyle.boldBlack13,
+                                                                        ),
+                                                                        Text(
+                                                                          "${controller.resModel.data.checkUp[index].content ?? ""}" ??
+                                                                              "",
+                                                                          style: AppTextStyle
+                                                                              .boldBlack13
+                                                                              .copyWith(fontWeight: FontWeight.w400),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            Text(
-                                                              "${controller.resModel.data.checkUp[index].title ?? ""}",
-                                                              style: AppTextStyle
-                                                                  .boldPrimary12,
-                                                            ),
-                                                            Text(
-                                                              "${controller.resModel.data.checkUp[index].content}",
-                                                              maxLines: 2,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: AppTextStyle
-                                                                  .boldPrimary11
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
-                                                            ),
-                                                            Spacer(),
-                                                            Container(
-                                                              decoration: BoxDecoration(
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                height:
+                                                                    h * 0.15,
+                                                                width: w,
+                                                                child:
+                                                                    ClipRRect(
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
                                                                               10),
-                                                                  color: AppColors
-                                                                      .primary,
-                                                                  border: Border.all(
-                                                                      color: AppColors
-                                                                          .primary)),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical: 5,
-                                                                    horizontal:
-                                                                        5),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    "${controller.resModel.data.checkUp[index].price}  ${"afn".tr}",
-                                                                    style: AppTextStyle
-                                                                        .boldWhite12,
+                                                                  child:
+                                                                      CachedNetworkImage(
+                                                                    imageUrl:
+                                                                        "${ApiConsts.hostUrl}${controller.resModel.data.checkUp[index].img}",
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    placeholder:
+                                                                        (_, __) {
+                                                                      return Image
+                                                                          .asset(
+                                                                        "assets/png/person-placeholder.jpg",
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      );
+                                                                    },
+                                                                    errorWidget:
+                                                                        (_, __,
+                                                                            ___) {
+                                                                      return Image
+                                                                          .asset(
+                                                                        "assets/png/person-placeholder.jpg",
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      );
+                                                                    },
                                                                   ),
                                                                 ),
                                                               ),
-                                                            )
-                                                          ],
+                                                              Text(
+                                                                "${controller.resModel.data.checkUp[index].title ?? ""}",
+                                                                style: AppTextStyle
+                                                                    .boldPrimary12,
+                                                              ),
+                                                              Text(
+                                                                "${controller.resModel.data.checkUp[index].content ?? ""}",
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: AppTextStyle
+                                                                    .boldPrimary11
+                                                                    .copyWith(
+                                                                        color: AppColors
+                                                                            .primary
+                                                                            .withOpacity(0.5)),
+                                                              ),
+                                                              Spacer(),
+                                                              Container(
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    color: AppColors
+                                                                        .primary,
+                                                                    border: Border.all(
+                                                                        color: AppColors
+                                                                            .primary)),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          5,
+                                                                      horizontal:
+                                                                          5),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "${controller.resModel.data.checkUp[index].price}  ${"afn".tr}",
+                                                                      style: AppTextStyle
+                                                                          .boldWhite12,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       );
                                                     },
@@ -539,7 +619,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                         "no_result_found".tr),
                                                   ))
                                                 : Container(
-                                                    height: h * 0.495,
+                                                    height: h * 0.45,
                                                     child:
                                                         SingleChildScrollView(
                                                       physics:
@@ -552,8 +632,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                             (index) =>
                                                                 Container(
                                                                   width: w,
-                                                                  height:
-                                                                      h * 0.1,
+                                                                  // height:
+                                                                  //     h * 0.1,
                                                                   padding: EdgeInsets.symmetric(
                                                                       vertical:
                                                                           10,
@@ -593,7 +673,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                         'Read more',
                                                                     collapseText:
                                                                         'Read less',
-                                                                    maxLines: 3,
+                                                                    maxLines:
+                                                                        15,
                                                                     linkColor:
                                                                         AppColors
                                                                             .primary,

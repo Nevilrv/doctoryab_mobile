@@ -127,74 +127,159 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                       children: [
                                         ...List.generate(
                                             item.checkUp.length,
-                                            (index) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 10),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            "${item.checkUp[index].title ?? ""}",
-                                                            style: AppTextStyle
-                                                                .boldPrimary12,
-                                                          ),
-                                                          Container(
-                                                            width:
-                                                                Get.width * 0.6,
-                                                            child: Text(
-                                                              "${item.checkUp[index].content ?? ""}",
-                                                              maxLines: 2,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: AppTextStyle
-                                                                  .boldPrimary11
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
+                                            (index) => GestureDetector(
+                                                  onTap: () {
+                                                    Get.dialog(
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 30),
+                                                        child: Center(
+                                                          child: Container(
+                                                            // height: Get.height * 0.3,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color: AppColors
+                                                                  .white,
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Spacer(),
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5),
-                                                            color: AppColors
-                                                                .primary,
-                                                            border: Border.all(
-                                                                color: AppColors
-                                                                    .primary)),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
+                                                            child: Padding(
+                                                              padding: const EdgeInsets
                                                                       .symmetric(
-                                                                  vertical: 5,
                                                                   horizontal:
-                                                                      10),
-                                                          child: Center(
-                                                            child: Text(
-                                                              "${item.checkUp[index].price} ${"afn".tr}",
-                                                              style: AppTextStyle
-                                                                  .boldWhite12,
+                                                                      20,
+                                                                  vertical: 10),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        height:
+                                                                            20,
+                                                                        width:
+                                                                            20,
+                                                                      ),
+                                                                      GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .cancel_outlined,
+                                                                          color:
+                                                                              AppColors.primary,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    "${item.checkUp[index].title ?? ""}",
+                                                                    style: AppTextStyle
+                                                                        .boldBlack13,
+                                                                  ),
+                                                                  Text(
+                                                                    "${item.checkUp[index].content ?? ""}" ??
+                                                                        "",
+                                                                    style: AppTextStyle
+                                                                        .boldBlack13
+                                                                        .copyWith(
+                                                                            fontWeight:
+                                                                                FontWeight.w400),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "${item.checkUp[index].title ?? ""}",
+                                                              style: AppTextStyle
+                                                                  .boldPrimary12,
+                                                            ),
+                                                            Container(
+                                                              width: Get.width *
+                                                                  0.6,
+                                                              child: Text(
+                                                                "${item.checkUp[index].content ?? ""}",
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: AppTextStyle
+                                                                    .boldPrimary11
+                                                                    .copyWith(
+                                                                        color: AppColors
+                                                                            .primary
+                                                                            .withOpacity(0.5)),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Spacer(),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              color: AppColors
+                                                                  .primary,
+                                                              border: Border.all(
+                                                                  color: AppColors
+                                                                      .primary)),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical: 5,
+                                                                    horizontal:
+                                                                        10),
+                                                            child: Center(
+                                                              child: Text(
+                                                                "${item.checkUp[index].price} ${"afn".tr}",
+                                                                style: AppTextStyle
+                                                                    .boldWhite12,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ))
                                       ],

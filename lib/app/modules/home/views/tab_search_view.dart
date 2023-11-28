@@ -307,7 +307,7 @@ class TabSearchView extends GetView<TabSearchController> {
                                       // BookingController.to.selectedDoctor(item);
                                       Get.toNamed(
                                         Routes.BOOK,
-                                        // arguments: [item, controller.arguments.cCategory],
+                                        arguments: item,
                                       );
                                     },
                                     child: Container(

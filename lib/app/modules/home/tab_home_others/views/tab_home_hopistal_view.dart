@@ -91,13 +91,14 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                               ));
                             },
                             child: Container(
+                              width: Get.width * 0.5,
                               decoration: BoxDecoration(
                                 color: AppColors.primary,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 20),
+                                    vertical: 12, horizontal: 15),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
@@ -145,22 +146,22 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                               ),
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primary),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 9.5, horizontal: 10),
-                              child: Center(
-                                  child: SvgPicture.asset(
-                                AppImages.blackBell,
-                                width: 25,
-                                height: 24,
-                              )),
-                            ),
-                          ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     border: Border.all(color: AppColors.primary),
+                          //     borderRadius: BorderRadius.circular(10),
+                          //   ),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.symmetric(
+                          //         vertical: 9.5, horizontal: 10),
+                          //     child: Center(
+                          //         child: SvgPicture.asset(
+                          //       AppImages.blackBell,
+                          //       width: 25,
+                          //       height: 24,
+                          //     )),
+                          //   ),
+                          // ),
                           GestureDetector(
                             onTap: () {
                               AppGetDialog.showFilterDialog(
@@ -226,7 +227,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                       },
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                        hintText: "search_hospital".tr,
+                        hintText: "search_hospital..".tr,
                         hintStyle:
                             AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                         suffixIcon: Padding(

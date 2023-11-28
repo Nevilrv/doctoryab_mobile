@@ -151,7 +151,7 @@ class DrugStoreLabView extends StatelessWidget {
                     if (!_checkUpLoaded()) {
                       return Center(
                         child: SizedBox(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(color: AppColors.primary,),
                         ),
                       ).paddingAll(30);
                     }

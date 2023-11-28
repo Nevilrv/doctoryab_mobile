@@ -120,7 +120,7 @@ class MessagesListView extends GetView<MessagesListController> {
                     ),
                     child: controller.isLoading()
                         ? Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(color: AppColors.primary,),
                           )
                         : ListView.separated(
                             physics: BouncingScrollPhysics(),

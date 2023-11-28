@@ -449,6 +449,8 @@ class DrugStoreLabController extends TabHomeOthersController {
         "expertiseRating": eRating.toString(),
         "labId": labId
       };
+      log("data--------------> ${data}");
+
       var _response = await DoctorsRepository()
           .postDoctorFeedback(
               cancelToken: cancelToken,
