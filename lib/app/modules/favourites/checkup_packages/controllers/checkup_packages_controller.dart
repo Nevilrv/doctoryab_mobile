@@ -384,6 +384,7 @@ class CheckupPackagesController extends GetxController {
   }
 
   void addPackageFeedback({String packageId, String rating}) {
+    Get.back();
     isLoadingFeedback = true;
     update();
     FocusManager.instance.primaryFocus?.unfocus();

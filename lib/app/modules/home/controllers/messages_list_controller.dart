@@ -92,7 +92,7 @@ class MessagesListController extends GetxController {
   //     ]);
 
   void onTapMessageTile(ChatListApiModel item) async {
-    await Get.toNamed(Routes.CHAT, arguments: item);
+    Get.toNamed(Routes.CHAT, arguments: item);
     reloadChats();
   }
 
@@ -138,6 +138,8 @@ class MessagesListController extends GetxController {
         });
       }
     }).then((value) {
+      log("value--------------> ${value}");
+
       // var _tmp = value.map((item) {
       //   return ChatModel(
       //     sendarName: item.chatName,

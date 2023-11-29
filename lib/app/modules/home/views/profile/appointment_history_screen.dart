@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/appointmtnet_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
   AppointmentHistoryScreen({Key key}) : super(key: key);
@@ -74,147 +77,98 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                   children: [
                                     ...List.generate(
                                         controller.appointmentList.length,
-                                        (index) => Column(
-                                              children: [
-                                                Container(
-                                                  width: w,
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            offset:
-                                                                Offset(0, 4),
-                                                            blurRadius: 4,
-                                                            color: AppColors
-                                                                .black
-                                                                .withOpacity(
-                                                                    0.25))
-                                                      ]),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
-                                                    child: Column(
-                                                      children: [
-                                                        controller
-                                                                    .appointmentList[
-                                                                        index]
-                                                                    .patientId ==
-                                                                null
-                                                            ? Row(
-                                                                children: [
-                                                                  Spacer(),
-                                                                  Container(
-                                                                    decoration: BoxDecoration(
-                                                                        color: AppColors
-                                                                            .red
-                                                                            .withOpacity(
-                                                                                0.1),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(4)),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .symmetric(
-                                                                          horizontal:
-                                                                              10,
-                                                                          vertical:
-                                                                              2),
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
-                                                                          "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
-                                                                          style: AppTextStyle
-                                                                              .mediumPrimary12
-                                                                              .copyWith(color: AppColors.red),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            : Row(
-                                                                children: [
-                                                                  SvgPicture.asset(
-                                                                      AppImages
-                                                                          .doc,
-                                                                      height:
-                                                                          20,
-                                                                      width:
-                                                                          20),
-                                                                  SizedBox(
-                                                                    width: 20,
-                                                                  ),
-                                                                  Text(
-                                                                    "department"
-                                                                        .tr,
+                                        (index) {
+                                      var _d = controller.appointmentList[index]
+                                                  .createAt ==
+                                              null
+                                          ? DateTime.now()
+                                          : DateTime.fromMillisecondsSinceEpoch(
+                                                  int.tryParse(controller
+                                                      .appointmentList[index]
+                                                      .createAt))
+                                              ?.toLocal();
+                                      log("_d--------------> ${_d}");
+
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            width: w,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(0, 4),
+                                                      blurRadius: 4,
+                                                      color: AppColors.black
+                                                          .withOpacity(0.25))
+                                                ]),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
+                                              child: Column(
+                                                children: [
+                                                  controller
+                                                              .appointmentList[
+                                                                  index]
+                                                              .patientId ==
+                                                          null
+                                                      ? Row(
+                                                          children: [
+                                                            Spacer(),
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .red
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              4)),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                    vertical:
+                                                                        2),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "${_d.toPersianDateStr(
+                                                                      strDay:
+                                                                          false,
+                                                                      strMonth:
+                                                                          true,
+                                                                      useAfghaniMonthName:
+                                                                          true,
+                                                                    )}",
+                                                                    // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
                                                                     style: AppTextStyle
-                                                                        .boldBlack10
+                                                                        .mediumPrimary12
                                                                         .copyWith(
                                                                             color:
-                                                                                AppColors.lightBlack2,
-                                                                            fontWeight: FontWeight.w400),
+                                                                                AppColors.red),
                                                                   ),
-                                                                  Text(
-                                                                    " ${controller.appointmentList[index].doctor[0].category.title ?? ''}",
-                                                                    style: AppTextStyle
-                                                                        .boldBlack10
-                                                                        .copyWith(
-                                                                            color:
-                                                                                AppColors.lightBlack2,
-                                                                            fontWeight: FontWeight.bold),
-                                                                  ),
-                                                                  Spacer(),
-                                                                  Container(
-                                                                    decoration: BoxDecoration(
-                                                                        color: AppColors
-                                                                            .red
-                                                                            .withOpacity(
-                                                                                0.1),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(4)),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .symmetric(
-                                                                          horizontal:
-                                                                              10,
-                                                                          vertical:
-                                                                              2),
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
-                                                                          "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
-                                                                          style: AppTextStyle
-                                                                              .mediumPrimary12
-                                                                              .copyWith(color: AppColors.red),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                                ),
                                                               ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Row(
+                                                            ),
+                                                          ],
+                                                        )
+                                                      : Row(
                                                           children: [
                                                             SvgPicture.asset(
-                                                                AppImages
-                                                                    .profile2,
+                                                                AppImages.doc,
                                                                 height: 20,
                                                                 width: 20),
                                                             SizedBox(
                                                               width: 20,
                                                             ),
                                                             Text(
-                                                              "doctor".tr,
+                                                              "department".tr,
                                                               style: AppTextStyle
                                                                   .boldBlack10
                                                                   .copyWith(
@@ -225,7 +179,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                               .w400),
                                                             ),
                                                             Text(
-                                                              " ${controller.appointmentList[index].doctor[0].name ?? ""}",
+                                                              " ${controller.appointmentList[index].doctor[0].category.title ?? ''}",
                                                               style: AppTextStyle
                                                                   .boldBlack10
                                                                   .copyWith(
@@ -235,162 +189,232 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                           FontWeight
                                                                               .bold),
                                                             ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            SvgPicture.asset(
-                                                                AppImages
-                                                                    .calendar,
-                                                                height: 20,
-                                                                width: 20),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Text(
-                                                              "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
-                                                              style: AppTextStyle
-                                                                  .boldBlack10
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .lightBlack2,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                            ),
                                                             Spacer(),
-                                                            SvgPicture.asset(
-                                                                AppImages.clock,
-                                                                height: 20,
-                                                                width: 20),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
-                                                              "${DateFormat("HH.MM").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
-                                                              style: AppTextStyle
-                                                                  .boldBlack10
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .lightBlack2,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            SvgPicture.asset(
-                                                                AppImages.chat,
-                                                                height: 20,
-                                                                width: 20),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Text(
-                                                              "You review on this service",
-                                                              style: AppTextStyle
-                                                                  .boldBlack10
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .lightBlack2,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                            ),
-                                                            Spacer(),
-                                                            RatingBar.builder(
-                                                              ignoreGestures:
-                                                                  true,
-                                                              itemSize: 17,
-                                                              initialRating: 4,
-                                                              // minRating: 1,
-                                                              direction: Axis
-                                                                  .horizontal,
-                                                              allowHalfRating:
-                                                                  true,
-                                                              itemCount: 5,
-                                                              itemPadding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          1.0),
-                                                              itemBuilder:
-                                                                  (context,
-                                                                          _) =>
-                                                                      Icon(
-                                                                Icons.star,
-                                                                color: Colors
-                                                                    .amber,
-                                                                // size: 10,
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .red
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              4)),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                    vertical:
+                                                                        2),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "${_d.toPersianDateStr(
+                                                                      strDay:
+                                                                          false,
+                                                                      strMonth:
+                                                                          true,
+                                                                      useAfghaniMonthName:
+                                                                          true,
+                                                                    )}",
+                                                                    // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
+                                                                    style: AppTextStyle
+                                                                        .mediumPrimary12
+                                                                        .copyWith(
+                                                                            color:
+                                                                                AppColors.red),
+                                                                  ),
+                                                                ),
                                                               ),
-                                                              onRatingUpdate:
-                                                                  (rating) {
-                                                                print(rating);
-                                                              },
                                                             ),
                                                           ],
                                                         ),
-                                                      ],
-                                                    ),
+                                                  SizedBox(
+                                                    height: 5,
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Get.to(
-                                                        AppointmentDetailScreen(
-                                                      history: controller
-                                                              .appointmentList[
-                                                          index],
-                                                    ));
-                                                    // Get.toNamed(Routes.HISTORY_DETAILS);
-                                                  },
-                                                  child: Container(
-                                                    width: w,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                        color:
-                                                            AppColors.primary,
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  Offset(0, 4),
-                                                              blurRadius: 4,
-                                                              color: AppColors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.25))
-                                                        ]),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 10),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "see_details".tr,
-                                                          style: AppTextStyle
-                                                              .boldWhite10,
-                                                        ),
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                          AppImages.profile2,
+                                                          height: 20,
+                                                          width: 20),
+                                                      SizedBox(
+                                                        width: 20,
                                                       ),
-                                                    ),
+                                                      Text(
+                                                        "doctor".tr,
+                                                        style: AppTextStyle
+                                                            .boldBlack10
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                      Text(
+                                                        " ${controller.appointmentList[index].doctor[0].fullname ?? ""}",
+                                                        style: AppTextStyle
+                                                            .boldBlack10
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                          AppImages.calendar,
+                                                          height: 20,
+                                                          width: 20),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      Text(
+                                                        "${DateTime.parse(controller.appointmentList[index] == null ? DateTime.now() : controller.appointmentList[index].visitDate.toLocal().toString()).toPersianDateStr(
+                                                          strDay: false,
+                                                          strMonth: true,
+                                                          useAfghaniMonthName:
+                                                              true,
+                                                        )}",
+                                                        // "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
+                                                        style: AppTextStyle
+                                                            .boldBlack10
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                      Spacer(),
+                                                      SvgPicture.asset(
+                                                          AppImages.clock,
+                                                          height: 20,
+                                                          width: 20),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "${DateFormat("HH.MM").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
+                                                        style: AppTextStyle
+                                                            .boldBlack10
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                          AppImages.chat,
+                                                          height: 20,
+                                                          width: 20),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      Text(
+                                                        "You review on this service",
+                                                        style: AppTextStyle
+                                                            .boldBlack10
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .lightBlack2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                      Spacer(),
+                                                      RatingBar.builder(
+                                                        ignoreGestures: true,
+                                                        itemSize: 17,
+                                                        initialRating: double.parse(
+                                                            "${controller.appointmentList[index].doctor[0].averageRatings == null ? "0" : controller.appointmentList[index].doctor[0].averageRatings.toString()}"),
+                                                        // minRating: 1,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                        allowHalfRating: true,
+                                                        itemCount: 5,
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    1.0),
+                                                        itemBuilder:
+                                                            (context, _) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          color: Colors.amber,
+                                                          // size: 10,
+                                                        ),
+                                                        onRatingUpdate:
+                                                            (rating) {
+                                                          print(rating);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.to(AppointmentDetailScreen(
+                                                history: controller
+                                                    .appointmentList[index],
+                                              ));
+                                              // Get.toNamed(Routes.HISTORY_DETAILS);
+                                            },
+                                            child: Container(
+                                              width: w,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: AppColors.primary,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        offset: Offset(0, 4),
+                                                        blurRadius: 4,
+                                                        color: AppColors.black
+                                                            .withOpacity(0.25))
+                                                  ]),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Center(
+                                                  child: Text(
+                                                    "see_details".tr,
+                                                    style: AppTextStyle
+                                                        .boldWhite10,
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                              ],
-                                            ))
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ],
+                                      );
+                                    })
                                   ],
                                 ),
                         ),

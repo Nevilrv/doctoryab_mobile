@@ -70,7 +70,7 @@ class AbroadRepository {
             ? await MultipartFile.fromFile(
                 pdf.path,
                 filename: pdf.path.split('/').last,
-                contentType: MediaType('image', 'png'),
+                contentType: MediaType('application', 'pdf'),
                 // contentType: MediaType('img', image.path.split('.').last)
               )
             : null,

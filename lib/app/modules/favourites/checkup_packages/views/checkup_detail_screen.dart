@@ -229,7 +229,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                                 vertical: 5, horizontal: 10),
                                             child: Center(
                                               child: Text(
-                                                "${item.discount ?? 0} OFF",
+                                                "${item.discount ?? 0} ${"OFF".tr}",
                                                 style:
                                                     AppTextTheme.b(15).copyWith(
                                                   color: AppColors.red2,

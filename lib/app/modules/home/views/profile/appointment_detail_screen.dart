@@ -17,6 +17,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class AppointmentDetailScreen extends StatelessWidget {
   History history;
@@ -145,7 +146,8 @@ class AppointmentDetailScreen extends StatelessWidget {
                                             RatingBar.builder(
                                               ignoreGestures: true,
                                               itemSize: 17,
-                                              initialRating: 4,
+                                              initialRating: double.parse(
+                                                  "${history.doctor[0].averageRatings == null ? "0" : history.doctor[0].averageRatings.toString()}"),
                                               // minRating: 1,
                                               direction: Axis.horizontal,
                                               allowHalfRating: true,
@@ -169,7 +171,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                                                 ));
                                               },
                                               child: Text(
-                                                '(10) ${"reviews".tr}',
+                                                '(${history.doctor[0].totalFeedbacks == null ? "0" : history.doctor[0].totalFeedbacks.toString()}) ${"reviews".tr}',
                                                 style: AppTextTheme.b(12)
                                                     .copyWith(
                                                         color: AppColors.primary
@@ -308,7 +310,12 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                        "${DateTime.parse(history.visitDate == null ? DateTime.now() : history.visitDate.toLocal().toString()).toPersianDateStr(
+                          strDay: false,
+                          strMonth: true,
+                          useAfghaniMonthName: true,
+                        )}",
+                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),
@@ -464,7 +471,12 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                        "${DateTime.parse(history.visitDate == null ? DateTime.now() : history.visitDate.toLocal().toString()).toPersianDateStr(
+                          strDay: false,
+                          strMonth: true,
+                          useAfghaniMonthName: true,
+                        )}",
+                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),

@@ -497,6 +497,8 @@ class BookView extends GetView<BookController> {
                                                                       .selectedDataList[
                                                                           index]
                                                                       .toString();
+                                                              log("controller.selectedDataTime--------------> ${controller.selectedDataTime}");
+
                                                               controller
                                                                   .update();
                                                             },

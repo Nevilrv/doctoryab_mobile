@@ -204,8 +204,8 @@ class DoctorsRepository {
       data: {
         "visit_date": time,
         "name": name,
-        "age": age.toEnglishDigit(),
-        "phone": phone.toEnglishDigit(),
+        "age": age.toEnglishDigit().toString(),
+        "phone": phone.toEnglishDigit().toString(),
         "patientId": patId,
       },
       // cancelToken: loginCancelToken,

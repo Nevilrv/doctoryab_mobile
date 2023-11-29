@@ -107,7 +107,7 @@ class ChatRepository {
         cancelToken: cancelToken,
         data: {
           "chatId": "$chatID",
-          "content": "$message",
+          "content": "$message" ?? "",
           "images": images == null || images.isEmpty ? [] : images
         },
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),

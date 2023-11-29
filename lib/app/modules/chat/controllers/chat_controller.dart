@@ -26,7 +26,7 @@ import 'package:path/path.dart' as path;
 import 'package:audioplayers/audioplayers.dart' as ap;
 
 class ChatController extends GetxController {
-  Rx<ChatListApiModel> chatArg = (Get.arguments as ChatListApiModel).obs;
+  Rx<ChatListApiModel> chatArg;
   TextEditingController messageC = TextEditingController();
   //paging
   var page = 1;
@@ -208,6 +208,8 @@ class ChatController extends GetxController {
   RxList<XFile> image = <XFile>[].obs;
   var pdfFile = "".obs;
   init() {
+    log("calll-----2");
+
     // nextPageTrigger will have a value equivalent to 80% of the list size.
     initializer();
     Future.delayed(Duration.zero, () {
@@ -558,6 +560,8 @@ class ChatController extends GetxController {
   // }
   Socket socket;
   initSocket() {
+    log("calll-----3");
+
     socket = IO.io(ApiConsts.socketServerURL, <String, dynamic>{
       'autoConnect': true,
       'transports': ['websocket'],
@@ -628,8 +632,38 @@ class ChatController extends GetxController {
     update();
   }
 
+  onInitCall() {
+    log("calll-----0");
+
+    chatArg = (Get.arguments as ChatListApiModel).obs;
+    chat.clear();
+    loadChatList(1);
+    init();
+    initSocket();
+    voiceTrackRowSize = hi.length;
+
+    playerStateChangedSubscription1 =
+        audioPlayer1.onPlayerComplete.listen((state) async {
+      await stop1();
+      update();
+    });
+
+    positionChangedSubscription1 =
+        audioPlayer1.onPositionChanged.listen((position) {
+      position1 = position;
+      update();
+    });
+    durationChangedSubscription1 =
+        audioPlayer1.onDurationChanged.listen((duration) {
+      duration1 = duration;
+      update();
+      log('_duration1_duration1>> ${duration1.inSeconds}');
+    });
+  }
+
   @override
   void onInit() {
+    chatArg = (Get.arguments as ChatListApiModel).obs;
     initSocket();
     voiceTrackRowSize = hi.length;
 
@@ -691,6 +725,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> loadChatList(int p) async {
+    log("calll-----1");
     ChatRepository.fetchChatsById(chatArg().id,
         cancelToken: chatCancelToken,
         page: p,
