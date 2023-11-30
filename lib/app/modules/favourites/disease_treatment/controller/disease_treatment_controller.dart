@@ -88,8 +88,8 @@ class DiseaseTreatmentController extends GetxController {
 
   bannerAds() {
     bannerAd = BannerAd(
-        size: AdSize(height: (200).round(), width: Get.width.round()),
         // size: AdSize.banner,
+        size: AdSize(height: (200).round(), width: Get.width.round()),
         adUnitId: Utils.bannerAdId,
         listener: BannerAdListener(
           onAdLoaded: (ad) {

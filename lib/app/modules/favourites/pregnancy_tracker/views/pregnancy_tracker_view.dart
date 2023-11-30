@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/controllers/pregnancy_tracker_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/tab_calculator_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/tab_calendar_view.dart';
@@ -90,11 +91,14 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
                       shape: BoxShape.circle,
                     ),
                     child: Center(
+                        child: RotatedBox(
+                      quarterTurns:
+                          SettingsController.appLanguge == "English" ? 0 : 2,
                       child: SvgPicture.asset(
                         AppImages.back2,
                         height: 14,
                       ),
-                    ),
+                    )),
                   ),
                 ),
                 Expanded(

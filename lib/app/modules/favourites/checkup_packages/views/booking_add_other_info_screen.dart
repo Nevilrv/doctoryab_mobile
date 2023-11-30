@@ -1,4 +1,5 @@
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
@@ -56,11 +57,16 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
+                                    child: RotatedBox(
+                                  quarterTurns:
+                                      SettingsController.appLanguge == "English"
+                                          ? 0
+                                          : 2,
                                   child: SvgPicture.asset(
                                     AppImages.back2,
                                     height: 14,
                                   ),
-                                ),
+                                )),
                               ),
                             ),
                             Expanded(

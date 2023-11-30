@@ -31,6 +31,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/doctors_controller.dart';
@@ -982,6 +983,73 @@ class DoctorsView extends GetView<DoctorsController> {
   Widget _doctorData(BuildContext context, Doctor item) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
+    var date;
+    String slot;
+
+    if (item.schedules.isNotEmpty) {
+      if (item.schedules.length == 1) {
+        for (int i = 0; i <= 7; i++) {
+          DateTime d = DateTime.now().add(Duration(days: i));
+          if (item.schedules[0].dayOfWeek == d.weekday) {
+            log("d--------------> ${d}");
+            date = d
+                .toPersianDateStr(
+                  strDay: false,
+                  strMonth: true,
+                  useAfghaniMonthName: true,
+                )
+                .trim()
+                .split(' ');
+            if (item.schedules[0].times.isNotEmpty) {
+              slot =
+                  "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
+            }
+            log("date--------------> ${date}");
+            log("slot--------------> ${slot}");
+            break;
+          }
+        }
+      } else {
+        // List<Schedule> dataSort ;
+        // dataSort.add(value)
+        item.schedules.sort((a, b) => a.dayOfWeek.compareTo(b.dayOfWeek));
+        for (int i = 0; i < item.schedules.length; i++) {
+          log("item.schedules[i].dayOfWeek--------------> ${item.schedules[i].times}");
+
+          if (DateTime.now().weekday == item.schedules[i].dayOfWeek) {
+            int indexxx = item.schedules.indexOf(item.schedules[i]);
+
+            for (int i = 0; i <= 7; i++) {
+              DateTime d = DateTime.now().add(Duration(days: i));
+              if (item.schedules[indexxx + 1].dayOfWeek == d.weekday) {
+                log("d--------------> ${d}");
+                log("item.schedules[indexxx + 1].times--------------> ${item.schedules[indexxx + 1].times}");
+
+                date = d
+                    .toPersianDateStr(
+                      strDay: false,
+                      strMonth: true,
+                      useAfghaniMonthName: true,
+                    )
+                    .trim()
+                    .split(' ');
+                if (item.schedules[indexxx + 1].times.isNotEmpty) {
+                  slot =
+                      "${item.schedules[indexxx + 1].times.first} - ${item.schedules[indexxx + 1].times.last}";
+                }
+
+                log("date--------------> ${date}");
+                log("slot--------------> ${slot}");
+
+                break;
+              }
+            }
+          }
+          log("element--------------> ${item.schedules[i].dayOfWeek}");
+        }
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 15, right: 20, left: 20),
       child: GestureDetector(
@@ -1190,60 +1258,76 @@ class DoctorsView extends GetView<DoctorsController> {
               // SizedBox(
               // height: 5,
               // ),
-              GestureDetector(
-                onTap: () {
-                  // Utils.openPhoneDialer(context, item.phone);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                      color: AppColors.lightGrey,
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppImages.calendar,
-                          height: 15,
-                          width: 15,
-                          color: AppColors.primary,
+              item.schedules.isNotEmpty
+                  ? Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                          color: AppColors.lightGrey,
+                          border: Border.all(color: AppColors.primary),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppImages.calendar,
+                              height: 15,
+                              width: 15,
+                              color: AppColors.primary,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "${date[0]}",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                                Text(
+                                  " ${date[1]}",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                                Text(
+                                  " ${date[3]}",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            slot == null
+                                ? SizedBox()
+                                : SvgPicture.asset(
+                                    AppImages.clock,
+                                    height: 15,
+                                    width: 15,
+                                    color: AppColors.primary,
+                                  ),
+                            slot == null
+                                ? SizedBox()
+                                : SizedBox(
+                                    width: 5,
+                                  ),
+                            slot == null
+                                ? SizedBox()
+                                : FittedBox(
+                                    child: Text(
+                                      "${slot ?? "  -  "}",
+                                      style: AppTextTheme.m(10)
+                                          .copyWith(color: AppColors.primary),
+                                    ),
+                                  ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FittedBox(
-                          child: Text(
-                            "Monday, August 10, 2022",
-                            style: AppTextTheme.m(10)
-                                .copyWith(color: AppColors.primary),
-                          ),
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          AppImages.clock,
-                          height: 15,
-                          width: 15,
-                          color: AppColors.primary,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FittedBox(
-                          child: Text(
-                            "09.00 - 10.00",
-                            style: AppTextTheme.m(10)
-                                .copyWith(color: AppColors.primary),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      ),
+                    )
+                  : SizedBox(),
               // ListTile(
               //     leading: AspectRatio(
               //       aspectRatio: 1,
@@ -1470,6 +1554,9 @@ class DoctorsView extends GetView<DoctorsController> {
   Widget _buildItemView(BuildContext context, Doctor item) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
+    item.schedules.forEach((element) {
+      log("element--------------> ${element}");
+    });
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DOCTOR, arguments: [item]);
@@ -1550,7 +1637,10 @@ class DoctorsView extends GetView<DoctorsController> {
                                 ignoreGestures: true,
                                 itemSize: 15,
                                 initialRating: double.parse(
-                                    item.satifyRating.toString() ?? "0.0"),
+                                    item.averageRatings == null
+                                        ? "0"
+                                        : item.averageRatings.toString() ??
+                                            "0.0"),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -1568,7 +1658,7 @@ class DoctorsView extends GetView<DoctorsController> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                '(${item.feedbacks.length ?? 0}) Reviews',
+                                '(${item.totalFeedbacks == null ? "0" : item.totalFeedbacks ?? 0}) Reviews',
                                 style: AppTextTheme.b(12).copyWith(
                                     color: AppColors.primary.withOpacity(0.5)),
                               ),

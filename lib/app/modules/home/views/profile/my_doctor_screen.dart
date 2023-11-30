@@ -67,7 +67,14 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary)),
+              child: RotatedBox(
+                quarterTurns:
+                    SettingsController.appLanguge == "English" ? 0 : 2,
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.primary,
+                ),
+              )),
           elevation: 0,
           actions: [
             Padding(
@@ -1149,60 +1156,63 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
               // SizedBox(
               // height: 5,
               // ),
-              GestureDetector(
-                onTap: () {
-                  // Utils.openPhoneDialer(context, item.phone);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                      color: AppColors.lightGrey,
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppImages.calendar,
-                          height: 15,
-                          width: 15,
-                          color: AppColors.primary,
+              item.schedules.isEmpty
+                  ? SizedBox()
+                  : GestureDetector(
+                      onTap: () {
+                        // Utils.openPhoneDialer(context, item.phone);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 5,
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FittedBox(
-                          child: Text(
-                            "Monday, August 10, 2022",
-                            style: AppTextTheme.m(10)
-                                .copyWith(color: AppColors.primary),
+                        decoration: BoxDecoration(
+                            color: AppColors.lightGrey,
+                            border: Border.all(color: AppColors.primary),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.calendar,
+                                height: 15,
+                                width: 15,
+                                color: AppColors.primary,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  "Monday, August 10, 2022",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                              ),
+                              Spacer(),
+                              SvgPicture.asset(
+                                AppImages.clock,
+                                height: 15,
+                                width: 15,
+                                color: AppColors.primary,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  "09.00 - 10.00",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          AppImages.clock,
-                          height: 15,
-                          width: 15,
-                          color: AppColors.primary,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FittedBox(
-                          child: Text(
-                            "09.00 - 10.00",
-                            style: AppTextTheme.m(10)
-                                .copyWith(color: AppColors.primary),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
               // ListTile(
               //     leading: AspectRatio(
               //       aspectRatio: 1,
@@ -1509,7 +1519,9 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                 ignoreGestures: true,
                                 itemSize: 15,
                                 initialRating: double.parse(
-                                    item.satifyRating.toString() ?? "0.0"),
+                                    item.averageRatings == null
+                                        ? "0"
+                                        : item.averageRatings.toString()),
                                 // minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -1527,7 +1539,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                '(${item.feedbacks.length ?? 0}) Reviews',
+                                '(${item.totalFeedbacks == null ? "0" : item.totalFeedbacks ?? 0}) Reviews',
                                 style: AppTextTheme.b(12).copyWith(
                                     color: AppColors.primary.withOpacity(0.5)),
                               ),

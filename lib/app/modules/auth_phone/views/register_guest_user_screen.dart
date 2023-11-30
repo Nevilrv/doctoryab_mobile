@@ -44,9 +44,13 @@ class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
                   onTap: () {
                     Get.back();
                   },
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.white,
+                  child: RotatedBox(
+                    quarterTurns:
+                        SettingsController.appLanguge == "English" ? 0 : 2,
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               ),

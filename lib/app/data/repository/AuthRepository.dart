@@ -173,6 +173,8 @@ class AuthRepository {
     int age,
     String gender,
     String cityId,
+    String phone,
+    String email,
   }) async {
     final response = await dio.put(
       ApiConsts.authPath,
@@ -180,7 +182,11 @@ class AuthRepository {
         "age": age,
         "name": name,
         "gender": gender,
-        "city": cityId, "phone": "0777777777"
+        "city": cityId,
+        "phone": phone,
+        "email": email,
+
+        // "phone": "+937440000000"
         // "token": firebaseUserToken,
       },
       // cancelToken: loginCancelToken,

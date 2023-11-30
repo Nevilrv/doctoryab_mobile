@@ -34,7 +34,8 @@ class PushNotificationService {
     if (_init) return;
     _init = true;
     _fcm.requestPermission();
-    var androidInitilize = new AndroidInitializationSettings('app_icon');
+    var androidInitilize =
+        new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOSinitilize = new DarwinInitializationSettings();
     var initilizationsSettings = new InitializationSettings(
         android: androidInitilize, iOS: iOSinitilize);
@@ -121,7 +122,7 @@ class PushNotificationService {
             channelDescription: channel.description,
             // TODO add a proper drawable resource to android, for now using
             //      one that already exists in example app.
-            icon: 'launch_background',
+            icon: '@mipmap/ic_launcher',
           ),
         ),
         payload: jsonEncode(message.data ?? {}),
@@ -164,7 +165,7 @@ class PushNotificationService {
           channelDescription: channel.description,
           // TODO add a proper drawable resource to android, for now using
           //      one that already exists in example app.
-          icon: 'launch_background',
+          icon: '@mipmap/ic_launcher',
         ),
       ),
       payload: payLoad.toRawJson(),

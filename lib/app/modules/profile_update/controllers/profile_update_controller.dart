@@ -63,10 +63,11 @@ class ProfileUpdateController extends GetxController {
   void onReady() {
     log("user?.name?.toString()--------------> ${user?.id}");
     log("user?.name?.toString()--------------> ${user?.gender}");
+    log("user?.name?.toString()--------------> ${user?.language.runtimeType}");
     loadCities();
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
-    email.text = user?.email.toString() ?? "";
+    email.text = user?.email == null ? " " : user.email.toString();
     selectedLocation.value = SettingsController.auth.savedCity.eName ?? "";
     selectedLocationId.value = SettingsController.auth.savedCity.sId ?? "";
     log("selectedLocationId.value--------------> ${selectedLocationId.value}");
@@ -201,7 +202,9 @@ class ProfileUpdateController extends GetxController {
             name: teName.text,
             age: int.parse(teAge.text),
             cityId: selectedLocationId.value.toString(),
-            gender: selectedGender.value)
+            gender: selectedGender.value,
+            phone: teNewNumber.text,
+            email: email.text)
         .then((value) {
       log("value--------------> ${value}");
 

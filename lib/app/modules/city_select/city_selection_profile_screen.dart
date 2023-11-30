@@ -47,7 +47,11 @@ class CitySelectProfileView extends GetView<CitySelectController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.white)),
+              child: RotatedBox(
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
+                  child:
+                      Icon(Icons.arrow_back_ios_new, color: AppColors.white))),
           elevation: 0,
           actions: [
             Padding(

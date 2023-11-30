@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/checkUp_packge_res_model.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
@@ -40,7 +41,11 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary)),
+              child: RotatedBox(
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
+                  child: Icon(Icons.arrow_back_ios_new,
+                      color: AppColors.primary))),
           elevation: 0,
           actions: [
             Padding(

@@ -81,13 +81,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
             style: TextStyle(fontSize: 16),
           ),
           leading: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
+            onTap: () {
+              Get.back();
+            },
+            child: RotatedBox(
+              quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
               child: Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.white,
-              )),
+              ),
+            ),
+          ),
           centerTitle: true,
           elevation: 0,
           actions: [
@@ -387,9 +391,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           TextFormField(
                                             onChanged: (_) =>
                                                 controller.validateForm(),
-                                            validator: Utils.emailValidator,
+                                            validator: controller.email.text ==
+                                                        null ||
+                                                    controller.email.text == ""
+                                                ? Utils.emailValidator
+                                                : null,
                                             cursorColor: AppColors.primary,
-                                            readOnly: true,
+                                            readOnly: controller.email.text ==
+                                                        null ||
+                                                    controller.email.text == ""
+                                                ? false
+                                                : true,
                                             style: AppTextStyle.mediumPrimary12
                                                 .copyWith(
                                                     color: AppColors.primary
@@ -483,13 +495,27 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           TextFormField(
                                             onChanged: (_) =>
                                                 controller.validateForm(),
-                                            validator: Utils.numberValidator,
+                                            // validator:
+                                            //     controller.teNewNumber.text !=
+                                            //                 null ||
+                                            //             controller.teNewNumber
+                                            //                     .text !=
+                                            //                 ""
+                                            //         ? Utils.numberValidator
+                                            //         : null,
                                             cursorColor: AppColors.primary,
                                             style: AppTextStyle.mediumPrimary12
                                                 .copyWith(
                                                     color: AppColors.primary
                                                         .withOpacity(0.5)),
-                                            readOnly: true,
+                                            readOnly:
+                                                controller.teNewNumber.text ==
+                                                            null ||
+                                                        controller.teNewNumber
+                                                                .text ==
+                                                            ""
+                                                    ? false
+                                                    : true,
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.phone,

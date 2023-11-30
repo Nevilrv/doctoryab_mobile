@@ -203,16 +203,19 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
               backgroundColor: AppColors.lightGrey,
               elevation: 0,
               leading: GestureDetector(
-                onTap: () {
-                  _audioPlayer1.pause();
-                  _audioPlayer2.pause();
-                  Get.back();
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: AppColors.primary,
-                ),
-              ),
+                  onTap: () {
+                    _audioPlayer1.pause();
+                    _audioPlayer2.pause();
+                    Get.back();
+                  },
+                  child: RotatedBox(
+                    quarterTurns:
+                        SettingsController.appLanguge == "English" ? 0 : 2,
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: AppColors.primary,
+                    ),
+                  )),
               title: Container(
                 child: Text(
                   SettingsController.appLanguge == "English"

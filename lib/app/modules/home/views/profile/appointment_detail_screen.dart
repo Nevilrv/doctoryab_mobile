@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/appointment_history_res_model.dart';
 import 'package:doctor_yab/app/data/models/histories.dart';
@@ -42,7 +43,11 @@ class AppointmentDetailScreen extends StatelessWidget {
               onTap: () {
                 Get.back();
               },
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary)),
+              child: RotatedBox(
+                quarterTurns:
+                    SettingsController.appLanguge == "English" ? 0 : 2,
+                child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+              )),
           elevation: 0,
           actions: [
             Padding(
@@ -282,6 +287,16 @@ class AppointmentDetailScreen extends StatelessWidget {
   }
 
   Stack appointmentBox(double w) {
+    var d = DateTime.parse(history.visitDate == null
+            ? DateTime.now()
+            : history.visitDate.toLocal().toString())
+        .toPersianDateStr(
+          strDay: false,
+          strMonth: true,
+          useAfghaniMonthName: true,
+        )
+        .trim()
+        .split(' ');
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -309,17 +324,28 @@ class AppointmentDetailScreen extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
-                      child: Text(
-                        "${DateTime.parse(history.visitDate == null ? DateTime.now() : history.visitDate.toLocal().toString()).toPersianDateStr(
-                          strDay: false,
-                          strMonth: true,
-                          useAfghaniMonthName: true,
-                        )}",
-                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
-                        style: AppTextStyle.mediumPrimary12
-                            .copyWith(color: AppColors.red),
-                      ),
-                    ),
+                        child: Row(
+                      children: [
+                        Text(
+                          "${d[0]}",
+                          // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                          style: AppTextStyle.mediumPrimary12
+                              .copyWith(color: AppColors.red),
+                        ),
+                        Text(
+                          " ${d[1]}",
+                          // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                          style: AppTextStyle.mediumPrimary12
+                              .copyWith(color: AppColors.red),
+                        ),
+                        Text(
+                          " ${d[3]}",
+                          // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                          style: AppTextStyle.mediumPrimary12
+                              .copyWith(color: AppColors.red),
+                        ),
+                      ],
+                    )),
                   ),
                 ),
                 SizedBox(
@@ -443,6 +469,16 @@ class AppointmentDetailScreen extends StatelessWidget {
   }
 
   Stack DateAppointmentBox(double w) {
+    var d = DateTime.parse(history.visitDate == null
+            ? DateTime.now()
+            : history.visitDate.toLocal().toString())
+        .toPersianDateStr(
+          strDay: false,
+          strMonth: true,
+          useAfghaniMonthName: true,
+        )
+        .trim()
+        .split(' ');
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -470,15 +506,27 @@ class AppointmentDetailScreen extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
-                      child: Text(
-                        "${DateTime.parse(history.visitDate == null ? DateTime.now() : history.visitDate.toLocal().toString()).toPersianDateStr(
-                          strDay: false,
-                          strMonth: true,
-                          useAfghaniMonthName: true,
-                        )}",
-                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
-                        style: AppTextStyle.mediumPrimary12
-                            .copyWith(color: AppColors.red),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${d[0]}",
+                            // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                            style: AppTextStyle.mediumPrimary12
+                                .copyWith(color: AppColors.red),
+                          ),
+                          Text(
+                            " ${d[1]}",
+                            // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                            style: AppTextStyle.mediumPrimary12
+                                .copyWith(color: AppColors.red),
+                          ),
+                          Text(
+                            " ${d[3]}",
+                            // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                            style: AppTextStyle.mediumPrimary12
+                                .copyWith(color: AppColors.red),
+                          ),
+                        ],
                       ),
                     ),
                   ),

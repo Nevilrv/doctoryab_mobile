@@ -97,7 +97,7 @@ const Map<String, String> enUS = {
   "pat_phone": "Patient Mobile Number ",
   "pat_age": "Age ",
   "doctor_info": "Doctor Info: %s",
-  "doctor_name": "Doctor Name: %s",
+  "doctor_name": "Doctor Name:",
   "doctor_speciality": "Speciality",
   "doctor_phone": "Mobile number : %s",
   "doctor_address": "Address: %s",
@@ -444,4 +444,9 @@ const Map<String, String> enUS = {
   "package_name": "Package Name",
   "hospital_name": "Hospital Name",
   "Price": "price",
+  "checkup_history": "Checkup Package History",
+  "doctor_note": "Doctor Note",
+  "see_all_details": "SEE ALL DETAILS",
+  "test_name": "Test Name",
+  "test_note": "Test Note",
 };

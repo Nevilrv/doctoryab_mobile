@@ -1,4 +1,5 @@
 import 'package:doctor_yab/app/components/background.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/controllers/treatment_abroad_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -13,6 +14,13 @@ import 'package:get/get.dart';
 class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
   TreatmentAbroadView({Key key}) : super(key: key);
 
+  List countryImage = [
+    AppImages.turkey,
+    AppImages.pakistan,
+    AppImages.iran,
+    AppImages.india,
+  ];
+  List countryName = ["Turkiye", "Pakistan", "Iran", "India"];
   List question = [
     "do_you_need_support".tr,
     "do_you_need_airport".tr,
@@ -37,10 +45,13 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.primary,
-              )),
+              child: RotatedBox(
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: AppColors.primary,
+                  ))),
           centerTitle: true,
           elevation: 0,
           actions: [
@@ -142,13 +153,14 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 5),
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
+                                            child: Center(
                                               child: Row(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: List.generate(
-                                                    controller.countries.length,
+                                                    4,
                                                     (index) => Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -161,51 +173,39 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                               controller
                                                                       .selectedCountry
                                                                       .value =
-                                                                  controller
-                                                                      .countries[
-                                                                          index]
-                                                                      .name;
+                                                                  countryName[
+                                                                      index];
                                                             },
                                                             child: Container(
                                                               width: 50,
                                                               child: Column(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
-                                                                        .start,
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                 children: [
                                                                   Container(
                                                                     height: 45,
                                                                     width: 45,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      border: Border.all(
-                                                                          color: controller.selectedCountry.value == controller.countries[index].name
-                                                                              ? AppColors.primary
-                                                                              : AppColors.primary.withOpacity(0.4),
-                                                                          width: 2),
-                                                                    ),
-                                                                    child:
-                                                                        ClipOval(
-                                                                      clipBehavior:
-                                                                          Clip.antiAliasWithSaveLayer,
-                                                                      child: SvgPicture.network(
-                                                                          controller
-                                                                              .countries[index]
-                                                                              .flag,
-                                                                          fit: BoxFit.cover),
-                                                                    ),
+                                                                    decoration: BoxDecoration(
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        border: Border.all(
+                                                                            color: controller.selectedCountry.value == countryName[index]
+                                                                                ? AppColors.primary
+                                                                                : AppColors.primary.withOpacity(0.4),
+                                                                            width: 2),
+                                                                        image: DecorationImage(image: AssetImage(countryImage[index]))),
                                                                   ),
                                                                   SizedBox(
                                                                     height: 5,
                                                                   ),
                                                                   Center(
                                                                     child: Text(
-                                                                      controller
-                                                                              .countries[index]
-                                                                              .name ??
-                                                                          "",
+                                                                      countryName[
+                                                                          index],
                                                                       maxLines:
                                                                           2,
                                                                       overflow:
@@ -214,7 +214,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                                       style: AppTextStyle
                                                                           .mediumPrimary10
                                                                           .copyWith(
-                                                                              color: controller.selectedCountry.value == controller.countries[index].name ? AppColors.primary : AppColors.primary.withOpacity(0.4)),
+                                                                              color: controller.selectedCountry.value == countryName[index] ? AppColors.primary : AppColors.primary.withOpacity(0.4)),
                                                                     ),
                                                                   )
                                                                 ],

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/appointmtnet_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -37,7 +38,11 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
             onTap: () {
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary)),
+            child: RotatedBox(
+                quarterTurns:
+                    SettingsController.appLanguge == "English" ? 0 : 2,
+                child:
+                    Icon(Icons.arrow_back_ios_new, color: AppColors.primary))),
         elevation: 0,
         actions: [
           Padding(
@@ -78,6 +83,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                     ...List.generate(
                                         controller.appointmentList.length,
                                         (index) {
+                                      //TODO f-date
                                       var _d = controller.appointmentList[index]
                                                   .createAt ==
                                               null
@@ -87,7 +93,32 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                       .appointmentList[index]
                                                       .createAt))
                                               ?.toLocal();
-                                      log("_d--------------> ${_d}");
+
+                                      var date = _d
+                                          .toPersianDateStr(
+                                            strDay: false,
+                                            strMonth: true,
+                                            useAfghaniMonthName: true,
+                                          )
+                                          .trim()
+                                          .split(' ');
+
+                                      var visitDate = DateTime.parse(controller
+                                                      .appointmentList[index] ==
+                                                  null
+                                              ? DateTime.now()
+                                              : controller
+                                                  .appointmentList[index]
+                                                  .visitDate
+                                                  .toLocal()
+                                                  .toString())
+                                          .toPersianDateStr(
+                                            strDay: false,
+                                            strMonth: true,
+                                            useAfghaniMonthName: true,
+                                          )
+                                          .trim()
+                                          .split(' ');
 
                                       return Column(
                                         children: [
@@ -118,7 +149,6 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                           null
                                                       ? Row(
                                                           children: [
-                                                            Spacer(),
                                                             Container(
                                                               decoration: BoxDecoration(
                                                                   color: AppColors
@@ -137,21 +167,30 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                     vertical:
                                                                         2),
                                                                 child: Center(
-                                                                  child: Text(
-                                                                    "${_d.toPersianDateStr(
-                                                                      strDay:
-                                                                          false,
-                                                                      strMonth:
-                                                                          true,
-                                                                      useAfghaniMonthName:
-                                                                          true,
-                                                                    )}",
-                                                                    // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
-                                                                    style: AppTextStyle
-                                                                        .mediumPrimary12
-                                                                        .copyWith(
-                                                                            color:
-                                                                                AppColors.red),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        "${date[0]} ",
+                                                                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                        style: AppTextStyle
+                                                                            .mediumPrimary12
+                                                                            .copyWith(color: AppColors.red),
+                                                                      ),
+                                                                      Text(
+                                                                        " ${date[3]}",
+                                                                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                        style: AppTextStyle
+                                                                            .mediumPrimary12
+                                                                            .copyWith(color: AppColors.red),
+                                                                      ),
+                                                                      Text(
+                                                                        " ${date[1]}",
+                                                                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                        style: AppTextStyle
+                                                                            .mediumPrimary12
+                                                                            .copyWith(color: AppColors.red),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -160,12 +199,61 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                         )
                                                       : Row(
                                                           children: [
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColors
+                                                                      .red
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              4)),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                    vertical:
+                                                                        2),
+                                                                child: Center(
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        "${date[0]}",
+                                                                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                        style: AppTextStyle
+                                                                            .mediumPrimary12
+                                                                            .copyWith(color: AppColors.red),
+                                                                      ),
+                                                                      Text(
+                                                                        " ${date[1]}",
+                                                                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                        style: AppTextStyle
+                                                                            .mediumPrimary12
+                                                                            .copyWith(color: AppColors.red),
+                                                                      ),
+                                                                      Text(
+                                                                        " ${date[3]}",
+                                                                        // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].createAt == null ? DateTime.now().toString() : controller.appointmentList[index].createAt))}",
+                                                                        style: AppTextStyle
+                                                                            .mediumPrimary12
+                                                                            .copyWith(color: AppColors.red),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
                                                             SvgPicture.asset(
                                                                 AppImages.doc,
                                                                 height: 20,
                                                                 width: 20),
                                                             SizedBox(
-                                                              width: 20,
+                                                              width: 5,
                                                             ),
                                                             Text(
                                                               "department".tr,
@@ -188,44 +276,6 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold),
-                                                            ),
-                                                            Spacer(),
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: AppColors
-                                                                      .red
-                                                                      .withOpacity(
-                                                                          0.1),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              4)),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        10,
-                                                                    vertical:
-                                                                        2),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    "${_d.toPersianDateStr(
-                                                                      strDay:
-                                                                          false,
-                                                                      strMonth:
-                                                                          true,
-                                                                      useAfghaniMonthName:
-                                                                          true,
-                                                                    )}",
-                                                                    // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
-                                                                    style: AppTextStyle
-                                                                        .mediumPrimary12
-                                                                        .copyWith(
-                                                                            color:
-                                                                                AppColors.red),
-                                                                  ),
-                                                                ),
-                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -277,22 +327,45 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                       SizedBox(
                                                         width: 20,
                                                       ),
-                                                      Text(
-                                                        "${DateTime.parse(controller.appointmentList[index] == null ? DateTime.now() : controller.appointmentList[index].visitDate.toLocal().toString()).toPersianDateStr(
-                                                          strDay: false,
-                                                          strMonth: true,
-                                                          useAfghaniMonthName:
-                                                              true,
-                                                        )}",
-                                                        // "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
-                                                        style: AppTextStyle
-                                                            .boldBlack10
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .lightBlack2,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "${visitDate[0]}",
+                                                            // "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
+                                                            style: AppTextStyle
+                                                                .boldBlack10
+                                                                .copyWith(
+                                                                    color: AppColors
+                                                                        .lightBlack2,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                          ),
+                                                          Text(
+                                                            " ${visitDate[1]}",
+                                                            // "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
+                                                            style: AppTextStyle
+                                                                .boldBlack10
+                                                                .copyWith(
+                                                                    color: AppColors
+                                                                        .lightBlack2,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                          ),
+                                                          Text(
+                                                            " ${visitDate[3]}",
+                                                            // "${DateFormat().add_yMMMMEEEEd().format(DateTime.parse(controller.appointmentList[index].visitDate.toString() == null ? DateTime.now().toString() : controller.appointmentList[index].visitDate.toString()))}",
+                                                            style: AppTextStyle
+                                                                .boldBlack10
+                                                                .copyWith(
+                                                                    color: AppColors
+                                                                        .lightBlack2,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                          ),
+                                                        ],
                                                       ),
                                                       Spacer(),
                                                       SvgPicture.asset(

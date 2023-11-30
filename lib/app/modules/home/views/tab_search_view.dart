@@ -367,60 +367,63 @@ class TabSearchView extends GetView<TabSearchController> {
               // SizedBox(
               // height: 5,
               // ),
-              GestureDetector(
-                onTap: () {
-                  // Utils.openPhoneDialer(context, item.phone);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                      color: AppColors.lightGrey,
-                      border: Border.all(color: AppColors.primary),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppImages.calendar,
-                          height: 15,
-                          width: 15,
-                          color: AppColors.primary,
+              item.schedules.isEmpty
+                  ? SizedBox()
+                  : GestureDetector(
+                      onTap: () {
+                        // Utils.openPhoneDialer(context, item.phone);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 5,
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FittedBox(
-                          child: Text(
-                            "Monday, August 10, 2022",
-                            style: AppTextTheme.m(10)
-                                .copyWith(color: AppColors.primary),
+                        decoration: BoxDecoration(
+                            color: AppColors.lightGrey,
+                            border: Border.all(color: AppColors.primary),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.calendar,
+                                height: 15,
+                                width: 15,
+                                color: AppColors.primary,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  "Monday, August 10, 2022",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                              ),
+                              Spacer(),
+                              SvgPicture.asset(
+                                AppImages.clock,
+                                height: 15,
+                                width: 15,
+                                color: AppColors.primary,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  "09.00 - 10.00",
+                                  style: AppTextTheme.m(10)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          AppImages.clock,
-                          height: 15,
-                          width: 15,
-                          color: AppColors.primary,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FittedBox(
-                          child: Text(
-                            "09.00 - 10.00",
-                            style: AppTextTheme.m(10)
-                                .copyWith(color: AppColors.primary),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
               // ListTile(
               //     leading: AspectRatio(
               //       aspectRatio: 1,

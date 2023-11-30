@@ -343,47 +343,47 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                             height:
                                                                                 10,
                                                                           ),
-                                                                          GestureDetector(
-                                                                            onTap:
-                                                                                () {
-                                                                              // Utils.openPhoneDialer(context, item.phone);
-                                                                            },
-                                                                            child:
-                                                                                Container(
-                                                                              padding: EdgeInsets.symmetric(
-                                                                                vertical: 5,
-                                                                              ),
-                                                                              decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.primary), borderRadius: BorderRadius.circular(10)),
-                                                                              child: Padding(
-                                                                                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                                                                child: Row(
-                                                                                  children: [
-                                                                                    SvgPicture.asset(AppImages.calendar, height: 15, width: 15, color: AppColors.primary),
-                                                                                    SizedBox(
-                                                                                      width: 5,
-                                                                                    ),
-                                                                                    FittedBox(
-                                                                                      child: Text(
-                                                                                        "Monday, August 10, 2022",
-                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
-                                                                                      ),
-                                                                                    ),
-                                                                                    Spacer(),
-                                                                                    SvgPicture.asset(AppImages.clock, height: 15, width: 15, color: AppColors.primary),
-                                                                                    SizedBox(
-                                                                                      width: 5,
-                                                                                    ),
-                                                                                    FittedBox(
-                                                                                      child: Text(
-                                                                                        "09.00 - 10.00",
-                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
+                                                                          // controller.doctorList[index].schedules.isEmpty?SizedBox():   GestureDetector(
+                                                                          //   onTap:
+                                                                          //       () {
+                                                                          //     // Utils.openPhoneDialer(context, item.phone);
+                                                                          //   },
+                                                                          //   child:
+                                                                          //       Container(
+                                                                          //     padding: EdgeInsets.symmetric(
+                                                                          //       vertical: 5,
+                                                                          //     ),
+                                                                          //     decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.primary), borderRadius: BorderRadius.circular(10)),
+                                                                          //     child: Padding(
+                                                                          //       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                                                          //       child: Row(
+                                                                          //         children: [
+                                                                          //           SvgPicture.asset(AppImages.calendar, height: 15, width: 15, color: AppColors.primary),
+                                                                          //           SizedBox(
+                                                                          //             width: 5,
+                                                                          //           ),
+                                                                          //           FittedBox(
+                                                                          //             child: Text(
+                                                                          //               "Monday, August 10, 2022",
+                                                                          //               style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                          //             ),
+                                                                          //           ),
+                                                                          //           Spacer(),
+                                                                          //           SvgPicture.asset(AppImages.clock, height: 15, width: 15, color: AppColors.primary),
+                                                                          //           SizedBox(
+                                                                          //             width: 5,
+                                                                          //           ),
+                                                                          //           FittedBox(
+                                                                          //             child: Text(
+                                                                          //               "09.00 - 10.00",
+                                                                          //               style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                          //             ),
+                                                                          //           ),
+                                                                          //         ],
+                                                                          //       ),
+                                                                          //     ),
+                                                                          //   ),
+                                                                          // ),
                                                                         ],
                                                                       ),
                                                                     ),

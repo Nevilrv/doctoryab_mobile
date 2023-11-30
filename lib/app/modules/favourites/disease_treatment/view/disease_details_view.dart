@@ -34,7 +34,10 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
             backgroundColor: AppColors.lightGrey,
             // bottomNavigationBar: BottomBarView(isHomeScreen: false),
             body: controller.isLoadingList == true
-                ? Center(child: CircularProgressIndicator(color: AppColors.primary,))
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ))
                 : Container(
                     height: h,
                     child: Stack(

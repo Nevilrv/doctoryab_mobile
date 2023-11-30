@@ -4,13 +4,18 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/doctor_list_tile_item.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:open_filex/open_filex.dart';
@@ -27,49 +32,119 @@ class ReportView extends StatelessWidget {
   );
   @override
   Widget build(BuildContext context) {
-    print(report.toJson());
     return Scaffold(
-      appBar: AppAppBar.specialAppBar("report".tr),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text('reports'.tr,
+            style: AppTextStyle.boldPrimary16
+                .copyWith(fontWeight: FontWeight.w600)),
+        centerTitle: true,
+        leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: RotatedBox(
+              quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+            )),
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SvgPicture.asset(
+              AppImages.blackBell,
+              height: 24,
+            ),
+          )
+        ],
+      ),
+      // appBar: AppAppBar.specialAppBar("report".tr),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (report.doctor.length > 0)
-              // DoctorListTileItem(report?.doctor[0] ?? Doctor()),
-              //
-              SizedBox(height: 20),
-            // _buildSection(
-            //   "patient_info".tr,
-            //   [
-            //     {"pat_id".tr: '${report.patientId}'},
-            //     {"pat_name".tr: '${report.name}'},
-            //     {"pat_phone".tr: '${report.phone}'},
-            //     // {"pat_age".tr: '${report.age}'},
-            //   ],
-            // ),
-            // _buildSection(
-            //   "patient_info".tr,
-            //   [
-            //     // {"pat_id".tr: '${report.patientId}'},
-            //     // {"pat_name".tr: '${report.name}'},
-            //     // {"pat_phone".tr: '${report.phone}'},
-            //     // {"pat_age".tr: '${report.age}'},
-            //   ],
-            // ),
-            Text(
-              "title".tr + ": " + report.title ?? "",
-              style: AppTextTheme.b(20),
-              textAlign: TextAlign.center,
-            ),
-            Divider(),
-            SizedBox(height: 15),
-            Text(
-              "decription".tr + ": " + report.description ?? "",
-              style: AppTextTheme.r(14),
-            ),
-
+            report.title == null || report.title == ""
+                ? SizedBox()
+                : Text(
+                    "title".tr + ": " + report.title ?? "",
+                    style: AppTextTheme.b(20),
+                    textAlign: TextAlign.center,
+                  ),
+            report.title == null || report.title == "" ? SizedBox() : Divider(),
+            report.title == null || report.title == ""
+                ? SizedBox()
+                : SizedBox(height: 10),
+            report.doctor.isEmpty
+                ? SizedBox()
+                : Text("Doctor Name".tr + ": " + report.doctor[0].name ?? "",
+                    style: AppTextTheme.b(14)
+                    // textAlign: TextAlign.center,
+                    ),
+            report.doctor.isEmpty ? SizedBox() : SizedBox(height: 5),
+            report.name == null || report.name == ""
+                ? SizedBox()
+                : Text("Patient Name".tr + ": " + report.name ?? "",
+                    style: AppTextTheme.b(14)
+                    // textAlign: TextAlign.center,
+                    ),
+            report.name == null || report.name == ""
+                ? SizedBox()
+                : SizedBox(height: 5),
+            report.description == null && report.advice == null
+                ? SizedBox()
+                : Text(
+                    "${"decription".tr} : ${report.description ?? report.advice ?? ""}",
+                    style: AppTextTheme.r(14),
+                  ),
+            report.description == null && report.advice == null
+                ? SizedBox()
+                : SizedBox(height: 5),
+            report.medicines.isEmpty
+                ? SizedBox()
+                : Text(
+                    "${"Medicine"} :",
+                    style: AppTextTheme.r(16),
+                  ),
+            report.medicines.isEmpty ? SizedBox() : SizedBox(height: 5),
+            report.medicines.isEmpty
+                ? SizedBox()
+                : Column(
+                    children: List.generate(
+                        report.medicines.length,
+                        (index) => Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Container(
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: AppColors.primary)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Drug Name : ${report.medicines[index].drug ?? ""}",
+                                        style: AppTextTheme.r(14),
+                                      ),
+                                      Text(
+                                        "Dosage : ${report.medicines[index].dosage ?? ""}",
+                                        style: AppTextTheme.r(14),
+                                      ),
+                                      Text(
+                                        "Duration : ${report.medicines[index].duration ?? ""}",
+                                        style: AppTextTheme.r(14),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )),
+                  ),
             if (report.documents.length > 0) _buildAttachments(report),
             Row(
               children: [],

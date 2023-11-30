@@ -60,9 +60,16 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
-                                    child: SvgPicture.asset(
-                                      AppImages.back2,
-                                      height: 14,
+                                    child: RotatedBox(
+                                      quarterTurns:
+                                          SettingsController.appLanguge ==
+                                                  "English"
+                                              ? 0
+                                              : 2,
+                                      child: SvgPicture.asset(
+                                        AppImages.back2,
+                                        height: 14,
+                                      ),
                                     ),
                                   ),
                                 ),

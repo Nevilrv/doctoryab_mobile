@@ -56,6 +56,7 @@ class DrugsController extends GetxController {
     {"image": AppImages.pillbox, "title": "box_cont", "text": "pack_cont"},
     {"image": AppImages.coin, "title": "price", "text": "drug_price"}
   ];
+  List<dynamic> listAd = [];
 
   void drugData(int page) {
     DrugDatabaseRepository()
@@ -91,6 +92,25 @@ class DrugsController extends GetxController {
     });
   }
 
+  Widget bannerAdWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: isLoadAd == false
+          ? SizedBox()
+          : Container(
+              height: Get.height * 0.154,
+              width: bannerAd.size.width.toDouble(),
+              alignment: Alignment.center,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: AdWidget(ad: bannerAd),
+              ),
+            ),
+    );
+  }
+
   Datum argumentsData;
 
   setData(Datum value) {
@@ -123,6 +143,7 @@ class DrugsController extends GetxController {
           },
         ),
         request: AdRequest());
+    update();
     return bannerAd.load();
   }
 

@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/comp_sugge_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -33,9 +34,13 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.white,
+              child: RotatedBox(
+                quarterTurns:
+                    SettingsController.appLanguge == "English" ? 0 : 2,
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.white,
+                ),
               )),
           centerTitle: true,
           elevation: 0,

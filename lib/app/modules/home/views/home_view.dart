@@ -257,7 +257,6 @@ class BottomBarView extends StatelessWidget {
                               child: Container(
                                 height: 60,
                                 width: Get.width * 0.1,
-                                color: AppColors.red,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

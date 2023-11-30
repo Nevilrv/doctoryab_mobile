@@ -258,7 +258,7 @@ class DoctorView extends GetView<DoctorController> {
                                                             20)),
                                                 child: Center(
                                                   child: Text(
-                                                    "${"exp".tr} ${controller.doctor.exp.isEmpty ? "" : "5"} ${controller.doctor.exp.isEmpty ? "" : "year".tr}",
+                                                    "${"exp".tr} ${controller.doctor.totalExperience == null ? "0" : controller.doctor.totalExperience.toString()} ${controller.doctor.exp.isEmpty ? "" : "year".tr}",
                                                     style: AppTextTheme.m(
                                                             w * 0.032)
                                                         .copyWith(

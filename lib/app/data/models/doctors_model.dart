@@ -37,54 +37,54 @@ class Doctor {
   Geometry geometry;
   List<dynamic> exp;
   List<dynamic> edu;
+  List<dynamic> lang;
+  List<dynamic> awards;
   String photo;
   dynamic stars;
   int popularity;
   dynamic treatment;
   dynamic knowledge;
   dynamic cleaning;
-  int countOfPatient;
+  dynamic countOfPatient;
   dynamic totalStar;
-  dynamic totalCleaning;
-  dynamic totalTreatment;
+  int totalCleaning;
+  int totalTreatment;
   dynamic totalknowledge;
   List<dynamic> comments;
   int doctor;
   List<String> tags;
+  bool verification;
   int type;
   bool isActive;
+  String fee;
   String email;
   String fullname;
+  int id;
   String address;
   Category category;
   String city;
-  int day;
   String detail;
   int gender;
   String lname;
-  int month;
   String name;
   String phone;
   String speciality;
+  List<Schedule> schedules;
+  int totalFeedbacks;
+  int averageRatings;
+  int totalExperience;
+  int day;
+  int month;
   int year;
-  int id;
-  List<dynamic> awards;
-  List<dynamic> lang;
-  bool verification;
-  String fee;
-  String cleaningRating;
-  String expertiseRating;
-  List<Feedback> feedbacks;
-  String satifyRating;
-  dynamic totalFeedbacks;
-  dynamic averageRatings;
-  Coordinate coordinate;
+  bool active;
 
   Doctor({
     this.datumId,
     this.geometry,
     this.exp,
     this.edu,
+    this.lang,
+    this.awards,
     this.photo,
     this.stars,
     this.popularity,
@@ -99,45 +99,39 @@ class Doctor {
     this.comments,
     this.doctor,
     this.tags,
+    this.verification,
     this.type,
     this.isActive,
+    this.fee,
     this.email,
     this.fullname,
+    this.id,
     this.address,
     this.category,
     this.city,
-    this.day,
     this.detail,
     this.gender,
     this.lname,
-    this.month,
     this.name,
     this.phone,
     this.speciality,
-    this.year,
-    this.id,
-    this.awards,
-    this.lang,
-    this.verification,
-    this.fee,
-    this.cleaningRating,
-    this.expertiseRating,
-    this.feedbacks,
-    this.satifyRating,
+    this.schedules,
     this.totalFeedbacks,
     this.averageRatings,
-    this.coordinate,
+    this.totalExperience,
+    this.day,
+    this.month,
+    this.year,
+    this.active,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) => Doctor(
         datumId: json["_id"],
         geometry: Geometry.fromJson(json["geometry"]),
-        exp: json["Exp"] == null
-            ? []
-            : List<dynamic>.from(json["Exp"].map((x) => x)),
-        edu: json["Edu"] == null
-            ? []
-            : List<dynamic>.from(json["Edu"].map((x) => x)),
+        exp: List<dynamic>.from(json["Exp"].map((x) => x)),
+        edu: List<dynamic>.from(json["Edu"].map((x) => x)),
+        lang: List<dynamic>.from(json["Lang"].map((x) => x)),
+        awards: List<dynamic>.from(json["Awards"].map((x) => x)),
         photo: json["photo"],
         stars: json["stars"],
         popularity: json["popularity"],
@@ -149,55 +143,43 @@ class Doctor {
         totalCleaning: json["totalCleaning"],
         totalTreatment: json["totalTreatment"],
         totalknowledge: json["totalknowledge"],
-        comments: json["comments"] == null
-            ? []
-            : List<dynamic>.from(json["comments"].map((x) => x)),
+        comments: List<dynamic>.from(json["comments"].map((x) => x)),
         doctor: json["doctor"],
         tags: List<String>.from(json["tags"].map((x) => x)),
+        verification: json["Verification"],
         type: json["type"],
         isActive: json["is_active"],
+        fee: json["fee"],
         email: json["email"],
         fullname: json["fullname"],
+        id: json["ID"],
         address: json["address"],
         category: Category.fromJson(json["category"]),
         city: json["city"],
-        day: json["day"],
         detail: json["detail"],
         gender: json["gender"],
         lname: json["lname"],
-        month: json["month"],
         name: json["name"],
         phone: json["phone"],
         speciality: json["speciality"],
-        year: json["year"],
-        id: json["ID"],
-        awards: json["Awards"] == null
-            ? []
-            : List<dynamic>.from(json["Awards"].map((x) => x)),
-        lang: json["Lang"] == null
-            ? []
-            : List<dynamic>.from(json["Lang"].map((x) => x)),
-        verification: json["Verification"],
-        fee: json["fee"],
-        cleaningRating: json["cleaningRating"],
-        expertiseRating: json["expertiseRating"],
-        feedbacks: json["feedbacks"] == null
-            ? []
-            : List<Feedback>.from(
-                json["feedbacks"].map((x) => Feedback.fromJson(x))),
-        satifyRating: json["satifyRating"],
+        schedules: List<Schedule>.from(
+            json["schedules"].map((x) => Schedule.fromJson(x))),
         totalFeedbacks: json["totalFeedbacks"],
-        averageRatings: json["averageRatings"]?.toDouble(),
-        coordinate: json["coordinate"] == null
-            ? null
-            : Coordinate.fromJson(json["coordinate"]),
+        averageRatings: json["averageRatings"],
+        totalExperience: json["totalExperience"],
+        day: json["day"],
+        month: json["month"],
+        year: json["year"],
+        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": datumId,
         "geometry": geometry.toJson(),
-        "Exp": exp == null ? [] : List<dynamic>.from(exp.map((x) => x)),
-        "Edu": edu == null ? [] : List<dynamic>.from(edu.map((x) => x)),
+        "Exp": List<dynamic>.from(exp.map((x) => x)),
+        "Edu": List<dynamic>.from(edu.map((x) => x)),
+        "Lang": List<dynamic>.from(lang.map((x) => x)),
+        "Awards": List<dynamic>.from(awards.map((x) => x)),
         "photo": photo,
         "stars": stars,
         "popularity": popularity,
@@ -209,41 +191,69 @@ class Doctor {
         "totalCleaning": totalCleaning,
         "totalTreatment": totalTreatment,
         "totalknowledge": totalknowledge,
-        "comments":
-            comments == null ? [] : List<dynamic>.from(comments.map((x) => x)),
+        "comments": List<dynamic>.from(comments.map((x) => x)),
         "doctor": doctor,
         "tags": List<dynamic>.from(tags.map((x) => x)),
+        "Verification": verification,
         "type": type,
         "is_active": isActive,
+        "fee": fee,
         "email": email,
         "fullname": fullname,
+        "ID": id,
         "address": address,
         "category": category.toJson(),
         "city": city,
-        "day": day,
         "detail": detail,
         "gender": gender,
         "lname": lname,
-        "month": month,
         "name": name,
         "phone": phone,
         "speciality": speciality,
-        "year": year,
-        "ID": id,
-        "Awards":
-            awards == null ? [] : List<dynamic>.from(awards.map((x) => x)),
-        "Lang": lang == null ? [] : List<dynamic>.from(lang.map((x) => x)),
-        "Verification": verification,
-        "fee": fee,
-        "cleaningRating": cleaningRating,
-        "expertiseRating": expertiseRating,
-        "feedbacks": feedbacks == null
-            ? []
-            : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
-        "satifyRating": satifyRating,
+        "schedules": List<dynamic>.from(schedules.map((x) => x.toJson())),
         "totalFeedbacks": totalFeedbacks,
         "averageRatings": averageRatings,
-        "coordinate": coordinate?.toJson(),
+        "totalExperience": totalExperience,
+        "day": day,
+        "month": month,
+        "year": year,
+        "active": active,
+      };
+}
+
+class Schedule {
+  List<String> times;
+  List<int> counts;
+  String id;
+  int dayOfWeek;
+  String user;
+  int v;
+
+  Schedule({
+    this.times,
+    this.counts,
+    this.id,
+    this.dayOfWeek,
+    this.user,
+    this.v,
+  });
+
+  factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
+        times: List<String>.from(json["times"].map((x) => x)),
+        counts: List<int>.from(json["counts"].map((x) => x)),
+        id: json["_id"],
+        dayOfWeek: json["dayOfWeek"],
+        user: json["user"],
+        v: json["__v"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "times": List<dynamic>.from(times.map((x) => x)),
+        "counts": List<dynamic>.from(counts.map((x) => x)),
+        "_id": id,
+        "dayOfWeek": dayOfWeek,
+        "user": user,
+        "__v": v,
       };
 }
 

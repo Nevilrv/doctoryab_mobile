@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -30,12 +31,16 @@ class AppAppBar {
           ? leading ??
               IconButton(
                 onPressed: () => Get.back(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 22,
-                  color: backgroundColor == AppColors.scaffoldColor
-                      ? Colors.black
-                      : AppColors.primary,
+                icon: RotatedBox(
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 22,
+                    color: backgroundColor == AppColors.scaffoldColor
+                        ? Colors.black
+                        : AppColors.primary,
+                  ),
                 ),
               )
           : null,
@@ -53,9 +58,12 @@ class AppAppBar {
         onTap: () {
           Get.back();
         },
-        child: Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: AppColors.primary,
+        child: RotatedBox(
+          quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+          child: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColors.primary,
+          ),
         ),
       ),
       title: Text(
@@ -93,14 +101,16 @@ class AppAppBar {
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: GestureDetector(
-        onTap: () {
-          Get.back();
-        },
-        child: Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: AppColors.white,
-        ),
-      ),
+          onTap: () {
+            Get.back();
+          },
+          child: RotatedBox(
+            quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+            child: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: AppColors.white,
+            ),
+          )),
       title: bloodIcon == false
           ? Text(
               "$title ",
@@ -144,9 +154,12 @@ class AppAppBar {
         onTap: () {
           Get.back();
         },
-        child: Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: AppColors.primary,
+        child: RotatedBox(
+          quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+          child: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColors.primary,
+          ),
         ),
       ),
       title: bloodIcon == false

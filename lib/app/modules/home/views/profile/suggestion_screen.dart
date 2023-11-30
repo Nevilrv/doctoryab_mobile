@@ -10,6 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
+import '../../../../controllers/settings_controller.dart';
+
 class SuggestionScreen extends GetView<ComplaintSuggestionController> {
   const SuggestionScreen({Key key}) : super(key: key);
 
@@ -33,9 +35,13 @@ class SuggestionScreen extends GetView<ComplaintSuggestionController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.white,
+              child: RotatedBox(
+                quarterTurns:
+                    SettingsController.appLanguge == "English" ? 0 : 2,
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.white,
+                ),
               )),
           centerTitle: true,
           elevation: 0,

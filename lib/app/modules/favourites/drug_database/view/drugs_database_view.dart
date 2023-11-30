@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
@@ -7,12 +9,14 @@ import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
+import 'package:doctor_yab/app/modules/favourites/AD/add_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -75,27 +79,13 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          if (i == 5) {
-                            // if ((i + 1) % 5 == 0) {
+                          log("i--------------> ${i}");
+
+                          // if (i == 5) {
+                          if ((i + 1) % 5 == 0) {
                             return Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: controller.isLoadAd == false
-                                  ? SizedBox()
-                                  : Container(
-                                      height: Get.height * 0.154,
-                                      width: controller.bannerAd.size.width
-                                          .toDouble(),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: AdWidget(
-                                          ad: controller.bannerAd,
-                                        ),
-                                      ),
-                                    ),
+                              padding: const EdgeInsets.only(top: 10),
+                              child: AddAd(),
                             );
                           } else {
                             return SizedBox(height: 15);

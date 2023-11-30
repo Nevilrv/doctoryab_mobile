@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/modules/banner/banner_view.dart';
@@ -63,11 +64,17 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
+                                        child: RotatedBox(
+                                      quarterTurns:
+                                          SettingsController.appLanguge ==
+                                                  "English"
+                                              ? 0
+                                              : 2,
                                       child: SvgPicture.asset(
                                         AppImages.back2,
                                         height: 14,
                                       ),
-                                    ),
+                                    )),
                                   ),
                                 ),
                                 Expanded(

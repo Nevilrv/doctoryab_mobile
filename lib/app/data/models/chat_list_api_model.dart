@@ -150,7 +150,9 @@ class Sender {
   });
 
   factory Sender.fromJson(Map<String, dynamic> json) => Sender(
-        geometry: Geometry.fromJson(json["geometry"]),
+        geometry: json["geometry"] == null
+            ? null
+            : Geometry.fromJson(json["geometry"]),
         photo: json["photo"],
         id: json["_id"],
         phone: json["phone"],
@@ -186,14 +188,17 @@ class Geometry {
   });
 
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
-        type: json["type"],
-        coordinates:
-            List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
+        type: json["type"] == null ? null : json["type"],
+        coordinates: json["coordinates"] == null
+            ? null
+            : List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
       );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "type": type == null ? null : type,
+        "coordinates": coordinates == null
+            ? null
+            : List<dynamic>.from(coordinates.map((x) => x)),
       };
 }
 
