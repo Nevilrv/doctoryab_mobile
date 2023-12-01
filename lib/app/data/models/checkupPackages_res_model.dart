@@ -186,12 +186,14 @@ class HospitalLocation {
   String address;
   String name;
   String phone;
+  String city;
 
   HospitalLocation({
     this.id,
     this.address,
     this.name,
     this.phone,
+    this.city,
   });
 
   factory HospitalLocation.fromJson(Map<String, dynamic> json) =>
@@ -200,6 +202,7 @@ class HospitalLocation {
         address: json["address"],
         name: json["name"],
         phone: json["phone"],
+        city: json["city"] == null ? null : json["city"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -207,6 +210,7 @@ class HospitalLocation {
         "address": address,
         "name": name,
         "phone": phone,
+        "city": city == null ? null : city,
       };
 }
 
@@ -214,23 +218,27 @@ class LabLocation {
   List<String> phone;
   String id;
   String name;
+  String city;
 
   LabLocation({
     this.phone,
     this.id,
     this.name,
+    this.city,
   });
 
   factory LabLocation.fromJson(Map<String, dynamic> json) => LabLocation(
         phone: List<String>.from(json["phone"].map((x) => x)),
         id: json["_id"],
         name: json["name"],
+        city: json["city"] == null ? null : json["city"],
       );
 
   Map<String, dynamic> toJson() => {
         "phone": List<dynamic>.from(phone.map((x) => x)),
         "_id": id,
         "name": name,
+        "city": city == null ? null : city,
       };
 }
 

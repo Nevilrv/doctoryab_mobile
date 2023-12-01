@@ -930,7 +930,9 @@ class _ShowMoreLessHTMLState extends State<ShowMoreLessHTML> {
       children: [
         Html(
           data: isExpanded ? widget.htmlContent : _getTruncatedHtmlContent(),
-
+          customTextAlign: (_) => SettingsController.appLanguge == "English"
+              ? TextAlign.left
+              : TextAlign.right,
           // style: {
           //   'body': Style(
           //     fontSize: FontSize(14.0),

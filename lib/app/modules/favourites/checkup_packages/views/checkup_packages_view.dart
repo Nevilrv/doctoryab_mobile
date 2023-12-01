@@ -495,31 +495,6 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          List<dynamic> list = [];
-                                          if (item
-                                              .hospitalLocation.isNotEmpty) {
-                                            item.hospitalLocation
-                                                .forEach((element) {
-                                              list.add({
-                                                "id": element.id,
-                                                "name": element.name,
-                                                "type": "hospital",
-                                              });
-                                            });
-                                          }
-                                          if (item.labLocation.isNotEmpty) {
-                                            item.labLocation.forEach((element) {
-                                              list.add({
-                                                "id": element.id,
-                                                "name": element.name,
-                                                "type": "lab",
-                                              });
-                                            });
-                                          }
-                                          log("list--------------> ${list}");
-
-                                          controller
-                                              .getLabAndHospitalList(list);
                                           Get.to(CheckUpDetailScreen(item));
                                           // Get.to(BookingInfoScreen());
                                         },
@@ -570,8 +545,10 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                 PackageGridShimmer(yCount: 2, xCount: 2
                                     // linesCount: 4,
                                     ),
-                            newPageProgressIndicatorBuilder: (_) =>
-                                Center(child: CircularProgressIndicator(color: AppColors.primary,)),
+                            newPageProgressIndicatorBuilder: (_) => Center(
+                                child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            )),
                           ),
                         ),
                       ),

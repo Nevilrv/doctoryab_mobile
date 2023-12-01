@@ -25,6 +25,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../components/spacialAppBar.dart';
 import '../controllers/hospital_new_controller.dart';
@@ -64,12 +65,20 @@ class HospitalNewView extends GetView<HospitalNewController> {
                             address: controller.resModel.data.address ?? "",
                             photo:
                                 "${ApiConsts.hostUrl}${controller.resModel.data.photo}",
-                            star: controller.resModel.data.stars ?? "0.0",
+                            star: double.parse(
+                                controller.resModel.data.averageRating == null
+                                    ? "0"
+                                    : controller.resModel.data.averageRating
+                                        .toString()),
                             reviewTitle: "hospital_reviews",
                             geometry: controller.resModel.data.geometry,
                             name: controller.resModel.data.name,
                             phoneNumbers: controller.resModel.data.phone,
-                            numberOfusersRated: 0,
+                            numberOfusersRated: int.parse(
+                                controller.resModel.data.totalFeedbacks == null
+                                    ? "0"
+                                    : controller.resModel.data.totalFeedbacks
+                                        .toString()),
                             reviewFunction: () {
                               controller.tabIndex = 3;
                               controller.update();
@@ -135,7 +144,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                 ),
                                 controller.tabIndex == 0
                                     ? Container(
-                                        height: h * 0.495,
+                                        height: h * 0.45,
                                         child: SingleChildScrollView(
                                           physics: BouncingScrollPhysics(),
                                           padding: EdgeInsets.only(top: 10),
@@ -158,238 +167,415 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                   : Column(
                                                       children: List.generate(
                                                           controller.doctorList
-                                                              .length,
-                                                          (index) =>
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  DoctorsController
-                                                                      docController =
-                                                                      Get.put(
-                                                                          DoctorsController());
-                                                                  docController
-                                                                          .selectedDoctorData =
-                                                                      controller
-                                                                              .doctorList[
-                                                                          index];
-                                                                  Get.toNamed(
-                                                                      Routes
-                                                                          .DOCTOR,
-                                                                      arguments:
-                                                                          controller
-                                                                              .doctorList[index]);
-                                                                },
+                                                              .length, (index) {
+                                                        var date;
+                                                        String slot;
+
+                                                        if (controller
+                                                            .doctorList[index]
+                                                            .schedules
+                                                            .isNotEmpty) {
+                                                          if (controller
+                                                                  .doctorList[
+                                                                      index]
+                                                                  .schedules
+                                                                  .length ==
+                                                              1) {
+                                                            for (int i = 0;
+                                                                i <= 7;
+                                                                i++) {
+                                                              DateTime d = DateTime
+                                                                      .now()
+                                                                  .add(Duration(
+                                                                      days: i));
+                                                              if (controller
+                                                                      .doctorList[
+                                                                          index]
+                                                                      .schedules[
+                                                                          0]
+                                                                      .dayOfWeek ==
+                                                                  d.weekday) {
+                                                                log("d--------------> ${d}");
+                                                                date = d
+                                                                    .toPersianDateStr(
+                                                                      strDay:
+                                                                          false,
+                                                                      strMonth:
+                                                                          true,
+                                                                      useAfghaniMonthName:
+                                                                          true,
+                                                                    )
+                                                                    .trim()
+                                                                    .split(' ');
+                                                                if (controller
+                                                                    .doctorList[
+                                                                        index]
+                                                                    .schedules[
+                                                                        0]
+                                                                    .times
+                                                                    .isNotEmpty) {
+                                                                  slot =
+                                                                      "${controller.doctorList[index].schedules[0].times.first} - ${controller.doctorList[index].schedules[0].times.last}";
+                                                                }
+                                                                log("date--------------> ${date}");
+                                                                log("slot--------------> ${slot}");
+                                                                break;
+                                                              }
+                                                            }
+                                                          } else {
+                                                            // List<Schedule> dataSort ;
+                                                            // dataSort.add(value)
+                                                            controller
+                                                                .doctorList[
+                                                                    index]
+                                                                .schedules
+                                                                .sort((a, b) => a
+                                                                    .dayOfWeek
+                                                                    .compareTo(b
+                                                                        .dayOfWeek));
+                                                            for (int i = 0;
+                                                                i <
+                                                                    controller
+                                                                        .doctorList[
+                                                                            index]
+                                                                        .schedules
+                                                                        .length;
+                                                                i++) {
+                                                              log("item.schedules[i].dayOfWeek--------------> ${controller.doctorList[index].schedules[i].times}");
+
+                                                              if (DateTime.now()
+                                                                      .weekday ==
+                                                                  controller
+                                                                      .doctorList[
+                                                                          index]
+                                                                      .schedules[
+                                                                          i]
+                                                                      .dayOfWeek) {
+                                                                int indexxx = controller
+                                                                    .doctorList[
+                                                                        index]
+                                                                    .schedules
+                                                                    .indexOf(controller
+                                                                        .doctorList[
+                                                                            index]
+                                                                        .schedules[i]);
+
+                                                                for (int i = 0;
+                                                                    i <= 7;
+                                                                    i++) {
+                                                                  DateTime d = DateTime
+                                                                          .now()
+                                                                      .add(Duration(
+                                                                          days:
+                                                                              i));
+                                                                  if (controller
+                                                                          .doctorList[
+                                                                              index]
+                                                                          .schedules[indexxx +
+                                                                              1]
+                                                                          .dayOfWeek ==
+                                                                      d.weekday) {
+                                                                    log("d--------------> ${d}");
+                                                                    log("item.schedules[indexxx + 1].times--------------> ${controller.doctorList[index].schedules[indexxx + 1].times}");
+
+                                                                    date = d
+                                                                        .toPersianDateStr(
+                                                                          strDay:
+                                                                              false,
+                                                                          strMonth:
+                                                                              true,
+                                                                          useAfghaniMonthName:
+                                                                              true,
+                                                                        )
+                                                                        .trim()
+                                                                        .split(
+                                                                            ' ');
+                                                                    if (controller
+                                                                        .doctorList[
+                                                                            index]
+                                                                        .schedules[
+                                                                            indexxx +
+                                                                                1]
+                                                                        .times
+                                                                        .isNotEmpty) {
+                                                                      slot =
+                                                                          "${controller.doctorList[index].schedules[indexxx + 1].times.first} - ${controller.doctorList[index].schedules[indexxx + 1].times.last}";
+                                                                    }
+
+                                                                    log("date--------------> ${date}");
+                                                                    log("slot--------------> ${slot}");
+
+                                                                    break;
+                                                                  }
+                                                                }
+                                                              }
+                                                              log("element--------------> ${controller.doctorList[index].schedules[i].dayOfWeek}");
+                                                            }
+                                                          }
+                                                        }
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            DoctorsController
+                                                                docController =
+                                                                Get.put(
+                                                                    DoctorsController());
+                                                            docController
+                                                                    .selectedDoctorData =
+                                                                controller
+                                                                        .doctorList[
+                                                                    index];
+                                                            Get.toNamed(
+                                                                Routes.DOCTOR,
+                                                                arguments:
+                                                                    controller
+                                                                            .doctorList[
+                                                                        index]);
+                                                          },
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              index == 0
+                                                                  ? SizedBox(
+                                                                      height: 5,
+                                                                    )
+                                                                  : SizedBox(),
+                                                              Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  vertical: 10,
+                                                                ),
+                                                                // height: 220,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
+                                                                  // boxShadow: [
+                                                                  //   BoxShadow(
+                                                                  //     color: Colors.grey.withOpacity(0.1),
+                                                                  //     spreadRadius: 7,
+                                                                  //     blurRadius: 7,
+                                                                  //     offset: Offset(0, 0),
+                                                                  //   ),
+                                                                  // ],
+                                                                ),
                                                                 child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
                                                                   children: [
-                                                                    index == 0
-                                                                        ? SizedBox(
-                                                                            height:
-                                                                                5,
-                                                                          )
-                                                                        : SizedBox(),
                                                                     Container(
-                                                                      padding:
-                                                                          EdgeInsets
-                                                                              .symmetric(
-                                                                        vertical:
-                                                                            10,
-                                                                      ),
-                                                                      // height: 220,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(15),
-                                                                        // boxShadow: [
-                                                                        //   BoxShadow(
-                                                                        //     color: Colors.grey.withOpacity(0.1),
-                                                                        //     spreadRadius: 7,
-                                                                        //     blurRadius: 7,
-                                                                        //     offset: Offset(0, 0),
-                                                                        //   ),
-                                                                        // ],
-                                                                      ),
+                                                                      // height: h * 0.2,
+                                                                      // width: w,
                                                                       child:
-                                                                          Column(
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
                                                                         children: [
                                                                           Container(
-                                                                            // height: h * 0.2,
-                                                                            // width: w,
+                                                                            // color: Colors.black,
+                                                                            // height: 65,
+                                                                            // width: 65,
+                                                                            decoration:
+                                                                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                                                                             child:
-                                                                                Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Container(
-                                                                                  // color: Colors.black,
-                                                                                  // height: 65,
-                                                                                  // width: 65,
-                                                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.all(8.0),
-                                                                                    child: CachedNetworkImage(
-                                                                                      imageUrl: "${ApiConsts.hostUrl}${controller.doctorList[index].photo}",
-                                                                                      height: h * 0.11,
-                                                                                      width: h * 0.11,
-                                                                                      fit: BoxFit.cover,
-                                                                                      placeholder: (_, __) {
-                                                                                        return Image.asset(
-                                                                                          "assets/png/person-placeholder.jpg",
-                                                                                          fit: BoxFit.cover,
-                                                                                        );
-                                                                                      },
-                                                                                      errorWidget: (_, __, ___) {
-                                                                                        return Image.asset(
-                                                                                          "assets/png/person-placeholder.jpg",
-                                                                                          fit: BoxFit.cover,
-                                                                                        );
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Expanded(
-                                                                                  flex: 3,
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                                                    child: Column(
-                                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      children: [
-                                                                                        // SizedBox(height: 10),
-                                                                                        Text(
-                                                                                          "${controller.doctorList[index].name ?? ""}",
-                                                                                          style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                        ),
-                                                                                        SizedBox(height: 2),
-                                                                                        Text(
-                                                                                          "${controller.doctorList[index].speciality ?? ""}",
-                                                                                          style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
-                                                                                        ),
-                                                                                        SizedBox(height: 2),
-                                                                                        Row(
-                                                                                          // mainAxisSize: MainAxisSize.min,
-                                                                                          // mainAxisAlignment: MainAxisAlignment.end,
-                                                                                          children: [
-                                                                                            RatingBar.builder(
-                                                                                              ignoreGestures: true,
-                                                                                              itemSize: 15,
-                                                                                              initialRating: double.parse("${controller.doctorList[index].averageRatings == null ? "0.0" : controller.doctorList[index].averageRatings.toString() ?? "0.0"}"),
-                                                                                              // minRating: 1,
-                                                                                              direction: Axis.horizontal,
-                                                                                              allowHalfRating: true,
-                                                                                              itemCount: 5,
-                                                                                              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                              itemBuilder: (context, _) => Icon(
-                                                                                                Icons.star,
-                                                                                                color: Colors.amber,
-                                                                                                // size: 10,
-                                                                                              ),
-                                                                                              onRatingUpdate: (rating) {
-                                                                                                print(rating);
-                                                                                              },
-                                                                                            ),
-                                                                                            SizedBox(width: 4),
-                                                                                            GestureDetector(
-                                                                                              onTap: () {
-                                                                                                Get.to(ReviewScreen(
-                                                                                                  appBarTitle: "hospital_reviews",
-                                                                                                ));
-                                                                                              },
-                                                                                              child: Center(
-                                                                                                child: Text(
-                                                                                                  '(${controller.doctorList[index].totalFeedbacks == null ? "0" : controller.doctorList[index].totalFeedbacks})  ${"reviews".tr}',
-                                                                                                  style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
-                                                                                                ).paddingOnly(top: 3),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                        SizedBox(height: 5),
-                                                                                        Row(
-                                                                                          children: [
-                                                                                            GestureDetector(
-                                                                                              onTap: () {
-                                                                                                Get.toNamed(
-                                                                                                  Routes.BOOK,
-                                                                                                  arguments: controller.doctorList[index],
-                                                                                                );
-                                                                                              },
-                                                                                              child: Container(
-                                                                                                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                                                                                                decoration: BoxDecoration(color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
-                                                                                                child: Padding(
-                                                                                                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                                                                                                  child: Center(
-                                                                                                    child: Text(
-                                                                                                      "appointment".tr,
-                                                                                                      style: AppTextTheme.m(12).copyWith(color: Colors.white),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            )
-                                                                                          ],
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.all(8.0),
+                                                                              child: CachedNetworkImage(
+                                                                                imageUrl: "${ApiConsts.hostUrl}${controller.doctorList[index].photo}",
+                                                                                height: h * 0.11,
+                                                                                width: h * 0.11,
+                                                                                fit: BoxFit.cover,
+                                                                                placeholder: (_, __) {
+                                                                                  return Image.asset(
+                                                                                    "assets/png/person-placeholder.jpg",
+                                                                                    fit: BoxFit.cover,
+                                                                                  );
+                                                                                },
+                                                                                errorWidget: (_, __, ___) {
+                                                                                  return Image.asset(
+                                                                                    "assets/png/person-placeholder.jpg",
+                                                                                    fit: BoxFit.cover,
+                                                                                  );
+                                                                                },
+                                                                              ),
                                                                             ),
                                                                           ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                10,
+                                                                          Expanded(
+                                                                            flex:
+                                                                                3,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  // SizedBox(height: 10),
+                                                                                  Text(
+                                                                                    "${controller.doctorList[index].name ?? ""}",
+                                                                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                                  ),
+                                                                                  SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    "${controller.doctorList[index].speciality ?? ""}",
+                                                                                    style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                                                                  ),
+                                                                                  SizedBox(height: 2),
+                                                                                  Row(
+                                                                                    // mainAxisSize: MainAxisSize.min,
+                                                                                    // mainAxisAlignment: MainAxisAlignment.end,
+                                                                                    children: [
+                                                                                      RatingBar.builder(
+                                                                                        ignoreGestures: true,
+                                                                                        itemSize: 15,
+                                                                                        initialRating: double.parse("${controller.doctorList[index].averageRatings == null ? "0.0" : controller.doctorList[index].averageRatings.toString() ?? "0.0"}"),
+                                                                                        // minRating: 1,
+                                                                                        direction: Axis.horizontal,
+                                                                                        allowHalfRating: true,
+                                                                                        itemCount: 5,
+                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                        itemBuilder: (context, _) => Icon(
+                                                                                          Icons.star,
+                                                                                          color: Colors.amber,
+                                                                                          // size: 10,
+                                                                                        ),
+                                                                                        onRatingUpdate: (rating) {
+                                                                                          print(rating);
+                                                                                        },
+                                                                                      ),
+                                                                                      SizedBox(width: 4),
+                                                                                      GestureDetector(
+                                                                                        onTap: () {
+                                                                                          Get.to(ReviewScreen(
+                                                                                            appBarTitle: "hospital_reviews",
+                                                                                          ));
+                                                                                        },
+                                                                                        child: Center(
+                                                                                          child: Text(
+                                                                                            '(${controller.doctorList[index].totalFeedbacks == null ? "0" : controller.doctorList[index].totalFeedbacks})  ${"reviews".tr}',
+                                                                                            style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                                                                          ).paddingOnly(top: 3),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  SizedBox(height: 5),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      GestureDetector(
+                                                                                        onTap: () {
+                                                                                          Get.toNamed(
+                                                                                            Routes.BOOK,
+                                                                                            arguments: controller.doctorList[index],
+                                                                                          );
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                                                                                          decoration: BoxDecoration(color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
+                                                                                          child: Padding(
+                                                                                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                                                                                            child: Center(
+                                                                                              child: Text(
+                                                                                                "appointment".tr,
+                                                                                                style: AppTextTheme.m(12).copyWith(color: Colors.white),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
                                                                           ),
-                                                                          // controller.doctorList[index].schedules.isEmpty?SizedBox():   GestureDetector(
-                                                                          //   onTap:
-                                                                          //       () {
-                                                                          //     // Utils.openPhoneDialer(context, item.phone);
-                                                                          //   },
-                                                                          //   child:
-                                                                          //       Container(
-                                                                          //     padding: EdgeInsets.symmetric(
-                                                                          //       vertical: 5,
-                                                                          //     ),
-                                                                          //     decoration: BoxDecoration(color: AppColors.white, border: Border.all(color: AppColors.primary), borderRadius: BorderRadius.circular(10)),
-                                                                          //     child: Padding(
-                                                                          //       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                                                          //       child: Row(
-                                                                          //         children: [
-                                                                          //           SvgPicture.asset(AppImages.calendar, height: 15, width: 15, color: AppColors.primary),
-                                                                          //           SizedBox(
-                                                                          //             width: 5,
-                                                                          //           ),
-                                                                          //           FittedBox(
-                                                                          //             child: Text(
-                                                                          //               "Monday, August 10, 2022",
-                                                                          //               style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
-                                                                          //             ),
-                                                                          //           ),
-                                                                          //           Spacer(),
-                                                                          //           SvgPicture.asset(AppImages.clock, height: 15, width: 15, color: AppColors.primary),
-                                                                          //           SizedBox(
-                                                                          //             width: 5,
-                                                                          //           ),
-                                                                          //           FittedBox(
-                                                                          //             child: Text(
-                                                                          //               "09.00 - 10.00",
-                                                                          //               style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
-                                                                          //             ),
-                                                                          //           ),
-                                                                          //         ],
-                                                                          //       ),
-                                                                          //     ),
-                                                                          //   ),
-                                                                          // ),
                                                                         ],
                                                                       ),
                                                                     ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          10,
+                                                                    ),
+                                                                    controller
+                                                                            .doctorList[index]
+                                                                            .schedules
+                                                                            .isEmpty
+                                                                        ? SizedBox()
+                                                                        : Container(
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(
+                                                                              vertical: 5,
+                                                                            ),
+                                                                            decoration: BoxDecoration(
+                                                                                color: AppColors.lightGrey,
+                                                                                border: Border.all(color: AppColors.primary),
+                                                                                borderRadius: BorderRadius.circular(10)),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  SvgPicture.asset(
+                                                                                    AppImages.calendar,
+                                                                                    height: 15,
+                                                                                    width: 15,
+                                                                                    color: AppColors.primary,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: 5,
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Text(
+                                                                                        "${date[0]}",
+                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        " ${date[1]}",
+                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        " ${date[3]}",
+                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  Spacer(),
+                                                                                  slot == null
+                                                                                      ? SizedBox()
+                                                                                      : SvgPicture.asset(
+                                                                                          AppImages.clock,
+                                                                                          height: 15,
+                                                                                          width: 15,
+                                                                                          color: AppColors.primary,
+                                                                                        ),
+                                                                                  slot == null
+                                                                                      ? SizedBox()
+                                                                                      : SizedBox(
+                                                                                          width: 5,
+                                                                                        ),
+                                                                                  slot == null
+                                                                                      ? SizedBox()
+                                                                                      : FittedBox(
+                                                                                          child: Text(
+                                                                                            "${slot ?? "  -  "}",
+                                                                                            style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                          ),
+                                                                                        ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          )
                                                                   ],
                                                                 ),
-                                                              )),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }),
                                                     ),
                                         ),
                                       )

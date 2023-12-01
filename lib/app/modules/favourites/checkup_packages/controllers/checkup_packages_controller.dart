@@ -42,8 +42,10 @@ class CheckupPackagesController extends GetxController {
   var selectedGender = "Male".obs;
   var selectedType = "".obs;
   selectDate(DateTime picked) async {
+    selectedDate.value = picked.toString();
     timeList.clear();
     selectedTime.value = "";
+
     update();
     List<String> data = [];
     log("picked.weekday.toString()--------------> ${picked.weekday.toString()}");

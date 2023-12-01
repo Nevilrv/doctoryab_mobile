@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/splash_screen/bindings/splash_screen_binding.dart';
 import 'package:doctor_yab/app/services/PushNotificationService.dart';
@@ -19,15 +21,14 @@ import 'app/services/LocalizationServices.dart';
 import 'app/utils/utils.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message ");
+  log("Handling a background message ");
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAuth.instance.authStateChanges().listen((user) {
-    print(
-        'Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser.uid}');
+    log('Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser.uid}');
   });
 //  await GetStorage.init();
   // Directory directory = await pathProvider.getApplicationDocumentsDirectory();
@@ -45,6 +46,11 @@ Future<void> main() async {
 
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
+  var fcmToken;
+  try {
+    fcmToken = await FirebaseMessaging.instance.getToken();
+    log("fcmToken--------------> ${fcmToken}");
+  } catch (e, s) {}
   runApp(
     Phoenix(
       child: GetMaterialApp(

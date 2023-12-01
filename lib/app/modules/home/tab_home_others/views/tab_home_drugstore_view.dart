@@ -186,11 +186,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                           // ),
                           GestureDetector(
                             onTap: () {
-                              AppGetDialog.showFilterDialog(
-                                controller.filterList,
-                                controller.selectedSort,
-                                filterCallBack: (i) => controller.changeSort(i),
-                              );
+                              controller.showFilterDialog();
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -852,35 +848,3 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
     );
   }
 }
-// class TabHomeDrugstoreView
-//     extends TabHomeOthersView<DrugStoreController, DrugStore> {
-//   @override
-//   bool get pageHas24Hours => true;
-//   @override
-//   Widget buildItem(c, it, i) {
-//     int _calculateWekday(DateTime d) {
-//       return d.weekday == 7 ? 0 : d.weekday;
-//     }
-//
-//    debugPrint((DateTime(2021, 7, 30).weekday).toString() + " weakday-now");
-//
-//     return NewItems(
-//       // is24Hour: i % 2 == 0,
-//       is24Hour:
-//           it.the24Hours?.contains(_calculateWekday(DateTime.now())) ?? false,
-//       title: it.name,
-//       address: it.address,
-//       phoneNumber: (it.phone?.length ?? 0) > 0 ? it.phone[0] : null,
-//       imagePath: it.photo,
-//       latLng: it.geometry.coordinates,
-//     ).onTap(() {
-//       Get.to(() => DrugStoreLabView(
-//           Labs.fromJson(it.toJson()), DRUG_STORE_LAB_PAGE_TYPE.drugstore));
-//       // Get.to(() => DoctorsView(
-//       //       action: DOCTORS_LOAD_ACTION.ofhospital,
-//       //       hospitalId: it.id ?? "",
-//       //       hospitalName: it.name,
-//       //     ));
-//     });
-//   }
-// }

@@ -38,7 +38,7 @@ class ProfileViewNew extends StatelessWidget {
   final String photo;
   final String name;
   final String reviewTitle;
-  final int star;
+  final double star;
   final String address;
   final Geometry geometry;
   final String phoneNumbers;

@@ -155,11 +155,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                         // ),
                         GestureDetector(
                           onTap: () {
-                            AppGetDialog.showFilterDialog(
-                              controller.filterList,
-                              controller.selectedSort,
-                              filterCallBack: (i) => controller.changeSort(i),
-                            );
+                            controller.showFilterDialog();
                           },
                           child: Container(
                             width: w * 0.15,

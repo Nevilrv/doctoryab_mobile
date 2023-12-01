@@ -164,11 +164,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                           // ),
                           GestureDetector(
                             onTap: () {
-                              AppGetDialog.showFilterDialog(
-                                controller.filterList,
-                                controller.selectedSort,
-                                filterCallBack: (i) => controller.changeSort(i),
-                              );
+                              controller.showFilterDialog();
                             },
                             child: Container(
                               decoration: BoxDecoration(

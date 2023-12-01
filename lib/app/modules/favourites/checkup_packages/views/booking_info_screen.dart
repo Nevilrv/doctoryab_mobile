@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class BookingInfoScreen extends GetView<CheckupPackagesController> {
   Package item;
@@ -181,7 +182,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                     ),
                                   ),
                                   Container(
-                                    width: w * 0.75,
+                                    width: w * 0.73,
                                     child: DropdownButton<String>(
                                       underline: SizedBox(),
                                       // value: controller.selectedLocation.value ?? "",
@@ -221,6 +222,39 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                         });
                                         controller.selectedLocationId.value =
                                             value;
+                                        List<dynamic> list = [];
+                                        if (item.hospitalLocation.isNotEmpty) {
+                                          item.hospitalLocation
+                                              .forEach((element) {
+                                            if (controller
+                                                    .selectedLocationId.value
+                                                    .toString() ==
+                                                element.city.toString()) {
+                                              list.add({
+                                                "id": element.id,
+                                                "name": element.name,
+                                                "type": "hospital",
+                                              });
+                                            }
+                                          });
+                                        }
+                                        if (item.labLocation.isNotEmpty) {
+                                          item.labLocation.forEach((element) {
+                                            if (controller
+                                                    .selectedLocationId.value
+                                                    .toString() ==
+                                                element.city.toString()) {
+                                              list.add({
+                                                "id": element.id,
+                                                "name": element.name,
+                                                "type": "lab",
+                                              });
+                                            }
+                                          });
+                                        }
+                                        log("list--------------> ${list}");
+
+                                        controller.getLabAndHospitalList(list);
 
                                         // controller.getLabAndHospitalList();
                                       },
@@ -414,15 +448,62 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       underline: SizedBox(),
                                       // value: controller.selectedHospitalLab.value ??
                                       //     "",
-                                      hint: Text(
-                                        controller.selectedDate.value == ""
-                                            ? 'please_select_date'.tr
-                                            : "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.selectedDate.value))}",
-                                        style: AppTextStyle.mediumPrimary12
-                                            .copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
-                                      ),
+                                      hint: controller.selectedDate.value == ""
+                                          ? Text('please_select_date'.tr,
+                                              style: AppTextStyle
+                                                  .mediumPrimary12
+                                                  .copyWith(
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5)))
+                                          : Row(
+                                              children: [
+                                                Text(
+                                                  "${DateTime.parse(controller.selectedDate.value).toPersianDateStr(
+                                                        strDay: false,
+                                                        strMonth: true,
+                                                        useAfghaniMonthName:
+                                                            true,
+                                                      ).trim().split(' ')[0]}",
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.5)),
+                                                ),
+                                                Text(
+                                                  " ${DateTime.parse(controller.selectedDate.value).toPersianDateStr(
+                                                        strDay: false,
+                                                        strMonth: true,
+                                                        useAfghaniMonthName:
+                                                            true,
+                                                      ).trim().split(' ')[1]}",
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.5)),
+                                                ),
+                                                Text(
+                                                  " ${DateTime.parse(controller.selectedDate.value).toPersianDateStr(
+                                                        strDay: false,
+                                                        strMonth: true,
+                                                        useAfghaniMonthName:
+                                                            true,
+                                                      ).trim().split(' ')[3]}",
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary
+                                                              .withOpacity(
+                                                                  0.5)),
+                                                ),
+                                              ],
+                                            ),
                                       onTap: () {},
                                       icon: Icon(Icons.expand_more,
                                           color: AppColors.primary
@@ -431,15 +512,39 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       isExpanded: true,
                                       items: controller.scheduleListDate
                                           .map((DateTime value) {
+                                        var d = value
+                                            .toPersianDateStr(
+                                              strDay: false,
+                                              strMonth: true,
+                                              useAfghaniMonthName: true,
+                                            )
+                                            .trim()
+                                            .split(' ');
+
                                         return DropdownMenuItem<dynamic>(
                                           value: value,
-                                          child: Text(
-                                              "${DateFormat("dd.MM.yyyy").format(DateTime.parse(value.toString()))}",
-                                              style: AppTextStyle
-                                                  .mediumPrimary12
-                                                  .copyWith(
-                                                      color:
-                                                          AppColors.primary)),
+                                          child: Row(
+                                            children: [
+                                              Text("${d[0]}",
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary)),
+                                              Text(" ${d[1]}",
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary)),
+                                              Text(" ${d[3]}",
+                                                  style: AppTextStyle
+                                                      .mediumPrimary12
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .primary)),
+                                            ],
+                                          ),
                                         );
                                       }).toList(),
                                       onChanged: (value) {

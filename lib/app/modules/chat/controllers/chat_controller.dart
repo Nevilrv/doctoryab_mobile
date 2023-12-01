@@ -352,6 +352,9 @@ class ChatController extends GetxController {
       }
     }
     if (attachmentString.value == "voice") {
+      if (playRecord.value == true) {
+        stopRecording();
+      }
       sendingMessage(true);
       log("pathToAudio--------------> ${pathToAudio}");
 

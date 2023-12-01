@@ -39,8 +39,6 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
             // shrinkWrap: true,
             physics: BouncingScrollPhysics(),
 
-            // itemCount: 9,
-            // primary: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               // childAspectRatio: 132 / 169,
               // mainAxisExtent: 2,
@@ -50,12 +48,7 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
             ),
-            // SliverGridDelegateWithMaxCrossAxisExtent(
-            //   // childAspectRatio: 1,
-            //   mainAxisSpacing: 40,
-            //   crossAxisSpacing: 20,
-            //   maxCrossAxisExtent: 120,
-            // ),
+
             builderDelegate: PagedChildBuilderDelegate<Category>(
               itemBuilder: (BuildContext context, item, int i) {
                 // var item = controller.dummyData[i];
@@ -81,9 +74,6 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
           ),
         ),
       ),
-      // SizedBox(
-      //   height: 20,
-      // )
     );
   }
 }

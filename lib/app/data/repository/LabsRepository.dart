@@ -14,8 +14,7 @@ class LabsRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   Future<Response> fetchLabs(
-    int page,
-    bool the24Hours, {
+    int page, {
     int limitPerPage = 50,
     void onError(e),
     CancelToken cancelToken,

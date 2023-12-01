@@ -1,11 +1,14 @@
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/LabsRepository.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +16,9 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 
-class LabsController extends TabHomeOthersController {
+import '../../../../theme/AppImages.dart';
+
+class LabsController extends GetxController {
   @override
   var pageController = PagingController<int, Labs>(firstPageKey: 1);
   // List<String> filterList = [
@@ -24,21 +29,24 @@ class LabsController extends TabHomeOthersController {
   //   'A-Z'
   // ];
   List<String> filterList = [
-    "Best Rating",
-    'Recommended',
-    'Nearest',
-    'Promoted',
-    'A-Z'
+    "best_rating",
+    'recommended',
+    'nearest_lab',
+    'promoted',
+    'a-z'
   ];
   String sort = "";
-  String selectedSort = "";
+  String selectedSort = "promoted";
   TextEditingController search = TextEditingController();
   List<Labs> searchDataList = [];
   bool isSearching = false;
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
+  CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
+    selectedSort = "promoted";
+    update();
     pageController.addPageRequestListener((pageKey) {
       print('===LISTNER===');
       loadData(pageKey);
@@ -127,6 +135,140 @@ class LabsController extends TabHomeOthersController {
     //     }
     // }
   }
+
+  showFilterDialog() {
+    log("currentSelected--------------> ${selectedSort}");
+    filterList = [
+      "best_rating",
+      'recommended',
+      'nearest_lab',
+      'promoted',
+      'a-z'
+    ];
+    selectedSort = "${selectedSort}";
+    Get.dialog(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Center(
+          child: Container(
+            // height: Get.height * 0.3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                      ),
+                      SettingsController.appLanguge != "English"
+                          ? Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(math.pi),
+                              child: Image.asset(
+                                AppImages.filter,
+                                height: 48,
+                                width: 48,
+                                color: AppColors.primary,
+                              ),
+                            )
+                          : Image.asset(
+                              AppImages.filter,
+                              height: 48,
+                              width: 48,
+                              color: AppColors.primary,
+                            ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(
+                          Icons.cancel_outlined,
+                          color: AppColors.primary,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "filter".tr,
+                    style: AppTextStyle.boldBlack13,
+                  ),
+
+                  Text(
+                    "filter_dialog_description".tr,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyle.boldBlack13
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(height: 15),
+                  Column(
+                      children: filterList.map((l) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.back();
+                          selectedSort = l;
+                          update();
+                        },
+                        child: Container(
+                          width: Get.width * 0.4,
+                          decoration: BoxDecoration(
+                            color: selectedSort == l
+                                ? AppColors.secondary
+                                : AppColors.primary,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Center(
+                              child: Text(
+                                l.tr,
+                                style: AppTextStyle.boldWhite14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList()),
+                  // Column(
+                  //     children: LocalizationService.langs.map((l) {
+                  //   return Column(
+                  //     children: [
+                  //       ListTile(
+                  //         title: Center(child: Text(l)),
+                  //         // leading: Icon(Icons.language),
+                  //         onTap: () {
+                  //           Get.back();
+                  //
+                  //           LocalizationService().changeLocale(l);
+                  //           // AuthController.to.setAppLanguge(l);
+                  //           SettingsController.appLanguge = l;
+                  //           if (langChangedCallBack != null) langChangedCallBack(l);
+                  //         },
+                  //       ),
+                  //       Divider(),
+                  //     ],
+                  //   );
+                  // }).toList()),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 /*
   void loadData1(int page) async {
     LabsRepository.fetchLabs(
@@ -151,9 +293,7 @@ class LabsController extends TabHomeOthersController {
 
   void loadData(int page) {
     log("loadData--------------->}");
-    LabsRepository()
-        .fetchLabs(page, the24HourState, cancelToken: cancelToken)
-        .then((data) {
+    LabsRepository().fetchLabs(page, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
 
       if (data != null) {

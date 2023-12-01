@@ -54,9 +54,9 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                 address: item.address,
                 reviewTitle: "laboratories_reviews",
                 photo: "${ApiConsts.hostUrl}${item.photo}",
-                star: item.averageRatings == null
-                    ? 0
-                    : int.parse(item.averageRatings.toString()),
+                star: double.parse(item.averageRatings == null
+                    ? "0"
+                    : item.averageRatings.toString()),
                 geometry: item.geometry,
                 name: item.name ?? "",
                 phoneNumbers: item.phone[0],

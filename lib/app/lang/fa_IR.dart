@@ -437,5 +437,17 @@ const Map<String, String> faIR = {
   "do_you_need_accomization": "آیا به جای بودباش مثل هوتل ضرورت دارید؟",
   "package_name": "نام بسته صحی",
   "hospital_name": "نام کلینیک و شفاخانه",
-  "Price": "قیمت"
+  "Price": "قیمت",
+  "checkup_history": "لیست چیک آپ های قبلی",
+  "doctor_note": "نوت و پیشنهاد داکتر",
+  "see_all_details": "نام معاینات",
+  "test_name": "نوت درباره معاینات",
+  "test_note": "نشان دادن همه",
+  "best_rating": "بیشترین امتیاز",
+  "recommended": "پیشنهاد شده",
+  "nearest_lab": "نزدیکترین لابراتوار",
+  "nearest_pharmacy": "نزدیکترین دواخانه",
+  "nearest_hospital": "نزدیکترین کلینیک یا شفاخانه",
+  "promoted": "حمایت شده",
+  "a-z": "به ترتیب الفبا",
 };

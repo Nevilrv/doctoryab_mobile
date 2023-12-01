@@ -58,43 +58,6 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                               Container(),
                             ],
                           ),
-
-                          // SizedBox(height: 20),
-                          //HIDE Change city
-                          //TODO remove this after moved to other page
-                          // if (2 == 3)
-                          //   Container(
-                          //     // height: 50,
-                          //     // width: 140,
-                          //     // decoration: BoxDecoration(
-                          //     //     border: Border.all(color: AppColors.lgt),
-                          //     //     borderRadius: BorderRadius.circular(15)),
-                          //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                          //     child: Obx(
-                          //       () => OutlinedButton.icon(
-                          //         icon: Text(
-                          //           controller.selectedCity().getMultiLangName(),
-                          //           style: TextStyle(color: AppColors.lgt),
-                          //         ).paddingSymmetric(horizontal: 4, vertical: 10),
-                          //         onPressed: () {
-                          //           AppGetDialog.showSelctCityDialog(
-                          //               cityChangedCallBack: (City city) =>
-                          //                   controller.cityChanged(city));
-                          //         },
-                          //         label: Icon(
-                          //           Icons.arrow_drop_down,
-                          //           color: AppColors.lgt,
-                          //         ),
-                          //         style: OutlinedButton.styleFrom(
-                          //           shape: RoundedRectangleBorder(
-                          //             borderRadius: BorderRadius.circular(12.0),
-                          //           ),
-                          //           // side: BorderSide(width: 2,),
-                          //         ),
-                          //         // style: ButtonStyle(),
-                          //       ),
-                          //     ),
-                          //   ).paddingStart(context, 15).paddingOnly(top: 15, bottom: 8),
                           searchBox(),
                         ],
                       )
@@ -126,18 +89,11 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         tabs: [
-                          // Text("doctors".tr),
-                          // Text("hospitals".tr),
-                          // Text("drug_store".tr),
-                          // Text("labratories".tr),
                           FittedBox(
                               child: Text("doctors".tr), fit: BoxFit.cover),
                           FittedBox(child: Text("hospitals".tr)),
                           FittedBox(child: Text("drug_store".tr)),
                           FittedBox(child: Text("labratories".tr)),
-                          // Text("doctors".tr),
-                          // Text("doctors".tr),
-                          // Text("doctors".tr),
                         ],
                       ) /*.size(
                       width: MediaQuery.of(context).size.width > 600 ? 500 : 324,

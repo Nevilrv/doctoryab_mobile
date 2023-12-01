@@ -2,11 +2,13 @@ import 'dart:developer';
 
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/favourites_screen_view.dart';
+import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_more_view.dart';
+import 'package:doctor_yab/app/modules/hospital_new/tab_main/controllers/tab_main_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -241,6 +243,11 @@ class BottomBarView extends StatelessWidget {
                               onTap: () {
                                 log("isHomeScreen--------------> ${isHomeScreen}");
                                 log("index--------------> ${index}");
+                                if (index == 0) {
+                                  TabHomeMainController tabMainController =
+                                      Get.find();
+                                  tabMainController.isHomeScreen.value = true;
+                                }
                                 if (isHomeScreen == false) {
                                   log("isHomeScreen--------------> ${isHomeScreen}");
 
@@ -363,6 +370,12 @@ class BottomBarView extends StatelessWidget {
                                   onTap: () {
                                     log("isHomeScreen--------------> ${isHomeScreen}");
                                     log("index--------------> ${index}");
+                                    if (index == 0) {
+                                      TabHomeMainController tabMainController =
+                                          Get.find();
+                                      tabMainController.isHomeScreen.value =
+                                          true;
+                                    }
                                     if (isHomeScreen == false) {
                                       log("isHomeScreen--------------> ${isHomeScreen}");
 
@@ -501,6 +514,12 @@ class BottomBarView extends StatelessWidget {
                                   onTap: () {
                                     log("isHomeScreen--------------> ${isHomeScreen}");
                                     log("index--------------> ${index}");
+                                    if (index == 0) {
+                                      TabHomeMainController tabMainController =
+                                          Get.find();
+                                      tabMainController.isHomeScreen.value =
+                                          true;
+                                    }
                                     if (isHomeScreen == false) {
                                       log("isHomeScreen--------------> ${isHomeScreen}");
 

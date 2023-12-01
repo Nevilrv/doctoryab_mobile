@@ -2,12 +2,18 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'dart:math' as math;
 
 class MyDoctorsController extends GetxController {
   // var arguments = Get.arguments as CategoryBridge;
@@ -15,8 +21,14 @@ class MyDoctorsController extends GetxController {
 
   String hospitalId;
   String sort = "";
-  String selectedSort = "";
-  List<String> filterList;
+  String selectedSort = "promoted".tr;
+  List<String> filterList = [
+    "best_rating".tr,
+    'recommended'.tr,
+    'nearest'.tr,
+    'promoted'.tr,
+    'a-z'.tr
+  ];
 
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
@@ -34,13 +46,7 @@ class MyDoctorsController extends GetxController {
   void onInit() {
     log("my docror-------------------->");
     // bannerAds();
-    filterList = [
-      'most_rated'.tr,
-      'suggested'.tr,
-      'nearest'.tr,
-      'sponsored'.tr,
-      'A-Z'
-    ];
+
     pagingController.addPageRequestListener((pageKey) {
       fetchDoctors(pageKey);
     });
@@ -57,6 +63,133 @@ class MyDoctorsController extends GetxController {
   @override
   void onClose() {
     category.value = null;
+  }
+
+  showFilterDialog() {
+    log("currentSelected--------------> ${selectedSort}");
+
+    Get.dialog(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Center(
+          child: Container(
+            // height: Get.height * 0.3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                      ),
+                      SettingsController.appLanguge != "English"
+                          ? Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(math.pi),
+                              child: Image.asset(
+                                AppImages.filter,
+                                height: 48,
+                                width: 48,
+                                color: AppColors.primary,
+                              ),
+                            )
+                          : Image.asset(
+                              AppImages.filter,
+                              height: 48,
+                              width: 48,
+                              color: AppColors.primary,
+                            ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(
+                          Icons.cancel_outlined,
+                          color: AppColors.primary,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "filter".tr,
+                    style: AppTextStyle.boldBlack13,
+                  ),
+
+                  Text(
+                    "filter_dialog_description".tr,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyle.boldBlack13
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(height: 15),
+                  Column(
+                      children: filterList.map((l) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.back();
+                          selectedSort = l;
+                          update();
+                        },
+                        child: Container(
+                          width: Get.width * 0.4,
+                          decoration: BoxDecoration(
+                            color: selectedSort == l
+                                ? AppColors.secondary
+                                : AppColors.primary,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Center(
+                              child: Text(
+                                l,
+                                style: AppTextStyle.boldWhite14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList()),
+                  // Column(
+                  //     children: LocalizationService.langs.map((l) {
+                  //   return Column(
+                  //     children: [
+                  //       ListTile(
+                  //         title: Center(child: Text(l)),
+                  //         // leading: Icon(Icons.language),
+                  //         onTap: () {
+                  //           Get.back();
+                  //
+                  //           LocalizationService().changeLocale(l);
+                  //           // AuthController.to.setAppLanguge(l);
+                  //           SettingsController.appLanguge = l;
+                  //           if (langChangedCallBack != null) langChangedCallBack(l);
+                  //         },
+                  //       ),
+                  //       Divider(),
+                  //     ],
+                  //   );
+                  // }).toList()),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void changeSort(String v) {

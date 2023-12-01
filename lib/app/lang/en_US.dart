@@ -449,4 +449,11 @@ const Map<String, String> enUS = {
   "see_all_details": "SEE ALL DETAILS",
   "test_name": "Test Name",
   "test_note": "Test Note",
+  "best_rating": "Best Rating",
+  "recommended": "Recommended",
+  "nearest_lab": "Nearest Lab",
+  "nearest_pharmacy": "Nearest Pharmacy",
+  "nearest_hospital": "Nearest Hospital",
+  "promoted": "Promoted",
+  "a-z": "A-Z",
 };

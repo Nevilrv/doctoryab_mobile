@@ -70,8 +70,8 @@ class Doctor {
   String phone;
   String speciality;
   List<Schedule> schedules;
-  int totalFeedbacks;
-  int averageRatings;
+  dynamic totalFeedbacks;
+  dynamic averageRatings;
   int totalExperience;
   int day;
   int month;
@@ -128,10 +128,18 @@ class Doctor {
   factory Doctor.fromJson(Map<String, dynamic> json) => Doctor(
         datumId: json["_id"],
         geometry: Geometry.fromJson(json["geometry"]),
-        exp: List<dynamic>.from(json["Exp"].map((x) => x)),
-        edu: List<dynamic>.from(json["Edu"].map((x) => x)),
-        lang: List<dynamic>.from(json["Lang"].map((x) => x)),
-        awards: List<dynamic>.from(json["Awards"].map((x) => x)),
+        exp: json["Exp"] == null
+            ? null
+            : List<dynamic>.from(json["Exp"].map((x) => x)),
+        edu: json["Edu"] == null
+            ? null
+            : List<dynamic>.from(json["Edu"].map((x) => x)),
+        lang: json["Lang"] == null
+            ? null
+            : List<dynamic>.from(json["Lang"].map((x) => x)),
+        awards: json["Awards"] == null
+            ? null
+            : List<dynamic>.from(json["Awards"].map((x) => x)),
         photo: json["photo"],
         stars: json["stars"],
         popularity: json["popularity"],
@@ -143,9 +151,13 @@ class Doctor {
         totalCleaning: json["totalCleaning"],
         totalTreatment: json["totalTreatment"],
         totalknowledge: json["totalknowledge"],
-        comments: List<dynamic>.from(json["comments"].map((x) => x)),
+        comments: json["comments"] == null
+            ? null
+            : List<dynamic>.from(json["comments"].map((x) => x)),
         doctor: json["doctor"],
-        tags: List<String>.from(json["tags"].map((x) => x)),
+        tags: json["tags"] == null
+            ? null
+            : List<String>.from(json["tags"].map((x) => x)),
         verification: json["Verification"],
         type: json["type"],
         isActive: json["is_active"],
@@ -154,7 +166,9 @@ class Doctor {
         fullname: json["fullname"],
         id: json["ID"],
         address: json["address"],
-        category: Category.fromJson(json["category"]),
+        category: json["category"] == null
+            ? null
+            : Category.fromJson(json["category"]),
         city: json["city"],
         detail: json["detail"],
         gender: json["gender"],
@@ -162,8 +176,10 @@ class Doctor {
         name: json["name"],
         phone: json["phone"],
         speciality: json["speciality"],
-        schedules: List<Schedule>.from(
-            json["schedules"].map((x) => Schedule.fromJson(x))),
+        schedules: json["schedules"] == null
+            ? []
+            : List<Schedule>.from(
+                json["schedules"].map((x) => Schedule.fromJson(x))),
         totalFeedbacks: json["totalFeedbacks"],
         averageRatings: json["averageRatings"],
         totalExperience: json["totalExperience"],
@@ -176,10 +192,11 @@ class Doctor {
   Map<String, dynamic> toJson() => {
         "_id": datumId,
         "geometry": geometry.toJson(),
-        "Exp": List<dynamic>.from(exp.map((x) => x)),
-        "Edu": List<dynamic>.from(edu.map((x) => x)),
-        "Lang": List<dynamic>.from(lang.map((x) => x)),
-        "Awards": List<dynamic>.from(awards.map((x) => x)),
+        "Exp": exp == null ? null : List<dynamic>.from(exp.map((x) => x)),
+        "Edu": edu == null ? null : List<dynamic>.from(edu.map((x) => x)),
+        "Lang": lang == null ? null : List<dynamic>.from(lang.map((x) => x)),
+        "Awards":
+            awards == null ? null : List<dynamic>.from(awards.map((x) => x)),
         "photo": photo,
         "stars": stars,
         "popularity": popularity,
@@ -191,9 +208,11 @@ class Doctor {
         "totalCleaning": totalCleaning,
         "totalTreatment": totalTreatment,
         "totalknowledge": totalknowledge,
-        "comments": List<dynamic>.from(comments.map((x) => x)),
+        "comments": comments == null
+            ? null
+            : List<dynamic>.from(comments.map((x) => x)),
         "doctor": doctor,
-        "tags": List<dynamic>.from(tags.map((x) => x)),
+        "tags": tags == null ? null : List<dynamic>.from(tags.map((x) => x)),
         "Verification": verification,
         "type": type,
         "is_active": isActive,
@@ -202,7 +221,7 @@ class Doctor {
         "fullname": fullname,
         "ID": id,
         "address": address,
-        "category": category.toJson(),
+        "category": category == null ? null : category.toJson(),
         "city": city,
         "detail": detail,
         "gender": gender,
@@ -210,7 +229,9 @@ class Doctor {
         "name": name,
         "phone": phone,
         "speciality": speciality,
-        "schedules": List<dynamic>.from(schedules.map((x) => x.toJson())),
+        "schedules": schedules == null
+            ? []
+            : List<dynamic>.from(schedules.map((x) => x.toJson())),
         "totalFeedbacks": totalFeedbacks,
         "averageRatings": averageRatings,
         "totalExperience": totalExperience,
