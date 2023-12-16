@@ -232,6 +232,7 @@ class ChatController extends GetxController {
   void sendMessage() async {
     sendingMessage(true);
     if (messageToSend != '') {
+      print('----SEND');
       ChatRepository.sendMessage(chatArg().id, messageToSend,
           cancelToken: sendMessageCancelToken, onError: (e) {
         if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -292,6 +293,7 @@ class ChatController extends GetxController {
               log("value--------------> ${value}");
               ChatRepository.sendMessage(chatArg().id, "",
                   images: value,
+                  type: attachmentString.value,
                   cancelToken: sendMessageCancelToken, onError: (e) {
                 if (!(e is DioError && CancelToken.isCancel(e))) {
                   // isLoading.value = false;
@@ -356,7 +358,7 @@ class ChatController extends GetxController {
         stopRecording();
       }
       sendingMessage(true);
-      log("pathToAudio--------------> ${pathToAudio}");
+      log("pathToAudio--------------> $pathToAudio");
 
       try {
         if (pathToAudio.isNotEmpty) {
@@ -366,14 +368,18 @@ class ChatController extends GetxController {
             log("value--------------> ${value}");
             ChatRepository.sendMessage(chatArg().id, "",
                 images: value,
+                type: attachmentString.value,
                 cancelToken: sendMessageCancelToken, onError: (e) {
               if (!(e is DioError && CancelToken.isCancel(e))) {
                 // isLoading.value = false;
-                Future.delayed(Duration(seconds: 2), () {
-                  sendMessageCancelToken.cancel();
-                  sendMessageCancelToken = CancelToken();
-                  sendMessage();
-                });
+                Future.delayed(
+                  Duration(seconds: 2),
+                  () {
+                    sendMessageCancelToken.cancel();
+                    sendMessageCancelToken = CancelToken();
+                    sendMessage();
+                  },
+                );
               }
             }).then((value) {
               if (value != null) {
@@ -435,6 +441,7 @@ class ChatController extends GetxController {
 
             ChatRepository.sendMessage(chatArg().id, "",
                 images: value,
+                type: attachmentString.value,
                 cancelToken: sendMessageCancelToken, onError: (e) {
               if (!(e is DioError && CancelToken.isCancel(e))) {
                 // isLoading.value = false;
@@ -591,7 +598,7 @@ class ChatController extends GetxController {
         // _json["readBy"] = [];
         log("_msg------------ encoded: ${json.encode(m)}");
         var _msg = ChatApiModel.fromJson(m);
-        log("_msg--------------> ${_msg}");
+        log("_msg--------------> ${_msg.images}");
 
         chat.insert(0, _msg);
         chat.refresh();

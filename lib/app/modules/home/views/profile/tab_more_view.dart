@@ -56,9 +56,15 @@ class TabMoreView extends GetView {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                AppImages.bellwhite,
-                height: 24,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.NOTIFICATION);
+                },
+                child: SvgPicture.asset(
+                  AppImages.bellwhite,
+                  height: 24,
+                  width: 24,
+                ),
               ),
             )
           ],

@@ -29,6 +29,8 @@ class ReportsRepository {
     // _searchCancelToken = CancelToken();
     return await Utils.parseResponse<Report>(
       () async {
+        log("ApiConsts.labReportsPath--------------> ${ApiConsts.labReportsPath}");
+
         // var doctorReports;
         var res = await _cachedDio.get(
           '${ApiConsts.labReportsPath}',

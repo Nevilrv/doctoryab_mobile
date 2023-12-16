@@ -56,9 +56,15 @@ class TabBlogView extends GetView<TabBlogController> {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SvgPicture.asset(
-              AppImages.blackBell,
-              height: 24,
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.NOTIFICATION);
+              },
+              child: SvgPicture.asset(
+                AppImages.blackBell,
+                height: 24,
+                width: 24,
+              ),
             ),
           )
         ],
@@ -211,29 +217,29 @@ class TabBlogView extends GetView<TabBlogController> {
                             SizedBox(height: 10),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Container(
                                 // height: h * 0.2,
                                 width: w,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: CircleAvatar(
-                                        radius: 25,
-                                        backgroundImage: NetworkImage(
-                                          "${ApiConsts.hostUrl}${controller.postList[index].img}",
-                                        ),
-                                        onBackgroundImageError:
-                                            (exception, stackTrace) {
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(top: 5),
+                                    //   child: CircleAvatar(
+                                    //     radius: 25,
+                                    //     backgroundImage: NetworkImage(
+                                    //       "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                                    //     ),
+                                    //     onBackgroundImageError:
+                                    //         (exception, stackTrace) {
+                                    //       return Image.asset(
+                                    //         "assets/png/person-placeholder.jpg",
+                                    //         fit: BoxFit.cover,
+                                    //       );
+                                    //     },
+                                    //   ),
+                                    // ),
                                     Expanded(
                                       flex: 3,
                                       child: Padding(
@@ -246,65 +252,96 @@ class TabBlogView extends GetView<TabBlogController> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             // SizedBox(height: 10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Flexible(
-                                                  child: Text(
-                                                    "${controller.postList[index].blogTitle}",
-                                                    style: AppTextTheme.h(14)
-                                                        .copyWith(
-                                                      color: AppColors.primary,
+                                            InkWell(
+                                              onTap: () {
+                                                controller
+                                                    .showDescription(index);
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Flexible(
+                                                    child: Text(
+                                                      "${controller.postList[index].blogTitle}",
+                                                      style: AppTextTheme.h(14)
+                                                          .copyWith(
+                                                        color:
+                                                            AppColors.primary,
+                                                      ),
+                                                      // maxLines: 1,
                                                     ),
-                                                    // maxLines: 1,
                                                   ),
-                                                ),
-                                                controller.postList[index]
-                                                            .isPublished ==
-                                                        true
-                                                    ? SvgPicture.asset(
-                                                        AppImages.check)
-                                                    : SizedBox()
-                                              ],
-                                            ),
-                                            Container(
-                                              // color: AppColors.red,
-                                              child: Text(
-                                                  "${controller.postList[index].name}",
-                                                  style: AppTextTheme.h(11)
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.primary,
-                                                          fontWeight:
-                                                              FontWeight.w400)
-                                                  // maxLines: 1,
-                                                  ),
+                                                  controller.postList[index]
+                                                              .isPublished ==
+                                                          true
+                                                      ? SvgPicture.asset(
+                                                          AppImages.check,
+                                                        )
+                                                      : SizedBox()
+                                                ],
+                                              ),
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Text(
-                                                  "${calculateTime(controller.postList[index].createAt)} ",
-                                                  style: AppTextTheme.h(11)
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.primary,
-                                                          fontWeight:
-                                                              FontWeight.w400),
+                                                Container(
+                                                  // color: AppColors.red,
+                                                  child: Flexible(
+                                                    child: Text(
+                                                        "${controller.postList[index].name}",
+                                                        style: AppTextTheme.h(
+                                                                11)
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .primary,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400)
+                                                        // maxLines: 1,
+                                                        ),
+                                                  ),
                                                 ),
+                                                SizedBox(width: 3),
                                                 Icon(
                                                   Icons.circle,
                                                   size: 3,
                                                   color: AppColors.primary,
-                                                )
+                                                ),
+                                                SizedBox(width: 3),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        "${calculateTime(controller.postList[index].createAt)} ",
+                                                        // maxLines: 1,
+                                                        // overflow:
+                                                        // TextOverflow.clip,
+                                                        style: AppTextTheme.h(
+                                                                11)
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .primary,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                    ),
+                                                    // Icon(
+                                                    //   Icons.circle,
+                                                    //   size: 3,
+                                                    //   color: AppColors.primary,
+                                                    // )
+                                                  ],
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -315,8 +352,50 @@ class TabBlogView extends GetView<TabBlogController> {
                                 ),
                               ),
                             ),
+                            // SizedBox(height: 10),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Container(
+                                width: w * 0.5,
+                                height: h * 0.25,
+                                decoration: BoxDecoration(
+                                  color: Colors.indigo,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                                    ),
+                                    fit: BoxFit.cover,
+                                    onError: (exception, stackTrace) {
+                                      log('================== ON ERROR CALLED ==================');
+                                      return Image.asset(
+                                        "assets/png/person-placeholder.jpg",
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 5),
+                            //   child: CircleAvatar(
+                            //     radius: h * 0.1,
+                            //     backgroundImage: NetworkImage(
+                            //       "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                            //     ),
+                            //     onBackgroundImageError:
+                            //         (exception, stackTrace) {
+                            //       return Image.asset(
+                            //         "assets/png/person-placeholder.jpg",
+                            //         fit: BoxFit.cover,
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
                             SizedBox(height: 10),
-                            controller.postList[index].desc.length < 10
+
+                            controller.showDesc == index
+                                // ? controller.postList[index].desc.length < 10
                                 ? Html(
                                     data: controller.postList[index].desc,
                                     customTextAlign: (_) =>
@@ -329,12 +408,14 @@ class TabBlogView extends GetView<TabBlogController> {
                                           "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
                                     },
                                   )
-                                : ShowMoreLessHTML(
-                                    htmlContent: controller.postList[index]
-                                        .desc, // Replace with your HTML content
-                                    maxLines:
-                                        5, // Specify the number of lines to display initially
-                                  ),
+                                // : ShowMoreLessHTML(
+                                //     htmlContent: controller.postList[index]
+                                //         .desc, // Replace with your HTML content
+                                //     maxLines:
+                                //         5, // Specify the number of lines to display initially
+                                //   )
+                                : SizedBox(),
+
                             // ReadMoreText(
                             //   parse(controller.postList[index].desc).body.text,
                             //   numLines: 5,

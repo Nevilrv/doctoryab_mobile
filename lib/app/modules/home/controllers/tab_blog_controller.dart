@@ -32,6 +32,8 @@ class TabBlogController extends GetxController {
   static Dio dio = AppDioService.getDioInstance();
   bool isLoadingComment = false;
 
+  int showDesc = -1;
+
   @override
   void onInit() {
     super.onInit();
@@ -207,5 +209,15 @@ class TabBlogController extends GetxController {
         if (this != null) _fetchAds();
       });
     });
+  }
+
+  showDescription(int index) {
+    if (showDesc == index) {
+      showDesc = -1;
+      update();
+    } else {
+      showDesc = index;
+      update();
+    }
   }
 }

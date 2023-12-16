@@ -160,10 +160,15 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Image.asset(
-                    AppImages.bell,
-                    height: 22,
-                    width: 22,
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.NOTIFICATION);
+                    },
+                    child: Image.asset(
+                      AppImages.bell,
+                      height: 22,
+                      width: 22,
+                    ),
                   ),
                   Positioned(
                     right: 2,

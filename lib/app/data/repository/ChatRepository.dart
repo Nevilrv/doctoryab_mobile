@@ -93,6 +93,7 @@ class ChatRepository {
     String chatID,
     String message, {
     void onError(e),
+    String type,
     List<dynamic> images,
     CancelToken cancelToken,
   }) async {
@@ -101,6 +102,16 @@ class ChatRepository {
     // _searchCancelToken = CancelToken();
     var response;
     try {
+      log('---->>DATABODY>>>>${{
+        "chatId": "$chatID",
+        "content": "$message" ?? "",
+        type == 'image'
+            ? "images"
+            : type == 'voice'
+                ? "voiceNotes"
+                : "documents": images == null || images.isEmpty ? [] : images
+      }}');
+
       response = await dio.post(
         // '/findBloodDonors/profile',
         '/message/',
@@ -108,7 +119,11 @@ class ChatRepository {
         data: {
           "chatId": "$chatID",
           "content": "$message" ?? "",
-          "images": images == null || images.isEmpty ? [] : images
+          type == 'image'
+              ? "images"
+              : type == 'voice'
+                  ? "voiceNotes"
+                  : "documents": images == null || images.isEmpty ? [] : images
         },
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
       );
@@ -126,6 +141,9 @@ class ChatRepository {
       }
       FirebaseCrashlytics.instance.recordError(e, s);
     }
+
+    print('---DTATUS-->>>>>${response.statusCode}');
+
     var _r = response.data;
 
     ///TODO have a note that we areforce removing this, because they dont match here

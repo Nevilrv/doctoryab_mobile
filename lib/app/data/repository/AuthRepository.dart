@@ -143,6 +143,8 @@ class AuthRepository {
   //* update profile image
   Future<dynamic> updateImage(File file,
       [void uploadProgress(double percent)]) async {
+    log("file.path--------------> ${file.path}");
+
     String fileName = file.path.split('/').last;
     FormData formData = FormData.fromMap({
       "img": await MultipartFile.fromFile(

@@ -96,7 +96,16 @@ class HospitalNewController extends GetxController
         sRating.value = 0.0;
         log("value--------------> ${value}");
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+      }).catchError((e, s) {
+        comment.clear();
+        cRating.value = 0.0;
+        eRating.value = 0.0;
+        sRating.value = 0.0;
+        Utils.commonSnackbar(
+            context: context, text: "${e.response.data['msg']}");
+        log("e------asd--------> ${e.response.data['msg']}");
       });
+      ;
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
       if (!reviewsCancelToken.isCancelled)

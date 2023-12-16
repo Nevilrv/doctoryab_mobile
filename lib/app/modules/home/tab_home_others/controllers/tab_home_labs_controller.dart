@@ -1,22 +1,32 @@
 import 'dart:developer';
 import 'dart:math' as math;
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/LabsRepository.dart';
-import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_others_controller.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:location/location.dart' hide PermissionStatus;
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../theme/AppImages.dart';
+
+enum FetechingGPSDataStatus {
+  loading,
+  failed,
+  success,
+  idle,
+}
 
 class LabsController extends GetxController {
   @override
@@ -72,32 +82,88 @@ class LabsController extends GetxController {
     super.onClose();
   }
 
+  void _handlePermission() async {
+    try {
+      var p = await Permission.location.request();
+
+      switch (p) {
+        case PermissionStatus.denied:
+          {
+            AppGetDialog.show(middleText: "you_denied_request".tr);
+            break;
+          }
+        case PermissionStatus.granted:
+          {
+            _getDeviceLocation();
+            break;
+          }
+        case PermissionStatus.restricted:
+          {
+            //TODO urgent must be tested in iphone
+            // _getDeviceLocation();
+            break;
+          }
+        case PermissionStatus.limited:
+          {
+            //TODO urgent must be tested in iphone
+
+            break;
+          }
+        case PermissionStatus.permanentlyDenied:
+          {
+            AppGetDialog.show(
+                middleText:
+                    "you_have_to_allow_location_permission_in_settings".tr,
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => openAppSettings(),
+                    child: Text("open_settings".tr),
+                  ),
+                ]);
+            break;
+          }
+        case PermissionStatus.provisional:
+          // TODO: Handle this case.
+          break;
+      }
+    } catch (e) {
+      AppGetDialog.show(
+          middleText:
+              e.toString() ?? "Failed to request location permission :-(");
+    }
+  }
+
+  var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
+  var latLang = Rx<LocationData>(null);
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
     //   return;
     // }
+
+    print('---->>>>>V>>>>$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'most_rated'.tr) {
+    if (v == 'best_rating') {
       sort = "stars";
-      // _refreshPage();
-    } else if (v == 'suggested'.tr) {
+
+      _refreshPage();
+    } else if (v == 'recommended') {
+      sort = " ";
+      _refreshPage();
+    } else if (v == 'nearest_lab') {
       sort = "";
-      // _refreshPage();
-    } else if (v == 'nearest'.tr) {
-      sort = "close";
-      // if (latLang.value == null)
-      //   _handlePermission();
-      // else {
-      //   _refreshPage();
-      // }
-    } else if (v == 'A-Z') {
+      if (latLang.value == null)
+        _handlePermission();
+      else {
+        _refreshPage();
+      }
+    } else if (v == 'a-z') {
       sort = "name";
-      // _refreshPage();
+      _refreshPage();
     } else {
       sort = "";
-      // _refreshPage();
+      _refreshPage();
     }
     // switch (v) {
     //   case 'most_rated'.tr:
@@ -134,6 +200,39 @@ class LabsController extends GetxController {
     //       _refreshPage();
     //     }
     // }
+  }
+
+  void _refreshPage() {
+    cancelToken.cancel();
+    cancelToken = CancelToken();
+    pageController.itemList.clear();
+    loadData(pageController.firstPageKey);
+  }
+
+  Future<void> _getDeviceLocation() async {
+    fetechingGPSDataStatus(FetechingGPSDataStatus.loading);
+    EasyLoading.show(status: "getting_location_from_device".tr);
+    try {
+      Location location = new Location();
+      bool _serviceEnabled = await location.serviceEnabled();
+      print("serv-enabled $_serviceEnabled");
+      var locationData =
+          await location.getLocation().timeout(Duration(seconds: 10));
+      print("loc" + locationData.toString());
+
+      // AuthController.to.setLastUserLocation(
+      latLang.value = locationData;
+      // Utils.whereShouldIGo();
+      fetechingGPSDataStatus(FetechingGPSDataStatus.success);
+      EasyLoading.dismiss();
+      _refreshPage();
+    } catch (e) {
+      EasyLoading.dismiss();
+
+      fetechingGPSDataStatus(FetechingGPSDataStatus.failed);
+
+      AppGetDialog.show(middleText: "failed_to_get_location_data".tr);
+    }
   }
 
   showFilterDialog() {
@@ -216,8 +315,10 @@ class LabsController extends GetxController {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: GestureDetector(
                         onTap: () {
-                          Get.back();
+                          changeSort(l);
                           selectedSort = l;
+                          print('------>>>selectedSort.>>>>>$selectedSort');
+                          Get.back();
                           update();
                         },
                         child: Container(
@@ -293,19 +394,36 @@ class LabsController extends GetxController {
 
   void loadData(int page) {
     log("loadData--------------->}");
-    LabsRepository().fetchLabs(page, cancelToken: cancelToken).then((data) {
+    LabsRepository()
+        .fetchLabs(
+      page: page,
+      cancelToken: cancelToken,
+      sort: sort,
+      lat: latLang()?.latitude,
+      lon: latLang()?.longitude,
+      filterName: selectedSort,
+    )
+        .then((data) {
       //TODO handle all in model
 
       if (data != null) {
         if (data == null) {
           data.data["data"] = [];
         }
-        print('==labItems===>${data.data}');
 
         var newItems = <Labs>[];
-        data.data["data"].forEach((item) {
-          newItems.add(Labs.fromJson(item));
-        });
+
+        if (selectedSort == 'promoted') {
+          data.data["data"].forEach((item) {
+            if (item['active'] == true) {
+              newItems.add(Labs.fromJson(item));
+            }
+          });
+        } else {
+          data.data["data"].forEach((item) {
+            newItems.add(Labs.fromJson(item));
+          });
+        }
         // var newItems = DrugStoresModel.fromJson(data.data).data;
         print('==labItems===>${newItems.length}======${page}');
         if (newItems == null || newItems.length == 0) {

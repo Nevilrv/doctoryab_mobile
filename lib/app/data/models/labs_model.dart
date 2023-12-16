@@ -46,6 +46,7 @@ class Labs {
   String rating;
   int totalFeedbacks;
   int averageRatings;
+  bool active;
 
   Labs({
     this.datumId,
@@ -65,6 +66,7 @@ class Labs {
     this.rating,
     this.totalFeedbacks,
     this.averageRatings,
+    this.active,
   });
 
   factory Labs.fromJson(Map<String, dynamic> json) => Labs(
@@ -90,6 +92,7 @@ class Labs {
         rating: json["rating"],
         totalFeedbacks: json["totalFeedbacks"],
         averageRatings: json["averageRatings"],
+        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -113,6 +116,7 @@ class Labs {
         "rating": rating,
         "totalFeedbacks": totalFeedbacks,
         "averageRatings": averageRatings,
+        "active": active,
       };
 }
 

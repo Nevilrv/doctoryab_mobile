@@ -43,32 +43,52 @@ class DrugStoreRepository {
     );
   }*/
 
-  Future<Response> fetchDrugStores(
+  Future<Response> fetchDrugStores({
     int page,
-    bool the24Hours, {
+    String sort,
+    bool the24Hours,
+    double lat,
+    double lon,
+    String filterName,
     int limitPerPage = 50,
     void onError(e),
     CancelToken cancelToken,
   }) async {
-    print("Get---Category---${ApiConsts.categoriesByCityPath}");
+    Map<String, dynamic> requestParameter = {};
+    if (filterName == 'Nearest Doctor') {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+        "lat": lat,
+        "lng": lon,
+      };
+    } else {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+      };
+    }
 
-    print(
-        "SettingsController.auth.drugStoreByCity.sId>>>>${SettingsController.auth.savedCity.sId}");
+    print('---URL>>>>>$requestParameter');
 
-    print("SettingsController.userToken>>>${SettingsController.userToken}");
     final response = await _cachedDio.get(
       '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}',
       cancelToken: cancelToken,
-      queryParameters: {
-        "limit": limitPerPage,
-        "page": page,
-        /*   "sort": "name",
-            "_24hour": the24Hours,*/
-      },
+      queryParameters: requestParameter,
+      // {
+      //   "limit": limitPerPage,
+      //   "page": page,
+      //   "sort": sort,
+      //   /*    "_24hour": the24Hours,*/
+      // },
       // data: {"name": name},
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
+
+    print('-----response---->>>>$response');
 
     return response;
   }

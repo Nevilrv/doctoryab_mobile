@@ -186,7 +186,7 @@ class Doctor {
         day: json["day"],
         month: json["month"],
         year: json["year"],
-        active: json["active"],
+        active: json["active"] == null ? false : json["active"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -238,7 +238,7 @@ class Doctor {
         "day": day,
         "month": month,
         "year": year,
-        "active": active,
+        "active": active == null ? null : active,
       };
 }
 

@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/AppTheme.dart';
@@ -97,9 +98,15 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                AppImages.bellwhite,
-                height: 24,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.NOTIFICATION);
+                },
+                child: SvgPicture.asset(
+                  AppImages.bellwhite,
+                  height: 24,
+                  width: 24,
+                ),
               ),
             )
           ],

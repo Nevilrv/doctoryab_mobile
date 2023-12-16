@@ -30,7 +30,7 @@ class ApiConsts {
   static const String authPathGoogleFB = "/user/userAuth";
   static const String guestUserLogin = "/user/guestUserLogin";
   static const String addPersonalInfo = "/user/userPersonalInformation";
-  static const String updateImagePath = "/user/imgs";
+  static const String updateImagePath = "/user/img";
   static const String cityPath = "/city";
   static const String categoriesByCityPath = "/category";
   static const String doctorsPath = "/doctor/doctors";
@@ -113,4 +113,8 @@ class ApiConsts {
   static const String abroadTreatment = '/treatmentAbroad';
   static const String abroadTreatmentImageUpload = '/treatmentAbroad/imgs/';
   static const String abroadTreatmentPDFUpload = '/treatmentAbroad/file/';
+
+  ///notification
+  ///notification
+  static const String notification = '/notification';
 }

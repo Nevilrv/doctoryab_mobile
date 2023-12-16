@@ -34,6 +34,8 @@ import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart'
 import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
+import 'package:doctor_yab/app/modules/notification/bindings/notification_bindings.dart';
+import 'package:doctor_yab/app/modules/notification/view/notification_screen.dart';
 import 'package:doctor_yab/app/modules/review/binding/review_binding.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:get/get.dart';
@@ -107,6 +109,11 @@ class AppPages {
         //   binding: TabHomeOthersBinding(),
         // ),
       ],
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => NotificationView(),
+      binding: NotificationBinding(),
     ),
     GetPage(
       name: _Paths.HOME,

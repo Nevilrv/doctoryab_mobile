@@ -26,7 +26,10 @@ class DieaseTreatementRepository {
 
     var dio = Dio();
     var response = await dio.get(
-      ApiConsts.hostUrl + "api/v1" + ApiConsts.deseasecategory,
+      ApiConsts.hostUrl +
+          "api/v1" +
+          ApiConsts.deseasecategory +
+          "?page=1&limit=1000000",
       options: Options(
         method: 'GET',
         headers: headers,

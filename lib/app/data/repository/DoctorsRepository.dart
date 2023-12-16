@@ -34,21 +34,33 @@ class DoctorsRepository {
     String sort,
     double lat,
     double lon,
+    String filterName,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
     var response;
 
+    Map<String, dynamic> requestParameter = {};
+    if (filterName == 'Nearest Doctor') {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+        "lat": lat,
+        "lng": lon,
+      };
+    } else {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+      };
+    }
+
     response = await _cachedDio.get(
       '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
       cancelToken: cancelToken,
-      queryParameters: {
-        "limit": limitPerPage,
-        "page": page,
-        // "sort": sort,
-        // "lat": lat,
-        // "lng": lon,
-      },
+      queryParameters: requestParameter,
       // cancelToken: loginCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );

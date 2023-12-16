@@ -88,7 +88,11 @@ class DoctorsView extends GetView<DoctorsController> {
                 backgroundColor: Colors.transparent,
                 action: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SvgPicture.asset(AppImages.blackBell),
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.NOTIFICATION);
+                      },
+                      child: SvgPicture.asset(AppImages.blackBell)),
                 )
                 /*action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
                       ? IconButton(
@@ -236,7 +240,7 @@ class DoctorsView extends GetView<DoctorsController> {
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
                           if ((i + 1) % 5 == 0) {
-                            log("i--------------> ${i}");
+                            log("i--------------> $i");
 
                             // controller.bannerAds();
                             return Padding(
@@ -263,9 +267,10 @@ class DoctorsView extends GetView<DoctorsController> {
                                                           left: 5),
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
                                                     // margin: EdgeInsets.all(5.0),
                                                     child: ClipRRect(
                                                       borderRadius:
@@ -345,569 +350,6 @@ class DoctorsView extends GetView<DoctorsController> {
                       ),
                     ),
                   ),
-
-                  /*  Container(
-                  height: h * 0.75,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 15,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(
-                                    Routes.DOCTOR,
-                                  );
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  // height: 220,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    border:
-                                        Border.all(color: AppColors.primary),
-                                    boxShadow: [
-                                      // BoxShadow(
-                                      //   color: Colors.grey.withOpacity(0.1),
-                                      //   spreadRadius: 7,
-                                      //   blurRadius: 7,
-                                      //   offset: Offset(0, 0),
-                                      // ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        // height: h * 0.2,
-                                        width: w,
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              // color: Colors.black,
-
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: AppColors.lightGrey),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: "",
-                                                  height: h * 0.11,
-                                                  width: h * 0.11,
-                                                  fit: BoxFit.cover,
-                                                  placeholder: (_, __) {
-                                                    return Image.asset(
-                                                      "assets/png/person-placeholder.jpg",
-                                                      fit: BoxFit.cover,
-                                                    );
-                                                  },
-                                                  errorWidget: (_, __, ___) {
-                                                    return Image.asset(
-                                                      "assets/png/person-placeholder.jpg",
-                                                      fit: BoxFit.cover,
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    // SizedBox(height: 10),
-                                                    Text(
-                                                      "Dr. Manu Django Conradine ",
-                                                      style: AppTextTheme.h(12)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary),
-                                                    ),
-                                                    SizedBox(height: 2),
-                                                    Text(
-                                                      "Internal Medicine",
-                                                      style: AppTextTheme.b(11)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5)),
-                                                    ),
-                                                    SizedBox(height: 2),
-                                                    Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        RatingBar.builder(
-                                                          ignoreGestures: true,
-                                                          itemSize: 15,
-                                                          initialRating: 4,
-                                                          // minRating: 1,
-                                                          direction:
-                                                              Axis.horizontal,
-                                                          allowHalfRating: true,
-                                                          itemCount: 5,
-                                                          itemPadding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      1.0),
-                                                          itemBuilder:
-                                                              (context, _) =>
-                                                                  Icon(
-                                                            Icons.star,
-                                                            color: Colors.amber,
-                                                            // size: 10,
-                                                          ),
-                                                          onRatingUpdate:
-                                                              (rating) {
-                                                            print(rating);
-                                                          },
-                                                        ),
-                                                        SizedBox(width: 4),
-                                                        Text(
-                                                          '(12) Reviews',
-                                                          style: AppTextTheme.b(
-                                                                  12)
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .primary
-                                                                      .withOpacity(
-                                                                          0.5)),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 5),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 2,
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              Utils.openPhoneDialer(
-                                                                  context,
-                                                                  "3669595695");
-                                                            },
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          5,
-                                                                      horizontal:
-                                                                          w * 0.02),
-                                                              decoration: BoxDecoration(
-                                                                  color: AppColors
-                                                                      .secondary,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "call".tr,
-                                                                  style: AppTextTheme
-                                                                          .m(w *
-                                                                              0.032)
-                                                                      .copyWith(
-                                                                          color:
-                                                                              Colors.white),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: w * 0.01,
-                                                        ),
-                                                        Expanded(
-                                                          flex: 2,
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              // BookingController.to.selectedDoctor(item);
-                                                              Get.toNamed(
-                                                                Routes.BOOK,
-                                                                // arguments: [item, controller.arguments.cCategory],
-                                                              );
-                                                            },
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          5,
-                                                                      horizontal:
-                                                                          w * 0.01),
-                                                              decoration: BoxDecoration(
-                                                                  color: AppColors
-                                                                      .lightBlack2,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "appointment"
-                                                                      .tr,
-                                                                  style: AppTextTheme
-                                                                          .m(w *
-                                                                              0.032)
-                                                                      .copyWith(
-                                                                          color:
-                                                                              Colors.white),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      // if (item.address != null)
-                                      // Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
-                                      // children: [
-                                      // SvgPicture.asset(
-                                      // "assets/svg/location_pin.svg",
-                                      // color: AppColors.primary,
-                                      // ).paddingOnly(top: 3),
-                                      // SizedBox(width: 8),
-                                      // Flexible(
-                                      // child: Text(
-                                      // item.address ?? "",
-                                      // maxLines: 3,
-                                      // style: AppTextTheme.b(12).copyWith(color: AppColors.lgt2),
-                                      // overflow: TextOverflow.ellipsis,
-                                      // ),
-                                      // ),
-                                      // ],
-                                      // ).paddingVertical(8).onTap(() {
-                                      // if (item.geometry?.coordinates !=
-                                      // null) if (item.geometry.coordinates.length > 1) {
-                                      // Utils.openGoogleMaps(item.geometry.coordinates[1],
-                                      // item.geometry.coordinates[0]);
-                                      // }
-                                      // }),
-                                      // SizedBox(
-                                      // height: 5,
-                                      // ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // Utils.openPhoneDialer(context, item.phone);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 5,
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.lightGrey,
-                                              border: Border.all(
-                                                  color: AppColors.primary),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  AppImages.calendar,
-                                                  height: 15,
-                                                  width: 15,
-                                                  color: AppColors.primary,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                FittedBox(
-                                                  child: Text(
-                                                    "Monday, August 10, 2022",
-                                                    style: AppTextTheme.m(10)
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .primary),
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                SvgPicture.asset(
-                                                  AppImages.clock,
-                                                  height: 15,
-                                                  width: 15,
-                                                  color: AppColors.primary,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                FittedBox(
-                                                  child: Text(
-                                                    "09.00 - 10.00",
-                                                    style: AppTextTheme.m(10)
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .primary),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      // ListTile(
-                                      //     leading: AspectRatio(
-                                      //       aspectRatio: 1,
-                                      //       child: Container(
-                                      //         // color: Colors.black,
-                                      //         // height: 65,
-                                      //         // width: 65,
-                                      //         child: CachedNetworkImage(
-                                      //           imageUrl: "${ApiConsts.hostUrl}${item.photo}",
-                                      //           fit: BoxFit.cover,
-                                      //           placeholder: (_, __) {
-                                      //             return Image.asset(
-                                      //               "assets/png/person-placeholder.jpg",
-                                      //               fit: BoxFit.cover,
-                                      //             );
-                                      //           },
-                                      //           errorWidget: (_, __, ___) {
-                                      //             return Image.asset(
-                                      //               "assets/png/person-placeholder.jpg",
-                                      //               fit: BoxFit.cover,
-                                      //             );
-                                      //           },
-                                      //         ),
-                                      //       ).radiusAll(20),
-                                      //       //   Image.network(
-                                      //       //     "${ApiConsts.hostUrl}${item.photo}",
-                                      //       //     fit: BoxFit.cover,
-                                      //       //   ),
-                                      //       // ).radiusAll(20),
-                                      //     ),
-                                      //     title: Row(
-                                      //       mainAxisAlignment: MainAxisAlignment.start,
-                                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                                      //       mainAxisSize: MainAxisSize.min,
-                                      //       children: [
-                                      //         Flexible(
-                                      //           child: Text(
-                                      //             item.fullname ??
-                                      //                 " ${item.name ?? ""} ${item.lname ?? ""}",
-                                      //             style:
-                                      //                 AppTextTheme.h(15).copyWith(color: AppColors.black2),
-                                      //           ),
-                                      //         ),
-                                      //         if (item.verfied ?? false)
-                                      //           Icon(
-                                      //             Icons.verified,
-                                      //             color: AppColors.verified,
-                                      //           ).paddingHorizontal(6),
-                                      //       ],
-                                      //     ).paddingOnly(top: 8, bottom: 2),
-                                      //
-                                      //     // Text(
-                                      //     //   "${item.name ?? ""} ${item.lname ?? ""}",
-                                      //     //   style: AppTextTheme.h(15).copyWith(color: AppColors.black2),
-                                      //     // ).paddingOnly(top: 8),
-                                      //     subtitle: Column(
-                                      //       mainAxisAlignment: MainAxisAlignment.start,
-                                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                                      //       children: [
-                                      //         Text(
-                                      //           item.category.title ?? "",
-                                      //           style: AppTextTheme.b(14).copyWith(color: AppColors.lgt2),
-                                      //         ),
-                                      //         SizedBox(height: 8),
-                                      //         Row(
-                                      //           mainAxisSize: MainAxisSize.min,
-                                      //           children: [
-                                      //             RatingBar.builder(
-                                      //               ignoreGestures: true,
-                                      //               itemSize: 15,
-                                      //               initialRating: item.stars.toDouble(),
-                                      //               // minRating: 1,
-                                      //               direction: Axis.horizontal,
-                                      //               allowHalfRating: true,
-                                      //               itemCount: 5,
-                                      //               itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                      //               itemBuilder: (context, _) => Icon(
-                                      //                 Icons.star,
-                                      //                 color: Colors.amber,
-                                      //                 // size: 10,
-                                      //               ),
-                                      //               onRatingUpdate: (rating) {
-                                      //                 print(rating);
-                                      //               },
-                                      //             ),
-                                      //             SizedBox(width: 4),
-                                      //             Text(
-                                      //               '(${double.tryParse(item.totalStar?.toStringAsFixed(1)) ?? ""})',
-                                      //               style: AppTextTheme.b(10.5)
-                                      //                   .copyWith(color: AppColors.lgt2),
-                                      //             ),
-                                      //           ],
-                                      //         ),
-                                      //         if (item.address != null)
-                                      //           Row(
-                                      //             crossAxisAlignment: CrossAxisAlignment.start,
-                                      //             children: [
-                                      //               SvgPicture.asset("assets/svg/location_pin.svg")
-                                      //                   .paddingOnly(top: 4),
-                                      //               SizedBox(width: 8),
-                                      //               Flexible(
-                                      //                 child: Text(
-                                      //                   item.address ?? "",
-                                      //                   maxLines: 3,
-                                      //                   style: AppTextTheme.b(14)
-                                      //                       .copyWith(color: AppColors.lgt2),
-                                      //                   overflow: TextOverflow.ellipsis,
-                                      //                 ),
-                                      //               ),
-                                      //             ],
-                                      //           ).paddingVertical(8).onTap(() {
-                                      //             if (item.geometry?.coordinates !=
-                                      //                 null) if (item.geometry.coordinates.length > 1) {
-                                      //               Utils.openGoogleMaps(item.geometry.coordinates[1],
-                                      //                   item.geometry.coordinates[0]);
-                                      //             }
-                                      //           }),
-                                      //       ],
-                                      //     ),
-                                      //     onTap: () => Get.toNamed(Routes.DOCTOR, arguments: [item])),
-                                      // SizedBox(height: 30),
-                                      // Wrap(
-                                      //   spacing: 8,
-                                      //   runSpacing: 8,
-                                      //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     _buildButton(
-                                      //       item,
-                                      //       icon: SvgPicture.asset("assets/svg/call-24px.svg"),
-                                      //       child: FittedBox(
-                                      //         child: Text(
-                                      //           "call".tr,
-                                      //           style: AppTextTheme.m(14).copyWith(color: Colors.white),
-                                      //         ),
-                                      //       ),
-                                      //       bgColor: AppColors.green,
-                                      //       onTap: () => Utils.openPhoneDialer(context, item.phone),
-                                      //
-                                      //       //  () {
-                                      //       //   final Uri _emailLaunchUri = Uri(
-                                      //       //     scheme: 'tel',
-                                      //       //     path: item.phone,
-                                      //       //   );
-                                      //       //   launch(_emailLaunchUri.toString())
-                                      //       //       .onError((error, stackTrace) {
-                                      //       //     //TODO Not tested
-                                      //       //     ScaffoldMessenger.of(Get.context).showSnackBar(
-                                      //       //       SnackBar(
-                                      //       //         content: Text(
-                                      //       //           error.toString(),
-                                      //       //         ),
-                                      //       //       ),
-                                      //       //     );
-                                      //
-                                      //       //     return;
-                                      //       //   });
-                                      //       // },
-                                      //     ),
-                                      //     _buildButton(
-                                      //       item,
-                                      //       icon: SvgPicture.asset("assets/svg/date_range-24px.svg"),
-                                      //       child: FittedBox(
-                                      //         child: Text(
-                                      //           "book_now".tr,
-                                      //           style: AppTextTheme.m(14).copyWith(color: Colors.white),
-                                      //         ),
-                                      //       ),
-                                      //       bgColor: AppColors.easternBlue,
-                                      //       onTap:
-                                      //           // loadMyDoctorsMode
-                                      //           //     ? () {
-                                      //           //         if (item.id == null || item.category == null) {
-                                      //           //           // AppGetDialog.show(
-                                      //           //           //     middleText: "doctor_id_or_category_is_null".tr);
-                                      //
-                                      //           //           AppGetDialog.showSeleceDoctorCategoryDialog(item,
-                                      //           //               onChange: (cat) {
-                                      //           //             BookingController.to.selectedDoctor(item);
-                                      //           //             BookingController.to.selectedCategory(cat);
-                                      //           //             Get.toNamed(
-                                      //           //               Routes.BOOK,
-                                      //           //               // arguments: [item, controller.arguments.cCategory],
-                                      //           //             );
-                                      //           //           });
-                                      //           //           return;
-                                      //           //         }
-                                      //           //         BookingController.to.selectedDoctor(item);
-                                      //           //         BookingController.to
-                                      //           //             .selectedCategory(Category(id: item.category));
-                                      //           //         Get.toNamed(
-                                      //           //           Routes.BOOK,
-                                      //           //           // arguments: [item.doctor, controller.arguments.cCategory],
-                                      //           //         );
-                                      //           //         //
-                                      //           //         // AppGetDialog.showSeleceDoctorCategoryDialog(item,
-                                      //           //         //     onChange: (cat) {
-                                      //           //         //   BookingController.to.selectedDoctor(item);
-                                      //           //         //   BookingController.to.selectedCategory(cat);
-                                      //           //         //   Get.toNamed(
-                                      //           //         //     Routes.BOOK,
-                                      //           //         //     // arguments: [item, controller.arguments.cCategory],
-                                      //           //         //   );
-                                      //           //         // });
-                                      //           //       }
-                                      //           // :
-                                      //           () {
-                                      //         BookingController.to.selectedDoctor(item);
-                                      //         Get.toNamed(
-                                      //           Routes.BOOK,
-                                      //           // arguments: [item, controller.arguments.cCategory],
-                                      //         );
-                                      //       },
-                                      //     ),
-                                      //   ],
-                                      // ).paddingHorizontal(10),
-                                      // SizedBox(height: 20),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                )*/
                 ],
               );
             }),
@@ -970,7 +412,7 @@ class DoctorsView extends GetView<DoctorsController> {
         for (int i = 0; i <= 7; i++) {
           DateTime d = DateTime.now().add(Duration(days: i));
           if (item.schedules[0].dayOfWeek == d.weekday) {
-            log("d--------------> ${d}");
+            log("d--as------------> ${d}");
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -991,40 +433,82 @@ class DoctorsView extends GetView<DoctorsController> {
       } else {
         // List<Schedule> dataSort ;
         // dataSort.add(value)
+        List da = [];
         item.schedules.sort((a, b) => a.dayOfWeek.compareTo(b.dayOfWeek));
         for (int i = 0; i < item.schedules.length; i++) {
-          log("item.schedules[i].dayOfWeek--------------> ${item.schedules[i].times}");
-
-          if (DateTime.now().weekday == item.schedules[i].dayOfWeek) {
-            int indexxx = item.schedules.indexOf(item.schedules[i]);
-
-            for (int i = 0; i <= 7; i++) {
-              DateTime d = DateTime.now().add(Duration(days: i));
-              if (item.schedules[indexxx + 1].dayOfWeek == d.weekday) {
-                log("d--------------> ${d}");
-                log("item.schedules[indexxx + 1].times--------------> ${item.schedules[indexxx + 1].times}");
-
-                date = d
-                    .toPersianDateStr(
-                      strDay: false,
-                      strMonth: true,
-                      useAfghaniMonthName: true,
-                    )
-                    .trim()
-                    .split(' ');
-                if (item.schedules[indexxx + 1].times.isNotEmpty) {
-                  slot =
-                      "${item.schedules[indexxx + 1].times.first} - ${item.schedules[indexxx + 1].times.last}";
-                }
-
-                log("date--------------> ${date}");
-                log("slot--------------> ${slot}");
-
-                break;
-              }
-            }
+          da.add(item.schedules[i].dayOfWeek);
+        }
+        var n = DateTime.now().weekday;
+        var finalWeekDay;
+        var greater = da.where((e) => e >= n).toList()..sort();
+        var smaller = da.where((e) => e <= n).toList()..sort();
+        if (greater.isEmpty) {
+          finalWeekDay = smaller.first;
+        } else {
+          finalWeekDay = greater.first;
+        }
+        log("greater--------------> ${greater}");
+        Schedule data;
+        item.schedules.forEach((element) {
+          if (element.dayOfWeek == finalWeekDay) {
+            data = element;
           }
-          log("element--------------> ${item.schedules[i].dayOfWeek}");
+        });
+
+        int indexxx = item.schedules.indexOf(data);
+        log("indexxx--------------> ${indexxx}");
+        log("item.schedules--------------> ${item.schedules}");
+
+        if (indexxx == item.schedules.length - 1) {
+          indexxx = 0;
+        } else {
+          indexxx = indexxx + 1;
+        }
+        for (int i = 0; i <= 7; i++) {
+          log("i--------------> ${i}");
+
+          DateTime d = DateTime.now().add(Duration(days: i));
+          log("item.schedules[indexxx].dayOfWeek--------------> ${item.schedules[indexxx].dayOfWeek}");
+          log("d.weekday--------------> ${d.weekday}");
+          if (d.weekday == 7) {
+            date = d
+                .toPersianDateStr(
+                  strDay: false,
+                  strMonth: true,
+                  useAfghaniMonthName: true,
+                )
+                .trim()
+                .split(' ');
+            if (item.schedules[indexxx].times.isNotEmpty) {
+              slot =
+                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+            }
+
+            log("date--------------> ${date}");
+            log("slot--------------> ${slot}");
+          }
+          if (item.schedules[indexxx].dayOfWeek == d.weekday) {
+            log("d--------------> ${d}");
+            log("item.schedules[indexxx + 1].times--------------> ${item.schedules[indexxx].times}");
+
+            date = d
+                .toPersianDateStr(
+                  strDay: false,
+                  strMonth: true,
+                  useAfghaniMonthName: true,
+                )
+                .trim()
+                .split(' ');
+            if (item.schedules[indexxx].times.isNotEmpty) {
+              slot =
+                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+            }
+
+            log("date--------------> ${date}");
+            log("slot--------------> ${slot}");
+
+            break;
+          }
         }
       }
     }
@@ -1044,241 +528,279 @@ class DoctorsView extends GetView<DoctorsController> {
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: AppColors.primary),
           ),
-          child: Column(
+          child: Stack(
             children: [
-              Container(
-                width: w,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.lightGrey),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CachedNetworkImage(
-                          imageUrl: "${ApiConsts.hostUrl}${item.photo}",
-                          height: h * 0.11,
-                          width: h * 0.11,
-                          fit: BoxFit.cover,
-                          placeholder: (_, __) {
-                            return Image.asset(
-                              "assets/png/person-placeholder.jpg",
+              Column(
+                children: [
+                  Container(
+                    width: w,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.lightGrey),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CachedNetworkImage(
+                              imageUrl: "${ApiConsts.hostUrl}${item.photo}",
+                              height: h * 0.11,
+                              width: h * 0.11,
                               fit: BoxFit.cover,
-                            );
-                          },
-                          errorWidget: (_, __, ___) {
-                            return Image.asset(
-                              "assets/png/person-placeholder.jpg",
-                              fit: BoxFit.cover,
-                            );
-                          },
+                              placeholder: (_, __) {
+                                return Image.asset(
+                                  "assets/png/person-placeholder.jpg",
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  "assets/png/person-placeholder.jpg",
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${item.fullname ?? item.name ?? ""}",
-                              style: AppTextTheme.h(12)
-                                  .copyWith(color: AppColors.primary),
-                            ),
-                            SizedBox(height: 2),
-                            Text(
-                              "${item.speciality ?? ""}",
-                              style: AppTextTheme.b(11).copyWith(
-                                  color: AppColors.primary.withOpacity(0.5)),
-                            ),
-                            SizedBox(height: 2),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
+                        Expanded(
+                          flex: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RatingBar.builder(
-                                  ignoreGestures: true,
-                                  itemSize: 15,
-                                  initialRating: double.parse(
-                                      item.averageRatings == null
-                                          ? "0.0"
-                                          : item.averageRatings.toString() ??
-                                              "0.0"),
-                                  // minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 1.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                    // size: 10,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                                SizedBox(width: 4),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(Routes.REVIEW,
-                                        arguments: ["Doctor_Review", item]);
-                                  },
+                                Container(
+                                  width: Get.width * 0.49,
                                   child: Text(
-                                    '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks ?? 0}) Reviews',
-                                    style: AppTextTheme.b(12).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5)),
+                                    "${item.fullname ?? item.name ?? ""}",
+                                    style: AppTextTheme.h(12)
+                                        .copyWith(color: AppColors.primary),
                                   ),
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Utils.openPhoneDialer(
-                                          context, "${item.phone}");
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: w * 0.02),
-                                      decoration: BoxDecoration(
-                                          color: AppColors.secondary,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Center(
-                                        child: Text(
-                                          "call".tr,
-                                          style: AppTextTheme.m(w * 0.032)
-                                              .copyWith(color: Colors.white),
+                                SizedBox(height: 2),
+                                Text(
+                                  "${item.speciality ?? ""}",
+                                  style: AppTextTheme.b(11).copyWith(
+                                      color:
+                                          AppColors.primary.withOpacity(0.5)),
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    RatingBar.builder(
+                                      ignoreGestures: true,
+                                      itemSize: 15,
+                                      initialRating: double.parse(
+                                          item.averageRatings == null
+                                              ? "0.0"
+                                              : item.averageRatings
+                                                      .toString() ??
+                                                  "0.0"),
+                                      // minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        // size: 10,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
+                                    SizedBox(width: 4),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.REVIEW,
+                                            arguments: ["Doctor_Review", item]);
+                                      },
+                                      child: Text(
+                                        '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks ?? 0}) ${'reviews'.tr}',
+                                        style: AppTextTheme.b(12).copyWith(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Utils.openPhoneDialer(
+                                              context, "${item.phone}");
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: w * 0.02),
+                                          decoration: BoxDecoration(
+                                              color: AppColors.secondary,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Center(
+                                            child: Text(
+                                              "call".tr,
+                                              style: AppTextTheme.m(w * 0.032)
+                                                  .copyWith(
+                                                      color: Colors.white),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    SizedBox(
+                                      width: w * 0.01,
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // BookingController.to.selectedDoctor(item);
+                                          log("item--------------> ${item}");
+
+                                          Get.toNamed(
+                                            Routes.BOOK,
+                                            arguments: item,
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: w * 0.01),
+                                          decoration: BoxDecoration(
+                                              color: AppColors.lightBlack2,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Center(
+                                            child: Text(
+                                              "appointment".tr,
+                                              style: AppTextTheme.m(w * 0.032)
+                                                  .copyWith(
+                                                      color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  item.schedules.isNotEmpty
+                      ? Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                              color: AppColors.lightGrey,
+                              border: Border.all(color: AppColors.primary),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  AppImages.calendar,
+                                  height: 15,
+                                  width: 15,
+                                  color: AppColors.primary,
                                 ),
                                 SizedBox(
-                                  width: w * 0.01,
+                                  width: 5,
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // BookingController.to.selectedDoctor(item);
-                                      log("item--------------> ${item}");
-
-                                      Get.toNamed(
-                                        Routes.BOOK,
-                                        arguments: item,
-                                      );
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: w * 0.01),
-                                      decoration: BoxDecoration(
-                                          color: AppColors.lightBlack2,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Center(
-                                        child: Text(
-                                          "appointment".tr,
-                                          style: AppTextTheme.m(w * 0.032)
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              item.schedules.isNotEmpty
-                  ? Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                          color: AppColors.lightGrey,
-                          border: Border.all(color: AppColors.primary),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              AppImages.calendar,
-                              height: 15,
-                              width: 15,
-                              color: AppColors.primary,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "${date[0]}",
-                                  style: AppTextTheme.m(10)
-                                      .copyWith(color: AppColors.primary),
-                                ),
-                                Text(
-                                  " ${date[1]}",
-                                  style: AppTextTheme.m(10)
-                                      .copyWith(color: AppColors.primary),
-                                ),
-                                Text(
-                                  " ${date[3]}",
-                                  style: AppTextTheme.m(10)
-                                      .copyWith(color: AppColors.primary),
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            slot == null
-                                ? SizedBox()
-                                : SvgPicture.asset(
-                                    AppImages.clock,
-                                    height: 15,
-                                    width: 15,
-                                    color: AppColors.primary,
-                                  ),
-                            slot == null
-                                ? SizedBox()
-                                : SizedBox(
-                                    width: 5,
-                                  ),
-                            slot == null
-                                ? SizedBox()
-                                : FittedBox(
-                                    child: Text(
-                                      "${slot ?? "  -  "}",
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${date[0]}",
                                       style: AppTextTheme.m(10)
                                           .copyWith(color: AppColors.primary),
                                     ),
-                                  ),
-                          ],
-                        ),
-                      ),
+                                    Text(
+                                      " ${date[1]}",
+                                      style: AppTextTheme.m(10)
+                                          .copyWith(color: AppColors.primary),
+                                    ),
+                                    Text(
+                                      " ${date[3]}",
+                                      style: AppTextTheme.m(10)
+                                          .copyWith(color: AppColors.primary),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                slot == null
+                                    ? SizedBox()
+                                    : SvgPicture.asset(
+                                        AppImages.clock,
+                                        height: 15,
+                                        width: 15,
+                                        color: AppColors.primary,
+                                      ),
+                                slot == null
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        width: 5,
+                                      ),
+                                slot == null
+                                    ? SizedBox()
+                                    : FittedBox(
+                                        child: Text(
+                                          "${slot ?? "  -  "}",
+                                          style: AppTextTheme.m(10).copyWith(
+                                              color: AppColors.primary),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+              item.active == true
+                  ? Positioned(
+                      top: -3,
+                      right:
+                          SettingsController.appLanguge != "English" ? null : 0,
+                      left:
+                          SettingsController.appLanguge == "English" ? null : 0,
+                      child: SettingsController.appLanguge != "English"
+                          ? Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(math.pi),
+                              child: Image.asset(
+                                AppImages.promote,
+                                height: 18,
+                                width: 18,
+                                color: AppColors.primary,
+                              ))
+                          : Image.asset(
+                              AppImages.promote,
+                              height: 18,
+                              width: 18,
+                              color: AppColors.primary,
+                            ),
                     )
-                  : SizedBox(),
+                  : SizedBox()
             ],
           ),
         ),

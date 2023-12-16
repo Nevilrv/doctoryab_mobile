@@ -137,7 +137,7 @@ class ChatView extends GetView<ChatController> {
                             itemBuilder: (context, index) {
                               // var msg = controller.chat.value?.messages[index];
                               var msg = controller.chat[index];
-                              log("msg--------------> ${msg}");
+                              log("msg--------------> ${msg.toJson()}");
 
                               return Column(
                                 children: [
@@ -234,218 +234,499 @@ class ChatView extends GetView<ChatController> {
                                               ).paddingOnly(bottom: 8),
                                             msg.images.isEmpty
                                                 ? SizedBox()
-                                                : msg.images[0]
-                                                        .toString()
-                                                        .isPDFFileName
-                                                    ? GestureDetector(
-                                                        onTap: () {
-                                                          openFile(
-                                                              "${ApiConsts.hostUrl}${msg.images[0]}");
-                                                        },
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons
-                                                                .picture_as_pdf,
-                                                            size: 60,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : msg.images[0]
-                                                                .toString()
-                                                                .split("/")
-                                                                .last
-                                                                .split('.')
-                                                                .last ==
-                                                            "wav"
-                                                        ? GetBuilder<
-                                                            ChatController>(
-                                                            builder:
-                                                                (controller) {
-                                                              return controller
-                                                                          .selectedIndex ==
-                                                                      index
-                                                                  ? Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                          GestureDetector(
-                                                                            onTap:
-                                                                                () {
-                                                                              if (controller.audioPlayer1.state == ap.PlayerState.playing) {
-                                                                                controller.isPause1 = true;
-                                                                                controller.update();
+                                                : GestureDetector(
+                                                    onTap: () {
+                                                      openFile(
+                                                          "${ApiConsts.hostUrl}${msg.images[0]}");
+                                                    },
+                                                    child: Center(
+                                                      child: Image.network(
+                                                        "${ApiConsts.hostUrl}${msg.images[0]}",
+                                                        height:
+                                                            Get.height * 0.2,
+                                                        width: Get.height * 0.2,
+                                                      ),
+                                                    ),
+                                                  ),
 
-                                                                                // stop2();
-                                                                                controller.audioPlayer1.pause();
-                                                                              } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
-                                                                                controller
-                                                                                    .play1(
-                                                                                  path: "${ApiConsts.hostUrl}${msg.images[0]}",
-                                                                                )
-                                                                                    .then((value) {
-                                                                                  controller.isPause1 = false;
-                                                                                  controller.update();
-                                                                                  controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
-                                                                                    log('{timer.tick}${timer.tick}');
+                                            // : msg.images[0]
+                                            //         .toString()
+                                            //         .isPDFFileName
+                                            //     ? GestureDetector(
+                                            //         onTap: () {
+                                            //           openFile(
+                                            //               "${ApiConsts.hostUrl}${msg.images[0]}");
+                                            //         },
+                                            //         child: Center(
+                                            //           child: Icon(
+                                            //             Icons
+                                            //                 .picture_as_pdf,
+                                            //             size: 60,
+                                            //           ),
+                                            //         ),
+                                            //       )
+                                            //     : msg.images[0]
+                                            //                 .toString()
+                                            //                 .split("/")
+                                            //                 .last
+                                            //                 .split('.')
+                                            //                 .last ==
+                                            //             "wav"
+                                            //         ? GetBuilder<
+                                            //             ChatController>(
+                                            //             builder:
+                                            //                 (controller) {
+                                            //               return controller
+                                            //                           .selectedIndex ==
+                                            //                       index
+                                            //                   ? Row(
+                                            //                       mainAxisAlignment:
+                                            //                           MainAxisAlignment
+                                            //                               .spaceBetween,
+                                            //                       children: [
+                                            //                           GestureDetector(
+                                            //                             onTap:
+                                            //                                 () {
+                                            //                               if (controller.audioPlayer1.state == ap.PlayerState.playing) {
+                                            //                                 controller.isPause1 = true;
+                                            //                                 controller.update();
+                                            //
+                                            //                                 // stop2();
+                                            //                                 controller.audioPlayer1.pause();
+                                            //                               } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
+                                            //                                 controller
+                                            //                                     .play1(
+                                            //                                   path: "${ApiConsts.hostUrl}${msg.images[0]}",
+                                            //                                 )
+                                            //                                     .then((value) {
+                                            //                                   controller.isPause1 = false;
+                                            //                                   controller.update();
+                                            //                                   controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
+                                            //                                     log('{timer.tick}${timer.tick}');
+                                            //
+                                            //                                     if (controller.isPause1 == true) {
+                                            //                                       // current2 = current2 + 0;
+                                            //                                       controller.current1 = controller.current1 + 0;
+                                            //                                       // current2 = -1;
+                                            //                                       timer.cancel();
+                                            //                                     } else {
+                                            //                                       controller.current1++;
+                                            //                                     }
+                                            //                                     controller.update();
+                                            //                                     log('current ${controller.current1}');
+                                            //
+                                            //                                     if (controller.current1 == controller.voiceTrackRowSize) {
+                                            //                                       timer.cancel();
+                                            //
+                                            //                                       controller.isPause1 = false;
+                                            //                                       controller.update();
+                                            //                                       controller.current1 = -1;
+                                            //                                       controller.update();
+                                            //                                     }
+                                            //                                   });
+                                            //                                 });
+                                            //                               }
+                                            //                             },
+                                            //                             child:
+                                            //                                 Container(
+                                            //                               height: Get.height * 0.05,
+                                            //                               width: Get.height * 0.05,
+                                            //                               decoration: BoxDecoration(border: Border.all(color: AppColors.primary, width: 2), shape: BoxShape.circle),
+                                            //                               child: Icon(controller.audioPlayer1.state == ap.PlayerState.playing ? Icons.pause : Icons.play_arrow, color: AppColors.primary),
+                                            //                             ),
+                                            //                           ),
+                                            //                           ...List.generate(
+                                            //                               controller.hi.length,
+                                            //                               (index1) {
+                                            //                             return Row(
+                                            //                               children: [
+                                            //                                 SizedBox(
+                                            //                                   width: Get.width * 0.003,
+                                            //                                 ),
+                                            //                                 AnimatedContainer(
+                                            //                                   duration: Duration(milliseconds: 500),
+                                            //                                   height: controller.hi[index1].toDouble(),
+                                            //                                   width: Get.width * 0.007,
+                                            //                                   decoration: BoxDecoration(
+                                            //                                     borderRadius: BorderRadius.circular(10),
+                                            //                                     color: index1 > controller.current1 ? Colors.grey : AppColors.primary,
+                                            //                                   ),
+                                            //                                 ),
+                                            //                               ],
+                                            //                             );
+                                            //                           }),
+                                            //                         ])
+                                            //                   : Row(
+                                            //                       mainAxisAlignment:
+                                            //                           MainAxisAlignment
+                                            //                               .spaceBetween,
+                                            //                       children: [
+                                            //                           GestureDetector(
+                                            //                             onTap:
+                                            //                                 () async {
+                                            //                               controller.selectedIndex = index;
+                                            //                               controller.current1 = -1;
+                                            //                               controller.voiceTrackRowSize = controller.hi.length;
+                                            //                               controller.audioPlayer1.pause();
+                                            //                               controller.audioPlayer1.stop();
+                                            //
+                                            //                               controller.isPause1 = false;
+                                            //                               controller.update();
+                                            //                               if (controller.audioPlayer1.state == ap.PlayerState.playing) {
+                                            //                                 controller.isPause1 = true;
+                                            //                                 controller.update();
+                                            //
+                                            //                                 // stop2();
+                                            //                                 controller.audioPlayer1.pause();
+                                            //                               } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
+                                            //                                 controller
+                                            //                                     .play1(
+                                            //                                   path: "${ApiConsts.hostUrl}${msg.images[0]}",
+                                            //                                 )
+                                            //                                     .then((value) {
+                                            //                                   controller.isPause1 = false;
+                                            //                                   controller.update();
+                                            //                                   controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
+                                            //                                     log('{timer.tick}${timer.tick}');
+                                            //
+                                            //                                     if (controller.isPause1 == true) {
+                                            //                                       // current2 = current2 + 0;
+                                            //                                       controller.current1 = controller.current1 + 0;
+                                            //                                       // current2 = -1;
+                                            //                                       timer.cancel();
+                                            //                                     } else {
+                                            //                                       controller.current1++;
+                                            //                                     }
+                                            //                                     controller.update();
+                                            //                                     log('current ${controller.current1}');
+                                            //
+                                            //                                     if (controller.current1 == controller.voiceTrackRowSize) {
+                                            //                                       timer.cancel();
+                                            //
+                                            //                                       controller.isPause1 = false;
+                                            //                                       controller.update();
+                                            //                                       controller.current1 = -1;
+                                            //                                       controller.update();
+                                            //                                     }
+                                            //                                   });
+                                            //                                 });
+                                            //                               }
+                                            //                             },
+                                            //                             child:
+                                            //                                 Container(
+                                            //                               height: Get.height * 0.05,
+                                            //                               width: Get.height * 0.05,
+                                            //                               decoration: BoxDecoration(border: Border.all(color: AppColors.primary, width: 2), shape: BoxShape.circle),
+                                            //                               child: Icon(Icons.play_arrow, color: AppColors.primary),
+                                            //                             ),
+                                            //                           ),
+                                            //                           ...List.generate(
+                                            //                               controller.hi.length,
+                                            //                               (index1) {
+                                            //                             return Row(
+                                            //                               children: [
+                                            //                                 SizedBox(
+                                            //                                   width: Get.width * 0.003,
+                                            //                                 ),
+                                            //                                 AnimatedContainer(
+                                            //                                   duration: Duration(milliseconds: 500),
+                                            //                                   height: controller.hi[index1].toDouble(),
+                                            //                                   width: Get.width * 0.007,
+                                            //                                   decoration: BoxDecoration(
+                                            //                                     borderRadius: BorderRadius.circular(10),
+                                            //                                     color: Colors.grey,
+                                            //                                   ),
+                                            //                                 ),
+                                            //                               ],
+                                            //                             );
+                                            //                           }),
+                                            //                         ]);
+                                            //             },
+                                            //           )
 
-                                                                                    if (controller.isPause1 == true) {
-                                                                                      // current2 = current2 + 0;
-                                                                                      controller.current1 = controller.current1 + 0;
-                                                                                      // current2 = -1;
-                                                                                      timer.cancel();
-                                                                                    } else {
-                                                                                      controller.current1++;
-                                                                                    }
-                                                                                    controller.update();
-                                                                                    log('current ${controller.current1}');
+                                            msg.documents.isEmpty
+                                                ? SizedBox()
+                                                : GestureDetector(
+                                                    onTap: () {
+                                                      openFile(
+                                                          "${ApiConsts.hostUrl}${msg.documents[0]}");
+                                                    },
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons.picture_as_pdf,
+                                                        size: 60,
+                                                      ),
+                                                    ),
+                                                  ),
 
-                                                                                    if (controller.current1 == controller.voiceTrackRowSize) {
-                                                                                      timer.cancel();
+                                            msg.voiceNotes.isEmpty
+                                                ? SizedBox()
+                                                : GetBuilder<ChatController>(
+                                                    builder: (controller) {
+                                                      return controller
+                                                                  .selectedIndex ==
+                                                              index
+                                                          ? Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      if (controller
+                                                                              .audioPlayer1
+                                                                              .state ==
+                                                                          ap.PlayerState
+                                                                              .playing) {
+                                                                        controller.isPause1 =
+                                                                            true;
+                                                                        controller
+                                                                            .update();
 
-                                                                                      controller.isPause1 = false;
-                                                                                      controller.update();
-                                                                                      controller.current1 = -1;
-                                                                                      controller.update();
-                                                                                    }
-                                                                                  });
-                                                                                });
-                                                                              }
-                                                                            },
-                                                                            child:
-                                                                                Container(
-                                                                              height: Get.height * 0.05,
-                                                                              width: Get.height * 0.05,
-                                                                              decoration: BoxDecoration(border: Border.all(color: AppColors.primary, width: 2), shape: BoxShape.circle),
-                                                                              child: Icon(controller.audioPlayer1.state == ap.PlayerState.playing ? Icons.pause : Icons.play_arrow, color: AppColors.primary),
-                                                                            ),
-                                                                          ),
-                                                                          ...List.generate(
-                                                                              controller.hi.length,
-                                                                              (index1) {
-                                                                            return Row(
-                                                                              children: [
-                                                                                SizedBox(
-                                                                                  width: Get.width * 0.003,
-                                                                                ),
-                                                                                AnimatedContainer(
-                                                                                  duration: Duration(milliseconds: 500),
-                                                                                  height: controller.hi[index1].toDouble(),
-                                                                                  width: Get.width * 0.007,
-                                                                                  decoration: BoxDecoration(
-                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                    color: index1 > controller.current1 ? Colors.grey : AppColors.primary,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            );
-                                                                          }),
-                                                                        ])
-                                                                  : Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                          GestureDetector(
-                                                                            onTap:
-                                                                                () async {
-                                                                              controller.selectedIndex = index;
-                                                                              controller.current1 = -1;
-                                                                              controller.voiceTrackRowSize = controller.hi.length;
-                                                                              controller.audioPlayer1.pause();
-                                                                              controller.audioPlayer1.stop();
+                                                                        // stop2();
+                                                                        controller
+                                                                            .audioPlayer1
+                                                                            .pause();
+                                                                      } else if (controller.audioPlayer1.state ==
+                                                                              ap
+                                                                                  .PlayerState.paused ||
+                                                                          controller.audioPlayer1.state ==
+                                                                              ap.PlayerState.stopped) {
+                                                                        controller
+                                                                            .play1(
+                                                                          path:
+                                                                              "${ApiConsts.hostUrl}${msg.voiceNotes[0]}",
+                                                                        )
+                                                                            .then((value) {
+                                                                          controller.isPause1 =
+                                                                              false;
+                                                                          controller
+                                                                              .update();
+                                                                          controller.timers1 = Timer.periodic(
+                                                                              Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize),
+                                                                              (timer) {
+                                                                            log('{timer.tick}${timer.tick}');
+
+                                                                            if (controller.isPause1 ==
+                                                                                true) {
+                                                                              // current2 = current2 + 0;
+                                                                              controller.current1 = controller.current1 + 0;
+                                                                              // current2 = -1;
+                                                                              timer.cancel();
+                                                                            } else {
+                                                                              controller.current1++;
+                                                                            }
+                                                                            controller.update();
+                                                                            log('current ${controller.current1}');
+
+                                                                            if (controller.current1 ==
+                                                                                controller.voiceTrackRowSize) {
+                                                                              timer.cancel();
 
                                                                               controller.isPause1 = false;
                                                                               controller.update();
-                                                                              if (controller.audioPlayer1.state == ap.PlayerState.playing) {
-                                                                                controller.isPause1 = true;
-                                                                                controller.update();
-
-                                                                                // stop2();
-                                                                                controller.audioPlayer1.pause();
-                                                                              } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
-                                                                                controller
-                                                                                    .play1(
-                                                                                  path: "${ApiConsts.hostUrl}${msg.images[0]}",
-                                                                                )
-                                                                                    .then((value) {
-                                                                                  controller.isPause1 = false;
-                                                                                  controller.update();
-                                                                                  controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
-                                                                                    log('{timer.tick}${timer.tick}');
-
-                                                                                    if (controller.isPause1 == true) {
-                                                                                      // current2 = current2 + 0;
-                                                                                      controller.current1 = controller.current1 + 0;
-                                                                                      // current2 = -1;
-                                                                                      timer.cancel();
-                                                                                    } else {
-                                                                                      controller.current1++;
-                                                                                    }
-                                                                                    controller.update();
-                                                                                    log('current ${controller.current1}');
-
-                                                                                    if (controller.current1 == controller.voiceTrackRowSize) {
-                                                                                      timer.cancel();
-
-                                                                                      controller.isPause1 = false;
-                                                                                      controller.update();
-                                                                                      controller.current1 = -1;
-                                                                                      controller.update();
-                                                                                    }
-                                                                                  });
-                                                                                });
-                                                                              }
-                                                                            },
-                                                                            child:
-                                                                                Container(
-                                                                              height: Get.height * 0.05,
-                                                                              width: Get.height * 0.05,
-                                                                              decoration: BoxDecoration(border: Border.all(color: AppColors.primary, width: 2), shape: BoxShape.circle),
-                                                                              child: Icon(Icons.play_arrow, color: AppColors.primary),
-                                                                            ),
+                                                                              controller.current1 = -1;
+                                                                              controller.update();
+                                                                            }
+                                                                          });
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      height: Get
+                                                                              .height *
+                                                                          0.05,
+                                                                      width: Get
+                                                                              .height *
+                                                                          0.05,
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border.all(
+                                                                              color: AppColors.primary,
+                                                                              width: 2),
+                                                                          shape: BoxShape.circle),
+                                                                      child: Icon(
+                                                                          controller.audioPlayer1.state == ap.PlayerState.playing
+                                                                              ? Icons.pause
+                                                                              : Icons.play_arrow,
+                                                                          color: AppColors.primary),
+                                                                    ),
+                                                                  ),
+                                                                  ...List.generate(
+                                                                      controller
+                                                                          .hi
+                                                                          .length,
+                                                                      (index1) {
+                                                                    return Row(
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          width:
+                                                                              Get.width * 0.003,
+                                                                        ),
+                                                                        AnimatedContainer(
+                                                                          duration:
+                                                                              Duration(milliseconds: 500),
+                                                                          height: controller
+                                                                              .hi[index1]
+                                                                              .toDouble(),
+                                                                          width:
+                                                                              Get.width * 0.007,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(10),
+                                                                            color: index1 > controller.current1
+                                                                                ? Colors.grey
+                                                                                : AppColors.primary,
                                                                           ),
-                                                                          ...List.generate(
-                                                                              controller.hi.length,
-                                                                              (index1) {
-                                                                            return Row(
-                                                                              children: [
-                                                                                SizedBox(
-                                                                                  width: Get.width * 0.003,
-                                                                                ),
-                                                                                AnimatedContainer(
-                                                                                  duration: Duration(milliseconds: 500),
-                                                                                  height: controller.hi[index1].toDouble(),
-                                                                                  width: Get.width * 0.007,
-                                                                                  decoration: BoxDecoration(
-                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                    color: Colors.grey,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            );
-                                                                          }),
-                                                                        ]);
-                                                            },
-                                                          )
-                                                        : GestureDetector(
-                                                            onTap: () {
-                                                              openFile(
-                                                                  "${ApiConsts.hostUrl}${msg.images[0]}");
-                                                            },
-                                                            child: Center(
-                                                              child:
-                                                                  Image.network(
-                                                                "${ApiConsts.hostUrl}${msg.images[0]}",
-                                                                height:
-                                                                    Get.height *
-                                                                        0.2,
-                                                                width:
-                                                                    Get.height *
-                                                                        0.2,
-                                                              ),
-                                                            ),
-                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                                ])
+                                                          : Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                  GestureDetector(
+                                                                    onTap:
+                                                                        () async {
+                                                                      controller
+                                                                              .selectedIndex =
+                                                                          index;
+                                                                      controller
+                                                                          .current1 = -1;
+                                                                      controller
+                                                                              .voiceTrackRowSize =
+                                                                          controller
+                                                                              .hi
+                                                                              .length;
+                                                                      controller
+                                                                          .audioPlayer1
+                                                                          .pause();
+                                                                      controller
+                                                                          .audioPlayer1
+                                                                          .stop();
+
+                                                                      controller
+                                                                              .isPause1 =
+                                                                          false;
+                                                                      controller
+                                                                          .update();
+                                                                      if (controller
+                                                                              .audioPlayer1
+                                                                              .state ==
+                                                                          ap.PlayerState
+                                                                              .playing) {
+                                                                        controller.isPause1 =
+                                                                            true;
+                                                                        controller
+                                                                            .update();
+
+                                                                        // stop2();
+                                                                        controller
+                                                                            .audioPlayer1
+                                                                            .pause();
+                                                                      } else if (controller.audioPlayer1.state ==
+                                                                              ap
+                                                                                  .PlayerState.paused ||
+                                                                          controller.audioPlayer1.state ==
+                                                                              ap.PlayerState.stopped) {
+                                                                        controller
+                                                                            .play1(
+                                                                          path:
+                                                                              "${ApiConsts.hostUrl}${msg.voiceNotes[0]}",
+                                                                        )
+                                                                            .then((value) {
+                                                                          controller.isPause1 =
+                                                                              false;
+                                                                          controller
+                                                                              .update();
+                                                                          controller.timers1 = Timer.periodic(
+                                                                              Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize),
+                                                                              (timer) {
+                                                                            log('{timer.tick}${timer.tick}');
+
+                                                                            if (controller.isPause1 ==
+                                                                                true) {
+                                                                              // current2 = current2 + 0;
+                                                                              controller.current1 = controller.current1 + 0;
+                                                                              // current2 = -1;
+                                                                              timer.cancel();
+                                                                            } else {
+                                                                              controller.current1++;
+                                                                            }
+                                                                            controller.update();
+                                                                            log('current ${controller.current1}');
+
+                                                                            if (controller.current1 ==
+                                                                                controller.voiceTrackRowSize) {
+                                                                              timer.cancel();
+
+                                                                              controller.isPause1 = false;
+                                                                              controller.update();
+                                                                              controller.current1 = -1;
+                                                                              controller.update();
+                                                                            }
+                                                                          });
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      height: Get
+                                                                              .height *
+                                                                          0.05,
+                                                                      width: Get
+                                                                              .height *
+                                                                          0.05,
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border.all(
+                                                                              color: AppColors.primary,
+                                                                              width: 2),
+                                                                          shape: BoxShape.circle),
+                                                                      child: Icon(
+                                                                          Icons
+                                                                              .play_arrow,
+                                                                          color:
+                                                                              AppColors.primary),
+                                                                    ),
+                                                                  ),
+                                                                  ...List.generate(
+                                                                      controller
+                                                                          .hi
+                                                                          .length,
+                                                                      (index1) {
+                                                                    return Row(
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          width:
+                                                                              Get.width * 0.003,
+                                                                        ),
+                                                                        AnimatedContainer(
+                                                                          duration:
+                                                                              Duration(milliseconds: 500),
+                                                                          height: controller
+                                                                              .hi[index1]
+                                                                              .toDouble(),
+                                                                          width:
+                                                                              Get.width * 0.007,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(10),
+                                                                            color:
+                                                                                Colors.grey,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                                ]);
+                                                    },
+                                                  ),
+
                                             msg.content == ""
                                                 ? SizedBox()
                                                 : Text(

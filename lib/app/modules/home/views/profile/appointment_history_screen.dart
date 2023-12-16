@@ -47,9 +47,15 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SvgPicture.asset(
-              AppImages.blackBell,
-              height: 24,
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.NOTIFICATION);
+              },
+              child: SvgPicture.asset(
+                AppImages.blackBell,
+                height: 24,
+                width: 24,
+              ),
             ),
           )
         ],

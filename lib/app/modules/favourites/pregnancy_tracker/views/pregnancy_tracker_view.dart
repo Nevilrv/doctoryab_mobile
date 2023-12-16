@@ -3,6 +3,7 @@ import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/controllers/
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/tab_calculator_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/tab_calendar_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -121,9 +122,15 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: SvgPicture.asset(
-                      AppImages.blackBell,
-                      height: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.NOTIFICATION);
+                      },
+                      child: SvgPicture.asset(
+                        AppImages.blackBell,
+                        height: 24,
+                        width: 24,
+                      ),
                     ),
                   ),
                 ),

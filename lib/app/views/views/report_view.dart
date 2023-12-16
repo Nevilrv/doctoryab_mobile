@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -24,6 +25,7 @@ import 'package:doctor_yab/app/data/models/reports.dart';
 
 // import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ReportView extends StatelessWidget {
   final Report report;
@@ -51,9 +53,15 @@ class ReportView extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SvgPicture.asset(
-              AppImages.blackBell,
-              height: 24,
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.NOTIFICATION);
+              },
+              child: SvgPicture.asset(
+                AppImages.blackBell,
+                height: 24,
+                width: 24,
+              ),
             ),
           )
         ],
@@ -181,8 +189,7 @@ class ReportView extends StatelessWidget {
     var hasErrorOccredWhileDownloading = false.obs;
     var isFileDownloaded = false.obs;
     var filePath = "";
-    //
-    //
+
     if (GetPlatform.isIOS) {
       getApplicationDocumentsDirectory().then((value) {
         var _filePath = "${value.path}/DoctorYab/$document";
@@ -346,6 +353,12 @@ class ReportView extends StatelessWidget {
           },
         ),
         // Spacer(),
+        IconButton(
+          onPressed: () async {
+            await Share.share(document);
+          },
+          icon: Icon(Icons.share_rounded),
+        ),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [],

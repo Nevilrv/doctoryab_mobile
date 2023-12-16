@@ -56,10 +56,12 @@ abstract class Routes {
   static const PREGNANCY_TRACKER = _Paths.PREGNANCY_TRACKER;
   static const CHECKUP_PACKAGES = _Paths.CHECKUP_PACKAGES;
   static const TREATMENT_ABROAD = _Paths.TREATMENT_ABROAD;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
 }
 
 abstract class _Paths {
   static const HOME = '/home';
+  static const NOTIFICATION = '/notification';
   static const INTRO = '/intro';
   static const LANG_SELECT = '/lang-select';
   static const AUTH_OPTION = '/auth-option';

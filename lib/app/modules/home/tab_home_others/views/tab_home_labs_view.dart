@@ -124,11 +124,17 @@ class TabHomeLabsView extends GetView<LabsController> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 9.5, horizontal: 10),
                             child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(Routes.NOTIFICATION);
+                                },
                                 child: SvgPicture.asset(
-                              AppImages.blackBell,
-                              width: 25,
-                              height: 24,
-                            )),
+                                  AppImages.blackBell,
+                                  height: 24,
+                                  width: 24,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         GestureDetector(
@@ -706,201 +712,237 @@ class TabHomeLabsView extends GetView<LabsController> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Column(
+        child: Stack(
           children: [
-            Container(
-              // height: h * 0.2,
-              width: w,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
+            Column(
+              children: [
+                Container(
+                  // height: h * 0.2,
+                  width: w,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        // color: Colors.black,
-                        // height: 65,
-                        // width: 65,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.lightGrey),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            // color: Colors.black,
+                            // height: 65,
+                            // width: 65,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.lightGrey),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CachedNetworkImage(
+                                imageUrl: "${ApiConsts.hostUrl}${item.photo}",
+                                height: h * 0.11,
+                                width: h * 0.11,
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) {
+                                  return Image.asset(
+                                    "assets/png/person-placeholder.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                errorWidget: (_, __, ___) {
+                                  return Image.asset(
+                                    "assets/png/person-placeholder.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          // SettingsController.appLanguge != "English"
+                          //     ? Positioned(
+                          //         top: -5,
+                          //         right: -5,
+                          //         child: SvgPicture.asset(AppImages.emergencyBell),
+                          //       )
+                          //     : Positioned(
+                          //         top: -5,
+                          //         left: -5,
+                          //         child: SvgPicture.asset(AppImages.emergencyBell))
+                        ],
+                      ),
+                      Expanded(
+                        flex: 3,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CachedNetworkImage(
-                            imageUrl: "${ApiConsts.hostUrl}${item.photo}",
-                            height: h * 0.11,
-                            width: h * 0.11,
-                            fit: BoxFit.cover,
-                            placeholder: (_, __) {
-                              return Image.asset(
-                                "assets/png/person-placeholder.jpg",
-                                fit: BoxFit.cover,
-                              );
-                            },
-                            errorWidget: (_, __, ___) {
-                              return Image.asset(
-                                "assets/png/person-placeholder.jpg",
-                                fit: BoxFit.cover,
-                              );
-                            },
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // SizedBox(height: 10),
+                              Container(
+                                width: Get.width * 0.49,
+                                child: Text(
+                                  "${item.name ?? ""}",
+                                  style: AppTextTheme.h(12)
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                              ),
+
+                              SizedBox(height: 2),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  RatingBar.builder(
+                                    ignoreGestures: true,
+                                    itemSize: 17,
+                                    initialRating: double.parse(
+                                        item.averageRatings == null
+                                            ? "0.0"
+                                            : item.averageRatings.toString()),
+                                    // minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                      // size: 10,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  ),
+                                  SizedBox(width: 4),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(Routes.REVIEW, arguments: [
+                                        "Laboratory_Review",
+                                        item
+                                      ]);
+                                    },
+                                    child: Text(
+                                      '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks}) ${"reviews".tr}',
+                                      style: AppTextTheme.b(12).copyWith(
+                                          color: AppColors.primary
+                                              .withOpacity(0.5)),
+                                    ).paddingOnly(top: 3),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Utils.openPhoneDialer(
+                                            context, "${item.phone[0]}");
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 5),
+                                        decoration: BoxDecoration(
+                                            color: AppColors.secondary,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Row(
+                                          children: [
+                                            Spacer(),
+                                            Center(
+                                              child: Text(
+                                                "call".tr,
+                                                style: AppTextTheme.m(12)
+                                                    .copyWith(
+                                                        color: Colors.white),
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            SettingsController.appLanguge !=
+                                                    "English"
+                                                ? Transform(
+                                                    alignment: Alignment.center,
+                                                    transform:
+                                                        Matrix4.rotationY(
+                                                            math.pi),
+                                                    child: SvgPicture.asset(
+                                                        AppImages.phone),
+                                                  )
+                                                : SvgPicture.asset(
+                                                    AppImages.phone)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      // SettingsController.appLanguge != "English"
-                      //     ? Positioned(
-                      //         top: -5,
-                      //         right: -5,
-                      //         child: SvgPicture.asset(AppImages.emergencyBell),
-                      //       )
-                      //     : Positioned(
-                      //         top: -5,
-                      //         left: -5,
-                      //         child: SvgPicture.asset(AppImages.emergencyBell))
                     ],
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // SizedBox(height: 10),
-                          Text(
-                            "${item.name}",
-                            style: AppTextTheme.h(12)
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: AppColors.lightGrey,
+                      border: Border.all(color: AppColors.primary)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/location_pin.svg",
+                          color: AppColors.primary,
+                        ),
+                        SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            // "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
+                            "${item.address}",
+                            maxLines: 1,
+                            style: AppTextTheme.b(10)
                                 .copyWith(color: AppColors.primary),
+                            overflow: TextOverflow.ellipsis,
                           ),
-
-                          SizedBox(height: 2),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              RatingBar.builder(
-                                ignoreGestures: true,
-                                itemSize: 17,
-                                initialRating: double.parse(
-                                    item.averageRatings == null
-                                        ? "0.0"
-                                        : item.averageRatings.toString()),
-                                // minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 1.0),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  // size: 10,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
-                              SizedBox(width: 4),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(Routes.REVIEW,
-                                      arguments: ["Laboratory_Review", item]);
-                                },
-                                child: Text(
-                                  '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks}) ${"reviews".tr}',
-                                  style: AppTextTheme.b(12).copyWith(
-                                      color:
-                                          AppColors.primary.withOpacity(0.5)),
-                                ).paddingOnly(top: 3),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Utils.openPhoneDialer(
-                                        context, "${item.phone[0]}");
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.secondary,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Row(
-                                      children: [
-                                        Spacer(),
-                                        Center(
-                                          child: Text(
-                                            "call".tr,
-                                            style: AppTextTheme.m(12)
-                                                .copyWith(color: Colors.white),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        SettingsController.appLanguge !=
-                                                "English"
-                                            ? Transform(
-                                                alignment: Alignment.center,
-                                                transform:
-                                                    Matrix4.rotationY(math.pi),
-                                                child: SvgPicture.asset(
-                                                    AppImages.phone),
-                                              )
-                                            : SvgPicture.asset(AppImages.phone)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ],
+                    ).paddingVertical(8).onTap(() {}),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: AppColors.lightGrey,
-                  border: Border.all(color: AppColors.primary)),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/svg/location_pin.svg",
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        // "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
-                        "${item.address}",
-                        maxLines: 1,
-                        style: AppTextTheme.b(10)
-                            .copyWith(color: AppColors.primary),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ).paddingVertical(8).onTap(() {}),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
+            item.active == true
+                ? Positioned(
+                    top: -3,
+                    right:
+                        SettingsController.appLanguge != "English" ? null : 0,
+                    left: SettingsController.appLanguge == "English" ? null : 0,
+                    child: SettingsController.appLanguge != "English"
+                        ? Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.rotationY(math.pi),
+                            child: Image.asset(
+                              AppImages.promote,
+                              height: 18,
+                              width: 18,
+                              color: AppColors.primary,
+                            ))
+                        : Image.asset(
+                            AppImages.promote,
+                            height: 18,
+                            width: 18,
+                            color: AppColors.primary,
+                          ),
+                  )
+                : SizedBox()
           ],
         ),
       ),

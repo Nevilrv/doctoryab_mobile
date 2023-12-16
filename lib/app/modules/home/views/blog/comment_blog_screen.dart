@@ -1,6 +1,7 @@
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -42,9 +43,15 @@ class CommentView extends GetView<TabBlogController> {
             actions: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.NOTIFICATION);
+                  },
+                  child: SvgPicture.asset(
+                    AppImages.blackBell,
+                    height: 24,
+                    width: 24,
+                  ),
                 ),
               )
             ],

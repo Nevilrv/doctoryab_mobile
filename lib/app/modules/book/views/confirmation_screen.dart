@@ -35,9 +35,15 @@ class ConfirmationScreen extends GetView<BookController> {
                 backgroundColor: Colors.transparent,
                 action: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SvgPicture.asset(
-                    AppImages.blackBell,
-                    height: 24,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.NOTIFICATION);
+                    },
+                    child: SvgPicture.asset(
+                      AppImages.blackBell,
+                      height: 24,
+                      width: 24,
+                    ),
                   ),
                 )),
             body: Obx(

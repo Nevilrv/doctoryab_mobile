@@ -19,8 +19,16 @@ class HospitalRepository {
 
   static var _cachedDio = AppDioService.getCachedDio;
 
-  static Future<List<Hospital>> fetchHospitals(int page,
-      {int limitPerPage = 10, void onError(e), CancelToken cancelToken}) async {
+  static Future<List<Hospital>> fetchHospitals({
+    int limitPerPage = 10,
+    void onError(e),
+    CancelToken cancelToken,
+    int page,
+    String sort,
+    double lat,
+    double lon,
+    String filterName,
+  }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
@@ -28,14 +36,29 @@ class HospitalRepository {
 
     return await Utils.parseResponse<Hospital>(
       () async {
+        Map<String, dynamic> requestParameter = {};
+        if (filterName == 'nearest_hospital') {
+          requestParameter = {
+            "limit": limitPerPage,
+            "page": page,
+            "sort": sort.isEmpty ? " " : sort,
+            "lat": lat,
+            "lng": lon,
+          };
+        } else {
+          requestParameter = {
+            "limit": limitPerPage,
+            "page": page,
+            "sort": sort.isEmpty ? " " : sort,
+          };
+        }
+
+        print('---URL>>>>>$requestParameter');
+
         var respose = await _cachedDio.get(
           '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
           cancelToken: cancelToken,
-          queryParameters: {
-            "limit": limitPerPage,
-            "page": page,
-            // "sort": "name",
-          },
+          queryParameters: requestParameter,
           // data: {"name": name},
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),

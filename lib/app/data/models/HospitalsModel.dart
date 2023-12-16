@@ -39,25 +39,29 @@ class HospitalsModel {
 }
 
 class Hospital {
-  Hospital(
-      {this.id,
-      this.geometry,
-      this.photo,
-      this.type,
-      this.times,
-      this.description,
-      this.email,
-      this.address,
-      this.name,
-      this.city,
-      this.phone,
-      this.createAt,
-      this.checkUp,
-      this.v,
-      this.stars,
-      this.usersStaredCount,
-      this.checkUps,
-      this.isEmergency});
+  Hospital({
+    this.id,
+    this.geometry,
+    this.photo,
+    this.type,
+    this.times,
+    this.description,
+    this.email,
+    this.address,
+    this.name,
+    this.city,
+    this.phone,
+    this.createAt,
+    this.checkUp,
+    this.v,
+    this.stars,
+    this.usersStaredCount,
+    this.checkUps,
+    this.isEmergency,
+    this.active,
+    this.totalFeedbacks,
+    this.averageRatings,
+  });
 
   final String id;
   final Geometry geometry;
@@ -77,6 +81,9 @@ class Hospital {
   final double stars;
   final int usersStaredCount;
   final List<dynamic> checkUps;
+  final bool active;
+  dynamic totalFeedbacks;
+  dynamic averageRatings;
 
   Hospital copyWith({
     String id,
@@ -96,7 +103,10 @@ class Hospital {
     double stars,
     bool isEmergency,
     int usersStaredCount,
+    dynamic totalFeedbacks,
+    dynamic averageRatings,
     List<dynamic> checkUps,
+    bool active,
   }) =>
       Hospital(
         id: id ?? this.id,
@@ -117,6 +127,9 @@ class Hospital {
         usersStaredCount: usersStaredCount ?? this.usersStaredCount,
         checkUps: checkUps ?? this.checkUps,
         isEmergency: isEmergency ?? this.isEmergency,
+        active: active ?? this.active,
+        totalFeedbacks: totalFeedbacks ?? this.totalFeedbacks,
+        averageRatings: averageRatings ?? this.averageRatings,
       );
 
   factory Hospital.fromJson(Map<String, dynamic> json) => Hospital(
@@ -152,6 +165,11 @@ class Hospital {
         checkUps: json["CheckUps"] == null
             ? null
             : List<dynamic>.from(json["CheckUps"].map((x) => x)),
+        active: json["active"] == null ? false : json["active"],
+        totalFeedbacks:
+            json["totalFeedbacks"] == null ? null : json["totalFeedbacks"],
+        averageRatings:
+            json["averageRatings"] == null ? null : json["averageRatings"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -176,10 +194,13 @@ class Hospital {
             : List<dynamic>.from(checkUp.map((x) => x.toJson())),
         "__v": v == null ? null : v,
         "stars": stars == null ? null : stars,
+        "active": active == null ? false : active,
         "users_stared_count":
             usersStaredCount == null ? null : usersStaredCount,
         "CheckUps": checkUps == null
             ? null
             : List<dynamic>.from(checkUps.map((x) => x)),
+        "totalFeedbacks": totalFeedbacks == null ? null : totalFeedbacks,
+        "averageRatings": averageRatings == null ? null : averageRatings,
       };
 }

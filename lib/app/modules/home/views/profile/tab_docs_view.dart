@@ -12,6 +12,7 @@ import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/reports_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -23,6 +24,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TabDocsView extends GetView<ReportsController> {
   List tab = [
@@ -63,9 +65,15 @@ class TabDocsView extends GetView<ReportsController> {
             actions: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.NOTIFICATION);
+                  },
+                  child: SvgPicture.asset(
+                    AppImages.blackBell,
+                    height: 24,
+                    width: 24,
+                  ),
                 ),
               )
             ],
@@ -568,7 +576,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                                             .red),
                                                               ),
                                                               Text(
-                                                                "${_d[1]}",
+                                                                " ${_d[1]}",
                                                                 style: AppTextStyle
                                                                     .mediumPrimary12
                                                                     .copyWith(
@@ -576,7 +584,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                                             .red),
                                                               ),
                                                               Text(
-                                                                "${_d[3]}",
+                                                                " ${_d[3]}",
                                                                 style: AppTextStyle
                                                                     .mediumPrimary12
                                                                     .copyWith(
@@ -619,25 +627,31 @@ class TabDocsView extends GetView<ReportsController> {
                                                           ),
                                                         ),
                                                       ),
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.red
-                                                          .withOpacity(0.1),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4)),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "${"see_all_details".tr}",
-                                                        style: AppTextStyle
-                                                            .mediumPrimary12
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .red),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.to(ReportView(item));
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors.red
+                                                            .withOpacity(0.1),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4)),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 5),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "${"see_all_details".tr}",
+                                                          style: AppTextStyle
+                                                              .mediumPrimary12
+                                                              .copyWith(
+                                                                  color:
+                                                                      AppColors
+                                                                          .red),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

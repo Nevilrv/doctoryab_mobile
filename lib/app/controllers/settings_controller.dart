@@ -91,7 +91,7 @@ class SettingsController extends GetxController {
 
   static User get savedUserProfile {
     var _user = AppStatics.hive.authBox.get("user");
-    log("_user--------------> ${_user}");
+    log("_user--------------> $_user");
 
     return _user == null
         ? null

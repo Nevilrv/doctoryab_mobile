@@ -24,6 +24,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class PharmacyDetailScreen extends GetView<DrugStoreController> {
   final DrugStore item;
@@ -49,7 +50,11 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
             backgroundColor: Colors.transparent,
             action: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(AppImages.blackBell),
+              child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.NOTIFICATION);
+                  },
+                  child: SvgPicture.asset(AppImages.blackBell)),
             )),
 
         body: Stack(
@@ -568,164 +573,157 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                             SizedBox(
                                                               height: 5,
                                                             ),
-                                                            Row(
+                                                            Column(
                                                               children: [
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Text(
-                                                                        "cleaningRating"
-                                                                            .tr,
-                                                                        style: AppTextStyle
-                                                                            .boldPrimary12,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            5,
-                                                                      ),
-                                                                      Text(
-                                                                        "satisfyRating"
-                                                                            .tr,
-                                                                        style: AppTextStyle
-                                                                            .boldPrimary12,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            5,
-                                                                      ),
-                                                                      Text(
-                                                                        "expertiseRating"
-                                                                            .tr,
-                                                                        style: AppTextStyle
-                                                                            .boldPrimary12,
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                Text(
+                                                                  "Quality of Drugs"
+                                                                      .tr,
+                                                                  style: AppTextStyle
+                                                                      .boldPrimary12,
                                                                 ),
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      RatingBar
-                                                                          .builder(
-                                                                        itemSize:
-                                                                            Get.width *
-                                                                                0.05,
-                                                                        initialRating: controller
-                                                                            .cRating
-                                                                            .value,
-                                                                        // minRating: 1,
-                                                                        direction:
-                                                                            Axis.horizontal,
-                                                                        allowHalfRating:
-                                                                            true,
-                                                                        itemCount:
-                                                                            5,
-                                                                        itemPadding:
-                                                                            EdgeInsets.symmetric(horizontal: 1.0),
-                                                                        itemBuilder:
-                                                                            (context, _) =>
-                                                                                Icon(
-                                                                          Icons
-                                                                              .star,
-                                                                          color:
-                                                                              Colors.amber,
-                                                                          // size: 10,
-                                                                        ),
-                                                                        onRatingUpdate:
-                                                                            (rating) {
-                                                                          controller
-                                                                              .cRating
-                                                                              .value = rating;
-                                                                          setStates(
-                                                                              () {});
-                                                                          print(
-                                                                              rating);
-                                                                        },
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            5,
-                                                                      ),
-                                                                      RatingBar
-                                                                          .builder(
-                                                                        itemSize:
-                                                                            Get.width *
-                                                                                0.05,
-                                                                        initialRating: controller
-                                                                            .sRating
-                                                                            .value,
-                                                                        // minRating: 1,
-                                                                        direction:
-                                                                            Axis.horizontal,
-                                                                        allowHalfRating:
-                                                                            true,
-                                                                        itemCount:
-                                                                            5,
-                                                                        itemPadding:
-                                                                            EdgeInsets.symmetric(horizontal: 1.0),
-                                                                        itemBuilder:
-                                                                            (context, _) =>
-                                                                                Icon(
-                                                                          Icons
-                                                                              .star,
-                                                                          color:
-                                                                              Colors.amber,
-                                                                          // size: 10,
-                                                                        ),
-                                                                        onRatingUpdate:
-                                                                            (rating) {
-                                                                          controller
-                                                                              .sRating
-                                                                              .value = rating;
-                                                                          setStates(
-                                                                              () {});
-                                                                          print(
-                                                                              rating);
-                                                                        },
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            5,
-                                                                      ),
-                                                                      RatingBar
-                                                                          .builder(
-                                                                        itemSize:
-                                                                            Get.width *
-                                                                                0.05,
-                                                                        initialRating: controller
-                                                                            .eRating
-                                                                            .value,
-                                                                        // minRating: 1,
-                                                                        direction:
-                                                                            Axis.horizontal,
-                                                                        allowHalfRating:
-                                                                            true,
-                                                                        itemCount:
-                                                                            5,
-                                                                        itemPadding:
-                                                                            EdgeInsets.symmetric(horizontal: 1.0),
-                                                                        itemBuilder:
-                                                                            (context, _) =>
-                                                                                Icon(
-                                                                          Icons
-                                                                              .star,
-                                                                          color:
-                                                                              Colors.amber,
-                                                                          // size: 10,
-                                                                        ),
-                                                                        onRatingUpdate:
-                                                                            (rating) {
-                                                                          controller
-                                                                              .eRating
-                                                                              .value = rating;
-                                                                          setStates(
-                                                                              () {});
-                                                                          print(
-                                                                              rating);
-                                                                        },
-                                                                      ),
-                                                                    ],
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                RatingBar
+                                                                    .builder(
+                                                                  itemSize:
+                                                                      Get.width *
+                                                                          0.06,
+                                                                  initialRating:
+                                                                      controller
+                                                                          .sRating
+                                                                          .value,
+                                                                  // minRating: 1,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
+                                                                  itemCount: 5,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              1.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
+                                                                    // size: 10,
                                                                   ),
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    controller
+                                                                        .sRating
+                                                                        .value = rating;
+                                                                    setStates(
+                                                                        () {});
+                                                                    print(
+                                                                        rating);
+                                                                  },
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                Text(
+                                                                  "Price of Drugs"
+                                                                      .tr,
+                                                                  style: AppTextStyle
+                                                                      .boldPrimary12,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                RatingBar
+                                                                    .builder(
+                                                                  itemSize:
+                                                                      Get.width *
+                                                                          0.06,
+                                                                  initialRating:
+                                                                      controller
+                                                                          .eRating
+                                                                          .value,
+                                                                  // minRating: 1,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
+                                                                  itemCount: 5,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              1.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
+                                                                    // size: 10,
+                                                                  ),
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    controller
+                                                                        .eRating
+                                                                        .value = rating;
+                                                                    setStates(
+                                                                        () {});
+                                                                    print(
+                                                                        rating);
+                                                                  },
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                Text(
+                                                                  "Behaviour and cleanliness"
+                                                                      .tr,
+                                                                  style: AppTextStyle
+                                                                      .boldPrimary12,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                RatingBar
+                                                                    .builder(
+                                                                  itemSize:
+                                                                      Get.width *
+                                                                          0.06,
+                                                                  initialRating:
+                                                                      controller
+                                                                          .cRating
+                                                                          .value,
+                                                                  // minRating: 1,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
+                                                                  itemCount: 5,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              1.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
+                                                                    // size: 10,
+                                                                  ),
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    controller
+                                                                        .cRating
+                                                                        .value = rating;
+                                                                    setStates(
+                                                                        () {});
+                                                                    print(
+                                                                        rating);
+                                                                  },
                                                                 ),
                                                               ],
                                                             ),
@@ -837,105 +835,138 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                       children: List.generate(
                                                           controller
                                                               .feedbackData
-                                                              .length,
-                                                          (index) => Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        bottom:
-                                                                            10.0),
-                                                                child: Column(
+                                                              .length, (index) {
+                                                        var d = DateTime.parse(
+                                                                controller
+                                                                    .feedbackData[
+                                                                        index]
+                                                                    .createAt)
+                                                            .toPersianDateStr(
+                                                              strDay: false,
+                                                              strMonth: true,
+                                                              useAfghaniMonthName:
+                                                                  true,
+                                                            )
+                                                            .trim()
+                                                            .split(' ');
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                child: Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
                                                                   children: [
-                                                                    Container(
+                                                                    Expanded(
+                                                                      flex: 2,
                                                                       child:
-                                                                          Row(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
+                                                                          Column(
                                                                         children: [
-                                                                          Expanded(
-                                                                            flex:
-                                                                                1,
-                                                                            child:
-                                                                                Column(
-                                                                              children: [
-                                                                                CircleAvatar(
-                                                                                  radius: 35,
-                                                                                  backgroundImage: NetworkImage(
-                                                                                    "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}",
-                                                                                  ),
-                                                                                ),
-                                                                                Text(
-                                                                                  "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.feedbackData[index].createAt))}",
-                                                                                  style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                )
-                                                                              ],
+                                                                          CircleAvatar(
+                                                                            radius:
+                                                                                35,
+                                                                            backgroundImage:
+                                                                                NetworkImage(
+                                                                              "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}",
                                                                             ),
                                                                           ),
-                                                                          Expanded(
-                                                                            flex:
-                                                                                4,
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  // SizedBox(height: 10),
-                                                                                  Row(
-                                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        controller.feedbackData[index].postedBy.name ?? "",
-                                                                                        style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                      ),
-                                                                                      Spacer(),
-                                                                                      RatingBar.builder(
-                                                                                        ignoreGestures: true,
-                                                                                        itemSize: 17,
-                                                                                        initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0"),
-                                                                                        // minRating: 1,
-                                                                                        direction: Axis.horizontal,
-                                                                                        allowHalfRating: true,
-                                                                                        itemCount: 5,
-                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                        itemBuilder: (context, _) => Icon(
-                                                                                          Icons.star,
-                                                                                          color: Colors.amber,
-                                                                                          // size: 10,
-                                                                                        ),
-                                                                                        onRatingUpdate: (rating) {
-                                                                                          print(rating);
-                                                                                        },
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                  SizedBox(height: 2),
-                                                                                  ExpandableText(
-                                                                                    controller.feedbackData[index].comment ?? "",
-                                                                                    expandText: 'Read more',
-                                                                                    collapseText: 'Read less',
-                                                                                    maxLines: 3,
-                                                                                    linkColor: AppColors.primary,
-                                                                                    style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
-                                                                                  ),
-                                                                                ],
+                                                                          Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text(
+                                                                                "${d[0]}",
+                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                               ),
-                                                                            ),
-                                                                          ),
+                                                                              Text(
+                                                                                " ${d[1]}",
+                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                              ),
+                                                                              Text(
+                                                                                " ${d[3]}",
+                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                              ),
+                                                                            ],
+                                                                          )
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                    Divider(
-                                                                        thickness:
-                                                                            1,
-                                                                        color: AppColors
-                                                                            .primary),
+                                                                    Expanded(
+                                                                      flex: 6,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(horizontal: 5),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            // SizedBox(height: 10),
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              mainAxisSize: MainAxisSize.min,
+                                                                              children: [
+                                                                                Container(
+                                                                                  width: Get.width * 0.38,
+                                                                                  child: Text(
+                                                                                    controller.feedbackData[index].postedBy.name ?? "",
+                                                                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                                  ),
+                                                                                ),
+                                                                                Spacer(),
+                                                                                RatingBar.builder(
+                                                                                  ignoreGestures: true,
+                                                                                  itemSize: 17,
+                                                                                  initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0"),
+                                                                                  // minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: true,
+                                                                                  itemCount: 5,
+                                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                  itemBuilder: (context, _) => Icon(
+                                                                                    Icons.star,
+                                                                                    color: Colors.amber,
+                                                                                    // size: 10,
+                                                                                  ),
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    print(rating);
+                                                                                  },
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(height: 2),
+                                                                            ExpandableText(
+                                                                              controller.feedbackData[index].comment ?? "",
+                                                                              expandText: 'Read more',
+                                                                              collapseText: 'Read less',
+                                                                              maxLines: 3,
+                                                                              linkColor: AppColors.primary,
+                                                                              style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
                                                                   ],
                                                                 ),
-                                                              )),
+                                                              ),
+                                                              Divider(
+                                                                  thickness: 1,
+                                                                  color: AppColors
+                                                                      .primary),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }),
                                                     ),
                                                   ),
                                       )

@@ -50,7 +50,7 @@ class FeedbackData {
   DoctorId doctorId;
   String id;
   int v;
-  int averageRating;
+  dynamic averageRating;
 
   FeedbackData({
     this.datumId,

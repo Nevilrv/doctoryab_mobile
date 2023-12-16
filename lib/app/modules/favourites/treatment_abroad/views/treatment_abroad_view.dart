@@ -2,6 +2,7 @@ import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/controllers/treatment_abroad_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -57,9 +58,15 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                AppImages.blackBell,
-                height: 24,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.NOTIFICATION);
+                },
+                child: SvgPicture.asset(
+                  AppImages.blackBell,
+                  height: 24,
+                  width: 24,
+                ),
               ),
             )
           ],

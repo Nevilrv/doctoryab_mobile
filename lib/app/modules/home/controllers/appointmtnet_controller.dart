@@ -69,6 +69,8 @@ class AppointmentHistoryController extends GetxController {
         "expertiseRating": eRating.toString(),
         "doctorId": doctorId
       };
+      log("data--------------> ${data}");
+
       var _response = await DoctorsRepository()
           .postDoctorFeedback(
               cancelToken: cancelToken,
@@ -85,12 +87,24 @@ class AppointmentHistoryController extends GetxController {
         sRating = 0.0;
         log("value--------------> ${value}");
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+      }).catchError((e, s) {
+        comment.clear();
+        cRating = 0.0;
+        eRating = 0.0;
+        sRating = 0.0;
+        Utils.commonSnackbar(
+            context: context, text: "${e.response.data['msg']}");
+        log("e------asd--------> ${e.response.data['msg']}");
+        isLoading1 = false;
+        update();
       });
     } on DioError catch (e) {
       isLoading1 = false;
       update();
+      log("e--------------> ${e.response.data['msg']}");
+
       await Future.delayed(Duration(seconds: 2), () {});
-      if (!cancelToken.isCancelled) addDocFeedback(doctorId: doctorId);
+      // if (!cancelToken.isCancelled) addDocFeedback(doctorId: doctorId);
       // throw e;
       print(e);
     }

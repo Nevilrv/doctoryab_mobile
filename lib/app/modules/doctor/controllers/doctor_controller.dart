@@ -87,10 +87,21 @@ class DoctorController extends GetxController {
         sRating.value = 0.0;
         log("value--------------> ${value}");
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+      }).catchError((e, s) {
+        comment.clear();
+        cRating.value = 0.0;
+        eRating.value = 0.0;
+        sRating.value = 0.0;
+        Utils.commonSnackbar(
+            context: context, text: "${e.response.data['msg']}");
+        log("e------asd--------> ${e.response.data['msg']}");
+
+        update();
       });
+      ;
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
-      if (!cancelToken.isCancelled) addDocFeedback(doctorId: doctorId);
+      // if (!cancelToken.isCancelled) addDocFeedback(doctorId: doctorId);
       // throw e;
       print(e);
     }

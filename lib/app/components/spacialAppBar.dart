@@ -86,10 +86,15 @@ class AppAppBar {
             : SizedBox(),
         Padding(
           padding: const EdgeInsets.only(right: 20, left: 10),
-          child: SvgPicture.asset(
-            AppImages.blackBell,
-            height: 24,
-            width: 24,
+          child: GestureDetector(
+            onTap: () {
+              Get.toNamed(Routes.NOTIFICATION);
+            },
+            child: SvgPicture.asset(
+              AppImages.blackBell,
+              height: 24,
+              width: 24,
+            ),
           ),
         ),
       ],
@@ -136,10 +141,15 @@ class AppAppBar {
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20, left: 10),
-          child: SvgPicture.asset(
-            AppImages.bellwhite,
-            height: 24,
-            width: 24,
+          child: GestureDetector(
+            onTap: () {
+              Get.toNamed(Routes.NOTIFICATION);
+            },
+            child: SvgPicture.asset(
+              AppImages.bellwhite,
+              height: 24,
+              width: 24,
+            ),
           ),
         ),
       ],
@@ -187,10 +197,15 @@ class AppAppBar {
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20, left: 10),
-          child: SvgPicture.asset(
-            AppImages.blackBell,
-            height: 24,
-            width: 24,
+          child: GestureDetector(
+            onTap: () {
+              Get.toNamed(Routes.NOTIFICATION);
+            },
+            child: SvgPicture.asset(
+              AppImages.blackBell,
+              height: 24,
+              width: 24,
+            ),
           ),
         ),
       ],

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
@@ -28,6 +29,7 @@ import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../components/spacialAppBar.dart';
+import '../../../data/models/doctors_model.dart';
 import '../controllers/hospital_new_controller.dart';
 import '../tab_main/views/tab_main_view.dart';
 
@@ -48,7 +50,11 @@ class HospitalNewView extends GetView<HospitalNewController> {
             backgroundColor: Colors.transparent,
             action: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(AppImages.blackBell),
+              child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.NOTIFICATION);
+                  },
+                  child: SvgPicture.asset(AppImages.blackBell)),
             )),
 
         body: Obx(() {
@@ -195,7 +201,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                           0]
                                                                       .dayOfWeek ==
                                                                   d.weekday) {
-                                                                log("d--------------> ${d}");
+                                                                log("d--as------------> ${d}");
                                                                 date = d
                                                                     .toPersianDateStr(
                                                                       strDay:
@@ -225,6 +231,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                           } else {
                                                             // List<Schedule> dataSort ;
                                                             // dataSort.add(value)
+                                                            List da = [];
                                                             controller
                                                                 .doctorList[
                                                                     index]
@@ -241,75 +248,146 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                         .schedules
                                                                         .length;
                                                                 i++) {
-                                                              log("item.schedules[i].dayOfWeek--------------> ${controller.doctorList[index].schedules[i].times}");
+                                                              da.add(controller
+                                                                  .doctorList[
+                                                                      index]
+                                                                  .schedules[i]
+                                                                  .dayOfWeek);
+                                                            }
+                                                            var n =
+                                                                DateTime.now()
+                                                                    .weekday;
+                                                            var finalWeekDay;
+                                                            var greater = da
+                                                                .where((e) =>
+                                                                    e >= n)
+                                                                .toList()
+                                                              ..sort();
+                                                            var smaller = da
+                                                                .where((e) =>
+                                                                    e <= n)
+                                                                .toList()
+                                                              ..sort();
+                                                            if (greater
+                                                                .isEmpty) {
+                                                              finalWeekDay =
+                                                                  smaller.first;
+                                                            } else {
+                                                              finalWeekDay =
+                                                                  greater.first;
+                                                            }
+                                                            log("greater--------------> ${greater}");
+                                                            Schedule data;
+                                                            controller
+                                                                .doctorList[
+                                                                    index]
+                                                                .schedules
+                                                                .forEach(
+                                                                    (element) {
+                                                              if (element
+                                                                      .dayOfWeek ==
+                                                                  finalWeekDay) {
+                                                                data = element;
+                                                              }
+                                                            });
 
-                                                              if (DateTime.now()
-                                                                      .weekday ==
-                                                                  controller
-                                                                      .doctorList[
-                                                                          index]
-                                                                      .schedules[
-                                                                          i]
-                                                                      .dayOfWeek) {
-                                                                int indexxx = controller
+                                                            int indexxx =
+                                                                controller
                                                                     .doctorList[
                                                                         index]
                                                                     .schedules
-                                                                    .indexOf(controller
+                                                                    .indexOf(
+                                                                        data);
+                                                            log("indexxx--------------> ${indexxx}");
+                                                            log("item.schedules--------------> ${controller.doctorList[index].schedules}");
+
+                                                            if (indexxx ==
+                                                                controller
                                                                         .doctorList[
                                                                             index]
-                                                                        .schedules[i]);
+                                                                        .schedules
+                                                                        .length -
+                                                                    1) {
+                                                              indexxx = 0;
+                                                            } else {
+                                                              indexxx =
+                                                                  indexxx + 1;
+                                                            }
+                                                            for (int i = 0;
+                                                                i <= 7;
+                                                                i++) {
+                                                              log("i--------------> ${i}");
 
-                                                                for (int i = 0;
-                                                                    i <= 7;
-                                                                    i++) {
-                                                                  DateTime d = DateTime
-                                                                          .now()
-                                                                      .add(Duration(
-                                                                          days:
-                                                                              i));
-                                                                  if (controller
-                                                                          .doctorList[
-                                                                              index]
-                                                                          .schedules[indexxx +
-                                                                              1]
-                                                                          .dayOfWeek ==
-                                                                      d.weekday) {
-                                                                    log("d--------------> ${d}");
-                                                                    log("item.schedules[indexxx + 1].times--------------> ${controller.doctorList[index].schedules[indexxx + 1].times}");
-
-                                                                    date = d
-                                                                        .toPersianDateStr(
-                                                                          strDay:
-                                                                              false,
-                                                                          strMonth:
-                                                                              true,
-                                                                          useAfghaniMonthName:
-                                                                              true,
-                                                                        )
-                                                                        .trim()
-                                                                        .split(
-                                                                            ' ');
-                                                                    if (controller
-                                                                        .doctorList[
-                                                                            index]
-                                                                        .schedules[
-                                                                            indexxx +
-                                                                                1]
-                                                                        .times
-                                                                        .isNotEmpty) {
-                                                                      slot =
-                                                                          "${controller.doctorList[index].schedules[indexxx + 1].times.first} - ${controller.doctorList[index].schedules[indexxx + 1].times.last}";
-                                                                    }
-
-                                                                    log("date--------------> ${date}");
-                                                                    log("slot--------------> ${slot}");
-
-                                                                    break;
-                                                                  }
+                                                              DateTime d = DateTime
+                                                                      .now()
+                                                                  .add(Duration(
+                                                                      days: i));
+                                                              log("item.schedules[indexxx].dayOfWeek--------------> ${controller.doctorList[index].schedules[indexxx].dayOfWeek}");
+                                                              log("d.weekday--------------> ${d.weekday}");
+                                                              if (d.weekday ==
+                                                                  7) {
+                                                                date = d
+                                                                    .toPersianDateStr(
+                                                                      strDay:
+                                                                          false,
+                                                                      strMonth:
+                                                                          true,
+                                                                      useAfghaniMonthName:
+                                                                          true,
+                                                                    )
+                                                                    .trim()
+                                                                    .split(' ');
+                                                                if (controller
+                                                                    .doctorList[
+                                                                        index]
+                                                                    .schedules[
+                                                                        indexxx]
+                                                                    .times
+                                                                    .isNotEmpty) {
+                                                                  slot =
+                                                                      "${controller.doctorList[index].schedules[indexxx].times.first} - ${controller.doctorList[index].schedules[indexxx].times.last}";
                                                                 }
+
+                                                                log("date--------------> ${date}");
+                                                                log("slot--------------> ${slot}");
                                                               }
-                                                              log("element--------------> ${controller.doctorList[index].schedules[i].dayOfWeek}");
+                                                              if (controller
+                                                                      .doctorList[
+                                                                          index]
+                                                                      .schedules[
+                                                                          indexxx]
+                                                                      .dayOfWeek ==
+                                                                  d.weekday) {
+                                                                log("d--------------> ${d}");
+                                                                log("item.schedules[indexxx + 1].times--------------> ${controller.doctorList[index].schedules[indexxx].times}");
+
+                                                                date = d
+                                                                    .toPersianDateStr(
+                                                                      strDay:
+                                                                          false,
+                                                                      strMonth:
+                                                                          true,
+                                                                      useAfghaniMonthName:
+                                                                          true,
+                                                                    )
+                                                                    .trim()
+                                                                    .split(' ');
+                                                                if (controller
+                                                                    .doctorList[
+                                                                        index]
+                                                                    .schedules[
+                                                                        indexxx]
+                                                                    .times
+                                                                    .isNotEmpty) {
+                                                                  slot =
+                                                                      "${controller.doctorList[index].schedules[indexxx].times.first} - ${controller.doctorList[index].schedules[indexxx].times.last}";
+                                                                }
+
+                                                                log("date--------------> ${date}");
+                                                                log("slot--------------> ${slot}");
+
+                                                                break;
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -364,211 +442,235 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   //   ),
                                                                   // ],
                                                                 ),
-                                                                child: Column(
+                                                                child: Stack(
                                                                   children: [
-                                                                    Container(
-                                                                      // height: h * 0.2,
-                                                                      // width: w,
-                                                                      child:
-                                                                          Row(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Container(
-                                                                            // color: Colors.black,
-                                                                            // height: 65,
-                                                                            // width: 65,
-                                                                            decoration:
-                                                                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              child: CachedNetworkImage(
-                                                                                imageUrl: "${ApiConsts.hostUrl}${controller.doctorList[index].photo}",
-                                                                                height: h * 0.11,
-                                                                                width: h * 0.11,
-                                                                                fit: BoxFit.cover,
-                                                                                placeholder: (_, __) {
-                                                                                  return Image.asset(
-                                                                                    "assets/png/person-placeholder.jpg",
+                                                                    Column(
+                                                                      children: [
+                                                                        Container(
+                                                                          // height: h * 0.2,
+                                                                          // width: w,
+                                                                          child:
+                                                                              Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Container(
+                                                                                // color: Colors.black,
+                                                                                // height: 65,
+                                                                                // width: 65,
+                                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: CachedNetworkImage(
+                                                                                    imageUrl: "${ApiConsts.hostUrl}${controller.doctorList[index].photo}",
+                                                                                    height: h * 0.11,
+                                                                                    width: h * 0.11,
                                                                                     fit: BoxFit.cover,
-                                                                                  );
-                                                                                },
-                                                                                errorWidget: (_, __, ___) {
-                                                                                  return Image.asset(
-                                                                                    "assets/png/person-placeholder.jpg",
-                                                                                    fit: BoxFit.cover,
-                                                                                  );
-                                                                                },
+                                                                                    placeholder: (_, __) {
+                                                                                      return Image.asset(
+                                                                                        "assets/png/person-placeholder.jpg",
+                                                                                        fit: BoxFit.cover,
+                                                                                      );
+                                                                                    },
+                                                                                    errorWidget: (_, __, ___) {
+                                                                                      return Image.asset(
+                                                                                        "assets/png/person-placeholder.jpg",
+                                                                                        fit: BoxFit.cover,
+                                                                                      );
+                                                                                    },
+                                                                                  ),
+                                                                                ),
                                                                               ),
-                                                                            ),
-                                                                          ),
-                                                                          Expanded(
-                                                                            flex:
-                                                                                3,
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  // SizedBox(height: 10),
-                                                                                  Text(
-                                                                                    "${controller.doctorList[index].name ?? ""}",
-                                                                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                  ),
-                                                                                  SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    "${controller.doctorList[index].speciality ?? ""}",
-                                                                                    style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
-                                                                                  ),
-                                                                                  SizedBox(height: 2),
-                                                                                  Row(
-                                                                                    // mainAxisSize: MainAxisSize.min,
-                                                                                    // mainAxisAlignment: MainAxisAlignment.end,
+                                                                              Expanded(
+                                                                                flex: 3,
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                  child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
-                                                                                      RatingBar.builder(
-                                                                                        ignoreGestures: true,
-                                                                                        itemSize: 15,
-                                                                                        initialRating: double.parse("${controller.doctorList[index].averageRatings == null ? "0.0" : controller.doctorList[index].averageRatings.toString() ?? "0.0"}"),
-                                                                                        // minRating: 1,
-                                                                                        direction: Axis.horizontal,
-                                                                                        allowHalfRating: true,
-                                                                                        itemCount: 5,
-                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                        itemBuilder: (context, _) => Icon(
-                                                                                          Icons.star,
-                                                                                          color: Colors.amber,
-                                                                                          // size: 10,
-                                                                                        ),
-                                                                                        onRatingUpdate: (rating) {
-                                                                                          print(rating);
-                                                                                        },
-                                                                                      ),
-                                                                                      SizedBox(width: 4),
-                                                                                      GestureDetector(
-                                                                                        onTap: () {
-                                                                                          Get.to(ReviewScreen(
-                                                                                            appBarTitle: "hospital_reviews",
-                                                                                          ));
-                                                                                        },
-                                                                                        child: Center(
-                                                                                          child: Text(
-                                                                                            '(${controller.doctorList[index].totalFeedbacks == null ? "0" : controller.doctorList[index].totalFeedbacks})  ${"reviews".tr}',
-                                                                                            style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
-                                                                                          ).paddingOnly(top: 3),
+                                                                                      // SizedBox(height: 10),
+                                                                                      Container(
+                                                                                        width: Get.width * 0.49,
+                                                                                        child: Text(
+                                                                                          "${controller.doctorList[index].fullname ?? controller.doctorList[index].name ?? ""}",
+                                                                                          style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                         ),
                                                                                       ),
-                                                                                    ],
-                                                                                  ),
-                                                                                  SizedBox(height: 5),
-                                                                                  Row(
-                                                                                    children: [
-                                                                                      GestureDetector(
-                                                                                        onTap: () {
-                                                                                          Get.toNamed(
-                                                                                            Routes.BOOK,
-                                                                                            arguments: controller.doctorList[index],
-                                                                                          );
-                                                                                        },
-                                                                                        child: Container(
-                                                                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                                                                                          decoration: BoxDecoration(color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
-                                                                                          child: Padding(
-                                                                                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                                                                                      SizedBox(height: 2),
+                                                                                      Text(
+                                                                                        "${controller.doctorList[index].speciality ?? ""}",
+                                                                                        style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                                                                      ),
+                                                                                      SizedBox(height: 2),
+                                                                                      Row(
+                                                                                        // mainAxisSize: MainAxisSize.min,
+                                                                                        // mainAxisAlignment: MainAxisAlignment.end,
+                                                                                        children: [
+                                                                                          RatingBar.builder(
+                                                                                            ignoreGestures: true,
+                                                                                            itemSize: 15,
+                                                                                            initialRating: double.parse("${controller.doctorList[index].averageRatings == null ? "0.0" : controller.doctorList[index].averageRatings.toString() ?? "0.0"}"),
+                                                                                            // minRating: 1,
+                                                                                            direction: Axis.horizontal,
+                                                                                            allowHalfRating: true,
+                                                                                            itemCount: 5,
+                                                                                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                            itemBuilder: (context, _) => Icon(
+                                                                                              Icons.star,
+                                                                                              color: Colors.amber,
+                                                                                              // size: 10,
+                                                                                            ),
+                                                                                            onRatingUpdate: (rating) {
+                                                                                              print(rating);
+                                                                                            },
+                                                                                          ),
+                                                                                          SizedBox(width: 4),
+                                                                                          GestureDetector(
+                                                                                            onTap: () {
+                                                                                              Get.to(ReviewScreen(
+                                                                                                appBarTitle: "hospital_reviews",
+                                                                                              ));
+                                                                                            },
                                                                                             child: Center(
                                                                                               child: Text(
-                                                                                                "appointment".tr,
-                                                                                                style: AppTextTheme.m(12).copyWith(color: Colors.white),
-                                                                                              ),
+                                                                                                '(${controller.doctorList[index].totalFeedbacks == null ? "0" : controller.doctorList[index].totalFeedbacks})  ${"reviews".tr}',
+                                                                                                style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                                                                              ).paddingOnly(top: 3),
                                                                                             ),
                                                                                           ),
-                                                                                        ),
-                                                                                      )
+                                                                                        ],
+                                                                                      ),
+                                                                                      SizedBox(height: 5),
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          GestureDetector(
+                                                                                            onTap: () {
+                                                                                              Get.toNamed(
+                                                                                                Routes.BOOK,
+                                                                                                arguments: controller.doctorList[index],
+                                                                                              );
+                                                                                            },
+                                                                                            child: Container(
+                                                                                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+                                                                                              decoration: BoxDecoration(color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
+                                                                                              child: Padding(
+                                                                                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                                                                                child: Center(
+                                                                                                  child: Text(
+                                                                                                    "appointment".tr,
+                                                                                                    style: AppTextTheme.m(12).copyWith(color: Colors.white),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
                                                                                     ],
                                                                                   ),
-                                                                                ],
+                                                                                ),
                                                                               ),
-                                                                            ),
+                                                                            ],
                                                                           ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                    ),
-                                                                    controller
-                                                                            .doctorList[index]
-                                                                            .schedules
-                                                                            .isEmpty
-                                                                        ? SizedBox()
-                                                                        : Container(
-                                                                            padding:
-                                                                                EdgeInsets.symmetric(
-                                                                              vertical: 5,
-                                                                            ),
-                                                                            decoration: BoxDecoration(
-                                                                                color: AppColors.lightGrey,
-                                                                                border: Border.all(color: AppColors.primary),
-                                                                                borderRadius: BorderRadius.circular(10)),
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  SvgPicture.asset(
-                                                                                    AppImages.calendar,
-                                                                                    height: 15,
-                                                                                    width: 15,
-                                                                                    color: AppColors.primary,
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width: 5,
-                                                                                  ),
-                                                                                  Row(
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              10,
+                                                                        ),
+                                                                        controller.doctorList[index].schedules.isEmpty
+                                                                            ? SizedBox()
+                                                                            : Container(
+                                                                                padding: EdgeInsets.symmetric(
+                                                                                  vertical: 5,
+                                                                                ),
+                                                                                decoration: BoxDecoration(color: AppColors.lightGrey, border: Border.all(color: AppColors.primary), borderRadius: BorderRadius.circular(10)),
+                                                                                child: Padding(
+                                                                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                                                                  child: Row(
                                                                                     children: [
-                                                                                      Text(
-                                                                                        "${date[0]}",
-                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                      SvgPicture.asset(
+                                                                                        AppImages.calendar,
+                                                                                        height: 15,
+                                                                                        width: 15,
+                                                                                        color: AppColors.primary,
                                                                                       ),
-                                                                                      Text(
-                                                                                        " ${date[1]}",
-                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                      SizedBox(
+                                                                                        width: 5,
                                                                                       ),
-                                                                                      Text(
-                                                                                        " ${date[3]}",
-                                                                                        style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                  Spacer(),
-                                                                                  slot == null
-                                                                                      ? SizedBox()
-                                                                                      : SvgPicture.asset(
-                                                                                          AppImages.clock,
-                                                                                          height: 15,
-                                                                                          width: 15,
-                                                                                          color: AppColors.primary,
-                                                                                        ),
-                                                                                  slot == null
-                                                                                      ? SizedBox()
-                                                                                      : SizedBox(
-                                                                                          width: 5,
-                                                                                        ),
-                                                                                  slot == null
-                                                                                      ? SizedBox()
-                                                                                      : FittedBox(
-                                                                                          child: Text(
-                                                                                            "${slot ?? "  -  "}",
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            "${date[0]}",
                                                                                             style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                                                                           ),
-                                                                                        ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
+                                                                                          Text(
+                                                                                            " ${date[1]}",
+                                                                                            style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                          ),
+                                                                                          Text(
+                                                                                            " ${date[3]}",
+                                                                                            style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                      Spacer(),
+                                                                                      slot == null
+                                                                                          ? SizedBox()
+                                                                                          : SvgPicture.asset(
+                                                                                              AppImages.clock,
+                                                                                              height: 15,
+                                                                                              width: 15,
+                                                                                              color: AppColors.primary,
+                                                                                            ),
+                                                                                      slot == null
+                                                                                          ? SizedBox()
+                                                                                          : SizedBox(
+                                                                                              width: 5,
+                                                                                            ),
+                                                                                      slot == null
+                                                                                          ? SizedBox()
+                                                                                          : FittedBox(
+                                                                                              child: Text(
+                                                                                                "${slot ?? "  -  "}",
+                                                                                                style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                                                                              ),
+                                                                                            ),
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              )
+                                                                      ],
+                                                                    ),
+                                                                    controller.doctorList[index].isActive ==
+                                                                            true
+                                                                        ? Positioned(
+                                                                            top:
+                                                                                -3,
+                                                                            right: SettingsController.appLanguge != "English"
+                                                                                ? null
+                                                                                : 0,
+                                                                            left: SettingsController.appLanguge == "English"
+                                                                                ? null
+                                                                                : 0,
+                                                                            child: SettingsController.appLanguge != "English"
+                                                                                ? Transform(
+                                                                                    alignment: Alignment.center,
+                                                                                    transform: Matrix4.rotationY(math.pi),
+                                                                                    child: Image.asset(
+                                                                                      AppImages.promote,
+                                                                                      height: 18,
+                                                                                      width: 18,
+                                                                                      color: AppColors.primary,
+                                                                                    ))
+                                                                                : Image.asset(
+                                                                                    AppImages.promote,
+                                                                                    height: 18,
+                                                                                    width: 18,
+                                                                                    color: AppColors.primary,
+                                                                                  ),
                                                                           )
+                                                                        : SizedBox()
                                                                   ],
                                                                 ),
                                                               ),
@@ -934,100 +1036,91 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                             SizedBox(
                                                                               height: 5,
                                                                             ),
-                                                                            Row(
+                                                                            Column(
                                                                               children: [
-                                                                                Expanded(
-                                                                                  child: Column(
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        "cleaningRating".tr,
-                                                                                        style: AppTextStyle.boldPrimary12,
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        height: 5,
-                                                                                      ),
-                                                                                      Text(
-                                                                                        "satisfyRating".tr,
-                                                                                        style: AppTextStyle.boldPrimary12,
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        height: 5,
-                                                                                      ),
-                                                                                      Text(
-                                                                                        "expertiseRating".tr,
-                                                                                        style: AppTextStyle.boldPrimary12,
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
+                                                                                Text(
+                                                                                  "Quality of medical care".tr,
+                                                                                  style: AppTextStyle.boldPrimary12,
                                                                                 ),
-                                                                                Expanded(
-                                                                                  child: Column(
-                                                                                    children: [
-                                                                                      RatingBar.builder(
-                                                                                        itemSize: Get.width * 0.05,
-                                                                                        initialRating: controller.cRating.value,
-                                                                                        // minRating: 1,
-                                                                                        direction: Axis.horizontal,
-                                                                                        allowHalfRating: true,
-                                                                                        itemCount: 5,
-                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                        itemBuilder: (context, _) => Icon(
-                                                                                          Icons.star,
-                                                                                          color: Colors.amber,
-                                                                                          // size: 10,
-                                                                                        ),
-                                                                                        onRatingUpdate: (rating) {
-                                                                                          controller.cRating.value = rating;
-                                                                                          setStates(() {});
-                                                                                          print(rating);
-                                                                                        },
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        height: 5,
-                                                                                      ),
-                                                                                      RatingBar.builder(
-                                                                                        itemSize: Get.width * 0.05,
-                                                                                        initialRating: controller.sRating.value,
-                                                                                        // minRating: 1,
-                                                                                        direction: Axis.horizontal,
-                                                                                        allowHalfRating: true,
-                                                                                        itemCount: 5,
-                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                        itemBuilder: (context, _) => Icon(
-                                                                                          Icons.star,
-                                                                                          color: Colors.amber,
-                                                                                          // size: 10,
-                                                                                        ),
-                                                                                        onRatingUpdate: (rating) {
-                                                                                          controller.sRating.value = rating;
-                                                                                          setStates(() {});
-                                                                                          print(rating);
-                                                                                        },
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        height: 5,
-                                                                                      ),
-                                                                                      RatingBar.builder(
-                                                                                        itemSize: Get.width * 0.05,
-                                                                                        initialRating: controller.eRating.value,
-                                                                                        // minRating: 1,
-                                                                                        direction: Axis.horizontal,
-                                                                                        allowHalfRating: true,
-                                                                                        itemCount: 5,
-                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                        itemBuilder: (context, _) => Icon(
-                                                                                          Icons.star,
-                                                                                          color: Colors.amber,
-                                                                                          // size: 10,
-                                                                                        ),
-                                                                                        onRatingUpdate: (rating) {
-                                                                                          controller.eRating.value = rating;
-                                                                                          setStates(() {});
-                                                                                          print(rating);
-                                                                                        },
-                                                                                      ),
-                                                                                    ],
+                                                                                SizedBox(
+                                                                                  height: 5,
+                                                                                ),
+                                                                                RatingBar.builder(
+                                                                                  itemSize: Get.width * 0.06,
+                                                                                  initialRating: controller.sRating.value,
+                                                                                  // minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: true,
+                                                                                  itemCount: 5,
+                                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                  itemBuilder: (context, _) => Icon(
+                                                                                    Icons.star,
+                                                                                    color: Colors.amber,
+                                                                                    // size: 10,
                                                                                   ),
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    controller.sRating.value = rating;
+                                                                                    setStates(() {});
+                                                                                    print(rating);
+                                                                                  },
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5,
+                                                                                ),
+                                                                                Text(
+                                                                                  "Price of healthcare service".tr,
+                                                                                  style: AppTextStyle.boldPrimary12,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5,
+                                                                                ),
+                                                                                RatingBar.builder(
+                                                                                  itemSize: Get.width * 0.06,
+                                                                                  initialRating: controller.eRating.value,
+                                                                                  // minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: true,
+                                                                                  itemCount: 5,
+                                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                  itemBuilder: (context, _) => Icon(
+                                                                                    Icons.star,
+                                                                                    color: Colors.amber,
+                                                                                    // size: 10,
+                                                                                  ),
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    controller.eRating.value = rating;
+                                                                                    setStates(() {});
+                                                                                    print(rating);
+                                                                                  },
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5,
+                                                                                ),
+                                                                                Text(
+                                                                                  "Comfort and cleanliness".tr,
+                                                                                  style: AppTextStyle.boldPrimary12,
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 5,
+                                                                                ),
+                                                                                RatingBar.builder(
+                                                                                  itemSize: Get.width * 0.06,
+                                                                                  initialRating: controller.cRating.value,
+                                                                                  // minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: true,
+                                                                                  itemCount: 5,
+                                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                  itemBuilder: (context, _) => Icon(
+                                                                                    Icons.star,
+                                                                                    color: Colors.amber,
+                                                                                    // size: 10,
+                                                                                  ),
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    controller.cRating.value = rating;
+                                                                                    setStates(() {});
+                                                                                    print(rating);
+                                                                                  },
                                                                                 ),
                                                                               ],
                                                                             ),
@@ -1131,91 +1224,121 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                     child:
                                                                         Column(
                                                                       children: List.generate(
-                                                                          controller.feedbackData.length,
-                                                                          (index) => Padding(
-                                                                                padding: const EdgeInsets.only(bottom: 10.0),
-                                                                                child: Column(
+                                                                          controller
+                                                                              .feedbackData
+                                                                              .length,
+                                                                          (index) {
+                                                                        var d = DateTime.parse(controller.feedbackData[index].createAt)
+                                                                            .toPersianDateStr(
+                                                                              strDay: false,
+                                                                              strMonth: true,
+                                                                              useAfghaniMonthName: true,
+                                                                            )
+                                                                            .trim()
+                                                                            .split(' ');
+                                                                        return Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(bottom: 10.0),
+                                                                          child:
+                                                                              Column(
+                                                                            children: [
+                                                                              Container(
+                                                                                child: Row(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                                                   children: [
-                                                                                    Container(
-                                                                                      child: Row(
-                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Column(
                                                                                         children: [
-                                                                                          Expanded(
-                                                                                            flex: 1,
-                                                                                            child: Column(
-                                                                                              children: [
-                                                                                                CircleAvatar(
-                                                                                                  radius: 35,
-                                                                                                  backgroundImage: NetworkImage(
-                                                                                                    "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}",
-                                                                                                  ),
-                                                                                                ),
-                                                                                                Text(
-                                                                                                  "${DateFormat('dd.MM.yyyy').format(DateTime.parse(controller.feedbackData[index].createAt))}",
-                                                                                                  style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                                )
-                                                                                              ],
+                                                                                          CircleAvatar(
+                                                                                            radius: 35,
+                                                                                            backgroundImage: NetworkImage(
+                                                                                              "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}",
                                                                                             ),
                                                                                           ),
-                                                                                          Expanded(
-                                                                                            flex: 4,
-                                                                                            child: Padding(
-                                                                                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                                                              child: Column(
-                                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: [
-                                                                                                  // SizedBox(height: 10),
-                                                                                                  Row(
-                                                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                                    children: [
-                                                                                                      Text(
-                                                                                                        controller.feedbackData[index].postedBy.name ?? "",
-                                                                                                        style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                                                      ),
-                                                                                                      Spacer(),
-                                                                                                      RatingBar.builder(
-                                                                                                        ignoreGestures: true,
-                                                                                                        itemSize: 17,
-                                                                                                        initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0"),
-                                                                                                        // minRating: 1,
-                                                                                                        direction: Axis.horizontal,
-                                                                                                        allowHalfRating: true,
-                                                                                                        itemCount: 5,
-                                                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                                                                                        itemBuilder: (context, _) => Icon(
-                                                                                                          Icons.star,
-                                                                                                          color: Colors.amber,
-                                                                                                          // size: 10,
-                                                                                                        ),
-                                                                                                        onRatingUpdate: (rating) {
-                                                                                                          print(rating);
-                                                                                                        },
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                  SizedBox(height: 2),
-                                                                                                  ExpandableText(
-                                                                                                    controller.feedbackData[index].comment ?? "",
-                                                                                                    expandText: 'Read more',
-                                                                                                    collapseText: 'Read less',
-                                                                                                    maxLines: 3,
-                                                                                                    linkColor: AppColors.primary,
-                                                                                                    style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
-                                                                                                  ),
-                                                                                                ],
+                                                                                          Row(
+                                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Text(
+                                                                                                "${d[0]}",
+                                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                               ),
-                                                                                            ),
-                                                                                          ),
+                                                                                              Text(
+                                                                                                " ${d[1]}",
+                                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                                              ),
+                                                                                              Text(
+                                                                                                " ${d[3]}",
+                                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                                              ),
+                                                                                            ],
+                                                                                          )
                                                                                         ],
                                                                                       ),
                                                                                     ),
-                                                                                    Divider(thickness: 1, color: AppColors.primary),
+                                                                                    Expanded(
+                                                                                      flex: 6,
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                        child: Column(
+                                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          children: [
+                                                                                            // SizedBox(height: 10),
+                                                                                            Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                              mainAxisSize: MainAxisSize.min,
+                                                                                              children: [
+                                                                                                Container(
+                                                                                                  width: Get.width * 0.38,
+                                                                                                  child: Text(
+                                                                                                    controller.feedbackData[index].postedBy.name ?? "",
+                                                                                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Spacer(),
+                                                                                                RatingBar.builder(
+                                                                                                  ignoreGestures: true,
+                                                                                                  itemSize: 17,
+                                                                                                  initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0"),
+                                                                                                  // minRating: 1,
+                                                                                                  direction: Axis.horizontal,
+                                                                                                  allowHalfRating: true,
+                                                                                                  itemCount: 5,
+                                                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                                                  itemBuilder: (context, _) => Icon(
+                                                                                                    Icons.star,
+                                                                                                    color: Colors.amber,
+                                                                                                    // size: 10,
+                                                                                                  ),
+                                                                                                  onRatingUpdate: (rating) {
+                                                                                                    print(rating);
+                                                                                                  },
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                            SizedBox(height: 2),
+                                                                                            ExpandableText(
+                                                                                              controller.feedbackData[index].comment ?? "",
+                                                                                              expandText: 'Read more',
+                                                                                              collapseText: 'Read less',
+                                                                                              maxLines: 3,
+                                                                                              linkColor: AppColors.primary,
+                                                                                              style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
                                                                                   ],
                                                                                 ),
-                                                                              )),
+                                                                              ),
+                                                                              Divider(thickness: 1, color: AppColors.primary),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      }),
                                                                     ),
                                                                   )
                                                                 : Center(

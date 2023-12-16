@@ -51,12 +51,13 @@ class DrugStore {
   String expertiseRating;
   List<Feedback> feedbacks;
   String satifyRating;
-  int totalFeedbacks;
+  dynamic totalFeedbacks;
   double averageRatings;
   List<CheckUp> checkUp;
   String email;
   String password;
   List<dynamic> schedule;
+  bool active;
 
   DrugStore({
     this.id,
@@ -81,6 +82,7 @@ class DrugStore {
     this.email,
     this.password,
     this.schedule,
+    this.active,
   });
 
   factory DrugStore.fromJson(Map<String, dynamic> json) => DrugStore(
@@ -112,6 +114,7 @@ class DrugStore {
                 json["checkUp"].map((x) => CheckUp.fromJson(x))),
         email: json["email"],
         password: json["password"],
+        active: json["active"] == null ? false : json["active"],
         schedule: json["schedule"] == null
             ? []
             : List<dynamic>.from(json["schedule"].map((x) => x)),
@@ -144,6 +147,7 @@ class DrugStore {
             : List<dynamic>.from(checkUp.map((x) => x.toJson())),
         "email": email,
         "password": password,
+        "active": active == null ? false : active,
         "schedule":
             schedule == null ? [] : List<dynamic>.from(schedule.map((x) => x)),
       };

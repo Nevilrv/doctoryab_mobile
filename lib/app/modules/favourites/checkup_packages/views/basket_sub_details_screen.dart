@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/data/models/checkUp_packge_res_model.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -50,9 +51,15 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                AppImages.blackBell,
-                height: 24,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.NOTIFICATION);
+                },
+                child: SvgPicture.asset(
+                  AppImages.blackBell,
+                  height: 24,
+                  width: 24,
+                ),
               ),
             )
           ],

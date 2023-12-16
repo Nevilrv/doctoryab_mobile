@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/disease_treatment/controller/disease_treatment_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -233,10 +234,15 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 20, left: 10),
-                  child: SvgPicture.asset(
-                    AppImages.blackBell,
-                    height: 24,
-                    width: 24,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.NOTIFICATION);
+                    },
+                    child: SvgPicture.asset(
+                      AppImages.blackBell,
+                      height: 24,
+                      width: 24,
+                    ),
                   ),
                 ),
               ],

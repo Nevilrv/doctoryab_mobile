@@ -13,12 +13,35 @@ class LabsRepository {
 
   static var _cachedDio = AppDioService.getCachedDio;
 
-  Future<Response> fetchLabs(
-    int page, {
+  Future<Response> fetchLabs({
+    int page,
     int limitPerPage = 50,
+    String sort,
+    double lat,
+    double lon,
+    String filterName,
     void onError(e),
     CancelToken cancelToken,
   }) async {
+    Map<String, dynamic> requestParameter = {};
+    if (filterName == 'nearest_lab') {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+        "lat": lat,
+        "lng": lon,
+      };
+    } else {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+      };
+    }
+
+    print('---URL>>>>>$requestParameter');
+
     print("Get---Category---${ApiConsts.categoriesByCityPath}");
     final response = await _cachedDio.get(
       '${ApiConsts.labsByCity}',

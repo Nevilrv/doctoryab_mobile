@@ -7,6 +7,7 @@ import 'package:doctor_yab/app/data/models/histories.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appintment_feedback_screen.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -52,9 +53,15 @@ class AppointmentDetailScreen extends StatelessWidget {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                AppImages.blackBell,
-                height: 24,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.NOTIFICATION);
+                },
+                child: SvgPicture.asset(
+                  AppImages.blackBell,
+                  height: 24,
+                  width: 24,
+                ),
               ),
             )
           ],
