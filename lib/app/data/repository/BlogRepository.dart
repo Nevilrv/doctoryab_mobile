@@ -120,7 +120,7 @@ class BlogRepository {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
-    log("data--------------> ${data}");
+    log("data--------------> $data");
 
     var dio = Dio();
     var response = await dio.put(
@@ -139,7 +139,7 @@ class BlogRepository {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
-    log("data--------------> ${data}");
+    log("data--------------> $data");
     log("ApiConsts.baseUrl + ApiConsts.blogShare,--------------> ${ApiConsts.baseUrl + ApiConsts.blogShare}");
 
     var dio = Dio();
@@ -166,13 +166,16 @@ class BlogRepository {
       "text": text
     });
 
-    var dio = Dio();
+    Dio dio = AppDioService.getDioInstance();
+
+    // var dio = Dio();
     var response = await dio.put(
-      ApiConsts.hostUrl + "api/v1" + ApiConsts.blogComment,
-      options: Options(
-        method: 'PUT',
-        headers: headers,
-      ),
+      // ApiConsts.hostUrl + "api/v1" + ApiConsts.blogComment,
+      ApiConsts.blogComment,
+      // options: Options(
+      //   method: 'PUT',
+      //   headers: headers,
+      // ),
       data: data,
     );
     return BlogLikeResModel.fromJson(response.data);

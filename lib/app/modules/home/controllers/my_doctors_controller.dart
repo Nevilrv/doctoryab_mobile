@@ -5,6 +5,7 @@ import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
+import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
@@ -34,6 +35,7 @@ class MyDoctorsController extends GetxController {
   String hospitalId;
   String sort = "";
   String selectedSort = "promoted".tr;
+  DOCTORS_LOAD_ACTION action;
   List<String> filterList = [
     'promoted'.tr,
     "best_rating".tr,
@@ -272,23 +274,92 @@ class MyDoctorsController extends GetxController {
   //   // }
   // }
 
+  ///
+
+  // void fetchDoctors(int pageKey) {
+  //   print('cancelToken ${cancelToken.isCancelled}');
+  //   DoctorsRepository()
+  //       .fetchMyDoctors(
+  //     cancelToken: CancelToken(),
+  //   )
+  //       .then((data) {
+  //     // var newItems = Doctors.fromJson(data.data).data;
+  //     // log("newItems>>newItems>${newItems.length}====${pageKey}");
+  //     // if (newItems != null || newItems.length != 0) {
+  //     //   pagingController.appendLastPage(newItems);
+  //     //   log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
+  //     // }
+  //
+  //     print('-----e->>>>>${data.data.length}');
+  //     var newItems = <Doctor>[];
+  //     var promotedItems = <Doctor>[];
+  //
+  //     if (selectedSort == 'promoted'.tr) {
+  //       data.data["data"].forEach((item) {
+  //         if (item['active'] == true) {
+  //           promotedItems.add(Doctor.fromJson(item));
+  //         } else {
+  //           newItems.add(Doctor.fromJson(item));
+  //         }
+  //       });
+  //       newItems.forEach((element) {
+  //         promotedItems.add(element);
+  //       });
+  //     } else {
+  //       data.data["data"].forEach((item) {
+  //         promotedItems.add(Doctor.fromJson(item));
+  //       });
+  //     }
+  //
+  //     print('------------------>>>>>>>>>>${promotedItems.length}');
+  //     if (promotedItems != null || promotedItems.length != 0) {
+  //       pagingController.appendLastPage(promotedItems);
+  //       log("CALLLEDDDD");
+  //     } /* else {
+  //       log("CALLLEDDDD2");
+  //       pagingController.appendPage(newItems, pageKey + 1);
+  //     }*/
+  //
+  //     // print('---->>>>>>>${pagingController.itemList.length}');
+  //
+  //     locationData.clear();
+  //     locationTitle.clear();
+  //     pagingController.itemList.forEach((element) {
+  //       if (element.geometry.coordinates != null) {
+  //         locationData.add(element.geometry);
+  //         locationTitle.add(element.name);
+  //       }
+  //     });
+  //
+  //     log("locationData--------------> $locationData");
+  //     // log("leent ${pagingController.itemList.length}");
+  //   }).catchError((e, s) {
+  //     log("e--------------> $e");
+  //
+  //     if (!(e is DioError && CancelToken.isCancel(e))) {
+  //       pagingController.error = e;
+  //     }
+  //     FirebaseCrashlytics.instance.recordError(e, s);
+  //     log(e.toString());
+  //   });
+  // }
+
   void fetchDoctors(int pageKey) {
-    print('cancelToken ${cancelToken.isCancelled}');
     DoctorsRepository()
         .fetchMyDoctors(
-      cancelToken: CancelToken(),
+      pageKey,
+      cat: category.value,
+      action: action,
+      hospitalId: hospitalId,
+      cancelToken: cancelToken,
+      sort: sort,
+      lat: latLang()?.latitude,
+      lon: latLang()?.longitude,
+      filterName: selectedSort,
     )
         .then((data) {
-      // var newItems = Doctors.fromJson(data.data).data;
-      // log("newItems>>newItems>${newItems.length}====${pageKey}");
-      // if (newItems != null || newItems.length != 0) {
-      //   pagingController.appendLastPage(newItems);
-      //   log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
-      // }
-
-      print('-----e->>>>>${data.data.length}');
-      var newItems = <Doctor>[];
       var promotedItems = <Doctor>[];
+      var newItems = <Doctor>[];
 
       if (selectedSort == 'promoted'.tr) {
         data.data["data"].forEach((item) {
@@ -298,6 +369,7 @@ class MyDoctorsController extends GetxController {
             newItems.add(Doctor.fromJson(item));
           }
         });
+
         newItems.forEach((element) {
           promotedItems.add(element);
         });
@@ -307,16 +379,11 @@ class MyDoctorsController extends GetxController {
         });
       }
 
-      print('------------------>>>>>>>>>>${promotedItems.length}');
-      if (promotedItems != null || promotedItems.length != 0) {
+      if (promotedItems == null || promotedItems.length == 0) {
         pagingController.appendLastPage(promotedItems);
-        log("CALLLEDDDD");
-      } /* else {
-        log("CALLLEDDDD2");
-        pagingController.appendPage(newItems, pageKey + 1);
-      }*/
-
-      // print('---->>>>>>>${pagingController.itemList.length}');
+      } else {
+        pagingController.appendPage(promotedItems, pageKey + 1);
+      }
 
       locationData.clear();
       locationTitle.clear();
@@ -326,12 +393,9 @@ class MyDoctorsController extends GetxController {
           locationTitle.add(element.name);
         }
       });
-
-      log("locationData--------------> $locationData");
+      log("locationData--------------> ${locationData.length}");
       // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
-      log("e--------------> $e");
-
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;
       }
@@ -349,22 +413,22 @@ class MyDoctorsController extends GetxController {
     print('---->>>>>V>>>>$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'best_rating') {
-      sort = "stars";
+    if (v == "best_rating".tr) {
+      sort = "neartest";
       _refreshPage();
     }
     // else if (v == 'recommended') {
     //   sort = " ";
     //   _refreshPage();
     // }
-    else if (v == 'Nearest Doctor') {
-      sort = "";
+    else if (v == 'nearest'.tr) {
+      sort = "close";
       if (latLang.value == null)
         _handlePermission();
       else {
         _refreshPage();
       }
-    } else if (v == 'a-z') {
+    } else if (v == 'a-z'.tr) {
       sort = "name";
       _refreshPage();
     } else {

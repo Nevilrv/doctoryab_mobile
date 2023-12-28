@@ -30,8 +30,10 @@ import '../../controllers/tab_blog_controller.dart';
 class TabBlogView extends GetView<TabBlogController> {
   TabBlogView({Key key}) : super(key: key) {
     if (Get.arguments != null) {
-      if (Get.arguments['id'] == "notification") {
-        controller.isBottom = true;
+      if (Get.arguments['id'] != null) {
+        if (Get.arguments['id'] == "notification") {
+          controller.isBottom = true;
+        }
       }
     }
   }

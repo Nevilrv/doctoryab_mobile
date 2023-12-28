@@ -58,7 +58,8 @@ class DoctorsRepository {
     }
 
     print('======REQUEST PARAMETER======>>>${requestParameter}');
-
+    print(
+        '+++++HUHOUHOP${'${" https://almost-server.doctoryab.app/api/v4"}${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}'}');
     response = await _cachedDio.get(
       '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
       cancelToken: cancelToken,
@@ -128,15 +129,47 @@ class DoctorsRepository {
 
   ///
 
-  Future<dynamic> fetchMyDoctors({
+  Future<dynamic> fetchMyDoctors(
+    int page, {
+    Category cat,
+    int limitPerPage = 50,
+    DOCTORS_LOAD_ACTION action = DOCTORS_LOAD_ACTION.fromCategory,
+    String hospitalId,
     CancelToken cancelToken,
+    String sort,
+    double lat,
+    double lon,
+    String filterName,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
+
     var response;
+
+    Map<String, dynamic> requestParameter = {};
+    if (filterName == 'Nearest Doctor' ||
+        filterName == 'نږدې ډاکټران' ||
+        filterName == 'نزدیکترین داکتر') {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+        "lat": lat,
+        "lng": lon,
+      };
+    } else {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
+        "sort": sort,
+      };
+    }
+
+    print('======REQUEST PARAMETER======>>>${requestParameter}');
 
     response = await _cachedDio.get(
       '${ApiConsts.myDoctorsPath}',
+      queryParameters: requestParameter,
       cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );

@@ -311,8 +311,10 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                           },
                           noMoreItemsIndicatorBuilder: (_) =>
                               DotDotPagingNoMoreItems(),
-                          noItemsFoundIndicatorBuilder: (_) =>
-                              PagingNoItemFountList(),
+                          noItemsFoundIndicatorBuilder: (_) => Padding(
+                            padding: EdgeInsets.only(top: h * 0.28),
+                            child: PagingNoItemFountList(),
+                          ),
                           firstPageErrorIndicatorBuilder: (context) =>
                               PagingErrorView(
                             controller: controller.pagingController,

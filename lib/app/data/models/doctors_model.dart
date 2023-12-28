@@ -47,8 +47,8 @@ class Doctor {
   dynamic cleaning;
   dynamic countOfPatient;
   dynamic totalStar;
-  int totalCleaning;
-  int totalTreatment;
+  dynamic totalCleaning;
+  dynamic totalTreatment;
   dynamic totalknowledge;
   List<dynamic> comments;
   int doctor;
@@ -244,7 +244,7 @@ class Doctor {
 
 class Schedule {
   List<String> times;
-  List<int> counts;
+  List<dynamic> counts;
   String id;
   int dayOfWeek;
   String user;
@@ -261,7 +261,7 @@ class Schedule {
 
   factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
         times: List<String>.from(json["times"].map((x) => x)),
-        counts: List<int>.from(json["counts"].map((x) => x)),
+        counts: List<dynamic>.from(json["counts"].map((x) => x)),
         id: json["_id"],
         dayOfWeek: json["dayOfWeek"],
         user: json["user"],

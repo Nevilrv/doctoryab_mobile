@@ -39,6 +39,7 @@ class Notification {
   User user;
   PrescriptionId prescriptionId;
   AppointmentId appointmentId;
+  ReportId reportId;
   int v;
   String type;
   BlogId blogId;
@@ -51,6 +52,7 @@ class Notification {
     this.user,
     this.prescriptionId,
     this.appointmentId,
+    this.reportId,
     this.v,
     this.type,
     this.blogId,
@@ -68,6 +70,9 @@ class Notification {
         appointmentId: json["appointmentId"] == null
             ? null
             : AppointmentId.fromJson(json["appointmentId"]),
+        reportId: json["reportId"] == null
+            ? null
+            : ReportId.fromJson(json["reportId"]),
         v: json["__v"],
         type: json["type"],
         blogId: json["blogId"] == null ? null : BlogId.fromJson(json["blogId"]),
@@ -81,6 +86,7 @@ class Notification {
         "user": user?.toJson(),
         "prescriptionId": prescriptionId?.toJson(),
         "appointmentId": appointmentId?.toJson(),
+        "reportId": reportId.toJson(),
         "__v": v,
         "type": type,
         "blogId": blogId?.toJson(),
@@ -426,6 +432,58 @@ class User {
         "name": name,
         "city": city,
         "gender": gender,
+      };
+}
+
+class ReportId {
+  List<String> documents;
+  String id;
+  String patientId;
+  String name;
+  String phone;
+  String title;
+  String description;
+  String doctor;
+  String createAt;
+  int v;
+
+  ReportId({
+    this.documents,
+    this.id,
+    this.patientId,
+    this.name,
+    this.phone,
+    this.title,
+    this.description,
+    this.doctor,
+    this.createAt,
+    this.v,
+  });
+
+  factory ReportId.fromJson(Map<String, dynamic> json) => ReportId(
+        documents: List<String>.from(json["documents"].map((x) => x)),
+        id: json["_id"],
+        patientId: json["patientId"],
+        name: json["name"],
+        phone: json["phone"],
+        title: json["title"],
+        description: json["description"],
+        doctor: json["doctor"],
+        createAt: json["createAt"],
+        v: json["__v"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "documents": List<dynamic>.from(documents.map((x) => x)),
+        "_id": id,
+        "patientId": patientId,
+        "name": name,
+        "phone": phone,
+        "title": title,
+        "description": description,
+        "doctor": doctor,
+        "createAt": createAt,
+        "__v": v,
       };
 }
 

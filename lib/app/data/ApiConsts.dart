@@ -13,8 +13,6 @@ class ApiConsts {
   var commonHeader = {
     'apikey':
         'zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff',
-    // 'apikey':
-    //     "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff",
     'jwtoken': SettingsController.userToken.toString(),
     'Content-Type': 'application/json'
   };
@@ -70,7 +68,8 @@ class ApiConsts {
   static const drugDatabaseReview = "/drugs/getDrugFeedbacks/";
   static const giveFeedbackToDrug = "/drugs/giveFeedbackToDrug";
   static const checkupPackageReview = "/checkupPackage/getPackageFeedbacks/";
-  static const giveFeedbackTocheckupPackage = "/checkupPackage/giveFeedbackToPackage";
+  static const giveFeedbackTocheckupPackage =
+      "/checkupPackage/giveFeedbackToPackage";
   //
   static const updateAndRegisterBloodDonor = "/bloodDonors/profile";
   static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";
@@ -82,7 +81,8 @@ class ApiConsts {
 
   ///dieasetreatement
   static const String deseasecategory = '/Deseasecategory';
-  static const String deseaseDatalist = '/deseasetreatment/getDiseaseTreatmentsByCategory/';
+  static const String deseaseDatalist =
+      '/deseasetreatment/getDiseaseTreatmentsByCategory/';
 
   ///checkup
   static const String checkupPackage = '/checkupPackage';
@@ -104,7 +104,8 @@ class ApiConsts {
   static const String getHospitalFeedback = '/hospital/getHospitalFeedbacks/';
 
   ///appointment
-  static const String getPackageAppointmentHistory = '/packageAppointment/getPatientAppointments/';
+  static const String getPackageAppointmentHistory =
+      '/packageAppointment/getPatientAppointments/';
   static const String getAppointmentHistory = '/patient/history';
   static const String bookPackageAppointment = '/packageAppointment';
   static const String getCheckupPackageHistory = '/packageAppointment';

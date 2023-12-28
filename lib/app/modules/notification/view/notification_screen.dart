@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'dart:developer';
+
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/home_controller.dart';
-import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/hospital_new/tab_main/bindings/tab_main_binding.dart';
@@ -14,7 +14,6 @@ import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 class NotificationView extends GetView<NotificationController> {
   NotificationView({Key key}) : super(key: key);
@@ -57,21 +56,85 @@ class NotificationView extends GetView<NotificationController> {
                                       children: List.generate(
                                           controller.notification.length,
                                           (index) {
-                                        var d;
+                                        // var d;
+                                        // if (controller.notification[index]
+                                        //         .prescriptionId !=
+                                        //     null) {
+                                        //   d = DateTime.parse(controller
+                                        //           .notification[index]
+                                        //           .prescriptionId
+                                        //           .createAt)
+                                        //       .toPersianDateStr(
+                                        //         strDay: false,
+                                        //         strMonth: true,
+                                        //         useAfghaniMonthName: true,
+                                        //       )
+                                        //       .trim()
+                                        //       .split(' ');
+                                        // } else if (controller
+                                        //         .notification[index]
+                                        //         .appointmentId !=
+                                        //     null) {
+                                        //   var _date = controller
+                                        //               .notification[index]
+                                        //               .appointmentId
+                                        //               .createAt ==
+                                        //           null
+                                        //       ? DateTime.now()
+                                        //       : DateTime
+                                        //               .fromMillisecondsSinceEpoch(
+                                        //                   int.tryParse(
+                                        //                       controller
+                                        //                           .notification[
+                                        //                               index]
+                                        //                           .appointmentId
+                                        //                           .createAt))
+                                        //           ?.toLocal();
+                                        //   d = DateTime.parse(_date.toString())
+                                        //       .toPersianDateStr(
+                                        //         strDay: false,
+                                        //         strMonth: true,
+                                        //         useAfghaniMonthName: true,
+                                        //       )
+                                        //       .trim()
+                                        //       .split(' ');
+                                        // } else if (controller
+                                        //         .notification[index].blogId !=
+                                        //     null) {
+                                        //   d = DateTime.parse(controller
+                                        //           .notification[index]
+                                        //           .blogId
+                                        //           .createAt)
+                                        //       .toPersianDateStr(
+                                        //         strDay: false,
+                                        //         strMonth: true,
+                                        //         useAfghaniMonthName: true,
+                                        //       )
+                                        //       .trim()
+                                        //       .split(' ');
+                                        // } else {
+                                        //   d = DateTime.parse(
+                                        //           DateTime.now().toString())
+                                        //       .toPersianDateStr(
+                                        //         strDay: false,
+                                        //         strMonth: true,
+                                        //         useAfghaniMonthName: true,
+                                        //       )
+                                        //       .trim()
+                                        //       .split(' ');
+                                        // }
+
+                                        print(
+                                            '=============${SettingsController.appLanguge}');
+
+                                        DateTime d;
                                         if (controller.notification[index]
                                                 .prescriptionId !=
                                             null) {
                                           d = DateTime.parse(controller
-                                                  .notification[index]
-                                                  .prescriptionId
-                                                  .createAt)
-                                              .toPersianDateStr(
-                                                strDay: false,
-                                                strMonth: true,
-                                                useAfghaniMonthName: true,
-                                              )
-                                              .trim()
-                                              .split(' ');
+                                              .notification[index]
+                                              .prescriptionId
+                                              .createAt);
                                         } else if (controller
                                                 .notification[index]
                                                 .appointmentId !=
@@ -91,44 +154,32 @@ class NotificationView extends GetView<NotificationController> {
                                                                   .appointmentId
                                                                   .createAt))
                                                   ?.toLocal();
-                                          d = DateTime.parse(_date.toString())
-                                              .toPersianDateStr(
-                                                strDay: false,
-                                                strMonth: true,
-                                                useAfghaniMonthName: true,
-                                              )
-                                              .trim()
-                                              .split(' ');
+                                          d = DateTime.parse(_date.toString());
                                         } else if (controller
                                                 .notification[index].blogId !=
                                             null) {
                                           d = DateTime.parse(controller
-                                                  .notification[index]
-                                                  .blogId
-                                                  .createAt)
-                                              .toPersianDateStr(
-                                                strDay: false,
-                                                strMonth: true,
-                                                useAfghaniMonthName: true,
-                                              )
-                                              .trim()
-                                              .split(' ');
+                                              .notification[index]
+                                              .blogId
+                                              .createAt);
+                                        } else if (controller
+                                                .notification[index].reportId !=
+                                            null) {
+                                          d = DateTime.parse(controller
+                                              .notification[index]
+                                              .reportId
+                                              .createAt);
                                         } else {
-                                          d = DateTime.parse(
-                                                  DateTime.now().toString())
-                                              .toPersianDateStr(
-                                                strDay: false,
-                                                strMonth: true,
-                                                useAfghaniMonthName: true,
-                                              )
-                                              .trim()
-                                              .split(' ');
+                                          d = DateTime.now();
                                         }
+
                                         return Padding(
                                           padding: const EdgeInsets.only(
                                               bottom: 10.0),
                                           child: GestureDetector(
                                             onTap: () {
+                                              log('====HELLOTYPE${controller.notification[index].type}');
+
                                               if (controller.notification[index]
                                                       .type ==
                                                   'blog') {
@@ -211,8 +262,16 @@ class NotificationView extends GetView<NotificationController> {
                                                           Spacer(),
                                                           Row(
                                                             children: [
+                                                              Icon(
+                                                                Icons.circle,
+                                                                size: 3,
+                                                                color: AppColors
+                                                                    .primary,
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 3),
                                                               Text(
-                                                                d[0],
+                                                                "${calculateTime(d)}",
                                                                 style: AppTextStyle
                                                                     .boldPrimary11
                                                                     .copyWith(
@@ -222,28 +281,28 @@ class NotificationView extends GetView<NotificationController> {
                                                                         color: AppColors
                                                                             .primary),
                                                               ),
-                                                              Text(
-                                                                " ${d[1]}",
-                                                                style: AppTextStyle
-                                                                    .boldPrimary11
-                                                                    .copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        color: AppColors
-                                                                            .primary),
-                                                              ),
-                                                              Text(
-                                                                " ${d[3]}",
-                                                                style: AppTextStyle
-                                                                    .boldPrimary11
-                                                                    .copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        color: AppColors
-                                                                            .primary),
-                                                              ),
+                                                              // Text(
+                                                              //   " ${d[1]}",
+                                                              //   style: AppTextStyle
+                                                              //       .boldPrimary11
+                                                              //       .copyWith(
+                                                              //           fontWeight:
+                                                              //               FontWeight
+                                                              //                   .w500,
+                                                              //           color: AppColors
+                                                              //               .primary),
+                                                              // ),
+                                                              // Text(
+                                                              //   " ${d[3]}",
+                                                              //   style: AppTextStyle
+                                                              //       .boldPrimary11
+                                                              //       .copyWith(
+                                                              //           fontWeight:
+                                                              //               FontWeight
+                                                              //                   .w500,
+                                                              //           color: AppColors
+                                                              //               .primary),
+                                                              // ),
                                                             ],
                                                           ),
                                                         ],
@@ -289,5 +348,40 @@ class NotificationView extends GetView<NotificationController> {
             },
           )),
     );
+  }
+
+  static String calculateTime(DateTime time) {
+    Duration compare(DateTime x, DateTime y) {
+      return Duration(
+          microseconds:
+              (x.microsecondsSinceEpoch - y.microsecondsSinceEpoch).abs());
+    }
+
+    DateTime x = DateTime.now();
+    DateTime y = time;
+
+    Duration diff = compare(x, y);
+    int days = diff.inDays;
+    int hours = diff.inHours;
+    int minutes = diff.inMinutes;
+
+    String result = '';
+    if (days > 365) {
+      result = '${(days / 365).floor().toString()}y ago';
+    } else if (days > 30) {
+      result = '${(days / 30).floor().toString()}m ago';
+    } else if (days > 7) {
+      result = '${(days / 7).floor().toString()}w ago';
+    } else if (days > 1) {
+      result = '${(days / 1).floor().toString()}d ago';
+    } else if (hours > 1) {
+      result = '${hours}h ago';
+    } else if (minutes > 1) {
+      result = '${minutes}m ago';
+    } else {
+      result = 'Now';
+    }
+
+    return result;
   }
 }

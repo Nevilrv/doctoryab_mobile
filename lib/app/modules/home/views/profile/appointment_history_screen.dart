@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/appointmtnet_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appointment_detail_screen.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -14,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -137,6 +133,17 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                               .trim()
                                               .split(' ');
 
+                                          var visitDate121 = DateTime.parse(
+                                              controller.appointmentList[
+                                                          index] ==
+                                                      null
+                                                  ? DateTime.now()
+                                                  : controller
+                                                      .appointmentList[index]
+                                                      .visitDate
+                                                      .toLocal()
+                                                      .toString());
+                                          print('visitDate$visitDate121');
                                           log('LOFFOFOFOF${jsonEncode(controller.appointmentList[index])}');
 
                                           return Column(

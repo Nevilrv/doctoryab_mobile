@@ -1,4 +1,5 @@
 // import 'dart:io' as Io;
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -27,7 +28,8 @@ class AuthRepository {
       Logger().e("", e, s);
     }
     //TODO handle exception
-    var _firebaseIdToken = await AuthController.to.firebaseAuth.currentUser.getIdToken();
+    var _firebaseIdToken =
+        await AuthController.to.firebaseAuth.currentUser.getIdToken();
     log("AuthController.to.firebaseAuth.currentUse--------------> $_firebaseIdToken");
     var data = {
       "idtoken": _firebaseIdToken,
@@ -59,14 +61,20 @@ class AuthRepository {
 
     final response = await dio.post(
       ApiConsts.authPathGoogleFB,
-      data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English", "method": "Google"},
+      data: {
+        "idtoken": token,
+        "fcm": fcmToken ?? "",
+        "language": "English",
+        "method": "Google"
+      },
     );
     log("response--------------> ${response.data}");
 
     return response;
   }
 
-  Future<dynamic> registerGuestUserApi(String name, String phone, String gender, String city) async {
+  Future<dynamic> registerGuestUserApi(
+      String name, String phone, String gender, String city) async {
     //TODO handle exception
     var fcmToken;
     try {
@@ -92,9 +100,15 @@ class AuthRepository {
     return response.data;
   }
 
-  Future<dynamic> addPersonalInfoApi(String name, String phone, String gender, String city) async {
+  Future<dynamic> addPersonalInfoApi(
+      String name, String phone, String gender, String city) async {
     //TODO handle exception
-    var data = {"name": name, "phone": int.parse(phone), "city": city, "gender": gender};
+    var data = {
+      "name": name,
+      "phone": int.parse(phone),
+      "city": city,
+      "gender": gender
+    };
     log("data--------------> $data");
     log("ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
     log("SettingsController.userToken--------------> ${SettingsController.userToken}");
@@ -106,13 +120,23 @@ class AuthRepository {
         data: data,
       );
 
-      // final response1 = await dio.put(
-      //   ApiConsts.authPath,
+      log("response------DSDSDS--------> $response");
+
+      // var headers = {
+      //   'apikey':
+      //       'zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff',
+      //   'jwtoken': SettingsController.userToken,
+      //   'Content-Type': 'application/json'
+      // };
+      // var dio1 = Dio();
+      // var response1 = await dio1.request(
+      //   'https://testserver.doctoryab.app/api/v1/user',
+      //   options: Options(
+      //     method: 'PUT',
+      //     headers: headers,
+      //   ),
       //   data: data,
       // );
-
-      log("response------DSDSDS--------> $response");
-      // log("response1------DSDSDS--------> $response1");
 
       return response.data;
     } catch (e) {
@@ -120,7 +144,8 @@ class AuthRepository {
     }
   }
 
-  Future<dynamic> addPersonalInfoPhoneApi(String name, String phone, String gender, String city) async {
+  Future<dynamic> addPersonalInfoPhoneApi(
+      String name, String phone, String gender, String city) async {
     //TODO handle exception
     var data = {
       // "age": age,
@@ -143,7 +168,8 @@ class AuthRepository {
   }
 
   //* update profile image
-  Future<dynamic> updateImage(File file, [void uploadProgress(double percent)]) async {
+  Future<dynamic> updateImage(File file,
+      [void uploadProgress(double percent)]) async {
     log("file.path--------------> ${file.path}");
 
     String fileName = file.path.split('/').last;
@@ -213,11 +239,12 @@ class AuthRepository {
   }
 
   static Future<bool> numberExists(String number) async {
-    final response = await dio.get(ApiConsts.checkIfNumberExistsPath, queryParameters: {
+    final response =
+        await dio.get(ApiConsts.checkIfNumberExistsPath, queryParameters: {
       "phone": number.toEnglishDigit(),
     }
-        // cancelToken: loginCancelToken,
-        );
+            // cancelToken: loginCancelToken,
+            );
     return (response?.data['isExist'] ?? true);
   }
 

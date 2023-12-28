@@ -631,7 +631,7 @@ class ChatController extends GetxController {
         var _msg = ChatApiModel.fromJson(m);
         log("_msg--------------> ${_msg.images}");
 
-        chat.insert(0, _msg);
+        // chat.insert(0, _msg);
         chat.refresh();
 
         // scrollToEnd();
