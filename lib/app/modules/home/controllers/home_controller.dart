@@ -16,7 +16,7 @@ class HomeController extends GetxController
 
   setIndex(int index) {
     if (Get.arguments == null) {
-      log("index--------------> ${index}");
+      log("index--------------> $index");
     } else {
       log(" Get.arguments['id']--------------> ${Get.arguments}");
     }

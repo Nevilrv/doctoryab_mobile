@@ -24,13 +24,25 @@ class LabsRepository {
     CancelToken cancelToken,
   }) async {
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'nearest_lab') {
+
+    print('===============....${filterName}');
+
+    if (filterName == 'Nearest Lab' ||
+        filterName == 'نزدیکترین لابراتوار' ||
+        filterName == 'نږدې لابراتوار') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
         "sort": sort,
         "lat": lat,
         "lng": lon,
+      };
+    } else if (filterName == 'Promoted' ||
+        filterName == "حمایت شده" ||
+        filterName == "سپانسر شوی") {
+      requestParameter = {
+        "limit": limitPerPage,
+        "page": page,
       };
     } else {
       requestParameter = {
@@ -40,20 +52,13 @@ class LabsRepository {
       };
     }
 
-    print('---URL>>>>>$requestParameter');
+    log('---RequestParameter---->>>>>$requestParameter');
 
     print("Get---Category---${ApiConsts.categoriesByCityPath}");
     final response = await _cachedDio.get(
-      '${ApiConsts.labsByCity}',
+      ApiConsts.labsByCity,
       cancelToken: cancelToken,
-      queryParameters: {
-        "limit": limitPerPage,
-        "page": page,
-        "cityId": "${SettingsController.auth.savedCity.sId}",
-        // "sort": "name",
-        // "cityId": "${SettingsController.auth.savedCity.sId}",
-      },
-
+      queryParameters: requestParameter,
       // data: {"name": name},
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),

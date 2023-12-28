@@ -262,6 +262,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                     PagedListView.separated(
                       pagingController: controller.pageController,
                       shrinkWrap: true,
+                      padding: EdgeInsets.only(bottom: 100),
                       physics: BouncingScrollPhysics(),
                       separatorBuilder: (c, i) {
                         if ((i + 1) % 5 == 0) {

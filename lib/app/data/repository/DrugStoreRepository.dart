@@ -55,7 +55,9 @@ class DrugStoreRepository {
     CancelToken cancelToken,
   }) async {
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'Nearest Doctor') {
+    if (filterName == 'نږدې  درملتون' ||
+        filterName == 'نزدیکترین دواخانه' ||
+        filterName == 'Nearest Pharmacy') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,

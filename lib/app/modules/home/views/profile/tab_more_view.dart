@@ -138,7 +138,7 @@ class TabMoreView extends GetView {
                                         .copyWith(fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    "Patient",
+                                    "patient".tr,
                                     style: AppTextStyle.boldPrimary14.copyWith(
                                         fontWeight: FontWeight.w400,
                                         color:

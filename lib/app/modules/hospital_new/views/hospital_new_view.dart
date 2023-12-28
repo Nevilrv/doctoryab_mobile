@@ -46,16 +46,18 @@ class HospitalNewView extends GetView<HospitalNewController> {
       isSecond: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppAppBar.specialAppBar("Hospitals",
-            backgroundColor: Colors.transparent,
-            action: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.NOTIFICATION);
-                  },
-                  child: SvgPicture.asset(AppImages.blackBell)),
-            )),
+        appBar: AppAppBar.specialAppBar(
+          "Hospitals",
+          backgroundColor: Colors.transparent,
+          // action: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(AppImages.blackBell)),
+          // ),
+        ),
 
         body: Obx(() {
           return Stack(

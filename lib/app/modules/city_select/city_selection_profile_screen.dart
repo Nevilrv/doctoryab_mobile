@@ -53,21 +53,21 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                   child:
                       Icon(Icons.arrow_back_ios_new, color: AppColors.white))),
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.bellwhite,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(
+          //         AppImages.bellwhite,
+          //         height: 24,
+          //         width: 24,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
         body: Obx(() {
           return Container(

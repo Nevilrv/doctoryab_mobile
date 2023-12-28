@@ -327,12 +327,14 @@ class AuthController extends GetxController {
     AuthRepository().signin().then((response) async {
       var reponseData = response.data;
       // print(reponseData);
-      log("reponseData--------------> ${reponseData}");
+      log("reponseData--------------> $reponseData");
 
       try {
         waitingForFirebaseotpToVerify(false);
         SettingsController.userProfileComplete =
             reponseData["profile_completed"];
+        SettingsController.userToken = reponseData["jwtoken"];
+
         if (SettingsController.isUserProfileComplete == false) {
           Get.toNamed(Routes.ADD_PERSONAL_INFO);
         } else {
@@ -364,9 +366,9 @@ class AuthController extends GetxController {
         }
       } catch (e) {
         waitingForFirebaseotpToVerify(false);
-        log("e--------------> ${e}");
+        log("e--------------> $e");
       }
-      log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
+      // log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId ?? ""}");
 
       // Utils.whereShouldIGo();
     }).catchError((e, s) {

@@ -48,7 +48,7 @@ Future<void> main() async {
   var fcmToken;
   try {
     fcmToken = await FirebaseMessaging.instance.getToken();
-    log("fcmToken--------------> ${fcmToken}");
+    log("fcmToken--------------> $fcmToken");
   } catch (e, s) {}
   runApp(
     Phoenix(

@@ -63,6 +63,14 @@ class SettingsController extends GetxController {
     return AppStatics.hive.authBox.get("user_token");
   }
 
+  static set setToken(String s) {
+    AppStatics.hive.authBox.put('new_jwt', s);
+  }
+
+  static String get getToken {
+    return AppStatics.hive.authBox.get("new_jwt");
+  }
+
   static set userToken(String s) {
     AppStatics.hive.authBox.put("user_token", s);
   }

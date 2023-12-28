@@ -55,21 +55,21 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                   ))),
           centerTitle: true,
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(
+          //         AppImages.blackBell,
+          //         height: 24,
+          //         width: 24,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
         body: Obx(() {
           return SingleChildScrollView(

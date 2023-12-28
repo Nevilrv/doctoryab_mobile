@@ -50,21 +50,21 @@ class ReportView extends StatelessWidget {
               child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
             )),
         elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GestureDetector(
-              onTap: () {
-                Get.toNamed(Routes.NOTIFICATION);
-              },
-              child: SvgPicture.asset(
-                AppImages.blackBell,
-                height: 24,
-                width: 24,
-              ),
-            ),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 20),
+        //     child: GestureDetector(
+        //       onTap: () {
+        //         Get.toNamed(Routes.NOTIFICATION);
+        //       },
+        //       child: SvgPicture.asset(
+        //         AppImages.blackBell,
+        //         height: 24,
+        //         width: 24,
+        //       ),
+        //     ),
+        //   )
+        // ],
       ),
       // appBar: AppAppBar.specialAppBar("report".tr),
       body: SingleChildScrollView(
@@ -86,14 +86,14 @@ class ReportView extends StatelessWidget {
                 : SizedBox(height: 10),
             report.doctor.isEmpty
                 ? SizedBox()
-                : Text("Doctor Name".tr + ": " + report.doctor[0].name ?? "",
+                : Text("doctor_name".tr + ": " + report.doctor[0].name ?? "",
                     style: AppTextTheme.b(14)
                     // textAlign: TextAlign.center,
                     ),
             report.doctor.isEmpty ? SizedBox() : SizedBox(height: 5),
             report.name == null || report.name == ""
                 ? SizedBox()
-                : Text("Patient Name".tr + ": " + report.name ?? "",
+                : Text("pat_name".tr + ": " + report.name ?? "",
                     style: AppTextTheme.b(14)
                     // textAlign: TextAlign.center,
                     ),
@@ -112,7 +112,7 @@ class ReportView extends StatelessWidget {
             report.medicines.isEmpty
                 ? SizedBox()
                 : Text(
-                    "${"Medicine"} :",
+                    "${"medicine".tr} :",
                     style: AppTextTheme.r(16),
                   ),
             report.medicines.isEmpty ? SizedBox() : SizedBox(height: 5),
@@ -136,15 +136,15 @@ class ReportView extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Drug Name : ${report.medicines[index].drug ?? ""}",
+                                        "${"drug_name".tr} : ${report.medicines[index].drug ?? ""}",
                                         style: AppTextTheme.r(14),
                                       ),
                                       Text(
-                                        "Dosage : ${report.medicines[index].dosage ?? ""}",
+                                        "${"dosage".tr} : ${report.medicines[index].dosage ?? ""}",
                                         style: AppTextTheme.r(14),
                                       ),
                                       Text(
-                                        "Duration : ${report.medicines[index].duration ?? ""}",
+                                        "${"duration".tr} : ${report.medicines[index].duration ?? ""}",
                                         style: AppTextTheme.r(14),
                                       ),
                                     ],

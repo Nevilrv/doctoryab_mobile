@@ -49,7 +49,7 @@ class FeedbackData {
   String expertiseRating;
   DoctorId doctorId;
   String id;
-  int v;
+  dynamic v;
   dynamic averageRating;
 
   FeedbackData({
@@ -111,35 +111,35 @@ class DoctorId {
   List<dynamic> lang;
   List<dynamic> awards;
   String photo;
-  int stars;
-  int popularity;
-  int treatment;
-  int knowledge;
-  int cleaning;
-  int countOfPatient;
+  dynamic stars;
+  dynamic popularity;
+  dynamic treatment;
+  dynamic knowledge;
+  dynamic cleaning;
+  dynamic countOfPatient;
   bool isDeleted;
-  int totalStar;
+  dynamic totalStar;
   bool active;
   bool confirmed;
   List<dynamic> comments;
-  int doctor;
+  dynamic doctor;
   List<dynamic> tags;
   bool verification;
-  int type;
+  dynamic type;
   bool isActive;
   String totalFeedbacks;
   String fee;
   String doctorIdId;
   String email;
   String fullname;
-  int id;
+  dynamic id;
   String createAt;
-  int v;
+  dynamic v;
   String address;
   String category;
   String city;
   String detail;
-  int gender;
+  dynamic gender;
   String lname;
   String name;
   String phone;
@@ -274,7 +274,7 @@ class DoctorId {
 
 class Geometry {
   String type;
-  List<double> coordinates;
+  List<dynamic> coordinates;
 
   Geometry({
     this.type,
@@ -283,8 +283,7 @@ class Geometry {
 
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
         type: json["type"],
-        coordinates:
-            List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
+        coordinates: List<dynamic>.from(json["coordinates"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {

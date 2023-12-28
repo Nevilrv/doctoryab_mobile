@@ -1,28 +1,20 @@
 import 'dart:developer';
-
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/data/models/city_model.dart';
+import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_drugstore_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_hopistal_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_labs_view.dart';
-import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_doctors_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_search_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
-import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
-
 import '../../../components/story_avatar.dart';
 import '../../../data/ApiConsts.dart';
 
@@ -32,101 +24,111 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
 
     return DefaultTabController(
       length: 4,
-      child: Scaffold(
-        body: Obx(() {
-          return Background(
-            isSecond: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: h * 0.015,
-                ),
-                controller.isHomeScreen.value == true
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              _buildStroies(),
-                              Container(),
-                            ],
+      child: Builder(builder: (context) {
+        DefaultTabController.of(context).addListener(() {
+          int currentIndex = DefaultTabController.of(context).index;
+          if (currentIndex == 0) {
+            controller.isHomeScreen.value = true;
+          } else {
+            controller.isHomeScreen.value = false;
+          }
+        });
+
+        return Scaffold(
+          body: Obx(() {
+            return Background(
+              isSecond: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: h * 0.015,
+                  ),
+                  controller.isHomeScreen.value == true
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                _buildStroies(),
+                                Container(),
+                              ],
+                            ),
+                            searchBox(),
+                          ],
+                        )
+                      : SizedBox(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Center(
+                      child: SizedBox(
+                        child: TabBar(
+                          labelPadding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                          labelColor: Colors.white,
+                          onTap: (value) {
+                            if (value == 0) {
+                              controller.isHomeScreen.value = true;
+                            } else {
+                              controller.isHomeScreen.value = false;
+                            }
+                            log("value--------------> $value");
+                          },
+                          unselectedLabelColor: AppColors.black,
+                          labelStyle: AppTextStyle.regularWhite12
+                              .copyWith(fontWeight: FontWeight.w500),
+                          unselectedLabelStyle: AppTextStyle.mediumBlack12
+                              .copyWith(fontWeight: FontWeight.w500),
+                          indicator: BoxDecoration(
+                            color: Get.theme.primaryColor,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          searchBox(),
-                        ],
+                          tabs: [
+                            FittedBox(
+                                child: Text("doctors".tr), fit: BoxFit.cover),
+                            FittedBox(child: Text("hospitals".tr)),
+                            FittedBox(child: Text("drug_store".tr)),
+                            FittedBox(child: Text("labratories".tr)),
+                          ],
+                        ) /*.size(
+                          width: MediaQuery.of(context).size.width > 600 ? 500 : 324,
+                        )*/
+                        ,
                       )
-                    : SizedBox(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: SizedBox(
-                      child: TabBar(
-                        labelPadding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                        labelColor: Colors.white,
-                        onTap: (value) {
-                          if (value == 0) {
-                            controller.isHomeScreen.value = true;
-                          } else {
-                            controller.isHomeScreen.value = false;
-                          }
-                          log("value--------------> ${value}");
-                        },
-                        unselectedLabelColor: AppColors.black,
-                        labelStyle: AppTextStyle.regularWhite12
-                            .copyWith(fontWeight: FontWeight.w500),
-                        unselectedLabelStyle: AppTextStyle.mediumBlack12
-                            .copyWith(fontWeight: FontWeight.w500),
-                        indicator: BoxDecoration(
-                          color: Get.theme.primaryColor,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        tabs: [
-                          FittedBox(
-                              child: Text("doctors".tr), fit: BoxFit.cover),
-                          FittedBox(child: Text("hospitals".tr)),
-                          FittedBox(child: Text("drug_store".tr)),
-                          FittedBox(child: Text("labratories".tr)),
-                        ],
-                      ) /*.size(
-                      width: MediaQuery.of(context).size.width > 600 ? 500 : 324,
-                    )*/
-                      ,
-                    )
-                        .paddingSymmetric(horizontal: 10, vertical: 8)
-                        .bgColor(Colors.white)
-                        .radiusAll(30)
-                        // .paddingAll(2)
-                        .basicShadow(),
+                          .paddingSymmetric(horizontal: 10, vertical: 8)
+                          .bgColor(Colors.white)
+                          .radiusAll(30)
+                          // .paddingAll(2)
+                          .basicShadow(),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    physics: BouncingScrollPhysics(),
-                    children: [
-                      TabHomeDoctorsView(),
-                      TabHomeHospitalsView(),
-                      TabHomeDrugstoreView(),
-                      TabHomeLabsView(),
-                    ],
+                  Expanded(
+                    child: TabBarView(
+                      physics: BouncingScrollPhysics(),
+                      children: [
+                        TabHomeDoctorsView(),
+                        TabHomeHospitalsView(),
+                        TabHomeDrugstoreView(),
+                        TabHomeLabsView(),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: 80,
-                  color: AppColors.lightGrey,
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
+                  Container(
+                    height: 80,
+                    color: AppColors.lightGrey,
+                  ),
+                ],
+              ),
+            );
+          }),
+        );
+      }),
     );
   }
 
@@ -146,7 +148,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hi, ${SettingsController.savedUserProfile.name ?? ""}!",
+                    "${"hi".tr}, ${SettingsController.savedUserProfile.name ?? ""}!",
                     style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
                   ),
                   Text(

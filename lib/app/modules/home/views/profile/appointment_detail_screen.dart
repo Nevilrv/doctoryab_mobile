@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -50,21 +53,21 @@ class AppointmentDetailScreen extends StatelessWidget {
                 child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
               )),
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(
+          //         AppImages.blackBell,
+          //         height: 24,
+          //         width: 24,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
         body: Stack(
           children: [
@@ -72,209 +75,231 @@ class AppointmentDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
               child: Column(
                 children: [
-                  Container(
-                      height: h * 0.7,
-                      width: w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 4),
-                              blurRadius: 4,
-                              color: AppColors.black.withOpacity(0.25))
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // color: Colors.black,
-                                  // height: 65,
-                                  // width: 65,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColors.lightGrey),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "${ApiConsts.hostUrl}${history.doctor[0].photo}",
-                                      height: h * 0.11,
-                                      width: h * 0.11,
-                                      fit: BoxFit.cover,
-                                      placeholder: (_, __) {
-                                        return Image.asset(
-                                          "assets/png/person-placeholder.jpg",
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
-                                      errorWidget: (_, __, ___) {
-                                        return Image.asset(
-                                          "assets/png/person-placeholder.jpg",
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
+                  ListView.builder(
+                    itemCount: history.doctor.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      log('ccxcxcxcxcx${jsonEncode(history.doctor[index])}');
+
+                      return Container(
+                        height: h * 0.7,
+                        width: w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(0, 4),
+                                blurRadius: 4,
+                                color: AppColors.black.withOpacity(0.25))
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // color: Colors.black,
+                                    // height: 65,
+                                    // width: 65,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColors.lightGrey),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "${ApiConsts.hostUrl}${history.doctor[index].photo}",
+                                        height: h * 0.11,
+                                        width: h * 0.11,
+                                        fit: BoxFit.cover,
+                                        placeholder: (_, __) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                        errorWidget: (_, __, ___) {
+                                          return Image.asset(
+                                            "assets/png/person-placeholder.jpg",
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 10),
-                                        history == null
-                                            ? SizedBox()
-                                            : Text(
-                                                "${history.doctor[0].name ?? ""}",
-                                                style: AppTextTheme.h(12)
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.primary),
-                                              ),
-                                        Text(
-                                          "${history.doctor[0].category.title}",
-                                          style: AppTextTheme.h(11).copyWith(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.5),
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(height: 2),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
+                                  Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            RatingBar.builder(
-                                              ignoreGestures: true,
-                                              itemSize: 17,
-                                              initialRating: double.parse(
-                                                  "${history.doctor[0].averageRatings == null ? "0" : history.doctor[0].averageRatings.toString()}"),
-                                              // minRating: 1,
-                                              direction: Axis.horizontal,
-                                              allowHalfRating: true,
-                                              itemCount: 5,
-                                              itemPadding: EdgeInsets.symmetric(
-                                                  horizontal: 1.0),
-                                              itemBuilder: (context, _) => Icon(
-                                                Icons.star,
-                                                color: Colors.amber,
-                                                // size: 10,
-                                              ),
-                                              onRatingUpdate: (rating) {
-                                                print(rating);
-                                              },
+                                            SizedBox(height: 10),
+                                            history == null
+                                                ? SizedBox()
+                                                : Text(
+                                                    "${history.doctor[index].name ?? ""}",
+                                                    style: AppTextTheme.h(12)
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .primary),
+                                                  ),
+                                            Text(
+                                              "${history.doctor[index].category.title}",
+                                              style: AppTextTheme.h(11)
+                                                  .copyWith(
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.5),
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                             ),
-                                            SizedBox(width: 4),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Get.to(ReviewScreen(
-                                                  appBarTitle: "Doctor Reviews",
-                                                ));
-                                              },
-                                              child: Text(
-                                                '(${history.doctor[0].totalFeedbacks == null ? "0" : history.doctor[0].totalFeedbacks.toString()}) ${"reviews".tr}',
-                                                style: AppTextTheme.b(12)
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
-                                              ),
-                                            )
+                                            SizedBox(height: 2),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                RatingBar.builder(
+                                                  ignoreGestures: true,
+                                                  itemSize: 17,
+                                                  initialRating: double.parse(
+                                                      "${history.doctor[index].averageRatings == null ? "0" : history.doctor[index].averageRatings.toString()}"),
+                                                  // minRating: 1,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  itemCount: 5,
+                                                  itemPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 1.0),
+                                                  itemBuilder: (context, _) =>
+                                                      Icon(
+                                                    Icons.star,
+                                                    color: Colors.amber,
+                                                    // size: 10,
+                                                  ),
+                                                  onRatingUpdate: (rating) {
+                                                    print(rating);
+                                                  },
+                                                ),
+                                                SizedBox(width: 4),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    // Get.to(ReviewScreen(
+                                                    //   appBarTitle: "Doctor Reviews",
+                                                    // ));
+
+                                                    Get.toNamed(Routes.REVIEW,
+                                                        arguments: [
+                                                          "Doctor_Review",
+                                                          history.doctor[index]
+                                                        ]);
+                                                  },
+                                                  child: Text(
+                                                    '(${history.doctor[index].totalFeedbacks == null ? "0" : history.doctor[index].totalFeedbacks.toString()}) ${"reviews".tr}',
+                                                    style: AppTextTheme.b(12)
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .primary
+                                                                .withOpacity(
+                                                                    0.5)),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      )),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      width: w * 0.2,
+                                      child: Divider(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5),
+                                        height: 3,
+                                      )),
+                                  SizedBox(
+                                    width: w * 0.02,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    width: w * 0.2,
-                                    child: Divider(
-                                      color: AppColors.primary.withOpacity(0.5),
-                                      height: 3,
-                                    )),
-                                SizedBox(
-                                  width: w * 0.02,
-                                ),
-                                Text(
-                                  'time_info'.tr,
-                                  style: AppTextTheme.b(11).copyWith(
-                                      color:
-                                          AppColors.primary.withOpacity(0.5)),
-                                ),
-                                SizedBox(
-                                  width: w * 0.02,
-                                ),
-                                Container(
-                                    width: w * 0.2,
-                                    child: Divider(
-                                      color: AppColors.primary.withOpacity(0.5),
-                                      height: 3,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: h * 0.01,
-                            ),
-                            appointmentBox(w),
-                            SizedBox(
-                              height: h * 0.03,
-                            ),
-                            VisitedDoctorBox(w),
-                            SizedBox(
-                              height: h * 0.03,
-                            ),
-                            DateAppointmentBox(w),
-                            SizedBox(
-                              height: h * 0.03,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(AppointmentFeedbackScreen(
-                                  history: history,
-                                ));
-                              },
-                              child: Container(
-                                width: w,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40),
-                                    color: AppColors.primary,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: Offset(0, 4),
-                                          blurRadius: 4,
-                                          color:
-                                              AppColors.black.withOpacity(0.25))
-                                    ]),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  child: Center(
-                                    child: Text(
-                                      "give_feedback".tr,
-                                      style: AppTextStyle.boldWhite10,
+                                  Text(
+                                    'time_info'.tr,
+                                    style: AppTextTheme.b(11).copyWith(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5)),
+                                  ),
+                                  SizedBox(
+                                    width: w * 0.02,
+                                  ),
+                                  Container(
+                                      width: w * 0.2,
+                                      child: Divider(
+                                        color:
+                                            AppColors.primary.withOpacity(0.5),
+                                        height: 3,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              appointmentBox(w),
+                              SizedBox(
+                                height: h * 0.03,
+                              ),
+                              VisitedDoctorBox(w),
+                              SizedBox(
+                                height: h * 0.03,
+                              ),
+                              DateAppointmentBox(w),
+                              SizedBox(
+                                height: h * 0.03,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(AppointmentFeedbackScreen(
+                                    history: history,
+                                  ));
+                                },
+                                child: Container(
+                                  width: w,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                      color: AppColors.primary,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(0, 4),
+                                            blurRadius: 4,
+                                            color: AppColors.black
+                                                .withOpacity(0.25))
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                    child: Center(
+                                      child: Text(
+                                        "give_feedback".tr,
+                                        style: AppTextStyle.boldWhite10,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ))
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

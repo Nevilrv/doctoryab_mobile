@@ -54,7 +54,7 @@ class DrugStoreController extends TabHomeOthersController {
 
   @override
   void onInit() {
-    selectedSort = "promoted";
+    selectedSort = "promoted".tr;
     update();
     print('===onInit===');
     // loadData(pageController.firstPageKey);
@@ -71,15 +71,14 @@ class DrugStoreController extends TabHomeOthersController {
   showFilterDialog() {
     log("currentSelected--------------> ${selectedSort}");
     filterList = [
-      "best_rating",
-      'recommended',
-      'nearest_pharmacy',
-      'promoted',
-      'a-z'
+      'promoted'.tr,
+      "best_rating".tr,
+      // 'recommended'.tr,
+      'nearest_pharmacy'.tr,
+      'a-z'.tr,
     ];
     selectedSort = "$selectedSort";
 
-    print('------>>>>>>>SELELELEL$selectedSort');
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -153,9 +152,8 @@ class DrugStoreController extends TabHomeOthersController {
                           print('-----l-----$l');
 
                           selectedSort = l;
-                          changeSort(l);
-
                           Get.back();
+                          changeSort(l);
                           update();
                         },
                         child: Container(
@@ -270,21 +268,23 @@ class DrugStoreController extends TabHomeOthersController {
     print('---->>>>>V>>>>$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'best_rating') {
+    if (v == 'best_rating'.tr) {
       sort = "stars";
 
       _refreshPage();
-    } else if (v == 'recommended') {
-      sort = " ";
-      _refreshPage();
-    } else if (v == 'nearest_pharmacy') {
-      sort = "";
+    }
+    // else if (v == 'recommended'.tr) {
+    //   sort = " ";
+    //   _refreshPage();
+    // }
+    else if (v == 'nearest_pharmacy'.tr) {
+      sort = "close";
       if (latLang.value == null)
         _handlePermission();
       else {
         _refreshPage();
       }
-    } else if (v == 'a-z') {
+    } else if (v == 'a-z'.tr) {
       sort = "name";
       _refreshPage();
     } else {
@@ -331,6 +331,8 @@ class DrugStoreController extends TabHomeOthersController {
   void _refreshPage() {
     cancelToken.cancel();
     cancelToken = CancelToken();
+    pageController.refresh();
+
     pageController.itemList.clear();
     loadData(pageController.firstPageKey);
   }
@@ -449,14 +451,14 @@ class DrugStoreController extends TabHomeOthersController {
   //   'A-Z'
   // ];
   List<String> filterList = [
-    "best_rating",
-    'recommended',
-    'nearest_pharmacy',
-    'promoted',
-    'a-z'
+    'promoted'.tr,
+    "best_rating".tr,
+    // 'recommended'.tr,
+    'nearest_pharmacy'.tr,
+    'a-z'.tr,
   ];
   String sort = "";
-  String selectedSort = "promoted";
+  String selectedSort = "promoted".tr;
 
   @override
   void onReady() {
@@ -559,24 +561,31 @@ class DrugStoreController extends TabHomeOthersController {
         }
 
         var newItems = <DrugStore>[];
+        var promotedItems = <DrugStore>[];
 
-        if (selectedSort == 'promoted') {
+        if (selectedSort == 'promoted'.tr) {
           data.data["data"].forEach((item) {
             if (item['active'] == true) {
+              promotedItems.add(DrugStore.fromJson(item));
+            } else {
               newItems.add(DrugStore.fromJson(item));
             }
           });
+
+          newItems.forEach((element) {
+            promotedItems.add(element);
+          });
         } else {
           data.data["data"].forEach((item) {
-            newItems.add(DrugStore.fromJson(item));
+            promotedItems.add(DrugStore.fromJson(item));
           });
         }
 
         // var newItems = DrugStoresModel.fromJson(data.data).data;
 
-        print('==newItems===>${newItems.length}');
-        if (newItems == null || newItems.length == 0) {
-          pageController.appendLastPage(newItems);
+        print('==newItems===>${promotedItems.length}');
+        if (promotedItems == null || promotedItems.length == 0) {
+          pageController.appendLastPage(promotedItems);
           locationData.clear();
           locationTitle.clear();
           pageController.itemList.forEach((element) {
@@ -586,7 +595,7 @@ class DrugStoreController extends TabHomeOthersController {
             }
           });
         } else {
-          pageController.appendPage(newItems, page + 1);
+          pageController.appendPage(promotedItems, page + 1);
           locationData.clear();
           locationTitle.clear();
           pageController.itemList.forEach((element) {
@@ -804,13 +813,6 @@ class DrugStoreLabController extends TabHomeOthersController {
   }
 
   var light1 = true.obs;
-  List<String> filterList = [
-    'most_rated'.tr,
-    'suggested'.tr,
-    'nearest'.tr,
-    'sponsored'.tr,
-    'A-Z'
-  ];
   String sort = "";
   String selectedSort = "";
 

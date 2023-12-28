@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/reports.dart';
 import 'package:doctor_yab/app/data/repository/ReportsRepository.dart';
@@ -13,6 +12,9 @@ class ReportsController extends GetxController {
 
   CancelToken cancelToken = CancelToken();
   var tabIndex = 0.obs;
+
+  int index;
+
   @override
   void onInit() {
     tabIndex.value = 0;
@@ -38,7 +40,7 @@ class ReportsController extends GetxController {
         pagingController.error = e;
       }
     }).then((value) {
-      log("value----pagingController1----------> ${value}");
+      log("value----pagingController1----------> $value");
 
       Utils.addResponseToPagingController<Report>(
         value,
@@ -55,7 +57,7 @@ class ReportsController extends GetxController {
         pagingController.error = e;
       }
     }).then((value) {
-      log("value--------------> ${value}");
+      log("value--------------> $value");
       Utils.addResponseToPagingController<Report>(
         value,
         pagingController,

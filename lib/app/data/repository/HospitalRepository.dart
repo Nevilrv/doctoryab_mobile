@@ -20,7 +20,7 @@ class HospitalRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   static Future<List<Hospital>> fetchHospitals({
-    int limitPerPage = 10,
+    int limitPerPage = 50,
     void onError(e),
     CancelToken cancelToken,
     int page,
@@ -37,7 +37,7 @@ class HospitalRepository {
     return await Utils.parseResponse<Hospital>(
       () async {
         Map<String, dynamic> requestParameter = {};
-        if (filterName == 'nearest_hospital') {
+        if (filterName == 'nearest_hospital'.tr) {
           requestParameter = {
             "limit": limitPerPage,
             "page": page,
@@ -53,7 +53,7 @@ class HospitalRepository {
           };
         }
 
-        print('---URL>>>>>$requestParameter');
+        log('---URL>>>>>$requestParameter');
 
         var respose = await _cachedDio.get(
           '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',

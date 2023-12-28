@@ -135,7 +135,7 @@ class BookController extends GetxController {
     loading.value = true;
     log("selectedDataTime--------------> ${DateTime.parse(selectedDataTime).toUtc().toIso8601String()}");
 
-    await DoctorsRepository()
+    DoctorsRepository()
         .bookTime(
             patId: SettingsController.savedUserProfile.patientID,
             doctor: doctor,
@@ -147,6 +147,8 @@ class BookController extends GetxController {
                 .toIso8601String()
                 .toString())
         .then((value) {
+      log('----value----$value');
+
       loading.value = false;
       var response = value.data;
       Get.until((route) => route.isFirst);

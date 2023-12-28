@@ -467,4 +467,7 @@ const Map<String, String> enUS = {
   "medicine": "Medicine",
   "duration": "Duration",
   "dosage": "Dosage",
+  "hi": "Hi",
+  "patient": "Patient",
+  "review": "Your review on this service"
 };

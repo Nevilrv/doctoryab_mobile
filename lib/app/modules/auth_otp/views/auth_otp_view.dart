@@ -27,7 +27,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
             // Spacer(flex: 2),
             // Hero(
             //     tag: "doctor_svg",
-            //     child: SvgPicture.asset("assets/svg/d2.svg")),
+            //     child: SvgPicture.asset("assets/svg/d2.svg"),),
             SizedBox(height: 20),
             Text(
               'security_validation'.tr,

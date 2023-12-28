@@ -1,11 +1,17 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/modules/home/controllers/home_controller.dart';
+import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/modules/hospital_new/tab_main/bindings/tab_main_binding.dart';
 import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -122,7 +128,46 @@ class NotificationView extends GetView<NotificationController> {
                                           padding: const EdgeInsets.only(
                                               bottom: 10.0),
                                           child: GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              if (controller.notification[index]
+                                                      .type ==
+                                                  'blog') {
+                                                log('====HELLOTYPE${controller.notification[index].type}');
+
+                                                HomeController ctl = Get.find();
+                                                ctl.selectedIndex = 3;
+                                                Get.to(() => TabBlogView(),
+                                                    binding: TabMainBinding(),
+                                                    arguments: {
+                                                      'id': 'notification'
+                                                    });
+                                              } else if (controller
+                                                      .notification[index]
+                                                      .type ==
+                                                  'prescription') {
+                                                log('====HELLOTYPE${controller.notification[index].type}');
+                                                Get.toNamed(
+                                                    Routes.REPORT_MEDICAL,
+                                                    arguments: {'id': "0"});
+                                              } else if (controller
+                                                      .notification[index]
+                                                      .type ==
+                                                  'labReport') {
+                                                log('====HELLOTYPE${controller.notification[index].type}');
+
+                                                Get.toNamed(
+                                                    Routes.REPORT_MEDICAL,
+                                                    arguments: {'id': "1"});
+                                              } else if (controller
+                                                      .notification[index]
+                                                      .type ==
+                                                  'appointment') {
+                                                log('====HELLOTYPE${controller.notification[index].type}');
+
+                                                Get.toNamed(
+                                                    Routes.APPOINTMENT_HISTORY);
+                                              }
+                                            },
                                             child: Column(
                                               children: [
                                                 Padding(
@@ -234,7 +279,10 @@ class NotificationView extends GetView<NotificationController> {
                         bottom: 20,
                         right: 20,
                         left: 20,
-                        child: BottomBarView(isHomeScreen: false))
+                        child: BottomBarView(
+                          isHomeScreen: false,
+                          isBlueBottomBar: true,
+                        ))
                   ],
                 ),
               );

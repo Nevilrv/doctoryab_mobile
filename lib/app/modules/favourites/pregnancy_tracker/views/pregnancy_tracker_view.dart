@@ -114,26 +114,26 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.NOTIFICATION);
-                      },
-                      child: SvgPicture.asset(
-                        AppImages.blackBell,
-                        height: 24,
-                        width: 24,
-                      ),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 45,
+                //   width: 45,
+                //   decoration: BoxDecoration(
+                //     color: AppColors.white,
+                //     shape: BoxShape.circle,
+                //   ),
+                //   child: Center(
+                //     child: GestureDetector(
+                //       onTap: () {
+                //         Get.toNamed(Routes.NOTIFICATION);
+                //       },
+                //       child: SvgPicture.asset(
+                //         AppImages.blackBell,
+                //         height: 24,
+                //         width: 24,
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

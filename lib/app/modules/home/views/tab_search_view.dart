@@ -1,21 +1,17 @@
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctor_yab/app/components/background.dart';
-import 'package:doctor_yab/app/components/doctor_list_tile_item.dart';
 import 'package:doctor_yab/app/components/paging_indicators/dotdot_nomore_items.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
-import 'package:doctor_yab/app/components/shimmer/doctor_listtile_shimmer.dart';
 import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
-import 'package:doctor_yab/app/modules/doctors/views/doctors_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_search_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -30,7 +26,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'dart:math' as math;
 
 class TabSearchView extends GetView<TabSearchController> {
   @override
@@ -39,21 +34,23 @@ class TabSearchView extends GetView<TabSearchController> {
       isSecond: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppAppBar.specialAppBar('search_doctor'.tr,
-            backgroundColor: Colors.transparent,
-            action: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )),
+        appBar: AppAppBar.specialAppBar(
+          'search_doctor'.tr,
+          backgroundColor: Colors.transparent,
+          // action: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       Get.toNamed(Routes.NOTIFICATION);
+          //     },
+          //     child: SvgPicture.asset(
+          //       AppImages.blackBell,
+          //       height: 24,
+          //       width: 24,
+          //     ),
+          //   ),
+          // ),
+        ),
         body: Obx(
           () => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -114,7 +111,7 @@ class TabSearchView extends GetView<TabSearchController> {
                               physics: BouncingScrollPhysics(),
                               separatorBuilder: (c, i) {
                                 if ((i + 1) % 5 == 0) {
-                                  log("i--------------> ${i}");
+                                  log("i--------------> $i");
 
                                   // controller.bannerAds();
                                   return GetBuilder<TabSearchController>(
@@ -218,30 +215,40 @@ class TabSearchView extends GetView<TabSearchController> {
                                 noMoreItemsIndicatorBuilder: (_) =>
                                     DotDotPagingNoMoreItems(),
                                 noItemsFoundIndicatorBuilder: (_) =>
-                                    PagingNoItemFountList(),
+                                    PagingNoItemFountList()
+                                        .paddingOnly(top: Get.height * 0.3),
                                 firstPageErrorIndicatorBuilder: (context) =>
                                     PagingErrorView(
                                   controller: controller.pagingController,
                                 ),
-                                firstPageProgressIndicatorBuilder: (_) =>
-                                    DrugsGridShimmer(
-                                  yCount: 5,
-                                  xCount: 1,
-                                  // linesCount: 4,
-                                ),
-                                newPageProgressIndicatorBuilder: (_) =>
-                                    DrugsGridShimmer(
-                                  yCount: 5,
-                                  xCount: 1,
-                                ),
+                                firstPageProgressIndicatorBuilder: (_) {
+                                  print(
+                                      '----firstPageProgressIndicatorBuilder----');
+                                  return DrugsGridShimmer(
+                                    yCount: 5,
+                                    xCount: 1,
+                                    // linesCount: 4,
+                                  );
+                                },
+                                newPageProgressIndicatorBuilder: (_) {
+                                  print(
+                                      '----newPageProgressIndicatorBuilder----');
+                                  // return DrugsGridShimmer(
+                                  //   yCount: 5,
+                                  //   xCount: 1,
+                                  // );
+
+                                  return SizedBox();
+                                },
                               ),
                             ),
                           )
                         : Center(
                             child: Padding(
-                            padding: EdgeInsets.only(top: Get.height * 0.2),
-                            child: Text("no_result_found".tr),
-                          ))
+                              padding: EdgeInsets.only(top: Get.height * 0.3),
+                              child: Text("no_result_found".tr),
+                            ),
+                          )
                   ],
                 ),
                 Positioned(
@@ -273,7 +280,7 @@ class TabSearchView extends GetView<TabSearchController> {
         for (int i = 0; i <= 7; i++) {
           DateTime d = DateTime.now().add(Duration(days: i));
           if (item.schedules[0].dayOfWeek == d.weekday) {
-            log("d--as------------> ${d}");
+            log("d--as------------> $d");
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -286,8 +293,8 @@ class TabSearchView extends GetView<TabSearchController> {
               slot =
                   "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
             }
-            log("date--------------> ${date}");
-            log("slot--------------> ${slot}");
+            log("date--------------> $date");
+            log("slot--------------> $slot");
             break;
           }
         }
@@ -308,7 +315,7 @@ class TabSearchView extends GetView<TabSearchController> {
         } else {
           finalWeekDay = greater.first;
         }
-        log("greater--------------> ${greater}");
+        log("greater--------------> $greater");
         Schedule data;
         item.schedules.forEach((element) {
           if (element.dayOfWeek == finalWeekDay) {
@@ -317,7 +324,7 @@ class TabSearchView extends GetView<TabSearchController> {
         });
 
         int indexxx = item.schedules.indexOf(data);
-        log("indexxx--------------> ${indexxx}");
+        log("indexxx--------------> $indexxx");
         log("item.schedules--------------> ${item.schedules}");
 
         if (indexxx == item.schedules.length - 1) {
@@ -326,7 +333,7 @@ class TabSearchView extends GetView<TabSearchController> {
           indexxx = indexxx + 1;
         }
         for (int i = 0; i <= 7; i++) {
-          log("i--------------> ${i}");
+          log("i--------------> $i");
 
           DateTime d = DateTime.now().add(Duration(days: i));
           log("item.schedules[indexxx].dayOfWeek--------------> ${item.schedules[indexxx].dayOfWeek}");
@@ -345,11 +352,11 @@ class TabSearchView extends GetView<TabSearchController> {
                   "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
             }
 
-            log("date--------------> ${date}");
-            log("slot--------------> ${slot}");
+            log("date--------------> $date");
+            log("slot--------------> $slot");
           }
           if (item.schedules[indexxx].dayOfWeek == d.weekday) {
-            log("d--------------> ${d}");
+            log("d--------------> $d");
             log("item.schedules[indexxx + 1].times--------------> ${item.schedules[indexxx].times}");
 
             date = d
@@ -365,8 +372,8 @@ class TabSearchView extends GetView<TabSearchController> {
                   "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
             }
 
-            log("date--------------> ${date}");
-            log("slot--------------> ${slot}");
+            log("date--------------> $date");
+            log("slot--------------> $slot");
 
             break;
           }
@@ -554,7 +561,8 @@ class TabSearchView extends GetView<TabSearchController> {
                   SizedBox(
                     height: 5,
                   ),
-                  item.schedules.isEmpty
+                  // item.schedules.isEmpty
+                  date == null
                       ? SizedBox()
                       : Container(
                           padding: EdgeInsets.symmetric(
@@ -658,7 +666,7 @@ class TabSearchView extends GetView<TabSearchController> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       title: Directionality(
         textDirection: Directionality.of(context),

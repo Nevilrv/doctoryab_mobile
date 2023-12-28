@@ -1,6 +1,5 @@
 // import 'dart:io' as Io;
 
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -10,7 +9,6 @@ import 'package:doctor_yab/app/data/models/categories_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:logger/logger.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -41,7 +39,9 @@ class DoctorsRepository {
     var response;
 
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'Nearest Doctor') {
+    if (filterName == 'Nearest Doctor' ||
+        filterName == 'نږدې ډاکټران' ||
+        filterName == 'نزدیکترین داکتر') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
@@ -56,6 +56,8 @@ class DoctorsRepository {
         "sort": sort,
       };
     }
+
+    print('======REQUEST PARAMETER======>>>${requestParameter}');
 
     response = await _cachedDio.get(
       '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
@@ -123,6 +125,8 @@ class DoctorsRepository {
 
     return response;
   }
+
+  ///
 
   Future<dynamic> fetchMyDoctors({
     CancelToken cancelToken,
@@ -200,11 +204,11 @@ class DoctorsRepository {
     String phone,
     String time,
   }) async {
-    log("${ApiConsts.doctorBookPath}/${doctor.id}--------------> ${ApiConsts.doctorBookPath}/${doctor.datumId}");
-    log("ttt------------.${{
+    log("${ApiConsts.doctorBookPath}/${doctor.id}------age--------> ${ApiConsts.doctorBookPath}/${doctor.datumId} ---- ${age == 'null'}");
+    log("ttt------------${{
       "visit_date": time,
       "name": name,
-      "age": age.toEnglishDigit(),
+      "age": age == null ? 0 : age.toEnglishDigit().toString(),
       "phone": phone.toEnglishDigit(),
       "patientId": patId,
     }}");
@@ -216,13 +220,16 @@ class DoctorsRepository {
       data: {
         "visit_date": time,
         "name": name,
-        "age": age.toEnglishDigit().toString(),
+        "age": age == 'null' ? 0 : age.toEnglishDigit().toString(),
         "phone": phone.toEnglishDigit().toString(),
         "patientId": patId,
       },
       // cancelToken: loginCancelToken,
       // options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
+
+    log('-------response--------$response');
+
     return response;
   }
 
@@ -243,14 +250,20 @@ class DoctorsRepository {
         cancelToken: _searchCancelToken,
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
       );
+
+      print('---->>>>response>>>$response');
+
       // var _doctors =
       //     Doctors.fromJson(response.data).data.map((e) => e.doctor).toList();
+
+      print('====>>>response.data[' "data" ']>>>>>${response.data['data']}');
+
       List<dynamic> _data = response.data['data'];
       if (_data == null) return <Doctor>[]; //TODO take care of this
 
       _doctors = _data.map((e) => Doctor.fromJson(e)).toList();
     } catch (e, s) {
-      log("e--------------> ${e}");
+      log("e----dsc----------> ${e}");
 
       Logger().e(e.toString());
       if (onError != null) {

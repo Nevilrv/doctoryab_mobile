@@ -38,26 +38,30 @@ class ReviewController extends GetxController {
   var loading = false.obs;
   @override
   void onInit() {
-    if (args[0] == "Doctor_Review") {
-      doctor = args[1];
-      appBarTitle.value = "doctor_reviews";
-      getDocFeedback(url: '${ApiConsts.getDoctorFeedback}${doctor.datumId}');
-    } else if (args[0] == "Pharmacy_Review") {
-      drugStore = args[1];
-      log("drugStore.id--------------> ${drugStore.id}");
-      appBarTitle.value = "pharmacy_reviews";
-      getDocFeedback(url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
-    } else if (args[0] == "Laboratory_Review") {
-      labsData = args[1];
-      log("drugStore.id--------------> ${labsData.datumId}");
-      appBarTitle.value = "laboratories_reviews";
-      getDocFeedback(url: '${ApiConsts.getLabFeedback}${labsData.datumId}');
-    } else if (args[0] == "Hospital_Review") {
-      hospitalData = args[1];
-      appBarTitle.value = "hospital_reviews";
-      getDocFeedback(url: '${ApiConsts.getHospitalFeedback}${hospitalData.id}');
-    }
+    print('----args----->>>>$args');
 
+    if (args != null) {
+      if (args[0] == "Doctor_Review") {
+        doctor = args[1];
+        appBarTitle.value = "doctor_reviews";
+        getDocFeedback(url: '${ApiConsts.getDoctorFeedback}${doctor.datumId}');
+      } else if (args[0] == "Pharmacy_Review") {
+        drugStore = args[1];
+        log("drugStore.id--------------> ${drugStore.id}");
+        appBarTitle.value = "pharmacy_reviews";
+        getDocFeedback(url: '${ApiConsts.getPharmacyFeedback}${drugStore.id}');
+      } else if (args[0] == "Laboratory_Review") {
+        labsData = args[1];
+        log("drugStore.id--------------> ${labsData.datumId}");
+        appBarTitle.value = "laboratories_reviews";
+        getDocFeedback(url: '${ApiConsts.getLabFeedback}${labsData.datumId}');
+      } else if (args[0] == "Hospital_Review") {
+        hospitalData = args[1];
+        appBarTitle.value = "hospital_reviews";
+        getDocFeedback(
+            url: '${ApiConsts.getHospitalFeedback}${hospitalData.id}');
+      }
+    }
     super.onInit();
   }
 

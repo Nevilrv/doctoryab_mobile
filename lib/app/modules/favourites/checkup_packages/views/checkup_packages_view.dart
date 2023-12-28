@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
-import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/booking_info_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/checkup_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -22,7 +19,6 @@ import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
 import '../../../../components/paging_indicators/no_item_list.dart';
 import '../../../../components/paging_indicators/paging_error_view.dart';
 import '../../../../components/shimmer/categories_grid_shimmer.dart';
-import '../../../../components/shimmer/drugs_shimmer.dart';
 import '../../../../data/models/checkupPackages_res_model.dart';
 
 class CheckupPackagesView extends GetView<CheckupPackagesController> {
@@ -373,14 +369,19 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                               ),
                                             ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "${item.byObservation}",
-                                            style: AppTextStyle.boldPrimary10
-                                                .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 8,
-                                              color: AppColors.darkBlue1,
+                                          SizedBox(
+                                            width: w * 0.35,
+                                            child: Text(
+                                              "${item.byObservation}",
+                                              style: AppTextStyle.boldPrimary10
+                                                  .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 8,
+                                                color: AppColors.darkBlue1,
+                                              ),
                                             ),
                                           ),
                                           SizedBox(

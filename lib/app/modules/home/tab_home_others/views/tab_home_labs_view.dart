@@ -115,28 +115,28 @@ class TabHomeLabsView extends GetView<LabsController> {
                             ),
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primary),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 9.5, horizontal: 10),
-                            child: Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(Routes.NOTIFICATION);
-                                },
-                                child: SvgPicture.asset(
-                                  AppImages.blackBell,
-                                  height: 24,
-                                  width: 24,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     border: Border.all(color: AppColors.primary),
+                        //     borderRadius: BorderRadius.circular(10),
+                        //   ),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.symmetric(
+                        //         vertical: 9.5, horizontal: 10),
+                        //     child: Center(
+                        //       child: GestureDetector(
+                        //         onTap: () {
+                        //           Get.toNamed(Routes.NOTIFICATION);
+                        //         },
+                        //         child: SvgPicture.asset(
+                        //           AppImages.blackBell,
+                        //           height: 24,
+                        //           width: 24,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         GestureDetector(
                           onTap: () {
                             controller.showFilterDialog();
@@ -241,6 +241,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                               : ListView.separated(
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
+                                  padding: EdgeInsets.only(bottom: 100),
                                   itemBuilder: (context, index) {
                                     return _labData(context,
                                         controller.searchDataList[index], h, w);
@@ -694,8 +695,6 @@ class TabHomeLabsView extends GetView<LabsController> {
     h,
     w,
   ) {
-    log("item.averageRatings--------------> ${item.averageRatings}");
-
     return GestureDetector(
       onTap: () {
         DrugStoreLabController drugStoreLabController = Get.find();

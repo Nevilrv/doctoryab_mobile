@@ -224,7 +224,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                               ),
                                               FittedBox(
                                                 child: Text(
-                                                  "${formatedDate}",
+                                                  "$formatedDate",
                                                   style: AppTextTheme.m(10)
                                                       .copyWith(
                                                           color: AppColors
@@ -243,7 +243,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                               ),
                                               FittedBox(
                                                 child: Text(
-                                                  "${formatedTime}",
+                                                  "$formatedTime",
                                                   style: AppTextTheme.m(12)
                                                       .copyWith(
                                                           color: AppColors

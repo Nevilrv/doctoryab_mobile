@@ -429,7 +429,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                               width: 20,
                                                             ),
                                                             Text(
-                                                              "You review on this service",
+                                                              "review".tr,
                                                               style: AppTextStyle
                                                                   .boldBlack10
                                                                   .copyWith(

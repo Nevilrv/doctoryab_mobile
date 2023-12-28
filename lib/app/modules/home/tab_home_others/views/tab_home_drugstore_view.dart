@@ -283,6 +283,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       pagingController: controller.pageController,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: 100),
                       separatorBuilder: (c, i) {
                         if ((i + 1) % 5 == 0) {
                           return Stack(
@@ -627,8 +628,6 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
     h,
     w,
   ) {
-    log("DateTime.now().weekday--------------> ${DateTime.now().weekday}");
-
     return GestureDetector(
       onTap: () {
         controller.getDocFeedback(pharmacyId: item.id);

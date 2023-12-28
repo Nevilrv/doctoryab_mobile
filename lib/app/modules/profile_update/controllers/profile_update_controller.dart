@@ -52,6 +52,9 @@ class ProfileUpdateController extends GetxController {
   var selectedGender = "Male".obs;
   @override
   void onInit() {
+    log("user?.name?.toString()--------------> ${user?.id}");
+    log("user?.name?.toString()--------------> ${user?.gender}");
+    log("user?.name?.toString()--------------> ${user?.language.runtimeType}");
     ever(image, (_) {
       uploadImage();
     });
@@ -61,10 +64,19 @@ class ProfileUpdateController extends GetxController {
 
   @override
   void onReady() {
-    log("user?.name?.toString()--------------> ${user?.id}");
-    log("user?.name?.toString()--------------> ${user?.gender}");
-    log("user?.name?.toString()--------------> ${user?.language.runtimeType}");
     loadCities();
+    getData();
+    // teNewNumber.text = AuthController.to.getUser.phoneNumber == null
+    //     ? ""
+    //     : AuthController.to.getUser.phoneNumber
+    //             .replaceFirst(AppStatics.envVars.countryCode, "0") ??
+    //         "";
+    // formKey = GlobalKey<FormState>();
+    super.onReady();
+  }
+
+  getData() {
+    print('---->>>>Call');
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
     email.text = user?.email == null ? " " : user.email.toString();
@@ -74,14 +86,6 @@ class ProfileUpdateController extends GetxController {
 
     teNewNumber.text = user?.phone.toString() ?? "";
     selectedGender.value = user.gender == null ? "Male" : user.gender;
-
-    // teNewNumber.text = AuthController.to.getUser.phoneNumber == null
-    //     ? ""
-    //     : AuthController.to.getUser.phoneNumber
-    //             .replaceFirst(AppStatics.envVars.countryCode, "0") ??
-    //         "";
-    // formKey = GlobalKey<FormState>();
-    super.onReady();
   }
 
   @override
@@ -93,7 +97,7 @@ class ProfileUpdateController extends GetxController {
     //   updateName(null);
     //   return;
     // }
-    log("isUploadingImage--------------> ${isUploadingImage}");
+    log("isUploadingImage--------------> $isUploadingImage");
 
     AuthRepository().updateImage(image.value, (pr) {
       uploadProgress.value = pr / 100;

@@ -29,7 +29,6 @@ enum FetechingGPSDataStatus {
 }
 
 class LabsController extends GetxController {
-  @override
   var pageController = PagingController<int, Labs>(firstPageKey: 1);
   // List<String> filterList = [
   //   'most_rated'.tr,
@@ -39,14 +38,14 @@ class LabsController extends GetxController {
   //   'A-Z'
   // ];
   List<String> filterList = [
-    "best_rating",
-    'recommended',
-    'nearest_lab',
-    'promoted',
-    'a-z'
+    'promoted'.tr,
+    "best_rating".tr,
+    // 'recommended'.tr,
+    'nearest_lab'.tr,
+    'a-z'.tr,
   ];
   String sort = "";
-  String selectedSort = "promoted";
+  String selectedSort = "promoted".tr;
   TextEditingController search = TextEditingController();
   List<Labs> searchDataList = [];
   bool isSearching = false;
@@ -55,8 +54,6 @@ class LabsController extends GetxController {
   CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
-    selectedSort = "promoted";
-    update();
     pageController.addPageRequestListener((pageKey) {
       print('===LISTNER===');
       loadData(pageKey);
@@ -144,21 +141,23 @@ class LabsController extends GetxController {
     print('---->>>>>V>>>>$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'best_rating') {
+    if (v == 'best_rating'.tr) {
       sort = "stars";
 
       _refreshPage();
-    } else if (v == 'recommended') {
-      sort = " ";
-      _refreshPage();
-    } else if (v == 'nearest_lab') {
-      sort = "";
+    }
+    // else if (v == 'recommended'.tr) {
+    //   sort = "";
+    //   _refreshPage();
+    // }
+    else if (v == 'nearest_lab'.tr) {
+      sort = "close";
       if (latLang.value == null)
         _handlePermission();
       else {
         _refreshPage();
       }
-    } else if (v == 'a-z') {
+    } else if (v == 'a-z'.tr) {
       sort = "name";
       _refreshPage();
     } else {
@@ -205,7 +204,10 @@ class LabsController extends GetxController {
   void _refreshPage() {
     cancelToken.cancel();
     cancelToken = CancelToken();
+    pageController.refresh();
+
     pageController.itemList.clear();
+    // pageController.itemList = [];
     loadData(pageController.firstPageKey);
   }
 
@@ -236,15 +238,15 @@ class LabsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> ${selectedSort}");
-    filterList = [
-      "best_rating",
-      'recommended',
-      'nearest_lab',
-      'promoted',
-      'a-z'
+    log("currentSelected--------------> $selectedSort");
+    List<String> filterList = [
+      'promoted'.tr,
+      "best_rating".tr,
+      // 'recommended'.tr,
+      'nearest_lab'.tr,
+      'a-z'.tr,
     ];
-    selectedSort = "${selectedSort}";
+    selectedSort = "$selectedSort";
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -315,10 +317,12 @@ class LabsController extends GetxController {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: GestureDetector(
                         onTap: () {
-                          changeSort(l);
                           selectedSort = l;
-                          print('------>>>selectedSort.>>>>>$selectedSort');
+
                           Get.back();
+                          changeSort(l);
+                          print('------>>>selectedSort.>>>>>$selectedSort');
+
                           update();
                         },
                         child: Container(
@@ -412,41 +416,41 @@ class LabsController extends GetxController {
         }
 
         var newItems = <Labs>[];
+        var promotedItems = <Labs>[];
 
-        if (selectedSort == 'promoted') {
+        if (selectedSort == 'promoted'.tr) {
           data.data["data"].forEach((item) {
             if (item['active'] == true) {
+              promotedItems.add(Labs.fromJson(item));
+            } else {
               newItems.add(Labs.fromJson(item));
             }
           });
+
+          newItems.forEach((element) {
+            promotedItems.add(element);
+          });
         } else {
           data.data["data"].forEach((item) {
-            newItems.add(Labs.fromJson(item));
+            promotedItems.add(Labs.fromJson(item));
           });
         }
         // var newItems = DrugStoresModel.fromJson(data.data).data;
-        print('==labItems===>${newItems.length}======${page}');
-        if (newItems == null || newItems.length == 0) {
-          pageController.appendLastPage(newItems);
-          locationData.clear();
-          locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
-            }
-          });
+        print('==labItems===>${promotedItems.length}======$page');
+        if (promotedItems == null || promotedItems.length == 0) {
+          pageController.appendLastPage(promotedItems);
         } else {
-          pageController.appendPage(newItems, page + 1);
-          locationData.clear();
-          locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
-            }
-          });
+          pageController.appendPage(promotedItems, page + 1);
         }
+
+        locationData.clear();
+        locationTitle.clear();
+        pageController.itemList.forEach((element) {
+          if (element.geometry.coordinates != null) {
+            locationData.add(element.geometry);
+            locationTitle.add(element.name);
+          }
+        });
       } else {}
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -522,7 +526,7 @@ class LabsController extends GetxController {
           newItems.add(Labs.fromJson(item));
         });
         // var newItems = DrugStoresModel.fromJson(data.data).data;
-        print('==labItems===>${newItems.length}======${page}');
+        print('==labItems===>${newItems.length}======$page');
         pageController.appendPage(newItems, page + 1);
       } else {}
     }).catchError((e, s) {
@@ -549,7 +553,7 @@ class LabsController extends GetxController {
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
 
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {

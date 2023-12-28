@@ -21,7 +21,7 @@ class TabSearchController extends GetxController {
   @override
   void onInit() {
     _fetchAds();
-    _registerPagingListener();
+    // _registerPagingListener();
     debounce(filterName, (_) {
       if (teSearchController.text.trim() != "") {
         pagingController.error = null;
@@ -47,13 +47,17 @@ class TabSearchController extends GetxController {
     super.onClose();
   }
 
-  void _search(int pageKey) {
+  Future<void> _search(int pageKey) async {
+    print('----IS SEARCH>>>>>>');
     firstSearchInit(true);
 
-    DoctorsRepository.searchDoctors(pageKey, teSearchController.text,
+    await DoctorsRepository.searchDoctors(pageKey, teSearchController.text,
         onError: (e) {
       pagingController.error = e;
     }).then((value) {
+      print('====value====>>>>$value');
+
+      print('===>>CONDITIOn>>>>>${value != null}');
       if (value != null) {
         print(value?.length);
         if (value.length > 0) {
@@ -61,9 +65,7 @@ class TabSearchController extends GetxController {
         } else {
           pagingController.appendLastPage(value);
         }
-      } else {
-        //TODO handle this case
-      }
+      } else {}
     });
   }
 

@@ -53,10 +53,6 @@ class MessagesListView extends GetView<MessagesListController> {
             appBar: AppBar(
               title: Text('messages'.tr),
               centerTitle: true,
-              actions: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.notifications_outlined))
-              ],
             ),
             body: Column(children: [
               TextFormField(

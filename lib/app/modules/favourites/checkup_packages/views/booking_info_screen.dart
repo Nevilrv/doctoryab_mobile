@@ -156,8 +156,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                         GestureDetector(
                           onTap: () {
                             if (controller.locations.isEmpty) {
-                              Utils.commonSnackbar(
-                                  text: "no_result_found".tr, context: context);
+                              Utils.showSnackBar(context, "no_result_found".tr);
                             }
                           },
                           child: Container(
@@ -288,13 +287,55 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                         GestureDetector(
                           onTap: () {
                             if (controller.selectedLocation.value.isEmpty) {
-                              Utils.commonSnackbar(
-                                  text: "Please_select_city".tr,
-                                  context: context);
+                              Get.showSnackbar(
+                                GetSnackBar(
+                                  duration: Duration(seconds: 2),
+                                  // title: '',
+                                  // message: "no_result_found".tr,
+                                  messageText: Text(
+                                    "Please_select_city".tr,
+                                    style: TextStyle(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  snackPosition: SnackPosition.TOP,
+                                  dismissDirection: DismissDirection.up,
+                                  isDismissible: true,
+                                  backgroundColor: AppColors.white,
+                                ),
+                              );
+
+                              // Utils.commonSnackbar(
+                              //     text: "Please_select_city".tr,
+                              //     context: context);
                             } else if (controller
                                 .selectHospitalLabList.isEmpty) {
-                              Utils.commonSnackbar(
-                                  text: "no_result_found".tr, context: context);
+                              Get.showSnackbar(
+                                GetSnackBar(
+                                  duration: Duration(seconds: 2),
+                                  // title: '',
+                                  // message: "no_result_found".tr,
+                                  messageText: Text(
+                                    "no_result_found".tr,
+                                    style: TextStyle(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  snackPosition: SnackPosition.TOP,
+                                  dismissDirection: DismissDirection.up,
+                                  isDismissible: true,
+                                  backgroundColor: AppColors.white,
+                                ),
+                              );
+
+                              // Utils.showSnackBar(
+                              //   context,
+                              //   "no_result_found".tr,
+                              // );
                             }
                           },
                           child: Container(

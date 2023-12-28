@@ -44,7 +44,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
               builder: (controller) {
                 return Column(
                   children: [
-                    searchTextField(),
+                    searchTextField(controller),
                     controller.filterSearch == ""
                         ? SizedBox()
                         : Padding(
@@ -455,7 +455,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     );
   }
 
-  Widget searchTextField() {
+  Widget searchTextField(DrugsController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
       child: TextField(
@@ -492,7 +492,11 @@ class DrugsDatabaseView extends GetView<DrugsController> {
           ),
           suffixIcon: Padding(
             padding: const EdgeInsets.all(15),
-            child: SvgPicture.asset(AppImages.mic),
+            child: GestureDetector(
+                onTap: () {
+                  controller.start();
+                },
+                child: SvgPicture.asset(AppImages.mic)),
           ),
           filled: true,
           fillColor: AppColors.lightPurple2,

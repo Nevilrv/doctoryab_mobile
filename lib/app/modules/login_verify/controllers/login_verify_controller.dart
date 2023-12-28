@@ -39,7 +39,7 @@ class LoginVerifyController extends GetxController {
             User.fromJson(reponseData['user']);
         log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
       } catch (e) {
-        log("e--------------> ${e}");
+        log("e--------------> $e");
       }
       log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
 

@@ -17,12 +17,9 @@ import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -46,16 +43,18 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
       isSecond: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppAppBar.specialAppBar("drug_store".tr,
-            backgroundColor: Colors.transparent,
-            action: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.NOTIFICATION);
-                  },
-                  child: SvgPicture.asset(AppImages.blackBell)),
-            )),
+        appBar: AppAppBar.specialAppBar(
+          "drug_store".tr,
+          backgroundColor: Colors.transparent,
+          // action: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(AppImages.blackBell)),
+          // ),
+        ),
 
         body: Stack(
           children: [

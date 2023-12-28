@@ -152,5 +152,6 @@ class ComplaintSuggestionController extends GetxController {
 
       image.value = croppedFile;
     } else {}
+    update();
   }
 }

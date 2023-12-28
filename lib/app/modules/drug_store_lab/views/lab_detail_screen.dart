@@ -42,16 +42,18 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
       isSecond: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppAppBar.specialAppBar("labratories".tr,
-            backgroundColor: Colors.transparent,
-            action: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.NOTIFICATION);
-                  },
-                  child: SvgPicture.asset(AppImages.blackBell)),
-            )),
+        appBar: AppAppBar.specialAppBar(
+          "labratories".tr,
+          backgroundColor: Colors.transparent,
+          // action: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(AppImages.blackBell)),
+          // ),
+        ),
 
         body: Obx(() {
           return Stack(

@@ -67,33 +67,34 @@ class DoctorsView extends GetView<DoctorsController> {
         backgroundColor: Colors.transparent,
         appBar: hideAppbar
             ? null
-            : AppAppBar.specialAppBar(() {
-                switch (action) {
-                  case DOCTORS_LOAD_ACTION.fromCategory:
-                    {
-                      return "doctors_of"
-                          .trArgs([controller?.category()?.title]);
-                    }
-                  case DOCTORS_LOAD_ACTION.myDoctors:
-                    {
-                      return "my_doctors".tr;
-                    }
-                  case DOCTORS_LOAD_ACTION.ofhospital:
-                    {
-                      return hospitalName ?? "";
-                    }
-                }
-              }(),
+            : AppAppBar.specialAppBar(
+                () {
+                  switch (action) {
+                    case DOCTORS_LOAD_ACTION.fromCategory:
+                      {
+                        return "doctors_of"
+                            .trArgs([controller?.category()?.title]);
+                      }
+                    case DOCTORS_LOAD_ACTION.myDoctors:
+                      {
+                        return "my_doctors".tr;
+                      }
+                    case DOCTORS_LOAD_ACTION.ofhospital:
+                      {
+                        return hospitalName ?? "";
+                      }
+                  }
+                }(),
                 showLeading: Navigator.of(context).canPop(),
                 backgroundColor: Colors.transparent,
-                action: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.NOTIFICATION);
-                      },
-                      child: SvgPicture.asset(AppImages.blackBell)),
-                )
+                // action: Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   child: GestureDetector(
+                //       onTap: () {
+                //         Get.toNamed(Routes.NOTIFICATION);
+                //       },
+                //       child: SvgPicture.asset(AppImages.blackBell)),
+                // )
                 /*action: controller.action != DOCTORS_LOAD_ACTION.myDoctors
                       ? IconButton(
                           onPressed: () {
@@ -107,7 +108,7 @@ class DoctorsView extends GetView<DoctorsController> {
                               Icon(AntDesign.filter, color: AppColors.primary),
                         )
                       : null*/
-                ),
+              ),
         // body: _buildItemView(DoctorBridge()),
         body: Stack(
           children: [
@@ -228,7 +229,8 @@ class DoctorsView extends GetView<DoctorsController> {
                             controller.cancelToken.cancel();
                           });
                           controller.cancelToken = CancelToken();
-                          controller.pagingController.itemList.clear();
+                          controller.pagingController.refresh();
+                          // controller.pagingController.itemList.clear();
                           controller.fetchDoctors(
                             controller.pagingController.firstPageKey,
                           );
@@ -236,6 +238,7 @@ class DoctorsView extends GetView<DoctorsController> {
                       ),
                       child: PagedListView.separated(
                         pagingController: controller.pagingController,
+                        padding: EdgeInsets.only(bottom: 40),
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
@@ -704,7 +707,8 @@ class DoctorsView extends GetView<DoctorsController> {
                   SizedBox(
                     height: 5,
                   ),
-                  item.schedules.isNotEmpty
+                  // item.schedules.isNotEmpty ||
+                  date != null
                       ? Container(
                           padding: EdgeInsets.symmetric(
                             vertical: 5,

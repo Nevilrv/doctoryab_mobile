@@ -43,7 +43,7 @@ class ReportsRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
-        log("res--------------> ${res}");
+        log("res--------------> $res");
 
         return res;
       },
@@ -75,7 +75,7 @@ class ReportsRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
-        log("res--------------> ${res}");
+        log("res--------------> $res");
 
         return res;
       },

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
@@ -11,19 +12,16 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/models/labs_model.dart';
-import 'dart:math' as math;
 
 enum DOCTORS_LOAD_ACTION {
   fromCategory,
@@ -54,10 +52,10 @@ class DoctorsController extends GetxController {
   //   'A-Z'
   // ];
   List<String> filterList = [
-    "best_rating".tr,
-    'recommended'.tr,
-    'nearest'.tr,
     'promoted'.tr,
+    "best_rating".tr,
+    // 'recommended'.tr,
+    'nearest'.tr,
     'a-z'.tr
   ];
   List<Geometry> locationData = [];
@@ -66,7 +64,6 @@ class DoctorsController extends GetxController {
   var permissionStatus = Rx<PermissionStatus>(null);
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
   var latLang = Rx<LocationData>(null);
-  bool _nearByResturantsPageInitDone = false;
   Doctor selectedDoctorData;
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
 
@@ -90,7 +87,7 @@ class DoctorsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> ${selectedSort}");
+    log("currentSelected--------------> $selectedSort");
 
     Get.dialog(
       Padding(
@@ -241,23 +238,31 @@ class DoctorsController extends GetxController {
       filterName: selectedSort,
     )
         .then((data) {
+      var promotedItems = <Doctor>[];
       var newItems = <Doctor>[];
 
       if (selectedSort == 'promoted'.tr) {
         data.data["data"].forEach((item) {
           if (item['active'] == true) {
+            promotedItems.add(Doctor.fromJson(item));
+          } else {
             newItems.add(Doctor.fromJson(item));
           }
         });
+
+        newItems.forEach((element) {
+          promotedItems.add(element);
+        });
       } else {
         data.data["data"].forEach((item) {
-          newItems.add(Doctor.fromJson(item));
+          promotedItems.add(Doctor.fromJson(item));
         });
       }
-      if (newItems == null || newItems.length == 0) {
-        pagingController.appendLastPage(newItems);
+
+      if (promotedItems == null || promotedItems.length == 0) {
+        pagingController.appendLastPage(promotedItems);
       } else {
-        pagingController.appendPage(newItems, pageKey + 1);
+        pagingController.appendPage(promotedItems, pageKey + 1);
       }
 
       locationData.clear();
@@ -268,7 +273,7 @@ class DoctorsController extends GetxController {
           locationTitle.add(element.name);
         }
       });
-      log("locationData--------------> $locationData");
+      log("locationData--------------> ${locationData.length}");
       // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -285,24 +290,25 @@ class DoctorsController extends GetxController {
     //   return;
     // }
 
-    print('---->>>>>V>>>>$v');
+    print('---->>>>>V>>>>----$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'best_rating') {
-      sort = "stars";
-
+    if (v == "best_rating".tr) {
+      sort = "neartest";
       _refreshPage();
-    } else if (v == 'recommended') {
-      sort = " ";
-      _refreshPage();
-    } else if (v == 'nearest_pharmacy') {
-      sort = "";
+    }
+    // else if (v == 'recommended'.tr) {
+    //   sort = "";
+    //   _refreshPage();
+    // }
+    else if (v == 'nearest'.tr) {
+      sort = "close";
       if (latLang.value == null)
         _handlePermission();
       else {
         _refreshPage();
       }
-    } else if (v == 'a-z') {
+    } else if (v == 'a-z'.tr) {
       sort = "name";
       _refreshPage();
     } else {
@@ -350,6 +356,7 @@ class DoctorsController extends GetxController {
     cancelToken.cancel();
     cancelToken = CancelToken();
     // Utils.resetPagingController(pagingController);
+    pagingController.refresh();
     pagingController.itemList.clear();
     fetchDoctors(pagingController.firstPageKey);
     // fetchDoctors(1);
@@ -466,7 +473,7 @@ class DoctorsController extends GetxController {
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
 
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {

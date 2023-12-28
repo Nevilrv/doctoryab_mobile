@@ -22,14 +22,13 @@ class AuthRepository {
     var fcmToken;
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
-      log("fcmToken--------------> ${fcmToken}");
+      log("fcmToken--------------> $fcmToken");
     } catch (e, s) {
       Logger().e("", e, s);
     }
     //TODO handle exception
-    var _firebaseIdToken =
-        await AuthController.to.firebaseAuth.currentUser.getIdToken();
-    log("AuthController.to.firebaseAuth.currentUse--------------> ${_firebaseIdToken}");
+    var _firebaseIdToken = await AuthController.to.firebaseAuth.currentUser.getIdToken();
+    log("AuthController.to.firebaseAuth.currentUse--------------> $_firebaseIdToken");
     var data = {
       "idtoken": _firebaseIdToken,
       "fcm": fcmToken ?? "",
@@ -40,7 +39,11 @@ class AuthRepository {
       ApiConsts.authPath,
       data: data,
     );
-    log("response--------------> ${response.data}");
+    log('DATA:-----> $data');
+    print("API: ${ApiConsts.baseUrl + ApiConsts.authPath}");
+    log("response-----1111---------> ${response.data}");
+    log("respo-------> ${response.data["jwtoken"]}");
+    log('responseresponseresponse$response');
 
     return response;
   }
@@ -56,20 +59,14 @@ class AuthRepository {
 
     final response = await dio.post(
       ApiConsts.authPathGoogleFB,
-      data: {
-        "idtoken": token,
-        "fcm": fcmToken ?? "",
-        "language": "English",
-        "method": "Google"
-      },
+      data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English", "method": "Google"},
     );
     log("response--------------> ${response.data}");
 
     return response;
   }
 
-  Future<dynamic> registerGuestUserApi(
-      String name, String phone, String gender, String city) async {
+  Future<dynamic> registerGuestUserApi(String name, String phone, String gender, String city) async {
     //TODO handle exception
     var fcmToken;
     try {
@@ -95,30 +92,35 @@ class AuthRepository {
     return response.data;
   }
 
-  Future<dynamic> addPersonalInfoApi(
-      String name, String phone, String gender, String city) async {
+  Future<dynamic> addPersonalInfoApi(String name, String phone, String gender, String city) async {
     //TODO handle exception
-    var data = {
-      "name": name,
-      "phone": int.parse(phone),
-      "city": city,
-      "gender": gender
-    };
-    log("data--------------> ${data}");
-    log(" ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
-    log(" ApiConsts.addPersonalInfo--------------> ${SettingsController.userToken}");
+    var data = {"name": name, "phone": int.parse(phone), "city": city, "gender": gender};
+    log("data--------------> $data");
+    log("ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
+    log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+    log("ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
 
-    final response = await dio.put(
-      ApiConsts.addPersonalInfo,
-      data: data,
-    );
-    log("response--------------> ${response.statusCode}");
+    try {
+      final response = await dio.put(
+        ApiConsts.addPersonalInfo,
+        data: data,
+      );
 
-    return response.data;
+      // final response1 = await dio.put(
+      //   ApiConsts.authPath,
+      //   data: data,
+      // );
+
+      log("response------DSDSDS--------> $response");
+      // log("response1------DSDSDS--------> $response1");
+
+      return response.data;
+    } catch (e) {
+      print('==============EEEEEEE============>>$e');
+    }
   }
 
-  Future<dynamic> addPersonalInfoPhoneApi(
-      String name, String phone, String gender, String city) async {
+  Future<dynamic> addPersonalInfoPhoneApi(String name, String phone, String gender, String city) async {
     //TODO handle exception
     var data = {
       // "age": age,
@@ -127,7 +129,7 @@ class AuthRepository {
       "city": city, "phone": "0777777777"
       // "token": firebaseUserToken,
     };
-    log("data--------------> ${data}");
+    log("data--------------> $data");
     log(" ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
     log(" ApiConsts.addPersonalInfo--------------> ${SettingsController.userToken}");
 
@@ -141,8 +143,7 @@ class AuthRepository {
   }
 
   //* update profile image
-  Future<dynamic> updateImage(File file,
-      [void uploadProgress(double percent)]) async {
+  Future<dynamic> updateImage(File file, [void uploadProgress(double percent)]) async {
     log("file.path--------------> ${file.path}");
 
     String fileName = file.path.split('/').last;
@@ -212,12 +213,11 @@ class AuthRepository {
   }
 
   static Future<bool> numberExists(String number) async {
-    final response =
-        await dio.get(ApiConsts.checkIfNumberExistsPath, queryParameters: {
+    final response = await dio.get(ApiConsts.checkIfNumberExistsPath, queryParameters: {
       "phone": number.toEnglishDigit(),
     }
-            // cancelToken: loginCancelToken,
-            );
+        // cancelToken: loginCancelToken,
+        );
     return (response?.data['isExist'] ?? true);
   }
 

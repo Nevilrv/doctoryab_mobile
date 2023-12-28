@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -416,6 +418,15 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                             Utils.showSnackBar(
                                 context, "Please_select_city".tr);
                           } else {
+                            log('----TAPP');
+
+                            print("11111>>> ${controller.teName.text}");
+                            print("22222>>> ${controller.teNewNumber.text}");
+                            print(
+                                "33333>>> ${controller.selectedGender.value}");
+                            print(
+                                "44444>>> ${controller.selectedLocationId.value}");
+
                             controller.addPersonalInfo();
                           }
                         }

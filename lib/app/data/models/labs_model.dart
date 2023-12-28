@@ -44,8 +44,8 @@ class Labs {
   int id;
   List<Feedback> feedbacks;
   String rating;
-  int totalFeedbacks;
-  int averageRatings;
+  dynamic totalFeedbacks;
+  dynamic averageRatings;
   bool active;
 
   Labs({

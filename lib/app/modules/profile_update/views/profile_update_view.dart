@@ -1,37 +1,33 @@
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
+import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
-import 'package:doctor_yab/app/theme/AppTheme.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../../components/spacialAppBar.dart';
 import '../controllers/profile_update_controller.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
 class ProfileUpdateView extends GetView<ProfileUpdateController> {
   ProfileUpdateView() {
     if (controller != null) {
       //! this line is neccecery or duplicate global key will apear in widget tree
       controller.formKey = GlobalKey<FormState>();
+      controller.getData();
     }
     // controller.refresh();
   }
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -95,21 +91,21 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
           ),
           centerTitle: true,
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.bellwhite,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(
+          //         AppImages.bellwhite,
+          //         height: 24,
+          //         width: 24,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
 
         body: Obx(() {
@@ -398,17 +394,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           TextFormField(
                                             onChanged: (_) =>
                                                 controller.validateForm(),
-                                            validator: controller.email.text ==
-                                                        null ||
+                                            validator: controller
+                                                        .email.text.isEmpty ||
                                                     controller.email.text == ""
                                                 ? Utils.emailValidator
                                                 : null,
                                             cursorColor: AppColors.primary,
-                                            readOnly: controller.email.text ==
-                                                        null ||
-                                                    controller.email.text == ""
-                                                ? false
-                                                : true,
                                             style: AppTextStyle.mediumPrimary12
                                                 .copyWith(
                                                     color: AppColors.primary
@@ -515,35 +506,28 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 .copyWith(
                                                     color: AppColors.primary
                                                         .withOpacity(0.5)),
-                                            readOnly:
-                                                controller.teNewNumber.text ==
-                                                            null ||
-                                                        controller.teNewNumber
-                                                                .text ==
-                                                            ""
-                                                    ? false
-                                                    : true,
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                                            validator: Utils.numberValidator,
                                             keyboardType: TextInputType.phone,
                                             controller: controller.teNewNumber,
                                             decoration: InputDecoration(
                                                 hintText:
                                                     "please_enter_phone".tr,
-                                                hintStyle: AppTextStyle
-                                                    .mediumPrimary12
+                                                hintStyle: AppTextStyle.mediumPrimary12
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
-                                                enabledBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.4),
+                                                      strokeAlign: 2,
+                                                      width: 2),
+                                                ),
                                                 // prefixIconConstraints:
                                                 //     BoxConstraints.expand(
                                                 //   height: 30,
@@ -576,8 +560,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                             .withOpacity(0.4),
                                                         strokeAlign: 2,
                                                         width: 2)),
-                                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                errorBorder: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    borderSide: BorderSide(
+                                                        color: AppColors.red,
+                                                        strokeAlign: 2,
+                                                        width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null

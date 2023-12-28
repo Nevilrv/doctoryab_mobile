@@ -31,21 +31,23 @@ class ConfirmationScreen extends GetView<BookController> {
     return Background(
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: AppAppBar.specialAppBar('appointment_details'.tr,
-                backgroundColor: Colors.transparent,
-                action: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.NOTIFICATION);
-                    },
-                    child: SvgPicture.asset(
-                      AppImages.blackBell,
-                      height: 24,
-                      width: 24,
-                    ),
-                  ),
-                )),
+            appBar: AppAppBar.specialAppBar(
+              'appointment_details'.tr,
+              backgroundColor: Colors.transparent,
+              // action: Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       Get.toNamed(Routes.NOTIFICATION);
+              //     },
+              //     child: SvgPicture.asset(
+              //       AppImages.blackBell,
+              //       height: 24,
+              //       width: 24,
+              //     ),
+              //   ),
+              // ),
+            ),
             body: Obx(
               () {
                 return Container(

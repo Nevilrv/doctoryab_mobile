@@ -7,13 +7,25 @@ import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:location/location.dart' hide PermissionStatus;
 import 'dart:math' as math;
+
+import 'package:permission_handler/permission_handler.dart';
+
+enum FetechingGPSDataStatus {
+  loading,
+  failed,
+  success,
+  idle,
+}
 
 class MyDoctorsController extends GetxController {
   // var arguments = Get.arguments as CategoryBridge;
@@ -23,13 +35,15 @@ class MyDoctorsController extends GetxController {
   String sort = "";
   String selectedSort = "promoted".tr;
   List<String> filterList = [
-    "best_rating".tr,
-    'recommended'.tr,
-    'nearest'.tr,
     'promoted'.tr,
+    "best_rating".tr,
+    // 'recommended'.tr,
+    'nearest'.tr,
     'a-z'.tr
   ];
-
+  var permissionStatus = Rx<PermissionStatus>(null);
+  var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
+  var latLang = Rx<LocationData>(null);
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
 
@@ -44,10 +58,11 @@ class MyDoctorsController extends GetxController {
   bool isLoadAd = false;
   @override
   void onInit() {
-    log("my docror-------------------->");
     // bannerAds();
 
     pagingController.addPageRequestListener((pageKey) {
+      log("my docror-------------------->");
+
       fetchDoctors(pageKey);
     });
     // var dummyList = ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
@@ -66,7 +81,7 @@ class MyDoctorsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> ${selectedSort}");
+    log("currentSelected--------------> $selectedSort");
 
     Get.dialog(
       Padding(
@@ -140,6 +155,7 @@ class MyDoctorsController extends GetxController {
                         onTap: () {
                           Get.back();
                           selectedSort = l;
+                          changeSort(l);
                           update();
                         },
                         child: Container(
@@ -192,32 +208,168 @@ class MyDoctorsController extends GetxController {
     );
   }
 
+  // void changeSort(String v) {
+  //   // if (i == selectedSort) {
+  //   //   // Get.back();
+  //   //   return;
+  //   // }
+  //   selectedSort = v;
+  //   //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
+  //   if (v == 'most_rated'.tr) {
+  //     sort = "stars";
+  //     // _refreshPage();
+  //   } else if (v == 'suggested'.tr) {
+  //     sort = "";
+  //     // _refreshPage();
+  //   } else if (v == 'nearest'.tr) {
+  //     sort = "close";
+  //     // if (latLang.value == null)
+  //     //   _handlePermission();
+  //     // else {
+  //     //   _refreshPage();
+  //     // }
+  //   } else if (v == 'A-Z') {
+  //     sort = "name";
+  //     // _refreshPage();
+  //   } else {
+  //     sort = "";
+  //     // _refreshPage();
+  //   }
+  //   // switch (v) {
+  //   //   case 'most_rated'.tr:
+  //   //     {
+  //   //       sort = "stars";
+  //   //       _refreshPage();
+  //   //       break;
+  //   //     }
+  //   //   case 1:
+  //   //     {
+  //   //       sort = "";
+  //   //       _refreshPage();
+  //   //       break;
+  //   //     }
+  //   //   case 2:
+  //   //     {
+  //   //       sort = "close";
+  //   //       if (latLang.value == null)
+  //   //         _handlePermission();
+  //   //       else {
+  //   //         _refreshPage();
+  //   //       }
+  //   //       break;
+  //   //     }
+  //   //   case 3:
+  //   //     {
+  //   //       sort = "name";
+  //   //       _refreshPage();
+  //   //       break;
+  //   //     }
+  //   //   default:
+  //   //     {
+  //   //       sort = "";
+  //   //       _refreshPage();
+  //   //     }
+  //   // }
+  // }
+
+  void fetchDoctors(int pageKey) {
+    print('cancelToken ${cancelToken.isCancelled}');
+    DoctorsRepository()
+        .fetchMyDoctors(
+      cancelToken: CancelToken(),
+    )
+        .then((data) {
+      // var newItems = Doctors.fromJson(data.data).data;
+      // log("newItems>>newItems>${newItems.length}====${pageKey}");
+      // if (newItems != null || newItems.length != 0) {
+      //   pagingController.appendLastPage(newItems);
+      //   log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
+      // }
+
+      print('-----e->>>>>${data.data.length}');
+      var newItems = <Doctor>[];
+      var promotedItems = <Doctor>[];
+
+      if (selectedSort == 'promoted'.tr) {
+        data.data["data"].forEach((item) {
+          if (item['active'] == true) {
+            promotedItems.add(Doctor.fromJson(item));
+          } else {
+            newItems.add(Doctor.fromJson(item));
+          }
+        });
+        newItems.forEach((element) {
+          promotedItems.add(element);
+        });
+      } else {
+        data.data["data"].forEach((item) {
+          promotedItems.add(Doctor.fromJson(item));
+        });
+      }
+
+      print('------------------>>>>>>>>>>${promotedItems.length}');
+      if (promotedItems != null || promotedItems.length != 0) {
+        pagingController.appendLastPage(promotedItems);
+        log("CALLLEDDDD");
+      } /* else {
+        log("CALLLEDDDD2");
+        pagingController.appendPage(newItems, pageKey + 1);
+      }*/
+
+      // print('---->>>>>>>${pagingController.itemList.length}');
+
+      locationData.clear();
+      locationTitle.clear();
+      pagingController.itemList.forEach((element) {
+        if (element.geometry.coordinates != null) {
+          locationData.add(element.geometry);
+          locationTitle.add(element.name);
+        }
+      });
+
+      log("locationData--------------> $locationData");
+      // log("leent ${pagingController.itemList.length}");
+    }).catchError((e, s) {
+      log("e--------------> $e");
+
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        pagingController.error = e;
+      }
+      FirebaseCrashlytics.instance.recordError(e, s);
+      log(e.toString());
+    });
+  }
+
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
     //   return;
     // }
+
+    print('---->>>>>V>>>>$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'most_rated'.tr) {
+    if (v == 'best_rating') {
       sort = "stars";
-      // _refreshPage();
-    } else if (v == 'suggested'.tr) {
+      _refreshPage();
+    }
+    // else if (v == 'recommended') {
+    //   sort = " ";
+    //   _refreshPage();
+    // }
+    else if (v == 'Nearest Doctor') {
       sort = "";
-      // _refreshPage();
-    } else if (v == 'nearest'.tr) {
-      sort = "close";
-      // if (latLang.value == null)
-      //   _handlePermission();
-      // else {
-      //   _refreshPage();
-      // }
-    } else if (v == 'A-Z') {
+      if (latLang.value == null)
+        _handlePermission();
+      else {
+        _refreshPage();
+      }
+    } else if (v == 'a-z') {
       sort = "name";
-      // _refreshPage();
+      _refreshPage();
     } else {
       sort = "";
-      // _refreshPage();
+      _refreshPage();
     }
     // switch (v) {
     //   case 'most_rated'.tr:
@@ -256,39 +408,92 @@ class MyDoctorsController extends GetxController {
     // }
   }
 
-  void fetchDoctors(int pageKey) {
-    DoctorsRepository()
-        .fetchMyDoctors(
-      cancelToken: cancelToken,
-    )
-        .then((data) {
-      var newItems = Doctors.fromJson(data.data).data;
-      log("newItems>>newItems>${newItems.length}====${pageKey}");
-      if (newItems != null || newItems.length != 0) {
-        pagingController.appendLastPage(newItems);
-        log(" pagingController.itemList.length--------------> ${pagingController.itemList.length}");
-      }
+  void _refreshPage() {
+    print('----->>>>>.CALLLINGGGGG');
+    cancelToken.cancel();
+    cancelToken = CancelToken();
+    // Utils.resetPagingController(pagingController);
 
-      locationData.clear();
-      locationTitle.clear();
-      if (pagingController.itemList.isNotEmpty) {
-        pagingController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+    pagingController.refresh();
+    pagingController.itemList.clear();
+    fetchDoctors(pagingController.firstPageKey);
+    // fetchDoctors(1);
+  }
+
+  Future<void> _getDeviceLocation() async {
+    fetechingGPSDataStatus(FetechingGPSDataStatus.loading);
+    EasyLoading.show(status: "getting_location_from_device".tr);
+    try {
+      Location location = new Location();
+      bool _serviceEnabled = await location.serviceEnabled();
+      print("serv-enabled $_serviceEnabled");
+      var locationData =
+          await location.getLocation().timeout(Duration(seconds: 10));
+      print("loc" + locationData.toString());
+
+      // AuthController.to.setLastUserLocation(
+      latLang.value = locationData;
+      // Utils.whereShouldIGo();
+      fetechingGPSDataStatus(FetechingGPSDataStatus.success);
+      EasyLoading.dismiss();
+      _refreshPage();
+    } catch (e) {
+      EasyLoading.dismiss();
+
+      fetechingGPSDataStatus(FetechingGPSDataStatus.failed);
+
+      AppGetDialog.show(middleText: "failed_to_get_location_data".tr);
+    }
+  }
+
+  void _handlePermission() async {
+    try {
+      var p = await Permission.location.request();
+
+      switch (p) {
+        case PermissionStatus.denied:
+          {
+            AppGetDialog.show(middleText: "you_denied_request".tr);
+            break;
           }
-        });
-      }
-      log("locationData--------------> ${locationData}");
-      // log("leent ${pagingController.itemList.length}");
-    }).catchError((e, s) {
-      log("e--------------> ${e}");
+        case PermissionStatus.granted:
+          {
+            _getDeviceLocation();
+            break;
+          }
+        case PermissionStatus.restricted:
+          {
+            //TODO urgent must be tested in iphone
+            // _getDeviceLocation();
+            break;
+          }
+        case PermissionStatus.limited:
+          {
+            //TODO urgent must be tested in iphone
 
-      if (!(e is DioError && CancelToken.isCancel(e))) {
-        pagingController.error = e;
+            break;
+          }
+        case PermissionStatus.permanentlyDenied:
+          {
+            AppGetDialog.show(
+                middleText:
+                    "you_have_to_allow_location_permission_in_settings".tr,
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => openAppSettings(),
+                    child: Text("open_settings".tr),
+                  ),
+                ]);
+            break;
+          }
+        case PermissionStatus.provisional:
+          // TODO: Handle this case.
+          break;
       }
-      FirebaseCrashlytics.instance.recordError(e, s);
-      log(e.toString());
-    });
+    } catch (e) {
+      AppGetDialog.show(
+          middleText:
+              e.toString() ?? "Failed to request location permission :-(");
+    }
   }
 }

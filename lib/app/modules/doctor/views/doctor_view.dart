@@ -44,21 +44,23 @@ class DoctorView extends GetView<DoctorController> {
       isSecond: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppAppBar.specialAppBar('doctor_details'.tr,
-            backgroundColor: Colors.transparent,
-            action: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )),
+        appBar: AppAppBar.specialAppBar(
+          'doctor_details'.tr,
+          backgroundColor: Colors.transparent,
+          // action: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       Get.toNamed(Routes.NOTIFICATION);
+          //     },
+          //     child: SvgPicture.asset(
+          //       AppImages.blackBell,
+          //       height: 24,
+          //       width: 24,
+          //     ),
+          //   ),
+          // ),
+        ),
         body: Obx(() {
           return Container(
             height: h,

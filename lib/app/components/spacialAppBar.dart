@@ -10,12 +10,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class AppAppBar {
-  static AppBar specialAppBar(String title,
-      {Color backgroundColor,
-      Widget leading,
-      bool showLeading = true,
-      PreferredSizeWidget bottom,
-      Widget action}) {
+  static AppBar specialAppBar(
+    String title, {
+    Color backgroundColor,
+    Widget leading,
+    bool showLeading = true,
+    PreferredSizeWidget bottom,
+    // Widget action,
+  }) {
     return AppBar(
       elevation: 0,
       backgroundColor: backgroundColor ?? AppColors.primary, centerTitle: true,
@@ -45,7 +47,6 @@ class AppAppBar {
               )
           : null,
       // centerTitle: true,
-      actions: [action ?? Container()],
       bottom: bottom,
     );
   }
@@ -84,19 +85,19 @@ class AppAppBar {
                 ),
               )
             : SizedBox(),
-        Padding(
-          padding: const EdgeInsets.only(right: 20, left: 10),
-          child: GestureDetector(
-            onTap: () {
-              Get.toNamed(Routes.NOTIFICATION);
-            },
-            child: SvgPicture.asset(
-              AppImages.blackBell,
-              height: 24,
-              width: 24,
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(right: 20, left: 10),
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       Get.toNamed(Routes.NOTIFICATION);
+        //     },
+        //     child: SvgPicture.asset(
+        //       AppImages.blackBell,
+        //       height: 24,
+        //       width: 24,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -138,21 +139,21 @@ class AppAppBar {
               ],
             ),
       centerTitle: true,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20, left: 10),
-          child: GestureDetector(
-            onTap: () {
-              Get.toNamed(Routes.NOTIFICATION);
-            },
-            child: SvgPicture.asset(
-              AppImages.bellwhite,
-              height: 24,
-              width: 24,
-            ),
-          ),
-        ),
-      ],
+      // actions: [
+      //   Padding(
+      //     padding: const EdgeInsets.only(right: 20, left: 10),
+      //     child: GestureDetector(
+      //       onTap: () {
+      //         Get.toNamed(Routes.NOTIFICATION);
+      //       },
+      //       child: SvgPicture.asset(
+      //         AppImages.bellwhite,
+      //         height: 24,
+      //         width: 24,
+      //       ),
+      //     ),
+      //   ),
+      // ],
     );
   }
 
@@ -194,21 +195,21 @@ class AppAppBar {
               ],
             ),
       centerTitle: true,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20, left: 10),
-          child: GestureDetector(
-            onTap: () {
-              Get.toNamed(Routes.NOTIFICATION);
-            },
-            child: SvgPicture.asset(
-              AppImages.blackBell,
-              height: 24,
-              width: 24,
-            ),
-          ),
-        ),
-      ],
+      // actions: [
+      //   Padding(
+      //     padding: const EdgeInsets.only(right: 20, left: 10),
+      //     child: GestureDetector(
+      //       onTap: () {
+      //         Get.toNamed(Routes.NOTIFICATION);
+      //       },
+      //       child: SvgPicture.asset(
+      //         AppImages.blackBell,
+      //         height: 24,
+      //         width: 24,
+      //       ),
+      //     ),
+      //   ),
+      // ],
     );
   }
 }

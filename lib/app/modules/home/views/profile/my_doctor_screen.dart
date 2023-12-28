@@ -37,9 +37,8 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyDoctorsView extends GetView<MyDoctorsController> {
-  MyDoctorsController controller;
-  String hospitalId;
-  String hospitalName;
+  final String hospitalId;
+  final String hospitalName;
   final bool hideAppbar;
   final Color bgColor;
 
@@ -48,7 +47,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
     this.hospitalName,
     this.hideAppbar = false,
     this.bgColor,
-  }) {}
+  });
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -77,21 +76,21 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                 ),
               )),
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.NOTIFICATION);
-                },
-                child: SvgPicture.asset(
-                  AppImages.blackBell,
-                  height: 24,
-                  width: 24,
-                ),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         Get.toNamed(Routes.NOTIFICATION);
+          //       },
+          //       child: SvgPicture.asset(
+          //         AppImages.blackBell,
+          //         height: 24,
+          //         width: 24,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
         body: Stack(
           children: [
@@ -212,7 +211,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                             controller.cancelToken.cancel();
                           });
                           controller.cancelToken = CancelToken();
-                          controller.pagingController.itemList.clear();
+                          // controller.pagingController.itemList.clear();
                           controller.fetchDoctors(
                             controller.pagingController.firstPageKey,
                           );

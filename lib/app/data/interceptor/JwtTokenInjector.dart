@@ -9,7 +9,6 @@ class JwtTokenInjector extends Interceptor {
     log("SettingsController.userToken-------token-------> ${SettingsController.userToken}");
 
     options.headers["jwtoken"] = SettingsController.userToken ?? "";
-
     //  handler.next(options);
     super.onRequest(options, handler);
   }

@@ -1,28 +1,22 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/review/controller/review_controller.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ReviewScreen extends GetView<ReviewController> {
   final String appBarTitle;
   const ReviewScreen({Key key, this.appBarTitle}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +30,13 @@ class ReviewScreen extends GetView<ReviewController> {
             backgroundColor: Colors.transparent,
             appBar: AppAppBar.specialAppBar(controller.appBarTitle.value.tr,
                 backgroundColor: Colors.transparent,
-                action: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: GestureDetector( onTap: () {
-                    Get.toNamed(Routes.NOTIFICATION);
-                  },child: SvgPicture.asset(AppImages.blackBell)),
-                )),
+                // action: Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   child: GestureDetector( onTap: () {
+                //     Get.toNamed(Routes.NOTIFICATION);
+                //   },child: SvgPicture.asset(AppImages.blackBell)),
+                // ),
+            ),
             body: Container(
               height: h,
               // color: AppColors.red,
@@ -1246,7 +1241,7 @@ class ReviewScreen extends GetView<ReviewController> {
                 ],
               ),
             ));
-      }),
+      },),
     );
   }
 }

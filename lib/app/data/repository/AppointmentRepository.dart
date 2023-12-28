@@ -14,7 +14,7 @@ class AppointmentRepository {
 
   static Future<Histories> fetchAppointmentHistory(
       {CancelToken cancelToken}) async {
-    log("url===========>${ApiConsts.getAppointmentHistory}/${SettingsController.userId}}");
+    log("url===========>${ApiConsts.getAppointmentHistory}/${SettingsController.userId}");
     var data = await _cachedDio.get(
       // '${ApiConsts.getAppointmentHistory}/60a8b056e8c8b437ad3d2d06',
       '${ApiConsts.getAppointmentHistory}',

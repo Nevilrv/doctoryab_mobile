@@ -89,7 +89,7 @@ class ChatController extends GetxController {
       var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
           isUtc: true);
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
-      log("timeText--------------> ${timeText}");
+      log("timeText--------------> $timeText");
 
       timerText.value = timeText.substring(0, 8);
       update();
@@ -103,7 +103,6 @@ class ChatController extends GetxController {
     recordingSession.closeAudioSession();
     update();
     return await recordingSession.stopRecorder();
-    update();
   }
 
   Future<void> playFunc() async {
@@ -117,7 +116,7 @@ class ChatController extends GetxController {
         .then((value) {
       log("recordingPlayer.isPlaying--------------df> ${recordingPlayer.playerState.value}");
     });
-
+    update();
     // if (recordingPlayer.is == true) {
     //   playAudio.value = false;
     // }
@@ -176,7 +175,7 @@ class ChatController extends GetxController {
   Future<void> play1({String path}) {
     if (path == '') {
     } else {
-      print('audioPath--${path}');
+      print('audioPath--$path');
       return audioPlayer1.play(
         ap.UrlSource(path),
       );
@@ -231,6 +230,7 @@ class ChatController extends GetxController {
 
   void sendMessage() async {
     sendingMessage(true);
+    update();
     if (messageToSend != '') {
       print('----SEND');
       ChatRepository.sendMessage(chatArg().id, messageToSend,
@@ -243,6 +243,7 @@ class ChatController extends GetxController {
             sendMessage();
           });
         }
+        update();
       }).then((value) {
         if (value != null) {
           // _trySocket() {
@@ -270,6 +271,8 @@ class ChatController extends GetxController {
           // if (value.isEmpty) {
           //   endOfPage.value = true;
           // } else {
+
+          print('--wsw->>>>>${value}');
           chat.value.insert(0, value);
           //   log(value.toString());
           // }
@@ -277,20 +280,25 @@ class ChatController extends GetxController {
           // isLoading.value = false;
           // nextPageLoading(false);
           // //
+
+          update();
         }
       }).catchError((e, s) {
         Logger().e("message", e, s);
+
+        update();
       });
     }
     if (attachmentString.value == "image") {
       sendingMessage(true);
+      update();
       if (image.isNotEmpty) {
         try {
           image.forEach((element) {
             ChatRepository()
                 .uploadImage(file: File(element.path))
                 .then((value) {
-              log("value--------------> ${value}");
+              log("value--------------> $value");
               ChatRepository.sendMessage(chatArg().id, "",
                   images: value,
                   type: attachmentString.value,
@@ -302,6 +310,8 @@ class ChatController extends GetxController {
                     sendMessageCancelToken = CancelToken();
                     sendMessage();
                   });
+
+                  update();
                 }
               }).then((value) {
                 if (value != null) {
@@ -337,9 +347,13 @@ class ChatController extends GetxController {
                   // isLoading.value = false;
                   // nextPageLoading(false);
                   // //
+
+                  update();
                 }
               }).catchError((e, s) {
                 Logger().e("message", e, s);
+
+                update();
               });
               image.clear();
               attachmentString.value = "";
@@ -350,6 +364,8 @@ class ChatController extends GetxController {
         } catch (e) {
           sendingMessage(false);
           log("e--------------> ${e}");
+
+          update();
         }
       }
     }
@@ -358,6 +374,8 @@ class ChatController extends GetxController {
         stopRecording();
       }
       sendingMessage(true);
+
+      update();
       log("pathToAudio--------------> $pathToAudio");
 
       try {
@@ -380,6 +398,8 @@ class ChatController extends GetxController {
                     sendMessage();
                   },
                 );
+
+                update();
               }
             }).then((value) {
               if (value != null) {
@@ -415,9 +435,13 @@ class ChatController extends GetxController {
                 // isLoading.value = false;
                 // nextPageLoading(false);
                 // //
+
+                update();
               }
             }).catchError((e, s) {
               Logger().e("message", e, s);
+
+              update();
             });
             pathToAudio = null;
             attachmentString.value = "";
@@ -432,6 +456,7 @@ class ChatController extends GetxController {
     }
     if (attachmentString.value == "pdf") {
       sendingMessage(true);
+      update();
       log("pathToAudio--------------> ${pathToAudio}");
 
       try {
@@ -450,6 +475,8 @@ class ChatController extends GetxController {
                   sendMessageCancelToken = CancelToken();
                   sendMessage();
                 });
+
+                update();
               }
             }).then((value) {
               if (value != null) {
@@ -485,10 +512,12 @@ class ChatController extends GetxController {
                 // isLoading.value = false;
                 // nextPageLoading(false);
                 // //
+                update();
               }
             }).catchError((e, s) {
               sendingMessage(false);
               Logger().e("message", e, s);
+              update();
             });
             pdfFile.value = "";
             attachmentString.value = "";
@@ -499,15 +528,17 @@ class ChatController extends GetxController {
             log("e--------------> ${e}");
             log("s--------------> ${e.response.data['message']}");
             Logger().e("message", e, s);
+            update();
           });
         }
       } catch (e) {
         sendingMessage(false);
+        update();
         log("e--------------> ${e}");
         log("5--------------> ${e}");
       }
     }
-
+    update();
     // if (messageC.text.isNotEmpty || image.isNotEmpty) {
     //   isLoading.value = true;
 
@@ -669,6 +700,8 @@ class ChatController extends GetxController {
       update();
       log('_duration1_duration1>> ${duration1.inSeconds}');
     });
+
+    update();
   }
 
   @override
@@ -749,8 +782,8 @@ class ChatController extends GetxController {
         });
       }
     }).then((value) {
-      log("value--------------> ${value}");
-
+      log("value--------------> $value");
+      chat.clear();
       if (value != null) {
         if (value.isEmpty) {
           endOfPage.value = true;
@@ -761,11 +794,14 @@ class ChatController extends GetxController {
         chat.refresh();
         isLoading.value = false;
         nextPageLoading(false);
+        update();
         //
       }
     }).catchError((e, s) {
       Logger().e("message", e, s);
     });
+
+    update();
   }
 
   void swithChat(ChatListApiModel chatListApiModel) {

@@ -31,7 +31,7 @@ class TabBlogController extends GetxController {
   final postList = <Post>[];
   static Dio dio = AppDioService.getDioInstance();
   bool isLoadingComment = false;
-
+  bool isBottom;
   int showDesc = -1;
 
   @override

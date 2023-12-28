@@ -4,29 +4,35 @@ import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/paging_indicators/dotdot_nomore_items.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
-import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/reports.dart';
-import 'package:doctor_yab/app/data/repository/ReportsRepository.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/reports_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
-import 'package:doctor_yab/app/modules/home/views/reports_view.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/views/views/report_view.dart';
 import 'package:flutter/material.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:share_plus/share_plus.dart';
 
 class TabDocsView extends GetView<ReportsController> {
+  TabDocsView({Key key}) : super(key: key) {
+    if (Get.arguments != null) {
+      controller.index = int.parse(Get.arguments['id']);
+      controller.tabIndex.value = controller.index;
+      controller.pagingController.itemList = [];
+      controller.pagingController.refresh();
+      if (controller.tabIndex.value == 0) {
+        controller.fetchReportsDoctor(controller.pagingController.firstPageKey);
+      } else {
+        controller.fetchReportsLab(controller.pagingController.firstPageKey);
+      }
+    }
+  }
+
   List tab = [
     "doctor_rerports".tr,
     "lab_reports".tr,
@@ -36,6 +42,9 @@ class TabDocsView extends GetView<ReportsController> {
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
+
+    print('==============>>>>>>>${controller.index}');
+
     return DefaultTabController(
       length: 2,
       child: Background(
@@ -62,21 +71,21 @@ class TabDocsView extends GetView<ReportsController> {
                       Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
                 )),
             elevation: 0,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.NOTIFICATION);
-                  },
-                  child: SvgPicture.asset(
-                    AppImages.blackBell,
-                    height: 24,
-                    width: 24,
-                  ),
-                ),
-              )
-            ],
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 20),
+            //     child: GestureDetector(
+            //       onTap: () {
+            //         Get.toNamed(Routes.NOTIFICATION);
+            //       },
+            //       child: SvgPicture.asset(
+            //         AppImages.blackBell,
+            //         height: 24,
+            //         width: 24,
+            //       ),
+            //     ),
+            //   )
+            // ],
           ),
           body: Obx(() {
             return Stack(

@@ -462,4 +462,7 @@ const Map<String, String> faIR = {
   "medicine": "نسخه",
   "duration": "مدت استفاده",
   "dosage": "مقدار مصرف",
+  "hi": "سلام",
+  "patient": "مریض",
+  "review": "نظریه شما در مورد این خدمات"
 };

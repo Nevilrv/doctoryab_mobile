@@ -34,13 +34,16 @@ class HospitalsController extends GetxController {
   CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
-    selectedSort = "promoted";
-    update();
+    selectedSort = 'promoted'.tr;
+    _fetchAds();
+    addPageListener();
+    super.onInit();
+  }
+
+  addPageListener() {
     pageController.addPageRequestListener((pageKey) {
       loadData(pageKey);
     });
-    _fetchAds();
-    super.onInit();
   }
 
   TextEditingController search = TextEditingController();
@@ -54,14 +57,14 @@ class HospitalsController extends GetxController {
   //   'A-Z'
   // ];
   List<String> filterList = [
-    "best_rating",
-    'recommended',
-    'nearest_hospital',
-    'promoted',
-    'a-z'
+    'promoted'.tr,
+    "best_rating".tr,
+    // 'recommended'.tr,
+    'nearest_hospital'.tr,
+    'a-z'.tr
   ];
   String sort = "";
-  String selectedSort = "promoted";
+  String selectedSort = 'promoted'.tr;
 
   void _handlePermission() async {
     try {
@@ -146,6 +149,7 @@ class HospitalsController extends GetxController {
   void _refreshPage() {
     cancelToken.cancel();
     cancelToken = CancelToken();
+    pageController.refresh();
     pageController.itemList.clear();
     loadData(pageController.firstPageKey);
   }
@@ -159,27 +163,30 @@ class HospitalsController extends GetxController {
     print('---->>>>>V>>>>$v');
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-    if (v == 'best_rating') {
-      sort = "stars";
 
+    if (v == "best_rating".tr) {
+      sort = "stars";
       _refreshPage();
-    } else if (v == 'recommended') {
-      sort = " ";
-      _refreshPage();
-    } else if (v == 'nearest_hospital') {
-      sort = "";
+    }
+    // else if (v == 'recommended'.tr) {
+    //   sort = "suggested";
+    //   _refreshPage();
+    // }
+    else if (v == 'nearest_hospital'.tr) {
+      sort = "close";
       if (latLang.value == null)
         _handlePermission();
       else {
         _refreshPage();
       }
-    } else if (v == 'a-z') {
+    } else if (v == 'a-z'.tr) {
       sort = "name";
       _refreshPage();
     } else {
       sort = "";
       _refreshPage();
     }
+
     // switch (v) {
     //   case 'most_rated'.tr:
     //     {
@@ -218,15 +225,15 @@ class HospitalsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> ${selectedSort}");
-    filterList = [
-      "best_rating",
-      'recommended',
-      'nearest_hospital',
-      'promoted',
-      'a-z'
+    log("currentSelected--------------> $selectedSort");
+    List<String> filterList = [
+      'promoted'.tr,
+      "best_rating".tr,
+      // 'recommended'.tr,
+      'nearest_hospital'.tr,
+      'a-z'.tr
     ];
-    selectedSort = "${selectedSort}";
+    selectedSort = "$selectedSort";
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -300,8 +307,8 @@ class HospitalsController extends GetxController {
                           selectedSort = l;
 
                           print('----selectedSort---->>>$selectedSort');
-                          changeSort(l);
                           Get.back();
+                          changeSort(l);
                           update();
                         },
                         child: Container(
@@ -397,7 +404,7 @@ class HospitalsController extends GetxController {
 
   void loadData(int page) async {
     loader.value = true;
-    update();
+    // update();
     HospitalRepository.fetchHospitals(
       page: page,
       cancelToken: cancelToken,
@@ -408,10 +415,7 @@ class HospitalsController extends GetxController {
       onError: (e) {
         pageController.error = e;
         // super.pageController.error = e;
-        Logger().e(
-          "load-hospitals",
-          e,
-        );
+        Logger().e("load-hospitals", e);
       },
     ).then((data) {
       print('---->>>>data>>>>$data');
@@ -423,42 +427,41 @@ class HospitalsController extends GetxController {
       // );
       // log("pageController.itemList--------------> ${pageController.itemList}");
 
+      var promotedItems = <Hospital>[];
       var newItems = <Hospital>[];
 
-      if (selectedSort == 'promoted') {
+      if (selectedSort == 'promoted'.tr) {
         data.forEach((item) {
           if (item.active == true) {
+            promotedItems.add(Hospital.fromJson(item.toJson()));
+          } else {
             newItems.add(Hospital.fromJson(item.toJson()));
           }
         });
+
+        newItems.forEach((element) {
+          promotedItems.add(element);
+        });
       } else {
         data.forEach((item) {
-          newItems.add(Hospital.fromJson(item.toJson()));
+          promotedItems.add(Hospital.fromJson(item.toJson()));
         });
       }
-      if (newItems == null || newItems.length == 0) {
-        pageController.appendLastPage(newItems);
-        locationData.clear();
-        locationTitle.clear();
-        pageController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
-          }
-        });
+      if (promotedItems == null || promotedItems.length == 0) {
+        pageController.appendLastPage(promotedItems);
       } else {
-        pageController.appendPage(newItems, page + 1);
-        locationData.clear();
-        locationTitle.clear();
-        pageController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
-          }
-        });
+        pageController.appendPage(promotedItems, page + 1);
       }
 
-      log("locationData--------------> $locationData");
+      locationData.clear();
+      locationTitle.clear();
+      pageController.itemList.forEach((element) {
+        if (element.geometry.coordinates != null) {
+          locationData.add(element.geometry);
+          locationTitle.add(element.name);
+        }
+      });
+      log("locationData----HOSPITAl----------> ${locationData.length}");
 
       loader.value = false;
     });

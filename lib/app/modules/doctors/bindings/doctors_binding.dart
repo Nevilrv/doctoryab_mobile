@@ -9,8 +9,6 @@ class DoctorsBinding extends Bindings {
     Get.lazyPut<DoctorsController>(
       () => DoctorsController(),
     );
-    Get.lazyPut<MyDoctorsController>(
-      () => MyDoctorsController(),
-    );
+    Get.put<MyDoctorsController>(MyDoctorsController());
   }
 }

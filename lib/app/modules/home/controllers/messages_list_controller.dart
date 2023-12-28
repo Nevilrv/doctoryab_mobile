@@ -138,7 +138,7 @@ class MessagesListController extends GetxController {
         });
       }
     }).then((value) {
-      log("value--------------> ${value}");
+      log("value--------------> $value");
 
       // var _tmp = value.map((item) {
       //   return ChatModel(
@@ -160,7 +160,7 @@ class MessagesListController extends GetxController {
       print(value.toString());
       chats.refresh();
       value.forEach((element) {
-        log("value--------------> ${element}");
+        log("value--------------> $element");
       });
 
       isLoading.value = false;

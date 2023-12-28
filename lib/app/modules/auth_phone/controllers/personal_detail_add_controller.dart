@@ -83,7 +83,8 @@ class AddPersonalInfoController extends GetxController {
               selectedGender.value, selectedLocationId.value)
           .then((value) {
         try {
-          // SettingsController.userToken = value["jwtoken"];
+          log('----value------------> $value');
+
           SettingsController.userProfileComplete = value["profile_completed"];
           SettingsController.userId = value['user']['_id'];
           SettingsController.savedUserProfile = u.User.fromJson(value['user']);
