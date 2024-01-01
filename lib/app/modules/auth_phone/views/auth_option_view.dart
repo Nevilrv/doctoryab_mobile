@@ -1,12 +1,10 @@
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
-import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -46,6 +44,78 @@ class AuthView extends GetView<AuthPhoneController> {
               SizedBox(
                 height: 30,
               ),
+
+              controller.isLoading.value == true
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      color: AppColors.white,
+                    ))
+                  : GestureDetector(
+                      onTap: () {
+                        controller.signInWithGoogle(context);
+                      },
+                      child: Container(
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                              child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppImages.google),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "sign_google".tr,
+                                style: AppTextTheme.b(16)
+                                    .copyWith(color: AppColors.primary),
+                              ),
+                            ],
+                          )),
+                        ),
+                      ),
+                    ),
+
+              SizedBox(
+                height: 40,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.REGISTER_GUEST_USER);
+                },
+                child: Container(
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(AppImages.userCircle),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "guest_user".tr,
+                          style: AppTextTheme.b(16)
+                              .copyWith(color: AppColors.primary),
+                        ),
+                      ],
+                    )),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
               GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.AUTH_PHONE);
@@ -83,102 +153,34 @@ class AuthView extends GetView<AuthPhoneController> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.REGISTER_GUEST_USER);
-                },
-                child: Container(
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(AppImages.userCircle),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "guest_user".tr,
-                          style: AppTextTheme.b(16)
-                              .copyWith(color: AppColors.primary),
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              controller.isLoading.value == true
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      color: AppColors.white,
-                    ))
-                  : GestureDetector(
-                      onTap: () {
-                        controller.signInWithGoogle(context);
-                      },
-                      child: Container(
-                        width: Get.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(AppImages.google),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                "sign_google".tr,
-                                style: AppTextTheme.b(16)
-                                    .copyWith(color: AppColors.primary),
-                              ),
-                            ],
-                          )),
-                        ),
-                      ),
-                    ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: Get.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Center(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppImages.facebook),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "sign_Facebook".tr,
-                        style: AppTextTheme.b(16)
-                            .copyWith(color: AppColors.primary),
-                      ),
-                    ],
-                  )),
-                ),
-              ),
+
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   width: Get.width,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(5),
+              //       color: Colors.white),
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(vertical: 10),
+              //     child: Center(
+              //         child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         SvgPicture.asset(AppImages.facebook),
+              //         SizedBox(
+              //           width: 5,
+              //         ),
+              //         Text(
+              //           "sign_Facebook".tr,
+              //           style: AppTextTheme.b(16)
+              //               .copyWith(color: AppColors.primary),
+              //         ),
+              //       ],
+              //     )),
+              //   ),
+              // ),
               // SizedBox(
               //   height: 20,
               // ),

@@ -323,7 +323,7 @@ const Map<String, String> enUS = {
   "topic_body": "Write your complaint about the subject",
   "add_attachment": "Add Attachment",
   "description":
-      "You can add images, videos or files. (video format only .mp4) Files and images size max 5mb.",
+      "You can add images, videos or files.(video format only .mp4) Files and images size max 5mb.",
   "suggestion_subject": "Suggestion Subject",
   "suggestion_body": "Write your suggestion about the subject",
   "about_condition": "Tell us about your condition?",
@@ -470,5 +470,6 @@ const Map<String, String> enUS = {
   "dosage": "Dosage",
   "hi": "Hi",
   "patient": "Patient",
-  "review": "Your review on this service"
+  "review": "Your review on this service",
+  "other_sign_in_option": "Other Sigin option",
 };

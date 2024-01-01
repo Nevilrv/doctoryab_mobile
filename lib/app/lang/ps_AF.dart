@@ -463,5 +463,6 @@ const Map<String, String> psAF = {
   "dosage": "د مصرف اندازه",
   "hi": "سلامونه",
   "patient": "ناروغ ",
-  "review": "د دې خدمت په اړه ستاسو بیاکتنه"
+  "review": "د دې خدمت په اړه ستاسو بیاکتنه",
+  "other_sign_in_option": "گزینه های بیشتر ورود",
 };
