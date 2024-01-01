@@ -84,6 +84,14 @@ class AuthPhoneView extends GetView<AuthPhoneController> {
                 ).paddingOnly(bottom: 40),
               ),
             ),
+            Hero(
+              tag: "tmp",
+              child: CustomRoundedButton(
+                text: "other_sign_in_option".tr,
+                width: 220,
+                onTap: () => Get.back(),
+              ).paddingOnly(bottom: 40),
+            ),
             Spacer(),
           ],
         ).paddingSymmetric(horizontal: 20),
