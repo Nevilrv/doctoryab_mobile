@@ -11,6 +11,7 @@ import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/repository/CategoriesRepository.dart';
 import 'package:doctor_yab/app/data/repository/LocationRepository.dart';
 import 'package:doctor_yab/app/modules/home/controllers/home_controller.dart';
+import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/services/LocalizationServices.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -325,7 +326,7 @@ class AppGetDialog {
         ));
   }
 
-  static showChangeLangDialog({langChangedCallBack(String languge)}) {
+  static showChangeLangDialog(NotificationController controller) {
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -387,10 +388,11 @@ class AppGetDialog {
                           Get.back();
 
                           LocalizationService().changeLocale(l);
+
                           // AuthController.to.setAppLanguge(l);
                           SettingsController.appLanguge = l;
-                          if (langChangedCallBack != null)
-                            langChangedCallBack(l);
+                          controller.changeLanguage();
+
                           log("SettingsController.appLanguge--------------> ${SettingsController.appLanguge}");
                         },
                         child: Container(

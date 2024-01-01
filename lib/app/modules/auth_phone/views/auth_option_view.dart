@@ -179,6 +179,33 @@ class AuthView extends GetView<AuthPhoneController> {
                   )),
                 ),
               ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   width: Get.width,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(5),
+              //       color: Colors.white),
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(vertical: 10),
+              //     child: Center(
+              //         child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         SvgPicture.asset(AppImages.facebook),
+              //         SizedBox(
+              //           width: 5,
+              //         ),
+              //         Text(
+              //           "sign_Apple".tr,
+              //           style: AppTextTheme.b(16)
+              //               .copyWith(color: AppColors.primary),
+              //         ),
+              //       ],
+              //     )),
+              //   ),
+              // ),
               Spacer(),
             ],
           ).paddingSymmetric(horizontal: 20),

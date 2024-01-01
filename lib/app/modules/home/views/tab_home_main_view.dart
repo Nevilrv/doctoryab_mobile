@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_drugs
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_hopistal_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/views/tab_home_labs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_home_doctors_view.dart';
+import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -21,6 +22,8 @@ import '../../../data/ApiConsts.dart';
 class TabHomeMainView extends GetView<TabHomeMainController> {
   TabHomeMainController tabHomeMainController =
       Get.put(TabHomeMainController());
+  NotificationController notificationController =
+      Get.put(NotificationController())..loadNotification();
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -176,7 +179,10 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                     right: 2,
                     top: 2,
                     child: CircleAvatar(
-                      backgroundColor: AppColors.red2,
+                      backgroundColor: notificationController.notification
+                              .any((element) => element.status == "unread")
+                          ? AppColors.red2
+                          : Colors.transparent,
                       radius: 4,
                     ),
                   ),

@@ -391,6 +391,7 @@ const Map<String, String> faIR = {
   "guest_user": "به عنوان کاربر مهمان وارد شوید",
   "sign_google": "با گوگل وارد شوید",
   "sign_Facebook": "با فیسبوک وارد شوید",
+  "sign_Apple": "با اپل وارد شوید",
   "sign_phone": "با شماره تماس وارد شوید",
   "enter_personal_info": "معلومات تانرا درج نمایید",
   "drug_name": "نام ادویه",

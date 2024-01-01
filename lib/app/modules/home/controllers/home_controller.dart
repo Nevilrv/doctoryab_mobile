@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/modules/profile_update/controllers/profile_update_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,8 @@ class HomeController extends GetxController
   TabController pageController;
   var dropdownValue = ''.obs;
   WebViewController webViewController;
-
+  NotificationController notificationController =
+  Get.put(NotificationController());
   setIndex(int index) {
     if (Get.arguments == null) {
       log("index--------------> $index");
@@ -31,7 +33,7 @@ class HomeController extends GetxController
     pageController.animateTo(Get.arguments == null ? 0 : Get.arguments['id']);
     super.onInit();
     Get.put(ProfileUpdateController());
-
+    notificationController.changeLanguage();
     // SettingsController.userToken
 
     log("jwt: ${SettingsController.userToken}");

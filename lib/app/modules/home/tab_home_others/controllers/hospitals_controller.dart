@@ -149,8 +149,9 @@ class HospitalsController extends GetxController {
   void _refreshPage() {
     cancelToken.cancel();
     cancelToken = CancelToken();
+
     pageController.refresh();
-    pageController.itemList.clear();
+    pageController.value.itemList.clear();
     loadData(pageController.firstPageKey);
   }
 

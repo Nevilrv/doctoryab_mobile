@@ -395,6 +395,7 @@ const Map<String, String> enUS = {
   "guest_user": "Sign In as Guest User",
   "sign_google": "Sign In with Google",
   "sign_Facebook": "Sign In with Facebook",
+  "sign_Apple": "Sign In with Apple",
   "sign_phone": "Sign In with Phone Number",
   "enter_personal_info": "Enter Your Personal Information",
   "drug_name": "Drug name",
