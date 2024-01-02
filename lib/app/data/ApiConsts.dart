@@ -8,7 +8,6 @@ class ApiConsts {
   static const String mapsApiKey = "AIzaSyAVUbtrhKdhW0g9imSAwXKNS4paUuZ9zLs";
   static const String apiKey =
       "zwsexdcrfvtgbhnjmk123321321312312313123123123123123lkmjnhbgvfcdxesxdrcftvgybhnujimkorewuirueioruieworuewoiruewoirqwff";
-
   static const int maxImageSizeLimit = 5000; //in KB after cropped
   var commonHeader = {
     'apikey':
@@ -16,18 +15,13 @@ class ApiConsts {
     'jwtoken': SettingsController.userToken.toString(),
     'Content-Type': 'application/json'
   };
-  // static const String localHostUrl = "https://testserver.doctoryab.app/";
   static const String localHostUrl = "https://almost-server.doctoryab.app/";
-  // static const String liveHostUrl = "https://alt.daktaryabapi.xyz";
   static final String liveHostUrl = AppStatics.envVars.apiURL;
   static String hostUrl = liveHostUrl;
   static const String apiVersion = "v4";
-
   static final socketServerURL = "$hostUrl";
-
   static String get baseUrl => "$hostUrl/api/$apiVersion";
   static const String authPath = "/user";
-
   static const String authPathGoogleFB = "/user/userAuth";
   static const String guestUserLogin = "/user/guestUserLogin";
   static const String addPersonalInfo = "/user/userPersonalInformation";
@@ -119,4 +113,6 @@ class ApiConsts {
   ///notification
   ///notification
   static const String notification = '/notification';
+  ///language update
+  static const String updateLanguage = '/user/language';
 }

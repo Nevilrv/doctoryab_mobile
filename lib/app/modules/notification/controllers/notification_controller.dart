@@ -1,16 +1,11 @@
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/notification_model.dart';
 import 'package:doctor_yab/app/data/repository/NotificationRepo.dart';
 import 'package:get/get.dart';
 
 class NotificationController extends GetxController {
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
-
   bool isLoading = false;
   List<Notification> notification = [];
   loadNotification() {
@@ -27,11 +22,32 @@ class NotificationController extends GetxController {
         update();
         log("notification--------------> ${notification.length}");
 
-        log("data--------------> ${data}");
+        log("data--------------> $data");
       });
     } catch (e) {
       isLoading = false;
       update();
     }
+  }
+
+  changeNotificationStatus(String notificationId) {
+    try {
+      NotificationRepository().notificationStatus(notificationId).then((data) {
+        loadNotification();
+      });
+    } catch (e) {
+      log("ERROR===> $e");
+    }
+    update();
+  }
+  changeLanguage() {
+    try {
+      NotificationRepository().changeLanguage(SettingsController.appLanguge).then((data) {
+    log("422-------------${data}");
+      });
+    } catch (e) {
+      log("ERROR===> $e");
+    }
+    update();
   }
 }

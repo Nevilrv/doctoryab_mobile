@@ -28,6 +28,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class TabSearchView extends GetView<TabSearchController> {
+  TabSearchController controller=Get.put(TabSearchController());
   @override
   Widget build(BuildContext context) {
     return Background(

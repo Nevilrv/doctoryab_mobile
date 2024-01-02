@@ -35,6 +35,7 @@ class NotificationModel {
 class Notification {
   String id;
   String title;
+  String status;
   String body;
   User user;
   PrescriptionId prescriptionId;
@@ -48,6 +49,7 @@ class Notification {
   Notification({
     this.id,
     this.title,
+    this.status,
     this.body,
     this.user,
     this.prescriptionId,
@@ -61,6 +63,7 @@ class Notification {
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
         id: json["_id"],
+        status: json["status"],
         title: json["title"],
         body: json["body"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
@@ -81,6 +84,7 @@ class Notification {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
+        "status": status,
         "title": title,
         "body": body,
         "user": user?.toJson(),

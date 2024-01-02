@@ -21,7 +21,6 @@ class NotificationView extends GetView<NotificationController> {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
 
     return Background(
       isSecond: false,
@@ -38,310 +37,304 @@ class NotificationView extends GetView<NotificationController> {
                 // color: AppColors.red,
                 child: Stack(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: Container(
-                        height: Get.height * 0.8,
-                        child: controller.isLoading == true
-                            ? Center(
-                                child: CircularProgressIndicator(
+                    Container(
+                      height: Get.height * 0.8,
+                      child: controller.isLoading == true
+                          ? Center(
+                              child: CircularProgressIndicator(
                                 color: AppColors.primary,
-                              ))
-                            : controller.notification.isEmpty
-                                ? Center(child: Text("no_result_found".tr))
-                                : SingleChildScrollView(
-                                    physics: BouncingScrollPhysics(),
-                                    child: Column(
-                                      children: List.generate(
-                                          controller.notification.length,
-                                          (index) {
-                                        // var d;
-                                        // if (controller.notification[index]
-                                        //         .prescriptionId !=
-                                        //     null) {
-                                        //   d = DateTime.parse(controller
-                                        //           .notification[index]
-                                        //           .prescriptionId
-                                        //           .createAt)
-                                        //       .toPersianDateStr(
-                                        //         strDay: false,
-                                        //         strMonth: true,
-                                        //         useAfghaniMonthName: true,
-                                        //       )
-                                        //       .trim()
-                                        //       .split(' ');
-                                        // } else if (controller
-                                        //         .notification[index]
-                                        //         .appointmentId !=
-                                        //     null) {
-                                        //   var _date = controller
-                                        //               .notification[index]
-                                        //               .appointmentId
-                                        //               .createAt ==
-                                        //           null
-                                        //       ? DateTime.now()
-                                        //       : DateTime
-                                        //               .fromMillisecondsSinceEpoch(
-                                        //                   int.tryParse(
-                                        //                       controller
-                                        //                           .notification[
-                                        //                               index]
-                                        //                           .appointmentId
-                                        //                           .createAt))
-                                        //           ?.toLocal();
-                                        //   d = DateTime.parse(_date.toString())
-                                        //       .toPersianDateStr(
-                                        //         strDay: false,
-                                        //         strMonth: true,
-                                        //         useAfghaniMonthName: true,
-                                        //       )
-                                        //       .trim()
-                                        //       .split(' ');
-                                        // } else if (controller
-                                        //         .notification[index].blogId !=
-                                        //     null) {
-                                        //   d = DateTime.parse(controller
-                                        //           .notification[index]
-                                        //           .blogId
-                                        //           .createAt)
-                                        //       .toPersianDateStr(
-                                        //         strDay: false,
-                                        //         strMonth: true,
-                                        //         useAfghaniMonthName: true,
-                                        //       )
-                                        //       .trim()
-                                        //       .split(' ');
-                                        // } else {
-                                        //   d = DateTime.parse(
-                                        //           DateTime.now().toString())
-                                        //       .toPersianDateStr(
-                                        //         strDay: false,
-                                        //         strMonth: true,
-                                        //         useAfghaniMonthName: true,
-                                        //       )
-                                        //       .trim()
-                                        //       .split(' ');
-                                        // }
+                              ),
+                            )
+                          : controller.notification.isEmpty
+                              ? Center(child: Text("no_result_found".tr))
+                              : ListView.separated(
+                                  itemCount: controller.notification.length,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 22),
+                                  physics: BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    // var d;
+                                    // if (controller.notification[index]
+                                    //         .prescriptionId !=
+                                    //     null) {
+                                    //   d = DateTime.parse(controller
+                                    //           .notification[index]
+                                    //           .prescriptionId
+                                    //           .createAt)
+                                    //       .toPersianDateStr(
+                                    //         strDay: false,
+                                    //         strMonth: true,
+                                    //         useAfghaniMonthName: true,
+                                    //       )
+                                    //       .trim()
+                                    //       .split(' ');
+                                    // } else if (controller
+                                    //         .notification[index]
+                                    //         .appointmentId !=
+                                    //     null) {
+                                    //   var _date = controller
+                                    //               .notification[index]
+                                    //               .appointmentId
+                                    //               .createAt ==
+                                    //           null
+                                    //       ? DateTime.now()
+                                    //       : DateTime
+                                    //               .fromMillisecondsSinceEpoch(
+                                    //                   int.tryParse(
+                                    //                       controller
+                                    //                           .notification[
+                                    //                               index]
+                                    //                           .appointmentId
+                                    //                           .createAt))
+                                    //           ?.toLocal();
+                                    //   d = DateTime.parse(_date.toString())
+                                    //       .toPersianDateStr(
+                                    //         strDay: false,
+                                    //         strMonth: true,
+                                    //         useAfghaniMonthName: true,
+                                    //       )
+                                    //       .trim()
+                                    //       .split(' ');
+                                    // } else if (controller
+                                    //         .notification[index].blogId !=
+                                    //     null) {
+                                    //   d = DateTime.parse(controller
+                                    //           .notification[index]
+                                    //           .blogId
+                                    //           .createAt)
+                                    //       .toPersianDateStr(
+                                    //         strDay: false,
+                                    //         strMonth: true,
+                                    //         useAfghaniMonthName: true,
+                                    //       )
+                                    //       .trim()
+                                    //       .split(' ');
+                                    // } else {
+                                    //   d = DateTime.parse(
+                                    //           DateTime.now().toString())
+                                    //       .toPersianDateStr(
+                                    //         strDay: false,
+                                    //         strMonth: true,
+                                    //         useAfghaniMonthName: true,
+                                    //       )
+                                    //       .trim()
+                                    //       .split(' ');
+                                    // }
 
-                                        print(
-                                            '=============${SettingsController.appLanguge}');
+                                    log('=============${SettingsController.appLanguge}');
 
-                                        DateTime d;
-                                        if (controller.notification[index]
-                                                .prescriptionId !=
-                                            null) {
-                                          d = DateTime.parse(controller
-                                              .notification[index]
-                                              .prescriptionId
-                                              .createAt);
-                                        } else if (controller
-                                                .notification[index]
-                                                .appointmentId !=
-                                            null) {
-                                          var _date = controller
+                                    DateTime d;
+                                    if (controller.notification[index]
+                                            .prescriptionId !=
+                                        null) {
+                                      d = DateTime.parse(controller
+                                          .notification[index]
+                                          .prescriptionId
+                                          .createAt);
+                                    } else if (controller.notification[index]
+                                            .appointmentId !=
+                                        null) {
+                                      var _date = controller.notification[index]
+                                                  .appointmentId.createAt ==
+                                              null
+                                          ? DateTime.now()
+                                          : DateTime.fromMillisecondsSinceEpoch(
+                                                  int.tryParse(controller
                                                       .notification[index]
                                                       .appointmentId
-                                                      .createAt ==
-                                                  null
-                                              ? DateTime.now()
-                                              : DateTime
-                                                      .fromMillisecondsSinceEpoch(
-                                                          int.tryParse(
-                                                              controller
-                                                                  .notification[
-                                                                      index]
-                                                                  .appointmentId
-                                                                  .createAt))
-                                                  ?.toLocal();
-                                          d = DateTime.parse(_date.toString());
-                                        } else if (controller
-                                                .notification[index].blogId !=
-                                            null) {
-                                          d = DateTime.parse(controller
-                                              .notification[index]
-                                              .blogId
-                                              .createAt);
-                                        } else if (controller
-                                                .notification[index].reportId !=
-                                            null) {
-                                          d = DateTime.parse(controller
-                                              .notification[index]
-                                              .reportId
-                                              .createAt);
-                                        } else {
-                                          d = DateTime.now();
+                                                      .createAt))
+                                              ?.toLocal();
+                                      d = DateTime.parse(_date.toString());
+                                    } else if (controller
+                                            .notification[index].blogId !=
+                                        null) {
+                                      d = DateTime.parse(controller
+                                          .notification[index].blogId.createAt);
+                                    } else if (controller
+                                            .notification[index].reportId !=
+                                        null) {
+                                      d = DateTime.parse(controller
+                                          .notification[index]
+                                          .reportId
+                                          .createAt);
+                                    } else {
+                                      d = DateTime.now();
+                                    }
+
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        log('====HELLOTYPE${controller.notification[index].type}');
+
+                                        if (controller
+                                                .notification[index].status ==
+                                            "unread") {
+                                          controller.changeNotificationStatus(
+                                              controller
+                                                  .notification[index].id);
                                         }
 
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 10.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              log('====HELLOTYPE${controller.notification[index].type}');
-
-                                              if (controller.notification[index]
-                                                      .type ==
-                                                  'blog') {
-                                                log('====HELLOTYPE${controller.notification[index].type}');
-
-                                                HomeController ctl = Get.find();
-                                                ctl.selectedIndex = 3;
-                                                Get.to(() => TabBlogView(),
-                                                    binding: TabMainBinding(),
-                                                    arguments: {
-                                                      'id': 'notification'
-                                                    });
-                                              } else if (controller
-                                                      .notification[index]
-                                                      .type ==
-                                                  'prescription') {
-                                                log('====HELLOTYPE${controller.notification[index].type}');
-                                                Get.toNamed(
-                                                    Routes.REPORT_MEDICAL,
-                                                    arguments: {'id': "0"});
-                                              } else if (controller
-                                                      .notification[index]
-                                                      .type ==
-                                                  'labReport') {
-                                                log('====HELLOTYPE${controller.notification[index].type}');
-
-                                                Get.toNamed(
-                                                    Routes.REPORT_MEDICAL,
-                                                    arguments: {'id': "1"});
-                                              } else if (controller
-                                                      .notification[index]
-                                                      .type ==
-                                                  'appointment') {
-                                                log('====HELLOTYPE${controller.notification[index].type}');
-
-                                                Get.toNamed(
-                                                    Routes.APPOINTMENT_HISTORY);
-                                              }
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      // SizedBox(height: 10),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Text(
-                                                            controller
-                                                                    .notification[
-                                                                        index]
-                                                                    .title ??
-                                                                "",
-                                                            style: AppTextStyle
-                                                                .boldPrimary11
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: AppColors
-                                                                        .primary
-                                                                        .withOpacity(
-                                                                            0.5)),
-                                                          ),
-                                                          Spacer(),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.circle,
-                                                                size: 3,
-                                                                color: AppColors
-                                                                    .primary,
-                                                              ),
-                                                              SizedBox(
-                                                                  width: 3),
-                                                              Text(
-                                                                "${calculateTime(d)}",
-                                                                style: AppTextStyle
-                                                                    .boldPrimary11
-                                                                    .copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        color: AppColors
-                                                                            .primary),
-                                                              ),
-                                                              // Text(
-                                                              //   " ${d[1]}",
-                                                              //   style: AppTextStyle
-                                                              //       .boldPrimary11
-                                                              //       .copyWith(
-                                                              //           fontWeight:
-                                                              //               FontWeight
-                                                              //                   .w500,
-                                                              //           color: AppColors
-                                                              //               .primary),
-                                                              // ),
-                                                              // Text(
-                                                              //   " ${d[3]}",
-                                                              //   style: AppTextStyle
-                                                              //       .boldPrimary11
-                                                              //       .copyWith(
-                                                              //           fontWeight:
-                                                              //               FontWeight
-                                                              //                   .w500,
-                                                              //           color: AppColors
-                                                              //               .primary),
-                                                              // ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(
-                                                        controller
-                                                                .notification[
-                                                                    index]
-                                                                .body ??
-                                                            "",
-                                                        style: AppTextTheme.h(
-                                                                12)
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .primary),
-                                                      ),
-                                                    ],
-                                                  ),
+                                        if (controller
+                                                .notification[index].type ==
+                                            'blog') {
+                                          HomeController ctl = Get.find();
+                                          ctl.selectedIndex = 3;
+                                          Get.to(() => TabBlogView(),
+                                              binding: TabMainBinding(),
+                                              arguments: {
+                                                'id': 'notification'
+                                              });
+                                        } else if (controller
+                                                .notification[index].type ==
+                                            'prescription') {
+                                          Get.toNamed(Routes.REPORT_MEDICAL,
+                                              arguments: {'id': "0"});
+                                        } else if (controller
+                                                .notification[index].type ==
+                                            'labReport') {
+                                          Get.toNamed(Routes.REPORT_MEDICAL,
+                                              arguments: {'id': "1"});
+                                        } else if (controller
+                                                .notification[index].type ==
+                                            'appointment') {
+                                          Get.toNamed(
+                                              Routes.APPOINTMENT_HISTORY);
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                flex: 10,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      controller
+                                                              .notification[
+                                                                  index]
+                                                              .title ??
+                                                          "",
+                                                      style: AppTextStyle
+                                                          .boldPrimary11
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5)),
+                                                    ),
+                                                    Text(
+                                                      controller
+                                                              .notification[
+                                                                  index]
+                                                              .body ??
+                                                          "",
+                                                      style: AppTextTheme.h(12)
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Divider(
-                                                    thickness: 1,
-                                                    color: AppColors.primary),
-                                              ],
-                                            ),
+                                              ),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "${calculateTime(d)}",
+                                                          style: AppTextStyle
+                                                              .boldPrimary11
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: AppColors
+                                                                      .primary),
+                                                        ),
+                                                        // Text(
+                                                        //   " ${d[1]}",
+                                                        //   style: AppTextStyle
+                                                        //       .boldPrimary11
+                                                        //       .copyWith(
+                                                        //           fontWeight:
+                                                        //               FontWeight
+                                                        //                   .w500,
+                                                        //           color: AppColors
+                                                        //               .primary),
+                                                        // ),
+                                                        // Text(
+                                                        //   " ${d[3]}",
+                                                        //   style: AppTextStyle
+                                                        //       .boldPrimary11
+                                                        //       .copyWith(
+                                                        //           fontWeight:
+                                                        //               FontWeight
+                                                        //                   .w500,
+                                                        //           color: AppColors
+                                                        //               .primary),
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 11,
+                                                    ),
+                                                    CircleAvatar(
+                                                      radius: 5,
+                                                      backgroundColor: controller
+                                                                  .notification[
+                                                                      index]
+                                                                  .status ==
+                                                              "unread"
+                                                          ? AppColors
+                                                              .switchGreen
+                                                          : Colors.transparent,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        );
-                                      }),
-                                    ),
-                                  ),
-                      ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return Divider(
+                                        height: 30,
+                                        thickness: 1,
+                                        color: AppColors.primary);
+                                  },
+                                ),
                     ),
                     Positioned(
-                        bottom: 20,
-                        right: 20,
-                        left: 20,
-                        child: BottomBarView(
-                          isHomeScreen: false,
-                          isBlueBottomBar: true,
-                        ))
+                      bottom: 20,
+                      right: 20,
+                      left: 20,
+                      child: BottomBarView(
+                        isHomeScreen: false,
+                        isBlueBottomBar: true,
+                      ),
+                    )
                   ],
                 ),
               );

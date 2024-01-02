@@ -20,19 +20,20 @@ class TabSearchController extends GetxController {
 
   @override
   void onInit() {
-    _fetchAds();
+
     // _registerPagingListener();
     debounce(filterName, (_) {
       if (teSearchController.text.trim() != "") {
-        pagingController.error = null;
-        pagingController.itemList = null;
-        pagingController.nextPageKey = pagingController.firstPageKey;
+        // pagingController.error = null;
+        // pagingController.itemList.clear();
+        // pagingController.nextPageKey = pagingController.firstPageKey;
         _search(pagingController.firstPageKey);
         pagingController.refresh();
       } else {
         firstSearchInit(false);
       }
     });
+    _fetchAds();
     super.onInit();
   }
 
@@ -43,7 +44,7 @@ class TabSearchController extends GetxController {
 
   @override
   void onClose() {
-    pagingController.dispose();
+    // pagingController.dispose();
     super.onClose();
   }
 

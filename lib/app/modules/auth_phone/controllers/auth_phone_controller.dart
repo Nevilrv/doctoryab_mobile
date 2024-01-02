@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:crypto/crypto.dart';
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+// import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthPhoneController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
@@ -34,6 +37,7 @@ class AuthPhoneController extends GetxController {
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   GoogleSignIn googleSignIn = GoogleSignIn();
+
   var isLoading = false.obs;
   @override
   void onInit() {
@@ -78,8 +82,7 @@ class AuthPhoneController extends GetxController {
     try {
       number = number.toEnglishDigit();
     } catch (e) {}
-    PhoneValidatorUtils phoneValidatorUtils =
-        PhoneValidatorUtils(number: number);
+    PhoneValidatorUtils phoneValidatorUtils = PhoneValidatorUtils(number: number);
     phoneValid(phoneValidatorUtils.isValid());
     phoneValidationError(phoneValidatorUtils.errorMessage);
     phoneValidatorUtils = null;
@@ -89,8 +92,7 @@ class AuthPhoneController extends GetxController {
     Get.focusScope.unfocus();
     // SettingsController.setAppLanguage(
     //     controller.selectedLang());
-    var _phoneNum =
-        Utils.changeAfgNumberToIntlFormat(textEditingController.text);
+    var _phoneNum = Utils.changeAfgNumberToIntlFormat(textEditingController.text);
     if (GetPlatform.isWeb) {
       EasyLoading.show(status: "please_wait".tr);
       AuthController.to.signInWithPhoneWeb(
@@ -143,22 +145,17 @@ class AuthPhoneController extends GetxController {
       // googleSignIn.currentUser!.clearAuthCache();
       googleSignIn.signOut();
 
-      final GoogleSignInAccount googleSignInAccount =
-          await googleSignIn.signIn();
-      if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() ==
-          'failed_to_recover_auth') {
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() == 'failed_to_recover_auth') {
         isLoading.value = false;
       }
 
-      print(
-          'GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
+      print('GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
 
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
       credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken);
+          accessToken: googleSignInAuthentication.accessToken, idToken: googleSignInAuthentication.idToken);
       // final userCredential =
       //     await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
       // log("userCredential${userCredential}");
@@ -172,40 +169,32 @@ class AuthPhoneController extends GetxController {
 
       if (googleSignInAuthentication.idToken != null) {
         try {
-          AuthRepository()
-              .signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken)
-              .then((value) {
+          AuthRepository().signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken).then((value) {
             var reponseData = value.data;
 
             SettingsController.userToken = reponseData["jwtoken"];
             log("SettingsController.userToken--------------> ${SettingsController.userToken}");
-            SettingsController.userProfileComplete =
-                reponseData["profile_completed"];
+            SettingsController.userProfileComplete = reponseData["profile_completed"];
             log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
-            SettingsController.userId = reponseData['user'] == null
-                ? reponseData['newUser']['_id']
-                : reponseData['user']['_id'];
+            SettingsController.userId =
+                reponseData['user'] == null ? reponseData['newUser']['_id'] : reponseData['user']['_id'];
             log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
 
             log("SettingsController.userToken--------------> ${SettingsController.userToken}");
             isLoading.value = false;
             try {
-              SettingsController.savedUserProfile = u.User.fromJson(
-                  reponseData['user'] == null
-                      ? reponseData['newUser']
-                      : reponseData['user']);
+              SettingsController.savedUserProfile =
+                  u.User.fromJson(reponseData['user'] == null ? reponseData['newUser'] : reponseData['user']);
               if (SettingsController.isUserProfileComplete == false) {
                 Get.toNamed(Routes.ADD_PERSONAL_INFO);
               } else {
-                SettingsController.auth.savedCity =
-                    City.fromJson(reponseData['city']);
+                SettingsController.auth.savedCity = City.fromJson(reponseData['city']);
                 SettingsController.userLogin = true;
                 Get.offAllNamed(Routes.HOME);
               }
               log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
             } catch (e) {
-              Utils.commonSnackbar(
-                  context: context, text: "Google login failed");
+              Utils.commonSnackbar(context: context, text: "Google login failed");
               log("e--------------> ${e}");
             }
             log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
@@ -231,4 +220,47 @@ class AuthPhoneController extends GetxController {
     }
     return null;
   }
+
+  /// Returns the sha256 hash of [input] in hex notation.
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  // Future<void> signInWithApple() async {
+  //   try {
+  //     final rawNonce = generateNonce();
+  //     final nonce = sha256ofString(rawNonce);
+  //     // Request credential for the currently signed in Apple account.
+  //     final appleCredential = await SignInWithApple.getAppleIDCredential(
+  //       scopes: [
+  //         AppleIDAuthorizationScopes.email,
+  //         AppleIDAuthorizationScopes.fullName,
+  //       ],
+  //       nonce: nonce,
+  //     );
+  //     if (appleCredential.givenName != null) {
+  //       // SharedPrefs().setAppleIdName(
+  //       //     forAppleId: '${appleCredential.userIdentifier}',
+  //       //     email: appleCredential.givenName!);
+  //     }
+  //     if (appleCredential.email != null) {
+  //       // SharedPrefs().setAppleIdEmail(
+  //       //     forAppleId: '${appleCredential.userIdentifier}',
+  //       //     email: appleCredential.email!);
+  //     }
+  //
+  //     // String email = await SharedPrefs()
+  //     //     .getAppleIdEmail(forAppleId: '${appleCredential.userIdentifier}');
+  //     // String name = await SharedPrefs()
+  //     //     .getAppleIdName(forAppleId: '${appleCredential.userIdentifier}');
+  //     if (appleCredential.userIdentifier != null) {
+  //       // socialLogin(
+  //       //     'apple', appleCredential.userIdentifier!, name ?? "", email ?? "");
+  //     }
+  //   } catch (e) {
+  //     // Loader.dismiss();
+  //   }
+  // }
 }

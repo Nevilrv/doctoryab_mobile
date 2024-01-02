@@ -73,6 +73,29 @@ class AuthRepository {
     return response;
   }
 
+  Future<dynamic> signInWithGAppleApi(String token) async {
+    //TODO handle exception
+    var fcmToken;
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } catch (e, s) {
+      Logger().e("", e, s);
+    }
+
+    final response = await dio.post(
+      ApiConsts.authPathGoogleFB,
+      data: {
+        "idtoken": token,
+        "fcm": fcmToken ?? "",
+        "language": "English",
+        "method": "Apple"
+      },
+    );
+    log("response--------------> ${response.data}");
+
+    return response;
+  }
+
   Future<dynamic> registerGuestUserApi(
       String name, String phone, String gender, String city) async {
     //TODO handle exception

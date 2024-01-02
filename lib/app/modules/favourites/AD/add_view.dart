@@ -4,6 +4,7 @@ import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'dart:io' show Platform;
 
 class AddAd extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class AddAdState extends State<AddAd> {
   @override
   void initState() {
     _bannerAd = BannerAd(
-      adUnitId: Utils.bannerAdId,
+      adUnitId: Platform.isAndroid ? Utils.bannerAdId : Utils.bannerAdIOSId,
       request: AdRequest(),
       // size: AdSize(height: (200).round(), width: Get.width.round()),
       size: AdSize.banner,

@@ -4,11 +4,11 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
+import '../../../controllers/settings_controller.dart';
 import '../controllers/auth_otp_controller.dart';
 
 class AuthOtpView extends GetView<AuthOtpController> {
@@ -23,6 +23,26 @@ class AuthOtpView extends GetView<AuthOtpController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(
+              height: Get.height * 0.064,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: RotatedBox(
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            ),
+
             Spacer(),
             // Spacer(flex: 2),
             // Hero(

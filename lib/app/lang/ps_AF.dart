@@ -388,6 +388,7 @@ const Map<String, String> psAF = {
   "guest_user": "د میلمه ګټه اخیستونکی په حیث دننه شی",
   "sign_google": "ګوګل سره دننه شی",
   "sign_Facebook": "فیسبوک په وسیله دننه شی",
+  "sign_Apple": "د مڼې سره ننوتل",
   "sign_phone": "د تلیفون شمیری په وسیله دننه شی ",
   "enter_personal_info": "خپل معلومات درج کړی",
   "drug_name": "د درملو نوم",
@@ -462,5 +463,6 @@ const Map<String, String> psAF = {
   "dosage": "د مصرف اندازه",
   "hi": "سلامونه",
   "patient": "ناروغ ",
-  "review": "د دې خدمت په اړه ستاسو بیاکتنه"
+  "review": "د دې خدمت په اړه ستاسو بیاکتنه",
+  "other_sign_in_option": "گزینه های بیشتر ورود",
 };

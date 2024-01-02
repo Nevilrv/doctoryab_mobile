@@ -644,7 +644,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                               )
                                                                       ],
                                                                     ),
-                                                                    controller.doctorList[index].isActive ==
+                                                                    controller.doctorList[index].active ==
                                                                             true
                                                                         ? Positioned(
                                                                             top:

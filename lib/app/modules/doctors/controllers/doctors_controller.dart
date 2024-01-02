@@ -243,6 +243,7 @@ class DoctorsController extends GetxController {
 
       if (selectedSort == 'promoted'.tr) {
         data.data["data"].forEach((item) {
+          log("item['active']----->${item['active']}");
           if (item['active'] == true) {
             promotedItems.add(Doctor.fromJson(item));
           } else {

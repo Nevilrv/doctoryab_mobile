@@ -15,13 +15,11 @@ import '../routes/app_pages.dart';
 class PushNotificationService {
   var _init = false;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description:
-        'This channel is used for important notifications.', // description
+    description: 'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
   // Chat
@@ -34,25 +32,20 @@ class PushNotificationService {
     if (_init) return;
     _init = true;
     _fcm.requestPermission();
-    var androidInitilize =
-        new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var androidInitilize = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOSinitilize = new DarwinInitializationSettings();
-    var initilizationsSettings = new InitializationSettings(
-        android: androidInitilize, iOS: iOSinitilize);
+    var initilizationsSettings = new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
     flutterLocalNotificationsPlugin.initialize(
       initilizationsSettings,
-      onDidReceiveNotificationResponse: (n) =>
-          onDidReceiveNotificationResponse(n),
+      onDidReceiveNotificationResponse: (n) => onDidReceiveNotificationResponse(n),
       // onDidReceiveBackgroundNotificationResponse:
       //     onDidReceiveNotificationResponse,
     );
 
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
@@ -81,12 +74,11 @@ class PushNotificationService {
 
     log("fcm_data: ${jsonEncode(message.data)}");
     log("fcm_data: ${message.data}");
-    print(Doctor.fromJson(json.decode(message?.data['doctor'] ?? "{}") ?? {})
-        .name);
+    // print(Doctor.fromJson(json.decode(message?.data['doctor'] ?? "{}") ?? {})
+    //     .name);
     //
     if (message.data != null) {
-      if (message.data["purpose"] != null &&
-          message.data["purpose"] == "send-message") {
+      if (message.data["purpose"] != null && message.data["purpose"] == "send-message") {
         _notificationType = NotificationType.message;
         log("it is a message   ${message.messageId}");
         try {
@@ -95,9 +87,7 @@ class PushNotificationService {
           ChatNotificationHandler.handle(
             chatNotification,
             NotificationPayloadModel(
-                data: chatNotification.toRawJson(),
-                id: message.messageId,
-                type: "$_notificationType"),
+                data: chatNotification.toRawJson(), id: message.messageId, type: "$_notificationType"),
           );
         } catch (e, s) {
           Logger().e("Failed to decode the message JSON", e, s);
@@ -132,8 +122,7 @@ class PushNotificationService {
   }
 
   // Future onDidReceiveNotificationResponse(String payload) async {
-  Future<void> onDidReceiveNotificationResponse(
-      NotificationResponse notificationResponse) async {
+  Future<void> onDidReceiveNotificationResponse(NotificationResponse notificationResponse) async {
     log("opened $notificationType ${_notificationType.hashCode}    ${notificationType.hashCode}  ");
     log("opened ${notificationResponse.id}");
     log("opened ${notificationResponse.payload}");
@@ -141,19 +130,16 @@ class PushNotificationService {
     // Get.to(() => RateView());
 
     if (notificationResponse.payload != null) {
-      NotificationPayloadModel payload =
-          NotificationPayloadModel.fromRawJson(notificationResponse.payload);
+      NotificationPayloadModel payload = NotificationPayloadModel.fromRawJson(notificationResponse.payload);
 
       if (payload.type == "${NotificationType.rate}")
         Get.toNamed(Routes.RATE, arguments: notificationResponse.payload);
       else if (payload.type == "${NotificationType.message}")
-        ChatNotificationHandler.handleClick(
-            ChatNotificationModel.fromRawJson(payload.data));
+        ChatNotificationHandler.handleClick(ChatNotificationModel.fromRawJson(payload.data));
     }
   }
 
-  Future<void> showNotification(
-      String title, String content, NotificationPayloadModel payLoad) async {
+  Future<void> showNotification(String title, String content, NotificationPayloadModel payLoad) async {
     await flutterLocalNotificationsPlugin.show(
       content.hashCode,
       title,

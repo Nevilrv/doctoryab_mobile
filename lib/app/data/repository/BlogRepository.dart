@@ -124,7 +124,7 @@ class BlogRepository {
 
     var dio = Dio();
     var response = await dio.put(
-      ApiConsts.hostUrl + "api/v1" + ApiConsts.blogLike,
+      ApiConsts.baseUrl  + ApiConsts.blogLike,
       options: Options(
         method: 'PUT',
         headers: headers,
@@ -144,7 +144,7 @@ class BlogRepository {
 
     var dio = Dio();
     var response = await dio.put(
-      ApiConsts.hostUrl + "api/v1" + ApiConsts.blogShare,
+      ApiConsts.baseUrl + ApiConsts.blogShare,
       options: Options(
         method: 'PUT',
         headers: headers,

@@ -97,7 +97,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
                             "location".tr,
                             style: AppTextStyle.regularBlack11
                                 .copyWith(color: AppColors.lightPurple4),
-                          ).paddingOnly(top: 15, left: 40),
+                          ).paddingOnly(top: 15, left: 40,right: 40),
                           GestureDetector(
                             onTap: () => Get.toNamed(Routes.LOCATION_PICKER,
                                     preventDuplicates: true,
@@ -156,7 +156,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
                             "gender".tr,
                             style: AppTextStyle.regularBlack11
                                 .copyWith(color: AppColors.lightPurple4),
-                          ).paddingOnly(top: 15, left: 40),
+                          ).paddingOnly(top: 15, left: 40,right: 40),
                           _buildGenderRow().paddingHorizontal(25),
                           _buildCheckbox(),
                           SizedBox(height: 40),

@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart'
 import 'package:doctor_yab/app/modules/home/views/profile/suggestion_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_docs_view.dart';
 import 'package:doctor_yab/app/modules/home/views/tab_meeting_time_view.dart';
+import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -31,7 +32,10 @@ import '../../../profile_update/views/profile_update_view.dart';
 import '../../controllers/tab_home_main_controller.dart';
 
 class TabMoreView extends GetView {
-  const TabMoreView({Key key}) : super(key: key);
+  TabMoreView({Key key}) : super(key: key);
+  NotificationController notificationController =
+      Get.put(NotificationController())..loadNotification();
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -60,11 +64,39 @@ class TabMoreView extends GetView {
                 onTap: () {
                   Get.toNamed(Routes.NOTIFICATION);
                 },
-                child: SvgPicture.asset(
-                  AppImages.bellwhite,
-                  height: 24,
-                  width: 24,
+                child: Center(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.NOTIFICATION);
+                        },
+                        child: Image.asset(
+                          AppImages.bell,
+                          height: 22,
+                          width: 22,
+                        ),
+                      ),
+                      Positioned(
+                        right: 2,
+                        top: 2,
+                        child: CircleAvatar(
+                          backgroundColor: notificationController.notification
+                                  .any((element) => element.status == "unread")
+                              ? AppColors.red2
+                              : Colors.transparent,
+                          radius: 4,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                // child: SvgPicture.asset(
+                //   AppImages.bellwhite,
+                //   height: 24,
+                //   width: 24,
+                // ),
               ),
             )
           ],
@@ -258,7 +290,7 @@ class TabMoreView extends GetView {
           title: "appointment_history".tr),
       commonprofilemenu(
           onTap: () {
-            AppGetDialog.showChangeLangDialog();
+            AppGetDialog.showChangeLangDialog(notificationController);
           },
           icon: AppImages.frame,
           title: "change_language".tr),
