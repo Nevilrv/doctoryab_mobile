@@ -12,6 +12,7 @@ import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'dart:io' show Platform;
 
 class DrugsController extends GetxController {
   String filterSearch = "";
@@ -131,7 +132,7 @@ class DrugsController extends GetxController {
     bannerAd = BannerAd(
         size: AdSize(height: (200).round(), width: Get.width.round()),
         // size: AdSize.banner,
-        adUnitId: Utils.bannerAdId,
+        adUnitId: Platform.isAndroid ? Utils.bannerAdId : Utils.bannerAdIOSId,
         listener: BannerAdListener(
           onAdLoaded: (ad) {
             isLoadAd = true;

@@ -57,9 +57,7 @@ class DoctorsRepository {
       };
     }
 
-    print('======REQUEST PARAMETER======>>>${requestParameter}');
-    print(
-        '+++++HUHOUHOP${'${" https://almost-server.doctoryab.app/api/v4"}${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}'}');
+    log('======REQUEST PARAMETER======>>>$requestParameter');
     response = await _cachedDio.get(
       '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
       cancelToken: cancelToken,

@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
@@ -209,139 +209,242 @@ class DrugsDatabaseView extends GetView<DrugsController> {
           borderRadius: BorderRadius.circular(10),
           color: AppColors.white,
         ),
-        child: Row(
+        child: Stack(clipBehavior: Clip.none,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
               children: [
-                Container(
-                    height: h * 0.119,
-                    width: w * 0.327,
-                    decoration: BoxDecoration(
-                      color: AppColors.lightYellow,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: "${ApiConsts.hostUrl}${item.img}",
-                      height: h * 0.082,
-                      width: w * 0.178,
-                      fit: BoxFit.cover,
-                      placeholder: (_, __) {
-                        return Image.asset(
-                          AppImages.vitamin,
-                          height: h * 0.082,
-                          width: w * 0.178,
-                        );
-                      },
-                      errorWidget: (_, __, ___) {
-                        return Image.asset(
-                          AppImages.vitamin,
-                          height: h * 0.082,
-                          width: w * 0.178,
-                        );
-                      },
-                    )
-
-                    // Center(
-                    //   child: Image.asset(
-                    //     AppImages.vitamin,
-                    //     height: h * 0.082,
-                    //     width: w * 0.178,
-                    //   ),
-                    // ),
-                    ),
-                Container(
-                  height: h * 0.023,
-                  width: w * 0.327,
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPurple2,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ...List.generate(
-                          5,
-                          (subIndex) {
-                            return SvgPicture.asset(
-                              subIndex == 4
-                                  ? AppImages.favGrey
-                                  : AppImages.favGolden,
-                              height: 10,
-                              width: 10,
-                            ).paddingOnly(right: subIndex == 4 ? 0 : 6);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: w * 0.327,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: h * 0.023,
-                        padding: EdgeInsets.symmetric(horizontal: 9),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        height: h * 0.119,
+                        width: w * 0.327,
                         decoration: BoxDecoration(
-                          color: AppColors.lightPurple2,
-                          borderRadius: BorderRadius.circular(3),
+                          color: AppColors.lightYellow,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            AppImages.circleInfo,
-                            height: 10,
-                            width: 10,
-                            color: AppColors.primary,
-                          ),
+                        child: CachedNetworkImage(
+                          imageUrl: "${ApiConsts.hostUrl}${item.img}",
+                          height: h * 0.082,
+                          width: w * 0.178,
+                          fit: BoxFit.cover,
+                          placeholder: (_, __) {
+                            return Image.asset(
+                              AppImages.vitamin,
+                              height: h * 0.082,
+                              width: w * 0.178,
+                            );
+                          },
+                          errorWidget: (_, __, ___) {
+                            return Image.asset(
+                              AppImages.vitamin,
+                              height: h * 0.082,
+                              width: w * 0.178,
+                            );
+                          },
+                        )
+
+                        // Center(
+                        //   child: Image.asset(
+                        //     AppImages.vitamin,
+                        //     height: h * 0.082,
+                        //     width: w * 0.178,
+                        //   ),
+                        // ),
+                        ),
+                    Container(
+                      height: h * 0.023,
+                      width: w * 0.327,
+                      decoration: BoxDecoration(
+                        color: AppColors.lightPurple2,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ...List.generate(
+                              5,
+                              (subIndex) {
+                                return SvgPicture.asset(
+                                  subIndex == 4
+                                      ? AppImages.favGrey
+                                      : AppImages.favGolden,
+                                  height: 10,
+                                  width: 10,
+                                ).paddingOnly(right: subIndex == 4 ? 0 : 6);
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          SettingsController.drugData = [item];
-                          controller.update();
-                        },
-                        child: Container(
-                          height: h * 0.023,
-                          width: w * 0.24,
-                          decoration: BoxDecoration(
-                            color: SettingsController.drugData.any(
-                                    (element) => element.id.contains(item.id))
-                                ? AppColors.primary
-                                : AppColors.lightPurple2,
-                            borderRadius: BorderRadius.circular(3),
+                    ),
+                    Container(
+                      width: w * 0.327,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: h * 0.023,
+                            padding: EdgeInsets.symmetric(horizontal: 9),
+                            decoration: BoxDecoration(
+                              color: AppColors.lightPurple2,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                AppImages.circleInfo,
+                                height: 10,
+                                width: 10,
+                                color: AppColors.primary,
+                              ),
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "add_to_list".tr,
-                                style: SettingsController.drugData.any(
-                                        (element) =>
-                                            element.id.contains(item.id))
-                                    ? AppTextStyle.boldWhite8
-                                    : AppTextStyle.boldPrimary8,
+                          GestureDetector(
+                            onTap: () {
+                              SettingsController.drugData = [item];
+                              controller.update();
+                            },
+                            child: Container(
+                              height: h * 0.023,
+                              width: w * 0.24,
+                              decoration: BoxDecoration(
+                                color: SettingsController.drugData.any(
+                                        (element) => element.id.contains(item.id))
+                                    ? AppColors.primary
+                                    : AppColors.lightPurple2,
+                                borderRadius: BorderRadius.circular(3),
                               ),
-                              SizedBox(
-                                width: w * 0.005,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "add_to_list".tr,
+                                    style: SettingsController.drugData.any(
+                                            (element) =>
+                                                element.id.contains(item.id))
+                                        ? AppTextStyle.boldWhite8
+                                        : AppTextStyle.boldPrimary8,
+                                  ),
+                                  SizedBox(
+                                    width: w * 0.005,
+                                  ),
+                                  SettingsController.drugData.any(
+                                          (element) => element.id.contains(item.id))
+                                      ? Icon(
+                                          Icons.favorite,
+                                          size: w * 0.02,
+                                          color: AppColors.white,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border,
+                                          size: w * 0.02,
+                                          color: AppColors.primary,
+                                        ),
+                                ],
                               ),
-                              SettingsController.drugData.any(
-                                      (element) => element.id.contains(item.id))
-                                  ? Icon(
-                                      Icons.favorite,
-                                      size: w * 0.02,
-                                      color: AppColors.white,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_border,
-                                      size: w * 0.02,
-                                      color: AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${item.englishName}",
+                        style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "${item.persianName}",
+                        style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "${item.company}",
+                        style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: h * 0.005,
+                          top: h * 0.005,
+                          right: 20,
+                        ),
+                        child: Divider(
+                          height: 0,
+                          thickness: 1,
+                          color: AppColors.primary.withOpacity(0.3),
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List.generate(
+                            3,
+                            (subIndex) => Row(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: h * 0.035,
+                                  width: h * 0.035,
+                                  padding: EdgeInsets.all(3),
+                                  margin: EdgeInsets.only(right: 5),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.lightPurple,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Image.asset(
+                                    controller.data[subIndex]["image"],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.data[subIndex]["title"]
+                                          .toString()
+                                          .tr,
+                                      style: AppTextStyle.boldPrimary9
+                                          .copyWith(height: 1.2),
                                     ),
-                            ],
+                                    SizedBox(
+                                      height: Get.height * 0.003,
+                                    ),
+                                    Container(
+                                      width: w * 0.33,
+                                      child: Text(
+                                        subIndex == 1
+                                            ? item.pack
+                                            : subIndex == 2
+                                                ? controller.data[2]["text"]
+                                                    .toString()
+                                                    .trArgs([item.packsAndPrices])
+                                                : item.drugType ?? "None",
+                                        style: AppTextStyle.regularPrimary9
+                                            .copyWith(height: 1),
+                                        maxLines: 4,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -350,105 +453,31 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                 ),
               ],
             ),
-            SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${item.englishName}",
-                    style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    "${item.persianName}",
-                    style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    "${item.company}",
-                    style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: h * 0.005,
-                      top: h * 0.005,
-                      right: 20,
-                    ),
-                    child: Divider(
-                      height: 0,
-                      thickness: 1,
-                      color: AppColors.primary.withOpacity(0.3),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        3,
-                        (subIndex) => Row(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: h * 0.035,
-                              width: h * 0.035,
-                              padding: EdgeInsets.all(3),
-                              margin: EdgeInsets.only(right: 5),
-                              decoration: BoxDecoration(
-                                color: AppColors.lightPurple,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Image.asset(
-                                controller.data[subIndex]["image"],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  controller.data[subIndex]["title"]
-                                      .toString()
-                                      .tr,
-                                  style: AppTextStyle.boldPrimary9
-                                      .copyWith(height: 1.2),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.003,
-                                ),
-                                Container(
-                                  width: w * 0.33,
-                                  child: Text(
-                                    subIndex == 1
-                                        ? item.pack
-                                        : subIndex == 2
-                                            ? controller.data[2]["text"]
-                                                .toString()
-                                                .trArgs([item.packsAndPrices])
-                                            : item.drugType ?? "None",
-                                    style: AppTextStyle.regularPrimary9
-                                        .copyWith(height: 1),
-                                    maxLines: 4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            item.active == true
+                ? Positioned(
+              top: -5,
+              right:
+              SettingsController.appLanguge != "English" ? null : -5,
+              left:
+              SettingsController.appLanguge == "English" ? null : -5,
+              child: SettingsController.appLanguge != "English"
+                  ? Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationY(math.pi),
+                  child: Image.asset(
+                    AppImages.promote,
+                    height: 18,
+                    width: 18,
+                    color: AppColors.primary,
+                  ))
+                  : Image.asset(
+                AppImages.promote,
+                height: 18,
+                width: 18,
+                color: AppColors.primary,
               ),
-            ),
+            )
+                : SizedBox()
           ],
         ),
       ),

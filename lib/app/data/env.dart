@@ -4,7 +4,7 @@ enum AppEnvType { UZB, PROD, DEV }
 
 class AppEnvVars {
   final AppEnvType appEnvType = AppEnvType.DEV;
-  // final String apiURL = "https://server.doctoryab.app/";
+  // final String apiURL = "https://testserver.doctoryab.app/";
   final String apiURL = "https://almost-server.doctoryab.app/";
   final String countryCode = "+93";
   final String appName = "DoctorYab";

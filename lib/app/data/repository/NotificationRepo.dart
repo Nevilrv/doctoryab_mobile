@@ -26,22 +26,20 @@ class NotificationRepository {
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
     return response.data;
-  } Future<dynamic> changeLanguage(String language) async {
+  }
+
+  Future<dynamic> changeLanguage(String language) async {
     log("{'language': language}---------------->${{'language': language}}");
 
     var headers = ApiConsts().commonHeader;
-    var data =
-  {'language': language};
+    var data = {'language': language};
     log("data--------------> $data");
 
     var dio = Dio();
-    var response = await dio.put(
+    var response = await _cachedDio.put(
       ApiConsts.baseUrl + ApiConsts.updateLanguage,
-      options: Options(
-        method: 'PUT',
-        headers: headers,
-      ),
       data: data,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
     // final response = await _cachedDio.put(
     //   ApiConsts.updateLanguage,

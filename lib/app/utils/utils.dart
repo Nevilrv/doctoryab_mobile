@@ -51,6 +51,7 @@ class Utils {
   }
 
   static const bannerAdId = "ca-app-pub-7346350725133754/9537971919";
+  static const bannerAdIOSId = "ca-app-pub-7346350725133754/5779438739";
 
   static void configEasyLoading() {
     EasyLoading.instance

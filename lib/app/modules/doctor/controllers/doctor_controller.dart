@@ -25,6 +25,7 @@ class DoctorController extends GetxController {
   void onInit() {
     doctor = args;
     log("doctor.datumId--------------> ${doctor.datumId}");
+    log("doctor.datumId--------------> ${doctor.name}");
 
     getDocFeedback(doctorId: doctor.datumId);
     // if (!(args is List && args.length > 0 && args[0] is Doctor)) {

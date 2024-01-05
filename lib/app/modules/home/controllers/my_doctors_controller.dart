@@ -500,7 +500,12 @@ class MyDoctorsController extends GetxController {
       // Utils.whereShouldIGo();
       fetechingGPSDataStatus(FetechingGPSDataStatus.success);
       EasyLoading.dismiss();
-      _refreshPage();
+      cancelToken.cancel();
+      cancelToken = CancelToken();
+      // Utils.resetPagingController(pagingController);
+
+      pagingController.refresh();
+      fetchDoctors(pagingController.firstPageKey);
     } catch (e) {
       EasyLoading.dismiss();
 

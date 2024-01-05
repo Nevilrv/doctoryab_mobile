@@ -25,7 +25,7 @@ class LabsRepository {
   }) async {
     Map<String, dynamic> requestParameter = {};
 
-    print('===============....${filterName}');
+    print('===============....$filterName');
 
     if (filterName == 'Nearest Lab' ||
         filterName == 'نزدیکترین لابراتوار' ||
@@ -54,7 +54,6 @@ class LabsRepository {
 
     log('---RequestParameter---->>>>>$requestParameter');
 
-    print("Get---Category---${ApiConsts.categoriesByCityPath}");
     final response = await _cachedDio.get(
       ApiConsts.labsByCity,
       cancelToken: cancelToken,
@@ -72,8 +71,6 @@ class LabsRepository {
     void onError(e),
     CancelToken cancelToken,
   }) async {
-    log("name--------------> ${name}");
-
     final response = await _cachedDio.get(
       '${ApiConsts.labsBySearch}$name',
       cancelToken: cancelToken,

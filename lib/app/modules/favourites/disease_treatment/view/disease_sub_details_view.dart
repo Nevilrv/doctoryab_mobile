@@ -332,7 +332,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                                                     current1++;
                                                   }
 
-                                                  log('current ${current1}');
+                                                  log('current $current1');
                                                 });
 
                                                 if (current1 ==

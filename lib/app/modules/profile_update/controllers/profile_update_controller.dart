@@ -203,12 +203,13 @@ class ProfileUpdateController extends GetxController {
     loading.value = true;
     AuthRepository()
         .updateProfile(
-            name: teName.text,
-            age: int.parse(teAge.text),
-            cityId: selectedLocationId.value.toString(),
-            gender: selectedGender.value,
-            phone: teNewNumber.text,
-            email: email.text)
+      name: teName.text,
+      age: int.parse(teAge.text),
+      cityId: selectedLocationId.value.toString(),
+      gender: selectedGender.value,
+      phone: teNewNumber.text,
+      email: email.text,
+    )
         .then((value) {
       log("value--------------> ${value}");
 

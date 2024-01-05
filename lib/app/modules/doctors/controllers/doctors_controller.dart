@@ -243,6 +243,7 @@ class DoctorsController extends GetxController {
 
       if (selectedSort == 'promoted'.tr) {
         data.data["data"].forEach((item) {
+          log("item['active']----->${item['active']}");
           if (item['active'] == true) {
             promotedItems.add(Doctor.fromJson(item));
           } else {
@@ -294,7 +295,7 @@ class DoctorsController extends GetxController {
     selectedSort = v;
     //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
     if (v == "best_rating".tr) {
-      sort = "neartest";
+      sort = "stars";
       _refreshPage();
     }
     // else if (v == 'recommended'.tr) {
@@ -368,22 +369,26 @@ class DoctorsController extends GetxController {
     try {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
-      print("serv-enabled $_serviceEnabled");
-      var locationData =
-          await location.getLocation().timeout(Duration(seconds: 10));
-      print("loc" + locationData.toString());
-
+      log("serv-enabled $_serviceEnabled");
+      var locationData = await location.getLocation();
+      log("loc" + locationData.toString());
       // AuthController.to.setLastUserLocation(
       latLang.value = locationData;
       // Utils.whereShouldIGo();
       fetechingGPSDataStatus(FetechingGPSDataStatus.success);
       EasyLoading.dismiss();
-      _refreshPage();
+      cancelToken.cancel();
+      cancelToken = CancelToken();
+      // Utils.resetPagingController(pagingController);
+      pagingController.refresh();
+      fetchDoctors(
+        pagingController.firstPageKey,
+      );
+      // _refreshPage();
     } catch (e) {
+      log('----E_---__--E-e---$e');
       EasyLoading.dismiss();
-
       fetechingGPSDataStatus(FetechingGPSDataStatus.failed);
-
       AppGetDialog.show(middleText: "failed_to_get_location_data".tr);
     }
   }
@@ -418,14 +423,15 @@ class DoctorsController extends GetxController {
         case PermissionStatus.permanentlyDenied:
           {
             AppGetDialog.show(
-                middleText:
-                    "you_have_to_allow_location_permission_in_settings".tr,
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => openAppSettings(),
-                    child: Text("open_settings".tr),
-                  ),
-                ]);
+              middleText:
+                  "you_have_to_allow_location_permission_in_settings".tr,
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => openAppSettings(),
+                  child: Text("open_settings".tr),
+                ),
+              ],
+            );
             break;
           }
         case PermissionStatus.provisional:
@@ -474,7 +480,6 @@ class DoctorsController extends GetxController {
       }
     }).catchError((e, s) {
       log("e--------------> $e");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();

@@ -227,7 +227,12 @@ class LabsController extends GetxController {
       // Utils.whereShouldIGo();
       fetechingGPSDataStatus(FetechingGPSDataStatus.success);
       EasyLoading.dismiss();
-      _refreshPage();
+      cancelToken.cancel();
+      cancelToken = CancelToken();
+      pageController.refresh();
+
+      // pageController.itemList = [];
+      loadData(pageController.firstPageKey);
     } catch (e) {
       EasyLoading.dismiss();
 
@@ -397,7 +402,6 @@ class LabsController extends GetxController {
   }*/
 
   void loadData(int page) {
-    log("loadData--------------->}");
     LabsRepository()
         .fetchLabs(
       page: page,

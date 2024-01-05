@@ -58,7 +58,7 @@ class DieaseTreatementRepository {
     // );
 
     final response = await _cachedDio.get(
-      ApiConsts.deseaseDatalist + title,
+      ApiConsts.deseaseDatalist + title+"?page=1&limit=1000000000000",
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
     return DieaseDataListResModel.fromJson(response.data);

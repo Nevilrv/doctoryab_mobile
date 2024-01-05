@@ -9,6 +9,7 @@ import 'package:doctor_yab/app/data/models/diaease_data_list_res_model.dart'
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../../../data/models/diaese_category_res_model.dart';
 import 'package:audioplayers/audioplayers.dart' as ap;
+import 'dart:io' show Platform;
 
 class DiseaseTreatmentController extends GetxController {
   List<Datum> category = [];
@@ -90,7 +91,7 @@ class DiseaseTreatmentController extends GetxController {
     bannerAd = BannerAd(
         // size: AdSize.banner,
         size: AdSize(height: (200).round(), width: Get.width.round()),
-        adUnitId: Utils.bannerAdId,
+        adUnitId: Platform.isAndroid ? Utils.bannerAdId : Utils.bannerAdIOSId,
         listener: BannerAdListener(
           onAdLoaded: (ad) {
             isLoadAd = true;

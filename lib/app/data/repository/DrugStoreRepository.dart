@@ -73,7 +73,8 @@ class DrugStoreRepository {
       };
     }
 
-    print('---URL>>>>>$requestParameter');
+    log('---requestParameter>>>>>$requestParameter');
+    log('---URL>>>>>${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}}');
 
     final response = await _cachedDio.get(
       '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}',
@@ -90,7 +91,7 @@ class DrugStoreRepository {
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 
-    print('-----response---->>>>$response');
+    print('----response---->>>>$response');
 
     return response;
   }
@@ -106,7 +107,7 @@ class DrugStoreRepository {
       cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
+    log("response---------------> ${response.data}");
 
     return response;
   }
@@ -132,7 +133,7 @@ class DrugStoreRepository {
     void onError(e),
     CancelToken cancelToken,
   }) async {
-    log("name--------------> ${name}");
+    log("name--------------> $name");
 
     final response = await _cachedDio.get(
       '${ApiConsts.drugStoreBySearch}$name',

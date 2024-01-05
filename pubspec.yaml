@@ -40,6 +40,7 @@ dependencies:
   shamsi_date: ^1.0.1
   url_launcher: ^6.0.3
   flutter_rating_bar: ^4.0.0
+  sign_in_with_apple: ^5.0.0
   dio_http_cache: ^0.3.0
     # path: "./local_packages/dio-http-cache-feature-nullsafety-dio4"
     #https://github.com/hurshi/dio-http-cache/pull/84

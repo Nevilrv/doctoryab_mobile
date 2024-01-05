@@ -82,7 +82,8 @@ class AuthPhoneController extends GetxController {
     try {
       number = number.toEnglishDigit();
     } catch (e) {}
-    PhoneValidatorUtils phoneValidatorUtils = PhoneValidatorUtils(number: number);
+    PhoneValidatorUtils phoneValidatorUtils =
+        PhoneValidatorUtils(number: number);
     phoneValid(phoneValidatorUtils.isValid());
     phoneValidationError(phoneValidatorUtils.errorMessage);
     phoneValidatorUtils = null;
@@ -92,7 +93,8 @@ class AuthPhoneController extends GetxController {
     Get.focusScope.unfocus();
     // SettingsController.setAppLanguage(
     //     controller.selectedLang());
-    var _phoneNum = Utils.changeAfgNumberToIntlFormat(textEditingController.text);
+    var _phoneNum =
+        Utils.changeAfgNumberToIntlFormat(textEditingController.text);
     if (GetPlatform.isWeb) {
       EasyLoading.show(status: "please_wait".tr);
       AuthController.to.signInWithPhoneWeb(
@@ -108,8 +110,6 @@ class AuthPhoneController extends GetxController {
             EasyLoading.dismiss();
           });
     } else {
-      log("calling-------------->-------------->}");
-
       EasyLoading.show(status: "please_wait".tr);
       AuthController.to.registerWithPhoneNumber(
         verfiedCallBack: (_) {
@@ -141,83 +141,95 @@ class AuthPhoneController extends GetxController {
 
     AuthCredential credential;
     isLoading.value = true;
-    try {
-      // googleSignIn.currentUser!.clearAuthCache();
-      googleSignIn.signOut();
+    // try {
+    // googleSignIn.currentUser!.clearAuthCache();
+    googleSignIn.signOut();
 
-      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-      if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() == 'failed_to_recover_auth') {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() ==
+        'failed_to_recover_auth') {
+      isLoading.value = false;
+    }
+
+    print(
+        'GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
+
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken);
+    // final userCredential =
+    //     await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
+    // log("userCredential${userCredential}");
+    authResult = await FirebaseAuth.instance.signInWithCredential(credential);
+
+    final User currentUser = FirebaseAuth.instance.currentUser;
+
+    log('ACCESSTOKEN :- ${googleSignInAuthentication.accessToken}');
+
+    log('CREDINTILA :- ${googleSignInAuthentication.idToken}');
+
+    if (googleSignInAuthentication.idToken != null) {
+      try {
+        AuthRepository()
+            .signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken)
+            .then((value) {
+          var reponseData = value.data;
+
+          SettingsController.userToken = reponseData["jwtoken"];
+          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+          SettingsController.userProfileComplete =
+              reponseData["profile_completed"];
+          log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
+          SettingsController.userId = reponseData['user'] == null
+              ? reponseData['newUser']['_id']
+              : reponseData['user']['_id'];
+          log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
+
+          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+          isLoading.value = false;
+          try {
+            SettingsController.savedUserProfile = u.User.fromJson(
+                reponseData['user'] == null
+                    ? reponseData['newUser']
+                    : reponseData['user']);
+            if (SettingsController.isUserProfileComplete == false) {
+              Get.toNamed(Routes.ADD_PERSONAL_INFO);
+            } else {
+              SettingsController.auth.savedCity =
+                  City.fromJson(reponseData['city']);
+              SettingsController.userLogin = true;
+              Get.offAllNamed(Routes.HOME);
+            }
+            log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
+          } catch (e) {
+            Utils.commonSnackbar(context: context, text: "Google login failed");
+            log("e--------------> ${e}");
+          }
+          log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
+
+          log("value--------------> ${value}");
+        });
+      } catch (e) {
+        Utils.commonSnackbar(context: context, text: "Google login failed");
         isLoading.value = false;
       }
-
-      print('GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
-
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-
-      credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken, idToken: googleSignInAuthentication.idToken);
-      // final userCredential =
-      //     await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
-      // log("userCredential${userCredential}");
-      authResult = await FirebaseAuth.instance.signInWithCredential(credential);
-
-      final User currentUser = FirebaseAuth.instance.currentUser;
-
-      log('ACCESSTOKEN :- ${googleSignInAuthentication.accessToken}');
-
-      log('CREDINTILA :- ${googleSignInAuthentication.idToken}');
-
-      if (googleSignInAuthentication.idToken != null) {
-        try {
-          AuthRepository().signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken).then((value) {
-            var reponseData = value.data;
-
-            SettingsController.userToken = reponseData["jwtoken"];
-            log("SettingsController.userToken--------------> ${SettingsController.userToken}");
-            SettingsController.userProfileComplete = reponseData["profile_completed"];
-            log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
-            SettingsController.userId =
-                reponseData['user'] == null ? reponseData['newUser']['_id'] : reponseData['user']['_id'];
-            log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
-
-            log("SettingsController.userToken--------------> ${SettingsController.userToken}");
-            isLoading.value = false;
-            try {
-              SettingsController.savedUserProfile =
-                  u.User.fromJson(reponseData['user'] == null ? reponseData['newUser'] : reponseData['user']);
-              if (SettingsController.isUserProfileComplete == false) {
-                Get.toNamed(Routes.ADD_PERSONAL_INFO);
-              } else {
-                SettingsController.auth.savedCity = City.fromJson(reponseData['city']);
-                SettingsController.userLogin = true;
-                Get.offAllNamed(Routes.HOME);
-              }
-              log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
-            } catch (e) {
-              Utils.commonSnackbar(context: context, text: "Google login failed");
-              log("e--------------> ${e}");
-            }
-            log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
-
-            log("value--------------> ${value}");
-          });
-        } catch (e) {
-          Utils.commonSnackbar(context: context, text: "Google login failed");
-          isLoading.value = false;
-        }
-      }
-      log('token ID:- ${authResult.credential.token}');
-      log('token ID:- ${currentUser.uid}');
-      log('PROVIDER ID:- ${authResult.credential.providerId}');
-    } catch (e) {
-      Utils.commonSnackbar(context: context, text: e);
-      isLoading.value = false;
-      log('ERROR-----$e');
-      print('hrllo');
-
-      // commonSnackbar(message: 'Try Again', title: 'ERROR');
-      // Get.snackbar('ERROR', '$e');
     }
+    log('token ID:- ${authResult.credential.token}');
+    log('token ID:- ${currentUser.uid}');
+    log('PROVIDER ID:- ${authResult.credential.providerId}');
+    // }
+    // catch (e) {
+    //   Utils.commonSnackbar(context: context, text: e);
+    //   isLoading.value = false;
+    //   log('ERROR-----$e');
+    //   print('hrllo');
+    //
+    //   // commonSnackbar(message: 'Try Again', title: 'ERROR');
+    //   // Get.snackbar('ERROR', '$e');
+    // }
     return null;
   }
 
@@ -236,7 +248,8 @@ class AuthPhoneController extends GetxController {
   //     final appleCredential = await SignInWithApple.getAppleIDCredential(
   //       scopes: [
   //         AppleIDAuthorizationScopes.email,
-  //         AppleIDAuthorizationScopes.fullName,
+  //         AppleIDAu
+//         thorizationScopes.fullName,
   //       ],
   //       nonce: nonce,
   //     );

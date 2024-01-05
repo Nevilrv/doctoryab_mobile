@@ -136,7 +136,12 @@ class HospitalsController extends GetxController {
       // Utils.whereShouldIGo();
       fetechingGPSDataStatus(FetechingGPSDataStatus.success);
       EasyLoading.dismiss();
-      _refreshPage();
+      cancelToken.cancel();
+      cancelToken = CancelToken();
+      // Utils.resetPagingController(pagingController);
+      pageController.refresh();
+      pageController.itemList.clear();
+      loadData(pageController.firstPageKey);
     } catch (e) {
       EasyLoading.dismiss();
 
@@ -151,7 +156,7 @@ class HospitalsController extends GetxController {
     cancelToken = CancelToken();
 
     pageController.refresh();
-    pageController.value.itemList.clear();
+    // pageController.value.itemList.clear();
     loadData(pageController.firstPageKey);
   }
 
@@ -394,6 +399,7 @@ class HospitalsController extends GetxController {
       pageController.appendLastPage(hoursList);
     } else {
       pageController.itemList.clear();
+      pageController.refresh();
       // pageController.addPageRequestListener((pageKey) {
       loadData(pageController.firstPageKey);
       // });

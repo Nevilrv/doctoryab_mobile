@@ -63,8 +63,8 @@ class AddPersonalInfoController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
-    log("response-statusCode-------------> ${response.statusCode}");
+    log("response.data--------------> ${response.data}");
+    log("response.statusCode-------------> ${response.statusCode}");
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
@@ -83,7 +83,7 @@ class AddPersonalInfoController extends GetxController {
               selectedGender.value, selectedLocationId.value)
           .then((value) {
         try {
-          log('----value------------> $value');
+          log('------------value------------>$value');
 
           SettingsController.userProfileComplete = value["profile_completed"];
           SettingsController.userId = value['user']['_id'];
@@ -99,9 +99,9 @@ class AddPersonalInfoController extends GetxController {
           log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.name}");
         } catch (e) {
           isLoading.value = false;
-          log("e--------------> ${e}");
+          log("e--------------> $e");
         }
-        log("value--------------> ${value}");
+        log("value--------------> $value");
       });
     }
   }

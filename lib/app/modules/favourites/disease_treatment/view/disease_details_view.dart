@@ -42,7 +42,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                     height: h,
                     child: Stack(
                       children: [
-                        SingleChildScrollView(
+                        SingleChildScrollView(padding: EdgeInsets.only(bottom:70),
                           physics: BouncingScrollPhysics(),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -146,7 +146,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                   ),
                                 ),
                                 ...List.generate(
-                                  controller.diaseaList.length,
+                                  controller.diaseaList.length ,
                                   (index) => GestureDetector(
                                     onTap: () {
                                       controller.selectedDieases =

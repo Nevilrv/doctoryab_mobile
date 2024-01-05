@@ -333,7 +333,7 @@ class DrugStoreController extends TabHomeOthersController {
     cancelToken = CancelToken();
     pageController.refresh();
 
-    pageController.itemList.clear();
+    // pageController.itemList.clear();
     loadData(pageController.firstPageKey);
   }
 

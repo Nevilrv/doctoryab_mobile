@@ -15,6 +15,7 @@ class ApiConsts {
     'jwtoken': SettingsController.userToken.toString(),
     'Content-Type': 'application/json'
   };
+  // static const String localHostUrl = "https://testserver.doctoryab.app/";
   static const String localHostUrl = "https://almost-server.doctoryab.app/";
   static final String liveHostUrl = AppStatics.envVars.apiURL;
   static String hostUrl = liveHostUrl;
@@ -62,8 +63,7 @@ class ApiConsts {
   static const drugDatabaseReview = "/drugs/getDrugFeedbacks/";
   static const giveFeedbackToDrug = "/drugs/giveFeedbackToDrug";
   static const checkupPackageReview = "/checkupPackage/getPackageFeedbacks/";
-  static const giveFeedbackTocheckupPackage =
-      "/checkupPackage/giveFeedbackToPackage";
+  static const giveFeedbackTocheckupPackage = "/checkupPackage/giveFeedbackToPackage";
   //
   static const updateAndRegisterBloodDonor = "/bloodDonors/profile";
   static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";
@@ -75,8 +75,7 @@ class ApiConsts {
 
   ///dieasetreatement
   static const String deseasecategory = '/Deseasecategory';
-  static const String deseaseDatalist =
-      '/deseasetreatment/getDiseaseTreatmentsByCategory/';
+  static const String deseaseDatalist = '/deseasetreatment/getDiseaseTreatmentsByCategory/';
 
   ///checkup
   static const String checkupPackage = '/checkupPackage';
@@ -98,8 +97,7 @@ class ApiConsts {
   static const String getHospitalFeedback = '/hospital/getHospitalFeedbacks/';
 
   ///appointment
-  static const String getPackageAppointmentHistory =
-      '/packageAppointment/getPatientAppointments/';
+  static const String getPackageAppointmentHistory = '/packageAppointment/getPatientAppointments/';
   static const String getAppointmentHistory = '/patient/history';
   static const String bookPackageAppointment = '/packageAppointment';
   static const String getCheckupPackageHistory = '/packageAppointment';
@@ -113,6 +111,7 @@ class ApiConsts {
   ///notification
   ///notification
   static const String notification = '/notification';
+
   ///language update
   static const String updateLanguage = '/user/language';
 }
