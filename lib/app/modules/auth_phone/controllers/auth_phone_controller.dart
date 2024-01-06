@@ -206,11 +206,11 @@ class AuthPhoneController extends GetxController {
             log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
           } catch (e) {
             Utils.commonSnackbar(context: context, text: "Google login failed");
-            log("e--------------> ${e}");
+            log("e--------------> $e");
           }
           log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
 
-          log("value--------------> ${value}");
+          log("value--------------> $value");
         });
       } catch (e) {
         Utils.commonSnackbar(context: context, text: "Google login failed");

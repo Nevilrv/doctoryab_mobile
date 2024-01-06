@@ -45,7 +45,7 @@ class AuthRepository {
     print("API: ${ApiConsts.baseUrl + ApiConsts.authPath}");
     log("response-----1111---------> ${response.data}");
     log("respo-------> ${response.data["jwtoken"]}");
-    log('responseresponseresponse$response');
+    log('response-response-response------$response');
 
     return response;
   }

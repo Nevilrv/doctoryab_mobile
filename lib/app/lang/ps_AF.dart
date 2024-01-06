@@ -465,4 +465,5 @@ const Map<String, String> psAF = {
   "patient": "ناروغ ",
   "review": "د دې خدمت په اړه ستاسو بیاکتنه",
   "other_sign_in_option": "گزینه های بیشتر ورود",
+  "select_Hospital": "روغتون غوره کړئ",
 };

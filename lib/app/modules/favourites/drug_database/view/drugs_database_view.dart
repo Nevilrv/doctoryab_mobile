@@ -45,6 +45,14 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                 return Column(
                   children: [
                     searchTextField(controller),
+                    controller.isListening
+                        ? Center(
+                            child: Text(
+                              'Listening...',
+                              style: AppTextStyle.boldPrimary14,
+                            ),
+                          )
+                        : const SizedBox(),
                     controller.filterSearch == ""
                         ? SizedBox()
                         : Padding(
@@ -209,7 +217,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
           borderRadius: BorderRadius.circular(10),
           color: AppColors.white,
         ),
-        child: Stack(clipBehavior: Clip.none,
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Row(
               children: [
@@ -311,7 +320,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               width: w * 0.24,
                               decoration: BoxDecoration(
                                 color: SettingsController.drugData.any(
-                                        (element) => element.id.contains(item.id))
+                                        (element) =>
+                                            element.id.contains(item.id))
                                     ? AppColors.primary
                                     : AppColors.lightPurple2,
                                 borderRadius: BorderRadius.circular(3),
@@ -331,8 +341,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   SizedBox(
                                     width: w * 0.005,
                                   ),
-                                  SettingsController.drugData.any(
-                                          (element) => element.id.contains(item.id))
+                                  SettingsController.drugData.any((element) =>
+                                          element.id.contains(item.id))
                                       ? Icon(
                                           Icons.favorite,
                                           size: w * 0.02,
@@ -371,7 +381,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                       ),
                       Text(
                         "${item.company}",
-                        style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
+                        style:
+                            AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -434,7 +445,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                             : subIndex == 2
                                                 ? controller.data[2]["text"]
                                                     .toString()
-                                                    .trArgs([item.packsAndPrices])
+                                                    .trArgs(
+                                                        [item.packsAndPrices])
                                                 : item.drugType ?? "None",
                                         style: AppTextStyle.regularPrimary9
                                             .copyWith(height: 1),
@@ -455,28 +467,28 @@ class DrugsDatabaseView extends GetView<DrugsController> {
             ),
             item.active == true
                 ? Positioned(
-              top: -5,
-              right:
-              SettingsController.appLanguge != "English" ? null : -5,
-              left:
-              SettingsController.appLanguge == "English" ? null : -5,
-              child: SettingsController.appLanguge != "English"
-                  ? Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.rotationY(math.pi),
-                  child: Image.asset(
-                    AppImages.promote,
-                    height: 18,
-                    width: 18,
-                    color: AppColors.primary,
-                  ))
-                  : Image.asset(
-                AppImages.promote,
-                height: 18,
-                width: 18,
-                color: AppColors.primary,
-              ),
-            )
+                    top: -5,
+                    right:
+                        SettingsController.appLanguge != "English" ? null : -5,
+                    left:
+                        SettingsController.appLanguge == "English" ? null : -5,
+                    child: SettingsController.appLanguge != "English"
+                        ? Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.rotationY(math.pi),
+                            child: Image.asset(
+                              AppImages.promote,
+                              height: 18,
+                              width: 18,
+                              color: AppColors.primary,
+                            ))
+                        : Image.asset(
+                            AppImages.promote,
+                            height: 18,
+                            width: 18,
+                            color: AppColors.primary,
+                          ),
+                  )
                 : SizedBox()
           ],
         ),

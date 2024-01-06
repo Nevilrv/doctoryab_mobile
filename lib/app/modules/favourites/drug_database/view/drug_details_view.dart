@@ -167,15 +167,16 @@ class DrugDetailsView extends GetView<DrugsController> {
                                         width: w * 0.17,
                                         child: Text(
                                           index == 1
-                                              ? Get.arguments.pack
+                                              ? controller.argumentsData.pack
                                               : index == 2
                                                   ? controller.data[2]["text"]
                                                       .toString()
                                                       .trArgs([
-                                                      Get.arguments
+                                                      controller.argumentsData
                                                           .packsAndPrices
                                                     ])
-                                                  : Get.arguments.drugType ??
+                                                  : controller.argumentsData
+                                                          .drugType ??
                                                       "None",
                                           style: AppTextStyle.regularPrimary9
                                               .copyWith(height: 1),
@@ -299,241 +300,276 @@ class DrugDetailsView extends GetView<DrugsController> {
                         // ),
                         // commonTextBox("drug_price".trArgs(["1000"])),
                         commonTitleBox(text: "comm_ratings".tr),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 6),
-                          child: addCommentsTextField(),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "sel_rating".tr,
-                              style: AppTextStyle.regularPrimary9,
-                            ),
-                            IntrinsicWidth(
-                              child: Container(
-                                padding: EdgeInsets.all(5),
-                                margin: EdgeInsets.only(left: 4),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: AppColors.lightPurple,
-                                ),
-                                child: RatingBar.builder(
-                                  itemSize: 15,
-                                  initialRating: controller.ratings,
-                                  // minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 1.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                    // size: 10,
+
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: SizedBox(
+                                    height: 265,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "give_feedback".tr,
+                                            style:
+                                                AppTextStyle.regularPrimary16,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.all(5),
+                                            margin: EdgeInsets.only(
+                                                top: 10, bottom: 15),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: AppColors.lightPurple,
+                                            ),
+                                            child: RatingBar.builder(
+                                              itemSize: 30,
+                                              initialRating: controller.ratings,
+                                              // minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 1.0),
+                                              itemBuilder: (context, _) => Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                                // size: 10,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                print(rating);
+                                                controller.ratings = rating;
+                                                controller.update();
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 10),
+                                            child: addCommentsTextField(),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (controller
+                                                  .comment.text.isEmpty) {
+                                                Utils.commonSnackbar(
+                                                    context: context,
+                                                    text:
+                                                        "please_add_review".tr);
+                                              } else {
+                                                controller.addDrugFeedback(
+                                                  rating: controller.ratings
+                                                      .toString(),
+                                                  drugId: controller
+                                                      .argumentsData.id,
+                                                );
+                                              }
+                                              Get.back();
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 23, vertical: 10),
+                                              margin: EdgeInsets.only(
+                                                  top: 10, left: 20, right: 20),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: AppColors.primary,
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "send".tr,
+                                                  style:
+                                                      AppTextStyle.boldWhite8,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                    controller.ratings = rating;
-                                    controller.update();
-                                  },
-                                ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 23, vertical: 8),
+                            margin: EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: AppColors.primary,
+                            ),
+                            child: Center(
+                              child: Text(
+                                "give_feedback".tr,
+                                style: AppTextStyle.boldWhite8,
                               ),
                             ),
-                            Spacer(),
-                            controller.isLoadingFeedback == true
-                                ? Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 23, vertical: 3),
-                                    child: Center(
-                                      child: Container(
-                                        height: 15,
-                                        width: 15,
-                                        child: Center(
-                                            child: CircularProgressIndicator(
-                                                color: AppColors.primary,
-                                                strokeWidth: 2)),
-                                      ),
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      if (controller.comment.text.isEmpty) {
-                                        Utils.commonSnackbar(
-                                            context: context,
-                                            text: "please_add_review".tr);
-                                      } else {
-                                        controller.addDrugFeedback(
-                                            rating:
-                                                controller.ratings.toString(),
-                                            drugId:
-                                                controller.argumentsData.id);
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 23, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: AppColors.primary,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "send".tr,
-                                          style: AppTextStyle.boldWhite8,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                          ],
+                          ),
                         ),
+
                         SizedBox(height: 10),
 
                         controller.isLoading == true
                             ? Center(
                                 child: Container(
-                                    height: 25,
-                                    width: 25,
-                                    child: Center(
-                                        child: CircularProgressIndicator(
+                                  height: 25,
+                                  width: 25,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
                                       color: AppColors.primary,
-                                    ))),
+                                    ),
+                                  ),
+                                ),
                               )
                             : Column(
                                 children: List.generate(
-                                    controller.drugFeedback.length, (index) {
-                                  return Container(
-                                    padding: EdgeInsets.only(
+                                  controller.drugFeedback.length,
+                                  (index) {
+                                    return Container(
+                                      padding: EdgeInsets.only(
                                         top: 10,
                                         bottom: 10,
                                         left: 8,
-                                        right: 14),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(
-                                          color: AppColors.lightPurple),
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // CachedNetworkImage(
-                                        //   imageUrl: "${ApiConsts.hostUrl}${  controller
-                                        //       .drugFeedback[index].photo}",
-                                        //   height: h * 0.045,
-                                        //   width: h * 0.045,
-                                        //   fit: BoxFit.cover,
-                                        //   placeholder: (_, __) {
-                                        //     return Image.asset(
-                                        //       "assets/png/person-placeholder.jpg",
-                                        //       fit: BoxFit.cover,
-                                        //     );
-                                        //   },
-                                        //   errorWidget: (_, __, ___) {
-                                        //     return Image.asset(
-                                        //       "assets/png/person-placeholder.jpg",
-                                        //       fit: BoxFit.cover,
-                                        //     );
-                                        //   },
-                                        // )
+                                        right: 14,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(
+                                            color: AppColors.lightPurple),
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // CachedNetworkImage(
+                                          //   imageUrl: "${ApiConsts.hostUrl}${  controller
+                                          //       .drugFeedback[index].photo}",
+                                          //   height: h * 0.045,
+                                          //   width: h * 0.045,
+                                          //   fit: BoxFit.cover,
+                                          //   placeholder: (_, __) {
+                                          //     return Image.asset(
+                                          //       "assets/png/person-placeholder.jpg",
+                                          //       fit: BoxFit.cover,
+                                          //     );
+                                          //   },
+                                          //   errorWidget: (_, __, ___) {
+                                          //     return Image.asset(
+                                          //       "assets/png/person-placeholder.jpg",
+                                          //       fit: BoxFit.cover,
+                                          //     );
+                                          //   },
+                                          // )
 
-                                        Container(
-                                          height: h * 0.045,
-                                          width: h * 0.045,
-                                          margin: EdgeInsets.only(right: 8),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  "${ApiConsts.hostUrl}${controller.drugFeedback[index].photo}"),
-                                              fit: BoxFit.cover,
+                                          Container(
+                                            height: h * 0.045,
+                                            width: h * 0.045,
+                                            margin: EdgeInsets.only(right: 8),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    "${ApiConsts.hostUrl}${controller.drugFeedback[index].photo}"),
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    controller
-                                                            .drugFeedback[index]
-                                                            .whoPosted ??
-                                                        "",
-                                                    style: AppTextStyle
-                                                        .regularPrimary9,
-                                                  ),
-                                                  Spacer(),
-                                                  RatingBar.builder(
-                                                    ignoreGestures: true,
-                                                    itemSize: 15,
-                                                    initialRating: double.parse(
-                                                        controller
-                                                                    .drugFeedback[
-                                                                        index]
-                                                                    .rating ==
-                                                                null
-                                                            ? "0"
-                                                            : controller
-                                                                    .drugFeedback[
-                                                                        index]
-                                                                    .rating ??
-                                                                "0.0"),
-                                                    // minRating: 1,
-                                                    direction: Axis.horizontal,
-                                                    allowHalfRating: true,
-                                                    itemCount: 5,
-                                                    itemPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 1.0),
-                                                    itemBuilder: (context, _) =>
-                                                        Icon(
-                                                      Icons.star,
-                                                      color: Colors.amber,
-                                                      // size: 10,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      controller
+                                                              .drugFeedback[
+                                                                  index]
+                                                              .whoPosted ??
+                                                          "",
+                                                      style: AppTextStyle
+                                                          .regularPrimary9,
                                                     ),
-                                                    onRatingUpdate: (rating) {
-                                                      print(rating);
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                              Text(
-                                                controller.drugFeedback[index]
-                                                        .comment ??
-                                                    '',
-                                                style: AppTextStyle
-                                                    .regularPrimary7
-                                                    .copyWith(
-                                                  color: AppColors.primary
-                                                      .withOpacity(0.6),
-                                                  height: 1.2,
+                                                    Spacer(),
+                                                    RatingBar.builder(
+                                                      ignoreGestures: true,
+                                                      itemSize: 15,
+                                                      initialRating: double
+                                                          .parse(controller
+                                                                      .drugFeedback[
+                                                                          index]
+                                                                      .rating ==
+                                                                  null
+                                                              ? "0"
+                                                              : controller
+                                                                      .drugFeedback[
+                                                                          index]
+                                                                      .rating ??
+                                                                  "0.0"),
+                                                      // minRating: 1,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      allowHalfRating: true,
+                                                      itemCount: 5,
+                                                      itemPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 1.0),
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                        // size: 10,
+                                                      ),
+                                                      onRatingUpdate: (rating) {
+                                                        print(rating);
+                                                      },
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  controller.drugFeedback[index]
+                                                          .comment ??
+                                                      '',
+                                                  style: AppTextStyle
+                                                      .regularPrimary7
+                                                      .copyWith(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.6),
+                                                    height: 1.2,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                        SizedBox(height: 30),
                       ],
                     ),
                   ),
                 ),
               ),
               Positioned(
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                  child: BottomBarView(
-                    isHomeScreen: false,
-                  ))
+                bottom: 20,
+                left: 20,
+                right: 20,
+                child: BottomBarView(isHomeScreen: false),
+              ),
             ],
           );
         },
@@ -588,13 +624,13 @@ class DrugDetailsView extends GetView<DrugsController> {
 
   Widget addCommentsTextField() {
     return TextField(
-      style: AppTextStyle.mediumPrimary8,
+      style: AppTextStyle.mediumPrimary10,
       cursorColor: AppColors.primary,
-      maxLines: 3,
+      maxLines: 4,
       controller: controller.comment,
       decoration: InputDecoration(
         hintText: "add_comm".tr,
-        hintStyle: AppTextStyle.mediumLightPurple3_8,
+        hintStyle: AppTextStyle.mediumLightPurple3_10,
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),

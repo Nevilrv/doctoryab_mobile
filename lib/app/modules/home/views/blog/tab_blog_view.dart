@@ -219,21 +219,20 @@ class TabBlogView extends GetView<TabBlogController> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: List.generate(
-                                            controller.adList.length,
-                                            (index) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 3),
-                                                  child: CircleAvatar(
-                                                    radius: 5,
-                                                    backgroundColor: controller
-                                                                .adIndex ==
-                                                            index
-                                                        ? AppColors.primary
-                                                        : AppColors.primary
-                                                            .withOpacity(0.2),
-                                                  ),
-                                                )),
+                                          controller.adList.length,
+                                          (index) => Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 3),
+                                            child: CircleAvatar(
+                                              radius: 5,
+                                              backgroundColor:
+                                                  controller.adIndex == index
+                                                      ? AppColors.primary
+                                                      : AppColors.primary
+                                                          .withOpacity(0.2),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   )
@@ -404,8 +403,8 @@ class TabBlogView extends GetView<TabBlogController> {
                                 Padding(
                                   padding: EdgeInsets.only(top: 5),
                                   child: Container(
-                                    width: w * 0.5,
-                                    height: h * 0.25,
+                                    width: w * 0.7,
+                                    height: h * 0.33,
                                     decoration: BoxDecoration(
                                       color: Colors.indigo,
                                       image: DecorationImage(
@@ -442,10 +441,11 @@ class TabBlogView extends GetView<TabBlogController> {
                                 // ),
                                 SizedBox(height: 10),
 
-                                // controller.showDesc == index
-                                //     ?
-                                controller.postList[index].desc.length < 10
-                                    ? Html(
+                                controller.showDesc == index
+                                    ?
+                                    // controller.postList[index].desc.length < 10
+                                    //     ?
+                                    Html(
                                         data: controller.postList[index].desc,
                                         customTextAlign: (_) =>
                                             SettingsController.appLanguge ==
@@ -457,13 +457,14 @@ class TabBlogView extends GetView<TabBlogController> {
                                               "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
                                         },
                                       )
-                                    : ShowMoreLessHTML(
-                                        htmlContent: controller.postList[index]
-                                            .desc, // Replace with your HTML content
-                                        maxLines:
-                                            1, // Specify the number of lines to display initially
-                                      ),
-                                // : SizedBox(),
+
+                                    // ShowMoreLessHTML(
+                                    //         htmlContent: controller.postList[index]
+                                    //             .desc, // Replace with your HTML content
+                                    //         maxLines:
+                                    //             1, // Specify the number of lines to display initially
+                                    //       ),
+                                    : SizedBox(),
 
                                 // ReadMoreText(
                                 //   parse(controller.postList[index].desc).body.text,

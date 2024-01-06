@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/modules/profile_update/controllers/profile_update_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -15,7 +16,7 @@ class HomeController extends GetxController
   var dropdownValue = ''.obs;
   WebViewController webViewController;
   NotificationController notificationController =
-  Get.put(NotificationController());
+      Get.put(NotificationController());
   setIndex(int index) {
     if (Get.arguments == null) {
       log("index--------------> $index");
@@ -35,8 +36,33 @@ class HomeController extends GetxController
     Get.put(ProfileUpdateController());
     notificationController.changeLanguage();
     // SettingsController.userToken
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await _getPermission();
+    });
     log("jwt: ${SettingsController.userToken}");
+  }
+
+  SpeechRecognition speech;
+  Future _getPermission() async {
+    speech = SpeechRecognition();
+    speech.setAvailabilityHandler(
+      (result) {},
+    );
+    speech.setRecognitionStartedHandler(
+      () {},
+    );
+    speech.setRecognitionResultHandler(
+      (text) {},
+    );
+    speech.setRecognitionCompleteHandler(
+      (text) {},
+    );
+    speech.setErrorHandler(
+      () {},
+    );
+    speech.activate('en_US').then((res) {
+      log("speechRecognitionAvailable--------------->${res}");
+    });
   }
 
   @override

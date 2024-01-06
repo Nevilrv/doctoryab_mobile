@@ -402,8 +402,9 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             cursorColor: AppColors.primary,
                                             style: AppTextStyle.mediumPrimary12
                                                 .copyWith(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.5)),
+                                              color: AppColors.primary
+                                                  .withOpacity(0.5),
+                                            ),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType:
@@ -412,20 +413,20 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             decoration: InputDecoration(
                                                 hintText:
                                                     "please_enter_email".tr,
-                                                hintStyle: AppTextStyle
-                                                    .mediumPrimary12
+                                                hintStyle: AppTextStyle.mediumPrimary12
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
-                                                enabledBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.4),
+                                                      strokeAlign: 2,
+                                                      width: 2),
+                                                ),
                                                 // prefixIconConstraints:
                                                 //     BoxConstraints.expand(
                                                 //   height: 30,
@@ -458,8 +459,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                             .withOpacity(0.4),
                                                         strokeAlign: 2,
                                                         width: 2)),
-                                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                errorBorder: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    borderSide: BorderSide(
+                                                        color: AppColors.red,
+                                                        strokeAlign: 2,
+                                                        width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -508,13 +518,14 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                         .withOpacity(0.5)),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                            validator: Utils.numberValidator,
+                                            // validator: Utils.numberValidator,
                                             keyboardType: TextInputType.phone,
                                             controller: controller.teNewNumber,
                                             decoration: InputDecoration(
                                                 hintText:
                                                     "please_enter_phone".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
+                                                hintStyle: AppTextStyle
+                                                    .mediumPrimary12
                                                     .copyWith(
                                                         color: AppColors.primary
                                                             .withOpacity(0.5)),
@@ -551,26 +562,36 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //     height: 16,
                                                 //   ),
                                                 // ),
-                                                focusedBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.4),
+                                                    strokeAlign: 2,
+                                                    width: 2,
+                                                  ),
+                                                ),
                                                 errorBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                    color: AppColors.red,
+                                                    strokeAlign: 2,
+                                                    width: 2,
+                                                  ),
+                                                ),
+                                                focusedErrorBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                    color: AppColors.red,
+                                                    strokeAlign: 2,
+                                                    width: 2,
+                                                  ),
+                                                ),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null

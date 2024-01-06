@@ -494,58 +494,58 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                     ),
                               item.packageInclude.isEmpty
                                   ? SizedBox()
-                                  : SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: List.generate(
-                                          item.packageInclude.length,
-                                          (index) => Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                controller.selectedTest = index;
-                                                controller.update();
-                                              },
-                                              child: Container(
-                                                // width: Get.width * 0.2,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  color: AppColors.blue,
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 10),
-                                                  child: Center(
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.circle,
-                                                          color:
-                                                              AppColors.white,
-                                                          size: 7,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          item
-                                                              .packageInclude[
-                                                                  index]
-                                                              .testTitle,
-                                                          style:
-                                                              AppTextTheme.b(10)
-                                                                  .copyWith(
-                                                            color:
-                                                                AppColors.white,
-                                                          ),
-                                                        ),
-                                                      ],
+                                  : Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      alignment: WrapAlignment.center,
+                                      runAlignment: WrapAlignment.center,
+                                      direction: Axis.horizontal,
+                                      runSpacing: 10,
+                                      spacing: 05,
+                                      children: List.generate(
+                                        item.packageInclude.length,
+                                        (index) => IntrinsicWidth(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              controller.selectedTest = index;
+                                              controller.update();
+                                            },
+                                            child: Container(
+                                              height: Get.height * 0.04,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5),
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 2),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: AppColors.blue,
+                                              ),
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      controller.selectedTest ==
+                                                              index
+                                                          ? Icons
+                                                              .keyboard_arrow_down_rounded
+                                                          : Icons
+                                                              .keyboard_arrow_up_rounded,
+                                                      color: AppColors.white,
+                                                      size: 18,
                                                     ),
-                                                  ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Text(
+                                                      item.packageInclude[index]
+                                                          .testTitle,
+                                                      style: AppTextTheme.b(10)
+                                                          .copyWith(
+                                                        color: AppColors.white,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -639,13 +639,14 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                 thickness: 1,
                                 color: AppColors.grey3,
                               ),
+
                               Row(
                                 children: [
                                   CachedNetworkImage(
                                     imageUrl:
                                         "${ApiConsts.hostUrl}${item.observerImg}",
-                                    height: 10,
-                                    width: 13,
+                                    height: 20,
+                                    width: 22,
                                     fit: BoxFit.cover,
                                     placeholder: (_, __) {
                                       return Image.asset(
@@ -950,7 +951,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                         vertical: 7, horizontal: 10),
                                     child: Center(
                                       child: Text(
-                                        "book1".tr,
+                                        "select_Hospital".tr,
                                         style: AppTextTheme.b(15).copyWith(
                                           color: AppColors.white,
                                         ),

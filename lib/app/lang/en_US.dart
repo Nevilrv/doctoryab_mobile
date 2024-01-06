@@ -243,7 +243,7 @@ const Map<String, String> enUS = {
   "usage": "Usage",
   "comm_ratings": "Comments & Ratings",
   "add_comm": "Add your comment...",
-  "sel_rating": "Select Rating:",
+  "sel_rating": "Select Rating",
   "send": "Send",
   "donor": "Register As Blood Donor",
   "find_donor": "Find Blood Donor",
@@ -472,4 +472,5 @@ const Map<String, String> enUS = {
   "patient": "Patient",
   "review": "Your review on this service",
   "other_sign_in_option": "Other Sigin option",
+  "select_Hospital": "Select Hospital",
 };

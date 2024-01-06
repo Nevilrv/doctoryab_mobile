@@ -751,7 +751,7 @@ class ChatController extends GetxController {
 
     audioPlayer1.dispose();
 
-    if (timers1.isActive) {
+    if (timers1 != null) {
       timers1.cancel();
     }
     super.onClose();

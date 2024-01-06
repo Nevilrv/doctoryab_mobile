@@ -571,7 +571,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                                       : controller.selectedDieases.pashtoDesc ??
                                           "",
                               defaultTextStyle: AppTextStyle.mediumPrimary8
-                                  .copyWith(height: 2),
+                                  .copyWith(height: 2, fontSize: 12),
                               customTextAlign: (_) =>
                                   SettingsController.appLanguge == "English"
                                       ? TextAlign.left

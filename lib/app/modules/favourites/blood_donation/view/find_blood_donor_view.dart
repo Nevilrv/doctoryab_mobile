@@ -537,7 +537,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                 .then((v) {
                                               if (v != null &&
                                                   v is LocationResult) {
-                                                log("v--------------> ${v}");
+                                                log("v--------------> $v");
 
                                                 controller
                                                     .locationResult.value = v;

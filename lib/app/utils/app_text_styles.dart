@@ -890,6 +890,12 @@ class AppTextStyle {
     fontWeight: AppFontWeight.MEDIUM,
     fontFamily: AppFonts.acuminSemiCond,
   );
+  static TextStyle mediumLightPurple3_10 = TextStyle(
+    fontSize: 10,
+    color: AppColors.lightPurple3,
+    fontWeight: AppFontWeight.MEDIUM,
+    fontFamily: AppFonts.acuminSemiCond,
+  );
 
   static TextStyle mediumPrimary10 = TextStyle(
     fontSize: 10,

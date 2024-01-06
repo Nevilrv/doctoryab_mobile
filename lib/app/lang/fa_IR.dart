@@ -467,4 +467,5 @@ const Map<String, String> faIR = {
   "patient": "مریض",
   "review": "نظریه شما در مورد این خدمات",
   "other_sign_in_option": "گزینه های بیشتر ورود",
+  "select_Hospital": "انتخاب شفاخانه",
 };
