@@ -44,6 +44,9 @@ class Notification {
   int v;
   String type;
   BlogId blogId;
+  String bodyInEnglish;
+  String bodyInPashto;
+  String bodyInDari;
   String doctorId;
 
   Notification({
@@ -57,6 +60,9 @@ class Notification {
     this.reportId,
     this.v,
     this.type,
+    this.bodyInEnglish,
+    this.bodyInPashto,
+    this.bodyInDari,
     this.blogId,
     this.doctorId,
   });
@@ -78,6 +84,9 @@ class Notification {
             : ReportId.fromJson(json["reportId"]),
         v: json["__v"],
         type: json["type"],
+        bodyInEnglish: json["bodyInEnglish"],
+        bodyInPashto: json["bodyInPashto"],
+        bodyInDari: json["bodyInDari"],
         blogId: json["blogId"] == null ? null : BlogId.fromJson(json["blogId"]),
         doctorId: json["doctorId"],
       );
@@ -93,6 +102,9 @@ class Notification {
         "reportId": reportId.toJson(),
         "__v": v,
         "type": type,
+        "bodyInEnglish": bodyInEnglish,
+        "bodyInPashto": bodyInPashto,
+        "bodyInDari": bodyInDari,
         "blogId": blogId?.toJson(),
         "doctorId": doctorId,
       };

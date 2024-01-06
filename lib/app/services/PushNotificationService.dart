@@ -92,8 +92,42 @@ class PushNotificationService {
         } catch (e, s) {
           Logger().e("Failed to decode the message JSON", e, s);
         }
+      } else if(message.data["purpose"]!=null&&message.data["purpose"]=="appointment-reminder"){
+        await flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          message.data["title"],
+          message.data["body"],
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+          payload: jsonEncode(message.data ?? {}),
+        );
       } else {
-        _notificationType = NotificationType.rate;
+        await flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          message.data["title"],
+          message.data["body"],
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+          payload: jsonEncode(message.data ?? {}),
+        );
+        // _notificationType = NotificationType.rate;
+
         log("it is not a message");
       }
     }

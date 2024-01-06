@@ -124,16 +124,15 @@ class NotificationView extends GetView<NotificationController> {
                                     log('=============${SettingsController.appLanguge}');
 
                                     DateTime d;
-                                    if (controller.notification[index]
-                                            .prescriptionId !=
-                                        null) {
+                                    if (controller.notification[index].type ==
+                                        "prescription") {
                                       d = DateTime.parse(controller
                                           .notification[index]
                                           .prescriptionId
                                           .createAt);
-                                    } else if (controller.notification[index]
-                                            .appointmentId !=
-                                        null) {
+                                    } else if (controller
+                                            .notification[index].type ==
+                                        "appointment") {
                                       var _date = controller.notification[index]
                                                   .appointmentId.createAt ==
                                               null
@@ -146,19 +145,59 @@ class NotificationView extends GetView<NotificationController> {
                                               ?.toLocal();
                                       d = DateTime.parse(_date.toString());
                                     } else if (controller
-                                            .notification[index].blogId !=
-                                        null) {
-                                      d = DateTime.parse(controller
-                                          .notification[index].blogId.createAt);
-                                    } else if (controller
-                                            .notification[index].reportId !=
-                                        null) {
+                                            .notification[index].type ==
+                                        'labReport') {
                                       d = DateTime.parse(controller
                                           .notification[index]
                                           .reportId
                                           .createAt);
+                                    } else if (controller
+                                            .notification[index].type ==
+                                        "blog") {
+                                      d = DateTime.parse(controller
+                                          .notification[index].blogId.createAt);
                                     } else {
-                                      d = DateTime.now();
+                                      if (controller.notification[index]
+                                              .prescriptionId !=
+                                          null) {
+                                        d = DateTime.parse(controller
+                                            .notification[index]
+                                            .prescriptionId
+                                            .createAt);
+                                      } else if (controller.notification[index]
+                                              .appointmentId !=
+                                          null) {
+                                        var _date = controller
+                                                    .notification[index]
+                                                    .appointmentId
+                                                    .createAt ==
+                                                null
+                                            ? DateTime.now()
+                                            : DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                                        int.tryParse(controller
+                                                            .notification[index]
+                                                            .appointmentId
+                                                            .createAt))
+                                                ?.toLocal();
+                                        d = DateTime.parse(_date.toString());
+                                      } else if (controller
+                                              .notification[index].blogId !=
+                                          null) {
+                                        d = DateTime.parse(controller
+                                            .notification[index]
+                                            .blogId
+                                            .createAt);
+                                      } else if (controller
+                                              .notification[index].reportId !=
+                                          null) {
+                                        d = DateTime.parse(controller
+                                            .notification[index]
+                                            .reportId
+                                            .createAt);
+                                      } else {
+                                        d = DateTime.now();
+                                      }
                                     }
 
                                     return GestureDetector(
@@ -236,11 +275,36 @@ class NotificationView extends GetView<NotificationController> {
                                                                       0.5)),
                                                     ),
                                                     Text(
-                                                      controller
-                                                              .notification[
-                                                                  index]
-                                                              .body ??
-                                                          "",
+                                                      SettingsController
+                                                                  .appLanguge ==
+                                                              "English"
+                                                          ? controller
+                                                                  .notification[
+                                                                      index]
+                                                                  .bodyInEnglish ??
+                                                              controller
+                                                                  .notification[
+                                                                      index]
+                                                                  .body
+                                                          : SettingsController
+                                                                      .appLanguge ==
+                                                                  "فارسی"
+                                                              ? controller
+                                                                      .notification[
+                                                                          index]
+                                                                      .bodyInDari ??
+                                                                  controller
+                                                                      .notification[
+                                                                          index]
+                                                                      .body
+                                                              : controller
+                                                                      .notification[
+                                                                          index]
+                                                                      .bodyInPashto ??
+                                                                  controller
+                                                                      .notification[
+                                                                          index]
+                                                                      .body,
                                                       style: AppTextTheme.h(12)
                                                           .copyWith(
                                                               color: AppColors
@@ -370,7 +434,7 @@ class NotificationView extends GetView<NotificationController> {
     } else if (hours > 1) {
       result = '${hours}h ago';
     } else if (minutes > 1) {
-      result = '${minutes}m ago';
+      result = '${minutes}min ago';
     } else {
       result = 'Now';
     }

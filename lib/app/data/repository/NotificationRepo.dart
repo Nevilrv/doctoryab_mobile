@@ -12,7 +12,7 @@ class NotificationRepository {
 
   Future<dynamic> loadNotification() async {
     final response = await _cachedDio.get(
-      ApiConsts.notification,
+      ApiConsts.notification + "?page=1&limit=500000000",
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 

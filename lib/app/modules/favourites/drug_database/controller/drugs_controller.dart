@@ -76,15 +76,27 @@ class DrugsController extends GetxController {
         print('==Datum=Drug==>${data.data}');
 
         var newItems = <Datum>[];
+        var promotedItems = <Datum>[];
         data.data["data"].forEach((item) {
-          newItems.add(Datum.fromJson(item));
+          log("item['active']----->${item['active']}");
+          if (item['active'] == true) {
+            promotedItems.add(Datum.fromJson(item));
+          } else {
+            newItems.add(Datum.fromJson(item));
+          }
+        });
+        // data.data["data"].forEach((item) {
+        //   newItems.add(Datum.fromJson(item));
+        // });
+        newItems.forEach((element) {
+          promotedItems.add(element);
         });
         // var newItems = DrugStoresModel.fromJson(data.data).data;
-        print('==Datum=Drug==>${newItems.length}======${page}');
-        if (newItems == null || newItems.length == 0) {
-          pageController.appendLastPage(newItems);
+        print('==Datum=Drug==>${promotedItems.length}======${page}');
+        if (promotedItems == null || promotedItems.length == 0) {
+          pageController.appendLastPage(promotedItems);
         } else {
-          pageController.appendPage(newItems, page + 1);
+          pageController.appendPage(promotedItems, page + 1);
         }
       } else {}
     }).catchError((e, s) {

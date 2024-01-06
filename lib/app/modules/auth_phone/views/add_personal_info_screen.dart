@@ -289,7 +289,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                         ),
                       ),
                       Container(
-                        width: w * 0.75,
+                        width: w * 0.738,
                         child: DropdownButton<String>(
                           underline: SizedBox(),
                           // value: controller.selectedLocation.value ?? "",
