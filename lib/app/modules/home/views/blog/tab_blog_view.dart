@@ -137,10 +137,10 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 : AppColors.primary)),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 8),
+                                          horizontal: 10, vertical: 8),
                                       child: Center(
                                         child: Container(
-                                            width: w * 0.25,
+                                            //width: w * 0.35,
                                             child: Center(
                                                 child: Text(
                                               controller
@@ -204,7 +204,9 @@ class TabBlogView extends GetView<TabBlogController> {
                                                       child: Image.network(
                                                           "${ApiConsts.hostUrl}${item.img}",
                                                           fit: BoxFit.cover,
-                                                          width: 1000.0),
+                                                          width: 1000.0,
+														  
+														  ),
                                                     ),
                                                   ),
                                                 ))
@@ -287,9 +289,9 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 horizontal: 5),
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                                  MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 // SizedBox(height: 10),
                                                 InkWell(
@@ -299,7 +301,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                        MainAxisAlignment.center,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .center,
@@ -318,17 +320,22 @@ class TabBlogView extends GetView<TabBlogController> {
                                                           // maxLines: 1,
                                                         ),
                                                       ),
-                                                      controller.postList[index]
-                                                                  .isPublished ==
-                                                              true
-                                                          ? SvgPicture.asset(
-                                                              AppImages.check,
-                                                            )
-                                                          : SizedBox()
+                                                    //  controller.postList[index]
+                                                    //              .isPublished ==
+                                                    //          true
+                                                    //      ? SvgPicture.asset(
+                                                     //         AppImages.check,
+                                                      //      )
+                                                       //   : SizedBox()
                                                     ],
                                                   ),
                                                 ),
                                                 Row(
+												 mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
                                                   children: [
                                                     Container(
                                                       // color: AppColors.red,
@@ -357,7 +364,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                     Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .start,
+                                                              .center,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .center,
@@ -402,10 +409,12 @@ class TabBlogView extends GetView<TabBlogController> {
                                 // SizedBox(height: 10),
                                 Padding(
                                   padding: EdgeInsets.only(top: 5),
-                                  child: Container(
-                                    width: w * 0.7,
-                                    height: h * 0.33,
-                                    decoration: BoxDecoration(
+                                  child: AspectRatio(
+                                    //width: w * 0.7,
+                                    //height: h * 0.33,
+                                    aspectRatio: 1024/500,
+									child:Container(
+									decoration: BoxDecoration(
                                       color: Colors.indigo,
                                       image: DecorationImage(
                                         image: NetworkImage(
@@ -421,6 +430,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                         },
                                       ),
                                     ),
+									),
                                   ),
                                 ),
                                 // Padding(
@@ -500,7 +510,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 .toString(),
                                             style: AppTextTheme.h(14).copyWith(
                                                 color: AppColors.primary
-                                                    .withOpacity(0.5),
+                                                    .withOpacity(0.7),
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           Spacer(),
@@ -508,14 +518,14 @@ class TabBlogView extends GetView<TabBlogController> {
                                             "${controller.postList[index].comments.length.toString()} ",
                                             style: AppTextTheme.h(14).copyWith(
                                                 color: AppColors.primary
-                                                    .withOpacity(0.5),
+                                                    .withOpacity(0.7),
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           Text(
                                             "comment".tr,
                                             style: AppTextTheme.h(14).copyWith(
                                                 color: AppColors.primary
-                                                    .withOpacity(0.5),
+                                                    .withOpacity(0.7),
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           SizedBox(width: 5),
@@ -523,28 +533,28 @@ class TabBlogView extends GetView<TabBlogController> {
                                             Icons.circle,
                                             size: 5,
                                             color: AppColors.primary
-                                                .withOpacity(0.5),
+                                                .withOpacity(0.7),
                                           ),
                                           SizedBox(width: 5),
                                           Text(
                                             "${controller.postList[index].shares.length.toString()} ",
                                             style: AppTextTheme.h(14).copyWith(
                                                 color: AppColors.primary
-                                                    .withOpacity(0.5),
+                                                    .withOpacity(0.7),
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           Text(
                                             "shares".tr,
                                             style: AppTextTheme.h(14).copyWith(
                                                 color: AppColors.primary
-                                                    .withOpacity(0.5),
+                                                    .withOpacity(0.7),
                                                 fontWeight: FontWeight.w400),
                                           )
                                         ],
                                       ),
                                       Divider(
                                         color:
-                                            AppColors.primary.withOpacity(0.5),
+                                            AppColors.primary.withOpacity(0.7),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -590,7 +600,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                           height: 20,
                                                           color: AppColors
                                                               .primary
-                                                              .withOpacity(0.5),
+                                                              .withOpacity(0.7),
                                                         )
                                                       : SvgPicture.asset(
                                                           AppImages.like2,
@@ -598,7 +608,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                           height: 20,
                                                           color: AppColors
                                                               .primary
-                                                              .withOpacity(0.5),
+                                                              .withOpacity(0.7),
                                                         ),
                                                   SizedBox(width: 5),
                                                   Text(
@@ -608,7 +618,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                             color: AppColors
                                                                 .primary
                                                                 .withOpacity(
-                                                                    0.5),
+                                                                    0.7),
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w400),
@@ -630,7 +640,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                     width: 24,
                                                     height: 24,
                                                     color: AppColors.primary
-                                                        .withOpacity(0.5),
+                                                        .withOpacity(0.7),
                                                   ),
                                                   SizedBox(width: 5),
                                                   Text(
@@ -640,7 +650,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                             color: AppColors
                                                                 .primary
                                                                 .withOpacity(
-                                                                    0.5),
+                                                                    0.7),
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w400),
@@ -682,7 +692,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                     width: 24,
                                                     height: 24,
                                                     color: AppColors.primary
-                                                        .withOpacity(0.5),
+                                                        .withOpacity(0.7),
                                                   ),
                                                   SizedBox(width: 5),
                                                   Text(
@@ -692,7 +702,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                             color: AppColors
                                                                 .primary
                                                                 .withOpacity(
-                                                                    0.5),
+                                                                    0.7),
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w400),
@@ -705,7 +715,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                       ),
                                       Divider(
                                         color:
-                                            AppColors.primary.withOpacity(0.5),
+                                            AppColors.primary.withOpacity(0.7),
                                       ),
                                     ],
                                   ),

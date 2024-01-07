@@ -328,16 +328,16 @@ class BookView extends GetView<BookController> {
                                                                           1]
                                                                   : parsedDate[
                                                                       0];
-                                                          log("month--------------> ${month}");
-                                                          log("day--------------> ${day}");
+                                                          log("month--------------> $month");
+                                                          log("day--------------> $day");
 
-                                                          log("dayText--------------> ${dayText}");
-                                                          log("parsedDate--------------> ${parsedDate}");
+                                                          log("dayText--------------> $dayText");
+                                                          log("parsedDate--------------> $parsedDate");
 
                                                           return Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     right: 10),
                                                             child:
                                                                 GestureDetector(
@@ -405,7 +405,7 @@ class BookView extends GetView<BookController> {
                                                                               color: AppColors.white),
                                                                     ),
                                                                     Text(
-                                                                      "${month}",
+                                                                      "$month",
                                                                       // "${DateFormat('MMM').format(controller.dataList[index].date)}",
                                                                       style: AppTextTheme.b(
                                                                               14)
@@ -494,7 +494,7 @@ class BookView extends GetView<BookController> {
                                                         return Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   right: 10),
                                                           child:
                                                               GestureDetector(
@@ -528,14 +528,14 @@ class BookView extends GetView<BookController> {
                                                                               11)),
                                                               child: Padding(
                                                                 padding: const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     vertical:
                                                                         10,
                                                                     horizontal:
                                                                         15),
                                                                 child: Center(
                                                                   child: Text(
-                                                                    "${DateFormat("hh:mm").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))} ${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString())).toString().contains("AM") ? "am".tr : "pm".tr}",
+                                                                    "${DateFormat("hh:mm a").format(DateTime.parse(controller.selectedDataList[index].toLocal().toString()))}",
                                                                     style: AppTextTheme.b(
                                                                             11)
                                                                         .copyWith(

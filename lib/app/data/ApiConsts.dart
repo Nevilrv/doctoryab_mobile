@@ -1,5 +1,4 @@
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/data/interceptor/JwtTokenInjector.dart';
 import 'package:doctor_yab/app/data/static.dart';
 
 class ApiConsts {
