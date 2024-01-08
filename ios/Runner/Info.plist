@@ -61,13 +61,15 @@
 	<key>GADApplicationIdentifier</key>
     <string>ca-app-pub-7346350725133754~5779438739</string>
     <key>FirebaseAppDelegateProxyEnabled</key>
-    <string>NO</string>
+    <false/>
 	<key>NSCameraUsageDescription</key>
 	<string>User may pick profile picture from camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To sort the doctors closest to the user we need this permission</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>User needs to be able to change there profile picture</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>User needs to be able to voice search</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

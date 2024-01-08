@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/static.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -7,10 +6,8 @@ import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import '../controllers/history_details_controller.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';

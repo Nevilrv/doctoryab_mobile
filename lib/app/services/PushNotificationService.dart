@@ -1,25 +1,26 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:doctor_yab/app/data/models/chat_notification_model.dart';
-import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/services/chat_notification_handler.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-
 import '../data/models/notification_payload_model.dart';
+import '../modules/home/views/blog/tab_blog_view.dart';
+import '../modules/hospital_new/tab_main/bindings/tab_main_binding.dart';
 import '../routes/app_pages.dart';
 
 class PushNotificationService {
   var _init = false;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
   // Chat
@@ -32,20 +33,25 @@ class PushNotificationService {
     if (_init) return;
     _init = true;
     _fcm.requestPermission();
-    var androidInitilize = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var androidInitilize =
+        new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOSinitilize = new DarwinInitializationSettings();
-    var initilizationsSettings = new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+    var initilizationsSettings = new InitializationSettings(
+        android: androidInitilize, iOS: iOSinitilize);
     flutterLocalNotificationsPlugin.initialize(
       initilizationsSettings,
-      onDidReceiveNotificationResponse: (n) => onDidReceiveNotificationResponse(n),
+      onDidReceiveNotificationResponse: (n) =>
+          onDidReceiveNotificationResponse(n),
       // onDidReceiveBackgroundNotificationResponse:
       //     onDidReceiveNotificationResponse,
     );
 
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
@@ -78,7 +84,8 @@ class PushNotificationService {
     //     .name);
     //
     if (message.data != null) {
-      if (message.data["purpose"] != null && message.data["purpose"] == "send-message") {
+      if (message.data["purpose"] != null &&
+          message.data["purpose"] == "send-message") {
         _notificationType = NotificationType.message;
         log("it is a message   ${message.messageId}");
         try {
@@ -87,12 +94,15 @@ class PushNotificationService {
           ChatNotificationHandler.handle(
             chatNotification,
             NotificationPayloadModel(
-                data: chatNotification.toRawJson(), id: message.messageId, type: "$_notificationType"),
+                data: chatNotification.toRawJson(),
+                id: message.messageId,
+                type: "$_notificationType"),
           );
         } catch (e, s) {
           Logger().e("Failed to decode the message JSON", e, s);
         }
-      } else if(message.data["purpose"]!=null&&message.data["purpose"]=="appointment-reminder"){
+      } else if (message.data["purpose"] != null &&
+          message.data["purpose"] == "appointment-reminder") {
         await flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           message.data["title"],
@@ -156,7 +166,8 @@ class PushNotificationService {
   }
 
   // Future onDidReceiveNotificationResponse(String payload) async {
-  Future<void> onDidReceiveNotificationResponse(NotificationResponse notificationResponse) async {
+  Future<void> onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
     log("opened $notificationType ${_notificationType.hashCode}    ${notificationType.hashCode}  ");
     log("opened ${notificationResponse.id}");
     log("opened ${notificationResponse.payload}");
@@ -164,16 +175,36 @@ class PushNotificationService {
     // Get.to(() => RateView());
 
     if (notificationResponse.payload != null) {
-      NotificationPayloadModel payload = NotificationPayloadModel.fromRawJson(notificationResponse.payload);
+      NotificationPayloadModel payload =
+          NotificationPayloadModel.fromRawJson(notificationResponse.payload);
+      log("payload.type---->${payload.type}");
+      log("payload.type---->${payload.data}");
 
-      if (payload.type == "${NotificationType.rate}")
-        Get.toNamed(Routes.RATE, arguments: notificationResponse.payload);
-      else if (payload.type == "${NotificationType.message}")
-        ChatNotificationHandler.handleClick(ChatNotificationModel.fromRawJson(payload.data));
+      var data = jsonDecode(notificationResponse.payload);
+
+      if (data['purpose'] == 'appointment-reminder') {
+        Get.toNamed(Routes.APPOINTMENT_HISTORY);
+      } else if (data['purpose'] == "Lab-Report-reminder") {
+        Get.toNamed(Routes.REPORT_MEDICAL, arguments: {'id': "1"});
+      } else if (data['purpose'] == 'prescription-reminder') {
+        Get.toNamed(Routes.REPORT_MEDICAL, arguments: {'id': "0"});
+      } else if (data['purpose'] == 'Blog-reminder') {
+        Get.to(() => TabBlogView(),
+            binding: TabMainBinding(), arguments: {'id': 'notification'});
+      } else if (data['purpose'] == 'send-message') {
+        ChatNotificationHandler.handleClick(
+            ChatNotificationModel.fromRawJson(payload.data));
+      } else {}
+      log("data------------->${data['purpose']}");
+      // if (payload.type == "${NotificationType.rate}")
+      //   Get.toNamed(Routes.RATE, arguments: notificationResponse.payload);
+      // else if (payload.type == "${NotificationType.message}")
+      //   ChatNotificationHandler.handleClick(ChatNotificationModel.fromRawJson(payload.data));
     }
   }
 
-  Future<void> showNotification(String title, String content, NotificationPayloadModel payLoad) async {
+  Future<void> showNotification(
+      String title, String content, NotificationPayloadModel payLoad) async {
     await flutterLocalNotificationsPlugin.show(
       content.hashCode,
       title,
