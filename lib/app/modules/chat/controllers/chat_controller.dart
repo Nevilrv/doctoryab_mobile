@@ -208,7 +208,7 @@ class ChatController extends GetxController {
   var pdfFile = "".obs;
   init() {
     log("calll-----2");
-
+    chat.clear();
     // nextPageTrigger will have a value equivalent to 80% of the list size.
     initializer();
     Future.delayed(Duration.zero, () {
@@ -609,10 +609,12 @@ class ChatController extends GetxController {
     });
     socket.connect();
     socket.onConnect((_) {
-      print('Connection established');
+      log('Connection established');
       socket.emit("join chat", chatArg()?.id);
       socket.emit("setup", {"_id": chatArg()?.id});
+
       _sendFailedMessages();
+
     });
     socket.onDisconnect((_) => print('Connection Disconnection'));
     socket.onConnectError((err) => print(err));
@@ -620,7 +622,7 @@ class ChatController extends GetxController {
 
     //
     socket.on('message received', (m) {
-      print("new message: ${m.runtimeType}");
+      log("new message: ${m.runtimeType}");
       try {
         ///TODO have a note that we areforce removing this, because they dont match here
         m["readBy"] = [];
@@ -631,8 +633,8 @@ class ChatController extends GetxController {
         var _msg = ChatApiModel.fromJson(m);
         log("_msg--------------> ${_msg.images}");
 
-        // chat.insert(0, _msg);
-        chat.refresh();
+        chat.insert(0, _msg);
+        // update();
 
         // scrollToEnd();
       } catch (e, s) {
@@ -680,7 +682,7 @@ class ChatController extends GetxController {
     chat.clear();
     loadChatList(1);
     init();
-    initSocket();
+    // initSocket();
     voiceTrackRowSize = hi.length;
 
     playerStateChangedSubscription1 =
@@ -736,7 +738,7 @@ class ChatController extends GetxController {
 
     super.onReady();
     loadChatList(1);
-    init();
+    // init();
   }
 
   @override
@@ -783,12 +785,12 @@ class ChatController extends GetxController {
       }
     }).then((value) {
       log("value--------------> $value");
-      chat.clear();
+      // chat.clear();
       if (value != null) {
         if (value.isEmpty) {
           endOfPage.value = true;
         } else {
-          chat.value.addAll(value);
+          chat.addAll(value);
           log(value.toString());
         }
         chat.refresh();
