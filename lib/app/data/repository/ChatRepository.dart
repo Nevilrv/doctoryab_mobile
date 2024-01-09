@@ -171,7 +171,7 @@ class ChatRepository {
     );
     final response = await _cachedDio.post(
       // "https://testserver.doctoryab.app/api/v4/message/imgs",
-      "https://almost-server.doctoryab.app/api/v4/message/imgs",
+      "${ApiConsts.baseUrl}/message/imgs",
       data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
@@ -195,11 +195,11 @@ class ChatRepository {
             : null,
       },
     );
-    log("formData--------------> ${formData}");
+    log("formData--------------> $formData");
 
     final response = await _cachedDio.post(
         // "https://testserver.doctoryab.app/api/v4/message/file",
-        "https://almost-server.doctoryab.app/api/v4/message/file",
+        "${ApiConsts.baseUrl}/message/file",
         data: formData,
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge));
     log("response.data--------------> ${response.data}");
@@ -224,11 +224,11 @@ class ChatRepository {
             : null,
       },
     );
-    log("formData--------------> ${formData}");
+    log("formData--------------> $formData");
 
     final response = await _cachedDio.post(
       // "https://testserver.doctoryab.app/api/v4/message/audio",
-      "https://almost-server.doctoryab.app/api/v4/message/audio",
+      "${ApiConsts.baseUrl}/message/audio",
       data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );

@@ -64,8 +64,9 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        geometry:
-            Geometry.fromJson(Map<String, dynamic>.from(json["geometry"])),
+        geometry: json["geometry"] == null
+            ? null
+            : Geometry.fromJson(Map<String, dynamic>.from(json["geometry"])),
         photo: json["photo"],
         id: json["_id"],
         email: json["email"],

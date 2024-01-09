@@ -69,14 +69,4 @@ class AppDioService {
   static Options cachedDioOption(Duration duration) {
     return buildCacheOptions(duration, maxStale: Duration(days: 10));
   }
-
-  static void switchServer() {
-    if (ApiConsts.hostUrl == ApiConsts.liveHostUrl) {
-      ApiConsts.hostUrl = ApiConsts.localHostUrl;
-    } else {
-      ApiConsts.hostUrl = ApiConsts.liveHostUrl;
-    }
-    _dio.options.baseUrl = ApiConsts.baseUrl;
-    _cachedDio.options.baseUrl = ApiConsts.baseUrl;
-  }
 }

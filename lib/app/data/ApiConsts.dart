@@ -18,8 +18,6 @@ class ApiConsts {
   /// Test Server
   // static const String localHostUrl = "https://testserver.doctoryab.app/";
 
-  /// Active Server
-  static const String localHostUrl = "https://almost-server.doctoryab.app/";
   static final String liveHostUrl = AppStatics.envVars.apiURL;
   static String hostUrl = liveHostUrl;
   static const String apiVersion = "v4";
