@@ -84,9 +84,17 @@ class SettingsController extends GetxController {
   }
 
   static bool get userLoginGet {
-    return AppStatics.hive.authBox.get("user_Login") == null
-        ? false
-        : AppStatics.hive.authBox.get("user_Login");
+    if (isUserLoggedInToApi) {
+      return true;
+
+      //patch update from version 2 to 3.0
+      // SettingsController
+    }
+    if (AppStatics.hive.authBox.get("user_Login") == null) return false;
+
+    print("-------------------> isUserLoggedInToApi $isUserLoggedInToApi");
+
+    return AppStatics.hive.authBox.get("user_Login");
   }
 
   static set userLogin(bool s) {
@@ -101,6 +109,13 @@ class SettingsController extends GetxController {
     var _user = AppStatics.hive.authBox.get("user");
     log("_user--------------> $_user");
 
+    //patch update from version 2 to 3.0
+    // SettingsController
+    if (isUserLoggedInToApi) {
+      // var _u = User()
+    }
+    print("----------------------------> _user $_user");
+
     return _user == null
         ? null
         : User.fromJson(
@@ -108,12 +123,6 @@ class SettingsController extends GetxController {
               AppStatics.hive.authBox.get("user"),
             ),
           );
-    // if (AppStatics.hive.settingsBox.get("user") == null) return null;
-    // return User.fromJson(
-    //   Map<String, dynamic>.from(
-    //     AppStatics.hive.settingsBox.get("user"),
-    //   ),
-    // );
   }
 
   static set savedUserProfile(User user) {

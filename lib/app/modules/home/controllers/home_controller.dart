@@ -5,6 +5,7 @@ import 'package:doctor_yab/app/modules/profile_update/controllers/profile_update
 import 'package:flutter/material.dart';
 import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../controllers/settings_controller.dart';
@@ -61,15 +62,36 @@ class HomeController extends GetxController
       () {},
     );
     speech.activate('en_US').then((res) {
-      log("speechRecognitionAvailable--------------->${res}");
+      log("speechRecognitionAvailable--------------->$res");
     });
   }
 
   @override
   void onReady() {
     super.onReady();
+    checkForUpdate();
   }
 
   @override
   void onClose() {}
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> checkForUpdate() async {
+    InAppUpdate.checkForUpdate().then((info) {
+      log("------------------------- is_update_available: $info");
+      if (info.updateAvailability == UpdateAvailability.updateAvailable) {
+        InAppUpdate.performImmediateUpdate().catchError((e) async {
+          log("-----------------------------> performImmediateUpdate_failed ${e.toString()}");
+          try {
+            await InAppUpdate.startFlexibleUpdate();
+          } catch (e) {
+            log("-----------------------------> startFlexibleUpdate_failed ${e.toString()}");
+          }
+
+          return AppUpdateResult.inAppUpdateFailed;
+        });
+      }
+    }).catchError((e) {
+      throw e;
+    });
+  }
 }

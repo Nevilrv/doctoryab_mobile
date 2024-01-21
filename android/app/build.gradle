@@ -26,11 +26,11 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-//def keystoreProperties = new Properties()
-//def keystorePropertiesFile = rootProject.file('key.properties')
-//if (keystorePropertiesFile.exists()) {
-//    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-//}
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 android {
     compileSdkVersion 33
 
@@ -53,14 +53,14 @@ android {
         
     }
 
-//       signingConfigs {
-//       release {
-//           keyAlias keystoreProperties['keyAlias']
-//           keyPassword keystoreProperties['keyPassword']
-//           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-//           storePassword keystoreProperties['storePassword']
-//       }
-//   }
+       signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
    flavorDimensions  "default"
    productFlavors {
         dev {
@@ -84,7 +84,7 @@ android {
     }
    buildTypes {
        release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk { 
@@ -116,8 +116,10 @@ dependencies {
     // implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
      // push notification
     implementation 'com.google.firebase:firebase-messaging:<latest_version>'
-    implementation 'com.google.android.gms:play-services-ads:22.1.0'
+
     implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
     implementation("androidx.multidex:multidex:2.0.1")
+
+    implementation 'androidx.work:work-runtime:2.7.0-alpha05'
 
 }
