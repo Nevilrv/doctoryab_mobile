@@ -225,7 +225,7 @@ class PatientInfoView extends GetView<PatientInfoController> {
                 // height: 50,
                 width: 250,
                 text: "confirm".tr,
-                onTap: controller.formValid() ? controller.bookNow : null,
+                // onTap: controller.formValid() ? controller.bookNow : null,
                 // onTap: controller.isTimePicked()
                 //     ? () {
                 //         BookingController.to.selectedDate(

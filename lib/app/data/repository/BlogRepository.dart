@@ -1,13 +1,19 @@
 // import 'dart:io' as Io;
 
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/models/blog_like_res_model.dart';
 import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 
 import '../../utils/utils.dart';
+import '../interceptor/JwtTokenInjector.dart';
 import '../models/blog_categories.dart';
+
 // import 'package:file/file.dart';
 // import 'package:dio/dio.dart';
 
@@ -88,5 +94,90 @@ class BlogRepository {
       },
       onError: onError,
     );
+  }
+
+  // static Future<BlogLikeResModel> blogLike({
+  //   String postId,
+  //   String userId,
+  //   void onError(e),
+  //   CancelToken cancelToken,
+  // }) async {
+  //   try {} catch (e) {}
+  //   return await Utils.parseResponse<Post>(
+  //     () async {
+  //       return await _cachedDio.put(
+  //         '/blogs/like',
+  //         cancelToken: cancelToken,
+  //         data: {"postId": postId, "userId": userId},
+  //         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+  //       );
+  //     },
+  //     onError: onError,
+  //   );
+  // }
+  static Future<BlogLikeResModel> blogLike(
+      {String postId, String userId, CancelToken cancelToken}) async {
+    var headers = ApiConsts().commonHeader;
+    var data =
+        json.encode({"postId": postId.toString(), "userId": userId.toString()});
+    log("data--------------> $data");
+
+    var dio = Dio();
+    var response = await dio.put(
+      ApiConsts.baseUrl  + ApiConsts.blogLike,
+      options: Options(
+        method: 'PUT',
+        headers: headers,
+      ),
+      data: data,
+    );
+    return BlogLikeResModel.fromJson(response.data);
+  }
+
+  static Future<BlogLikeResModel> blogShare(
+      {String postId, String userId, CancelToken cancelToken}) async {
+    var headers = ApiConsts().commonHeader;
+    var data =
+        json.encode({"postId": postId.toString(), "userId": userId.toString()});
+    log("data--------------> $data");
+    log("ApiConsts.baseUrl + ApiConsts.blogShare,--------------> ${ApiConsts.baseUrl + ApiConsts.blogShare}");
+
+    var dio = Dio();
+    var response = await dio.put(
+      ApiConsts.baseUrl + ApiConsts.blogShare,
+      options: Options(
+        method: 'PUT',
+        headers: headers,
+      ),
+      data: data,
+    );
+    return BlogLikeResModel.fromJson(response.data);
+  }
+
+  static Future<BlogLikeResModel> blogComment(
+      {String postId,
+      String userId,
+      String text,
+      CancelToken cancelToken}) async {
+    var headers = ApiConsts().commonHeader;
+    var data = json.encode({
+      "postId": postId.toString(),
+      "userId": userId.toString(),
+      "text": text
+    });
+
+    Dio dio = AppDioService.getDioInstance();
+
+    // var dio = Dio();
+    var response = await dio.put(
+      // ApiConsts.hostUrl + "api/v1" + ApiConsts.blogComment,
+      ApiConsts.blogComment,
+      // options: Options(
+      //   method: 'PUT',
+      //   headers: headers,
+      // ),
+      data: data,
+    );
+    return BlogLikeResModel.fromJson(response.data);
   }
 }

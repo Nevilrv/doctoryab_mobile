@@ -26,8 +26,8 @@ class StoryAvatar extends StatelessWidget {
             gradient: isActive ? AppColors.gradient : null,
             color: !isActive ? AppColors.grey.withOpacity(0.3) : null),
         child: Container(
-          height: 64 - 3.1,
-          width: 64 - 3.1,
+          height: 64 - 3.9,
+          width: 64 - 3.9,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,

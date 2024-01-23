@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.2.4+40
+version: 3.0.1+56
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -40,6 +40,7 @@ dependencies:
   shamsi_date: ^1.0.1
   url_launcher: ^6.0.3
   flutter_rating_bar: ^4.0.0
+  sign_in_with_apple: ^5.0.0
   dio_http_cache: ^0.3.0
     # path: "./local_packages/dio-http-cache-feature-nullsafety-dio4"
     #https://github.com/hurshi/dio-http-cache/pull/84
@@ -70,13 +71,15 @@ dependencies:
   firebase_dynamic_links: ^5.0.15
   firebase_auth: ^4.7.1
   firebase_core: ^2.15.0
+
+
   get: ^4.6.1
   # alice: 0.3.2
   alice: 
-    path: ../local_packages/alice
-  place_picker:
-    path: ../local_packages/locationpicker
+    path: ../local_pachages/alice
 
+  place_picker:
+    path: ../local_pachages/locationpicker
 
   flutter:
     sdk: flutter
@@ -96,14 +99,32 @@ dependencies:
   readmore: ^2.1.0
   flutter_html: ^0.11.1
   webview_flutter: ^3.0.4
-  stories_for_flutter: 
-    path: ../local_packages/stories_for_flutter
+  stories_for_flutter:
+    path: ../local_pachages/stories_for_flutter
   story_view: ^0.14.0
   socket_io_client: ^2.0.2
+  feather_icons: ^1.2.0
+  expandable_text: ^2.3.0
+  share_plus:
+  audioplayers:
+  google_sign_in: ^6.1.5
+  http_parser: ^4.0.2
+  google_maps_flutter:
+  flutter_speech: ^2.0.0
+  google_mobile_ads: ^0.13.4
+  carousel_slider: ^4.2.1
+  file_picker:
+  flutter_sound: ^8.1.9
+  assets_audio_player: ^3.1.1
+  country_provider2: ^1.0.2+4
+  in_app_update: ^4.2.2
 
+
+#  ca-app-pub-7346350725133754~2691623855
+#  ca-app-pub-7346350725133754/9537971919
 
 dev_dependencies:
-  flutter_launcher_icons: 
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
 
@@ -154,13 +175,7 @@ flutter:
         - asset: "fonts/IRANYekanLight.ttf"
           weight: 300
         - asset: "fonts/IRANYekanMedium.ttf"
-          weight: 500        
-        # - asset: "fonts/Acumin Pro SemiCond ExtraLight.otf"
-        #   weight: 200        
-        # - asset: "fonts/Acumin Pro SemiCond Thin.otf"
-        #   weight: 100                
-        # - asset: "fonts/Acumin Pro SemiCond Semibold.otf"
-        #   weight: 600
+          weight: 500
 
   # fonts:
   #   - family: Schyler

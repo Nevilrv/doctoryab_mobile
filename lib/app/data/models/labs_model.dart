@@ -9,41 +9,47 @@ LabsModel labsModelFromJson(String str) => LabsModel.fromJson(json.decode(str));
 String labsModelToJson(LabsModel data) => json.encode(data.toJson());
 
 class LabsModel {
+  List<Labs> data;
+  int count;
+
   LabsModel({
     this.data,
     this.count,
   });
 
-  List<Labs> data;
-  int count;
-
-  LabsModel copyWith({
-    List<Labs> data,
-    int count,
-  }) =>
-      LabsModel(
-        data: data ?? this.data,
-        count: count ?? this.count,
-      );
-
   factory LabsModel.fromJson(Map<String, dynamic> json) => LabsModel(
-        data: json["data"] == null
-            ? null
-            : List<Labs>.from(json["data"].map((x) => Labs.fromJson(x))),
-        count: json["count"] == null ? null : json["count"],
+        data: List<Labs>.from(json["data"].map((x) => Labs.fromJson(x))),
+        count: json["count"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data == null
-            ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
-        "count": count == null ? null : count,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "count": count,
       };
 }
 
 class Labs {
+  String datumId;
+  Geometry geometry;
+  String photo;
+  bool isDeleted;
+  List<String> phone;
+  List<List<String>> times;
+  String name;
+  String city;
+  String address;
+  String createAt;
+  int v;
+  List<CheckUp> checkUp;
+  int id;
+  List<Feedback> feedbacks;
+  String rating;
+  dynamic totalFeedbacks;
+  dynamic averageRatings;
+  bool active;
+
   Labs({
-    this.id,
+    this.datumId,
     this.geometry,
     this.photo,
     this.isDeleted,
@@ -55,98 +61,73 @@ class Labs {
     this.createAt,
     this.v,
     this.checkUp,
+    this.id,
+    this.feedbacks,
+    this.rating,
+    this.totalFeedbacks,
+    this.averageRatings,
+    this.active,
   });
 
-  String id;
-  Geometry geometry;
-  String photo;
-  bool isDeleted;
-  List<String> phone;
-  List<List<DateTime>> times;
-  String name;
-  String city;
-  String address;
-  DateTime createAt;
-  int v;
-  List<CheckUp> checkUp;
-
-  Labs copyWith({
-    String id,
-    Geometry geometry,
-    String photo,
-    bool isDeleted,
-    List<String> phone,
-    List<List<DateTime>> times,
-    String name,
-    String city,
-    String address,
-    DateTime createAt,
-    int v,
-    List<CheckUp> checkUp,
-  }) =>
-      Labs(
-        id: id ?? this.id,
-        geometry: geometry ?? this.geometry,
-        photo: photo ?? this.photo,
-        isDeleted: isDeleted ?? this.isDeleted,
-        phone: phone ?? this.phone,
-        times: times ?? this.times,
-        name: name ?? this.name,
-        city: city ?? this.city,
-        address: address ?? this.address,
-        createAt: createAt ?? this.createAt,
-        v: v ?? this.v,
-        checkUp: checkUp ?? this.checkUp,
-      );
-
   factory Labs.fromJson(Map<String, dynamic> json) => Labs(
-        id: json["_id"] == null ? null : json["_id"],
-        geometry: json["geometry"] == null
-            ? null
-            : Geometry.fromJson(json["geometry"]),
-        photo: json["photo"] == null ? null : json["photo"],
-        isDeleted: json["is_deleted"] == null ? null : json["is_deleted"],
-        phone: json["phone"] == null
-            ? null
-            : List<String>.from(json["phone"].map((x) => x)),
-        times: json["times"] == null
-            ? null
-            : List<List<DateTime>>.from(json["times"].map(
-                (x) => List<DateTime>.from(x.map((x) => DateTime.parse(x))))),
-        name: json["name"] == null ? null : json["name"],
-        city: json["city"] == null ? null : json["city"],
-        address: json["address"] == null ? null : json["address"],
-        createAt:
-            json["createAt"] == null ? null : DateTime.parse(json["createAt"]),
-        v: json["__v"] == null ? null : json["__v"],
-        checkUp: json["checkUp"] == null
-            ? null
-            : List<CheckUp>.from(
-                json["checkUp"].map((x) => CheckUp.fromJson(x))),
+        datumId: json["_id"],
+        geometry: Geometry.fromJson(json["geometry"]),
+        photo: json["photo"],
+        isDeleted: json["is_deleted"],
+        phone: List<String>.from(json["phone"].map((x) => x)),
+        times: List<List<String>>.from(
+            json["times"].map((x) => List<String>.from(x.map((x) => x)))),
+        name: json["name"],
+        city: json["city"],
+        address: json["address"],
+        createAt: json["createAt"],
+        v: json["__v"],
+        checkUp:
+            List<CheckUp>.from(json["checkUp"].map((x) => CheckUp.fromJson(x))),
+        id: json["ID"],
+        feedbacks: json["feedbacks"] == null
+            ? []
+            : List<Feedback>.from(
+                json["feedbacks"].map((x) => Feedback.fromJson(x))),
+        rating: json["rating"],
+        totalFeedbacks: json["totalFeedbacks"],
+        averageRatings: json["averageRatings"],
+        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id == null ? null : id,
-        "geometry": geometry == null ? null : geometry.toJson(),
-        "photo": photo == null ? null : photo,
-        "is_deleted": isDeleted == null ? null : isDeleted,
-        "phone": phone == null ? null : List<dynamic>.from(phone.map((x) => x)),
-        "times": times == null
-            ? null
-            : List<dynamic>.from(times.map(
-                (x) => List<dynamic>.from(x.map((x) => x.toIso8601String())))),
-        "name": name == null ? null : name,
-        "city": city == null ? null : city,
-        "address": address == null ? null : address,
-        "createAt": createAt == null ? null : createAt.toIso8601String(),
-        "__v": v == null ? null : v,
-        "checkUp": checkUp == null
-            ? null
-            : List<dynamic>.from(checkUp.map((x) => x.toJson())),
+        "_id": datumId,
+        "geometry": geometry.toJson(),
+        "photo": photo,
+        "is_deleted": isDeleted,
+        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "times": List<dynamic>.from(
+            times.map((x) => List<dynamic>.from(x.map((x) => x)))),
+        "name": name,
+        "city": city,
+        "address": address,
+        "createAt": createAt,
+        "__v": v,
+        "checkUp": List<dynamic>.from(checkUp.map((x) => x.toJson())),
+        "ID": id,
+        "feedbacks": feedbacks == null
+            ? []
+            : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
+        "rating": rating,
+        "totalFeedbacks": totalFeedbacks,
+        "averageRatings": averageRatings,
+        "active": active,
       };
 }
 
 class CheckUp {
+  bool isBrief;
+  int price;
+  String id;
+  String title;
+  String content;
+  String img;
+
   CheckUp({
     this.isBrief,
     this.price,
@@ -156,78 +137,89 @@ class CheckUp {
     this.img,
   });
 
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
-  String img;
-
-  CheckUp copyWith({
-    bool isBrief,
-    int price,
-    String id,
-    String title,
-    String content,
-    String img,
-  }) =>
-      CheckUp(
-        isBrief: isBrief ?? this.isBrief,
-        price: price ?? this.price,
-        id: id ?? this.id,
-        title: title ?? this.title,
-        content: content ?? this.content,
-        img: img ?? this.img,
-      );
-
   factory CheckUp.fromJson(Map<String, dynamic> json) => CheckUp(
-        isBrief: json["is_brief"] == null ? null : json["is_brief"],
-        price: json["price"] == null ? null : json["price"],
-        id: json["_id"] == null ? null : json["_id"],
-        title: json["title"] == null ? null : json["title"],
-        content: json["content"] == null ? null : json["content"],
-        img: json["img"] == null ? null : json["img"],
+        isBrief: json["is_brief"],
+        price: json["price"],
+        id: json["_id"],
+        title: json["title"],
+        content: json["content"],
+        img: json["img"],
       );
 
   Map<String, dynamic> toJson() => {
-        "is_brief": isBrief == null ? null : isBrief,
-        "price": price == null ? null : price,
-        "_id": id == null ? null : id,
-        "title": title == null ? null : title,
-        "content": content == null ? null : content,
-        "img": img == null ? null : img,
+        "is_brief": isBrief,
+        "price": price,
+        "_id": id,
+        "title": title,
+        "content": content,
+        "img": img,
+      };
+}
+
+class Feedback {
+  String comment;
+  String whoPosted;
+  String postedBy;
+  String photo;
+  String createAt;
+  String commentId;
+  int rating;
+  String labId;
+
+  Feedback({
+    this.comment,
+    this.whoPosted,
+    this.postedBy,
+    this.photo,
+    this.createAt,
+    this.commentId,
+    this.rating,
+    this.labId,
+  });
+
+  factory Feedback.fromJson(Map<String, dynamic> json) => Feedback(
+        comment: json["comment"],
+        whoPosted: json["whoPosted"],
+        postedBy: json["postedBy"],
+        photo: json["photo"],
+        createAt: json["createAt"],
+        commentId: json["commentId"],
+        rating: json["rating"],
+        labId: json["labId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "comment": comment,
+        "whoPosted": whoPosted,
+        "postedBy": postedBy,
+        "photo": photo,
+        "createAt": createAt,
+        "commentId": commentId,
+        "rating": rating,
+        "labId": labId,
       };
 }
 
 class Geometry {
+  List<double> coordinates;
+  String type;
+
   Geometry({
-    this.type,
     this.coordinates,
+    this.type,
   });
 
-  String type;
-  List<double> coordinates;
-
-  Geometry copyWith({
-    String type,
-    List<double> coordinates,
-  }) =>
-      Geometry(
-        type: type ?? this.type,
-        coordinates: coordinates ?? this.coordinates,
-      );
-
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
-        type: json["type"] == null ? null : json["type"],
         coordinates: json["coordinates"] == null
             ? null
-            : List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+            : List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
-        "type": type == null ? null : type,
         "coordinates": coordinates == null
             ? null
             : List<dynamic>.from(coordinates.map((x) => x)),
+        "type": type,
       };
 }

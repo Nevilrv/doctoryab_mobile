@@ -47,6 +47,7 @@ class NewChatController extends GetxController {
   }
 
   Future<void> createChat() async {
+    print('------CALL>>>>SEND');
     ChatRepository.createNewChat(teTitle.text, teMessage.text,
         cancelToken: cancelToken, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {

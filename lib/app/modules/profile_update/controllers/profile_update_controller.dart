@@ -1,11 +1,14 @@
+import 'dart:developer';
 import 'dart:io' as Io;
 
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -22,6 +25,7 @@ import '../../../data/static.dart';
 
 class ProfileUpdateController extends GetxController {
   //TODO this user must be rx and must be in global
+
   var user = SettingsController.savedUserProfile;
   var imagePicked = false.obs;
   Rx<Io.File> image = Io.File("").obs;
@@ -33,14 +37,24 @@ class ProfileUpdateController extends GetxController {
   //*
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var formValid = false.obs;
-
+  var loading = false.obs;
   //*text Edtings
   TextEditingController teName = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController teAge = TextEditingController();
+  TextEditingController city = TextEditingController();
+  TextEditingController gender = TextEditingController();
   TextEditingController teNewNumber = TextEditingController();
-
+  var locations = <City>[].obs; // Option 2
+  var genderList = ['Male', "Female", "Other"];
+  var selectedLocation = "".obs;
+  var selectedLocationId = "".obs;
+  var selectedGender = "Male".obs;
   @override
   void onInit() {
+    log("user?.name?.toString()--------------> ${user?.id}");
+    log("user?.name?.toString()--------------> ${user?.gender}");
+    log("user?.name?.toString()--------------> ${user?.language.runtimeType}");
     ever(image, (_) {
       uploadImage();
     });
@@ -50,13 +64,28 @@ class ProfileUpdateController extends GetxController {
 
   @override
   void onReady() {
-    teName.text = user?.name?.toString() ?? "";
-    teAge.text = user?.age?.toString() ?? "";
-    teNewNumber.text = AuthController.to.getUser.phoneNumber
-            .replaceFirst(AppStatics.envVars.countryCode, "0") ??
-        "";
+    loadCities();
+    getData();
+    // teNewNumber.text = AuthController.to.getUser.phoneNumber == null
+    //     ? ""
+    //     : AuthController.to.getUser.phoneNumber
+    //             .replaceFirst(AppStatics.envVars.countryCode, "0") ??
+    //         "";
     // formKey = GlobalKey<FormState>();
     super.onReady();
+  }
+
+  getData() {
+    print('---->>>>Call');
+    teName.text = user?.name?.toString() ?? "";
+    teAge.text = user?.age?.toString() ?? "";
+    email.text = user?.email == null ? " " : user.email.toString();
+    selectedLocation.value = SettingsController.auth.savedCity.eName ?? "";
+    selectedLocationId.value = SettingsController.auth.savedCity.sId ?? "";
+    log("selectedLocationId.value--------------> ${selectedLocationId.value}");
+
+    teNewNumber.text = user?.phone.toString() ?? "";
+    selectedGender.value = user.gender == null ? "Male" : user.gender;
   }
 
   @override
@@ -68,6 +97,8 @@ class ProfileUpdateController extends GetxController {
     //   updateName(null);
     //   return;
     // }
+    log("isUploadingImage--------------> $isUploadingImage");
+
     AuthRepository().updateImage(image.value, (pr) {
       uploadProgress.value = pr / 100;
     }).then((value) {
@@ -80,7 +111,7 @@ class ProfileUpdateController extends GetxController {
 
         if (SettingsController.savedUserProfile?.photo != null) {
           User _user = SettingsController.savedUserProfile;
-          _user.photo = response["name"];
+          // _user.photo = response["photo"];
           SettingsController.savedUserProfile = _user;
         }
       } else {
@@ -99,81 +130,118 @@ class ProfileUpdateController extends GetxController {
     });
   }
 
+  var _cachedDio = AppDioService.getCachedDio;
+
+  //* City Load
+  Future<dynamic> loadCities() async {
+    final response = await _cachedDio.get(
+      ApiConsts.cityPath,
+      queryParameters: {
+        "limit": '20000',
+        "page": '1',
+      },
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response--------------> ${response.data}");
+    if (response.data['data'] != null) {
+      response.data['data'].forEach((element) {
+        locations.add(City.fromJson(element));
+      });
+    }
+    log("response--------------> ${locations.length}");
+
+    return response;
+  }
+
   void updateProfile() {
     var _newIntlNumber = Utils.changeAfgNumberToIntlFormat(teNewNumber.text);
     try {
       _newIntlNumber = _newIntlNumber.toEnglishDigit();
     } catch (e) {}
-    _updateApi({String authToken}) {
-      AuthRepository()
-          .updateProfile(
-              teName.text, int.tryParse(teAge.text?.toEnglishDigit()),
-              firebaseUserToken: authToken)
-          .then((value) {
-        try {
-          User user = User.fromJson(value.data["data"]);
-          SettingsController.savedUserProfile = user;
-          // print(SettingsController.savedUserProfile.toJson());
-          SettingsController.userProfileComplete = true;
-          Utils.whereShouldIGo();
-        } catch (e, s) {
-          //TODO handle
-          Logger().e(e.toString());
-          FirebaseCrashlytics.instance.recordError(e, s);
-        }
+    // _updateApi();
 
-        // print(Map.of(response["data"])?.runtimeType);
-        EasyLoading.dismiss();
-      }).catchError((e, s) {
-        DioExceptionHandler.handleException(
-            //TODO not tesetd yet
-            exception: e,
-            retryCallBak: () {
-              updateProfile();
-            });
-        // waitingForUpload(false);
-        // AppGetDialog.show(middleText: e.message.toString());
-        FirebaseCrashlytics.instance.recordError(e, s);
-      });
-    }
-
-    if (_newIntlNumber != AuthController.to.getUser.phoneNumber) {
-      // if(AuthController.to.firebaseAuth.app. ){
-
-      // }
-      // cheack if can change number to this number
-      EasyLoading.show(status: "please_wait".tr);
-      AuthRepository.numberExists(teNewNumber.text).then((value) {
-        if (value) {
-          EasyLoading.dismiss();
-          AppGetDialog.show(middleText: "user_with_same_number_exists".tr);
-        } else {
-          AuthController.to.updatePhoneNumber(
-            phoneNumber: _newIntlNumber,
-            smsSentCallBack: (_, __) {
-              EasyLoading.dismiss();
-              Get.toNamed(
-                Routes.AUTH_OTP,
-                arguments: teNewNumber.text,
-              );
-            },
-            verfiedCallBack: (phoneAuthCredential) async {
-              // EasyLoading.dismiss();
-              EasyLoading.show(status: "please_wait".tr);
-              //TODO critical, Make sure this happens even if net disconnected
-              _updateApi(
-                authToken: await AuthController.to.firebaseAuth.currentUser
-                    .getIdToken(),
-              );
-            },
-          );
-        }
-      });
-    } else {
-      _updateApi();
-    }
+    // if (_newIntlNumber != AuthController.to.getUser.phoneNumber) {
+    //   // if(AuthController.to.firebaseAuth.app. ){
+    //
+    //   // }
+    //   // cheack if can change number to this number
+    //   EasyLoading.show(status: "please_wait".tr);
+    //   AuthRepository.numberExists(teNewNumber.text).then((value) {
+    //     if (value) {
+    //       EasyLoading.dismiss();
+    //       AppGetDialog.show(middleText: "user_with_same_number_exists".tr);
+    //     } else {
+    //       AuthController.to.updatePhoneNumber(
+    //         phoneNumber: _newIntlNumber,
+    //         smsSentCallBack: (_, __) {
+    //           EasyLoading.dismiss();
+    //           Get.toNamed(
+    //             Routes.AUTH_OTP,
+    //             arguments: teNewNumber.text,
+    //           );
+    //         },
+    //         verfiedCallBack: (phoneAuthCredential) async {
+    //           // EasyLoading.dismiss();
+    //           EasyLoading.show(status: "please_wait".tr);
+    //           //TODO critical, Make sure this happens even if net disconnected
+    //           _updateApi(
+    //             authToken: await AuthController.to.firebaseAuth.currentUser
+    //                 .getIdToken(),
+    //           );
+    //         },
+    //       );
+    //     }
+    //   });
+    // } else {
+    //   _updateApi();
+    // }
 
     EasyLoading.show(status: "please_wait".tr);
+  }
+
+  updateApi(BuildContext context) {
+    loading.value = true;
+    AuthRepository()
+        .updateProfile(
+      name: teName.text,
+      age: int.parse(teAge.text),
+      cityId: selectedLocationId.value.toString(),
+      gender: selectedGender.value,
+      phone: teNewNumber.text,
+      email: email.text,
+    )
+        .then((value) {
+      log("value--------------> ${value}");
+
+      try {
+        User user = User.fromJson(value.data["data"]);
+        SettingsController.savedUserProfile = user;
+
+        SettingsController.userProfileComplete = true;
+        Utils.commonSnackbar(text: "update_profile".tr, context: context);
+        loading.value = false;
+        Utils.whereShouldIGo();
+      } catch (e, s) {
+        //TODO handle
+        loading.value = false;
+        Logger().e(e.toString());
+        FirebaseCrashlytics.instance.recordError(e, s);
+      }
+
+      // print(Map.of(response["data"])?.runtimeType);
+      // EasyLoading.dismiss();
+    }).catchError((e, s) {
+      loading.value = false;
+      DioExceptionHandler.handleException(
+          //TODO not tesetd yet
+          exception: e,
+          retryCallBak: () {
+            updateProfile();
+          });
+      // waitingForUpload(false);
+      // AppGetDialog.show(middleText: e.message.toString());
+      FirebaseCrashlytics.instance.recordError(e, s);
+    });
   }
 
   void pickImage() async {

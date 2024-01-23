@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:doctor_yab/app/data/models/chat_notification_model.dart';
-import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/services/chat_notification_handler.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-
 import '../data/models/notification_payload_model.dart';
+import '../modules/home/views/blog/tab_blog_view.dart';
+import '../modules/hospital_new/tab_main/bindings/tab_main_binding.dart';
 import '../routes/app_pages.dart';
 
 class PushNotificationService {
@@ -34,7 +33,8 @@ class PushNotificationService {
     if (_init) return;
     _init = true;
     _fcm.requestPermission();
-    var androidInitilize = new AndroidInitializationSettings('app_icon');
+    var androidInitilize =
+        new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOSinitilize = new DarwinInitializationSettings();
     var initilizationsSettings = new InitializationSettings(
         android: androidInitilize, iOS: iOSinitilize);
@@ -80,8 +80,8 @@ class PushNotificationService {
 
     log("fcm_data: ${jsonEncode(message.data)}");
     log("fcm_data: ${message.data}");
-    print(Doctor.fromJson(json.decode(message?.data['doctor'] ?? "{}") ?? {})
-        .name);
+    // print(Doctor.fromJson(json.decode(message?.data['doctor'] ?? "{}") ?? {})
+    //     .name);
     //
     if (message.data != null) {
       if (message.data["purpose"] != null &&
@@ -101,8 +101,43 @@ class PushNotificationService {
         } catch (e, s) {
           Logger().e("Failed to decode the message JSON", e, s);
         }
+      } else if (message.data["purpose"] != null &&
+          message.data["purpose"] == "appointment-reminder") {
+        await flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          message.data["title"],
+          message.data["body"],
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+          payload: jsonEncode(message.data ?? {}),
+        );
       } else {
-        _notificationType = NotificationType.rate;
+        await flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          message.data["title"],
+          message.data["body"],
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+          payload: jsonEncode(message.data ?? {}),
+        );
+        // _notificationType = NotificationType.rate;
+
         log("it is not a message");
       }
     }
@@ -121,7 +156,7 @@ class PushNotificationService {
             channelDescription: channel.description,
             // TODO add a proper drawable resource to android, for now using
             //      one that already exists in example app.
-            icon: 'launch_background',
+            icon: '@mipmap/ic_launcher',
           ),
         ),
         payload: jsonEncode(message.data ?? {}),
@@ -142,12 +177,29 @@ class PushNotificationService {
     if (notificationResponse.payload != null) {
       NotificationPayloadModel payload =
           NotificationPayloadModel.fromRawJson(notificationResponse.payload);
+      log("payload.type---->${payload.type}");
+      log("payload.type---->${payload.data}");
 
-      if (payload.type == "${NotificationType.rate}")
-        Get.toNamed(Routes.RATE, arguments: notificationResponse.payload);
-      else if (payload.type == "${NotificationType.message}")
+      var data = jsonDecode(notificationResponse.payload);
+
+      if (data['purpose'] == 'appointment-reminder') {
+        Get.toNamed(Routes.APPOINTMENT_HISTORY);
+      } else if (data['purpose'] == "Lab-Report-reminder") {
+        Get.toNamed(Routes.REPORT_MEDICAL, arguments: {'id': "1"});
+      } else if (data['purpose'] == 'prescription-reminder') {
+        Get.toNamed(Routes.REPORT_MEDICAL, arguments: {'id': "0"});
+      } else if (data['purpose'] == 'Blog-reminder') {
+        Get.to(() => TabBlogView(),
+            binding: TabMainBinding(), arguments: {'id': 'notification'});
+      } else if (data['purpose'] == 'send-message') {
         ChatNotificationHandler.handleClick(
             ChatNotificationModel.fromRawJson(payload.data));
+      } else {}
+      log("data------------->${data['purpose']}");
+      // if (payload.type == "${NotificationType.rate}")
+      //   Get.toNamed(Routes.RATE, arguments: notificationResponse.payload);
+      // else if (payload.type == "${NotificationType.message}")
+      //   ChatNotificationHandler.handleClick(ChatNotificationModel.fromRawJson(payload.data));
     }
   }
 
@@ -164,7 +216,7 @@ class PushNotificationService {
           channelDescription: channel.description,
           // TODO add a proper drawable resource to android, for now using
           //      one that already exists in example app.
-          icon: 'launch_background',
+          icon: '@mipmap/ic_launcher',
         ),
       ),
       payload: payLoad.toRawJson(),

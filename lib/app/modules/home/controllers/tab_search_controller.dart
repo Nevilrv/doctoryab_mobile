@@ -1,8 +1,13 @@
+import 'dart:developer';
+
+import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 
 class TabSearchController extends GetxController {
   //
@@ -15,19 +20,20 @@ class TabSearchController extends GetxController {
 
   @override
   void onInit() {
-    _registerPagingListener();
+
+    // _registerPagingListener();
     debounce(filterName, (_) {
       if (teSearchController.text.trim() != "") {
-        pagingController.error = null;
-        pagingController.itemList = null;
-        pagingController.nextPageKey = pagingController.firstPageKey;
+        // pagingController.error = null;
+        // pagingController.itemList.clear();
+        // pagingController.nextPageKey = pagingController.firstPageKey;
         _search(pagingController.firstPageKey);
-        print("refresh");
         pagingController.refresh();
       } else {
         firstSearchInit(false);
       }
     });
+    _fetchAds();
     super.onInit();
   }
 
@@ -38,17 +44,21 @@ class TabSearchController extends GetxController {
 
   @override
   void onClose() {
-    pagingController.dispose();
+    // pagingController.dispose();
     super.onClose();
   }
 
-  void _search(int pageKey) {
+  Future<void> _search(int pageKey) async {
+    print('----IS SEARCH>>>>>>');
     firstSearchInit(true);
 
-    DoctorsRepository.searchDoctors(pageKey, teSearchController.text,
+    await DoctorsRepository.searchDoctors(pageKey, teSearchController.text,
         onError: (e) {
       pagingController.error = e;
     }).then((value) {
+      print('====value====>>>>$value');
+
+      print('===>>CONDITIOn>>>>>${value != null}');
       if (value != null) {
         print(value?.length);
         if (value.length > 0) {
@@ -56,9 +66,7 @@ class TabSearchController extends GetxController {
         } else {
           pagingController.appendLastPage(value);
         }
-      } else {
-        //TODO handle this case
-      }
+      } else {}
     });
   }
 
@@ -66,6 +74,30 @@ class TabSearchController extends GetxController {
     pagingController.addPageRequestListener((pageKey) {
       print("call");
       _search(pageKey);
+    });
+  }
+
+  List<Ad> adList = [];
+  var adIndex = 0;
+  void _fetchAds() {
+    AdsRepository.fetchAds().then((v) {
+      // AdsModel v = AdsModel();
+      log("v.data--------------> ${v.data}");
+
+      if (v.data != null) {
+        v.data.forEach((element) {
+          adList.add(element);
+          update();
+          log("adList--------------> ${adList.length}");
+        });
+      }
+    }).catchError((e, s) {
+      log("e--------------> ${e}");
+
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {
+        if (this != null) _fetchAds();
+      });
     });
   }
 }

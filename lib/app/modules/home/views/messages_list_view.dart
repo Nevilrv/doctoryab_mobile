@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:doctor_yab/app/modules/banner/banner_view.dart';
+import 'package:doctor_yab/app/modules/chat/controllers/chat_controller.dart';
+import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +11,6 @@ import '../../../components/background.dart';
 import '../../../components/message_tile.dart';
 import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
-import '../controllers/messages_list_controller.dart';
 
 class MessagesListView extends GetView<MessagesListController> {
   const MessagesListView({Key key}) : super(key: key);
@@ -21,7 +25,7 @@ class MessagesListView extends GetView<MessagesListController> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            titleTextStyle: AppTextStyle.boldPrimary20,
+            titleTextStyle: AppTextStyle.boldPrimary16,
             iconTheme: IconThemeData(
               color: AppColors.white,
             ),
@@ -49,10 +53,6 @@ class MessagesListView extends GetView<MessagesListController> {
             appBar: AppBar(
               title: Text('messages'.tr),
               centerTitle: true,
-              actions: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.notifications_outlined))
-              ],
             ),
             body: Column(children: [
               TextFormField(
@@ -108,6 +108,7 @@ class MessagesListView extends GetView<MessagesListController> {
               SizedBox(
                 height: 14.0,
               ),
+
               Obx(() {
                 return Expanded(
                   child: RefreshIndicator(
@@ -118,13 +119,18 @@ class MessagesListView extends GetView<MessagesListController> {
                     ),
                     child: controller.isLoading()
                         ? Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            ),
                           )
                         : ListView.separated(
+                            physics: BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
                               return MessageTile(
                                 chat: controller.chats[index],
                                 onTap: () {
+                                  log(" controller.chats[index]--------------> ${controller.chats[index].id}");
+
                                   controller.onTapMessageTile(
                                       controller.chats[index]);
                                 },
@@ -170,6 +176,9 @@ class MessagesListView extends GetView<MessagesListController> {
                   height: 2,
                   color: AppColors.primary,
                 ),
+              ),
+              const SizedBox(
+                height: 80.0,
               ),
 
               ///height for bottomBar

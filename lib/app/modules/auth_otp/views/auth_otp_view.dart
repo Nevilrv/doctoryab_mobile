@@ -1,13 +1,14 @@
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
+import '../../../controllers/settings_controller.dart';
 import '../controllers/auth_otp_controller.dart';
 
 class AuthOtpView extends GetView<AuthOtpController> {
@@ -22,17 +23,38 @@ class AuthOtpView extends GetView<AuthOtpController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Spacer(flex: 2),
-            Hero(
-                tag: "doctor_svg",
-                child: SvgPicture.asset("assets/svg/d2.svg")),
+            SizedBox(
+              height: Get.height * 0.064,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: RotatedBox(
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            ),
+
+            Spacer(),
+            // Spacer(flex: 2),
+            // Hero(
+            //     tag: "doctor_svg",
+            //     child: SvgPicture.asset("assets/svg/d2.svg"),),
             SizedBox(height: 20),
             Text(
               'security_validation'.tr,
               style: AppTextTheme.h1().copyWith(color: Colors.white),
               textAlign: TextAlign.center,
             ),
-            Spacer(flex: 1),
+            // Spacer(flex: 1),
             Hero(
               tag: "info_text",
               //TODO handle [Get.arguments] for web
@@ -43,7 +65,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Obx(() {
               return () {
                 return Theme(
@@ -61,12 +83,14 @@ class AuthOtpView extends GetView<AuthOtpController> {
                       maxLength: 6,
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       keyboardType: TextInputType.phone,
+                      cursorColor: Colors.white,
                       controller: controller.textEditingController,
                       decoration: InputDecoration(
                         errorText: controller.otpValidationError() == ""
                             ? null
                             : controller.otpValidationError(),
                         labelText: 'otp_code'.tr,
+                        labelStyle: TextStyle(color: Colors.white),
                         // labelStyle: TextStyle(color: Colors.white),
                         fillColor: Colors.white,
                         focusColor: Colors.white,
@@ -83,7 +107,8 @@ class AuthOtpView extends GetView<AuthOtpController> {
               child: Obx(
                 () => CustomRoundedButton(
                   text: "confirm".tr,
-                  width: 220,
+                  width: Get.width,
+                  radius: 5,
                   onTap: !controller.otpFormatValid.value
                       ? null
                       : () => controller.verfyOtp(),
@@ -97,7 +122,9 @@ class AuthOtpView extends GetView<AuthOtpController> {
                   Obx(
                     () => Container(
                       child: controller.waitingForFirebasToResendOtp.value
-                          ? CircularProgressIndicator()
+                          ? CircularProgressIndicator(
+                              color: AppColors.primary,
+                            )
                           : Countdown(
                               controller: controller.countDountController,
                               seconds: 60,
@@ -129,9 +156,9 @@ class AuthOtpView extends GetView<AuthOtpController> {
                       )),
                 ],
               ),
-            Spacer(flex: 4),
+            Spacer(),
           ],
-        ).paddingSymmetric(horizontal: 80),
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

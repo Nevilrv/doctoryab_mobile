@@ -40,6 +40,7 @@ class ChatNotificationHandler {
     } catch (e) {}
     try {
       var _chatDecoded = Chat.fromJson(json.decode(chat.chat));
+
       var _msgData = ChatNotificationMessageDataModel.fromJson(
           json.decode(chat.messageData));
       if (_chatController != null && _chatController?.chatArg()?.id != null) {

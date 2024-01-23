@@ -42,7 +42,7 @@ class TabMainView extends GetView<HospitalNewController> {
           children: [
             DoctorsView(
               action: DOCTORS_LOAD_ACTION.ofhospital,
-              hospitalId: controller.hospital.id,
+              hospitalId: "3",
               hideAppbar: true,
               bgColor: Colors.white,
             ),
