@@ -8,7 +8,6 @@ import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/AD/add_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -16,11 +15,9 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
@@ -87,7 +84,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          log("i--------------> ${i}");
+                          log("i--------------> $i");
 
                           // if (i == 5) {
                           if ((i + 1) % 5 == 0) {
@@ -374,7 +371,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "${item.persianName}",
+                        "${item.name}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

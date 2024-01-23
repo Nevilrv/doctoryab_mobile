@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -31,9 +30,8 @@ class DrugDetailsView extends GetView<DrugsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppAppBar.primaryAppBar(
-          title:
-              "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
+      appBar:
+          AppAppBar.primaryAppBar(title: "${controller.argumentsData.name} "),
       backgroundColor: AppColors.lightGrey,
       body: GetBuilder<DrugsController>(
         builder: (controller) {
@@ -194,8 +192,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                           height: h * 0.01,
                         ),
                         commonTitleBox(text: "drug_name".tr),
-                        commonTextBox(
-                            "${controller.argumentsData.englishName} (${controller.argumentsData.persianName})"),
+                        commonTextBox("${controller.argumentsData.name}"),
                         controller.argumentsData.genericName == ""
                             ? SizedBox()
                             : Column(
