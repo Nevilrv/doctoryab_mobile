@@ -1,5 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
+import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/statefull_wraper.dart';
@@ -31,6 +38,7 @@ import '../data/models/chat_model.dart';
 import '../data/models/post.dart';
 import '../data/models/user_model.dart';
 import '../data/static.dart';
+import 'dart:math' as math;
 
 class Utils {
   static Widget initBuilder(BuildContext context, Widget widget) {
@@ -41,6 +49,9 @@ class Utils {
     assert(number.length == 10);
     return "${AppStatics.envVars.countryCode}${number.substring(1, 10)}";
   }
+
+  static const bannerAdId = "ca-app-pub-7346350725133754/9537971919";
+  static const bannerAdIOSId = "ca-app-pub-7346350725133754/5779438739";
 
   static void configEasyLoading() {
     EasyLoading.instance
@@ -60,45 +71,51 @@ class Utils {
   }
 
   static void whereShouldIGo({bool updateProfile = true}) {
+    if (SettingsController.userLoginGet == true) {
+      Get.offAllNamed(Routes.HOME);
+    } else {
+      Get.offAllNamed(Routes.INTRO);
+    }
+    // Get.offAllNamed(Routes.INTRO);
     // FbAuth.FirebaseAuth.instance.authStateChanges().listen((user) {
     //   print('Current user id: ${user?.uid}');
     // });
-    if (!AuthController.to.isUserSignedInedToFirebase()) {
-      if (!SettingsController.isAppLanguageSet) {
-        Get.offAllNamed(Routes.INTRO);
-        return;
-      }
-      Get.offAllNamed(Routes.AUTH_PHONE);
-      return;
-    } else {
-      print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");
-    }
+    // if (!AuthController.to.isUserSignedInedToFirebase()) {
+    //   if (!SettingsController.isAppLanguageSet) {
+    //     Get.offAllNamed(Routes.INTRO);
+    //     return;
+    //   }
+    //   Get.offAllNamed(Routes.AUTH_OPTION);
+    //   return;
+    // } else {
+    //   print("Fb Auth Current User id:  ${AuthController.to.getUser.uid}");
+    // }
     //
-    if (!SettingsController.isUserLoggedInToApi) {
-      Get.offAllNamed(Routes.LOGIN_VERIFY);
-      return;
-    }
-    if (!SettingsController.isUserProfileComplete) {
-      Get.offAllNamed(Routes.PROFILE_UPDATE);
-      return;
-    }
-    if (SettingsController.auth.savedCity == null) {
-      Get.offAllNamed(Routes.CITY_SELECT);
-      return;
-    }
-    if (updateProfile) {
-      _updateProfile();
-    } else {
-      if (Get.currentRoute == Routes.HOME) {
-        Get.offAllNamed(AppPages.INITIAL);
-      } else {
-        //! Fix bug, not sure how
-        // Get.reset();
-        Get.offAllNamed(Routes.afterLoggedIn);
-      }
-
-      return;
-    }
+    // if (!SettingsController.isUserLoggedInToApi) {
+    //   Get.offAllNamed(Routes.LOGIN_VERIFY);
+    //   return;
+    // }
+    // if (!SettingsController.isUserProfileComplete) {
+    //   Get.offAllNamed(Routes.PROFILE_UPDATE);
+    //   return;
+    // }
+    // if (SettingsController.auth.savedCity == null) {
+    //   Get.offAllNamed(Routes.CITY_SELECT);
+    //   return;
+    // }
+    // if (updateProfile) {
+    //   _updateProfile();
+    // } else {
+    //   if (Get.currentRoute == Routes.HOME) {
+    //     Get.offAllNamed(AppPages.INITIAL);
+    //   } else {
+    //     //! Fix bug, not sure how
+    //     // Get.reset();
+    //     Get.offAllNamed(Routes.afterLoggedIn);
+    //   }
+    //
+    //   return;
+    // }
   }
 
   //TODO move this to a service
@@ -162,6 +179,16 @@ class Utils {
 
       return;
     });
+  }
+
+  static commonSnackbar({BuildContext context, String text}) {
+    var snackBar = SnackBar(
+      content: Text(text.tr, style: AppTextStyle.boldPrimary14),
+      backgroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(side: BorderSide(color: AppColors.primary)),
+    );
+
+    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static Future<List<T>> parseResponse<T>(Future<Response<dynamic>> func(),
@@ -303,6 +330,22 @@ class Utils {
     return null;
   }
 
+  static String emailValidator(String value) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    if (!regExp.hasMatch(value)) {
+      return "valid_email".tr;
+      // nameValid.value = false;
+    } else if (value == null) {
+      return "please_enter_email".tr;
+    } else {
+      return null;
+    }
+  }
+
   static void restartApp() {
     // Get.reset();
     // Get.appUpdate();
@@ -413,5 +456,116 @@ class Utils {
 
   static String getFullPathOfAssets(String path) {
     return "${ApiConsts.hostUrl}$path";
+  }
+
+  static Widget searchBox({bool isFav = true}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      padding: EdgeInsets.only(top: 13, bottom: 22, left: 17, right: 17),
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "hi_text".tr,
+                    style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
+                  ),
+                  Text(
+                    "how_do_you_feel".tr,
+                    style: AppTextStyle.mediumWhite11.copyWith(
+                        color: AppColors.white.withOpacity(0.5), fontSize: 13),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(
+                    AppImages.bell,
+                    height: 22,
+                    width: 22,
+                  ),
+                  Positioned(
+                    right: 2,
+                    top: 2,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.red2,
+                      radius: 4,
+                    ),
+                  ),
+                ],
+              ),
+              isFav == true
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 10, left: 8),
+                      child: Center(
+                          child: SettingsController.appLanguge != "English"
+                              ? Transform(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.rotationY(math.pi),
+                                  child: Image.asset(
+                                    AppImages.filter,
+                                    width: 25,
+                                    height: 24,
+                                    color: AppColors.primary,
+                                  ),
+                                )
+                              : Image.asset(
+                                  AppImages.filter,
+                                  width: 25,
+                                  height: 24,
+                                  color: AppColors.primary,
+                                )),
+                    )
+                  : SizedBox(),
+            ],
+          ),
+          SizedBox(height: 10),
+          TextField(
+            style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
+            cursorColor: AppColors.white,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: 15),
+              hintText: "search_doctor".tr,
+              hintStyle: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(11),
+                child: SvgPicture.asset(AppImages.search),
+              ),
+              filled: true,
+              fillColor: AppColors.white.withOpacity(0.1),
+              constraints: BoxConstraints(maxHeight: 38),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: AppColors.lightWhite,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,6 +46,7 @@ class AuthOtpController extends GetxController {
       UserCredential uc = await AuthController.to.confirmationResult.confirm(
         textEditingController.text,
       );
+      log('signinToFirebaseWithSmsCode--11111');
       if (uc != null) {
         EasyLoading.dismiss();
         Utils.whereShouldIGo();

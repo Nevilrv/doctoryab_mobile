@@ -1,8 +1,9 @@
 // import 'dart:io' as Io;
 
-import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
 import 'package:doctor_yab/app/data/models/blood_donors.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
@@ -21,11 +22,21 @@ class BloodDonorRepository {
     LocationResult location,
     int gender,
   ) async {
+    log("data---------- ${{
+      "bloodGroup": bloodGroup,
+      "location": location?.locality,
+      "gender": gender,
+      "geometry": {
+        "coordinates": [location.latLng.longitude, location.latLng.latitude]
+      }
+    }}");
+
     final response = await dio.post(
       ApiConsts.updateAndRegisterBloodDonor,
       data: {
         "bloodGroup": bloodGroup,
         "location": location?.locality,
+        // "gender": gender,
         "gender": gender,
         "geometry": {
           "coordinates": [location.latLng.longitude, location.latLng.latitude]
@@ -50,7 +61,7 @@ class BloodDonorRepository {
     return await Utils.parseResponse<BloodDonor>(
       () async {
         // var doctorReports;
-        return await _cachedDio.post(
+        var data = await _cachedDio.post(
           // '/findBloodDonors/profile',
           '/findBloodDonors/profile',
           cancelToken: cancelToken,
@@ -76,6 +87,9 @@ class BloodDonorRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
+        log("data--------------> ${data}");
+
+        return data;
       },
       onError: onError,
     );

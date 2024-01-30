@@ -19,7 +19,8 @@ class CategoriesRepository {
 
   //* update profile
   Future<dynamic> getCategories(int page,
-      {int limitPerPage = 10, CancelToken cancelToken}) async {
+      {int limitPerPage = 50 /*10*/, CancelToken cancelToken}) async {
+    print("Get---Category---${ApiConsts.categoriesByCityPath}");
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
       '${ApiConsts.categoriesByCityPath}',
@@ -35,6 +36,37 @@ class CategoriesRepository {
 
   //*
   static Future<List<Category>> categoryByDoctor(int page, Doctor doctor,
+      {int limitPerPage = 10, void onError(e)}) async {
+    //TODO move to some utils func
+    List<Category> _cats;
+    try {
+      final response = await dio.get(
+        '${ApiConsts.doctorsCategories}',
+        queryParameters: {
+          "limit": limitPerPage,
+          "page": page,
+        },
+        // data: {"name": name},
+        // cancelToken: _searchCancelToken,
+        // options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+      );
+      List<dynamic> _data = response.data['data'];
+      if (_data == null) return <Category>[]; //TODO take care of this
+
+      _cats = _data.map((e) => Category.fromJson(e)).toList();
+    } catch (e, s) {
+      Logger().e(e.toString());
+      if (onError != null) {
+        if (!(e is DioError && CancelToken.isCancel(e))) {
+          onError(e);
+        }
+      }
+      FirebaseCrashlytics.instance.recordError(e, s);
+    }
+    return _cats;
+  }
+
+  static Future<dynamic> searchDoctor(int page, Doctor doctor,
       {int limitPerPage = 10, void onError(e)}) async {
     //TODO move to some utils func
     List<Category> _cats;

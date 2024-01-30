@@ -340,6 +340,8 @@ String chatApiModelToJson(List<ChatApiModel> data) =>
 class ChatApiModel {
   ChatApiModel({
     this.images,
+    this.voiceNotes,
+    this.documents,
     this.readBy,
     this.id,
     this.sender,
@@ -350,6 +352,8 @@ class ChatApiModel {
   });
 
   List<dynamic> images;
+  List<dynamic> voiceNotes;
+  List<dynamic> documents;
   List<String> readBy;
   String id;
   Sender sender;
@@ -360,6 +364,8 @@ class ChatApiModel {
 
   ChatApiModel copyWith({
     List<dynamic> images,
+    List<dynamic> voiceNotes,
+    List<dynamic> documents,
     List<String> readBy,
     String id,
     Sender sender,
@@ -370,6 +376,8 @@ class ChatApiModel {
   }) =>
       ChatApiModel(
         images: images ?? this.images,
+        voiceNotes: voiceNotes ?? this.voiceNotes,
+        documents: documents ?? this.documents,
         readBy: readBy ?? this.readBy,
         id: id ?? this.id,
         sender: sender ?? this.sender,
@@ -383,6 +391,12 @@ class ChatApiModel {
         images: json["images"] == null
             ? null
             : List<dynamic>.from(json["images"].map((x) => x)),
+        voiceNotes: json["voiceNotes"] == null
+            ? null
+            : List<dynamic>.from(json["voiceNotes"].map((x) => x)),
+        documents: json["documents"] == null
+            ? null
+            : List<dynamic>.from(json["documents"].map((x) => x)),
         readBy: json["readBy"] == null
             ? null
             : List<String>.from(json["readBy"].map((x) => x)),
@@ -401,6 +415,12 @@ class ChatApiModel {
   Map<String, dynamic> toJson() => {
         "images":
             images == null ? null : List<dynamic>.from(images.map((x) => x)),
+        "voiceNotes": voiceNotes == null
+            ? null
+            : List<dynamic>.from(voiceNotes.map((x) => x)),
+        "documents": documents == null
+            ? null
+            : List<dynamic>.from(documents.map((x) => x)),
         "readBy":
             readBy == null ? null : List<dynamic>.from(readBy.map((x) => x)),
         "_id": id == null ? null : id,

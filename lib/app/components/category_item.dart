@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/categories_model.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +16,15 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Container(
-      height: 179,
-      width: 142,
-      padding: EdgeInsets.all(8),
+      // height: h * 0.1,
+      // width: 142,
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
@@ -36,11 +39,11 @@ class CategoryItem extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           AspectRatio(
-            aspectRatio: 1,
+            aspectRatio: 0.9,
             child: Container(
               // constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(5),
                 color: Utils.hexToColor(
                   item.background,
                   defaultColorIfInvalid: AppColors.disabledButtonColor,
@@ -48,7 +51,8 @@ class CategoryItem extends StatelessWidget {
               ),
               child: Center(
                 child: SizedBox(
-                  height: 65,
+                  // height: h * 0.15,
+                  // height: 65,
                   // width: 20,
                   child:
                       // Image.network(
@@ -57,11 +61,14 @@ class CategoryItem extends StatelessWidget {
                       //   // width: 20,
                       //   // fit: BoxFit.,
                       // ),
-                      CachedNetworkImage(
-                    imageUrl: '${ApiConsts.hostUrl}${item.photo}',
-                    errorWidget: (_, __, ___) {
-                      return SizedBox();
-                    },
+                      Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CachedNetworkImage(
+                      imageUrl: '${ApiConsts.hostUrl}${item.photo}',
+                      errorWidget: (_, __, ___) {
+                        return SizedBox();
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -70,16 +77,16 @@ class CategoryItem extends StatelessWidget {
           // Spacer(),
           Expanded(
             child: Center(
-              child: FittedBox(
-                child: AutoSizeText(
-                  item.title,
-                  maxLines: 1,
-                  minFontSize: 8,
-                  // style: AppTextTheme.m(12).copyWith(
-                  //   color: AppColors.black2,
-                  // ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+              child: AutoSizeText(
+                item.title,
+                maxLines: 2,
+                minFontSize: 8, maxFontSize: 12, textAlign: TextAlign.center,
+                style: AppTextStyle.mediumBlack12
+                    .copyWith(fontWeight: FontWeight.w600),
+                // style: AppTextTheme.m(12).copyWith(
+                //   color: AppColors.black2,
+                // ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

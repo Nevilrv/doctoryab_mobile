@@ -59,7 +59,7 @@ class DoctorListTileItem extends StatelessWidget {
                   style: AppTextTheme.h(15).copyWith(color: AppColors.black2),
                 ),
               ),
-              if (doctor.verfied ?? false)
+              if (doctor.verification ?? false)
                 Icon(
                   Icons.verified,
                   color: AppColors.verified,
@@ -75,7 +75,7 @@ class DoctorListTileItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                doctor.category?.title ?? "",
+                doctor.category?.eTitle ?? "",
                 style: AppTextTheme.b(14)
                     .copyWith(color: AppColors.lgt2, height: 1.0),
               ),

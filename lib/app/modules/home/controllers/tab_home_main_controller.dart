@@ -6,7 +6,9 @@ import 'package:doctor_yab/app/modules/home/controllers/tab_home_doctors_control
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/ads_model.dart';
@@ -16,6 +18,7 @@ class TabHomeMainController extends GetxController {
   var selectedCity = City().obs;
   //ads model is same as story
   var dataList = Rx<AdsModel>(null);
+  TextEditingController searchDoctor = TextEditingController();
   //stories
   @override
   void onInit() {
@@ -23,6 +26,7 @@ class TabHomeMainController extends GetxController {
     super.onInit();
   }
 
+  var isHomeScreen = true.obs;
   @override
   void onReady() {
     super.onReady();
@@ -70,9 +74,7 @@ class TabHomeMainController extends GetxController {
       // _tmp.addAll(v.data);
       // _tmp.addAll(v.data);
       // v.data.addAll(_tmp);
-
       dataList.value = v;
-
       // dataList.update((val) => v);
     }).catchError((e, s) {
       Logger().e("Error loading stories: ", e, s);

@@ -60,44 +60,44 @@ class PatientInfoController extends GetxController {
   @override
   void onClose() {}
 
-  void bookNow() {
-    EasyLoading.show(status: "please_wait".tr);
-    DoctorsRepository()
-        .bookTime(
-      _patId,
-      BookingController.to.selectedDoctor(),
-      BookingController.to.selectedCategory(),
-      teName.text,
-      teAge.text,
-      tePhoneNumber.text,
-      BookingController.to.selectedDate().toUtc().toIso8601String(),
-    )
-        .then((value) {
-      EasyLoading.dismiss();
-      var response = value.data;
-      Get.until((route) => route.isFirst);
-      var patId = response['data']['patientId']?.toString() ?? "null";
-      // Navigator.of(Get.context).popUntil((route) => route.isFirst);
-      AppGetDialog.showSuccess(
-        middleText: "done".tr +
-            "\n\n" +
-            "remember_pat_id_for_reference".trArgs([patId]),
-      );
-      //refresh history if there is any
-      TabMeetingTimeController tabMeetingTimeController = Get.find();
-      if (tabMeetingTimeController != null) {
-        tabMeetingTimeController.reloadAll();
-      }
-    }).catchError(
-      (e, s) {
-        DioExceptionHandler.handleException(
-          exception: e,
-          retryCallBak: bookNow,
-        );
-        FirebaseCrashlytics.instance.recordError(e, s);
-      },
-    );
-  }
+  // void bookNow() {
+  //   EasyLoading.show(status: "please_wait".tr);
+  //   DoctorsRepository()
+  //       .bookTime(
+  //     _patId,
+  //     BookingController.to.selectedDoctor(),
+  //     BookingController.to.selectedCategory(),
+  //     teName.text,
+  //     teAge.text,
+  //     tePhoneNumber.text,
+  //     BookingController.to.selectedDate().toUtc().toIso8601String(),
+  //   )
+  //       .then((value) {
+  //     EasyLoading.dismiss();
+  //     var response = value.data;
+  //     Get.until((route) => route.isFirst);
+  //     var patId = response['data']['patientId']?.toString() ?? "null";
+  //     // Navigator.of(Get.context).popUntil((route) => route.isFirst);
+  //     AppGetDialog.showSuccess(
+  //       middleText: "done".tr +
+  //           "\n\n" +
+  //           "remember_pat_id_for_reference".trArgs([patId]),
+  //     );
+  //     //refresh history if there is any
+  //     TabMeetingTimeController tabMeetingTimeController = Get.find();
+  //     if (tabMeetingTimeController != null) {
+  //       tabMeetingTimeController.reloadAll();
+  //     }
+  //   }).catchError(
+  //     (e, s) {
+  //       DioExceptionHandler.handleException(
+  //         exception: e,
+  //         retryCallBak: bookNow,
+  //       );
+  //       FirebaseCrashlytics.instance.recordError(e, s);
+  //     },
+  //   );
+  // }
 
   //? Move to Booking controller?
   String get formatedDate {

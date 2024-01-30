@@ -20,7 +20,7 @@ class AdView extends StatelessWidget {
   var selectedPage = 0;
   @override
   Widget build(BuildContext context) {
-    _fetchAds();
+    // _fetchAds();
     return Center(
       child: Container(
         color: AppColors.lgt.withOpacity(0.7),
@@ -178,27 +178,5 @@ class AdView extends StatelessWidget {
         ),
       ).radiusAll(12).paddingSymmetric(vertical: 30, horizontal: 16),
     );
-  }
-
-  void _fetchAds() {
-    AdsRepository.fetchAds().then((v) {
-      // AdsModel v = AdsModel();
-      if (v.data == null) {
-        v.data = <Ad>[Ad()];
-      }
-      // var _tmp = v.data.where((element) => true).toList();
-      // // _tmp.data.addAll(v.data.where((element) => true));
-      // _tmp.addAll(v.data);
-      // _tmp.addAll(v.data);
-      // v.data.addAll(_tmp);
-      dataList.value = v;
-
-      // dataList.update((val) => v);
-    }).catchError((e, s) {
-      Logger().e("message", e, s);
-      Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
-      });
-    });
   }
 }

@@ -1,13 +1,20 @@
 // import 'dart:io' as Io;
+import 'package:mime/mime.dart' as mimeManager;
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
-
+import 'package:http/http.dart' as http;
 import '../../utils/utils.dart';
 import '../models/chat_model.dart';
 // import 'package:file/file.dart';
@@ -86,6 +93,8 @@ class ChatRepository {
     String chatID,
     String message, {
     void onError(e),
+    String type,
+    List<dynamic> images,
     CancelToken cancelToken,
   }) async {
     // TODO move to some utils func
@@ -93,13 +102,28 @@ class ChatRepository {
     // _searchCancelToken = CancelToken();
     var response;
     try {
+      log('---->>DATABODY>>>>${{
+        "chatId": "$chatID",
+        "content": "$message" ?? "",
+        type == 'image'
+            ? "images"
+            : type == 'voice'
+                ? "voiceNotes"
+                : "documents": images == null || images.isEmpty ? [] : images
+      }}');
+
       response = await dio.post(
         // '/findBloodDonors/profile',
         '/message/',
         cancelToken: cancelToken,
         data: {
           "chatId": "$chatID",
-          "content": "$message",
+          "content": "$message" ?? "",
+          type == 'image'
+              ? "images"
+              : type == 'voice'
+                  ? "voiceNotes"
+                  : "documents": images == null || images.isEmpty ? [] : images
         },
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
       );
@@ -117,6 +141,9 @@ class ChatRepository {
       }
       FirebaseCrashlytics.instance.recordError(e, s);
     }
+
+    print('---DTATUS-->>>>>${response.statusCode}');
+
     var _r = response.data;
 
     ///TODO have a note that we areforce removing this, because they dont match here
@@ -124,6 +151,90 @@ class ChatRepository {
     if (_r["chat"] != null) _r["chat"]["users"] = [];
     return ChatApiModel.fromJson(response.data);
     // onError: onError,
+  }
+
+  Future<dynamic> uploadImage({
+    File file,
+  }) async {
+    FormData formData = FormData.fromMap(
+      {
+        "imgs": file.path != ""
+            ? await MultipartFile.fromFile(
+                file.path,
+                filename: file.path.split('/').last,
+
+                contentType: MediaType('image', 'png'),
+                // contentType: MediaType('img', image.path.split('.').last)
+              )
+            : null,
+      },
+    );
+    final response = await _cachedDio.post(
+      // "https://testserver.doctoryab.app/api/v4/message/imgs",
+      "${ApiConsts.baseUrl}/message/imgs",
+      data: formData,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response.data--------------> ${response.data}");
+
+    return response.data;
+  }
+
+  Future<dynamic> uploadPDF({
+    File file,
+  }) async {
+    File pdfFile = File(file.path.toString());
+    log("pdfFile--------------> ${pdfFile.path}");
+
+    FormData formData = FormData.fromMap(
+      {
+        "file": pdfFile.path != ""
+            ? await MultipartFile.fromFile("${pdfFile.path}",
+                filename: pdfFile.path.split('/').last,
+                contentType: MediaType('application', 'pdf'))
+            : null,
+      },
+    );
+    log("formData--------------> $formData");
+
+    final response = await _cachedDio.post(
+        // "https://testserver.doctoryab.app/api/v4/message/file",
+        "${ApiConsts.baseUrl}/message/file",
+        data: formData,
+        options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge));
+    log("response.data--------------> ${response.data}");
+
+    return response.data;
+  }
+
+  Future<dynamic> uploadAudio({
+    File file,
+  }) async {
+    File audioFile = File(file.path.toString());
+    log("file.path--------------> ${audioFile.path}");
+
+    FormData formData = FormData.fromMap(
+      {
+        "audio": audioFile.path != ""
+            ? await MultipartFile.fromFile(
+                "${audioFile.path}",
+                filename: "temp.wav",
+                contentType: MediaType('audio', 'wav'),
+              )
+            : null,
+      },
+    );
+    log("formData--------------> $formData");
+
+    final response = await _cachedDio.post(
+      // "https://testserver.doctoryab.app/api/v4/message/audio",
+      "${ApiConsts.baseUrl}/message/audio",
+      data: formData,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+    log("response.data--------------> ${response.data}");
+
+    return response.data;
   }
 
   static Future<ChatApiModel> createNewChat(
