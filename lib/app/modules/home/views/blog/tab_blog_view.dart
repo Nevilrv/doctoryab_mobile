@@ -1,13 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/components/paging_indicators/dotdot_nomore_items.dart';
+import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
+import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
+import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -17,16 +24,7 @@ import 'package:html/parser.dart' show parse;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
-import '../../../../components/paging_indicators/no_item_list.dart';
-import '../../../../components/paging_indicators/paging_error_view.dart';
-import '../../../../controllers/settings_controller.dart';
-import '../../../../data/models/post.dart';
-import '../../../../routes/app_pages.dart';
-import '../../../../theme/AppColors.dart';
-import '../../../../theme/TextTheme.dart';
-import '../../controllers/tab_blog_controller.dart';
-
+// ignore: must_be_immutable
 class TabBlogView extends GetView<TabBlogController> {
   TabBlogView({Key key}) : super(key: key) {
     if (Get.arguments != null) {
@@ -46,6 +44,62 @@ class TabBlogView extends GetView<TabBlogController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
 
+    /// NEW
+    // return Scaffold(
+    //   backgroundColor: Colors.white,
+    //   body: Column(
+    //     children: [
+    //       Container(
+    //         height: 75,
+    //         width: MediaQuery.of(context).size.width,
+    //         color: AppColors.primary,
+    //         child: Center(
+    //           child: Text(
+    //             'Health Blog',
+    //             style: TextStyle(
+    //               color: AppColors.white,
+    //               fontSize: 22,
+    //               fontWeight: FontWeight.w600,
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //       SizedBox(
+    //         height: 25,
+    //       ),
+    //       SizedBox(
+    //         width: w,
+    //         height: 88,
+    //         child: ListView.builder(
+    //           itemCount: 5,
+    //           shrinkWrap: true,
+    //           scrollDirection: Axis.horizontal,
+    //           padding: EdgeInsets.symmetric(horizontal: 10),
+    //           itemBuilder: (context, index) => Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 8),
+    //             child: Column(
+    //               children: [
+    //                 Container(
+    //                   height: 55,
+    //                   width: 55,
+    //                   margin: EdgeInsets.symmetric(horizontal: 5),
+    //                   color: AppColors.red,
+    //                 ),
+    //                 SizedBox(height: 5),
+    //                 Text(
+    //                   'General Health',
+    //                   style: TextStyle(fontSize: 12),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       )
+    //     ],
+    //   ),
+    // );
+
+    /// OLD
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -143,16 +197,14 @@ class TabBlogView extends GetView<TabBlogController> {
                                             //width: w * 0.35,
                                             child: Center(
                                                 child: Text(
-                                              controller
-                                                  .tabTitles[index].category,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: controller
-                                                          .tabIndex.value !=
-                                                      index
+                                          controller.tabTitles[index].category,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                              controller.tabIndex.value != index
                                                   ? AppTextStyle.boldPrimary14
                                                   : AppTextStyle.boldWhite14,
-                                            ))),
+                                        ))),
                                       ),
                                     ),
                                   ),
@@ -202,11 +254,10 @@ class TabBlogView extends GetView<TabBlogController> {
                                                               Radius.circular(
                                                                   15.0)),
                                                       child: Image.network(
-                                                          "${ApiConsts.hostUrl}${item.img}",
-                                                          fit: BoxFit.cover,
-                                                          width: 1000.0,
-														  
-														  ),
+                                                        "${ApiConsts.hostUrl}${item.img}",
+                                                        fit: BoxFit.cover,
+                                                        width: 1000.0,
+                                                      ),
                                                     ),
                                                   ),
                                                 ))
@@ -301,7 +352,8 @@ class TabBlogView extends GetView<TabBlogController> {
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .center,
@@ -320,22 +372,21 @@ class TabBlogView extends GetView<TabBlogController> {
                                                           // maxLines: 1,
                                                         ),
                                                       ),
-                                                    //  controller.postList[index]
-                                                    //              .isPublished ==
-                                                    //          true
-                                                    //      ? SvgPicture.asset(
-                                                     //         AppImages.check,
+                                                      //  controller.postList[index]
+                                                      //              .isPublished ==
+                                                      //          true
+                                                      //      ? SvgPicture.asset(
+                                                      //         AppImages.check,
                                                       //      )
-                                                       //   : SizedBox()
+                                                      //   : SizedBox()
                                                     ],
                                                   ),
                                                 ),
                                                 Row(
-												 mainAxisAlignment:
-                                                        MainAxisAlignment.center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     Container(
                                                       // color: AppColors.red,
@@ -412,25 +463,25 @@ class TabBlogView extends GetView<TabBlogController> {
                                   child: AspectRatio(
                                     //width: w * 0.7,
                                     //height: h * 0.33,
-                                    aspectRatio: 1024/500,
-									child:Container(
-									decoration: BoxDecoration(
-                                      color: Colors.indigo,
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                                    aspectRatio: 1024 / 500,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.indigo,
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            "${ApiConsts.hostUrl}${controller.postList[index].img}",
+                                          ),
+                                          fit: BoxFit.cover,
+                                          onError: (exception, stackTrace) {
+                                            log('================== ON ERROR CALLED ==================');
+                                            return Image.asset(
+                                              "assets/png/person-placeholder.jpg",
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
                                         ),
-                                        fit: BoxFit.cover,
-                                        onError: (exception, stackTrace) {
-                                          log('================== ON ERROR CALLED ==================');
-                                          return Image.asset(
-                                            "assets/png/person-placeholder.jpg",
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
                                       ),
                                     ),
-									),
                                   ),
                                 ),
                                 // Padding(
@@ -706,7 +757,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w400),
-                                                  ), 
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -1005,6 +1056,8 @@ class TabBlogView extends GetView<TabBlogController> {
         );
       }),
     );
+
+    ///
     // return Scaffold(
     //   appBar: AppAppBar.specialAppBar(
     //     "blog".tr,
@@ -1148,8 +1201,8 @@ class _ShowMoreLessHTMLState extends State<ShowMoreLessHTML> {
   }
 }
 
-class _body extends StatelessWidget {
-  const _body({
+class Body extends StatelessWidget {
+  const Body({
     Key key,
     @required this.controller,
   }) : super(key: key);
@@ -1251,7 +1304,7 @@ class PostItemView extends StatefulWidget {
 }
 
 class _PostItemViewState extends State<PostItemView> {
-  bool _isExpanded = false;
+  bool isExpanded = false;
   var short = "";
   @override
   Widget build(BuildContext context) {

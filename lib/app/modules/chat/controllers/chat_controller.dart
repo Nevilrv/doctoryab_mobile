@@ -6,11 +6,12 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:just_audio/just_audio.dart' as j;
+
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+// import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
 import 'package:doctor_yab/app/data/models/chat_model.dart';
@@ -34,7 +35,7 @@ class ChatController extends GetxController {
   var endOfPage = false.obs;
   var tapAttachment = false.obs;
   var attachmentString = "".obs;
-  var chatsPerPageLimit = 20;
+  var chatsPerPageLimit = 16;
   // nextPageTrigger will have a value equivalent to 80% of the list size.
   var nextPageTrigger = 0.0;
 
@@ -91,7 +92,7 @@ class ChatController extends GetxController {
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
       log("timeText--------------> $timeText");
 
-      timerText.value = timeText.substring(0, 8);
+      // timerText.value = timeText.substring(0, 8);
       update();
     });
     _recorderSubscription.cancel();
@@ -116,6 +117,12 @@ class ChatController extends GetxController {
         .then((value) {
       log("recordingPlayer.isPlaying--------------df> ${recordingPlayer.playerState.value}");
     });
+    durationChangedSubscription1 =
+        audioPlayer1.onDurationChanged.listen((duration) {
+      duration1 = duration;
+      update();
+      log('_duration1_duration1>> ${duration1.inSeconds}');
+    });
     update();
     // if (recordingPlayer.is == true) {
     //   playAudio.value = false;
@@ -127,47 +134,45 @@ class ChatController extends GetxController {
   }
 
   List<int> hi = [
-    20,
-    30,
-    15,
+    16,
     25,
-    35,
+    12,
     20,
-    30,
-    15,
     25,
-    35,
-    20,
-    30,
-    15,
+    16,
     25,
-    35,
+    12,
     20,
-    30,
-    15,
     25,
-    35,
-    20,
-    30,
-    15,
+    16,
     25,
-    35,
+    12,
     20,
-    30,
-    15,
     25,
-    35,
+    16,
+    25,
+    12,
     20,
-    30,
-    15,
+    25,
+    16,
+    25,
+    12,
+    20,
+    25,
+    16,
+    25,
+    12,
+    20,
+    25,
+    16,
+    25,
+    12,
   ];
   int selectedIndex = -1;
   final audioPlayer1 = ap.AudioPlayer();
-
   StreamSubscription<void> playerStateChangedSubscription1;
   StreamSubscription<Duration> durationChangedSubscription1;
   StreamSubscription<Duration> positionChangedSubscription1;
-
   Duration position1;
   Duration duration1;
   int current1 = -1;
@@ -176,11 +181,31 @@ class ChatController extends GetxController {
     if (path == '') {
     } else {
       print('audioPath--$path');
-      return audioPlayer1.play(
-        ap.UrlSource(path),
-      );
+      return audioPlayer1.play(ap.UrlSource(path));
     }
     return audioPlayer1.stop();
+  }
+
+  String voiceDuration;
+
+  Future<String> getVoiceDuration({String url}) async {
+    log("url---------->${url}");
+
+    final player = j.AudioPlayer();
+    var duration = await player.setUrl(url);
+
+    if (duration == null) {
+      voiceDuration = '0';
+      update();
+      log("voiceDuration------>${voiceDuration}");
+      return voiceDuration;
+    } else {
+      voiceDuration =
+          "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
+      log("voiceDuration------>${voiceDuration}");
+      update();
+      return voiceDuration;
+    }
   }
 
   Future<void> pause1() => audioPlayer1.pause();
@@ -193,7 +218,6 @@ class ChatController extends GetxController {
 
   ///
   //socket.io
-
   ///
   CancelToken chatCancelToken = CancelToken();
   CancelToken sendMessageCancelToken = CancelToken();
@@ -205,9 +229,10 @@ class ChatController extends GetxController {
   ScrollController scrollC = ScrollController();
   RxList<ChatApiModel> chat = <ChatApiModel>[].obs;
   RxList<XFile> image = <XFile>[].obs;
+
   var pdfFile = "".obs;
   init() {
-    log("calll-----2");
+    log("call-----2");
     chat.clear();
     // nextPageTrigger will have a value equivalent to 80% of the list size.
     initializer();
@@ -232,7 +257,6 @@ class ChatController extends GetxController {
     sendingMessage(true);
     update();
     if (messageToSend != '') {
-      print('----SEND');
       ChatRepository.sendMessage(chatArg().id, messageToSend,
           cancelToken: sendMessageCancelToken, onError: (e) {
         if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -271,8 +295,6 @@ class ChatController extends GetxController {
           // if (value.isEmpty) {
           //   endOfPage.value = true;
           // } else {
-
-          print('--wsw->>>>>${value}');
           chat.value.insert(0, value);
           //   log(value.toString());
           // }
@@ -280,12 +302,10 @@ class ChatController extends GetxController {
           // isLoading.value = false;
           // nextPageLoading(false);
           // //
-
           update();
         }
       }).catchError((e, s) {
         Logger().e("message", e, s);
-
         update();
       });
     }
@@ -298,7 +318,7 @@ class ChatController extends GetxController {
             ChatRepository()
                 .uploadImage(file: File(element.path))
                 .then((value) {
-              log("value--------------> $value");
+              log("value-------------->$value");
               ChatRepository.sendMessage(chatArg().id, "",
                   images: value,
                   type: attachmentString.value,
@@ -310,7 +330,6 @@ class ChatController extends GetxController {
                     sendMessageCancelToken = CancelToken();
                     sendMessage();
                   });
-
                   update();
                 }
               }).then((value) {
@@ -324,7 +343,6 @@ class ChatController extends GetxController {
                   //     });
                   //   }
                   // }
-
                   // _trySocket();
                   if (socket.disconnected) {
                     print("isDisconnected is true");
@@ -363,7 +381,7 @@ class ChatController extends GetxController {
           });
         } catch (e) {
           sendingMessage(false);
-          log("e--------------> ${e}");
+          log("e--------------> $e");
 
           update();
         }
@@ -381,9 +399,7 @@ class ChatController extends GetxController {
       try {
         if (pathToAudio.isNotEmpty) {
           ChatRepository().uploadAudio(file: File(pathToAudio)).then((value) {
-            log("value--------------> ${value}");
-
-            log("value--------------> ${value}");
+            log("value--------------> $value");
             ChatRepository.sendMessage(chatArg().id, "",
                 images: value,
                 type: attachmentString.value,
@@ -398,7 +414,6 @@ class ChatController extends GetxController {
                     sendMessage();
                   },
                 );
-
                 update();
               }
             }).then((value) {
@@ -412,7 +427,6 @@ class ChatController extends GetxController {
                 //     });
                 //   }
                 // }
-
                 // _trySocket();
                 if (socket.disconnected) {
                   print("isDisconnected is true");
@@ -435,12 +449,10 @@ class ChatController extends GetxController {
                 // isLoading.value = false;
                 // nextPageLoading(false);
                 // //
-
                 update();
               }
             }).catchError((e, s) {
               Logger().e("message", e, s);
-
               update();
             });
             pathToAudio = null;
@@ -451,91 +463,95 @@ class ChatController extends GetxController {
         }
       } catch (e) {
         sendingMessage(false);
-        log("e--------------> ${e}");
+        log("e--------------> $e");
       }
     }
     if (attachmentString.value == "pdf") {
       sendingMessage(true);
       update();
-      log("pathToAudio--------------> ${pathToAudio}");
-
+      log("pathToAudio--------------> $pathToAudio");
       try {
         if (pdfFile.value != "") {
-          ChatRepository().uploadPDF(file: File(pdfFile.value)).then((value) {
-            log("value--------------> ${value}");
-
-            ChatRepository.sendMessage(chatArg().id, "",
-                images: value,
-                type: attachmentString.value,
-                cancelToken: sendMessageCancelToken, onError: (e) {
-              if (!(e is DioError && CancelToken.isCancel(e))) {
-                // isLoading.value = false;
-                Future.delayed(Duration(seconds: 2), () {
-                  sendMessageCancelToken.cancel();
-                  sendMessageCancelToken = CancelToken();
-                  sendMessage();
-                });
-
-                update();
-              }
-            }).then((value) {
-              if (value != null) {
-                // _trySocket() {
-                //   if (socket.connected) {
-                //     socket.emit("new message", value.toJson());
-                //   } else {
-                //     Future.delayed(Duration(seconds: 1), () {
-                //       _trySocket();
-                //     });
-                //   }
-                // }
-
-                // _trySocket();
-                if (socket.disconnected) {
-                  print("isDisconnected is true");
-                  sendingMessageFailed(true);
-                  lastFailedMessage = value;
-                  sendingMessage(true);
-                  socket.connect();
-                } else {
-                  socket.emit("new message", value.toJson());
-                  sendingMessageFailed(false);
-                  sendingMessage(false);
+          ChatRepository().uploadPDF(file: File(pdfFile.value)).then(
+            (value) {
+              log("value--------------> $value");
+              ChatRepository.sendMessage(chatArg().id, "",
+                  images: value,
+                  type: attachmentString.value,
+                  cancelToken: sendMessageCancelToken, onError: (e) {
+                if (!(e is DioError && CancelToken.isCancel(e))) {
+                  // isLoading.value = false;
+                  Future.delayed(Duration(seconds: 2), () {
+                    sendMessageCancelToken.cancel();
+                    sendMessageCancelToken = CancelToken();
+                    sendMessage();
+                  });
+                  update();
                 }
-                // if (value.isEmpty) {
-                //   endOfPage.value = true;
-                // } else {
-                chat.value.insert(0, value);
-                //   log(value.toString());
-                // }
-                chat.refresh();
-                // isLoading.value = false;
-                // nextPageLoading(false);
-                // //
-                update();
-              }
-            }).catchError((e, s) {
+              }).then(
+                (value) {
+                  if (value != null) {
+                    // _trySocket() {
+                    //   if (socket.connected) {
+                    //     socket.emit("new message", value.toJson());
+                    //   } else {
+                    //     Future.delayed(Duration(seconds: 1), () {
+                    //       _trySocket();
+                    //     });
+                    //   }
+                    // }
+                    // _trySocket();
+                    if (socket.disconnected) {
+                      print("isDisconnected is true");
+                      sendingMessageFailed(true);
+                      lastFailedMessage = value;
+                      sendingMessage(true);
+                      socket.connect();
+                    } else {
+                      socket.emit("new message", value.toJson());
+                      sendingMessageFailed(false);
+                      sendingMessage(false);
+                    }
+                    // if (value.isEmpty) {
+                    //   endOfPage.value = true;
+                    // } else {
+                    chat.value.insert(0, value);
+                    //   log(value.toString());
+                    // }
+                    chat.refresh();
+                    // isLoading.value = false;
+                    // nextPageLoading(false);
+                    // //
+                    update();
+                  }
+                },
+              ).catchError(
+                (e, s) {
+                  sendingMessage(false);
+                  Logger().e("message", e, s);
+                  update();
+                },
+              );
+              pdfFile.value = "";
+              attachmentString.value = "";
               sendingMessage(false);
+              update();
+            },
+          ).catchError(
+            (e, s) {
+              sendingMessage(false);
+              log("e--------------> $e");
+              log("s--------------> ${e.response.data['message']}");
               Logger().e("message", e, s);
               update();
-            });
-            pdfFile.value = "";
-            attachmentString.value = "";
-            sendingMessage(false);
-            update();
-          }).catchError((e, s) {
-            sendingMessage(false);
-            log("e--------------> ${e}");
-            log("s--------------> ${e.response.data['message']}");
-            Logger().e("message", e, s);
-            update();
-          });
+            },
+          );
         }
       } catch (e) {
         sendingMessage(false);
         update();
-        log("e--------------> ${e}");
-        log("5--------------> ${e}");
+        log("e--------------> $e");
+        log("5--------------> $e");
       }
     }
     update();
@@ -614,7 +630,6 @@ class ChatController extends GetxController {
       socket.emit("setup", {"_id": chatArg()?.id});
 
       _sendFailedMessages();
-
     });
     socket.onDisconnect((_) => print('Connection Disconnection'));
     socket.onConnectError((err) => print(err));
@@ -651,17 +666,21 @@ class ChatController extends GetxController {
     scrollC.animateTo(
       scrollC.position.maxScrollExtent,
       curve: Curves.easeOut,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 250),
     );
   }
 
   void pickImage() async {
     image.value = await ImagePicker().pickMultiImage();
+    update();
   }
 
   void pickCameraImage() async {
     XFile value = await ImagePicker().pickImage(source: ImageSource.camera);
-    image.add(value);
+    if (value != null) {
+      image.add(value);
+    }
+    update();
   }
 
   void pickPdf() async {
@@ -735,7 +754,6 @@ class ChatController extends GetxController {
   @override
   void onReady() {
     // scrollToEnd();
-
     super.onReady();
     loadChatList(1);
     // init();
@@ -746,13 +764,9 @@ class ChatController extends GetxController {
     socket.disconnect();
     socket.dispose();
     playerStateChangedSubscription1.cancel();
-
     positionChangedSubscription1.cancel();
-
     durationChangedSubscription1.cancel();
-
     audioPlayer1.dispose();
-
     if (timers1 != null) {
       timers1.cancel();
     }
@@ -769,8 +783,18 @@ class ChatController extends GetxController {
     super.dispose();
   }
 
+  // Future<double> getFileDuration(String mediaPath) async {
+  //   // final mediaInfoSession = await FFprobeKit.getMediaInformation(mediaPath);
+  //   // final mediaInfo = mediaInfoSession.getMediaInformation();
+  //   //
+  //   // // the given duration is in fractional seconds
+  //   // final duration = double.parse(mediaInfo.getDuration());
+  //   // print('Duration: $duration');
+  //   return duration;
+  // }
+  List<String> voiceDurationList = [];
   Future<void> loadChatList(int p) async {
-    log("calll-----1");
+    log("call-----1");
     ChatRepository.fetchChatsById(chatArg().id,
         cancelToken: chatCancelToken,
         page: p,
@@ -784,14 +808,28 @@ class ChatController extends GetxController {
         });
       }
     }).then((value) {
-      log("value--------------> $value");
-      // chat.clear();
+      log("dsd$value");
+
       if (value != null) {
         if (value.isEmpty) {
           endOfPage.value = true;
         } else {
           chat.addAll(value);
-          log(value.toString());
+          chat.forEach((element) async {
+            if (element.voiceNotes.isEmpty) {
+              voiceDurationList.add('0');
+            } else {
+              String d = await getVoiceDuration(
+                  url: '${ApiConsts.hostUrl}${element.voiceNotes[0]}');
+              voiceDurationList.add(d);
+              log('d----->${d}');
+            }
+          });
+          log('voiceDurationList------->$voiceDurationList');
+          // chat.forEach((element) {
+          //   getVoiceDuration()
+          // });
+          log('--edew-${value.toString()}');
         }
         chat.refresh();
         isLoading.value = false;
@@ -814,7 +852,7 @@ class ChatController extends GetxController {
     page = 1;
     nextPageLoading.value = false;
     endOfPage.value = false;
-    chatsPerPageLimit = 20;
+    chatsPerPageLimit = 16;
     // nextPageTrigger will have a value equivalent to 80% of the list size.
     nextPageTrigger = 0.0;
 

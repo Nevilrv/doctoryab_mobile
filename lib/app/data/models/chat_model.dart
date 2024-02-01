@@ -328,9 +328,13 @@
 //     final chatApiModel = chatApiModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:developer';
+
+import 'package:just_audio/just_audio.dart';
 
 import '../../controllers/settings_controller.dart';
 
+final player = AudioPlayer();
 List<ChatApiModel> chatApiModelFromJson(String str) => List<ChatApiModel>.from(
     json.decode(str).map((x) => ChatApiModel.fromJson(x)));
 
@@ -349,6 +353,7 @@ class ChatApiModel {
     this.chat,
     this.createdAt,
     this.updatedAt,
+    this.isRead = false,
   });
 
   List<dynamic> images;
@@ -361,6 +366,7 @@ class ChatApiModel {
   Chat chat;
   DateTime createdAt;
   DateTime updatedAt;
+  bool isRead;
 
   ChatApiModel copyWith({
     List<dynamic> images,
@@ -435,6 +441,26 @@ class ChatApiModel {
         SettingsController.savedUserProfile.patientID;
 
     return cond;
+  }
+}
+
+Future<String> getVoiceDuration({String url}) async {
+  log("url---------->${url}");
+
+  var voiceDuration;
+  var duration = await player.setUrl(url);
+
+  if (duration == null) {
+    voiceDuration = '0';
+
+    log("voiceDuration------>${voiceDuration}");
+    return voiceDuration;
+  } else {
+    voiceDuration =
+        "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
+    log("voiceDuration------>${voiceDuration}");
+
+    return voiceDuration;
   }
 }
 

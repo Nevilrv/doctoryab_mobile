@@ -40,7 +40,7 @@ dependencies:
   shamsi_date: ^1.0.1
   url_launcher: ^6.0.3
   flutter_rating_bar: ^4.0.0
-  sign_in_with_apple: ^5.0.0
+  sign_in_with_apple:
   dio_http_cache: ^0.3.0
     # path: "./local_packages/dio-http-cache-feature-nullsafety-dio4"
     #https://github.com/hurshi/dio-http-cache/pull/84
@@ -71,8 +71,6 @@ dependencies:
   firebase_dynamic_links: ^5.0.15
   firebase_auth: ^4.7.1
   firebase_core: ^2.15.0
-
-
   get: ^4.6.1
   # alice: 0.3.2
   alice: 
@@ -83,7 +81,6 @@ dependencies:
 
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -118,7 +115,7 @@ dependencies:
   assets_audio_player: ^3.1.1
   country_provider2: ^1.0.2+4
   in_app_update: ^4.2.2
-
+  just_audio: ^0.9.36
 
 #  ca-app-pub-7346350725133754~2691623855
 #  ca-app-pub-7346350725133754/9537971919

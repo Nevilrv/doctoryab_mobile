@@ -86,7 +86,6 @@ class HomeController extends GetxController
           } catch (e) {
             log("-----------------------------> startFlexibleUpdate_failed ${e.toString()}");
           }
-
           return AppUpdateResult.inAppUpdateFailed;
         });
       }

@@ -2,6 +2,7 @@ import 'package:doctor_yab/app/modules/auth_phone/views/add_personal_info_screen
 import 'package:doctor_yab/app/modules/auth_phone/views/auth_phone_view.dart';
 import 'package:doctor_yab/app/modules/auth_phone/views/register_guest_user_screen.dart';
 import 'package:doctor_yab/app/modules/book/views/confirmation_screen.dart';
+import 'package:doctor_yab/app/modules/chat/views/chat_new.dart';
 import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donation_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donor_binding.dart';
@@ -313,6 +314,20 @@ class AppPages {
       binding: AppStoryBinding(),
     ),
 
+    /// old
+    // GetPage(
+    //   name: _Paths.CHAT,
+    //   page: () => ChatView(),
+    //   binding: ChatBinding(),
+    //   children: [
+    //     GetPage(
+    //       name: _Paths.CHAT,
+    //       page: () => ChatView(),
+    //       binding: ChatBinding(),
+    //     ),
+    //   ],
+    // ),
+    /// new
     GetPage(
       name: _Paths.CHAT,
       page: () => ChatView(),
