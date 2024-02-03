@@ -671,7 +671,12 @@ class ChatController extends GetxController {
   }
 
   void pickImage() async {
-    image.value = await ImagePicker().pickMultiImage();
+    XFile value = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (value != null) {
+      image.add(value);
+    } else {
+      attachmentString.value = '';
+    }
     update();
   }
 
@@ -679,6 +684,8 @@ class ChatController extends GetxController {
     XFile value = await ImagePicker().pickImage(source: ImageSource.camera);
     if (value != null) {
       image.add(value);
+    } else {
+      attachmentString.value = '';
     }
     update();
   }

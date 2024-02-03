@@ -99,6 +99,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         },
                         builderDelegate: PagedChildBuilderDelegate(
                           itemBuilder: (context, item, index) {
+                            log('-----item-----$item');
+
                             return drugsData(h, w, context, item);
                           },
                           noMoreItemsIndicatorBuilder: (_) =>
@@ -196,12 +198,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     );
   }
 
-  Widget drugsData(
-    double h,
-    double w,
-    context,
-    Datum item,
-  ) {
+  Widget drugsData(double h, double w, context, Datum item) {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DRUGS_DETAILS, arguments: item);
@@ -365,13 +362,13 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.englishName}",
+                        "${item.englishName ?? ''}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "${item.name}",
+                        "${item.name ?? ''}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -438,7 +435,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                       width: w * 0.33,
                                       child: Text(
                                         subIndex == 1
-                                            ? item.pack
+                                            ? item.pack ?? "None"
                                             : subIndex == 2
                                                 ? controller.data[2]["text"]
                                                     .toString()
@@ -495,7 +492,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
 
   Widget searchTextField(DrugsController controller) {
     return Padding(
-      padding: const EdgeInsets.only(top: 25),
+      padding: const EdgeInsets.only(top: 5),
       child: TextField(
         controller: controller.searchController,
         onChanged: (s) async {

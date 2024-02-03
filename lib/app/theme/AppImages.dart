@@ -59,7 +59,7 @@ class AppImages {
   static const Checkbox1 = "assets/svg/Checkbox1.svg";
   static const Checkbox = "assets/svg/Checkbox.svg";
   static const like1 = "assets/png/like1.png";
-  static const like2 = "assets/svg/Like1.svg";
+  static const like2 = "assets/svg/like1.svg";
   static const comment = "assets/svg/comment.svg";
   static const share = "assets/svg/Share.svg";
   static const check = "assets/svg/Circle_Check.svg";

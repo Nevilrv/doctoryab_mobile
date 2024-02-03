@@ -24,6 +24,7 @@ class TabBlogController extends GetxController {
   //*DIO
   CancelToken categoriesCancelToken = CancelToken();
   CancelToken blogCancelToken = CancelToken();
+  Rx<int> selected = 0.obs;
   var tabIndex = 0.obs;
   final isLoading = true.obs;
   final selectedIndex = 0.obs;
@@ -91,10 +92,13 @@ class TabBlogController extends GetxController {
   void changeSelectedCategory(int i) async {
     Utils.resetPagingController(pagingController);
     selectedIndex.value = i;
-    await Future.delayed(Duration.zero, () {
-      blogCancelToken.cancel();
-      // categoriesCancelToken.cancel();
-    });
+    await Future.delayed(
+      Duration.zero,
+      () {
+        blogCancelToken.cancel();
+        // categoriesCancelToken.cancel();
+      },
+    );
     blogCancelToken = new CancelToken();
     // categoriesCancelToken = new CancelToken();
     loadPosts(pagingController.firstPageKey, selectedIndex());

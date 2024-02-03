@@ -1423,7 +1423,7 @@ class ChatView extends GetView<ChatController> {
                                           : controller.tapAttachment.value ==
                                                   true
                                               ? 110
-                                              : 65,
+                                              : null,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -1822,8 +1822,9 @@ class ChatView extends GetView<ChatController> {
                                           Row(
                                             children: [
                                               /// Message TextField
-                                              Expanded(
+                                              IntrinsicHeight(
                                                 child: Container(
+                                                  width: Get.width * 0.75,
                                                   decoration: ShapeDecoration(
                                                     shape:
                                                         RoundedRectangleBorder(
@@ -1844,6 +1845,10 @@ class ChatView extends GetView<ChatController> {
                                                     // onTap: controller.scrollToEnd,
                                                     controller:
                                                         controller.messageC,
+                                                    minLines: 1,
+                                                    maxLines: null,
+                                                    keyboardType:
+                                                        TextInputType.multiline,
                                                     decoration: InputDecoration(
                                                         prefixIcon: controller
                                                                 .messageC
