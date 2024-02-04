@@ -33,7 +33,7 @@ class DevEnvVars extends AppEnvVars {
   // final String apiURL = "https://testserver.doctoryab.app/";
 
   /// Almost Server
-  final String apiURL = "https://almost-server.doctoryab.app";
+  final String apiURL = "https://testserver.doctoryab.app";
 }
 
 class UzbEnvVars extends AppEnvVars {

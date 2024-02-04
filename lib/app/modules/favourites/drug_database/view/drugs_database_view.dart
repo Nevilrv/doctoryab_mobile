@@ -365,7 +365,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.englishName}",
+                        "${item.englishDrugName}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
