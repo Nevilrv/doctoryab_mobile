@@ -99,8 +99,6 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         },
                         builderDelegate: PagedChildBuilderDelegate(
                           itemBuilder: (context, item, index) {
-                            log('-----item-----$item');
-
                             return drugsData(h, w, context, item);
                           },
                           noMoreItemsIndicatorBuilder: (_) =>
@@ -362,7 +360,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.englishName ?? ''}",
+                        "${item.englishDrugName}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

@@ -208,13 +208,13 @@ class SavedDrugsView extends GetView<DrugsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${SettingsController.drugData[index].englishName}",
+                    "${SettingsController.drugData[index].englishDrugName}",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "${SettingsController.drugData[index].persianName}",
+                    "${SettingsController.drugData[index].localLanguageDrugName}",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

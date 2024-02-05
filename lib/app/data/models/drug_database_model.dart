@@ -46,8 +46,8 @@ class Datum {
   ///based on app language
   String name;
   String pashtoName;
-  String englishName;
-  String persianName;
+  String englishDrugName;
+  String localLanguageDrugName;
 
   String genericName;
   String barcode;
@@ -90,8 +90,8 @@ class Datum {
     this.img,
     this.id,
     this.pashtoName,
-    this.englishName,
-    this.persianName,
+    this.englishDrugName,
+    this.localLanguageDrugName,
     this.genericName,
     this.barcode,
     this.therapeuticClass,
@@ -131,20 +131,23 @@ class Datum {
       switch (SettingsController.appLanguge) {
         case "English":
           {
-            var result =
-                this.englishName ?? this.persianName ?? this.pashtoName;
+            var result = this.englishDrugName ??
+                this.localLanguageDrugName ??
+                this.pashtoName;
             return result;
           }
         case "فارسی":
           {
-            var result =
-                this.persianName ?? this.englishName ?? this.pashtoName;
+            var result = this.localLanguageDrugName ??
+                this.englishDrugName ??
+                this.pashtoName;
             return result;
           }
         case "پشتو":
           {
-            var result =
-                this.pashtoName ?? this.englishName ?? this.persianName;
+            var result = this.pashtoName ??
+                this.englishDrugName ??
+                this.localLanguageDrugName;
             return result;
           }
 
@@ -278,8 +281,10 @@ class Datum {
         active: json["active"] == null ? null : json["active"],
         img: json["img"] == null ? null : json["img"],
         id: json["_id"] == null ? null : json["_id"],
-        englishName: json["englishName"] == null ? null : json["englishName"],
-        persianName: json["persianName"] == null ? null : json["persianName"],
+        englishDrugName:
+            json["englishName"] == null ? null : json["englishName"],
+        localLanguageDrugName:
+            json["persianName"] == null ? null : json["persianName"],
         pashtoName: json["pashtoName"] == null ? null : json["pashtoName"],
         genericName: json["genericName"] == null ? null : json["genericName"],
         barcode: json["barcode"] == null ? null : json["barcode"],
@@ -344,8 +349,9 @@ class Datum {
         "active": active == null ? null : active,
         "img": img == null ? null : img,
         "_id": id == null ? null : id,
-        "englishName": englishName == null ? null : englishName,
-        "persianName": persianName == null ? null : persianName,
+        "englishName": englishDrugName == null ? null : englishDrugName,
+        "persianName":
+            localLanguageDrugName == null ? null : localLanguageDrugName,
         "pashtoName": pashtoName == null ? null : pashtoName,
         "genericName": genericName == null ? null : genericName,
         "barcode": barcode == null ? null : barcode,
