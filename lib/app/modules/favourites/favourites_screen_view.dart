@@ -8,9 +8,7 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -42,11 +40,17 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
       "image": AppImages.airplane,
       "routes": Routes.TREATMENT_ABROAD
     },
+    // {
+    //   "color": AppColors.lightBlue2,
+    //   "title": "pregnancy_tracker",
+    //   "image": AppImages.baby,
+    //   "routes": Routes.PREGNANCY_TRACKER
+    // },
     {
       "color": AppColors.lightBlue2,
       "title": "pregnancy_tracker",
       "image": AppImages.baby,
-      "routes": Routes.PREGNANCY_TRACKER
+      "routes": Routes.PREGNANCY_TRACKER_NEW
     },
     {
       "color": AppColors.lightYellow,

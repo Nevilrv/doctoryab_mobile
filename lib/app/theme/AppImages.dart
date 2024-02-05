@@ -124,4 +124,12 @@ class AppImages {
   static const noProfile = "assets/png/no_profile.jpg";
   static const promote = "assets/png/marketing.png";
   static const appleLogin = "assets/png/apple-logo.png";
+  static const thumbsUp = "assets/png/thumb-up.png";
+  static const thumbsDown = "assets/png/thumb-down.png";
+  static const pregnantWomenBg = "assets/png/pregnat_women_bg.png";
+  static const pregnantWomenBgTwo = "assets/png/pregnancy_tracker_two.png";
+  static const periodsDate = "assets/png/periods_date.png";
+  static const dueDate = "assets/png/due_date.png";
+  static const conceptionDate = "assets/png/conception_date.png";
+  static const calender = "assets/png/calender.png";
 }
