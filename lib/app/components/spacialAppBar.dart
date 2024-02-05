@@ -24,7 +24,9 @@ class AppAppBar {
       title: Text(
         title,
         style: AppTextTheme.m(16).copyWith(
-            color: backgroundColor == AppColors.scaffoldColor ? Colors.black : AppColors.primary,
+            color: backgroundColor == AppColors.scaffoldColor
+                ? Colors.black
+                : AppColors.primary,
             fontWeight: FontWeight.w600),
       ).paddingHorizontal(showLeading ? 0 : 16),
       leading: showLeading
@@ -32,11 +34,14 @@ class AppAppBar {
               IconButton(
                 onPressed: () => Get.back(),
                 icon: RotatedBox(
-                  quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+                  quarterTurns:
+                      SettingsController.appLanguge == "English" ? 0 : 2,
                   child: Icon(
                     Icons.arrow_back_ios_new,
                     size: 22,
-                    color: backgroundColor == AppColors.scaffoldColor ? Colors.black : AppColors.primary,
+                    color: backgroundColor == AppColors.scaffoldColor
+                        ? Colors.black
+                        : AppColors.primary,
                   ),
                 ),
               )
@@ -75,7 +80,7 @@ class AppAppBar {
                   Get.toNamed(Routes.SAVED_DRUGS);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 15),
+                  padding: const EdgeInsets.only(right: 15, bottom: 5),
                   child: Icon(
                     Icons.bookmark_border_rounded,
                     color: AppColors.primary,

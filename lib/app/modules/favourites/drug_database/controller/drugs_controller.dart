@@ -91,8 +91,9 @@ class DrugsController extends GetxController {
         newItems.forEach((element) {
           promotedItems.add(element);
         });
+
         // var newItems = DrugStoresModel.fromJson(data.data).data;
-        print('==Datum=Drug==>${promotedItems.length}======${page}');
+        print('==Datum=Drug==>${promotedItems.length}======$page');
         if (promotedItems == null || promotedItems.length == 0) {
           pageController.appendLastPage(promotedItems);
         } else {

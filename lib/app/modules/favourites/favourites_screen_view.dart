@@ -117,32 +117,32 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                if (gridData[index]["title"] ==
-                                    'pregnancy_tracker') {
-                                  Get.defaultDialog(
-                                    backgroundColor: AppColors.scaffoldColor,
-                                    title: '',
-                                    // titleStyle: TextStyle(color: AppColors.lgt1),
-                                    titleStyle: TextStyle(fontSize: 1),
-                                    middleText: 'This Feature will live soon',
-                                    radius: 10,
-                                    confirm: TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "got_it".tr,
-                                        style: TextStyle(
-                                          color: Get.theme.primaryColor,
-                                        ),
-                                      ),
-                                    ),
-
-                                    // cancel: Text("OK"),
-                                  );
-                                } else {
-                                  Get.toNamed(gridData[index]["routes"]);
-                                }
+                                // if (gridData[index]["title"] ==
+                                //     'pregnancy_tracker') {
+                                //   Get.defaultDialog(
+                                //     backgroundColor: AppColors.scaffoldColor,
+                                //     title: '',
+                                //     // titleStyle: TextStyle(color: AppColors.lgt1),
+                                //     titleStyle: TextStyle(fontSize: 1),
+                                //     middleText: 'This Feature will live soon',
+                                //     radius: 10,
+                                //     confirm: TextButton(
+                                //       onPressed: () {
+                                //         Get.back();
+                                //       },
+                                //       child: Text(
+                                //         "got_it".tr,
+                                //         style: TextStyle(
+                                //           color: Get.theme.primaryColor,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //
+                                //     // cancel: Text("OK"),
+                                //   );
+                                // } else {
+                                Get.toNamed(gridData[index]["routes"]);
+                                // }
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(

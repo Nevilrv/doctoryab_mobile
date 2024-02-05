@@ -25,18 +25,18 @@ class AddAdState extends State<AddAd> {
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
-          log("ad--------------> ${ad}");
+          log("ad--------------> $ad");
 
           //if this is the first banner load set adsready true
           if (!_isBannerAdReady) {
             setState(() {
               _isBannerAdReady = true;
-              log("_isBannerAdReady--------------> ${_isBannerAdReady}");
+              log("_isBannerAdReady--------------> $_isBannerAdReady");
             });
           }
         },
         onAdFailedToLoad: (ad, err) {
-          log("ad----err----------> ${ad}");
+          log("ad----err----------> $ad");
           log('Failed to load a banner ad: ${err.message}');
           _isBannerAdReady = false;
           ad.dispose();
