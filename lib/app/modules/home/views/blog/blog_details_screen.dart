@@ -48,71 +48,67 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
         ),
         body: GetBuilder<TabBlogController>(builder: (controller) {
           return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: Get.height * 0.02,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 5),
-                  child: AspectRatio(
-                    //width: w * 0.7,
-                    //height: h * 0.33,
-                    aspectRatio: 1024 / 500,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            "${ApiConsts.hostUrl}${widget.post.img}",
+                // Container(
+                //   height: Get.height * 0.02,
+                // ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 5),
+                //   child: AspectRatio(
+                //     //width: w * 0.7,
+                //     //height: h * 0.33,
+                //     aspectRatio: 1024 / 500,
+                //     child: Container(
+                //       decoration: BoxDecoration(
+                //         color: Colors.indigo,
+                //         borderRadius: BorderRadius.circular(15),
+                //         image: DecorationImage(
+                //           image: NetworkImage(
+                //             "${ApiConsts.hostUrl}${widget.post.img}",
+                //           ),
+                //           fit: BoxFit.cover,
+                //           onError: (exception, stackTrace) {
+                //             log('================== ON ERROR CALLED ==================');
+                //             return Image.asset(
+                //               "assets/png/person-placeholder.jpg",
+                //               fit: BoxFit.cover,
+                //             );
+                //           },
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Container(height: Get.height * 0.02),
+                Expanded(
+                  child: Container(
+                    // height: Get.height * 0.46,
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Html(
+                            data: widget.post.desc,
+                            customTextAlign: (_) =>
+                                SettingsController.appLanguge == "English"
+                                    ? TextAlign.left
+                                    : TextAlign.right,
+                            onImageError: (exception, stackTrace) {
+                              return Image.network(
+                                  "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                            },
                           ),
-                          fit: BoxFit.cover,
-                          onError: (exception, stackTrace) {
-                            log('================== ON ERROR CALLED ==================');
-                            return Image.asset(
-                              "assets/png/person-placeholder.jpg",
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
+                        ],
                       ),
                     ),
+                    // color: AppColors.red,
                   ),
                 ),
-                Container(
-                  height: Get.height * 0.02,
-                ),
-                Container(
-                  height: Get.height * 0.46,
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Html(
-                          data: widget.post.desc,
-                          customTextAlign: (_) =>
-                              SettingsController.appLanguge == "English"
-                                  ? TextAlign.left
-                                  : TextAlign.right,
-                          onImageError: (exception, stackTrace) {
-                            return Image.network(
-                                "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  // color: AppColors.red,
-                ),
-                Spacer(),
-                Container(
-                  height: Get.height * 0.01,
-                ),
+                // Spacer(),
+                Container(height: Get.height * 0.03),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(

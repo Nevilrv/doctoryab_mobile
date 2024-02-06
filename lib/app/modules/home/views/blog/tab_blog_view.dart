@@ -118,18 +118,26 @@ class TabBlogView extends GetView<TabBlogController> {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 5),
                                     decoration: BoxDecoration(
-                                        color: AppColors.white,
+                                        color:
+                                            controller.selected.value == index
+                                                ? Color(0xff72D6FE)
+                                                : AppColors.white,
                                         borderRadius: BorderRadius.circular(5)),
                                     child: Image.asset(
                                       tabDetails[index]['image'],
                                     ),
                                   ),
-                                  SizedBox(height: Get.height * 0.01),
+                                  SizedBox(height: Get.height * 0.008),
                                   Container(
-                                    height: Get.height * 0.02,
+                                    height: Get.height * 0.025,
                                     width: Get.height * 0.07,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 2),
                                     decoration: BoxDecoration(
-                                        color: AppColors.white,
+                                        color:
+                                            controller.selected.value == index
+                                                ? Color(0xff72D6FE)
+                                                : AppColors.white,
                                         borderRadius: BorderRadius.circular(5)),
                                     child: Center(
                                       child: Text(

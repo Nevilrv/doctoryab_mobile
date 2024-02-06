@@ -132,4 +132,8 @@ class AppImages {
   static const dueDate = "assets/png/due_date.png";
   static const conceptionDate = "assets/png/conception_date.png";
   static const calender = "assets/png/calender.png";
+  static const arrowImage = "assets/png/arrow.png";
+  static const trimster1 = "assets/png/trimster1.png";
+  static const trimster2 = "assets/png/trimster2.png";
+  static const trimster3 = "assets/png/trimster3.png";
 }

@@ -14,6 +14,8 @@ class PregnancyTrackerNewController extends GetxController {
   String formattedDueDate = d.DateFormat('dd/MM/yyyy').format(DateTime.now());
   String formattedConceptionDate =
       d.DateFormat('dd/MM/yyyy').format(DateTime.now());
+  int weekCount = 1;
+
   changeBool(bool value) {
     isPregnant = value;
     update();
@@ -21,6 +23,16 @@ class PregnancyTrackerNewController extends GetxController {
 
   changeCalculationType(String value) {
     type = value;
+    update();
+  }
+
+  incrementTrimster() {
+    weekCount++;
+    update();
+  }
+
+  decrementTrimster() {
+    weekCount--;
     update();
   }
 

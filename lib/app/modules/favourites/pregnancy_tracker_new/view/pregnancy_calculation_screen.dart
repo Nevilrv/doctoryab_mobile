@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
@@ -425,7 +426,9 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.PREGNANCY_TRIMSTER);
+                  },
                   child: Container(
                     height: h * 0.065,
                     width: w,
