@@ -27,9 +27,12 @@ import 'package:doctor_yab/app/modules/favourites/drug_database/view/saved_drugs
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/bindings/pregnancy_tracker_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/pregnancy_tracker_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/binding/pregnancy_tracker_new_binding.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/ask_rating_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_calculation_screen.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_completion_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_tracker_new_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_trimster_details.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/vaccinate_baby_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/bindings/treatment_abroad_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatment_abroad_view.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
@@ -402,6 +405,21 @@ class AppPages {
     GetPage(
       name: _Paths.PREGNANCY_TRIMSTER,
       page: () => PregnancyTrimster(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.PREGNANCY_COMPLETION,
+      page: () => PregnancyCompletion(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.VACCINATE_BABY,
+      page: () => VaccinateBaby(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.ASK_RATING,
+      page: () => AskRatingScreen(),
       binding: PregnancyTrackerNewBinding(),
     ),
     GetPage(

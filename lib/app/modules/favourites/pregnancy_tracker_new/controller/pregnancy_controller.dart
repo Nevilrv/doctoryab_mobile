@@ -6,6 +6,7 @@ import 'package:intl/intl.dart' as d;
 class PregnancyTrackerNewController extends GetxController {
   bool isPregnant = false;
   String type = '';
+  bool openInfo = false;
   DateTime pregnancyInitialDay = DateTime.now();
   DateTime dueInitialDay = DateTime.now();
   DateTime conceptionInitialDay = DateTime.now();

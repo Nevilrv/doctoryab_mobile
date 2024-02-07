@@ -136,4 +136,11 @@ class AppImages {
   static const trimster1 = "assets/png/trimster1.png";
   static const trimster2 = "assets/png/trimster2.png";
   static const trimster3 = "assets/png/trimster3.png";
+  static const pregnancyCompletion = "assets/png/pregnancy_completion.png";
+  static const vaccinate = "assets/png/vaccinate.png";
+  static const injection = "assets/png/injection.png";
+  static const askRating = "assets/png/ask_rating.png";
+  static const excellentStar = "assets/png/excellent_star.png";
+  static const angry = "assets/png/angry.png";
+  static const laterFeedback = "assets/png/feedback_later.png";
 }

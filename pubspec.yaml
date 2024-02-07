@@ -175,7 +175,9 @@ flutter:
           weight: 300
         - asset: "fonts/IRANYekanMedium.ttf"
           weight: 500
-
+    - family: Shrikhand
+      fonts:
+        - asset: "fonts/Shrikhand-Regular.ttf"
   # fonts:
   #   - family: Schyler
   #     fonts:

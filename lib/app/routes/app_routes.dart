@@ -57,6 +57,9 @@ abstract class Routes {
   static const PREGNANCY_TRACKER_NEW = _Paths.PREGNANCY_TRACKER_NEW;
   static const PREGNANCY_TRIMSTER = _Paths.PREGNANCY_TRIMSTER;
   static const CALCULATION_METHODS = _Paths.CALCULATION_METHODS;
+  static const PREGNANCY_COMPLETION = _Paths.PREGNANCY_COMPLETION;
+  static const VACCINATE_BABY = _Paths.VACCINATE_BABY;
+  static const ASK_RATING = _Paths.ASK_RATING;
   static const CHECKUP_PACKAGES = _Paths.CHECKUP_PACKAGES;
   static const TREATMENT_ABROAD = _Paths.TREATMENT_ABROAD;
   static const NOTIFICATION = _Paths.NOTIFICATION;
@@ -116,6 +119,9 @@ abstract class _Paths {
   static const PREGNANCY_TRACKER_NEW = '/pregnancy-tracker-new';
   static const PREGNANCY_TRIMSTER = '/pregnancy-trimster';
   static const CALCULATION_METHODS = '/calculation-methods';
+  static const PREGNANCY_COMPLETION = '/pregnancy-completion';
+  static const VACCINATE_BABY = '/vaccinate-baby';
+  static const ASK_RATING = '/ask-rating';
   static const CHECKUP_PACKAGES = '/checkup-packages';
   static const TREATMENT_ABROAD = '/treatment-abroad';
   static const REPORT_MEDICAL = '/reposrt-medical';
