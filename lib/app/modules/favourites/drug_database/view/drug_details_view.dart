@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -30,8 +31,11 @@ class DrugDetailsView extends GetView<DrugsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar:
-          AppAppBar.primaryAppBar(title: "${controller.argumentsData.name} "),
+      appBar: AppAppBar.primaryAppBar(
+        title: SettingsController.appLanguge == 'English'
+            ? controller.argumentsData.englishDrugName
+            : controller.argumentsData.localLanguageDrugName,
+      ),
       backgroundColor: AppColors.lightGrey,
       body: GetBuilder<DrugsController>(
         builder: (controller) {
@@ -165,7 +169,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                                         width: w * 0.17,
                                         child: Text(
                                           index == 1
-                                              ? controller.argumentsData.pack
+                                              ? controller
+                                                  .argumentsData.packsAndPrices
                                               : index == 2
                                                   ? controller.data[2]["text"]
                                                       .toString()
@@ -173,9 +178,23 @@ class DrugDetailsView extends GetView<DrugsController> {
                                                       controller.argumentsData
                                                           .packsAndPrices
                                                     ])
-                                                  : controller.argumentsData
-                                                          .drugType ??
-                                                      "None",
+                                                  : SettingsController
+                                                              .appLanguge ==
+                                                          'English'
+                                                      ? controller.argumentsData
+                                                              .drugTypeEnglish ??
+                                                          "None"
+                                                      : SettingsController
+                                                                  .appLanguge ==
+                                                              'پشتو'
+                                                          ? controller
+                                                                  .argumentsData
+                                                                  .drugTypePashto ??
+                                                              "None"
+                                                          : controller
+                                                                  .argumentsData
+                                                                  .drugTypeDari ??
+                                                              "None",
                                           style: AppTextStyle.regularPrimary9
                                               .copyWith(height: 1),
                                           maxLines: 4,
@@ -192,7 +211,11 @@ class DrugDetailsView extends GetView<DrugsController> {
                           height: h * 0.01,
                         ),
                         commonTitleBox(text: "drug_name".tr),
-                        commonTextBox("${controller.argumentsData.name}"),
+                        commonTextBox(SettingsController.appLanguge == 'English'
+                            ? controller.argumentsData.englishDrugName ?? ''
+                            : controller.argumentsData.localLanguageDrugName ??
+                                ''
+                                    "${controller.argumentsData.englishDrugName}"),
                         controller.argumentsData.genericName == ""
                             ? SizedBox()
                             : Column(
@@ -203,7 +226,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                                       "${controller.argumentsData.genericName}"),
                                 ],
                               ),
-                        controller.argumentsData.usage == ""
+
+                        controller.argumentsData.usageEnglish == ""
                             ? SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,14 +240,26 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   Padding(
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
-                                      "${controller.argumentsData.usage}",
+                                      SettingsController.appLanguge == 'English'
+                                          ? controller
+                                                  .argumentsData.usageEnglish ??
+                                              ''
+                                          : SettingsController.appLanguge ==
+                                                  'پشتو'
+                                              ? controller.argumentsData
+                                                      .usagePashto ??
+                                                  ''
+                                              : controller.argumentsData
+                                                      .usageDari ??
+                                                  '',
                                       style: AppTextStyle.mediumPrimary10
                                           .copyWith(height: 2),
                                     ),
                                   ),
                                 ],
                               ),
-                        controller.argumentsData.sideEffects == ""
+
+                        controller.argumentsData.sideEffectsEnglish == ""
                             ? SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,10 +270,23 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     textColor: Colors.yellow.shade700,
                                   ),
                                   commonTextBox(
-                                      "${controller.argumentsData.sideEffects}"),
+                                    SettingsController.appLanguge == 'English'
+                                        ? controller.argumentsData
+                                                .sideEffectsEnglish ??
+                                            ''
+                                        : SettingsController.appLanguge ==
+                                                'پشتو'
+                                            ? controller.argumentsData
+                                                    .sideEffectsPashto ??
+                                                ''
+                                            : controller.argumentsData
+                                                    .sideEffectsDari ??
+                                                '',
+                                  ),
                                 ],
                               ),
-                        controller.argumentsData.warnings == ""
+
+                        controller.argumentsData.warningsEnglish == ""
                             ? SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,24 +297,49 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     textColor: Colors.red,
                                   ),
                                   commonTextBox(
-                                      "${controller.argumentsData.warnings}"),
+                                    SettingsController.appLanguge == 'English'
+                                        ? controller.argumentsData
+                                                .warningsEnglish ??
+                                            ''
+                                        : SettingsController.appLanguge ==
+                                                'پشتو'
+                                            ? controller.argumentsData
+                                                    .warningsPashto ??
+                                                ''
+                                            : controller.argumentsData
+                                                    .warningsDari ??
+                                                '',
+                                  ),
                                 ],
                               ),
-
                         // commonTitleBox(text: "drug_type".tr),
                         // commonTextBox("Lorem Ipsum is simply dummy text."),
+
                         // commonTitleBox(text: "packaging".tr),
                         // commonTextBox("Lorem Ipsum is simply dummy text."),
-                        controller.argumentsData.dosages == ""
+                        controller.argumentsData.dosagesEnglish == ""
                             ? SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   commonTitleBox(text: "dosages".tr),
                                   commonTextBox(
-                                      "${controller.argumentsData.dosages}"),
+                                    SettingsController.appLanguge == 'English'
+                                        ? controller
+                                                .argumentsData.dosagesEnglish ??
+                                            ''
+                                        : SettingsController.appLanguge ==
+                                                'پشتو'
+                                            ? controller.argumentsData
+                                                    .dosagesPashto ??
+                                                ''
+                                            : controller.argumentsData
+                                                    .dosagesDari ??
+                                                '',
+                                  ),
                                 ],
                               ),
+
                         controller.argumentsData.origin == ""
                             ? SizedBox()
                             : Column(
@@ -276,6 +350,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                       "${controller.argumentsData.origin}"),
                                 ],
                               ),
+
                         controller.argumentsData.company == ""
                             ? SizedBox()
                             : Column(
@@ -283,13 +358,11 @@ class DrugDetailsView extends GetView<DrugsController> {
                                 children: [
                                   commonTitleBox(text: "comp".tr),
                                   commonTextBox(
-                                      "${controller.argumentsData.company}"),
+                                      "${controller.argumentsData.company}")
                                 ],
                               ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         // commonTitleBox(
                         //   text: "price".tr,
                         //   color: AppColors.lightYellow,
@@ -555,6 +628,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   },
                                 ),
                               ),
+
                         SizedBox(height: 30),
                       ],
                     ),

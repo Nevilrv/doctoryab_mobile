@@ -10,66 +10,81 @@ BlogCategories blogCategoriesFromJson(String str) =>
 String blogCategoriesToJson(BlogCategories data) => json.encode(data.toJson());
 
 class BlogCategories {
+  bool success;
+  List<BlogCategory> data;
+  int count;
+
   BlogCategories({
+    this.success,
     this.data,
+    this.count,
   });
 
-  List<BlogCategory> data;
-
-  BlogCategories copyWith({
-    List<BlogCategory> data,
-  }) =>
-      BlogCategories(
-        data: data ?? this.data,
-      );
-
   factory BlogCategories.fromJson(Map<String, dynamic> json) => BlogCategories(
-        data: List<BlogCategory>.from(
-            json["data"].map((x) => BlogCategory.fromJson(x))),
+        success: json["success"],
+        data: json["data"] == null
+            ? []
+            : List<BlogCategory>.from(
+                json["data"].map((x) => BlogCategory.fromJson(x))),
+        count: json["count"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "success": success,
+        "data":
+            data == null ? [] : List<dynamic>.from(data.map((x) => x.toJson())),
+        "count": count,
       };
 }
 
 class BlogCategory {
+  String id;
+  bool isDeleted;
+  String photo;
+  String categoryEnglish;
+  String categoryDari;
+  String categoryPashto;
+  String detail;
+  String createAt;
+  int v;
+  bool active;
+
   BlogCategory({
     this.id,
+    this.isDeleted,
+    this.photo,
+    this.categoryEnglish,
+    this.categoryDari,
+    this.categoryPashto,
+    this.detail,
     this.createAt,
-    this.category,
     this.v,
+    this.active,
   });
-
-  String id;
-  DateTime createAt;
-  String category;
-  int v;
-
-  BlogCategory copyWith({
-    String id,
-    DateTime createAt,
-    String category,
-    int v,
-  }) =>
-      BlogCategory(
-        id: id ?? this.id,
-        createAt: createAt ?? this.createAt,
-        category: category ?? this.category,
-        v: v ?? this.v,
-      );
 
   factory BlogCategory.fromJson(Map<String, dynamic> json) => BlogCategory(
         id: json["_id"],
-        createAt: DateTime.parse(json["createAt"]),
-        category: json["category"],
+        isDeleted: json["is_deleted"],
+        photo: json["photo"],
+        categoryEnglish: json["categoryEnglish"],
+        categoryDari: json["categoryDari"],
+        categoryPashto: json["categoryPashto"],
+        detail: json["detail"],
+        createAt: json["createAt"],
         v: json["__v"],
+        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "createAt": createAt.toIso8601String(),
-        "category": category,
+        "is_deleted": isDeleted,
+        "photo": photo,
+        "categoryEnglish": categoryEnglish,
+        "categoryDari": categoryDari,
+        "categoryPashto": categoryPashto,
+        "detail": detail,
+        "createAt": createAt,
         "__v": v,
+        "active": active,
       };
 }

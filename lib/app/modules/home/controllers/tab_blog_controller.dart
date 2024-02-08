@@ -38,7 +38,10 @@ class TabBlogController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    log('----->>>>>>eee');
     _fetchAds();
+    loadCategories();
+
     // scrollController.animateTo(
     //   scrollController.position.maxScrollExtent,
     //   duration: Duration(seconds: 2),
@@ -50,11 +53,12 @@ class TabBlogController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     loadCategories();
   }
 
   Future<void> loadCategories() async {
+    log('padharo-----');
+
     BlogRepository.fetchCategories(
         cancelToken: categoriesCancelToken,
         onError: (e) {
@@ -62,14 +66,19 @@ class TabBlogController extends GetxController {
             isLoading.value = false;
           }
         }).then((value) {
-      tabTitles.value = value
-          .where((element) => (element?.category ?? "").trim() != "")
-          .toList();
+      tabTitles.value = value;
+
+      // tabTitles.value = value.where((element) {
+      //   log('-----dede--$element');
+      //   return (element?.category ?? "").trim() != "";
+      // }).toList();
       tabTitles.refresh();
 
       isLoading.value = false;
 
       //
+
+      log('---->>>tabTitles>>>>>$tabTitles');
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         pagingController.addPageRequestListener((pageKey) {
           loadPosts(pageKey, selectedIndex());
@@ -120,6 +129,7 @@ class TabBlogController extends GetxController {
         pagingController,
         pageKey,
       );
+
       postList.clear();
       postList.addAll(pagingController.value.itemList);
       update();
@@ -144,7 +154,7 @@ class TabBlogController extends GetxController {
       // });
       log("v--------------> ${v.data}");
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
 
       Future.delayed(Duration(seconds: 3), () {});
     });
@@ -157,7 +167,7 @@ class TabBlogController extends GetxController {
         .then((v) {
       log("v--------------> ${v.data}");
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
 
       Future.delayed(Duration(seconds: 3), () {});
     });
@@ -183,7 +193,7 @@ class TabBlogController extends GetxController {
       update();
       log(" controller.comment--------------> ${v.data.comments}");
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
       isLoadingComment = false;
       update();
       Future.delayed(Duration(seconds: 3), () {});
@@ -206,7 +216,7 @@ class TabBlogController extends GetxController {
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
 
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {

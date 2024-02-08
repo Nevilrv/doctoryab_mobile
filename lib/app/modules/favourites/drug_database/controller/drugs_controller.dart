@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/data/models/drug_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugDatabaseRepository.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -19,13 +20,15 @@ class DrugsController extends GetxController {
   TextEditingController searchController = TextEditingController();
   TextEditingController searchSaveController = TextEditingController();
   TextEditingController comment = TextEditingController();
-  var pageController = PagingController<int, Datum>(firstPageKey: 1);
+  // var pageController = PagingController<int, Datum>(firstPageKey: 1);
+  var pageController = PagingController<int, UpdatedDrug>(firstPageKey: 1);
   CancelToken cancelToken = CancelToken();
   @override
   void onInit() {
     bannerAds();
     pageController.addPageRequestListener((pageKey) {
-      drugData(pageKey);
+      // drugData(pageKey);
+      updatedDrugData(pageKey);
     });
     activateSpeechRecognizer();
 
@@ -62,12 +65,60 @@ class DrugsController extends GetxController {
   ];
   List<dynamic> listAd = [];
 
-  void drugData(int page) {
+  // void drugData(int page) {
+  //   DrugDatabaseRepository()
+  //       .fetchDrugs(page, searchController.text.trim(),
+  //           cancelToken: cancelToken)
+  //       .then((data) {
+  //     //TODO handle all in model
+  //
+  //     if (data != null) {
+  //       if (data == null) {
+  //         data.data["data"] = [];
+  //       }
+  //       print('==Datum=Drug==>${data.data}');
+  //
+  //       var newItems = <Datum>[];
+  //       var promotedItems = <Datum>[];
+  //       data.data["data"].forEach((item) {
+  //         log("item['active']----->${item['active']}");
+  //         if (item['active'] == true) {
+  //           promotedItems.add(Datum.fromJson(item));
+  //         } else {
+  //           newItems.add(Datum.fromJson(item));
+  //         }
+  //       });
+  //       // data.data["data"].forEach((item) {
+  //       //   newItems.add(Datum.fromJson(item));
+  //       // });
+  //       newItems.forEach((element) {
+  //         promotedItems.add(element);
+  //       });
+  //
+  //       // var newItems = DrugStoresModel.fromJson(data.data).data;
+  //       print('==Datum=Drug==>${promotedItems.length}======$page');
+  //       if (promotedItems == null || promotedItems.length == 0) {
+  //         pageController.appendLastPage(promotedItems);
+  //       } else {
+  //         pageController.appendPage(promotedItems, page + 1);
+  //       }
+  //     } else {}
+  //   }).catchError((e, s) {
+  //     if (!(e is DioError && CancelToken.isCancel(e))) {
+  //       pageController.error = e;
+  //     }
+  //     log(e.toString());
+  //     FirebaseCrashlytics.instance.recordError(e, s);
+  //   });
+  // }
+
+  void updatedDrugData(int page) {
     DrugDatabaseRepository()
-        .fetchDrugs(page, searchController.text.trim(),
-            cancelToken: cancelToken)
+        .updatedFetchDrugs(page, cancelToken: cancelToken)
         .then((data) {
       //TODO handle all in model
+
+      log('-----data------${data.data}');
 
       if (data != null) {
         if (data == null) {
@@ -75,14 +126,14 @@ class DrugsController extends GetxController {
         }
         print('==Datum=Drug==>${data.data}');
 
-        var newItems = <Datum>[];
-        var promotedItems = <Datum>[];
+        var newItems = <UpdatedDrug>[];
+        var promotedItems = <UpdatedDrug>[];
         data.data["data"].forEach((item) {
           log("item['active']----->${item['active']}");
           if (item['active'] == true) {
-            promotedItems.add(Datum.fromJson(item));
+            promotedItems.add(UpdatedDrug.fromJson(item));
           } else {
-            newItems.add(Datum.fromJson(item));
+            newItems.add(UpdatedDrug.fromJson(item));
           }
         });
         // data.data["data"].forEach((item) {
@@ -128,12 +179,12 @@ class DrugsController extends GetxController {
     );
   }
 
-  Datum argumentsData;
+  UpdatedDrug argumentsData;
 
-  setData(Datum value) {
+  setData(UpdatedDrug value) {
     print('======>value===>${value}');
 
-    argumentsData = value ?? Datum();
+    argumentsData = value ?? UpdatedDrug();
 
     print('======>argumentsData===>${argumentsData.toJson()}');
   }

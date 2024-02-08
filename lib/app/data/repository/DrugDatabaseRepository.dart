@@ -29,6 +29,28 @@ class DrugDatabaseRepository {
     return response;
   }
 
+  /// Updated Fetch Drugs
+
+  Future<Response> updatedFetchDrugs(
+    int page, {
+    int limitPerPage = 6,
+    void onError(e),
+    CancelToken cancelToken,
+  }) async {
+    print("Query---Parameter---${{
+      "limit": limitPerPage,
+      "page": page,
+    }}");
+    final response = await _cachedDio.get(
+      '${ApiConsts.drugDatabaseUpdated}',
+      cancelToken: cancelToken,
+      queryParameters: {"limit": limitPerPage, "page": page},
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
   Future<Response> fetchDrugsReview({
     String drugId,
     void onError(e),

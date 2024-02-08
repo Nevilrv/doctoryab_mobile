@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/modules/favourites/AD/add_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -196,7 +197,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     );
   }
 
-  Widget drugsData(double h, double w, context, Datum item) {
+  Widget drugsData(double h, double w, context, UpdatedDrug item) {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DRUGS_DETAILS, arguments: item);
@@ -304,7 +305,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              SettingsController.drugData = [item];
+                              SettingsController.updatedDrugData = [item];
                               controller.update();
                             },
                             child: Container(
@@ -360,19 +361,26 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.englishDrugName}",
+                        SettingsController.appLanguge == 'English'
+                            ? "${item.englishDrugName}"
+                            : "${item.localLanguageDrugName}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "${item.name ?? ''}",
+                        // SettingsController.appLanguge == 'English'
+                        //     ? "${item.englishDrugName}"
+                        //     : SettingsController.appLanguge == 'پشتو'
+                        //         ? "${item.englishDrugName}"
+                        //         : "${item.englishDrugName}",
+                        "${item.genericName ?? ''}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "${item.company}",
+                        "${item.company ?? ''}",
                         style:
                             AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                         maxLines: 1,
@@ -380,10 +388,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          bottom: h * 0.005,
-                          top: h * 0.005,
-                          right: 20,
-                        ),
+                            bottom: h * 0.005, top: h * 0.005, right: 20),
                         child: Divider(
                           height: 0,
                           thickness: 1,
@@ -433,13 +438,24 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                       width: w * 0.33,
                                       child: Text(
                                         subIndex == 1
-                                            ? item.pack ?? "None"
+                                            ? item.packsAndPrices ?? "None"
                                             : subIndex == 2
                                                 ? controller.data[2]["text"]
                                                     .toString()
                                                     .trArgs(
                                                         [item.packsAndPrices])
-                                                : item.drugType ?? "None",
+                                                : SettingsController
+                                                            .appLanguge ==
+                                                        'English'
+                                                    ? item.drugTypeEnglish ??
+                                                        "None"
+                                                    : SettingsController
+                                                                .appLanguge ==
+                                                            'پشتو'
+                                                        ? item.drugTypePashto ??
+                                                            "None"
+                                                        : item.drugTypeDari ??
+                                                            "None",
                                         style: AppTextStyle.regularPrimary9
                                             .copyWith(height: 1),
                                         maxLines: 4,
@@ -497,17 +513,15 @@ class DrugsDatabaseView extends GetView<DrugsController> {
           if (s.isEmpty) {
             controller.search(s);
             controller.pageController.itemList.clear();
-            controller.drugData(
-              controller.pageController.firstPageKey,
-            );
+            // controller.drugData(controller.pageController.firstPageKey);
+            controller.updatedDrugData(controller.pageController.firstPageKey);
           }
         },
         onSubmitted: (v) async {
           controller.search(v);
           controller.pageController.itemList.clear();
-          controller.drugData(
-            controller.pageController.firstPageKey,
-          );
+          // controller.drugData(controller.pageController.firstPageKey);
+          controller.updatedDrugData(controller.pageController.firstPageKey);
         },
         style: AppTextStyle.mediumPrimary11,
         cursorColor: AppColors.primary,

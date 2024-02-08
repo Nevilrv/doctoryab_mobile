@@ -80,7 +80,8 @@ class AppAppBar {
                   Get.toNamed(Routes.SAVED_DRUGS);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 15, bottom: 5),
+                  padding:
+                      const EdgeInsets.only(right: 15, bottom: 5, left: 15),
                   child: Icon(
                     Icons.bookmark_border_rounded,
                     color: AppColors.primary,

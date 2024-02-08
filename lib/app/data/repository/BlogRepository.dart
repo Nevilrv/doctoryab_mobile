@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
@@ -67,7 +68,7 @@ class BlogRepository {
         // var doctorReports;
         var res = await _cachedDio.get(
           // '/findBloodDonors/profile',
-          '/blogs/getBlogsByCategory/${blogCategory.category}',
+          '/blogs/getBlogsByCategory/${SettingsController.appLanguge == 'English' ? blogCategory.categoryEnglish : SettingsController.appLanguge == 'پشتو' ? blogCategory.categoryPashto : blogCategory.categoryDari}',
           cancelToken: cancelToken,
           queryParameters: {
             "limit": limitPerPage,
@@ -118,9 +119,11 @@ class BlogRepository {
   //     onError: onError,
   //   );
   // }
-  static Future<BlogLikeResModel> blogLike({String postId, String userId, CancelToken cancelToken}) async {
+  static Future<BlogLikeResModel> blogLike(
+      {String postId, String userId, CancelToken cancelToken}) async {
     var headers = ApiConsts().commonHeader;
-    var data = json.encode({"postId": postId.toString(), "userId": userId.toString()});
+    var data =
+        json.encode({"postId": postId.toString(), "userId": userId.toString()});
     log("data--------------> $data");
 
     var dio = Dio();
@@ -135,9 +138,11 @@ class BlogRepository {
     return BlogLikeResModel.fromJson(response.data);
   }
 
-  static Future<BlogLikeResModel> blogShare({String postId, String userId, CancelToken cancelToken}) async {
+  static Future<BlogLikeResModel> blogShare(
+      {String postId, String userId, CancelToken cancelToken}) async {
     var headers = ApiConsts().commonHeader;
-    var data = json.encode({"postId": postId.toString(), "userId": userId.toString()});
+    var data =
+        json.encode({"postId": postId.toString(), "userId": userId.toString()});
     log("data--------------> $data");
     log("ApiConsts.baseUrl + ApiConsts.blogShare,--------------> ${ApiConsts.baseUrl + ApiConsts.blogShare}");
 
@@ -154,9 +159,16 @@ class BlogRepository {
   }
 
   static Future<BlogLikeResModel> blogComment(
-      {String postId, String userId, String text, CancelToken cancelToken}) async {
+      {String postId,
+      String userId,
+      String text,
+      CancelToken cancelToken}) async {
     var headers = ApiConsts().commonHeader;
-    var data = json.encode({"postId": postId.toString(), "userId": userId.toString(), "text": text});
+    var data = json.encode({
+      "postId": postId.toString(),
+      "userId": userId.toString(),
+      "text": text
+    });
 
     Dio dio = AppDioService.getDioInstance();
 

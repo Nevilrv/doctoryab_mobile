@@ -62,6 +62,7 @@ class ApiConsts {
   static const hospitalReviews = "/feedback/HFeedback";
   static const doctorsFullData = "/doctor/Userdoctor";
   static const drugDatabase = "/drugs";
+  static const drugDatabaseUpdated = "/drugs/updated";
   static const drugDatabaseReview = "/drugs/getDrugFeedbacks/";
   static const giveFeedbackToDrug = "/drugs/giveFeedbackToDrug";
   static const checkupPackageReview = "/checkupPackage/getPackageFeedbacks/";

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/static.dart';
 import 'package:doctor_yab/app/services/LocalizationServices.dart';
@@ -138,7 +139,26 @@ class SettingsController extends GetxController {
     return data;
   }
 
-  static set drugData(List<Datum> drugItem) {
+  // static set drugData(List<Datum> drugItem) {
+  //   if (drugData == null || drugData.isEmpty) {
+  //     AppStatics.hive.authBox.put("drug", [drugItem.first.toJson()]);
+  //   } else {
+  //     List drugDataList =
+  //         List<Map<String, dynamic>>.from(drugData.map((x) => x.toJson()));
+  //
+  //     int selectedIndex =
+  //         drugData.indexWhere((element) => element.id == drugItem.first.id);
+  //
+  //     if (selectedIndex < 0) {
+  //       drugDataList.add(drugItem.first.toJson());
+  //     } else {
+  //       drugDataList.removeAt(selectedIndex);
+  //     }
+  //     AppStatics.hive.authBox.put("drug", drugDataList);
+  //   }
+  // }
+
+  static set updatedDrugData(List<UpdatedDrug> drugItem) {
     if (drugData == null || drugData.isEmpty) {
       AppStatics.hive.authBox.put("drug", [drugItem.first.toJson()]);
     } else {

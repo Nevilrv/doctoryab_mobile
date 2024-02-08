@@ -103,8 +103,6 @@ class TabBlogView extends GetView<TabBlogController> {
                             child: GestureDetector(
                               onTap: () {
                                 controller.selected.value = index;
-                                log("controller.selected.value--------------> ${controller.selected.value}");
-
                                 controller.update();
                                 controller.changeSelectedCategory(index);
                               },
@@ -115,16 +113,19 @@ class TabBlogView extends GetView<TabBlogController> {
                                     height: Get.height * 0.06,
                                     width: Get.height * 0.07,
                                     // width: 50,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 5),
+                                    // padding: EdgeInsets.symmetric(
+                                    //     horizontal: 5, vertical: 5),
                                     decoration: BoxDecoration(
                                         color:
                                             controller.selected.value == index
                                                 ? Color(0xff72D6FE)
                                                 : AppColors.white,
                                         borderRadius: BorderRadius.circular(5)),
-                                    child: Image.asset(
-                                      tabDetails[index]['image'],
+                                    child: Center(
+                                      child: Image.network(
+                                        '${ApiConsts.hostUrl}${controller.tabTitles[index].photo}',
+                                        height: Get.height * 0.07,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: Get.height * 0.008),
@@ -141,8 +142,14 @@ class TabBlogView extends GetView<TabBlogController> {
                                         borderRadius: BorderRadius.circular(5)),
                                     child: Center(
                                       child: Text(
-                                        '${controller.tabTitles[index].category}',
-                                        maxLines: 1,
+                                        SettingsController.appLanguge ==
+                                                'English'
+                                            ? '${controller.tabTitles[index].categoryEnglish}'
+                                            : SettingsController.appLanguge ==
+                                                    'پشتو'
+                                                ? '${controller.tabTitles[index].categoryPashto}'
+                                                : '${controller.tabTitles[index].categoryDari}',
+                                        maxLines: 2,
                                         style: TextStyle(
                                           fontSize: 12,
                                         ),
@@ -1957,7 +1964,7 @@ class Body extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         alignment: Alignment.center,
                         child: Text(
-                          controller.tabTitles[index].category,
+                          controller.tabTitles[index].categoryEnglish,
                           style: AppTextTheme.m(16).copyWith(
                             color: controller.selectedIndex.value == index
                                 ? Colors.white
