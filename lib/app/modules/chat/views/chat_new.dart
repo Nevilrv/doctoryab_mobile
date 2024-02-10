@@ -333,7 +333,7 @@ class ChatView extends GetView<ChatController> {
                                         ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             )

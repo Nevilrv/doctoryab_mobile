@@ -57,8 +57,6 @@ class TabBlogController extends GetxController {
   }
 
   Future<void> loadCategories() async {
-    log('padharo-----');
-
     BlogRepository.fetchCategories(
         cancelToken: categoriesCancelToken,
         onError: (e) {

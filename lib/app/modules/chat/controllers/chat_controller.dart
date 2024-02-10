@@ -48,6 +48,7 @@ class ChatController extends GetxController {
   var playRecord = false.obs;
   var timerText = '00:00:00'.obs;
   List<StreamSubscription> _subscriptions = [];
+
   void initializer() async {
     final directory = await getApplicationDocumentsDirectory();
     log("directory.path--------------> ${directory.path}");
@@ -90,8 +91,6 @@ class ChatController extends GetxController {
       var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
           isUtc: true);
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
-      log("timeText--------------> $timeText");
-
       // timerText.value = timeText.substring(0, 8);
       update();
     });
@@ -107,21 +106,17 @@ class ChatController extends GetxController {
   }
 
   Future<void> playFunc() async {
-    log("recordingPlayer.isPlaying-------------->11 ${recordingPlayer.playerState.value}");
     await recordingPlayer
         .open(
-      Audio.file(pathToAudio),
-      autoStart: true,
-      showNotification: true,
-    )
-        .then((value) {
-      log("recordingPlayer.isPlaying--------------df> ${recordingPlayer.playerState.value}");
-    });
+          Audio.file(pathToAudio),
+          autoStart: true,
+          showNotification: true,
+        )
+        .then((value) {});
     durationChangedSubscription1 =
         audioPlayer1.onDurationChanged.listen((duration) {
       duration1 = duration;
       update();
-      log('_duration1_duration1>> ${duration1.inSeconds}');
     });
     update();
     // if (recordingPlayer.is == true) {
@@ -168,6 +163,7 @@ class ChatController extends GetxController {
     25,
     12,
   ];
+
   int selectedIndex = -1;
   final audioPlayer1 = ap.AudioPlayer();
   StreamSubscription<void> playerStateChangedSubscription1;
@@ -177,10 +173,10 @@ class ChatController extends GetxController {
   Duration duration1;
   int current1 = -1;
   int voiceTrackRowSize;
+
   Future<void> play1({String path}) {
     if (path == '') {
     } else {
-      print('audioPath--$path');
       return audioPlayer1.play(ap.UrlSource(path));
     }
     return audioPlayer1.stop();
@@ -189,42 +185,35 @@ class ChatController extends GetxController {
   String voiceDuration;
 
   Future<String> getVoiceDuration({String url}) async {
-    log("url---------->${url}");
-
     final player = j.AudioPlayer();
     var duration = await player.setUrl(url);
 
     if (duration == null) {
       voiceDuration = '0';
       update();
-      log("voiceDuration------>${voiceDuration}");
       return voiceDuration;
     } else {
       voiceDuration =
           "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
-      log("voiceDuration------>${voiceDuration}");
       update();
       return voiceDuration;
     }
   }
 
   Future<void> pause1() => audioPlayer1.pause();
+
   Future<void> stop1() async {
     audioPlayer1.stop();
   }
 
   bool isPause1 = false;
   Timer timers1;
-
-  ///
   //socket.io
-  ///
   CancelToken chatCancelToken = CancelToken();
   CancelToken sendMessageCancelToken = CancelToken();
   var sendingMessage = false.obs;
   var sendingMessageFailed = false.obs;
   ChatApiModel lastFailedMessage;
-  //
 
   ScrollController scrollC = ScrollController();
   RxList<ChatApiModel> chat = <ChatApiModel>[].obs;
@@ -232,7 +221,6 @@ class ChatController extends GetxController {
 
   var pdfFile = "".obs;
   init() {
-    log("call-----2");
     chat.clear();
     // nextPageTrigger will have a value equivalent to 80% of the list size.
     initializer();
@@ -279,7 +267,6 @@ class ChatController extends GetxController {
           //     });
           //   }
           // }
-
           // _trySocket();
           if (socket.disconnected) {
             print("isDisconnected is true");
@@ -318,7 +305,6 @@ class ChatController extends GetxController {
             ChatRepository()
                 .uploadImage(file: File(element.path))
                 .then((value) {
-              log("value-------------->$value");
               ChatRepository.sendMessage(chatArg().id, "",
                   images: value,
                   type: attachmentString.value,
@@ -381,8 +367,6 @@ class ChatController extends GetxController {
           });
         } catch (e) {
           sendingMessage(false);
-          log("e--------------> $e");
-
           update();
         }
       }
@@ -394,12 +378,9 @@ class ChatController extends GetxController {
       sendingMessage(true);
 
       update();
-      log("pathToAudio--------------> $pathToAudio");
-
       try {
         if (pathToAudio.isNotEmpty) {
           ChatRepository().uploadAudio(file: File(pathToAudio)).then((value) {
-            log("value--------------> $value");
             ChatRepository.sendMessage(chatArg().id, "",
                 images: value,
                 type: attachmentString.value,
@@ -463,18 +444,15 @@ class ChatController extends GetxController {
         }
       } catch (e) {
         sendingMessage(false);
-        log("e--------------> $e");
       }
     }
     if (attachmentString.value == "pdf") {
       sendingMessage(true);
       update();
-      log("pathToAudio--------------> $pathToAudio");
       try {
         if (pdfFile.value != "") {
           ChatRepository().uploadPDF(file: File(pdfFile.value)).then(
             (value) {
-              log("value--------------> $value");
               ChatRepository.sendMessage(chatArg().id, "",
                   images: value,
                   type: attachmentString.value,
@@ -540,8 +518,6 @@ class ChatController extends GetxController {
           ).catchError(
             (e, s) {
               sendingMessage(false);
-              log("e--------------> $e");
-              log("s--------------> ${e.response.data['message']}");
               Logger().e("message", e, s);
               update();
             },
@@ -550,8 +526,6 @@ class ChatController extends GetxController {
       } catch (e) {
         sendingMessage(false);
         update();
-        log("e--------------> $e");
-        log("5--------------> $e");
       }
     }
     update();
@@ -615,10 +589,10 @@ class ChatController extends GetxController {
   //   Get.find<MessagesListController>().chats.refresh();
   //   isLoading.value = false;
   // }
-  Socket socket;
-  initSocket() {
-    log("calll-----3");
 
+  Socket socket;
+
+  initSocket() {
     socket = IO.io(ApiConsts.socketServerURL, <String, dynamic>{
       'autoConnect': true,
       'transports': ['websocket'],
@@ -644,9 +618,7 @@ class ChatController extends GetxController {
         if (m["chat"] != null) m["chat"]["users"] = [];
         // var _json = jsonDecode(m);
         // _json["readBy"] = [];
-        log("_msg------------ encoded: ${json.encode(m)}");
         var _msg = ChatApiModel.fromJson(m);
-        log("_msg--------------> ${_msg.images}");
 
         chat.insert(0, _msg);
         // update();
@@ -696,14 +668,10 @@ class ChatController extends GetxController {
         allowedExtensions: ['pdf'],
         allowMultiple: false);
     pdfFile.value = result.files[0].path;
-    log("pdfFile.value --------------> ${pdfFile.value}");
-
     update();
   }
 
   onInitCall() {
-    log("calll-----0");
-
     chatArg = (Get.arguments as ChatListApiModel).obs;
     chat.clear();
     loadChatList(1);
@@ -726,7 +694,6 @@ class ChatController extends GetxController {
         audioPlayer1.onDurationChanged.listen((duration) {
       duration1 = duration;
       update();
-      log('_duration1_duration1>> ${duration1.inSeconds}');
     });
 
     update();
@@ -753,7 +720,6 @@ class ChatController extends GetxController {
         audioPlayer1.onDurationChanged.listen((duration) {
       duration1 = duration;
       update();
-      log('_duration1_duration1>> ${duration1.inSeconds}');
     });
     super.onInit();
   }
@@ -762,6 +728,7 @@ class ChatController extends GetxController {
   void onReady() {
     // scrollToEnd();
     super.onReady();
+    chat.clear();
     loadChatList(1);
     // init();
   }
@@ -801,7 +768,6 @@ class ChatController extends GetxController {
   // }
   List<String> voiceDurationList = [];
   Future<void> loadChatList(int p) async {
-    log("call-----1");
     ChatRepository.fetchChatsById(chatArg().id,
         cancelToken: chatCancelToken,
         page: p,
@@ -811,16 +777,16 @@ class ChatController extends GetxController {
         Future.delayed(Duration(seconds: 2), () {
           chatCancelToken.cancel();
           chatCancelToken = CancelToken();
+          chat.clear();
           loadChatList(page);
         });
       }
     }).then((value) {
-      log("dsd$value");
-
       if (value != null) {
         if (value.isEmpty) {
           endOfPage.value = true;
         } else {
+          chat.clear();
           chat.addAll(value);
           chat.forEach((element) async {
             if (element.voiceNotes.isEmpty) {
@@ -829,20 +795,16 @@ class ChatController extends GetxController {
               String d = await getVoiceDuration(
                   url: '${ApiConsts.hostUrl}${element.voiceNotes[0]}');
               voiceDurationList.add(d);
-              log('d----->${d}');
             }
           });
-          log('voiceDurationList------->$voiceDurationList');
           // chat.forEach((element) {
           //   getVoiceDuration()
           // });
-          log('--edew-${value.toString()}');
         }
         chat.refresh();
         isLoading.value = false;
         nextPageLoading(false);
         update();
-        //
       }
     }).catchError((e, s) {
       Logger().e("message", e, s);
@@ -853,9 +815,7 @@ class ChatController extends GetxController {
 
   void swithChat(ChatListApiModel chatListApiModel) {
     chatArg.value = chatListApiModel;
-
     //
-
     page = 1;
     nextPageLoading.value = false;
     endOfPage.value = false;

@@ -40,10 +40,9 @@ class BlogRepository {
           '/blogCategory/AllCategories',
           cancelToken: cancelToken,
           queryParameters: {
-            // "limit": limitPerPage,
-            // "page": page,
+            "limit": 50,
+            "page": 1,
           },
-
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
