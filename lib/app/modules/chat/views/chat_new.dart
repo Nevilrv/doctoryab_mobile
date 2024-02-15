@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -26,6 +27,7 @@ class ChatView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Background(
       isSecond: true,
       child: WillPopScope(
@@ -846,7 +848,7 @@ class ChatView extends GetView<ChatController> {
                                                                                       width: Get.width * 0.005,
                                                                                       decoration: BoxDecoration(
                                                                                         borderRadius: BorderRadius.circular(10),
-                                                                                        color: index1 > controller.current1 ? Colors.grey.withOpacity(0.7) : Colors.grey,
+                                                                                        color: index1 > controller.current1 ? Colors.grey.withOpacity(0.2) : Colors.grey,
                                                                                       ),
                                                                                     ),
                                                                                   ],
@@ -1167,129 +1169,143 @@ class ChatView extends GetView<ChatController> {
                                                         //     ),
                                                         //   ),
                                                         // ),
-                                                        ...List.generate(
-                                                            controller
-                                                                .hi.length,
-                                                            (index1) {
-                                                          return Row(
-                                                            children: [
-                                                              SizedBox(
-                                                                width:
-                                                                    Get.width *
-                                                                        0.015,
-                                                              ),
-                                                              AnimatedContainer(
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        500),
-                                                                height: controller
-                                                                    .hi[index1]
-                                                                    .toDouble(),
-                                                                width:
-                                                                    Get.width *
-                                                                        0.007,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  color: index1 >
-                                                                          controller
-                                                                              .current1
-                                                                      ? Colors
-                                                                          .grey
-                                                                      : AppColors
-                                                                          .primary,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        }),
+                                                        Lottie.asset(
+                                                          'assets/lot/Animation - 1707890620680.json',
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.93,
+                                                          height: 80,
+                                                          fit: BoxFit.fill,
+                                                        )
                                                       ],
                                                     )
                                                   : SizedBox(),
                                               controller.playRecord.value ==
                                                       true
                                                   ? SizedBox()
-                                                  : Row(
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            controller.playAudio
-                                                                    .value =
-                                                                !controller
+                                                  : Center(
+                                                      child: Container(
+                                                        height: height * 0.075,
+                                                        width: width * 0.9,
+                                                        margin: EdgeInsets.only(
+                                                            right:
+                                                                width * 0.025),
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    width *
+                                                                        0.04),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xffEAEAF3),
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    15),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    15),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15),
+                                                          ),
+                                                        ),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                controller
+                                                                        .playAudio
+                                                                        .value =
+                                                                    !controller
+                                                                        .playAudio
+                                                                        .value;
+
+                                                                if (controller
                                                                     .playAudio
-                                                                    .value;
+                                                                    .value)
+                                                                  controller
+                                                                      .playFunc();
+                                                                if (!controller
+                                                                    .playAudio
+                                                                    .value)
+                                                                  controller
+                                                                      .stopPlayFunc();
 
-                                                            if (controller
-                                                                .playAudio
-                                                                .value)
-                                                              controller
-                                                                  .playFunc();
-                                                            if (!controller
-                                                                .playAudio
-                                                                .value)
-                                                              controller
-                                                                  .stopPlayFunc();
-
-                                                            controller.update();
-                                                          },
-                                                          child: Icon(
-                                                              controller
-                                                                      .playAudio
-                                                                      .value
-                                                                  ? Icons.pause
-                                                                  : Icons
-                                                                      .play_arrow,
-                                                              size: 35),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 22,
-                                                        ),
-                                                        ...List.generate(
-                                                            controller
-                                                                .hi.length,
-                                                            (index1) {
-                                                          return Row(
-                                                            children: [
-                                                              SizedBox(
-                                                                width:
-                                                                    Get.width *
-                                                                        0.015,
+                                                                controller
+                                                                    .update();
+                                                              },
+                                                              child:
+                                                                  CircleAvatar(
+                                                                radius: 18,
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0xff0079FF),
+                                                                child: Icon(
+                                                                    controller
+                                                                            .playAudio
+                                                                            .value
+                                                                        ? Icons
+                                                                            .pause
+                                                                        : Icons
+                                                                            .play_arrow,
+                                                                    size: 25,
+                                                                    color: AppColors
+                                                                        .white),
                                                               ),
-                                                              AnimatedContainer(
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        500),
-                                                                height: controller
-                                                                    .hi[index1]
-                                                                    .toDouble(),
-                                                                width:
-                                                                    Get.width *
-                                                                        0.007,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.05,
+                                                            ),
+                                                            ...List.generate(
+                                                                controller
+                                                                    .hi.length,
+                                                                (index1) {
+                                                              return Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: Get
+                                                                            .width *
+                                                                        0.011,
+                                                                  ),
+                                                                  AnimatedContainer(
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            500),
+                                                                    height: controller
+                                                                        .hi[index1]
+                                                                        .toDouble(),
+                                                                    width: Get
+                                                                            .width *
+                                                                        0.005,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10),
-                                                                  color: index1 >
-                                                                          controller
-                                                                              .current1
-                                                                      ? Colors
-                                                                          .grey
-                                                                      : AppColors
-                                                                          .primary,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        }),
-                                                        SizedBox(
-                                                          width: 30,
+                                                                      color: index1 >
+                                                                              controller
+                                                                                  .current1
+                                                                          ? Colors
+                                                                              .grey
+                                                                          : AppColors
+                                                                              .primary,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            }),
+                                                          ],
                                                         ),
-                                                      ],
+                                                      ),
                                                     )
                                             ],
                                           ),
@@ -1742,7 +1758,6 @@ class ChatView extends GetView<ChatController> {
                                                     /// GALLARY BUTTON
                                                     GestureDetector(
                                                       onTap: () {
-                                                        log("tap----");
                                                         controller
                                                             .attachmentString
                                                             .value = "image";
@@ -1777,7 +1792,6 @@ class ChatView extends GetView<ChatController> {
                                                     /// CAMERA BUTTON
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        log("tap----");
                                                         controller
                                                             .attachmentString
                                                             .value = "image";

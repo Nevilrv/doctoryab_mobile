@@ -73,9 +73,14 @@ class ApiConsts {
   static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";
 
   ///blog
-  static const String blogLike = '/blogs/like';
+  // static const String blogLike = '/blogs/like';
   static const String blogShare = '/blogs/share';
-  static const String blogComment = '/blogs/comment';
+  // static const String blogComment = '/blogs/comment';
+  static const String blogLike = '/blogs/updated/like';
+  // static const String blogShare = '/blogs/updated/share';
+  static const String blogComment = '/blogs/updated/comment';
+  static const String blogCategories = '/blogCategory/updated/AllCategories';
+  static const String blogByCategories = '/blogs/updated/getBlogsByCategory/';
 
   ///dieasetreatement
   static const String deseasecategory = '/Deseasecategory';

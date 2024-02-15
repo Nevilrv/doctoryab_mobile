@@ -17,7 +17,6 @@ class AppointmentHistoryController extends GetxController {
   @override
   void onInit() {
     fetchAppointmentHistory();
-
     super.onInit();
   }
 
@@ -39,7 +38,7 @@ class AppointmentHistoryController extends GetxController {
       isLoading = false;
       update();
     }).catchError((e, s) {
-      log("e--------------> ${e}");
+      log("e--------------> $e");
       isLoading = false;
       update();
       Logger().e("message", e, s);

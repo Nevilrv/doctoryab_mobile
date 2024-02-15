@@ -24,6 +24,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:logger/logger.dart';
 import 'dart:math' as math;
 
@@ -93,6 +94,60 @@ class AppGetDialog {
               child: Center(
                 child: CustomRoundedButton(
                   color: AppColors.primary,
+                  textColor: Colors.white,
+                  splashColor: Colors.white.withOpacity(0.2),
+                  disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                  // height: 50,
+                  width: 230,
+                  text: "done".tr,
+                  onTap: onTap ??
+                      () {
+                        Get.back();
+                        // // Get.offAllNamed(Routes.HOME);
+                        //
+                        // Get.until((route) => route.isFirst);
+                        // Get.find<HomeController>().pageController.animateTo(2,
+                        //     duration: Duration(milliseconds: 0),
+                        //     curve: Curves.ease);
+                        // Get.find<HomeController>().setIndex(2);
+                      },
+                ),
+              ),
+            ).paddingOnly(bottom: 0, top: 8),
+          ],
+        ));
+  }
+
+  static showAppointmentSuccess(
+      {@required String doctorName, DateTime date, VoidCallback onTap}) {
+    show(
+        hasOnlyContent: true,
+        component: Column(
+          children: [
+            Image.asset(
+              AppImages.bookingDoneCalender,
+              height: 45,
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Text(
+              SettingsController.appLanguge == 'English'
+                  ? 'Your appointment is confirmed with $doctorName on ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}.\n\nPlease reach 15 minutes before your Appointment!'
+                  : SettingsController.appLanguge == 'پشتو'
+                      ? ' تاسو په بریالیتوب سره د$doctorName سره په ${intl.DateFormat.yMd().add_jm().format(DateTime.now())} \n\nهیله ده 15 دقیقی مخکی له معاینی څخه ورسیږی'
+                      : ' شما به شکل موفقانه نوبت معاینه از$doctorName به تاریخ ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}\n\n لطفاً ۱۵ دقیقه قبل از وقت معاینه برسید.  گرفتید.',
+              textAlign: TextAlign.center,
+              style: AppTextTheme.b2(),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 70,
+              child: Center(
+                child: CustomRoundedButton(
+                  color: Color(0xff00A79D),
                   textColor: Colors.white,
                   splashColor: Colors.white.withOpacity(0.2),
                   disabledColor: AppColors.easternBlue.withOpacity(0.2),

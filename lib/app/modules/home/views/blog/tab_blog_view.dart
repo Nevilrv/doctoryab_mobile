@@ -17,6 +17,7 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -381,7 +382,15 @@ class TabBlogView extends GetView<TabBlogController> {
                                               children: [
                                                 Flexible(
                                                   child: Text(
-                                                    "${controller.postList[index].blogTitle}",
+                                                    SettingsController
+                                                                .appLanguge ==
+                                                            'English'
+                                                        ? "${controller.postList[index].blogTitleEnglish}"
+                                                        : SettingsController
+                                                                    .appLanguge ==
+                                                                'پشتو'
+                                                            ? "${controller.postList[index].blogTitlePashto}"
+                                                            : '${controller.postList[index].blogTitleDari}',
                                                     style: AppTextTheme.h(14)
                                                         .copyWith(
                                                       color: AppColors.primary,
@@ -449,7 +458,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 children: [
                                                   Flexible(
                                                     child: Text(
-                                                      "${calculateTime(controller.postList[index].createAt)} ",
+                                                      "${calculateTime(DateTime.parse(controller.postList[index].createAt))} ",
                                                       // maxLines: 1,
                                                       // overflow:
                                                       // TextOverflow.clip,
@@ -537,7 +546,7 @@ class TabBlogView extends GetView<TabBlogController> {
                               // controller.postList[index].desc.length < 10
                               //     ?
                               Html(
-                                  data: controller.postList[index].desc,
+                                  data: controller.postList[index].descEnglish,
                                   customTextAlign: (_) =>
                                       SettingsController.appLanguge == "English"
                                           ? TextAlign.left
@@ -722,13 +731,31 @@ class TabBlogView extends GetView<TabBlogController> {
                                       Spacer(),
                                       GestureDetector(
                                         onTap: () async {
-                                          final result =
-                                              await Share.shareWithResult(
-                                            parse(controller
-                                                    .postList[index].desc)
-                                                .body
-                                                .text,
-                                          );
+                                          final result = await Share
+                                              .shareWithResult(
+                                                  SettingsController
+                                                              .appLanguge ==
+                                                          'English'
+                                                      ? parse(controller
+                                                              .postList[index]
+                                                              .descEnglish)
+                                                          .body
+                                                          .text
+                                                      : SettingsController
+                                                                  .appLanguge ==
+                                                              'پشتو'
+                                                          ? parse(controller
+                                                                  .postList[
+                                                                      index]
+                                                                  .descPashto)
+                                                              .body
+                                                              .text
+                                                          : parse(controller
+                                                                  .postList[
+                                                                      index]
+                                                                  .descDari)
+                                                              .body
+                                                              .text);
                                           if (result.status ==
                                               ShareResultStatus.success) {
                                             controller.postList[index].shares
@@ -2044,7 +2071,7 @@ class _PostItemViewState extends State<PostItemView> {
             Container(
                 // height: containerHeight > 200 ? 300 : null,
                 child: () {
-              String html = widget.item?.desc ?? "";
+              String html = widget.item?.descEnglish ?? "";
               var document = parse(html);
               String text =
                   parse(document.body?.text ?? "").documentElement?.text ?? "";
@@ -2065,7 +2092,7 @@ class _PostItemViewState extends State<PostItemView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.item?.blogTitle ?? "",
+                        widget.item?.blogTitleEnglish ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),

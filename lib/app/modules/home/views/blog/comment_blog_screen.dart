@@ -86,11 +86,11 @@ class CommentView extends GetView<TabBlogController> {
                                     children: [
                                       Text(
                                           controller.postList[index].comments[i]
-                                              .whoPosted,
+                                              ['whoPosted'],
                                           style: AppTextStyle.boldBlack16),
                                       Text(
-                                          controller
-                                              .postList[index].comments[i].text,
+                                          controller.postList[index].comments[i]
+                                              ['text'],
                                           style: AppTextStyle.boldBlack16
                                               .copyWith(
                                                   fontSize: 12,
@@ -193,10 +193,13 @@ class CommentView extends GetView<TabBlogController> {
                                   ),
                                   alignment: Alignment.center,
                                   child: controller.isLoadingComment == true
-                                      ? Center(
-                                          child: CircularProgressIndicator(
-                                          color: AppColors.primary,
-                                        ))
+                                      ? Padding(
+                                          padding: EdgeInsets.all(12),
+                                          child: Center(
+                                              child: CircularProgressIndicator(
+                                            color: AppColors.white,
+                                          )),
+                                        )
                                       : Icon(
                                           Icons.send,
                                           color: AppColors.white,

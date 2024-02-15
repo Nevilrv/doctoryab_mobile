@@ -154,12 +154,17 @@ class BookController extends GetxController {
       Get.until((route) => route.isFirst);
       // Get.offAllNamed(Routes.HOME, arguments: {'id': 0});
       var patId = response['data']['patientId']?.toString() ?? "null";
-      AppGetDialog.showSuccess(
-        middleText: "done".tr +
-            "\n\n" +
-            "remember_pat_id_for_reference".trArgs([patId]),
-      );
-      log("value--------------> ${value}");
+      // AppGetDialog.showSuccess(
+      //   middleText: "done".tr +
+      //       "\n\n" +
+      //       "remember_pat_id_for_reference".trArgs([patId]),
+      // );
+
+      AppGetDialog.showAppointmentSuccess(
+          doctorName: doctor.fullname ?? doctor.name ?? '',
+          date: DateTime.parse(selectedDataTime));
+
+      log("value--------------> $value");
     }).catchError(
       (e, s) {
         loading.value = false;

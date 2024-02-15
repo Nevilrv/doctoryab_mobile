@@ -1,30 +1,29 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:just_audio/just_audio.dart' as j;
 
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart' as ap;
+import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
+import 'package:doctor_yab/app/data/models/chat_model.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart' show DateFormat;
+import 'package:just_audio/just_audio.dart' as j;
+import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 // import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
-import 'package:doctor_yab/app/data/models/chat_model.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:intl/intl.dart' show DateFormat;
+
 import '../../../data/repository/ChatRepository.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:path/path.dart' as path;
-import 'package:audioplayers/audioplayers.dart' as ap;
 
 class ChatController extends GetxController {
   Rx<ChatListApiModel> chatArg;
@@ -129,39 +128,45 @@ class ChatController extends GetxController {
   }
 
   List<int> hi = [
-    16,
+    5,
+    9,
+    14,
+    10,
+    20,
+    15,
+    10,
+    5,
+    9,
+    14,
+    20,
+    8,
     25,
     12,
     20,
-    25,
-    16,
+    14,
+    9,
+    9,
+    14,
+    20,
+    9,
+    14,
+    10,
+    20,
+    15,
+    10,
+    5,
+    8,
     25,
     12,
     20,
-    25,
-    16,
-    25,
-    12,
+    14,
+    9,
+    14,
+    10,
     20,
-    25,
-    16,
-    25,
-    12,
-    20,
-    25,
-    16,
-    25,
-    12,
-    20,
-    25,
-    16,
-    25,
-    12,
-    20,
-    25,
-    16,
-    25,
-    12,
+    15,
+    10,
+    5
   ];
 
   int selectedIndex = -1;

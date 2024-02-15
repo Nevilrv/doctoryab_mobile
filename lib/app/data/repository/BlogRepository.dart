@@ -37,7 +37,7 @@ class BlogRepository {
         // var doctorReports;
         return await _cachedDio.get(
           // '/findBloodDonors/profile',
-          '/blogCategory/AllCategories',
+          ApiConsts.blogCategories,
           cancelToken: cancelToken,
           queryParameters: {
             "limit": 50,
@@ -64,10 +64,12 @@ class BlogRepository {
     // _searchCancelToken = CancelToken();
     return await Utils.parseResponse<Post>(
       () async {
+        log('-------url-url-url-----${ApiConsts.blogByCategories}${blogCategory.id}');
+
         // var doctorReports;
         var res = await _cachedDio.get(
           // '/findBloodDonors/profile',
-          '/blogs/getBlogsByCategory/${SettingsController.appLanguge == 'English' ? blogCategory.categoryEnglish : SettingsController.appLanguge == 'پشتو' ? blogCategory.categoryPashto : blogCategory.categoryDari}',
+          '${ApiConsts.blogByCategories}${blogCategory.id}',
           cancelToken: cancelToken,
           queryParameters: {
             "limit": limitPerPage,
@@ -168,6 +170,8 @@ class BlogRepository {
       "userId": userId.toString(),
       "text": text
     });
+
+    log('-----65ca3826af16733144b4d9ee------$data');
 
     Dio dio = AppDioService.getDioInstance();
 

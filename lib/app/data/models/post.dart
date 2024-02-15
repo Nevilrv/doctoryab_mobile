@@ -9,22 +9,13 @@ PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
 class PostModel {
+  List<Post> data;
+  int count;
+
   PostModel({
     this.data,
     this.count,
   });
-
-  List<Post> data;
-  int count;
-
-  PostModel copyWith({
-    List<Post> data,
-    int count,
-  }) =>
-      PostModel(
-        data: data ?? this.data,
-        count: count ?? this.count,
-      );
 
   factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
         data: List<Post>.from(json["data"].map((x) => Post.fromJson(x))),
@@ -38,6 +29,26 @@ class PostModel {
 }
 
 class Post {
+  String img;
+  List<String> likes;
+  List<dynamic> shares;
+  List<dynamic> comments;
+  bool isPublished;
+  String id;
+  String name;
+  String descEnglish;
+  String descDari;
+  String descPashto;
+  String categoryEnglish;
+  String categoryDari;
+  String categoryPashto;
+  String blogTitlePashto;
+  String blogTitleDari;
+  String blogTitleEnglish;
+  String doctorId;
+  String createAt;
+  int v;
+
   Post({
     this.img,
     this.likes,
@@ -46,155 +57,61 @@ class Post {
     this.isPublished,
     this.id,
     this.name,
-    this.desc,
-    this.category,
-    this.blogTitle,
+    this.descEnglish,
+    this.descDari,
+    this.descPashto,
+    this.categoryEnglish,
+    this.categoryDari,
+    this.categoryPashto,
+    this.blogTitlePashto,
+    this.blogTitleDari,
+    this.blogTitleEnglish,
     this.doctorId,
     this.createAt,
     this.v,
-    this.publishedAt,
-    this.isDeleted,
-    this.isPublic,
   });
-
-  String img;
-  List<dynamic> likes;
-  List<dynamic> shares;
-  List<Comment> comments;
-  bool isPublished;
-  String id;
-  String name;
-  String desc;
-  String category;
-  String blogTitle;
-  String doctorId;
-  DateTime createAt;
-  int v;
-  DateTime publishedAt;
-  bool isDeleted;
-  bool isPublic;
-
-  Post copyWith({
-    String img,
-    List<dynamic> likes,
-    List<dynamic> shares,
-    List<Comment> comments,
-    bool isPublished,
-    String id,
-    String name,
-    String desc,
-    String category,
-    String blogTitle,
-    String doctorId,
-    DateTime createAt,
-    int v,
-    DateTime publishedAt,
-    bool isDeleted,
-    bool isPublic,
-  }) =>
-      Post(
-        img: img ?? this.img,
-        likes: likes ?? this.likes,
-        shares: shares ?? this.shares,
-        comments: comments ?? this.comments,
-        isPublished: isPublished ?? this.isPublished,
-        id: id ?? this.id,
-        name: name ?? this.name,
-        desc: desc ?? this.desc,
-        category: category ?? this.category,
-        blogTitle: blogTitle ?? this.blogTitle,
-        doctorId: doctorId ?? this.doctorId,
-        createAt: createAt ?? this.createAt,
-        v: v ?? this.v,
-        publishedAt: publishedAt ?? this.publishedAt,
-        isDeleted: isDeleted ?? this.isDeleted,
-        isPublic: isPublic ?? this.isPublic,
-      );
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
         img: json["img"],
-        likes: List<dynamic>.from(json["likes"].map((x) => x)),
+        likes: List<String>.from(json["likes"].map((x) => x)),
         shares: List<dynamic>.from(json["shares"].map((x) => x)),
-        comments: List<Comment>.from(
-            json["comments"].map((x) => Comment.fromJson(x))),
+        comments: List<dynamic>.from(json["comments"].map((x) => x)),
         isPublished: json["is_published"],
         id: json["_id"],
         name: json["name"],
-        desc: json["desc"],
-        category: json["category"],
-        blogTitle: json["blogTitle"],
+        descEnglish: json["descEnglish"],
+        descDari: json["descDari"],
+        descPashto: json["descPashto"],
+        categoryEnglish: json["categoryEnglish"],
+        categoryDari: json["categoryDari"],
+        categoryPashto: json["categoryPashto"],
+        blogTitlePashto: json["blogTitlePashto"],
+        blogTitleDari: json["blogTitleDari"],
+        blogTitleEnglish: json["blogTitleEnglish"],
         doctorId: json["doctorId"],
-        createAt: DateTime.tryParse(json["createAt"] ?? ""),
+        createAt: json["createAt"],
         v: json["__v"],
-        publishedAt:
-            DateTime.tryParse(json["publishedAt"] ?? "") ?? DateTime.now(),
-        isDeleted: json["is_deleted"],
-        isPublic: json["is_public"],
       );
 
   Map<String, dynamic> toJson() => {
         "img": img,
         "likes": List<dynamic>.from(likes.map((x) => x)),
         "shares": List<dynamic>.from(shares.map((x) => x)),
-        "comments": List<dynamic>.from(comments.map((x) => x.toJson())),
+        "comments": List<dynamic>.from(comments.map((x) => x)),
         "is_published": isPublished,
         "_id": id,
         "name": name,
-        "desc": desc,
-        "category": category,
-        "blogTitle": blogTitle,
+        "descEnglish": descEnglish,
+        "descDari": descDari,
+        "descPashto": descPashto,
+        "categoryEnglish": categoryEnglish,
+        "categoryDari": categoryDari,
+        "categoryPashto": categoryPashto,
+        "blogTitlePashto": blogTitlePashto,
+        "blogTitleDari": blogTitleDari,
+        "blogTitleEnglish": blogTitleEnglish,
         "doctorId": doctorId,
-        "createAt": createAt.toIso8601String(),
-        "__v": v,
-        "publishedAt": publishedAt.toIso8601String(),
-        "is_deleted": isDeleted,
-        "is_public": isPublic,
-      };
-}
-
-class Comment {
-  Comment({
-    this.text,
-    this.postedBy,
-    this.createAt,
-    this.whoPosted,
-    this.commentId,
-  });
-
-  String text;
-  String postedBy;
-  dynamic createAt;
-  String whoPosted;
-  String commentId;
-
-  Comment copyWith({
-    String text,
-    String postedBy,
-    dynamic createAt,
-    String whoPosted,
-    String commentId,
-  }) =>
-      Comment(
-        text: text ?? this.text,
-        postedBy: postedBy ?? this.postedBy,
-        createAt: createAt ?? this.createAt,
-        whoPosted: whoPosted ?? this.whoPosted,
-        commentId: commentId ?? this.commentId,
-      );
-
-  factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-        text: json["text"],
-        postedBy: json["postedBy"],
-        createAt: json["createAt"],
-        whoPosted: json["whoPosted"],
-        commentId: json["commentId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "text": text,
-        "postedBy": postedBy,
         "createAt": createAt,
-        "whoPosted": whoPosted,
-        "commentId": commentId,
+        "__v": v,
       };
 }

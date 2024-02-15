@@ -143,4 +143,5 @@ class AppImages {
   static const excellentStar = "assets/png/excellent_star.png";
   static const angry = "assets/png/angry.png";
   static const laterFeedback = "assets/png/feedback_later.png";
+  static const bookingDoneCalender = "assets/png/book_done_cal.png";
 }

@@ -79,8 +79,6 @@ class AppointmentDetailScreen extends StatelessWidget {
                     itemCount: history.doctor.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      log('ccxcxcxcxcx${jsonEncode(history.doctor[index])}');
-
                       return Container(
                         height: h * 0.7,
                         width: w,
@@ -252,7 +250,11 @@ class AppointmentDetailScreen extends StatelessWidget {
                               SizedBox(
                                 height: h * 0.01,
                               ),
-                              appointmentBox(w),
+                              // appointmentBox(w),
+                              // SizedBox(
+                              //   height: h * 0.03,
+                              // ),
+                              DateAppointmentBox(w),
                               SizedBox(
                                 height: h * 0.03,
                               ),
@@ -260,9 +262,38 @@ class AppointmentDetailScreen extends StatelessWidget {
                               SizedBox(
                                 height: h * 0.03,
                               ),
-                              DateAppointmentBox(w),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(AppointmentFeedbackScreen(
+                                    history: history,
+                                  ));
+                                },
+                                child: Container(
+                                  width: w,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                      color: AppColors.primary,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(0, 4),
+                                            blurRadius: 4,
+                                            color: AppColors.black
+                                                .withOpacity(0.1))
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                    child: Center(
+                                      child: Text(
+                                        "Cancel Appointments",
+                                        style: AppTextStyle.boldWhite10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               SizedBox(
-                                height: h * 0.03,
+                                height: h * 0.02,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -318,128 +349,128 @@ class AppointmentDetailScreen extends StatelessWidget {
     );
   }
 
-  Stack appointmentBox(double w) {
-    var d = DateTime.parse(history.visitDate == null
-            ? DateTime.now()
-            : history.visitDate.toLocal().toString())
-        .toPersianDateStr(
-          strDay: false,
-          strMonth: true,
-          useAfghaniMonthName: true,
-        )
-        .trim()
-        .split(' ');
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          width: w,
-          decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                BoxShadow(
-                    offset: Offset(0, 4),
-                    blurRadius: 4,
-                    color: AppColors.black.withOpacity(0.25))
-              ],
-              border: Border.all(color: AppColors.lightPurple4, width: 2)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: AppColors.red.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                    child: Center(
-                        child: Row(
-                      children: [
-                        Text(
-                          "${d[0]}",
-                          // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
-                          style: AppTextStyle.mediumPrimary12
-                              .copyWith(color: AppColors.red),
-                        ),
-                        Text(
-                          " ${d[1]}",
-                          // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
-                          style: AppTextStyle.mediumPrimary12
-                              .copyWith(color: AppColors.red),
-                        ),
-                        Text(
-                          " ${d[3]}",
-                          // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
-                          style: AppTextStyle.mediumPrimary12
-                              .copyWith(color: AppColors.red),
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-                SizedBox(
-                  width: w * 0.02,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: AppColors.red.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                    child: Center(
-                      child: Text(
-                        "/",
-                        style: AppTextStyle.mediumPrimary12
-                            .copyWith(color: AppColors.red),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: w * 0.02,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: AppColors.red.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                    child: Center(
-                      child: Text(
-                        "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
-                        style: AppTextStyle.mediumPrimary12
-                            .copyWith(color: AppColors.red),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: 20,
-          top: -7.5,
-          child: Container(
-            color: AppColors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Text(
-                "visit_date".tr,
-                style: AppTextTheme.h(11).copyWith(
-                    color: AppColors.lightPurple4, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
+  // Stack appointmentBox(double w) {
+  //   var d = DateTime.parse(history.visitDate == null
+  //           ? DateTime.now()
+  //           : history.visitDate.toLocal().toString())
+  //       .toPersianDateStr(
+  //         strDay: false,
+  //         strMonth: true,
+  //         useAfghaniMonthName: true,
+  //       )
+  //       .trim()
+  //       .split(' ');
+  //   return Stack(
+  //     clipBehavior: Clip.none,
+  //     children: [
+  //       Container(
+  //         width: w,
+  //         decoration: BoxDecoration(
+  //             color: AppColors.white,
+  //             borderRadius: BorderRadius.circular(5),
+  //             boxShadow: [
+  //               BoxShadow(
+  //                   offset: Offset(0, 4),
+  //                   blurRadius: 4,
+  //                   color: AppColors.black.withOpacity(0.25))
+  //             ],
+  //             border: Border.all(color: AppColors.lightPurple4, width: 2)),
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  //           child: Row(
+  //             children: [
+  //               Container(
+  //                 decoration: BoxDecoration(
+  //                     color: AppColors.red.withOpacity(0.1),
+  //                     borderRadius: BorderRadius.circular(4)),
+  //                 child: Padding(
+  //                   padding:
+  //                       const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+  //                   child: Center(
+  //                       child: Row(
+  //                     children: [
+  //                       Text(
+  //                         "${d[0]}",
+  //                         // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+  //                         style: AppTextStyle.mediumPrimary12
+  //                             .copyWith(color: AppColors.red),
+  //                       ),
+  //                       Text(
+  //                         " ${d[1]}",
+  //                         // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+  //                         style: AppTextStyle.mediumPrimary12
+  //                             .copyWith(color: AppColors.red),
+  //                       ),
+  //                       Text(
+  //                         " ${d[3]}",
+  //                         // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+  //                         style: AppTextStyle.mediumPrimary12
+  //                             .copyWith(color: AppColors.red),
+  //                       ),
+  //                     ],
+  //                   )),
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: w * 0.02,
+  //               ),
+  //               Container(
+  //                 decoration: BoxDecoration(
+  //                     color: AppColors.red.withOpacity(0.1),
+  //                     borderRadius: BorderRadius.circular(4)),
+  //                 child: Padding(
+  //                   padding:
+  //                       const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+  //                   child: Center(
+  //                     child: Text(
+  //                       "/",
+  //                       style: AppTextStyle.mediumPrimary12
+  //                           .copyWith(color: AppColors.red),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: w * 0.02,
+  //               ),
+  //               Container(
+  //                 decoration: BoxDecoration(
+  //                     color: AppColors.red.withOpacity(0.1),
+  //                     borderRadius: BorderRadius.circular(4)),
+  //                 child: Padding(
+  //                   padding:
+  //                       const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+  //                   child: Center(
+  //                     child: Text(
+  //                       "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+  //                       style: AppTextStyle.mediumPrimary12
+  //                           .copyWith(color: AppColors.red),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       Positioned(
+  //         left: 20,
+  //         top: -7.5,
+  //         child: Container(
+  //           color: AppColors.white,
+  //           child: Padding(
+  //             padding: const EdgeInsets.symmetric(horizontal: 5),
+  //             child: Text(
+  //               "visit_date".tr,
+  //               style: AppTextTheme.h(11).copyWith(
+  //                   color: AppColors.lightPurple4, fontWeight: FontWeight.w500),
+  //             ),
+  //           ),
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
   Stack VisitedDoctorBox(double w) {
     return Stack(
@@ -463,7 +494,9 @@ class AppointmentDetailScreen extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.red.withOpacity(0.1),
+                      color: history.visited == true
+                          ? AppColors.green.withOpacity(0.1)
+                          : AppColors.red.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4)),
                   child: Padding(
                     padding:
@@ -471,8 +504,11 @@ class AppointmentDetailScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         history.visited == true ? "YES" : "NO",
-                        style: AppTextStyle.mediumPrimary12
-                            .copyWith(color: AppColors.red),
+                        style: AppTextStyle.mediumPrimary12.copyWith(
+                          color: history.visited == true
+                              ? AppColors.green
+                              : AppColors.red,
+                        ),
                       ),
                     ),
                   ),

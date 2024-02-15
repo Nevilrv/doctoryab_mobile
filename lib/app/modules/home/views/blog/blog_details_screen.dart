@@ -1,9 +1,10 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/post.dart';
+import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -11,10 +12,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:html/parser.dart' show parse;
-
-import '../../../../data/ApiConsts.dart';
-import '../../../../theme/AppColors.dart';
-import '../../controllers/tab_blog_controller.dart';
 import 'comment_blog_screen.dart';
 
 class BlogDetailsScreen extends StatefulWidget {
@@ -42,7 +39,11 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
           ),
           centerTitle: true,
           title: Text(
-            "${widget.post.blogTitle}",
+            SettingsController.appLanguge == 'English'
+                ? "${widget.post.blogTitleEnglish}"
+                : SettingsController.appLanguge == 'پشتو'
+                    ? "${widget.post.blogTitlePashto}"
+                    : '${widget.post.blogTitleDari}',
             style: AppTextStyle.boldWhite18,
           ),
         ),
@@ -91,7 +92,11 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                       child: Column(
                         children: [
                           Html(
-                            data: widget.post.desc,
+                            data: SettingsController.appLanguge == 'English'
+                                ? "${widget.post.descEnglish}"
+                                : SettingsController.appLanguge == 'پشتو'
+                                    ? "${widget.post.descPashto}"
+                                    : '${widget.post.descDari}',
                             customTextAlign: (_) =>
                                 SettingsController.appLanguge == "English"
                                     ? TextAlign.left
@@ -242,7 +247,15 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                             GestureDetector(
                               onTap: () async {
                                 final result = await Share.shareWithResult(
-                                  parse(widget.post.desc).body.text,
+                                  SettingsController.appLanguge == 'English'
+                                      ? parse(widget.post.descEnglish).body.text
+                                      : SettingsController.appLanguge == 'پشتو'
+                                          ? parse(widget.post.descPashto)
+                                              .body
+                                              .text
+                                          : parse(widget.post.descDari)
+                                              .body
+                                              .text,
                                 );
                                 if (result.status ==
                                     ShareResultStatus.success) {

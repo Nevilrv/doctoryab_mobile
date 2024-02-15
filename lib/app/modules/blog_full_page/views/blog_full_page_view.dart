@@ -13,7 +13,7 @@ class BlogFullPageView extends GetView<BlogFullPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppAppBar.specialAppBar(
-        controller?.post?.blogTitle ?? "blog".tr,
+        controller?.post?.blogTitleEnglish ?? "blog".tr,
         showLeading: false,
       ),
       body: SingleChildScrollView(
@@ -22,7 +22,7 @@ class BlogFullPageView extends GetView<BlogFullPageController> {
           //   return node.Container();
           // },
 
-          data: controller.post?.desc ?? "",
+          data: controller.post?.descEnglish ?? "",
           //TODO fix this for english posts
           customTextAlign: (elem) => TextAlign.right,
         ).paddingAll(16),
