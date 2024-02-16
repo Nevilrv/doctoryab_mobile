@@ -77,11 +77,26 @@ class ChatController extends GetxController {
     // if (!directory.existsSync()) {
     //   directory.createSync();
     // }
-    recordingSession.openAudioSession();
-    await recordingSession.startRecorder(
-      toFile: pathToAudio,
-      codec: Codec.pcm16WAV,
-    );
+    log('-----pathToAudio----$pathToAudio');
+    log('-----pathToAudioCondition----${pathToAudio == null}');
+    if (pathToAudio == null) {
+      final directory = await getApplicationDocumentsDirectory();
+      log("directory.path--------------> ${directory.path}");
+
+      pathToAudio = '${directory.path}/temp.wav';
+      recordingSession = FlutterSoundRecorder();
+      recordingSession.openAudioSession();
+      await recordingSession.startRecorder(
+        toFile: pathToAudio,
+        codec: Codec.pcm16WAV,
+      );
+    } else {
+      recordingSession.openAudioSession();
+      await recordingSession.startRecorder(
+        toFile: pathToAudio,
+        codec: Codec.pcm16WAV,
+      );
+    }
 
     StreamSubscription _recorderSubscription =
         recordingSession.onProgress.listen((e) {
@@ -847,7 +862,6 @@ class ChatController extends GetxController {
     chat.clear();
     messageC.clear();
     isLoading.value = true;
-
     socket.disconnect();
     socket.connect();
     loadChatList(1);

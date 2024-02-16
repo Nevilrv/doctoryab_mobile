@@ -1,12 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:doctor_yab/app/components/background.dart';
-import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/utils.dart';
@@ -74,6 +73,7 @@ class CommentView extends GetView<TabBlogController> {
                                 left: Get.width * 0.03,
                                 right: Get.width * 0.03),
                             itemBuilder: (context, i) {
+                              // log('----dddd----${jsonDecode(controller.postList[index].comments[i])}');
                               return Container(
                                 decoration:
                                     BoxDecoration(color: AppColors.white),
@@ -86,11 +86,13 @@ class CommentView extends GetView<TabBlogController> {
                                     children: [
                                       Text(
                                           controller.postList[index].comments[i]
-                                              ['whoPosted'],
+                                                  .whoPosted ??
+                                              '',
                                           style: AppTextStyle.boldBlack16),
                                       Text(
                                           controller.postList[index].comments[i]
-                                              ['text'],
+                                                  .text ??
+                                              '',
                                           style: AppTextStyle.boldBlack16
                                               .copyWith(
                                                   fontSize: 12,

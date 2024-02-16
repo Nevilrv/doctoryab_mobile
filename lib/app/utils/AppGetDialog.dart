@@ -136,7 +136,7 @@ class AppGetDialog {
                   ? 'Your appointment is confirmed with $doctorName on ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}.\n\nPlease reach 15 minutes before your Appointment!'
                   : SettingsController.appLanguge == 'پشتو'
                       ? ' تاسو په بریالیتوب سره د$doctorName سره په ${intl.DateFormat.yMd().add_jm().format(DateTime.now())} \n\nهیله ده 15 دقیقی مخکی له معاینی څخه ورسیږی'
-                      : ' شما به شکل موفقانه نوبت معاینه از$doctorName به تاریخ ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}\n\n لطفاً ۱۵ دقیقه قبل از وقت معاینه برسید.  گرفتید.',
+                      : ' شما به شکل موفقانه نوبت معاینه از$doctorName به تاریخ ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}  گرفتید \n\n لطفاً ۱۵ دقیقه قبل از وقت معاینه برسید',
               textAlign: TextAlign.center,
               style: AppTextTheme.b2(),
             ),

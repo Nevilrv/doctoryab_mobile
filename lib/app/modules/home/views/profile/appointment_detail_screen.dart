@@ -263,11 +263,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                                 height: h * 0.03,
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  Get.to(AppointmentFeedbackScreen(
-                                    history: history,
-                                  ));
-                                },
+                                onTap: () {},
                                 child: Container(
                                   width: w,
                                   decoration: BoxDecoration(
@@ -473,6 +469,8 @@ class AppointmentDetailScreen extends StatelessWidget {
   // }
 
   Stack VisitedDoctorBox(double w) {
+    log('------history.visited-----${history.visited}');
+
     return Stack(
       clipBehavior: Clip.none,
       children: [

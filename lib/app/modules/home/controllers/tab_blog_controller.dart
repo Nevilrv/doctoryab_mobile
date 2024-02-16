@@ -186,7 +186,11 @@ class TabBlogController extends GetxController {
         postList[index].comments.add(element);
       });
       update();
-      // log(" controller.comment--------------> ${v.data.comments}");
+
+      postList[index].comments.forEach((element) {
+        // log('------elekment---${element['whoPosted']}');
+      });
+      log(" controller.comment--------------> ${v.data.comments}");
     }).catchError((e, s) {
       log("e--------------> $e");
       isLoadingComment = false;

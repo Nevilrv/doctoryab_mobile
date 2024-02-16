@@ -382,7 +382,7 @@ const Map<String, String> enUS = {
   "c_appointment": "Confirm Appointment",
   "a_successful!": "Appointment Successful!",
   "back_home": "Back to Home Page",
-  "medical_blog": "Medical Blog",
+  "medical_blog": "Health Blog",
   "comment": "Comment",
   "shares": "Shares",
   "like": "Like",

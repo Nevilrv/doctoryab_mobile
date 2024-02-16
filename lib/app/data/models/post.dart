@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:doctor_yab/app/data/models/blog_like_res_model.dart';
+
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
@@ -32,7 +34,7 @@ class Post {
   String img;
   List<String> likes;
   List<dynamic> shares;
-  List<dynamic> comments;
+  List<Comment> comments;
   bool isPublished;
   String id;
   String name;
@@ -75,7 +77,8 @@ class Post {
         img: json["img"],
         likes: List<String>.from(json["likes"].map((x) => x)),
         shares: List<dynamic>.from(json["shares"].map((x) => x)),
-        comments: List<dynamic>.from(json["comments"].map((x) => x)),
+        comments: List<Comment>.from(
+            json["comments"].map((x) => Comment.fromJson(x))),
         isPublished: json["is_published"],
         id: json["_id"],
         name: json["name"],
@@ -97,7 +100,7 @@ class Post {
         "img": img,
         "likes": List<dynamic>.from(likes.map((x) => x)),
         "shares": List<dynamic>.from(shares.map((x) => x)),
-        "comments": List<dynamic>.from(comments.map((x) => x)),
+        "comments": List<Comment>.from(comments.map((x) => x)),
         "is_published": isPublished,
         "_id": id,
         "name": name,

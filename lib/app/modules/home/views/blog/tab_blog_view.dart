@@ -43,16 +43,6 @@ class TabBlogView extends GetView<TabBlogController> {
   }
 
   TabBlogController tabBlogController = Get.put(TabBlogController());
-  List tab = ["Dentists", "Gyne", "Pediatric"];
-
-  List<Map> tabDetails = [
-    {'title': 'Nutrition', 'image': 'assets/jpg/t (2).png'},
-    {'title': 'General Health', 'image': 'assets/jpg/t (1).png'},
-    {'title': 'Mental Health', 'image': 'assets/jpg/t (4).png'},
-    {'title': 'Sexual Health', 'image': 'assets/jpg/t (5).png'},
-    {'title': 'Diabates', 'image': 'assets/jpg/t (3).png'},
-    {'title': 'Child Health', 'image': 'assets/jpg/t.png'},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +60,7 @@ class TabBlogView extends GetView<TabBlogController> {
             color: AppColors.primary,
             child: Center(
               child: Text(
-                'Health Blog',
+                'medical_blog'.tr,
                 style: TextStyle(
                   color: AppColors.white,
                   fontSize: 22,

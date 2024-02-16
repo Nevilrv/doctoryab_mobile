@@ -1042,7 +1042,7 @@ class ChatView extends GetView<ChatController> {
                                                                             mainAxisAlignment:
                                                                                 MainAxisAlignment.spaceBetween,
                                                                             children: [
-                                                                              Text('${controller.voiceDurationList[index]}'),
+                                                                              // Text('${controller.voiceDurationList[index]}'),
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 20, top: 2),
                                                                                 child: Text(
@@ -1369,6 +1369,8 @@ class ChatView extends GetView<ChatController> {
                                                               .sendingMessage())
                                                       ? null
                                                       : () {
+                                                          log('-----controller.pathToAudio-----${controller.pathToAudio}');
+
                                                           if (controller
                                                                   .messageC
                                                                   .text
