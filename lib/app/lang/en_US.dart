@@ -300,7 +300,6 @@ const Map<String, String> enUS = {
   "your_city_selection": "Your city selection",
   "view_all": "View All",
   "booked": "Booked",
-
   "Please_select_city": "Please select city",
   "Please_select_gender": "Please select gender",
   "save_changes": "Save Changes",

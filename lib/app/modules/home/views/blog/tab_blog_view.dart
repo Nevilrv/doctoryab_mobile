@@ -261,7 +261,8 @@ class TabBlogView extends GetView<TabBlogController> {
                                                             width: 18,
                                                             color:
                                                                 AppColors.white,
-                                                          ))
+                                                          ),
+                                                        )
                                                       : Image.asset(
                                                           AppImages.promote,
                                                           height: 18,

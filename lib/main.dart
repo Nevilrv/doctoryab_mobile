@@ -42,7 +42,6 @@ Future<void> main() async {
 
     final pushNotificationService = PushNotificationService();
     pushNotificationService.initialise();
-
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
   var fcmToken;

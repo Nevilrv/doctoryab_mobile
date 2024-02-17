@@ -14,6 +14,7 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -263,7 +264,10 @@ class AppointmentDetailScreen extends StatelessWidget {
                                 height: h * 0.03,
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  AppGetDialog.showCancelAppointment(
+                                      doctorName: '');
+                                },
                                 child: Container(
                                   width: w,
                                   decoration: BoxDecoration(

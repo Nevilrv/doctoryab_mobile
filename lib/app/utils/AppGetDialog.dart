@@ -172,6 +172,91 @@ class AppGetDialog {
         ));
   }
 
+  static showCancelAppointment(
+      {@required String doctorName, DateTime date, VoidCallback onTap}) {
+    show(
+      hasOnlyContent: true,
+      component: Column(
+        children: [
+          Image.asset(
+            AppImages.bookingDoneCalender,
+            height: 45,
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+            SettingsController.appLanguge == 'English'
+                ? 'Are you sure you want to cancel your appointment?'
+                : SettingsController.appLanguge == 'پشتو'
+                    ? 'ایا تاسو ډاډه یاست چې خپل معاینه وخت لغوه کړئ؟'
+                    : 'آیا مطمین هستید که وقت معاینه تانرا فسخ نمایید؟',
+            textAlign: TextAlign.center,
+            style: AppTextTheme.b2(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 70,
+                child: Center(
+                  child: CustomRoundedButton(
+                    color: Color(0xff00A79D),
+                    textColor: Colors.white,
+                    splashColor: Colors.white.withOpacity(0.2),
+                    disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                    // height: 50,
+                    width: 115,
+                    text: "yes".tr,
+                    onTap: onTap ??
+                        () {
+                          Get.back();
+                          // // Get.offAllNamed(Routes.HOME);
+                          //
+                          // Get.until((route) => route.isFirst);
+                          // Get.find<HomeController>().pageController.animateTo(2,
+                          //     duration: Duration(milliseconds: 0),
+                          //     curve: Curves.ease);
+                          // Get.find<HomeController>().setIndex(2);
+                        },
+                  ),
+                ),
+              ).paddingOnly(bottom: 0, top: 8, left: 20),
+              Container(
+                height: 70,
+                child: Center(
+                  child: CustomRoundedButton(
+                    color: Color(0xff00A79D),
+                    textColor: Colors.white,
+                    splashColor: Colors.white.withOpacity(0.2),
+                    disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                    // height: 50,
+                    width: 115,
+                    text: "no".tr,
+                    onTap: onTap ??
+                        () {
+                          Get.back();
+                          // // Get.offAllNamed(Routes.HOME);
+                          //
+                          // Get.until((route) => route.isFirst);
+                          // Get.find<HomeController>().pageController.animateTo(2,
+                          //     duration: Duration(milliseconds: 0),
+                          //     curve: Curves.ease);
+                          // Get.find<HomeController>().setIndex(2);
+                        },
+                  ),
+                ),
+              ).paddingOnly(bottom: 0, top: 8, right: 20),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   static showWithRetryCallBack(
       {@required String middleText,
       Function retryCallBak,
