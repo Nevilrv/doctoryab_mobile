@@ -401,70 +401,73 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
                             3,
-                            (subIndex) => Row(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: h * 0.035,
-                                  width: h * 0.035,
-                                  padding: EdgeInsets.all(3),
-                                  margin: EdgeInsets.only(right: 5),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.lightPurple,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Image.asset(
-                                    controller.data[subIndex]["image"],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      controller.data[subIndex]["title"]
-                                          .toString()
-                                          .tr,
-                                      style: AppTextStyle.boldPrimary9
-                                          .copyWith(height: 1.2),
+                            (subIndex) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: h * 0.035,
+                                    width: h * 0.035,
+                                    padding: EdgeInsets.all(3),
+                                    margin: EdgeInsets.only(right: 5),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.lightPurple,
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
-                                    SizedBox(
-                                      height: Get.height * 0.003,
+                                    child: Image.asset(
+                                      controller.data[subIndex]["image"],
+                                      fit: BoxFit.cover,
                                     ),
-                                    Container(
-                                      width: w * 0.33,
-                                      child: Text(
-                                        subIndex == 1
-                                            ? item.packsAndPrices ?? "None"
-                                            : subIndex == 2
-                                                ? controller.data[2]["text"]
-                                                    .toString()
-                                                    .trArgs(
-                                                        [item.packsAndPrices])
-                                                : SettingsController
-                                                            .appLanguge ==
-                                                        'English'
-                                                    ? item.drugTypeEnglish ??
-                                                        "None"
-                                                    : SettingsController
-                                                                .appLanguge ==
-                                                            'پشتو'
-                                                        ? item.drugTypePashto ??
-                                                            "None"
-                                                        : item.drugTypeDari ??
-                                                            "None",
-                                        style: AppTextStyle.regularPrimary9
-                                            .copyWith(height: 1),
-                                        maxLines: 4,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        controller.data[subIndex]["title"]
+                                            .toString()
+                                            .tr,
+                                        style: AppTextStyle.boldPrimary9
+                                            .copyWith(height: 1.2),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                      SizedBox(
+                                        height: Get.height * 0.003,
+                                      ),
+                                      Container(
+                                        width: w * 0.33,
+                                        child: Text(
+                                          subIndex == 1
+                                              ? item.quantity ?? "None"
+                                              : subIndex == 2
+                                                  ? controller.data[2]["text"]
+                                                      .toString()
+                                                      .trArgs(
+                                                          [item.packsAndPrices])
+                                                  : SettingsController
+                                                              .appLanguge ==
+                                                          'English'
+                                                      ? item.drugTypeEnglish ??
+                                                          "None"
+                                                      : SettingsController
+                                                                  .appLanguge ==
+                                                              'پشتو'
+                                                          ? item.drugTypePashto ??
+                                                              "None"
+                                                          : item.drugTypeDari ??
+                                                              "None",
+                                          style: AppTextStyle.regularPrimary9
+                                              .copyWith(height: 1),
+                                          maxLines: 4,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),

@@ -62,7 +62,6 @@ class DiseaseTreatmentController extends GetxController {
   }
 
   Future<void> dieaseDataList(String title) async {
-    log("call");
     isLoadingList = true;
     update();
     DieaseTreatementRepository.getDieaseData(title).then((v) {

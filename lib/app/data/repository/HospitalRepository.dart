@@ -135,7 +135,7 @@ class HospitalRepository {
       // cancelToken: loginCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }

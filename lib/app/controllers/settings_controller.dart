@@ -108,14 +108,12 @@ class SettingsController extends GetxController {
 
   static User get savedUserProfile {
     var _user = AppStatics.hive.authBox.get("user");
-    log("_user--------------> $_user");
 
     //patch update from version 2 to 3.0
     // SettingsController
     if (isUserLoggedInToApi) {
       // var _u = User()
     }
-    print("----------------------------> _user $_user");
 
     return _user == null
         ? null

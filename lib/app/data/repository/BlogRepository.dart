@@ -125,7 +125,7 @@ class BlogRepository {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
-    log("data--------------> $data");
+    log(" $data");
 
     var dio = Dio();
     var response = await dio.put(
@@ -144,7 +144,7 @@ class BlogRepository {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
-    log("data--------------> $data");
+    log(" $data");
     log("ApiConsts.baseUrl + ApiConsts.blogShare,--------------> ${ApiConsts.baseUrl + ApiConsts.blogShare}");
 
     var dio = Dio();

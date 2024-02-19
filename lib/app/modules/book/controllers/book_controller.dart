@@ -97,7 +97,7 @@ class BookController extends GetxController {
       doctor,
     )
         .then((data) {
-      log("data--------------> ${data}");
+      log(" ${data}");
 
       log("data.data.--------------> ${data.data}");
       data.data['data'].forEach((element) {

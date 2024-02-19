@@ -63,7 +63,7 @@ class AddPersonalInfoController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
     log("response.statusCode-------------> ${response.statusCode}");
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {

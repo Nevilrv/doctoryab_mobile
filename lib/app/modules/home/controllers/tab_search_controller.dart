@@ -20,7 +20,6 @@ class TabSearchController extends GetxController {
 
   @override
   void onInit() {
-
     // _registerPagingListener();
     debounce(filterName, (_) {
       if (teSearchController.text.trim() != "") {
@@ -82,7 +81,7 @@ class TabSearchController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
+      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {

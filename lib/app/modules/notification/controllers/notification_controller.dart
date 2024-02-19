@@ -32,7 +32,7 @@ class NotificationController extends GetxController {
 
         log("notification--------------> ${notification.length}");
 
-        log("data--------------> $data");
+        log(" $data");
       });
     } catch (e) {
       isLoading = false;

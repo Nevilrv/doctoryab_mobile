@@ -22,7 +22,7 @@ class AdsRepository {
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("data.data--------------> ${data.data}");
+    log("data. ${data.data}");
 
     return AdsModel.fromJson(data.data);
   }

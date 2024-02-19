@@ -681,7 +681,7 @@ class DrugStoreController extends TabHomeOthersController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
+      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
@@ -742,7 +742,7 @@ class DrugStoreLabController extends TabHomeOthersController {
         "expertiseRating": eRating.toString(),
         "labId": labId
       };
-      log("data--------------> ${data}");
+      log(" ${data}");
 
       var _response = await DoctorsRepository()
           .postDoctorFeedback(
@@ -1109,7 +1109,7 @@ class DrugStoreLabController extends TabHomeOthersController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
+      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {

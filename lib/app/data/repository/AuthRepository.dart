@@ -132,7 +132,7 @@ class AuthRepository {
       "city": city,
       "gender": gender
     };
-    log("data--------------> $data");
+    log(" $data");
     log("ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
     log("SettingsController.userToken--------------> ${SettingsController.userToken}");
     log("ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
@@ -177,7 +177,7 @@ class AuthRepository {
       "city": city, "phone": "0777777777"
       // "token": firebaseUserToken,
     };
-    log("data--------------> $data");
+    log(" $data");
     log(" ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
     log(" ApiConsts.addPersonalInfo--------------> ${SettingsController.userToken}");
 

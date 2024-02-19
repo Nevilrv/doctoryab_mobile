@@ -19,7 +19,6 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
 
   @override
   Widget build(BuildContext context) {
-    log("call---screen");
     final h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppAppBar.primaryAppBar(title: "all_diseases".tr),
@@ -28,7 +27,11 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
       body: GetBuilder<DiseaseTreatmentController>(
         builder: (controller) {
           return controller.isLoading == true
-              ? Center(child: CircularProgressIndicator(color: AppColors.primary,))
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                )
               : Container(
                   height: h,
                   child: Stack(
@@ -149,12 +152,13 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                         ),
                       ),
                       Positioned(
-                          bottom: 20,
-                          left: 20,
-                          right: 20,
-                          child: BottomBarView(
-                            isHomeScreen: false,
-                          ))
+                        bottom: 20,
+                        left: 20,
+                        right: 20,
+                        child: BottomBarView(
+                          isHomeScreen: false,
+                        ),
+                      ),
                     ],
                   ),
                 );

@@ -547,7 +547,7 @@ class LabsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
+      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {

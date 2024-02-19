@@ -175,7 +175,7 @@ class ChatRepository {
       data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }
@@ -202,7 +202,7 @@ class ChatRepository {
         "${ApiConsts.baseUrl}/message/file",
         data: formData,
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge));
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }
@@ -232,7 +232,7 @@ class ChatRepository {
       data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }

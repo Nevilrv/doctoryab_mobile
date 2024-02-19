@@ -30,7 +30,7 @@ class AppointmentHistoryController extends GetxController {
         .then((v) {
       // AdsModel v = AdsModel();
       appointmentList.clear();
-      log("v.data--------------> ${v.data}");
+      log("v. ${v.data}");
       if (v.data.isNotEmpty) {
         appointmentList.addAll(v.data);
         update();
@@ -68,7 +68,7 @@ class AppointmentHistoryController extends GetxController {
         "expertiseRating": eRating.toString(),
         "doctorId": doctorId
       };
-      log("data--------------> ${data}");
+      log(" ${data}");
 
       var _response = await DoctorsRepository()
           .postDoctorFeedback(

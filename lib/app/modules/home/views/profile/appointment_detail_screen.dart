@@ -263,35 +263,38 @@ class AppointmentDetailScreen extends StatelessWidget {
                               SizedBox(
                                 height: h * 0.03,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  AppGetDialog.showCancelAppointment(
-                                      doctorName: '');
-                                },
-                                child: Container(
-                                  width: w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(40),
-                                      color: AppColors.primary,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: Offset(0, 4),
-                                            blurRadius: 4,
-                                            color: AppColors.black
-                                                .withOpacity(0.1))
-                                      ]),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
-                                    child: Center(
-                                      child: Text(
-                                        "Cancel Appointments",
-                                        style: AppTextStyle.boldWhite10,
+                              history.visited == false
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        AppGetDialog.showCancelAppointment(
+                                            doctorName: '');
+                                      },
+                                      child: Container(
+                                        width: w,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            color: AppColors.primary,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: Offset(0, 4),
+                                                  blurRadius: 4,
+                                                  color: AppColors.black
+                                                      .withOpacity(0.1))
+                                            ]),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12),
+                                          child: Center(
+                                            child: Text(
+                                              "Cancel Appointments",
+                                              style: AppTextStyle.boldWhite10,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                    )
+                                  : SizedBox(),
                               SizedBox(
                                 height: h * 0.02,
                               ),

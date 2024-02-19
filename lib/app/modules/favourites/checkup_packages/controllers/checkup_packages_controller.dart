@@ -374,7 +374,7 @@ class CheckupPackagesController extends GetxController {
       }
       isLoading = false;
       update();
-      log("data--------------> ${data.data}");
+      log(" ${data.data}");
       log("drugFeedback--------------> ${packageFeedback.length}");
     }).catchError((e, s) {
       isLoading = false;
@@ -402,7 +402,7 @@ class CheckupPackagesController extends GetxController {
       isLoadingFeedback = false;
       update();
       packageReview(packageId: packageId);
-      log("data--------------> ${data.data}");
+      log(" ${data.data}");
       log("drugFeedback--------------> ${packageFeedback.length}");
     }).catchError((e, s) {
       isLoadingFeedback = false;

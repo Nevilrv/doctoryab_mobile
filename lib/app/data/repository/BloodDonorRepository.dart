@@ -87,7 +87,7 @@ class BloodDonorRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
-        log("data--------------> ${data}");
+        log(" ${data}");
 
         return data;
       },

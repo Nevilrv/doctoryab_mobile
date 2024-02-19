@@ -24,7 +24,7 @@ class AppointmentRepository {
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("data.data--------------> ${data.data}");
+    log("data. ${data.data}");
 
     return Histories.fromJson(data.data);
   }

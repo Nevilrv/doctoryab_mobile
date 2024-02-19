@@ -233,7 +233,7 @@ class DrugsController extends GetxController {
       }
       isLoading = false;
       update();
-      log("data--------------> ${data.data}");
+      log(" ${data.data}");
       log("drugFeedback--------------> ${drugFeedback.length}");
     }).catchError((e, s) {
       isLoading = false;
@@ -260,7 +260,7 @@ class DrugsController extends GetxController {
       isLoadingFeedback = false;
       update();
       drugReview(drugId: drugId);
-      log("data--------------> ${data.data}");
+      log(" ${data.data}");
       log("drugFeedback--------------> ${drugFeedback.length}");
     }).catchError((e, s) {
       isLoadingFeedback = false;

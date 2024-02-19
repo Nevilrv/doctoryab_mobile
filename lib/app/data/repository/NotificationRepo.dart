@@ -33,7 +33,7 @@ class NotificationRepository {
 
     var headers = ApiConsts().commonHeader;
     var data = {'language': language};
-    log("data--------------> $data");
+    log(" $data");
 
     var dio = Dio();
     var response = await _cachedDio.put(
