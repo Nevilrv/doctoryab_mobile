@@ -122,89 +122,134 @@ class UpdatedDrug {
   });
 
   factory UpdatedDrug.fromJson(Map<String, dynamic> json) => UpdatedDrug(
-        verified: json["verified"],
-        active: json["active"],
-        similarDrugs: List<dynamic>.from(json["similarDrugs"].map((x) => x)),
-        aGradeTags: List<dynamic>.from(json["aGradeTags"].map((x) => x)),
-        bGradeTags: List<dynamic>.from(json["bGradeTags"].map((x) => x)),
-        totalFeedbacks: json["totalFeedbacks"],
-        averageRating: json["averageRating"],
-        img: json["img"],
-        id: json["_id"],
-        englishDrugName: json["englishDrugName"],
-        localLanguageDrugName: json["localLanguageDrugName"],
-        genericName: json["genericName"],
-        barcode: json["barcode"],
-        therapeuticClass: json["therapeuticClass"],
-        pharmacologicClass: json["pharmacologicClass"],
-        usageDari: json["usageDari"],
-        usageEnglish: json["usageEnglish"],
-        usagePashto: json["usagePashto"],
-        sideEffectsEnglish: json["sideEffectsEnglish"],
-        sideEffectsPashto: json["sideEffectsPashto"],
-        sideEffectsDari: json["sideEffectsDari"],
-        dosagesEnglish: json["dosagesEnglish"],
-        dosagesDari: json["dosagesDari"],
-        dosagesPashto: json["dosagesPashto"],
-        packsAndPrices: json["packsAndPrices"],
-        wholeSalePrice: json["wholeSalePrice"],
-        warningsEnglish: json["warningsEnglish"],
-        warningsDari: json["warningsDari"],
-        warningsPashto: json["warningsPashto"],
-        company: json["company"],
-        origin: json["origin"],
-        notes: json["notes"],
-        drugTypeEnglish: json["drugTypeEnglish"],
-        drugTypeDari: json["drugTypeDari"],
-        drugTypePashto: json["drugTypePashto"],
-        quantity: json["quantity"],
-        adminId: AdminId.fromJson(json["adminId"]),
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
-        v: json["__v"],
+        verified: json["verified"] == null ? null : json["verified"],
+        active: json["active"] == null ? null : json["active"],
+        similarDrugs: json["similarDrugs"] == null
+            ? null
+            : List<dynamic>.from(json["similarDrugs"].map((x) => x)),
+        aGradeTags: json["aGradeTags"] == null
+            ? null
+            : List<dynamic>.from(json["aGradeTags"].map((x) => x)),
+        bGradeTags: json["bGradeTags"] == null
+            ? null
+            : List<dynamic>.from(json["bGradeTags"].map((x) => x)),
+        totalFeedbacks:
+            json["totalFeedbacks"] == null ? null : json["totalFeedbacks"],
+        averageRating:
+            json["averageRating"] == null ? null : json["averageRating"],
+        img: json["img"] == null ? null : json["img"],
+        id: json["_id"] == null ? null : json["_id"],
+        englishDrugName:
+            json["englishDrugName"] == null ? null : json["englishDrugName"],
+        localLanguageDrugName: json["localLanguageDrugName"] == null
+            ? null
+            : json["localLanguageDrugName"],
+        genericName: json["genericName"] == null ? null : json["genericName"],
+        barcode: json["barcode"] == null ? null : json["barcode"],
+        therapeuticClass:
+            json["therapeuticClass"] == null ? null : json["therapeuticClass"],
+        pharmacologicClass: json["pharmacologicClass"] == null
+            ? null
+            : json["pharmacologicClass"],
+        usageDari: json["usageDari"] == null ? null : json["usageDari"],
+        usageEnglish:
+            json["usageEnglish"] == null ? null : json["usageEnglish"],
+        usagePashto: json["usagePashto"] == null ? null : json["usagePashto"],
+        sideEffectsEnglish: json["sideEffectsEnglish"] == null
+            ? null
+            : json["sideEffectsEnglish"],
+        sideEffectsPashto: json["sideEffectsPashto"] == null
+            ? null
+            : json["sideEffectsPashto"],
+        sideEffectsDari:
+            json["sideEffectsDari"] == null ? null : json["sideEffectsDari"],
+        dosagesEnglish:
+            json["dosagesEnglish"] == null ? null : json["dosagesEnglish"],
+        dosagesDari: json["dosagesDari"] == null ? null : json["dosagesDari"],
+        dosagesPashto:
+            json["dosagesPashto"] == null ? null : json["dosagesPashto"],
+        packsAndPrices:
+            json["packsAndPrices"] == null ? null : json["packsAndPrices"],
+        wholeSalePrice:
+            json["wholeSalePrice"] == null ? null : json["wholeSalePrice"],
+        warningsEnglish:
+            json["warningsEnglish"] == null ? null : json["warningsEnglish"],
+        warningsDari:
+            json["warningsDari"] == null ? null : json["warningsDari"],
+        warningsPashto:
+            json["warningsPashto"] == null ? null : json["warningsPashto"],
+        company: json["company"] == null ? null : json["company"],
+        origin: json["origin"] == null ? null : json["origin"],
+        notes: json["notes"] == null ? null : json["notes"],
+        drugTypeEnglish:
+            json["drugTypeEnglish"] == null ? null : json["drugTypeEnglish"],
+        drugTypeDari:
+            json["drugTypeDari"] == null ? null : json["drugTypeDari"],
+        drugTypePashto:
+            json["drugTypePashto"] == null ? null : json["drugTypePashto"],
+        quantity: json["quantity"] == null ? null : json["quantity"],
+        adminId: json["adminId"] == null
+            ? null
+            : json["adminId"] == null
+                ? null
+                : AdminId.fromJson(
+                    Map<String, dynamic>.from(json["adminId"] as Map)),
+        createdAt: json["createdAt"] == null ? null : json["createdAt"],
+        updatedAt: json["updatedAt"] == null ? null : json["updatedAt"],
+        v: json["__v"] == null ? null : json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
-        "verified": verified,
-        "active": active,
-        "similarDrugs": List<dynamic>.from(similarDrugs.map((x) => x)),
-        "aGradeTags": List<dynamic>.from(aGradeTags.map((x) => x)),
-        "bGradeTags": List<dynamic>.from(bGradeTags.map((x) => x)),
-        "totalFeedbacks": totalFeedbacks,
-        "averageRating": averageRating,
-        "img": img,
-        "_id": id,
-        "englishDrugName": englishDrugName,
-        "localLanguageDrugName": localLanguageDrugName,
-        "genericName": genericName,
-        "barcode": barcode,
-        "therapeuticClass": therapeuticClass,
-        "pharmacologicClass": pharmacologicClass,
-        "usageDari": usageDari,
-        "usageEnglish": usageEnglish,
-        "usagePashto": usagePashto,
-        "sideEffectsEnglish": sideEffectsEnglish,
-        "sideEffectsPashto": sideEffectsPashto,
-        "sideEffectsDari": sideEffectsDari,
-        "dosagesEnglish": dosagesEnglish,
-        "dosagesDari": dosagesDari,
-        "dosagesPashto": dosagesPashto,
-        "packsAndPrices": packsAndPrices,
-        "wholeSalePrice": wholeSalePrice,
-        "warningsEnglish": warningsEnglish,
-        "warningsDari": warningsDari,
-        "warningsPashto": warningsPashto,
-        "company": company,
-        "origin": origin,
-        "notes": notes,
-        "drugTypeEnglish": drugTypeEnglish,
-        "drugTypeDari": drugTypeDari,
-        "drugTypePashto": drugTypePashto,
-        "quantity": quantity,
-        "adminId": adminId.toJson(),
-        "createdAt": createdAt,
-        "updatedAt": updatedAt,
-        "__v": v,
+        "verified": verified == null ? null : verified,
+        "active": active == null ? null : active,
+        "similarDrugs": similarDrugs == null
+            ? null
+            : List<dynamic>.from(similarDrugs.map((x) => x)),
+        "aGradeTags": aGradeTags == null
+            ? null
+            : List<dynamic>.from(aGradeTags.map((x) => x)),
+        "bGradeTags": bGradeTags == null
+            ? null
+            : List<dynamic>.from(bGradeTags.map((x) => x)),
+        "totalFeedbacks": totalFeedbacks == null ? null : totalFeedbacks,
+        "averageRating": averageRating == null ? null : averageRating,
+        "img": img == null ? null : img,
+        "_id": id == null ? null : id,
+        "englishDrugName": englishDrugName == null ? null : englishDrugName,
+        "localLanguageDrugName":
+            localLanguageDrugName == null ? null : localLanguageDrugName,
+        "genericName": genericName == null ? null : genericName,
+        "barcode": barcode == null ? null : barcode,
+        "therapeuticClass": therapeuticClass == null ? null : therapeuticClass,
+        "pharmacologicClass":
+            pharmacologicClass == null ? null : pharmacologicClass,
+        "usageDari": usageDari == null ? null : usageDari,
+        "usageEnglish": usageEnglish == null ? null : usageEnglish,
+        "usagePashto": usagePashto == null ? null : usagePashto,
+        "sideEffectsEnglish":
+            sideEffectsEnglish == null ? null : sideEffectsEnglish,
+        "sideEffectsPashto":
+            sideEffectsPashto == null ? null : sideEffectsPashto,
+        "sideEffectsDari": sideEffectsDari == null ? null : sideEffectsDari,
+        "dosagesEnglish": dosagesEnglish == null ? null : dosagesEnglish,
+        "dosagesDari": dosagesDari == null ? null : dosagesDari,
+        "dosagesPashto": dosagesPashto == null ? null : dosagesPashto,
+        "packsAndPrices": packsAndPrices == null ? null : packsAndPrices,
+        "wholeSalePrice": wholeSalePrice == null ? null : wholeSalePrice,
+        "warningsEnglish": warningsEnglish == null ? null : warningsEnglish,
+        "warningsDari": warningsDari == null ? null : warningsDari,
+        "warningsPashto": warningsPashto == null ? null : warningsPashto,
+        "company": company == null ? null : company,
+        "origin": origin == null ? null : origin,
+        "notes": notes == null ? null : notes,
+        "drugTypeEnglish": drugTypeEnglish == null ? null : drugTypeEnglish,
+        "drugTypeDari": drugTypeDari == null ? null : drugTypeDari,
+        "drugTypePashto": drugTypePashto == null ? null : drugTypePashto,
+        "quantity": quantity == null ? null : quantity,
+        "adminId": adminId == null ? null : adminId.toJson(),
+        "createdAt": createdAt == null ? null : createdAt,
+        "updatedAt": updatedAt == null ? null : updatedAt,
+        "__v": v == null ? null : v,
       };
 }
 
@@ -220,14 +265,14 @@ class AdminId {
   });
 
   factory AdminId.fromJson(Map<String, dynamic> json) => AdminId(
-        name: json["name"],
-        id: json["_id"],
-        email: json["email"],
+        name: json["name"] == null ? null : json["name"],
+        id: json["_id"] == null ? null : json["_id"],
+        email: json["email"] == null ? null : json["email"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "_id": id,
-        "email": email,
+        "name": name == null ? null : name,
+        "_id": id == null ? null : id,
+        "email": email == null ? null : email,
       };
 }

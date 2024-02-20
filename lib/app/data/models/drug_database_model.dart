@@ -48,7 +48,6 @@ class Datum {
   String pashtoName;
   String englishDrugName;
   String localLanguageDrugName;
-
   String genericName;
   String barcode;
   String therapeuticClass;

@@ -170,7 +170,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                         child: Text(
                                           index == 1
                                               ? controller
-                                                  .argumentsData.packsAndPrices
+                                                  .argumentsData.quantity
                                               : index == 2
                                                   ? controller.data[2]["text"]
                                                       .toString()

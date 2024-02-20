@@ -1,7 +1,13 @@
+import 'dart:developer';
+
+import 'package:doctor_yab/app/data/models/pregnancy_details_model.dart';
+import 'package:doctor_yab/app/data/repository/PregnancyTrackerRepository.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as d;
+import 'package:logger/logger.dart';
 
 class PregnancyTrackerNewController extends GetxController {
   bool isPregnant = false;
@@ -15,7 +21,7 @@ class PregnancyTrackerNewController extends GetxController {
   String formattedDueDate = d.DateFormat('dd/MM/yyyy').format(DateTime.now());
   String formattedConceptionDate =
       d.DateFormat('dd/MM/yyyy').format(DateTime.now());
-  int weekCount = 1;
+  int weekCount = 0;
 
   changeBool(bool value) {
     isPregnant = value;
@@ -35,6 +41,43 @@ class PregnancyTrackerNewController extends GetxController {
   decrementTrimster() {
     weekCount--;
     update();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    checkPregnancy();
+  }
+
+  /// API INTEGRATION ----------------------------------------------------------
+
+  bool isLoading = false;
+  PregnancyData pregnancyData;
+  bool isSaved = false;
+
+  void checkPregnancy() {
+    isLoading = true;
+    update();
+    PregnancyTrackerRepo().checkPregnancy().then((value) async {
+      if (value.data != null) {
+        pregnancyData = value.data;
+        if (value.isSaved == true) {
+          await Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
+          isLoading = false;
+        }
+        update();
+      }
+      isLoading = false;
+      update();
+    }).catchError((e, s) {
+      log("e--------------> $e");
+      isLoading = false;
+      update();
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {
+        if (this != null) checkPregnancy();
+      });
+    });
   }
 
   Future<DateTime> showDatePicker({

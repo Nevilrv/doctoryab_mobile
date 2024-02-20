@@ -125,4 +125,9 @@ class ApiConsts {
 
   ///language update
   static const String updateLanguage = '/user/language';
+
+  /// Pregnancy Tracker
+
+  static const String checkPregnancy = '/pregnancyTracker/checkPregnancy';
+  static const String calculateDate = '/pregnancyTracker/calculateDate';
 }

@@ -294,14 +294,18 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               color: AppColors.lightPurple2,
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppImages.circleInfo,
-                                height: 10,
-                                width: 10,
-                                color: AppColors.primary,
-                              ),
-                            ),
+                            child: SettingsController.getUpdatedDrugData.any(
+                                    (element) => element.id.contains(item.id))
+                                ? Icon(
+                                    Icons.favorite,
+                                    size: w * 0.03,
+                                    color: AppColors.primary,
+                                  )
+                                : Icon(
+                                    Icons.favorite_border,
+                                    size: w * 0.03,
+                                    color: AppColors.primary,
+                                  ),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -312,8 +316,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               height: h * 0.023,
                               width: w * 0.24,
                               decoration: BoxDecoration(
-                                color: SettingsController.drugData.any(
-                                        (element) =>
+                                color: SettingsController.getUpdatedDrugData
+                                        .any((element) =>
                                             element.id.contains(item.id))
                                     ? AppColors.primary
                                     : AppColors.lightPurple2,
@@ -325,27 +329,12 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                 children: [
                                   Text(
                                     "add_to_list".tr,
-                                    style: SettingsController.drugData.any(
-                                            (element) =>
+                                    style: SettingsController.getUpdatedDrugData
+                                            .any((element) =>
                                                 element.id.contains(item.id))
                                         ? AppTextStyle.boldWhite8
                                         : AppTextStyle.boldPrimary8,
                                   ),
-                                  SizedBox(
-                                    width: w * 0.005,
-                                  ),
-                                  SettingsController.drugData.any((element) =>
-                                          element.id.contains(item.id))
-                                      ? Icon(
-                                          Icons.favorite,
-                                          size: w * 0.02,
-                                          color: AppColors.white,
-                                        )
-                                      : Icon(
-                                          Icons.favorite_border,
-                                          size: w * 0.02,
-                                          color: AppColors.primary,
-                                        ),
                                 ],
                               ),
                             ),
@@ -516,14 +505,14 @@ class DrugsDatabaseView extends GetView<DrugsController> {
           if (s.isEmpty) {
             controller.search(s);
             controller.pageController.itemList.clear();
-            // controller.drugData(controller.pageController.firstPageKey);
+            // controller.getUpdatedDrugData(controller.pageController.firstPageKey);
             controller.updatedDrugData(controller.pageController.firstPageKey);
           }
         },
         onSubmitted: (v) async {
           controller.search(v);
           controller.pageController.itemList.clear();
-          // controller.drugData(controller.pageController.firstPageKey);
+          // controller.getUpdatedDrugData(controller.pageController.firstPageKey);
           controller.updatedDrugData(controller.pageController.firstPageKey);
         },
         style: AppTextStyle.mediumPrimary11,

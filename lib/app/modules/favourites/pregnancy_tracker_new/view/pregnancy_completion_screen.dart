@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -31,10 +32,14 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                     onTap: () {
                       Get.back();
                     },
-                    child: Image.asset(
-                      AppImages.arrowImage,
-                      color: AppColors.white,
-                      height: h * 0.03,
+                    child: RotatedBox(
+                      quarterTurns:
+                          SettingsController.appLanguge == 'English' ? 4 : 2,
+                      child: Image.asset(
+                        AppImages.arrowImage,
+                        color: AppColors.white,
+                        height: h * 0.03,
+                      ),
                     ),
                   ),
                 ),
@@ -86,7 +91,14 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: w * 0.09),
+                    padding: EdgeInsets.only(
+                      left: SettingsController.appLanguge == 'English'
+                          ? w * 0.09
+                          : w * 0,
+                      right: SettingsController.appLanguge == 'English'
+                          ? w * 0.0
+                          : w * 0.09,
+                    ),
                     child: Text(
                       'Next',
                       style: TextStyle(
@@ -97,11 +109,22 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: w * 0.02),
-                    child: Image.asset(
-                      AppImages.arrowImage,
-                      color: AppColors.white,
-                      height: h * 0.03,
+                    padding: EdgeInsets.only(
+                      right: SettingsController.appLanguge == 'English'
+                          ? w * 0.02
+                          : w * 0,
+                      left: SettingsController.appLanguge == 'English'
+                          ? w * 0.0
+                          : w * 0.02,
+                    ),
+                    child: RotatedBox(
+                      quarterTurns:
+                          SettingsController.appLanguge == 'English' ? 4 : 2,
+                      child: Image.asset(
+                        AppImages.arrowImage,
+                        color: AppColors.white,
+                        height: h * 0.03,
+                      ),
                     ),
                   ),
                 ],

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:doctor_yab/app/data/models/city_model.dart';
@@ -128,12 +129,21 @@ class SettingsController extends GetxController {
     AppStatics.hive.authBox.put("user", user.toJson());
   }
 
-  static List<Datum> get drugData {
+  // static List<Datum> get drugData {
+  //   var _drug = AppStatics.hive.authBox.get("drug");
+  //   List<Datum> data = _drug == null
+  //       ? []
+  //       : List<Datum>.from(_drug
+  //           .map((x) => Datum.fromJson(Map<String, dynamic>.from(x as Map))));
+  //   return data;
+  // }
+
+  static List<UpdatedDrug> get getUpdatedDrugData {
     var _drug = AppStatics.hive.authBox.get("drug");
-    List<Datum> data = _drug == null
+    List<UpdatedDrug> data = _drug == null
         ? []
-        : List<Datum>.from(_drug
-            .map((x) => Datum.fromJson(Map<String, dynamic>.from(x as Map))));
+        : List<UpdatedDrug>.from(_drug.map(
+            (x) => UpdatedDrug.fromJson(Map<String, dynamic>.from(x as Map))));
     return data;
   }
 
@@ -157,14 +167,14 @@ class SettingsController extends GetxController {
   // }
 
   static set updatedDrugData(List<UpdatedDrug> drugItem) {
-    if (drugData == null || drugData.isEmpty) {
+    if (getUpdatedDrugData == null || getUpdatedDrugData.isEmpty) {
       AppStatics.hive.authBox.put("drug", [drugItem.first.toJson()]);
     } else {
-      List drugDataList =
-          List<Map<String, dynamic>>.from(drugData.map((x) => x.toJson()));
+      List drugDataList = List<Map<String, dynamic>>.from(
+          getUpdatedDrugData.map((x) => x.toJson()));
 
-      int selectedIndex =
-          drugData.indexWhere((element) => element.id == drugItem.first.id);
+      int selectedIndex = getUpdatedDrugData
+          .indexWhere((element) => element.id == drugItem.first.id);
 
       if (selectedIndex < 0) {
         drugDataList.add(drugItem.first.toJson());

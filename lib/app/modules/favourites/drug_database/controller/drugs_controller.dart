@@ -120,37 +120,35 @@ class DrugsController extends GetxController {
 
       log('-----data------${data.data}');
 
-      if (data != null) {
-        if (data == null) {
-          data.data["data"] = [];
-        }
-        print('==Datum=Drug==>${data.data}');
+      if (data == null) {
+        data.data["data"] = [];
+      }
+      print('==Datum=Drug==>${data.data}');
 
-        var newItems = <UpdatedDrug>[];
-        var promotedItems = <UpdatedDrug>[];
-        data.data["data"].forEach((item) {
-          log("item['active']----->${item['active']}");
-          if (item['active'] == true) {
-            promotedItems.add(UpdatedDrug.fromJson(item));
-          } else {
-            newItems.add(UpdatedDrug.fromJson(item));
-          }
-        });
-        // data.data["data"].forEach((item) {
-        //   newItems.add(Datum.fromJson(item));
-        // });
-        newItems.forEach((element) {
-          promotedItems.add(element);
-        });
-
-        // var newItems = DrugStoresModel.fromJson(data.data).data;
-        print('==Datum=Drug==>${promotedItems.length}======$page');
-        if (promotedItems == null || promotedItems.length == 0) {
-          pageController.appendLastPage(promotedItems);
+      var newItems = <UpdatedDrug>[];
+      var promotedItems = <UpdatedDrug>[];
+      data.data["data"].forEach((item) {
+        log("item['active']----->${item['active']}");
+        if (item['active'] == true) {
+          promotedItems.add(UpdatedDrug.fromJson(item));
         } else {
-          pageController.appendPage(promotedItems, page + 1);
+          newItems.add(UpdatedDrug.fromJson(item));
         }
-      } else {}
+      });
+      // data.data["data"].forEach((item) {
+      //   newItems.add(Datum.fromJson(item));
+      // });
+      newItems.forEach((element) {
+        promotedItems.add(element);
+      });
+
+      // var newItems = DrugStoresModel.fromJson(data.data).data;
+      print('==Datum=Drug==>${promotedItems.length}======$page');
+      if (promotedItems == null || promotedItems.length == 0) {
+        pageController.appendLastPage(promotedItems);
+      } else {
+        pageController.appendPage(promotedItems, page + 1);
+      }
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pageController.error = e;

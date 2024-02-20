@@ -1,9 +1,15 @@
+import 'dart:developer';
+
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
@@ -36,7 +42,9 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                         radius: 22,
                         backgroundColor: AppColors.white,
                         child: Icon(
-                          Icons.keyboard_arrow_left,
+                          SettingsController.appLanguge == 'English'
+                              ? Icons.keyboard_arrow_left
+                              : Icons.keyboard_arrow_right,
                           color: AppColors.primary,
                         ),
                       ),
@@ -57,308 +65,430 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: h * 0.015,
-              ),
-
-              /// SLIDER
-              Row(
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  RotatedBox(
-                    quarterTurns: 2,
-                    child: GestureDetector(
-                      onTap: () {
-                        if (controller.weekCount > 1) {
-                          controller.decrementTrimster();
-                        }
-                      },
-                      child: Image.asset(
-                        AppImages.arrowImage,
-                        height: h * 0.036,
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: h * 0.02,
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: w * 0.048),
-                    child: new LinearPercentIndicator(
-                      width: MediaQuery.of(context).size.width - 108,
-                      animation: true,
-                      lineHeight: h * 0.05,
-                      animationDuration: 2500,
-                      percent: (controller.weekCount / 39),
-                      center: Text(
-                        "Week: ${controller.weekCount}",
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      linearStrokeCap: LinearStrokeCap.roundAll,
-                      progressColor: Color(0xff00BF63),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (controller.weekCount == 39) {
-                        Get.toNamed(Routes.PREGNANCY_COMPLETION);
-                      }
 
-                      if (controller.weekCount < 39) {
-                        controller.incrementTrimster();
-                      }
-                    },
-                    child: Image.asset(AppImages.arrowImage, height: h * 0.036),
-                  ),
-                ],
-              ),
-
-              /// Week Wise Data
-
-              Container(
-                width: w,
-                // height: h * 0.4,
-                margin: EdgeInsets.symmetric(
-                    horizontal: w * 0.04, vertical: h * 0.03),
-                decoration: BoxDecoration(
-                  color: (controller.weekCount > 0 && controller.weekCount < 13)
-                      ? Color(0xffE1F0DA)
-                      : (controller.weekCount > 12 && controller.weekCount < 28)
-                          ? Color(0xffF2E5FF)
-                          : Color(0xffFFDEE8),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: h * 0.015,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: w * 0.06),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      /// SLIDER
+                      Row(
                         children: [
-                          Column(
-                            children: [
-                              Text(
-                                'Conception Date',
-                                style: TextStyle(
-                                  color: Color(0xffFF4181),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Text(
-                                'Fri, 15 Dec 2023',
-                                style: TextStyle(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: h * 0.06,
-                            width: 2,
-                            color: AppColors.white,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                'Due Date',
-                                style: TextStyle(
-                                  color: Color(0xffFF4181),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Text(
-                                'Fri, 06 Sep 2024',
-                                style: TextStyle(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: w * 0.025,
-                        vertical: h * 0.035,
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                              (controller.weekCount > 0 &&
-                                      controller.weekCount < 13)
-                                  ? AppImages.trimster1
-                                  : (controller.weekCount > 12 &&
-                                          controller.weekCount < 28)
-                                      ? AppImages.trimster2
-                                      : AppImages.trimster3,
-                              height: h * 0.21),
                           SizedBox(
-                            width: w * 0.03,
+                            width: 5,
                           ),
-                          new CircularPercentIndicator(
-                            radius: h * 0.185,
-                            lineWidth: w * 0.038,
-                            animation: true,
-                            percent: controller.weekCount / 39,
-                            center: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  (controller.weekCount > 0 &&
-                                          controller.weekCount < 13)
-                                      ? '1st Trimster'
-                                      : (controller.weekCount > 12 &&
-                                              controller.weekCount < 28)
-                                          ? '2nd Trimster'
-                                          : '3rd Trimster',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.black,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                Divider(
-                                  indent: w * 0.12,
-                                  endIndent: w * 0.12,
-                                  thickness: 1,
-                                  color: Color(0xff737373),
-                                ),
-                                Text(
-                                  (controller.weekCount > 0 &&
-                                          controller.weekCount < 13)
-                                      ? '217 Days left'
-                                      : (controller.weekCount > 12 &&
-                                              controller.weekCount < 28)
-                                          ? '129 Days left'
-                                          : '35 Days left',
-                                )
-                              ],
+                          RotatedBox(
+                            quarterTurns:
+                                SettingsController.appLanguge == 'English'
+                                    ? 2
+                                    : 4,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (controller.weekCount > 0) {
+                                  controller.decrementTrimster();
+                                }
+                              },
+                              child: Image.asset(
+                                AppImages.arrowImage,
+                                height: h * 0.036,
+                              ),
                             ),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: AppColors.primary,
-                            backgroundColor: AppColors.white,
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: w * 0.048),
+                            child: new LinearPercentIndicator(
+                              width: MediaQuery.of(context).size.width - 108,
+                              animation: true,
+                              lineHeight: h * 0.05,
+                              animationDuration: 2500,
+                              percent: (controller.pregnancyData
+                                      .ptModules[controller.weekCount].week /
+                                  39),
+                              center: Text(
+                                "Week: ${controller.pregnancyData.ptModules[controller.weekCount].week}",
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              linearStrokeCap: LinearStrokeCap.roundAll,
+                              progressColor: Color(0xff00BF63),
+                              backgroundColor: Colors.transparent,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (controller.pregnancyData
+                                      .ptModules[controller.weekCount].week ==
+                                  39) {
+                                Get.toNamed(Routes.PREGNANCY_COMPLETION);
+                              }
+
+                              if (controller.weekCount <
+                                  controller.pregnancyData.ptModules.length -
+                                      1) {
+                                controller.incrementTrimster();
+                              }
+                            },
+                            child: RotatedBox(
+                              quarterTurns:
+                                  SettingsController.appLanguge == 'English'
+                                      ? 4
+                                      : 2,
+                              child: Image.asset(AppImages.arrowImage,
+                                  height: h * 0.036),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      height: h * 0.07,
-                      width: w,
-                      decoration: BoxDecoration(
-                        color: (controller.weekCount > 0 &&
-                                controller.weekCount < 13)
-                            ? Color(0xff80CBC4)
-                            : (controller.weekCount > 12 &&
-                                    controller.weekCount < 28)
-                                ? Color(0xffBC92FF)
-                                : Color(0xffFFA4A4),
-                        borderRadius:
-                            BorderRadius.vertical(bottom: Radius.circular(16)),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: w * 0.08),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+
+                      /// Week Wise Data
+
+                      Container(
+                        width: w,
+                        // height: h * 0.4,
+                        margin: EdgeInsets.symmetric(
+                            horizontal: w * 0.04, vertical: h * 0.03),
+                        decoration: BoxDecoration(
+                          color: (controller
+                                          .pregnancyData
+                                          .ptModules[controller.weekCount]
+                                          .week >
+                                      0 &&
+                                  controller
+                                          .pregnancyData
+                                          .ptModules[controller.weekCount]
+                                          .week <
+                                      13)
+                              ? Color(0xffE1F0DA)
+                              : (controller
+                                              .pregnancyData
+                                              .ptModules[controller.weekCount]
+                                              .week >
+                                          12 &&
+                                      controller
+                                              .pregnancyData
+                                              .ptModules[controller.weekCount]
+                                              .week <
+                                          28)
+                                  ? Color(0xffF2E5FF)
+                                  : Color(0xffFFDEE8),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Size'),
-                                Text(
-                                  (controller.weekCount > 0 &&
-                                          controller.weekCount < 13)
-                                      ? 'Cherry'
-                                      : (controller.weekCount > 12 &&
-                                              controller.weekCount < 28)
-                                          ? 'Corn'
-                                          : 'Pineapple',
-                                  style: TextStyle(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w700,
+                            SizedBox(height: h * 0.015),
+                            Padding(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: w * 0.06),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Conception Date',
+                                        style: TextStyle(
+                                          color: Color(0xffFF4181),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${DateFormat('EE, dd MMM yyyy').format(DateTime.parse(controller.pregnancyData.conceptionDate))}',
+                                        style: TextStyle(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    height: h * 0.06,
+                                    width: 2,
+                                    color: AppColors.white,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Due Date',
+                                        style: TextStyle(
+                                          color: Color(0xffFF4181),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${DateFormat('EE, dd MMM yyyy').format(DateTime.parse(controller.pregnancyData.dueDate))}',
+                                        style: TextStyle(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: w * 0.025,
+                                vertical: h * 0.035,
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.network(
+                                      ApiConsts.hostUrl +
+                                          controller
+                                              .pregnancyData
+                                              .ptModules[controller.weekCount]
+                                              .img,
+                                      height: h * 0.21),
+                                  SizedBox(
+                                    width: w * 0.03,
+                                  ),
+                                  new CircularPercentIndicator(
+                                    radius: h * 0.185,
+                                    lineWidth: w * 0.038,
+                                    animation: true,
+                                    percent: controller
+                                            .pregnancyData
+                                            .ptModules[controller.weekCount]
+                                            .week /
+                                        39,
+                                    center: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '${controller.pregnancyData.ptModules[controller.weekCount].trimister} Trimster',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.black,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Divider(
+                                          indent: w * 0.12,
+                                          endIndent: w * 0.12,
+                                          thickness: 1,
+                                          color: Color(0xff737373),
+                                        ),
+                                        Text(
+                                          '0 Days left',
+                                        )
+                                      ],
+                                    ),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor: AppColors.primary,
+                                    backgroundColor: AppColors.white,
+                                  ),
+                                ],
+                              ),
                             ),
                             Container(
-                              height: h * 0.055,
-                              width: 2,
-                              color: AppColors.white,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Weight'),
-                                Text(
-                                  (controller.weekCount > 0 &&
-                                          controller.weekCount < 13)
-                                      ? '30 gr'
-                                      : (controller.weekCount > 12 &&
-                                              controller.weekCount < 28)
-                                          ? '0.4 kg'
-                                          : '2.5 kg',
-                                  style: TextStyle(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                              height: h * 0.07,
+                              width: w,
+                              decoration: BoxDecoration(
+                                color: (controller
+                                                .pregnancyData
+                                                .ptModules[controller.weekCount]
+                                                .week >
+                                            0 &&
+                                        controller
+                                                .pregnancyData
+                                                .ptModules[controller.weekCount]
+                                                .week <
+                                            13)
+                                    ? Color(0xff80CBC4)
+                                    : (controller
+                                                    .pregnancyData
+                                                    .ptModules[
+                                                        controller.weekCount]
+                                                    .week >
+                                                12 &&
+                                            controller
+                                                    .pregnancyData
+                                                    .ptModules[
+                                                        controller.weekCount]
+                                                    .week <
+                                                28)
+                                        ? Color(0xffBC92FF)
+                                        : Color(0xffFFA4A4),
+                                borderRadius: BorderRadius.vertical(
+                                    bottom: Radius.circular(16)),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: w * 0.08),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Size'),
+                                        Text(
+                                          SettingsController.appLanguge ==
+                                                  'English'
+                                              ? controller
+                                                      .pregnancyData
+                                                      .ptModules[
+                                                          controller.weekCount]
+                                                      .sizeEnglish ??
+                                                  "None"
+                                              : SettingsController.appLanguge ==
+                                                      'پشتو'
+                                                  ? controller
+                                                          .pregnancyData
+                                                          .ptModules[controller
+                                                              .weekCount]
+                                                          .sizePashto ??
+                                                      "None"
+                                                  : controller
+                                                          .pregnancyData
+                                                          .ptModules[controller
+                                                              .weekCount]
+                                                          .sizeDari ??
+                                                      "None",
+                                          style: TextStyle(
+                                            color: AppColors.black,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      height: h * 0.055,
+                                      width: 2,
+                                      color: AppColors.white,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Weight'),
+                                        Text(
+                                          SettingsController.appLanguge ==
+                                                  'English'
+                                              ? controller
+                                                      .pregnancyData
+                                                      .ptModules[
+                                                          controller.weekCount]
+                                                      .weightEnglish ??
+                                                  "None"
+                                              : SettingsController.appLanguge ==
+                                                      'پشتو'
+                                                  ? controller
+                                                          .pregnancyData
+                                                          .ptModules[controller
+                                                              .weekCount]
+                                                          .weightPashto ??
+                                                      "None"
+                                                  : controller
+                                                          .pregnancyData
+                                                          .ptModules[controller
+                                                              .weekCount]
+                                                          .weightDari ??
+                                                      "None",
+                                          style: TextStyle(
+                                            color: AppColors.black,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      height: h * 0.055,
+                                      width: 2,
+                                      color: AppColors.white,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Length'),
+                                        Text(
+                                          SettingsController.appLanguge ==
+                                                  'English'
+                                              ? controller
+                                                      .pregnancyData
+                                                      .ptModules[
+                                                          controller.weekCount]
+                                                      .lengthEnglish ??
+                                                  "None"
+                                              : SettingsController.appLanguge ==
+                                                      'پشتو'
+                                                  ? controller
+                                                          .pregnancyData
+                                                          .ptModules[controller
+                                                              .weekCount]
+                                                          .lengthPashto ??
+                                                      "None"
+                                                  : controller
+                                                          .pregnancyData
+                                                          .ptModules[controller
+                                                              .weekCount]
+                                                          .lengthDari ??
+                                                      "None",
+                                          style: TextStyle(
+                                            color: AppColors.black,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            Container(
-                              height: h * 0.055,
-                              width: 2,
-                              color: AppColors.white,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Length'),
-                                Text(
-                                  (controller.weekCount > 0 &&
-                                          controller.weekCount < 13)
-                                      ? '4 cm'
-                                      : (controller.weekCount > 12 &&
-                                              controller.weekCount < 28)
-                                          ? '15 cm'
-                                          : '45 cm',
-                                  style: TextStyle(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
 
-              Center(
-                child: Text(
-                  'At this week!',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
+                      Center(
+                        child: Text(
+                          'At this week!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+                        child: Html(
+                          data: SettingsController.appLanguge == 'English'
+                              ? "${controller.pregnancyData.ptModules[controller.weekCount].weekInfoEnglish}"
+                              : SettingsController.appLanguge == 'پشتو'
+                                  ? "${controller.pregnancyData.ptModules[controller.weekCount].weekInfoPashto}"
+                                  : "${controller.pregnancyData.ptModules[controller.weekCount].weekInfoDari}",
+                          customTextAlign: (_) =>
+                              SettingsController.appLanguge == "English"
+                                  ? TextAlign.left
+                                  : TextAlign.right,
+                          onImageError: (exception, stackTrace) {
+                            return Image.network(
+                                "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
+              )
             ],
           );
         },
