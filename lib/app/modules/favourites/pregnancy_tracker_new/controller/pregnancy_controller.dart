@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/pregnancy_details_model.dart';
 import 'package:doctor_yab/app/data/repository/PregnancyTrackerRepository.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart' as d;
 import 'package:logger/logger.dart';
 
 class PregnancyTrackerNewController extends GetxController {
+  CancelToken cancelToken = CancelToken();
   bool isPregnant = false;
   String type = '';
   bool openInfo = false;
@@ -45,8 +47,9 @@ class PregnancyTrackerNewController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
+    log('-------ssss');
     checkPregnancy();
+    super.onInit();
   }
 
   /// API INTEGRATION ----------------------------------------------------------
@@ -58,14 +61,21 @@ class PregnancyTrackerNewController extends GetxController {
   void checkPregnancy() {
     isLoading = true;
     update();
-    PregnancyTrackerRepo().checkPregnancy().then((value) async {
+    PregnancyTrackerRepo()
+        .checkPregnancy(cancelToken: cancelToken)
+        .then((value) async {
+      log('-----value.isSaved-----${value.isSaved}');
       if (value.data != null) {
-        pregnancyData = value.data;
         if (value.isSaved == true) {
-          await Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
-          isLoading = false;
+          Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
         }
-        update();
+        pregnancyData = value.data;
+        value.data.ptModules.forEach((element) {
+          if (element.week == value.data.currentWeek) {
+            weekCount = value.data.ptModules.indexWhere(
+                (element) => element.week == value.data.currentWeek);
+          }
+        });
       }
       isLoading = false;
       update();
@@ -75,8 +85,37 @@ class PregnancyTrackerNewController extends GetxController {
       update();
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) checkPregnancy();
+        // if (this != null) checkPregnancy();
       });
+    });
+  }
+
+  void pregnancyCalculation({Map<String, dynamic> body}) {
+    isLoading = true;
+    update();
+    PregnancyTrackerRepo()
+        .calculateDate(body: body, cancelToken: cancelToken)
+        .then((value) async {
+      if (value.data != null) {
+        pregnancyData = value.data;
+        // value.data.ptModules.forEach((element) {
+        //   if (element.week == value.data.currentWeek) {
+        weekCount = value.data.ptModules
+            .indexWhere((element) => element.week == value.data.currentWeek);
+        // }
+        // });
+
+        isLoading = false;
+        update();
+      }
+      isLoading = false;
+      update();
+    }).catchError((e, s) {
+      log("e--------------> $e");
+      isLoading = false;
+      update();
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {});
     });
   }
 

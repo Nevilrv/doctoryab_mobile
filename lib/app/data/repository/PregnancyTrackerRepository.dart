@@ -9,21 +9,33 @@ class PregnancyTrackerRepo {
   Dio dio = AppDioService.getDioInstance();
   var _cachedDio = AppDioService.getCachedDio;
 
-  Future<PregnancyDetailsModel> checkPregnancy() async {
+  Future<PregnancyDetailsModel> checkPregnancy(
+      {CancelToken cancelToken}) async {
     var response = await _cachedDio.get(
       ApiConsts.checkPregnancy,
+      cancelToken: cancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 
-    return PregnancyDetailsModel.fromJson(response.data);
+    log('------vvv----${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      return PregnancyDetailsModel.fromJson(response.data);
+    } else {
+      return response.data;
+    }
   }
 
-  Future<dynamic> calculateDate() async {
-    var response = await _cachedDio.get(
+  Future<PregnancyDetailsModel> calculateDate(
+      {Map<String, dynamic> body, CancelToken cancelToken}) async {
+    var response = await _cachedDio.post(
       ApiConsts.calculateDate,
+      data: body,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 
-    return response;
+    log('-----response------${response.statusCode}');
+
+    return PregnancyDetailsModel.fromJson(response.data);
   }
 }

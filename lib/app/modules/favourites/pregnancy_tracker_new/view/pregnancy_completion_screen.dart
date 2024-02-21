@@ -45,7 +45,7 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                 ),
                 Center(
                   child: Text(
-                    'Congratulations',
+                    'congratulations1'.tr,
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 21,
@@ -63,7 +63,7 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: h * 0.06),
             child: Text(
-              'Congratulations !',
+              'congratulations'.tr,
               style: TextStyle(
                   fontFamily: 'Shrikhand',
                   fontSize: 25,
@@ -100,7 +100,7 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                           : w * 0.09,
                     ),
                     child: Text(
-                      'Next',
+                      'next'.tr,
                       style: TextStyle(
                         color: AppColors.white,
                         fontWeight: FontWeight.w800,

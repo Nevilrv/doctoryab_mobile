@@ -43,7 +43,7 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                     ),
                     Center(
                       child: Text(
-                        'Vaccinate your baby',
+                        'vaccinate_your_baby'.tr,
                         style: TextStyle(
                           color: AppColors.white,
                           fontSize: 21,
@@ -67,7 +67,7 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                           padding: EdgeInsets.symmetric(vertical: h * 0.02),
                           child: Center(
                             child: Text(
-                              'Vaccinate your baby',
+                              'vaccinate_your_baby'.tr,
                               style: TextStyle(
                                 color: AppColors.black,
                                 fontSize: 22,
@@ -101,7 +101,7 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                                       width: w * 0.03,
                                     ),
                                     Text(
-                                      'AGE',
+                                      'age'.tr,
                                       style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: 17,
@@ -114,7 +114,7 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Recommended Vaccines',
+                                      'recommended_vaccines'.tr,
                                       style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: 17,
@@ -236,7 +236,7 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      'About Vaccination',
+                                      'about_vaccination'.tr,
                                       style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: 18,

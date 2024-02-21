@@ -15,6 +15,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Color(0xffF2F2F2),
       body: GetBuilder<PregnancyTrackerNewController>(
         builder: (controller) {
           return controller.isLoading == true
@@ -47,7 +48,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                           ),
                           Center(
                             child: Text(
-                              'Pregnancy Tracker',
+                              'pregnancy_tracker'.tr,
                               style: TextStyle(
                                 color: AppColors.white,
                                 fontSize: 18,
@@ -68,7 +69,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                 height: h * 0.05,
                               ),
                               Text(
-                                'Are you Pregnant?',
+                                'are_you_pregnant'.tr,
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: AppColors.primary,
@@ -112,7 +113,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                                   BorderRadius.circular(12),
                                             ),
                                             child: Text(
-                                              'YES',
+                                              'yes'.tr,
                                               style: TextStyle(
                                                 color: AppColors.white,
                                                 fontSize: 14,
@@ -158,7 +159,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                                   BorderRadius.circular(12),
                                             ),
                                             child: Text(
-                                              'NO',
+                                              'no'.tr,
                                               style: TextStyle(
                                                 color: AppColors.white,
                                                 fontSize: 14,
@@ -204,7 +205,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                   height: h * 0.05,
                                 ),
                                 Text(
-                                  'Calculation Methods',
+                                  'calculation_method'.tr,
                                   style: TextStyle(
                                     color: AppColors.primary,
                                     fontSize: 20,
@@ -239,7 +240,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                               AppImages.periodsDate),
                                         ),
                                         Text(
-                                          'Last Period',
+                                          'last_period'.tr,
                                           style: TextStyle(
                                             color: AppColors.primary,
                                             fontSize: 16,
@@ -279,7 +280,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                           child: Image.asset(AppImages.dueDate),
                                         ),
                                         Text(
-                                          'Due Date',
+                                          'due_date'.tr,
                                           style: TextStyle(
                                             color: AppColors.primary,
                                             fontSize: 16,
@@ -320,7 +321,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                               AppImages.conceptionDate),
                                         ),
                                         Text(
-                                          'Conception Date',
+                                          'conception_date'.tr,
                                           style: TextStyle(
                                             color: AppColors.primary,
                                             fontSize: 16,

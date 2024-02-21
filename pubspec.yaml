@@ -117,6 +117,7 @@ dependencies:
   in_app_update: ^4.2.2
   just_audio: ^0.9.36
   percent_indicator: ^3.0.1
+  remaths: ^0.0.7
 
 #  ca-app-pub-7346350725133754~2691623855
 #  ca-app-pub-7346350725133754/9537971919
