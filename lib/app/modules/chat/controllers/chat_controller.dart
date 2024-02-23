@@ -136,23 +136,27 @@ class ChatController extends GetxController {
   Future<void> playFunc() async {
     await recordingPlayer
         .open(
-          Audio.file(pathToAudio),
-          autoStart: true,
-          showNotification: true,
-        )
-        .then((value) {});
-    durationChangedSubscription1 =
-        audioPlayer1.onDurationChanged.listen((duration) {
-      duration1 = duration;
-      update();
+      Audio.file(pathToAudio),
+      autoStart: true,
+      showNotification: true,
+    )
+        .then((value) {
+      // log("value--------------->${value}");
     });
+    recordingPlayer.play();
+    // recordingPlayer.playOrPause();
+    duration1 = recordingPlayer.realtimePlayingInfos.value.duration;
+
+    // recordingPlayer.realtimePlayingInfos.listen((event) {
+    //   log('------event Duration-----${event.currentPosition}');
+    //   position1 = event.currentPosition;
+    // });
+
     update();
-    // if (recordingPlayer.is == true) {
-    //   playAudio.value = false;
-    // }
   }
 
   Future<void> stopPlayFunc() async {
+    // recordingPlayer.pause();
     recordingPlayer.stop();
   }
 
@@ -206,7 +210,28 @@ class ChatController extends GetxController {
   Duration position1;
   Duration duration1;
   int current1 = -1;
+  int current2 = -1;
   int voiceTrackRowSize;
+  String convertTime(int time) {
+    int centiseconds = (time % 1000) ~/ 10;
+    time ~/= 1000;
+    int seconds = time % 60;
+    time ~/= 60;
+    int minutes = time % 60;
+    time ~/= 60;
+    int hours = time;
+    if (hours > 0) {
+      return "$hours:${_twoDigits(minutes)}:${seconds.toString().padLeft(2, '0')}";
+    } else if (minutes > 0) {
+      return "$minutes:${seconds.toString().padLeft(2, '0')}";
+    } else {
+      return "00:${seconds.toString().padLeft(2, '0')}";
+    }
+  }
+
+  String _twoDigits(int time) {
+    return "${time < 10 ? '0' : ''}$time";
+  }
 
   Future<void> play1({String path}) {
     if (path == '') {
@@ -619,6 +644,7 @@ class ChatController extends GetxController {
 
     positionChangedSubscription1 =
         audioPlayer1.onPositionChanged.listen((position) {
+      log("position------>${position}");
       position1 = position;
       update();
     });
@@ -639,18 +665,17 @@ class ChatController extends GetxController {
     playerStateChangedSubscription1 =
         audioPlayer1.onPlayerComplete.listen((state) async {
       await stop1();
-      update();
     });
 
     positionChangedSubscription1 =
         audioPlayer1.onPositionChanged.listen((position) {
       position1 = position;
-      update();
     });
+
     durationChangedSubscription1 =
         audioPlayer1.onDurationChanged.listen((duration) {
+      log("duration----->${duration.inSeconds}");
       duration1 = duration;
-      update();
     });
     super.onInit();
   }
@@ -685,6 +710,7 @@ class ChatController extends GetxController {
     }
     scrollC.dispose();
     chatCancelToken.cancel();
+    recordingPlayer.dispose();
     super.dispose();
   }
 
@@ -727,7 +753,7 @@ class ChatController extends GetxController {
                   url: '${ApiConsts.hostUrl}${element.voiceNotes[0]}');
               voiceDurationList.add(d);
 
-              log('-------ELEMENET----${voiceDurationList}');
+              log('-------ELEMENET----$voiceDurationList');
             }
           });
           // chat.forEach((element) {

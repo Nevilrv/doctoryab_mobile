@@ -32,7 +32,7 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                       quarterTurns: 2,
                       child: GestureDetector(
                         onTap: () {
-                          Get.back();
+                          Get.offAllNamed(Routes.HOME, arguments: {'id': 2});
                         },
                         child: Image.asset(
                           AppImages.arrowImage,
@@ -51,9 +51,14 @@ class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.home,
-                      color: AppColors.white,
+                    GestureDetector(
+                      onTap: () {
+                        Get.offAllNamed(Routes.HOME, arguments: {'id': 2});
+                      },
+                      child: Icon(
+                        Icons.home,
+                        color: AppColors.white,
+                      ),
                     )
                   ],
                 ),

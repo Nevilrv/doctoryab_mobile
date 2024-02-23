@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -53,9 +55,14 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                     ),
                   ),
                 ),
-                Icon(
-                  Icons.home,
-                  color: AppColors.white,
+                GestureDetector(
+                  onTap: () {
+                    Get.offAllNamed(Routes.HOME, arguments: {'id': 2});
+                  },
+                  child: Icon(
+                    Icons.home,
+                    color: AppColors.white,
+                  ),
                 )
               ],
             ),
@@ -77,7 +84,7 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
           ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.VACCINATE_BABY);
+              Get.toNamed(Routes.VACCINATE_BABY, arguments: true);
             },
             child: Container(
               height: h * 0.058,

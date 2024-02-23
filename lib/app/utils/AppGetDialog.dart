@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
@@ -37,16 +38,18 @@ class AppGetDialog {
     String middleText,
     List<Widget> actions,
     Widget component,
+    Color color,
+    double double,
     bool hasOnlyContent = false, //TODO this is bad way, use child instead
   }) {
     title = title == null ? "error".tr : title;
     return Get.defaultDialog(
-      backgroundColor: AppColors.scaffoldColor,
+      backgroundColor: color ?? AppColors.scaffoldColor,
       title: hasOnlyContent ? '' : title,
       // titleStyle: TextStyle(color: AppColors.lgt1),
       titleStyle: hasOnlyContent ? TextStyle(fontSize: 1) : TextStyle(),
       middleText: hasOnlyContent ? '' : middleText,
-      radius: 10,
+      radius: double ?? 10,
       content: hasOnlyContent ? component : null,
       actions: actions == null || actions.isEmpty || hasOnlyContent
           ? <Widget>[]
@@ -250,6 +253,71 @@ class AppGetDialog {
                   ),
                 ),
               ).paddingOnly(bottom: 0, top: 8, right: 20),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static pregnancyComplete(
+      {@required String title,
+      VoidCallback onTapYes,
+      VoidCallback onTapNo,
+      String image}) {
+    show(
+      color: Color(0xffE1F0DA),
+      double: 50.0,
+      hasOnlyContent: true,
+      component: Column(
+        children: [
+          Image.asset(
+            image,
+            height: 70,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: AppTextTheme.b2(),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                  onTap: onTapYes,
+                  child: Container(
+                      height: 40,
+                      margin: EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                          color: Color(0xff00A79D),
+                          borderRadius: BorderRadius.circular(20)),
+                      width: 100,
+                      child: Center(
+                        child: Text(
+                          "yes".tr,
+                          style: TextStyle(color: AppColors.white),
+                        ),
+                      ))),
+              GestureDetector(
+                  onTap: onTapNo,
+                  child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Color(0xff00A79D),
+                          borderRadius: BorderRadius.circular(20)),
+                      width: 100,
+                      child: Center(
+                        child: Text(
+                          "no".tr,
+                          style: TextStyle(color: AppColors.white),
+                        ),
+                      ))),
             ],
           ),
         ],

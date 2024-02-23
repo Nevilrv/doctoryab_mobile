@@ -6,6 +6,7 @@ import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controll
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
+import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,11 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xffF2F2F2),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(Routes.ASK_RATING);
+        },
+      ),
       body: GetBuilder<PregnancyTrackerNewController>(
         builder: (controller) {
           return controller.isLoading == true
@@ -65,8 +71,31 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: w * 0.08,
+                          Padding(
+                            padding: EdgeInsets.only(top: 14, bottom: 14),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  AppGetDialog.pregnancyComplete(
+                                    title: 'recalculate'.tr,
+                                    image: AppImages.recalculate,
+                                    onTapNo: () {
+                                      Get.back();
+                                    },
+                                    onTapYes: () {
+                                      Get.offNamedUntil(
+                                          Routes.PREGNANCY_TRACKER_NEW,
+                                          (route) => false,
+                                          arguments: true);
+                                    },
+                                  );
+                                },
+                                child: Image.asset(
+                                  AppImages.recalculate,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -106,45 +135,73 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: w * 0.048),
-                                  child: new LinearPercentIndicator(
-                                    width:
-                                        MediaQuery.of(context).size.width - 108,
-                                    animation: true,
-                                    lineHeight: h * 0.05,
-                                    animationDuration: 2500,
-                                    percent: (controller
-                                            .pregnancyData
-                                            .ptModules[controller.weekCount]
-                                            .week /
-                                        39),
-                                    center: Text(
-                                      "${'week'.tr}: ${controller.pregnancyData.ptModules[controller.weekCount].week}",
-                                      style: TextStyle(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
+                                  child: RotatedBox(
+                                    quarterTurns:
+                                        SettingsController.appLanguge ==
+                                                'English'
+                                            ? 4
+                                            : 2,
+                                    child: new LinearPercentIndicator(
+                                      width: MediaQuery.of(context).size.width -
+                                          108,
+                                      animation: true,
+                                      lineHeight: h * 0.05,
+                                      animationDuration: 2500,
+                                      percent: (controller
+                                              .pregnancyData
+                                              .ptModules[controller.weekCount]
+                                              .week /
+                                          controller.pregnancyData.ptModules
+                                              .last.week),
+                                      center: RotatedBox(
+                                        quarterTurns:
+                                            SettingsController.appLanguge ==
+                                                    'English'
+                                                ? 4
+                                                : 2,
+                                        child: Text(
+                                          "${'week'.tr}: ${controller.pregnancyData.ptModules[controller.weekCount].week}",
+                                          style: TextStyle(
+                                            color: AppColors.black,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                          ),
+                                        ),
                                       ),
+                                      linearStrokeCap: LinearStrokeCap.roundAll,
+                                      progressColor: Color(0xff00BF63),
+                                      backgroundColor: Colors.transparent,
                                     ),
-                                    linearStrokeCap: LinearStrokeCap.roundAll,
-                                    progressColor: Color(0xff00BF63),
-                                    backgroundColor: Colors.transparent,
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    log('---------sss?/${controller.pregnancyData.ptModules[controller.weekCount].week}');
+
                                     if (controller
                                             .pregnancyData
                                             .ptModules[controller.weekCount]
                                             .week ==
                                         39) {
-                                      Get.toNamed(Routes.PREGNANCY_COMPLETION);
-                                    }
-
-                                    if (controller.weekCount <
-                                        controller.pregnancyData.ptModules
-                                                .length -
-                                            1) {
-                                      controller.incrementTrimster();
+                                      AppGetDialog.pregnancyComplete(
+                                        title: 'deliver_baby'.tr,
+                                        image: AppImages.pregCompletion,
+                                        onTapYes: () {
+                                          Get.toNamed(
+                                              Routes.PREGNANCY_COMPLETION);
+                                        },
+                                        onTapNo: () {
+                                          Get.back();
+                                          controller.incrementTrimster();
+                                        },
+                                      );
+                                    } else {
+                                      if (controller.weekCount <
+                                          controller.pregnancyData.ptModules
+                                                  .length -
+                                              1) {
+                                        controller.incrementTrimster();
+                                      }
                                     }
                                   },
                                   child: RotatedBox(
@@ -207,12 +264,17 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                       children: [
                                         Column(
                                           children: [
-                                            Text(
-                                              'conception_date'.tr,
-                                              style: TextStyle(
-                                                color: Color(0xffFF4181),
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                                            SizedBox(
+                                              width: w * 0.35,
+                                              child: Center(
+                                                child: Text(
+                                                  'conception_date'.tr,
+                                                  style: TextStyle(
+                                                    color: Color(0xffFF4181),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             Text(
@@ -231,13 +293,20 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                           color: AppColors.white,
                                         ),
                                         Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              'due_date'.tr,
-                                              style: TextStyle(
-                                                color: Color(0xffFF4181),
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                                            SizedBox(
+                                              width: w * 0.35,
+                                              child: Center(
+                                                child: Text(
+                                                  'due_date'.tr,
+                                                  style: TextStyle(
+                                                    color: Color(0xffFF4181),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             Text(
@@ -269,28 +338,29 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                                     .img,
                                             height: h * 0.21),
                                         SizedBox(
-                                          width: w * 0.03,
+                                          width: w * 0.04,
                                         ),
                                         new CircularPercentIndicator(
-                                          radius: h * 0.185,
-                                          lineWidth: w * 0.038,
+                                          radius: h * 0.168,
+                                          lineWidth: w * 0.03,
                                           animation: true,
                                           percent: controller
                                                   .pregnancyData
                                                   .ptModules[
                                                       controller.weekCount]
                                                   .week /
-                                              39,
+                                              controller.pregnancyData.ptModules
+                                                  .last.week,
                                           center: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${controller.pregnancyData.ptModules[controller.weekCount].trimister} Trimster',
+                                                '${controller.pregnancyData.ptModules[controller.weekCount].trimister} ${'trimster'.tr}',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   color: AppColors.black,
-                                                  fontSize: 15,
+                                                  fontSize: 14,
                                                 ),
                                               ),
                                               Divider(
@@ -301,6 +371,11 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                               ),
                                               Text(
                                                 '0 ${'days_left'.tr}',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppColors.black,
+                                                  fontSize: 12,
+                                                ),
                                               )
                                             ],
                                           ),

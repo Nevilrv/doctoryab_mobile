@@ -119,6 +119,8 @@ class ChatView extends GetView<ChatController> {
           // ),
           body: GetBuilder<ChatController>(
             builder: (controller) {
+              log('------->>>>${controller.playAudio.value}');
+
               return controller.attachmentString.value == "image"
                   ? controller.image.isNotEmpty
                       ? Container(
@@ -675,7 +677,7 @@ class ChatView extends GetView<ChatController> {
                                                                                         .then((value) {
                                                                                       controller.isPause1 = false;
                                                                                       controller.update();
-                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
+                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1 == null ? 0 : controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
                                                                                         log('{timer.tick}${timer.tick}');
 
                                                                                         if (controller.isPause1 == true) {
@@ -718,7 +720,8 @@ class ChatView extends GetView<ChatController> {
                                                                                 MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               // Text('${chatController.getFileDuration(controller.chat[index].voiceNotes[0])}'),
-                                                                              Text('${controller.voiceDurationList[index]}'),
+                                                                              // controller.current1 == -1 ? SizedBox() : Text('${DateFormat('hh:mm:ss').format(controller.position1)}'),
+                                                                              Text('${controller.position1 == null ? 0 : controller.convertTime(controller.position1.inMilliseconds)}/${controller.duration1 == null ? 0 : controller.convertTime(controller.duration1.inMilliseconds ?? 0)}'),
                                                                               // SizedBox(),
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 20, top: 2),
@@ -883,7 +886,7 @@ class ChatView extends GetView<ChatController> {
                                                                         .spaceBetween,
                                                                 children: [
                                                                   SizedBox(
-                                                                    width: 190,
+                                                                    width: 170,
                                                                     child: Text(
                                                                       controller
                                                                           .chat[
@@ -996,7 +999,7 @@ class ChatView extends GetView<ChatController> {
                                                             .symmetric(
                                                                 horizontal:
                                                                     width *
-                                                                        0.04),
+                                                                        0.03),
                                                         decoration:
                                                             BoxDecoration(
                                                           color:
@@ -1028,19 +1031,80 @@ class ChatView extends GetView<ChatController> {
                                                                         .playAudio
                                                                         .value;
 
-                                                                if (controller
-                                                                    .playAudio
-                                                                    .value)
-                                                                  controller
-                                                                      .playFunc();
                                                                 if (!controller
                                                                     .playAudio
-                                                                    .value)
+                                                                    .value) {
+                                                                  controller
+                                                                      .timers1
+                                                                      .cancel();
+
+                                                                  controller
+                                                                          .isPause1 =
+                                                                      false;
+                                                                  controller
+                                                                      .current2 = -1;
+                                                                  // stop2();
                                                                   controller
                                                                       .stopPlayFunc();
+                                                                  controller
+                                                                      .update();
+                                                                } else if (controller
+                                                                    .playAudio
+                                                                    .value) {
+                                                                  controller
+                                                                      .playFunc()
+                                                                      .then(
+                                                                          (value) {
+                                                                    controller
+                                                                            .isPause1 =
+                                                                        false;
+                                                                    controller
+                                                                        .update();
+                                                                    controller.timers1 = Timer.periodic(
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize),
+                                                                        (timer) {
+                                                                      log('{timer.tick}${timer.tick}');
 
-                                                                controller
-                                                                    .update();
+                                                                      if (controller
+                                                                              .isPause1 ==
+                                                                          true) {
+                                                                        // current2 = current2 + 0;
+                                                                        controller
+                                                                            .current2 = controller
+                                                                                .current2 +
+                                                                            0;
+                                                                        // current2 = -1;
+                                                                        timer
+                                                                            .cancel();
+                                                                      } else {
+                                                                        controller
+                                                                            .current2++;
+                                                                      }
+                                                                      controller
+                                                                          .update();
+                                                                      log('current ${controller.current2}');
+
+                                                                      if (controller
+                                                                              .current2 ==
+                                                                          controller
+                                                                              .voiceTrackRowSize) {
+                                                                        timer
+                                                                            .cancel();
+
+                                                                        controller.isPause1 =
+                                                                            false;
+
+                                                                        controller.current2 =
+                                                                            -1;
+
+                                                                        controller
+                                                                            .update();
+                                                                      }
+                                                                    });
+                                                                  });
+                                                                }
                                                               },
                                                               child:
                                                                   CircleAvatar(
@@ -1076,7 +1140,7 @@ class ChatView extends GetView<ChatController> {
                                                                     SizedBox(
                                                                       width: Get
                                                                               .width *
-                                                                          0.011,
+                                                                          0.01,
                                                                     ),
                                                                     AnimatedContainer(
                                                                       duration: Duration(
@@ -1092,8 +1156,10 @@ class ChatView extends GetView<ChatController> {
                                                                           BoxDecoration(
                                                                         borderRadius:
                                                                             BorderRadius.circular(10),
-                                                                        color: Colors
-                                                                            .grey,
+                                                                        color: index1 >
+                                                                                controller.current2
+                                                                            ? Colors.grey.withOpacity(0.2)
+                                                                            : Colors.grey,
                                                                       ),
                                                                     ),
                                                                   ],
@@ -1129,8 +1195,10 @@ class ChatView extends GetView<ChatController> {
                                             controller.playRecord.value == true
                                                 ? GestureDetector(
                                                     onTap: () {
+                                                      // controller
+                                                      //     .pauseRecording();
                                                       controller
-                                                          .pauseRecording();
+                                                          .stopRecording();
                                                     },
                                                     child: Container(
                                                       height: 40,
@@ -1147,9 +1215,10 @@ class ChatView extends GetView<ChatController> {
                                                   )
                                                 : GestureDetector(
                                                     onTap: () {
+                                                      // controller
+                                                      //     .resumeRecording();
                                                       controller
-                                                          .resumeRecording();
-                                                      controller.update();
+                                                          .startRecording();
                                                     },
                                                     child: Icon(
                                                       Icons

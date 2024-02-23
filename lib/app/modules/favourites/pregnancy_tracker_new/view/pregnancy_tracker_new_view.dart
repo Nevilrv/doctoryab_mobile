@@ -35,7 +35,8 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Get.back();
+                              Get.offAllNamed(Routes.HOME,
+                                  arguments: {'id': 2});
                             },
                             child: CircleAvatar(
                               radius: 22,
@@ -213,10 +214,11 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    controller
+                                  onTap: () async {
+                                    await controller
                                         .changeCalculationType('LastPeriod');
-                                    Get.toNamed(Routes.CALCULATION_METHODS);
+                                    Get.toNamed(Routes.CALCULATION_METHODS,
+                                        arguments: true);
                                   },
                                   child: Container(
                                     height: h * 0.065,
@@ -256,9 +258,11 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    controller.changeCalculationType('DueDate');
-                                    Get.toNamed(Routes.CALCULATION_METHODS);
+                                  onTap: () async {
+                                    await controller
+                                        .changeCalculationType('DueDate');
+                                    Get.toNamed(Routes.CALCULATION_METHODS,
+                                        arguments: true);
                                   },
                                   child: Container(
                                     height: h * 0.065,
@@ -296,10 +300,11 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    controller.changeCalculationType(
+                                  onTap: () async {
+                                    await controller.changeCalculationType(
                                         'ConceptionDate');
-                                    Get.toNamed(Routes.CALCULATION_METHODS);
+                                    Get.toNamed(Routes.CALCULATION_METHODS,
+                                        arguments: true);
                                   },
                                   child: Container(
                                     height: h * 0.065,

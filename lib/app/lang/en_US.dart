@@ -501,5 +501,7 @@ const Map<String, String> enUS = {
   "feedback_later": "I will give feedback later",
   "snackbar_message":
       "You last period must be more than 15 days from today’s Date!",
-  "warning": "Warning!"
+  "warning": "Warning!",
+  "deliver_baby": "Did you deliver your baby?",
+  "recalculate": "Are you sure to recalculate?",
 };

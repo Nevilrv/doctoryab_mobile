@@ -47,20 +47,24 @@ class PregnancyTrackerNewController extends GetxController {
 
   @override
   void onInit() {
-    log('-------ssss');
-    checkPregnancy();
+    if (Get.arguments == null) {
+      checkPregnancy();
+    }
+
     super.onInit();
   }
 
   /// API INTEGRATION ----------------------------------------------------------
 
   bool isLoading = false;
+  List<PtModule> ptModules = [];
   PregnancyData pregnancyData;
   bool isSaved = false;
-
+  bool isRecalculate = true;
   void checkPregnancy() {
     isLoading = true;
     update();
+
     PregnancyTrackerRepo()
         .checkPregnancy(cancelToken: cancelToken)
         .then((value) async {
@@ -69,8 +73,16 @@ class PregnancyTrackerNewController extends GetxController {
         if (value.isSaved == true) {
           Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
         }
+
         pregnancyData = value.data;
-        value.data.ptModules.forEach((element) {
+
+        pregnancyData.ptModules.sort(
+          (a, b) => a.week.compareTo(b.week),
+        );
+
+        pregnancyData.ptModules.forEach((element) {
+          log('----ssss-----${element.week}');
+
           if (element.week == value.data.currentWeek) {
             weekCount = value.data.ptModules.indexWhere(
                 (element) => element.week == value.data.currentWeek);

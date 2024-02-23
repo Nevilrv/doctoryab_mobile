@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
 
@@ -26,71 +27,85 @@ class _AskRatingScreenState extends State<AskRatingScreen> {
                 bottom: h * 0.04),
             child: Image.asset(AppImages.askRating),
           ),
-          Text(
-            'What do you about Doctoryab App”?',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
+          SizedBox(
+            width: w * 0.7,
+            child: Center(
+              child: Text(
+                'Please, tell us about your experience using Doctoryab app ?',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: w * 0.08, top: h * 0.02),
-            child: Row(
-              children: [
-                Image.asset(
-                  AppImages.excellentStar,
-                  height: h * 0.12,
-                ),
-                SizedBox(width: w * 0.03),
-                Text(
-                  'Excellent',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )
-              ],
-            ),
+          SizedBox(
+            height: h * 0.1,
           ),
           Padding(
-            padding: EdgeInsets.only(left: w * 0.11, top: h * 0.01),
+            padding: EdgeInsets.symmetric(horizontal: w * 0.07),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  AppImages.angry,
-                  height: h * 0.11,
+                Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.green,
+                      child: Padding(
+                        padding: EdgeInsets.all(h * 0.018),
+                        child: Image.asset(
+                          AppImages.thumbsUp,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    Text('Perfect')
+                  ],
                 ),
-                SizedBox(width: w * 0.03),
-                Text(
-                  'Bad',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: w * 0.13, top: h * 0.02),
-            child: Row(
-              children: [
-                Image.asset(
-                  AppImages.laterFeedback,
-                  height: h * 0.11,
+                Column(
+                  children: [
+                    Image.asset(
+                      AppImages.laterFeedback,
+                      height: h * 0.085,
+                      color: Color(0xffED8226),
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Text('Remind Later.')
+                  ],
                 ),
-                SizedBox(width: w * 0.03),
-                Text(
-                  'I will give feedback later',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )
+                Column(
+                  children: [
+                    SizedBox(
+                      height: h * 0.005,
+                    ),
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.red,
+                      child: Padding(
+                        padding: EdgeInsets.all(h * 0.018),
+                        child: RotatedBox(
+                          quarterTurns: 2,
+                          child: Image.asset(
+                            AppImages.thumbsUp,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    Text('I didn’t like it')
+                  ],
+                ),
               ],
             ),
           ),
