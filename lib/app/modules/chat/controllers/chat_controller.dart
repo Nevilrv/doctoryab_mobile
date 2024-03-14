@@ -551,6 +551,8 @@ class ChatController extends GetxController {
   Socket socket;
 
   initSocket() {
+    log("chatArg()?.id------------------->${chatArg()?.id}");
+
     socket = IO.io(ApiConsts.socketServerURL, <String, dynamic>{
       'autoConnect': true,
       'transports': ['websocket'],
@@ -575,10 +577,11 @@ class ChatController extends GetxController {
         if (m["chat"] != null) m["chat"]["users"] = [];
         // var _json = jsonDecode(m);
         // _json["readBy"] = [];
+        log("-mmmmmmmmmmmmmmmmmmmmmm-------------> ${m}");
         var _msg = ChatApiModel.fromJson(m);
 
         chat.insert(0, _msg);
-        // update();
+        update();
 
         // scrollToEnd();
       } catch (e, s) {

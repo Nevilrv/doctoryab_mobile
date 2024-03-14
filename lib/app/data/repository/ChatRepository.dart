@@ -71,6 +71,13 @@ class ChatRepository {
     return await Utils.parseResponse<ChatApiModel>(
       () async {
         // var doctorReports;
+
+        log('-------------/message/$chatID');
+        log('------/Params/-------------${{
+          "limit": limitPerPage,
+          "page": page,
+          // "searchVal": searchValue,
+        }}');
         return await dio.get(
           // '/findBloodDonors/profile',
           '/message/$chatID',

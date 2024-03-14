@@ -418,15 +418,6 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                             Utils.showSnackBar(
                                 context, "Please_select_city".tr);
                           } else {
-                            log('----TAPP');
-
-                            print("11111>>> ${controller.teName.text}");
-                            print("22222>>> ${controller.teNewNumber.text}");
-                            print(
-                                "33333>>> ${controller.selectedGender.value}");
-                            print(
-                                "44444>>> ${controller.selectedLocationId.value}");
-
                             controller.addPersonalInfo();
                           }
                         }

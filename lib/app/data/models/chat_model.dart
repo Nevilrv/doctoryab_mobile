@@ -437,9 +437,11 @@ class ChatApiModel {
         "updatedAt": updatedAt == null ? null : updatedAt.toIso8601String(),
       };
   bool get isUsersMessage {
-    var cond = (this?.sender?.patientId ?? "") !=
-        SettingsController.savedUserProfile.patientID;
-
+    var cond = this?.sender?.patientId == null
+        ? false
+        : (this?.sender?.patientId ?? "") !=
+            SettingsController.savedUserProfile.patientID;
+    log('-cond-------$cond');
     return cond;
   }
 }

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:doctor_yab/app/data/models/chat_notification_model.dart';
+import 'package:doctor_yab/app/data/models/notification_payload_model.dart';
 import 'package:doctor_yab/app/services/chat_notification_handler.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import '../data/models/notification_payload_model.dart';
 import '../modules/home/views/blog/tab_blog_view.dart';
 import '../modules/hospital_new/tab_main/bindings/tab_main_binding.dart';
 import '../routes/app_pages.dart';

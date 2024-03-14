@@ -330,6 +330,9 @@ class AuthController extends GetxController {
       log("reponseData--------------> $reponseData");
 
       try {
+        log('---reponseData["profile_completed"]------${reponseData["profile_completed"]}');
+        log('---reponseData["profile_completed"]------${SettingsController.isUserProfileComplete}');
+
         waitingForFirebaseotpToVerify(false);
         SettingsController.userProfileComplete =
             reponseData["profile_completed"];

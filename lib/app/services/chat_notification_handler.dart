@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:doctor_yab/app/data/models/chat_model.dart';
 import 'package:doctor_yab/app/data/models/chat_notification_model.dart';
+import 'package:doctor_yab/app/data/models/notification_payload_model.dart';
 import 'package:doctor_yab/app/modules/chat/controllers/chat_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/services/PushNotificationService.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '../data/models/chat_list_api_model.dart';
-import '../data/models/notification_payload_model.dart';
 import '../routes/app_pages.dart';
 
 class ChatNotificationHandler {

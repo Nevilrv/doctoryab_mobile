@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart' as ap;
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
@@ -452,7 +453,8 @@ class ChatView extends GetView<ChatController> {
                                       ),
                                       itemBuilder: (context, index) {
                                         // var msg = controller.chat.value?.messages[index];
-
+                                        log('-----controller.chat[index].isUsersMessage-----${controller.chat[index].sender.patientId}');
+                                        log('-----controller.chat[index]-----${SettingsController.savedUserProfile.patientID}');
                                         return Column(
                                           children: [
                                             if (controller.nextPageLoading() &&
@@ -670,6 +672,8 @@ class ChatView extends GetView<ChatController> {
                                                                                     // stop2();
                                                                                     controller.audioPlayer1.pause();
                                                                                   } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
+                                                                                    controller.isPause1 = false;
+                                                                                    controller.timers1.cancel();
                                                                                     controller
                                                                                         .play1(
                                                                                       path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes[0]}",
@@ -701,9 +705,11 @@ class ChatView extends GetView<ChatController> {
                                                                                           controller.update();
                                                                                         }
                                                                                       });
+                                                                                      controller.chat[index].isRead = true;
                                                                                     });
                                                                                   }
-                                                                                  controller.chat[index].isRead = true;
+
+                                                                                  controller.update();
                                                                                 },
                                                                                 child: Container(
                                                                                   child: Icon(

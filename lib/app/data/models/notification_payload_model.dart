@@ -33,14 +33,14 @@ class NotificationPayloadModel {
 
   factory NotificationPayloadModel.fromJson(Map<String, dynamic> json) =>
       NotificationPayloadModel(
-        id: json["id"] == null ? null : json["id"],
-        type: json["type"] == null ? null : json["type"],
-        data: json["data"] == null ? null : json["data"],
+        id: json["id"],
+        type: json["type"],
+        data: json["data"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "type": type == null ? null : type,
-        "data": data == null ? null : data,
+        "id": id,
+        "type": type,
+        "data": data,
       };
 }

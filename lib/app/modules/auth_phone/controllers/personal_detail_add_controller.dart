@@ -84,7 +84,6 @@ class AddPersonalInfoController extends GetxController {
           .then((value) {
         try {
           log('------------value------------>$value');
-
           SettingsController.userProfileComplete = value["profile_completed"];
           SettingsController.userId = value['user']['_id'];
           SettingsController.savedUserProfile = u.User.fromJson(value['user']);
