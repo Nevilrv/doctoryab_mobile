@@ -49,7 +49,6 @@ class LabsController extends GetxController {
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {
-      log('===LISTNER===');
       loadData(pageKey);
     });
     _fetchAds();
