@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/pregnancy_details_model.dart';
 import 'package:doctor_yab/app/data/repository/PregnancyTrackerRepository.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -9,17 +11,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as d;
 import 'package:logger/logger.dart';
+import 'package:shamsi_date/shamsi_date.dart';
+
+import '../../../../utils/utils.dart';
 
 class PregnancyTrackerNewController extends GetxController {
   CancelToken cancelToken = CancelToken();
   bool isPregnant = false;
-  String type = '';
+  String type = "";
   bool openInfo = false;
   DateTime pregnancyInitialDay = DateTime.now();
   DateTime dueInitialDay = DateTime.now();
   DateTime conceptionInitialDay = DateTime.now();
-  String formattedPregnancyDate =
-      d.DateFormat('dd/MM/yyyy').format(DateTime.now());
+
+  String formattedPregnancyDate = SettingsController.appLanguge == 'English'
+      ? d.DateFormat('dd-MM-yyyy').format(DateTime.now())
+      : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
+
   String formattedDueDate = d.DateFormat('dd/MM/yyyy').format(DateTime.now());
   String formattedConceptionDate =
       d.DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -32,6 +40,8 @@ class PregnancyTrackerNewController extends GetxController {
 
   changeCalculationType(String value) {
     type = value;
+    log("type--------------> ${type}");
+
     update();
   }
 
@@ -47,6 +57,8 @@ class PregnancyTrackerNewController extends GetxController {
 
   @override
   void onInit() {
+    type = Get.arguments == null ? "" : Get.arguments['type'];
+    update();
     if (Get.arguments == null) {
       checkPregnancy();
     }
@@ -76,14 +88,19 @@ class PregnancyTrackerNewController extends GetxController {
 
         pregnancyData = value.data;
 
+        log('pregnancyData===>>>${jsonEncode(pregnancyData)}<<<<===');
+
         pregnancyData.ptModules.sort(
           (a, b) => a.week.compareTo(b.week),
         );
 
         pregnancyData.ptModules.forEach((element) {
           log('----ssss-----${element.week}');
+          log(" value.data.currentWeek--------------> ${value.data.currentWeek}");
 
           if (element.week == value.data.currentWeek) {
+            log("value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek--------------> ${value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek)}");
+
             weekCount = value.data.ptModules.indexWhere(
                 (element) => element.week == value.data.currentWeek);
           }
@@ -112,8 +129,13 @@ class PregnancyTrackerNewController extends GetxController {
         pregnancyData = value.data;
         // value.data.ptModules.forEach((element) {
         //   if (element.week == value.data.currentWeek) {
-        weekCount = value.data.ptModules
-            .indexWhere((element) => element.week == value.data.currentWeek);
+        log(" value.data.currentWeek--------------> ${value.data.currentWeek}");
+
+        weekCount = value.data.ptModules.indexWhere((element) {
+          log("element.week--------------> ${element.week}");
+
+          return element.week == value.data.currentWeek;
+        });
         // }
         // });
 
@@ -125,6 +147,26 @@ class PregnancyTrackerNewController extends GetxController {
     }).catchError((e, s) {
       log("e--------------> $e");
       isLoading = false;
+      update();
+      Logger().e("message", e, s);
+      Future.delayed(Duration(seconds: 3), () {});
+    });
+  }
+
+  bool isDeleteLoading = false;
+  void deleteTracker({String id, BuildContext context}) {
+    isDeleteLoading = true;
+    update();
+    PregnancyTrackerRepo()
+        .deleteTracker(id: id, cancelToken: cancelToken)
+        .then((value) async {
+      isDeleteLoading = false;
+      update();
+    }).catchError((e, s) {
+      // Get.offNamedUntil(Routes.PREGNANCY_TRACKER_NEW, (route) => false,
+      //     arguments: {'type': 'LastPeriod', 'isCheck': true});
+      log("e--------------> $e");
+      isDeleteLoading = false;
       update();
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {});

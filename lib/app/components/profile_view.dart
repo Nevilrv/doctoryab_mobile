@@ -52,13 +52,13 @@ class ProfileViewNew extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 10),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
         // height: 220,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
           // boxShadow: [
           //   BoxShadow(
           //     color: Colors.grey.withOpacity(0.1),
@@ -80,9 +80,7 @@ class ProfileViewNew extends StatelessWidget {
                     // color: Colors.black,
                     // height: 65,
                     // width: 65,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.lightGrey),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CachedNetworkImage(
@@ -116,8 +114,7 @@ class ProfileViewNew extends StatelessWidget {
                           // SizedBox(height: 10),
                           Text(
                             name ?? "",
-                            style: AppTextTheme.h(12)
-                                .copyWith(color: AppColors.primary),
+                            style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                           ),
                           SizedBox(height: 2),
                           Row(
@@ -131,8 +128,7 @@ class ProfileViewNew extends StatelessWidget {
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
                                 itemCount: 5,
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 1.0),
+                                itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
                                   color: Colors.amber,
@@ -147,9 +143,7 @@ class ProfileViewNew extends StatelessWidget {
                                 onTap: reviewFunction,
                                 child: Text(
                                   '(${numberOfusersRated}) ${"reviews".tr}',
-                                  style: AppTextTheme.b(12).copyWith(
-                                      color:
-                                          AppColors.primary.withOpacity(0.5)),
+                                  style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                 ),
                               )
                             ],
@@ -160,35 +154,27 @@ class ProfileViewNew extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Utils.openPhoneDialer(
-                                        context, phoneNumbers ?? "");
+                                    Utils.openPhoneDialer(context, phoneNumbers ?? "");
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                     decoration: BoxDecoration(
-                                        color: AppColors.secondary,
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
+                                        color: AppColors.secondary, borderRadius: BorderRadius.circular(20)),
                                     child: Row(
                                       children: [
                                         Spacer(),
                                         Center(
                                           child: Text(
                                             "call".tr,
-                                            style: AppTextTheme.m(12)
-                                                .copyWith(color: Colors.white),
+                                            style: AppTextTheme.m(12).copyWith(color: Colors.white),
                                           ),
                                         ),
                                         Spacer(),
-                                        SettingsController.appLanguge !=
-                                                "English"
+                                        SettingsController.appLanguge != "English"
                                             ? Transform(
                                                 alignment: Alignment.center,
-                                                transform:
-                                                    Matrix4.rotationY(math.pi),
-                                                child: SvgPicture.asset(
-                                                    AppImages.phone),
+                                                transform: Matrix4.rotationY(math.pi),
+                                                child: SvgPicture.asset(AppImages.phone),
                                               )
                                             : SvgPicture.asset(AppImages.phone)
                                       ],
@@ -209,9 +195,7 @@ class ProfileViewNew extends StatelessWidget {
               height: 5,
             ),
             Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: AppColors.lightGrey),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.lightGrey),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 5,
@@ -280,19 +264,16 @@ class ProfileViewNew extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           children: [
-                            SvgPicture.asset(AppImages.map,
-                                height: 22, width: 22),
+                            SvgPicture.asset(AppImages.map, height: 22, width: 22),
                             SizedBox(
                               width: 5,
                             ),
                             Container(
-                              width: Get.width * 0.74,
+                              width: Get.width * 0.69,
                               child: Text(
                                 "${address}",
-                                style: AppTextStyle.mediumBlack12.copyWith(
-                                    color: AppColors.lightBlack2,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500),
+                                style: AppTextStyle.mediumBlack12
+                                    .copyWith(color: AppColors.lightBlack2, fontSize: 11, fontWeight: FontWeight.w500),
                               ),
                             ),
                             Spacer(),
@@ -305,8 +286,7 @@ class ProfileViewNew extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0,
-                            geometry?.coordinates[0] ?? 0.0);
+                        Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0, geometry?.coordinates[0] ?? 0.0);
                       },
                       child: Container(
                         width: w,

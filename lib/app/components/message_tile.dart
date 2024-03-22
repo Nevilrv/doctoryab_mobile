@@ -20,10 +20,8 @@ class MessageTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6), color: AppColors.white),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: AppColors.white),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(
             children: [
               ClipRRect(
@@ -58,24 +56,41 @@ class MessageTile extends StatelessWidget {
                     chat.chatName != null ? chat.chatName : "N/A",
                     style: AppTextStyle.regularBlack12,
                   ),
-                  if (chat.latestMessage.content != null &&
-                      chat.latestMessage.content.isNotEmpty)
-                    Text(
-                      () {
-                        var str =
-                            "${chat.latestMessage.sender != null && chat.latestMessage.sender.patientId == SettingsController.savedUserProfile.patientID ? 'You: ' : ""}"
-                            "${chat.latestMessage.content}";
-                        if (str.length > 25)
-                          str = str.substring(0, 25) + " ...";
-                        return "$str";
-                      }()
+                  chat.latestMessage == null
+                      ? SizedBox()
+                      : chat.latestMessage.content != null && chat.latestMessage.content.isNotEmpty
+                          ? Text(
+                              () {
+                                var str =
+                                    "${chat.latestMessage.sender != null && chat.latestMessage.sender.patientId == SettingsController.savedUserProfile.patientID ? 'You: ' : ""}"
+                                    "${chat.latestMessage.content}";
+                                if (str.length > 25) str = str.substring(0, 25) + " ...";
+                                return "$str";
+                              }()
 
-                      // ${chat.messages.first.image != null && chat.messages.first.image.isNotEmpty ? "📸 Image" : chat.messages.first.message}
-                      // ",
-                      ,
-                      style: AppTextStyle.regularGrey12,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                              // ${chat.messages.first.image != null && chat.messages.first.image.isNotEmpty ? "📸 Image" : chat.messages.first.message}
+                              // ",
+                              ,
+                              style: AppTextStyle.regularGrey12,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          : SizedBox()
+                  // if (chat.latestMessage.content != null && chat.latestMessage.content.isNotEmpty)
+                  //   Text(
+                  //     () {
+                  //       var str =
+                  //           "${chat.latestMessage.sender != null && chat.latestMessage.sender.patientId == SettingsController.savedUserProfile.patientID ? 'You: ' : ""}"
+                  //           "${chat.latestMessage.content}";
+                  //       if (str.length > 25) str = str.substring(0, 25) + " ...";
+                  //       return "$str";
+                  //     }()
+                  //
+                  //     // ${chat.messages.first.image != null && chat.messages.first.image.isNotEmpty ? "📸 Image" : chat.messages.first.message}
+                  //     // ",
+                  //     ,
+                  //     style: AppTextStyle.regularGrey12,
+                  //     overflow: TextOverflow.ellipsis,
+                  //   ),
                 ],
               )
             ],

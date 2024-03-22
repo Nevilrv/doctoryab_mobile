@@ -5,8 +5,7 @@
 import 'dart:convert';
 
 List<ChatListApiModel> chatListApiModelFromJson(String str) =>
-    List<ChatListApiModel>.from(
-        json.decode(str).map((x) => ChatListApiModel.fromJson(x)));
+    List<ChatListApiModel>.from(json.decode(str).map((x) => ChatListApiModel.fromJson(x)));
 
 String chatListApiModelToJson(List<ChatListApiModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -38,8 +37,7 @@ class ChatListApiModel {
     this.status,
   });
 
-  factory ChatListApiModel.fromJson(Map<String, dynamic> json) =>
-      ChatListApiModel(
+  factory ChatListApiModel.fromJson(Map<String, dynamic> json) => ChatListApiModel(
         isGroupChat: json["isGroupChat"],
         users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
         documents: List<dynamic>.from(json["documents"].map((x) => x)),
@@ -49,7 +47,7 @@ class ChatListApiModel {
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
         v: json["__v"],
-        latestMessage: LatestMessage.fromJson(json["latestMessage"]),
+        latestMessage: json["latestMessage"] == null ? null : LatestMessage.fromJson(json["latestMessage"]),
         status: json["status"],
       );
 
@@ -96,9 +94,9 @@ class LatestMessage {
   });
 
   factory LatestMessage.fromJson(Map<String, dynamic> json) => LatestMessage(
-        images: List<dynamic>.from(json["images"].map((x) => x)),
-        voiceNotes: List<dynamic>.from(json["voiceNotes"].map((x) => x)),
-        documents: List<dynamic>.from(json["documents"].map((x) => x)),
+        images: json["images"] == null ? null : List<dynamic>.from(json["images"].map((x) => x)),
+        voiceNotes: json["voiceNotes"] == null ? null : List<dynamic>.from(json["voiceNotes"].map((x) => x)),
+        documents: json["documents"] == null ? null : List<dynamic>.from(json["documents"].map((x) => x)),
         readBy: List<String>.from(json["readBy"].map((x) => x)),
         id: json["_id"],
         content: json["content"],
@@ -150,9 +148,7 @@ class Sender {
   });
 
   factory Sender.fromJson(Map<String, dynamic> json) => Sender(
-        geometry: json["geometry"] == null
-            ? null
-            : Geometry.fromJson(json["geometry"]),
+        geometry: json["geometry"] == null ? null : Geometry.fromJson(json["geometry"]),
         photo: json["photo"],
         id: json["_id"],
         phone: json["phone"],
@@ -189,16 +185,13 @@ class Geometry {
 
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
         type: json["type"] == null ? null : json["type"],
-        coordinates: json["coordinates"] == null
-            ? null
-            : List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
+        coordinates:
+            json["coordinates"] == null ? null : List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
       );
 
   Map<String, dynamic> toJson() => {
         "type": type == null ? null : type,
-        "coordinates": coordinates == null
-            ? null
-            : List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": coordinates == null ? null : List<dynamic>.from(coordinates.map((x) => x)),
       };
 }
 
@@ -232,9 +225,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        geometry: json["geometry"] == null
-            ? null
-            : Geometry.fromJson(json["geometry"]),
+        geometry: json["geometry"] == null ? null : Geometry.fromJson(json["geometry"]),
         photo: json["photo"],
         id: json["_id"],
         phone: json["phone"],
@@ -244,9 +235,7 @@ class User {
         v: json["__v"],
         age: json["age"],
         name: json["name"],
-        routes: json["routes"] == null
-            ? []
-            : List<String>.from(json["routes"].map((x) => x)),
+        routes: json["routes"] == null ? [] : List<String>.from(json["routes"].map((x) => x)),
         email: json["email"],
       );
 
@@ -261,8 +250,7 @@ class User {
         "__v": v,
         "age": age,
         "name": name,
-        "routes":
-            routes == null ? [] : List<dynamic>.from(routes.map((x) => x)),
+        "routes": routes == null ? [] : List<dynamic>.from(routes.map((x) => x)),
         "email": email,
       };
 }

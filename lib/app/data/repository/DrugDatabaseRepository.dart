@@ -14,11 +14,7 @@ class DrugDatabaseRepository {
     void onError(e),
     CancelToken cancelToken,
   }) async {
-    print("Query---Parameter---${{
-      "limit": limitPerPage,
-      "page": page,
-      "name": name
-    }}");
+    print("Query---Parameter---${{"limit": limitPerPage, "page": page, "name": name}}");
     final response = await _cachedDio.get(
       '${ApiConsts.drugDatabase}',
       cancelToken: cancelToken,
@@ -32,19 +28,17 @@ class DrugDatabaseRepository {
   /// Updated Fetch Drugs
 
   Future<Response> updatedFetchDrugs(
-    int page, {
+    int page,
+    String name, {
     int limitPerPage = 6,
     void onError(e),
     CancelToken cancelToken,
   }) async {
-    print("Query---Parameter---${{
-      "limit": limitPerPage,
-      "page": page,
-    }}");
+    print("Query---Parameter---${{"limit": limitPerPage, "page": page, "name": name}}");
     final response = await _cachedDio.get(
       '${ApiConsts.drugDatabaseUpdated}',
       cancelToken: cancelToken,
-      queryParameters: {"limit": limitPerPage, "page": page},
+      queryParameters: {"limit": limitPerPage, "page": page, "name": name},
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 

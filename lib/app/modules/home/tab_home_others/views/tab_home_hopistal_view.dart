@@ -43,324 +43,327 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: RefreshIndicator(
-        onRefresh: () => Future.sync(
-          () async {
-            print("controller.pageController.firstPageKey>>>>${controller.pageController.firstPageKey}");
-            await Future.delayed(Duration.zero, () {
-              controller.cancelToken.cancel();
-            });
-            controller.cancelToken = new CancelToken();
-            controller.pageController.itemList.clear();
-            controller.loadData(
-              controller.pageController.firstPageKey,
-            );
-          },
-        ),
-        child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: GetBuilder<HospitalsController>(
-              builder: (controller) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              List<LatLng> latLng = [];
-                              controller.locationData.forEach((element) {
-                                log("element.coordinates[1]--------------> ${element.coordinates}");
-                                if (element.coordinates != null) {
-                                  log(" element.coordinates[0]--------------> ${element.coordinates[0]}");
-                                  log("element.coordinates[1]--------------> ${element.coordinates[1]}");
-                                  latLng.add(LatLng(element.coordinates[1], element.coordinates[0]));
-                                }
-                              });
-                              Get.to(MapScreen(
-                                latLng: latLng,
-                                name: controller.locationTitle,
-                                title: "Hospital location",
-                              ));
-                            },
-                            child: Container(
-                              width: Get.width * 0.5,
-                              decoration: BoxDecoration(
-                                color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.map,
-                                      color: AppColors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Text(
-                                      "view_all_in_maps".tr,
-                                      style: AppTextStyle.boldWhite12.copyWith(fontSize: 13),
-                                    ),
-                                  ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () async {
+              print("controller.pageController.firstPageKey>>>>${controller.pageController.firstPageKey}");
+              await Future.delayed(Duration.zero, () {
+                controller.cancelToken.cancel();
+              });
+              controller.cancelToken = new CancelToken();
+              controller.pageController.itemList.clear();
+              controller.loadData(
+                controller.pageController.firstPageKey,
+              );
+            },
+          ),
+          child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: GetBuilder<HospitalsController>(
+                builder: (controller) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                List<LatLng> latLng = [];
+                                controller.locationData.forEach((element) {
+                                  log("element.coordinates[1]--------------> ${element.coordinates}");
+                                  if (element.coordinates != null) {
+                                    log(" element.coordinates[0]--------------> ${element.coordinates[0]}");
+                                    log("element.coordinates[1]--------------> ${element.coordinates[1]}");
+                                    latLng.add(LatLng(element.coordinates[1], element.coordinates[0]));
+                                  }
+                                });
+                                Get.to(MapScreen(
+                                  latLng: latLng,
+                                  name: controller.locationTitle,
+                                  title: "Hospital location",
+                                ));
+                              },
+                              child: Container(
+                                width: Get.width * 0.5,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        AppImages.map,
+                                        color: AppColors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Text(
+                                        "view_all_in_maps".tr,
+                                        style: AppTextStyle.boldWhite12.copyWith(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              controller.isEmergencySelect = !controller.isEmergencySelect;
-                              controller.update();
-                              controller.emergencyData();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.red3, width: controller.isEmergencySelect == false ? 1 : 2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
-                                child: Center(
-                                    child: SvgPicture.asset(
-                                  AppImages.emergencyBell,
-                                  width: 25,
-                                  height: 24,
-                                )),
+                            GestureDetector(
+                              onTap: () {
+                                controller.isEmergencySelect = !controller.isEmergencySelect;
+                                controller.update();
+                                controller.emergencyData();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.red3, width: controller.isEmergencySelect == false ? 1 : 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
+                                  child: Center(
+                                      child: SvgPicture.asset(
+                                    AppImages.emergencyBell,
+                                    width: 25,
+                                    height: 24,
+                                  )),
+                                ),
                               ),
                             ),
-                          ),
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     border: Border.all(color: AppColors.primary),
-                          //     borderRadius: BorderRadius.circular(10),
-                          //   ),
-                          //   child: Padding(
-                          //     padding: const EdgeInsets.symmetric(
-                          //         vertical: 9.5, horizontal: 10),
-                          //     child: Center(
-                          //         child: SvgPicture.asset(
-                          //       AppImages.blackBell,
-                          //       width: 25,
-                          //       height: 24,
-                          //     )),
-                          //   ),
-                          // ),
-                          GestureDetector(
-                            onTap: () {
-                              controller.showFilterDialog();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.primary),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
-                                child: Center(
-                                    child: SettingsController.appLanguge != "English"
-                                        ? Transform(
-                                            alignment: Alignment.center,
-                                            transform: Matrix4.rotationY(math.pi),
-                                            child: Image.asset(
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     border: Border.all(color: AppColors.primary),
+                            //     borderRadius: BorderRadius.circular(10),
+                            //   ),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.symmetric(
+                            //         vertical: 9.5, horizontal: 10),
+                            //     child: Center(
+                            //         child: SvgPicture.asset(
+                            //       AppImages.blackBell,
+                            //       width: 25,
+                            //       height: 24,
+                            //     )),
+                            //   ),
+                            // ),
+                            GestureDetector(
+                              onTap: () {
+                                controller.showFilterDialog();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColors.primary),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
+                                  child: Center(
+                                      child: SettingsController.appLanguge != "English"
+                                          ? Transform(
+                                              alignment: Alignment.center,
+                                              transform: Matrix4.rotationY(math.pi),
+                                              child: Image.asset(
+                                                AppImages.filter,
+                                                width: 25,
+                                                height: 24,
+                                                color: AppColors.primary,
+                                              ),
+                                            )
+                                          : Image.asset(
                                               AppImages.filter,
                                               width: 25,
                                               height: 24,
                                               color: AppColors.primary,
-                                            ),
-                                          )
-                                        : Image.asset(
-                                            AppImages.filter,
-                                            width: 25,
-                                            height: 24,
-                                            color: AppColors.primary,
-                                          )),
+                                            )),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    TextField(
-                      style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
-                      cursorColor: AppColors.primary,
-                      controller: controller.search,
-                      textAlignVertical: TextAlignVertical.center,
-                      onChanged: (s) async {
-                        if (s.isEmpty) {
+                      TextField(
+                        style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                        cursorColor: AppColors.primary,
+                        controller: controller.search,
+                        textAlignVertical: TextAlignVertical.center,
+                        onChanged: (s) async {
+                          if (s.isEmpty) {
+                            controller.pageController.itemList.clear();
+                            controller.loadData(
+                              controller.pageController.firstPageKey,
+                            );
+                          }
+                        },
+                        onSubmitted: (value) {
                           controller.pageController.itemList.clear();
-                          controller.loadData(
+                          controller.searchData(
                             controller.pageController.firstPageKey,
                           );
-                        }
-                      },
-                      onSubmitted: (value) {
-                        controller.pageController.itemList.clear();
-                        controller.searchData(
-                          controller.pageController.firstPageKey,
-                        );
-                        controller.update();
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                        hintText: "search_hospital..".tr,
-                        hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.all(11),
-                          child: SvgPicture.asset(AppImages.search, color: AppColors.primary),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.white.withOpacity(0.1),
-                        constraints: BoxConstraints(maxHeight: 38),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
+                          controller.update();
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                          hintText: "search_hospital..".tr,
+                          hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(11),
+                            child: SvgPicture.asset(AppImages.search, color: AppColors.primary),
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
+                          filled: true,
+                          fillColor: AppColors.white.withOpacity(0.1),
+                          constraints: BoxConstraints(maxHeight: 38),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: AppColors.primary,
+                            ),
                           ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: AppColors.primary,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    SizedBox(
-                      height: 10,
-                    ),
-                    // BannerView(),
-                    PagedListView.separated(
-                      pagingController: controller.pageController,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(bottom: 100),
-                      physics: BouncingScrollPhysics(),
-                      separatorBuilder: (c, i) {
-                        if ((i + 1) % 5 == 0) {
-                          return Stack(
-                            children: [
-                              Container(
-                                child: CarouselSlider(
-                                    options: CarouselOptions(
-                                      autoPlay: true,
-                                      height: Get.height * 0.2,
-                                      viewportFraction: 1.0,
-                                      enlargeCenterPage: false,
-                                      onPageChanged: (index, reason) {
-                                        controller.adIndex = index;
-                                        controller.update();
-                                      },
-                                    ),
-                                    items: controller.adList
-                                        .map((item) => GestureDetector(
-                                              onTap: () async {
-                                                if (!await launchUrl(Uri.parse(item.link))) {
-                                                  throw Exception('Could not launch ${item.link}');
-                                                }
-                                                log("item.img--------------> ${item.link}");
-                                              },
-                                              child: Stack(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 5),
-                                                    child: Container(
-                                                      decoration:
-                                                          BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                                                      // margin: EdgeInsets.all(5.0),
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                                        child: Image.network("${ApiConsts.hostUrl}${item.img}",
-                                                            fit: BoxFit.cover, width: 1000.0),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // BannerView(),
+                      PagedListView.separated(
+                        pagingController: controller.pageController,
+                        shrinkWrap: true,
+                        // padding: EdgeInsets.only(bottom: 100),
+                        physics: BouncingScrollPhysics(),
+                        separatorBuilder: (c, i) {
+                          if ((i + 1) % 5 == 0) {
+                            return Stack(
+                              children: [
+                                Container(
+                                  child: CarouselSlider(
+                                      options: CarouselOptions(
+                                        autoPlay: true,
+                                        height: Get.height * 0.2,
+                                        viewportFraction: 1.0,
+                                        enlargeCenterPage: false,
+                                        onPageChanged: (index, reason) {
+                                          controller.adIndex = index;
+                                          controller.update();
+                                        },
+                                      ),
+                                      items: controller.adList
+                                          .map((item) => GestureDetector(
+                                                onTap: () async {
+                                                  if (!await launchUrl(Uri.parse(item.link))) {
+                                                    throw Exception('Could not launch ${item.link}');
+                                                  }
+                                                  log("item.img--------------> ${item.link}");
+                                                },
+                                                child: Stack(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 5),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                                        // margin: EdgeInsets.all(5.0),
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                          child: Image.network("${ApiConsts.hostUrl}${item.img}",
+                                                              fit: BoxFit.cover, width: 1000.0),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Positioned(
-                                                    top: 10,
-                                                    right: SettingsController.appLanguge != "English" ? null : 10,
-                                                    left: SettingsController.appLanguge == "English" ? null : 10,
-                                                    child: SettingsController.appLanguge != "English"
-                                                        ? Transform(
-                                                            alignment: Alignment.center,
-                                                            transform: Matrix4.rotationY(math.pi),
-                                                            child: Image.asset(
+                                                    Positioned(
+                                                      top: 10,
+                                                      right: SettingsController.appLanguge != "English" ? null : 10,
+                                                      left: SettingsController.appLanguge == "English" ? null : 10,
+                                                      child: SettingsController.appLanguge != "English"
+                                                          ? Transform(
+                                                              alignment: Alignment.center,
+                                                              transform: Matrix4.rotationY(math.pi),
+                                                              child: Image.asset(
+                                                                AppImages.promote,
+                                                                height: 18,
+                                                                width: 18,
+                                                                color: AppColors.white,
+                                                              ))
+                                                          : Image.asset(
                                                               AppImages.promote,
                                                               height: 18,
                                                               width: 18,
                                                               color: AppColors.white,
-                                                            ))
-                                                        : Image.asset(
-                                                            AppImages.promote,
-                                                            height: 18,
-                                                            width: 18,
-                                                            color: AppColors.white,
-                                                          ),
-                                                  )
-                                                ],
-                                              ),
-                                            ))
-                                        .toList()),
-                              ),
-                              Positioned(
-                                bottom: Get.height * 0.017,
-                                left: 0,
-                                right: 0,
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                        controller.adList.length,
-                                        (index) => Padding(
-                                              padding: const EdgeInsets.only(left: 3),
-                                              child: CircleAvatar(
-                                                radius: 5,
-                                                backgroundColor: controller.adIndex == index
-                                                    ? AppColors.primary
-                                                    : AppColors.primary.withOpacity(0.2),
-                                              ),
-                                            )),
-                                  ),
+                                                            ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ))
+                                          .toList()),
                                 ),
-                              )
-                            ],
-                          );
-                        } else {
-                          return SizedBox(height: 5);
-                        }
-                      },
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, item, index) {
-                          return buildItem(w, item, h, context);
+                                Positioned(
+                                  bottom: Get.height * 0.017,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: List.generate(
+                                          controller.adList.length,
+                                          (index) => Padding(
+                                                padding: const EdgeInsets.only(left: 3),
+                                                child: CircleAvatar(
+                                                  radius: 5,
+                                                  backgroundColor: controller.adIndex == index
+                                                      ? AppColors.primary
+                                                      : AppColors.primary.withOpacity(0.2),
+                                                ),
+                                              )),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                          } else {
+                            return SizedBox(height: 5);
+                          }
                         },
-                        firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
-                          yCount: 5,
-                          xCount: 1,
-                          // linesCount: 4,
-                        ),
-                        newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
-                          yCount: 5,
-                          xCount: 1,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, item, index) {
+                            return buildItem(w, item, h, context);
+                          },
+                          firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
+                            yCount: 5,
+                            xCount: 1,
+                            // linesCount: 4,
+                          ),
+                          newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
+                            yCount: 5,
+                            xCount: 1,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
-            )),
+                    ],
+                  );
+                },
+              )),
+        ),
       ),
     );
   }

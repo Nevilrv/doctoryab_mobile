@@ -11,18 +11,38 @@ class PregnancyTrackerRepo {
 
   Future<PregnancyDetailsModel> checkPregnancy(
       {CancelToken cancelToken}) async {
-    var response = await _cachedDio.get(
-      ApiConsts.checkPregnancy,
-      cancelToken: cancelToken,
-      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
-    );
+    // var response = await _cachedDio.get(
+    //   ApiConsts.checkPregnancy,
+    //   // cancelToken: cancelToken,
+    //   options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    // );
+    log("ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
+
+    var headers = ApiConsts().commonHeader;
+
+    var dio = Dio();
+    var response = await dio
+        .get(
+      ApiConsts.baseUrl + ApiConsts.checkPregnancy,
+      options: Options(
+        method: 'Get',
+        headers: headers,
+      ),
+    )
+        .onError((error, stackTrace) {
+      log('error=121==>>>${error}');
+      log('stackTrace=121==>>>${stackTrace}');
+      return;
+    });
+    // return BlogLikeResModel.fromJson(response.data);
 
     log('------vvv----${response.statusCode}');
+    log("response.data--------------> ${response.data}");
 
     if (response.statusCode == 200) {
       return PregnancyDetailsModel.fromJson(response.data);
     } else {
-      return response.data;
+      return PregnancyDetailsModel.fromJson({});
     }
   }
 
@@ -34,8 +54,20 @@ class PregnancyTrackerRepo {
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 
-    log('-----response------${response.statusCode}');
+    log('-calculateDate----response------${response.statusCode}');
 
     return PregnancyDetailsModel.fromJson(response.data);
+  }
+
+  Future<Map<String, dynamic>> deleteTracker(
+      {String id, CancelToken cancelToken}) async {
+    var response = await _cachedDio.delete(
+      ApiConsts.deleteTracker + id,
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    log('-----response------${response.statusCode}');
+
+    return response.data;
   }
 }

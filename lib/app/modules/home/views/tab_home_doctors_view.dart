@@ -19,6 +19,7 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: RefreshIndicator(
           onRefresh: () => Future.sync(

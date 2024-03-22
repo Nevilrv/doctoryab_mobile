@@ -44,20 +44,8 @@ class DoctorsController extends GetxController {
   String hospitalId;
   String sort = "";
   String selectedSort = "".tr;
-  // List<String> filterList = [
-  //   'most_rated'.tr,
-  //   'suggested'.tr,
-  //   'nearest'.tr,
-  //   'sponsored'.tr,
-  //   'A-Z'
-  // ];
-  List<String> filterList = [
-    'promoted'.tr,
-    "best_rating".tr,
-    // 'recommended'.tr,
-    'nearest'.tr,
-    'a-z'.tr
-  ];
+
+  List<String> filterList = ['promoted'.tr, "best_rating".tr, 'nearest'.tr, 'a-z'.tr];
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   //*Location
@@ -81,7 +69,6 @@ class DoctorsController extends GetxController {
     pagingController.addPageRequestListener((pageKey) {
       fetchDoctors(pageKey);
     });
-    // var dummyList = ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
 
     super.onInit();
   }
@@ -149,8 +136,7 @@ class DoctorsController extends GetxController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13
-                        .copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -167,9 +153,7 @@ class DoctorsController extends GetxController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l
-                                ? AppColors.secondary
-                                : AppColors.primary,
+                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -423,8 +407,7 @@ class DoctorsController extends GetxController {
         case PermissionStatus.permanentlyDenied:
           {
             AppGetDialog.show(
-              middleText:
-                  "you_have_to_allow_location_permission_in_settings".tr,
+              middleText: "you_have_to_allow_location_permission_in_settings".tr,
               actions: <Widget>[
                 TextButton(
                   onPressed: () => openAppSettings(),
@@ -439,9 +422,7 @@ class DoctorsController extends GetxController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(
-          middleText:
-              e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
     }
   }
 

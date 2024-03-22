@@ -234,7 +234,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                               : ListView.separated(
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
-                                  padding: EdgeInsets.only(bottom: 100),
+                                  // padding: EdgeInsets.only(bottom: 100),
                                   itemBuilder: (context, index) {
                                     return _labData(context, controller.searchDataList[index], h, w);
                                   },

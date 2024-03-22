@@ -15,7 +15,7 @@ class LabsRepository {
 
   Future<Response> fetchLabs({
     int page,
-    int limitPerPage = 50,
+    int limitPerPage = 10,
     String sort,
     double lat,
     double lon,
@@ -27,9 +27,7 @@ class LabsRepository {
 
     print('===============....$filterName');
 
-    if (filterName == 'Nearest Lab' ||
-        filterName == 'نزدیکترین لابراتوار' ||
-        filterName == 'نږدې لابراتوار') {
+    if (filterName == 'Nearest Lab' || filterName == 'نزدیکترین لابراتوار' || filterName == 'نږدې لابراتوار') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
@@ -37,9 +35,7 @@ class LabsRepository {
         "lat": lat,
         "lng": lon,
       };
-    } else if (filterName == 'Promoted' ||
-        filterName == "حمایت شده" ||
-        filterName == "سپانسر شوی") {
+    } else if (filterName == 'Promoted' || filterName == "حمایت شده" || filterName == "سپانسر شوی") {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,

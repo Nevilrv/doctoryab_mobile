@@ -78,7 +78,7 @@ class ChatRepository {
           "page": page,
           // "searchVal": searchValue,
         }}');
-        return await dio.get(
+        var res = await dio.get(
           // '/findBloodDonors/profile',
           '/message/$chatID',
           cancelToken: cancelToken,
@@ -91,6 +91,9 @@ class ChatRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
+        log("res--------------> ${res.data}");
+
+        return res;
       },
       onError: onError,
     );
@@ -197,8 +200,7 @@ class ChatRepository {
       {
         "file": pdfFile.path != ""
             ? await MultipartFile.fromFile("${pdfFile.path}",
-                filename: pdfFile.path.split('/').last,
-                contentType: MediaType('application', 'pdf'))
+                filename: pdfFile.path.split('/').last, contentType: MediaType('application', 'pdf'))
             : null,
       },
     );
@@ -256,12 +258,13 @@ class ChatRepository {
     var response;
     try {
       response = await dio.post(
-        // '/findBloodDonors/profile',
-        '/chat/createChatAndSendMessage/',
+        '/chat/createChatWithoutMessage',
+        // '/chat/createChatAndSendMessage/',
         cancelToken: cancelToken,
         data: {
-          "reason": "$title",
-          "content": "$message",
+          "reason": "",
+          // "reason": "$title",
+          // "content": "$message",
         },
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
       );

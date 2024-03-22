@@ -1,3 +1,4 @@
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -5,6 +6,8 @@ import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
   PregnancyCalculation({Key key}) : super(key: key);
@@ -129,7 +132,8 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                       initialDate:
                                           controller.pregnancyInitialDay,
                                       lastDate: DateTime.now(),
-                                      firstDate: DateTime(2021),
+                                      firstDate: DateTime.now()
+                                          .subtract(Duration(days: 266)),
                                       context: context,
                                     )
                                         .then((selectedDate) {
@@ -138,8 +142,11 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                             selectedDate;
 
                                         controller.formattedPregnancyDate =
-                                            DateFormat('dd/MM/yyyy')
-                                                .format(selectedDate);
+                                            SettingsController.appLanguge ==
+                                                    'English'
+                                                ? DateFormat('dd-MM-yyyy')
+                                                    .format(selectedDate)
+                                                : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
 
                                         controller.update();
                                       }
@@ -282,8 +289,9 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                         controller
                                             .showDatePicker(
                                           initialDate: controller.dueInitialDay,
-                                          lastDate: DateTime(2026),
-                                          firstDate: DateTime(2021),
+                                          lastDate: DateTime.now(),
+                                          firstDate: DateTime.now()
+                                              .subtract(Duration(days: 266)),
                                           context: context,
                                         )
                                             .then((selectedDate) {
@@ -383,8 +391,10 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                 .showDatePicker(
                                               initialDate: controller
                                                   .conceptionInitialDay,
-                                              lastDate: DateTime(2026),
-                                              firstDate: DateTime(2021),
+                                              lastDate: DateTime.now(),
+                                              firstDate: DateTime.now()
+                                                  .subtract(
+                                                      Duration(days: 266)),
                                               context: context,
                                             )
                                                 .then((selectedDate) {
@@ -420,7 +430,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
               GestureDetector(
                 onTap: () async {
                   Map<String, dynamic> body = {};
-
+                  Get.back();
                   if (controller.type == 'LastPeriod') {
                     int difference = DateTime.now()
                         .difference(controller.pregnancyInitialDay)
@@ -429,7 +439,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                       body = {
                         "type": "lastPeriod",
                         "date":
-                            "${DateFormat('yyyy-MM-dd').format(controller.pregnancyInitialDay)}"
+                            "${DateFormat('yyyy-MM-dd').format(controller.pregnancyInitialDay).toEnglishDigit()}"
                       };
 
                       controller.pregnancyCalculation(body: body);

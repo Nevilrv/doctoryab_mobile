@@ -50,6 +50,7 @@ class MessagesListView extends GetView<MessagesListController> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               title: Text('messages'.tr),
               centerTitle: true,
@@ -80,9 +81,11 @@ class MessagesListView extends GetView<MessagesListController> {
                 height: 10.0,
               ),
               InkWell(
-                onTap: () {
-                  Get.toNamed(Routes.NEW_CHAT);
-                },
+                onTap: controller.sending()
+                    ? null
+                    : () {
+                        controller.sendMessage();
+                      },
                 child: Stack(
                   children: [
                     Container(

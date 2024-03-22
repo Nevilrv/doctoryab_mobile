@@ -37,8 +37,7 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                   child: Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 80),
+                        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 80),
                         child: Container(
                           child: Column(
                             children: [
@@ -49,8 +48,7 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
                                   padding: EdgeInsets.only(top: 18),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
@@ -59,24 +57,19 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        WidgetsBinding.instance
-                                            .addPostFrameCallback((timeStamp) {
-                                          controller.selectedCategory =
-                                              controller.category[index];
-                                          controller.dieaseDataList(controller
-                                              .category[index].eTitle);
+                                        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                          controller.selectedCategory = controller.category[index];
+                                          controller.dieaseDataList(controller.category[index].eTitle);
                                         });
                                         Get.toNamed(
                                           Routes.DISEASE_DETAILS,
                                         );
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.all(11)
-                                            .copyWith(bottom: 0),
+                                        padding: EdgeInsets.all(11).copyWith(bottom: 0),
                                         decoration: BoxDecoration(
                                           color: AppColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -87,16 +80,14 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                               decoration: BoxDecoration(
                                                 // color: AppColors.boxPink3,
                                                 color: Color(int.parse(
-                                                    "0xff${controller.category[index].background.replaceFirst("#", "")}")),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
+                                                    "0xff${controller.category[index].background == null ? 'FFFFFF' : controller.category[index].background.replaceFirst("#", "")}")),
+                                                borderRadius: BorderRadius.circular(5),
                                               ),
                                               child: Center(
                                                   child: CachedNetworkImage(
                                                 height: 52,
                                                 width: 52,
-                                                imageUrl:
-                                                    "${ApiConsts.hostUrl}${controller.category[index].photo}",
+                                                imageUrl: "${ApiConsts.hostUrl}${controller.category[index].photo}",
                                                 fit: BoxFit.cover,
                                                 placeholder: (_, __) {
                                                   return Image.asset(
@@ -115,28 +106,15 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                             Expanded(
                                               child: Center(
                                                 child: Text(
-                                                  SettingsController
-                                                              .appLanguge ==
-                                                          "English"
-                                                      ? controller
-                                                          .category[index]
-                                                          .eTitle
-                                                      : SettingsController
-                                                                  .appLanguge ==
-                                                              "فارسی"
-                                                          ? controller
-                                                              .category[index]
-                                                              .fTitle
-                                                          : controller
-                                                              .category[index]
-                                                              .pTitle,
-                                                  style: AppTextStyle
-                                                      .boldPrimary12
-                                                      .copyWith(height: 1.2),
+                                                  SettingsController.appLanguge == "English"
+                                                      ? controller.category[index].eTitle
+                                                      : SettingsController.appLanguge == "فارسی"
+                                                          ? controller.category[index].fTitle
+                                                          : controller.category[index].pTitle,
+                                                  style: AppTextStyle.boldPrimary12.copyWith(height: 1.2),
                                                   maxLines: 2,
                                                   textAlign: TextAlign.center,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),

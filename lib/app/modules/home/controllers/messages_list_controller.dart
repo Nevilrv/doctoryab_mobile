@@ -15,10 +15,50 @@ class MessagesListController extends GetxController {
   var filterSearch = RxString(null);
   TextEditingController teSearchController = TextEditingController();
 
+  var sending = false.obs;
+  var cancelToken = CancelToken();
+
   RxList<ChatListApiModel> chats = <ChatListApiModel>[].obs;
   CancelToken chatCancelToken = CancelToken();
   var pagingController =
       PagingController<int, ChatListApiModel>(firstPageKey: 1);
+
+  void sendMessage() {
+    sending(true);
+    createChat();
+  }
+
+  Future<void> createChat() async {
+    print('------CALL>>>>SEND');
+    ChatRepository.createNewChat("", "", cancelToken: cancelToken,
+        onError: (e) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        // isLoading.value = false;
+        Future.delayed(Duration(seconds: 2), () {
+          cancelToken.cancel();
+          cancelToken = CancelToken();
+          if (this != null)
+            createChat();
+          else
+            return;
+        });
+      }
+    }).then((value) {
+      if (value != null) {
+        sending(false);
+        Get.toNamed(Routes.CHAT,
+                arguments: ChatListApiModel(
+                    id: value.chat.id, chatName: value.chat.chatName))
+            .then((value) {
+          try {
+            reloadChats();
+          } catch (e) {}
+        });
+      }
+    }).catchError((e, s) {
+      Logger().e("message", e, s);
+    });
+  }
 
   List<ChatListApiModel> userChats = [
     // ChatModel(
@@ -125,6 +165,7 @@ class MessagesListController extends GetxController {
 
   @override
   void onClose() {
+    cancelToken.cancel();
     super.onClose();
   }
 

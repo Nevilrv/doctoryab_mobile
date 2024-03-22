@@ -215,10 +215,13 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await controller
+                                    controller
                                         .changeCalculationType('LastPeriod');
                                     Get.toNamed(Routes.CALCULATION_METHODS,
-                                        arguments: true);
+                                        arguments: {
+                                          'type': 'LastPeriod',
+                                          'isCheck': true
+                                        });
                                   },
                                   child: Container(
                                     height: h * 0.065,
@@ -262,7 +265,10 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                     await controller
                                         .changeCalculationType('DueDate');
                                     Get.toNamed(Routes.CALCULATION_METHODS,
-                                        arguments: true);
+                                        arguments: {
+                                          'type': 'DueDate',
+                                          'isCheck': true
+                                        });
                                   },
                                   child: Container(
                                     height: h * 0.065,
@@ -304,7 +310,10 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                     await controller.changeCalculationType(
                                         'ConceptionDate');
                                     Get.toNamed(Routes.CALCULATION_METHODS,
-                                        arguments: true);
+                                        arguments: {
+                                          'type': 'ConceptionDate',
+                                          'isCheck': true
+                                        });
                                   },
                                   child: Container(
                                     height: h * 0.065,

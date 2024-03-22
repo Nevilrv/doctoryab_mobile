@@ -335,11 +335,10 @@ import 'package:just_audio/just_audio.dart';
 import '../../controllers/settings_controller.dart';
 
 final player = AudioPlayer();
-List<ChatApiModel> chatApiModelFromJson(String str) => List<ChatApiModel>.from(
-    json.decode(str).map((x) => ChatApiModel.fromJson(x)));
+List<ChatApiModel> chatApiModelFromJson(String str) =>
+    List<ChatApiModel>.from(json.decode(str).map((x) => ChatApiModel.fromJson(x)));
 
-String chatApiModelToJson(List<ChatApiModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String chatApiModelToJson(List<ChatApiModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ChatApiModel {
   ChatApiModel({
@@ -394,41 +393,23 @@ class ChatApiModel {
       );
 
   factory ChatApiModel.fromJson(Map<String, dynamic> json) => ChatApiModel(
-        images: json["images"] == null
-            ? null
-            : List<dynamic>.from(json["images"].map((x) => x)),
-        voiceNotes: json["voiceNotes"] == null
-            ? null
-            : List<dynamic>.from(json["voiceNotes"].map((x) => x)),
-        documents: json["documents"] == null
-            ? null
-            : List<dynamic>.from(json["documents"].map((x) => x)),
-        readBy: json["readBy"] == null
-            ? null
-            : List<String>.from(json["readBy"].map((x) => x)),
+        images: json["images"] == null ? null : List<dynamic>.from(json["images"].map((x) => x)),
+        voiceNotes: json["voiceNotes"] == null ? null : List<dynamic>.from(json["voiceNotes"].map((x) => x)),
+        documents: json["documents"] == null ? null : List<dynamic>.from(json["documents"].map((x) => x)),
+        readBy: json["readBy"] == null ? null : List<String>.from(json["readBy"].map((x) => x)),
         id: json["_id"] == null ? null : json["_id"],
         sender: json["sender"] == null ? null : Sender.fromJson(json["sender"]),
         content: json["content"] == null ? null : json["content"],
         chat: json["chat"] == null ? null : Chat.fromJson(json["chat"]),
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "images":
-            images == null ? null : List<dynamic>.from(images.map((x) => x)),
-        "voiceNotes": voiceNotes == null
-            ? null
-            : List<dynamic>.from(voiceNotes.map((x) => x)),
-        "documents": documents == null
-            ? null
-            : List<dynamic>.from(documents.map((x) => x)),
-        "readBy":
-            readBy == null ? null : List<dynamic>.from(readBy.map((x) => x)),
+        "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
+        "voiceNotes": voiceNotes == null ? null : List<dynamic>.from(voiceNotes.map((x) => x)),
+        "documents": documents == null ? null : List<dynamic>.from(documents.map((x) => x)),
+        "readBy": readBy == null ? null : List<dynamic>.from(readBy.map((x) => x)),
         "_id": id == null ? null : id,
         "sender": sender == null ? null : sender.toJson(),
         "content": content == null ? null : content,
@@ -437,10 +418,12 @@ class ChatApiModel {
         "updatedAt": updatedAt == null ? null : updatedAt.toIso8601String(),
       };
   bool get isUsersMessage {
+    log("SettingsController.savedUserProfile.patientID--------------> ${SettingsController.savedUserProfile.patientID}");
+    log("this?.sender?.patientId--------------> ${this?.sender?.patientId}");
+
     var cond = this?.sender?.patientId == null
         ? false
-        : (this?.sender?.patientId ?? "") !=
-            SettingsController.savedUserProfile.patientID;
+        : (this?.sender?.patientId ?? "") == SettingsController.savedUserProfile.patientID;
     log('-cond-------$cond');
     return cond;
   }
@@ -458,8 +441,7 @@ Future<String> getVoiceDuration({String url}) async {
     log("voiceDuration------>${voiceDuration}");
     return voiceDuration;
   } else {
-    voiceDuration =
-        "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
+    voiceDuration = "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
     log("voiceDuration------>${voiceDuration}");
 
     return voiceDuration;
@@ -510,20 +492,13 @@ class Chat {
 
   factory Chat.fromJson(Map<String, dynamic> json) => Chat(
         isGroupChat: json["isGroupChat"] == null ? null : json["isGroupChat"],
-        users: json["users"] == null
-            ? null
-            : List<String>.from(json["users"].map((x) => x)),
+        users: json["users"] == null ? null : List<String>.from(json["users"].map((x) => x)),
         id: json["_id"] == null ? null : json["_id"],
         chatName: json["chatName"] == null ? null : json["chatName"],
         reason: json["reason"] == null ? null : json["reason"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-        latestMessage:
-            json["latestMessage"] == null ? null : json["latestMessage"],
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+        latestMessage: json["latestMessage"] == null ? null : json["latestMessage"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -585,15 +560,12 @@ class Sender {
       );
 
   factory Sender.fromJson(Map<String, dynamic> json) => Sender(
-        geometry: json["geometry"] == null
-            ? null
-            : Geometry.fromJson(json["geometry"]),
+        geometry: json["geometry"] == null ? null : Geometry.fromJson(json["geometry"]),
         photo: json["photo"] == null ? null : json["photo"],
         id: json["_id"] == null ? null : json["_id"],
         phone: json["phone"] == null ? null : json["phone"],
         fcm: json["fcm"] == null ? null : json["fcm"],
-        createAt:
-            json["createAt"] == null ? null : DateTime.parse(json["createAt"]),
+        createAt: json["createAt"] == null ? null : DateTime.parse(json["createAt"]),
         patientId: json["patientID"] == null ? null : json["patientID"],
         age: json["age"] == null ? null : json["age"],
         name: json["name"] == null ? null : json["name"],
@@ -632,15 +604,12 @@ class Geometry {
 
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
         type: json["type"] == null ? null : json["type"],
-        coordinates: json["coordinates"] == null
-            ? null
-            : List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+        coordinates:
+            json["coordinates"] == null ? null : List<double>.from(json["coordinates"].map((x) => x.toDouble())),
       );
 
   Map<String, dynamic> toJson() => {
         "type": type == null ? null : type,
-        "coordinates": coordinates == null
-            ? null
-            : List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": coordinates == null ? null : List<dynamic>.from(coordinates.map((x) => x)),
       };
 }

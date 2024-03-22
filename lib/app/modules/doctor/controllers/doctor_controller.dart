@@ -26,14 +26,7 @@ class DoctorController extends GetxController {
     doctor = args;
     log("doctor.datumId--------------> ${doctor.datumId}");
     log("doctor.datumId--------------> ${doctor.name}");
-
     getDocFeedback(doctorId: doctor.datumId);
-    // if (!(args is List && args.length > 0 && args[0] is Doctor)) {
-    //   Get.back();
-    // } else {
-    //   doctor = args[0];
-    // }
-    // _fetchDoctorFullData();
     super.onInit();
   }
 
@@ -45,21 +38,6 @@ class DoctorController extends GetxController {
   @override
   void onClose() {
     cancelToken.cancel();
-  }
-
-  void _fetchDoctorFullData() async {
-    try {
-      var _response =
-          await DoctorsRepository().fetchDoctorFullData(doctor.id.toString());
-      var _data = _response.data;
-      doctorFullData.value = DoctorFullModel.fromJson(_data);
-      doctorFullData.refresh();
-    } on DioError catch (e) {
-      await Future.delayed(Duration(seconds: 2), () {});
-      if (!cancelToken.isCancelled) _fetchDoctorFullData();
-      // throw e;
-      print(e);
-    }
   }
 
   void addDocFeedback({
@@ -75,10 +53,7 @@ class DoctorController extends GetxController {
         "doctorId": doctorId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postDoctorFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postDoctorFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(doctorId: doctor.datumId);
@@ -93,8 +68,7 @@ class DoctorController extends GetxController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context, text: "${e.response.data['msg']}");
         log("e------asd--------> ${e.response.data['msg']}");
 
         update();
@@ -116,9 +90,7 @@ class DoctorController extends GetxController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getDoctorFeedback}${doctorId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getDoctorFeedback}${doctorId}')
           .then((value) {
         feedbackData.clear();
         log("value--------------> ${value.data}");

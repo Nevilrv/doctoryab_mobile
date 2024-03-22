@@ -268,7 +268,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       pagingController: controller.pageController,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: 100),
+                      // padding: EdgeInsets.only(bottom: 100),
                       separatorBuilder: (c, i) {
                         if ((i + 1) % 5 == 0) {
                           return Stack(

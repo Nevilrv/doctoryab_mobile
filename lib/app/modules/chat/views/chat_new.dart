@@ -364,10 +364,8 @@ class ChatView extends GetView<ChatController> {
                                       GestureDetector(
                                         onTap: () {
                                           Get.back();
-                                          MessagesListController controller =
-                                              Get.find()
-                                                ..reloadChats(
-                                                    showLoading: false);
+                                          // MessagesListController controller = Get.find()
+                                          //   ..reloadChats(showLoading: false);
                                         },
                                         child: Icon(
                                           Icons.arrow_back_ios,
@@ -665,16 +663,20 @@ class ChatView extends GetView<ChatController> {
                                                                                 );
                                                                               }),
                                                                               GestureDetector(
-                                                                                onTap: () {
+                                                                                onTap: () async {
+                                                                                  if (controller.timers1 != null) {
+                                                                                    controller.timers1.cancel();
+                                                                                  }
+                                                                                  controller.update();
                                                                                   if (controller.audioPlayer1.state == ap.PlayerState.playing) {
                                                                                     controller.isPause1 = true;
                                                                                     controller.update();
                                                                                     // stop2();
-                                                                                    controller.audioPlayer1.pause();
+                                                                                    await controller.audioPlayer1.pause();
                                                                                   } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
                                                                                     controller.isPause1 = false;
-                                                                                    controller.timers1.cancel();
-                                                                                    controller
+                                                                                    // controller.timers1.cancel();
+                                                                                    await controller
                                                                                         .play1(
                                                                                       path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes[0]}",
                                                                                     )
@@ -789,20 +791,27 @@ class ChatView extends GetView<ChatController> {
                                                                               }),
                                                                               GestureDetector(
                                                                                 onTap: () async {
+                                                                                  controller.position1 = null;
+                                                                                  controller.duration1 = null;
                                                                                   controller.selectedIndex = index;
                                                                                   controller.current1 = -1;
                                                                                   controller.voiceTrackRowSize = controller.hi.length;
-                                                                                  controller.audioPlayer1.pause();
-                                                                                  controller.audioPlayer1.stop();
+
                                                                                   controller.isPause1 = false;
+                                                                                  if (controller.timers1 != null) {
+                                                                                    controller.timers1.cancel();
+                                                                                  }
+
+                                                                                  await controller.audioPlayer1.pause();
+                                                                                  await controller.audioPlayer1.stop();
                                                                                   controller.update();
                                                                                   if (controller.audioPlayer1.state == ap.PlayerState.playing) {
                                                                                     controller.isPause1 = true;
                                                                                     controller.update();
                                                                                     // stop2();
-                                                                                    controller.audioPlayer1.pause();
+                                                                                    await controller.audioPlayer1.pause();
                                                                                   } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
-                                                                                    controller
+                                                                                    await controller
                                                                                         .play1(
                                                                                       path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes[0]}",
                                                                                     )
@@ -895,9 +904,9 @@ class ChatView extends GetView<ChatController> {
                                                                     width: 170,
                                                                     child: Text(
                                                                       controller
-                                                                          .chat[
-                                                                              index]
-                                                                          .content,
+                                                                              .chat[index]
+                                                                              .content ??
+                                                                          "",
                                                                       style:
                                                                           TextStyle(
                                                                         fontSize:

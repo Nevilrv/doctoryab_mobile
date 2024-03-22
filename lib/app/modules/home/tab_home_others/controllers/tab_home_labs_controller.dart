@@ -30,13 +30,7 @@ enum FetechingGPSDataStatus {
 
 class LabsController extends GetxController {
   var pageController = PagingController<int, Labs>(firstPageKey: 1);
-  // List<String> filterList = [
-  //   'most_rated'.tr,
-  //   'suggested'.tr,
-  //   'nearest'.tr,
-  //   'sponsored'.tr,
-  //   'A-Z'
-  // ];
+
   List<String> filterList = [
     'promoted'.tr,
     "best_rating".tr,
@@ -55,7 +49,7 @@ class LabsController extends GetxController {
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {
-      print('===LISTNER===');
+      log('===LISTNER===');
       loadData(pageKey);
     });
     _fetchAds();
@@ -108,15 +102,12 @@ class LabsController extends GetxController {
           }
         case PermissionStatus.permanentlyDenied:
           {
-            AppGetDialog.show(
-                middleText:
-                    "you_have_to_allow_location_permission_in_settings".tr,
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => openAppSettings(),
-                    child: Text("open_settings".tr),
-                  ),
-                ]);
+            AppGetDialog.show(middleText: "you_have_to_allow_location_permission_in_settings".tr, actions: <Widget>[
+              TextButton(
+                onPressed: () => openAppSettings(),
+                child: Text("open_settings".tr),
+              ),
+            ]);
             break;
           }
         case PermissionStatus.provisional:
@@ -124,9 +115,7 @@ class LabsController extends GetxController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(
-          middleText:
-              e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
@@ -164,41 +153,6 @@ class LabsController extends GetxController {
       sort = "";
       _refreshPage();
     }
-    // switch (v) {
-    //   case 'most_rated'.tr:
-    //     {
-    //       sort = "stars";
-    //       _refreshPage();
-    //       break;
-    //     }
-    //   case 1:
-    //     {
-    //       sort = "";
-    //       _refreshPage();
-    //       break;
-    //     }
-    //   case 2:
-    //     {
-    //       sort = "close";
-    //       if (latLang.value == null)
-    //         _handlePermission();
-    //       else {
-    //         _refreshPage();
-    //       }
-    //       break;
-    //     }
-    //   case 3:
-    //     {
-    //       sort = "name";
-    //       _refreshPage();
-    //       break;
-    //     }
-    //   default:
-    //     {
-    //       sort = "";
-    //       _refreshPage();
-    //     }
-    // }
   }
 
   void _refreshPage() {
@@ -218,8 +172,7 @@ class LabsController extends GetxController {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
       print("serv-enabled $_serviceEnabled");
-      var locationData =
-          await location.getLocation().timeout(Duration(seconds: 10));
+      var locationData = await location.getLocation().timeout(Duration(seconds: 10));
       print("loc" + locationData.toString());
 
       // AuthController.to.setLastUserLocation(
@@ -312,8 +265,7 @@ class LabsController extends GetxController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13
-                        .copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -333,9 +285,7 @@ class LabsController extends GetxController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l
-                                ? AppColors.secondary
-                                : AppColors.primary,
+                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -379,27 +329,6 @@ class LabsController extends GetxController {
       ),
     );
   }
-/*
-  void loadData1(int page) async {
-    LabsRepository.fetchLabs(
-      page,
-      cancelToken: cancelToken,
-      onError: (e) {
-        pageController.error = e;
-        // super.pageController.error = e;
-        Logger().e(
-          "load-Labs",
-          e,
-        );
-      },
-    ).then((data) {
-      Utils.addResponseToPagingController<Labs>(
-        data,
-        pageController,
-        page,
-      );
-    });
-  }*/
 
   void loadData(int page) {
     LabsRepository()
@@ -468,9 +397,7 @@ class LabsController extends GetxController {
   void searchData(int page) {
     isSearching = true;
     update();
-    LabsRepository()
-        .searchLabs(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    LabsRepository().searchLabs(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
       log("data.data[data]--------------> ${data.data["data"]}");
 
@@ -514,9 +441,7 @@ class LabsController extends GetxController {
   }
 
   void searchData1(int page) {
-    LabsRepository()
-        .searchLabs(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    LabsRepository().searchLabs(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
 
       if (data != null) {

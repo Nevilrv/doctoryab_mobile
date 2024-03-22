@@ -27,13 +27,15 @@ class DevEnvVars extends AppEnvVars {
   @override
   final AppEnvType appEnvType = AppEnvType.DEV;
   @override
-  // final String apiURL = "https://testserver.doctoryab.app/";
 
   /// Test Server
-  // final String apiURL = "https://testserver.doctoryab.app/";
+  final String apiURL = "https://testserver.doctoryab.app";
+
+  /// Live Server
+  // final String apiURL = "https://server.doctoryab.app";
 
   /// Almost Server
-  final String apiURL = "https://testserver.doctoryab.app";
+  // final String apiURL = "https://almost-server.doctoryab.app";
 }
 
 class UzbEnvVars extends AppEnvVars {
