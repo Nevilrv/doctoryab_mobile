@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -27,8 +29,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                 height: h * 0.12,
                 width: w,
                 color: AppColors.primary,
-                padding: EdgeInsets.only(
-                    left: w * 0.04, right: w * 0.04, top: h * 0.04),
+                padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04, top: h * 0.04),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,10 +75,11 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                   ),
                 ),
               ),
-              controller.type == 'LastPeriod'
+              controller.type == 'ConceptionDate'
                   ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             margin: EdgeInsets.only(bottom: 12),
@@ -88,28 +90,37 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 12, bottom: 8, top: 10, right: 10),
+                                  padding: EdgeInsets.only(left: 12, bottom: 8, top: 10, right: 10),
                                   child: Image.asset(
-                                    AppImages.periodsDate,
+                                    AppImages.conceptionDate,
                                     height: h * 0.05,
                                   ),
                                 ),
                                 Text(
-                                  'last_period'.tr,
+                                  'conception_date'.tr,
                                   style: TextStyle(
                                     color: AppColors.primary,
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              'whats_your_conception_date'.tr,
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          ),
                           Container(
                             margin: EdgeInsets.only(bottom: 12),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
+                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                             decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(15),
@@ -118,10 +129,10 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${controller.formattedPregnancyDate}',
+                                  '${controller.formattedConceptionDate}',
                                   style: TextStyle(
                                     color: AppColors.primary,
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -129,24 +140,18 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                   onTap: () {
                                     controller
                                         .showDatePicker(
-                                      initialDate:
-                                          controller.pregnancyInitialDay,
+                                      initialDate: controller.conceptionInitialDay,
                                       lastDate: DateTime.now(),
-                                      firstDate: DateTime.now()
-                                          .subtract(Duration(days: 266)),
+                                      firstDate: DateTime.now().subtract(Duration(days: 266)),
                                       context: context,
                                     )
                                         .then((selectedDate) {
                                       if (selectedDate != null) {
-                                        controller.pregnancyInitialDay =
-                                            selectedDate;
+                                        controller.conceptionInitialDay = selectedDate;
 
-                                        controller.formattedPregnancyDate =
-                                            SettingsController.appLanguge ==
-                                                    'English'
-                                                ? DateFormat('dd-MM-yyyy')
-                                                    .format(selectedDate)
-                                                : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
+                                        controller.formattedConceptionDate = SettingsController.appLanguge == 'English'
+                                            ? DateFormat('dd-MM-yyyy').format(selectedDate)
+                                            : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
 
                                         controller.update();
                                       }
@@ -160,68 +165,13 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                               ],
                             ),
                           ),
-                          // Container(
-                          //   margin: EdgeInsets.only(bottom: 12),
-                          //   padding: EdgeInsets.symmetric(
-                          //       horizontal: 15, vertical: 13),
-                          //   decoration: BoxDecoration(
-                          //     color: AppColors.white,
-                          //     borderRadius: BorderRadius.circular(15),
-                          //   ),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Container(
-                          //         height: 20,
-                          //         width: 20,
-                          //         decoration: BoxDecoration(
-                          //           borderRadius: BorderRadius.circular(4),
-                          //           border: Border.all(
-                          //               color: AppColors.red, width: 2),
-                          //         ),
-                          //         child: Center(
-                          //           child: Container(
-                          //               height: 1.5,
-                          //               width: 10,
-                          //               color: AppColors.red),
-                          //         ),
-                          //       ),
-                          //       Text(
-                          //         '28',
-                          //         style: TextStyle(
-                          //           color: AppColors.primary,
-                          //           fontSize: 18,
-                          //           fontWeight: FontWeight.w600,
-                          //         ),
-                          //       ),
-                          //       Container(
-                          //         height: 20,
-                          //         width: 20,
-                          //         alignment: Alignment.center,
-                          //         decoration: BoxDecoration(
-                          //           borderRadius: BorderRadius.circular(4),
-                          //           border: Border.all(
-                          //               color: AppColors.red, width: 2),
-                          //         ),
-                          //         child: Center(
-                          //           child: Icon(
-                          //             Icons.add,
-                          //             size: 14,
-                          //             color: AppColors.red,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                         ],
                       ),
                     )
-                  : controller.type == 'DueDate'
+                  : controller.type == 'LastPeriod'
                       ? Padding(
                           padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
                                 margin: EdgeInsets.only(bottom: 12),
@@ -232,55 +182,38 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 12,
-                                          bottom: 8,
-                                          top: 10,
-                                          right: 20),
+                                      padding: EdgeInsets.only(left: 12, bottom: 8, top: 10, right: 10),
                                       child: Image.asset(
-                                        AppImages.dueDate,
+                                        AppImages.periodsDate,
                                         height: h * 0.05,
                                       ),
                                     ),
                                     Text(
-                                      'due_date'.tr,
+                                      'last_period'.tr,
                                       style: TextStyle(
                                         color: AppColors.primary,
-                                        fontSize: 17,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  'whats_your_due_date'.tr,
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                              ),
                               Container(
                                 margin: EdgeInsets.only(bottom: 12),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 15),
+                                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                                 decoration: BoxDecoration(
                                   color: AppColors.white,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      controller.formattedDueDate,
+                                      '${controller.formattedPregnancyDate}',
                                       style: TextStyle(
                                         color: AppColors.primary,
-                                        fontSize: 17,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -288,20 +221,20 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                       onTap: () {
                                         controller
                                             .showDatePicker(
-                                          initialDate: controller.dueInitialDay,
+                                          initialDate: controller.pregnancyInitialDay,
                                           lastDate: DateTime.now(),
-                                          firstDate: DateTime.now()
-                                              .subtract(Duration(days: 266)),
+                                          firstDate: DateTime.now().subtract(Duration(days: 266)),
                                           context: context,
                                         )
                                             .then((selectedDate) {
                                           if (selectedDate != null) {
-                                            controller.dueInitialDay =
-                                                selectedDate;
+                                            controller.pregnancyInitialDay = selectedDate;
 
-                                            controller.formattedDueDate =
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(selectedDate);
+                                            controller.formattedPregnancyDate = SettingsController.appLanguge ==
+                                                    'English'
+                                                ? DateFormat('dd-MM-yyyy').format(selectedDate)
+                                                : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
+
                                             controller.update();
                                           }
                                         });
@@ -314,13 +247,66 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                   ],
                                 ),
                               ),
+                              // Container(
+                              //   margin: EdgeInsets.only(bottom: 12),
+                              //   padding: EdgeInsets.symmetric(
+                              //       horizontal: 15, vertical: 13),
+                              //   decoration: BoxDecoration(
+                              //     color: AppColors.white,
+                              //     borderRadius: BorderRadius.circular(15),
+                              //   ),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       Container(
+                              //         height: 20,
+                              //         width: 20,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(4),
+                              //           border: Border.all(
+                              //               color: AppColors.red, width: 2),
+                              //         ),
+                              //         child: Center(
+                              //           child: Container(
+                              //               height: 1.5,
+                              //               width: 10,
+                              //               color: AppColors.red),
+                              //         ),
+                              //       ),
+                              //       Text(
+                              //         '28',
+                              //         style: TextStyle(
+                              //           color: AppColors.primary,
+                              //           fontSize: 18,
+                              //           fontWeight: FontWeight.w600,
+                              //         ),
+                              //       ),
+                              //       Container(
+                              //         height: 20,
+                              //         width: 20,
+                              //         alignment: Alignment.center,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(4),
+                              //           border: Border.all(
+                              //               color: AppColors.red, width: 2),
+                              //         ),
+                              //         child: Center(
+                              //           child: Icon(
+                              //             Icons.add,
+                              //             size: 14,
+                              //             color: AppColors.red,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         )
-                      : controller.type == 'ConceptionDate'
+                      : controller.type == 'DueDate'
                           ? Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: w * 0.05),
+                              padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -333,18 +319,14 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                     child: Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 12,
-                                              bottom: 8,
-                                              top: 10,
-                                              right: 10),
+                                          padding: EdgeInsets.only(left: 12, bottom: 8, top: 10, right: 20),
                                           child: Image.asset(
-                                            AppImages.conceptionDate,
+                                            AppImages.dueDate,
                                             height: h * 0.05,
                                           ),
                                         ),
                                         Text(
-                                          'conception_date'.tr,
+                                          'due_date'.tr,
                                           style: TextStyle(
                                             color: AppColors.primary,
                                             fontSize: 17,
@@ -357,7 +339,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Text(
-                                      'Whats your conception date?'.tr,
+                                      'whats_your_due_date'.tr,
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500,
@@ -367,18 +349,16 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(bottom: 12),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                                     decoration: BoxDecoration(
                                       color: AppColors.white,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '${controller.formattedConceptionDate}',
+                                          controller.formattedDueDate,
                                           style: TextStyle(
                                             color: AppColors.primary,
                                             fontSize: 17,
@@ -389,24 +369,19 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                           onTap: () {
                                             controller
                                                 .showDatePicker(
-                                              initialDate: controller
-                                                  .conceptionInitialDay,
-                                              lastDate: DateTime.now(),
-                                              firstDate: DateTime.now()
-                                                  .subtract(
-                                                      Duration(days: 266)),
+                                              initialDate: controller.dueInitialDay,
+
+                                              lastDate: DateTime.now().add(Duration(days: 300)),
+                                              firstDate: DateTime.now(),
                                               context: context,
                                             )
                                                 .then((selectedDate) {
                                               if (selectedDate != null) {
-                                                controller
-                                                        .conceptionInitialDay =
-                                                    selectedDate;
+                                                controller.dueInitialDay = selectedDate;
 
-                                                controller
-                                                        .formattedConceptionDate =
-                                                    DateFormat('dd/MM/yyyy')
-                                                        .format(selectedDate);
+                                                controller.formattedDueDate = SettingsController.appLanguge == 'English'
+                                                    ? DateFormat('dd-MM-yyyy').format(selectedDate)
+                                                    : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
 
                                                 controller.update();
                                               }
@@ -432,14 +407,11 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                   Map<String, dynamic> body = {};
                   Get.back();
                   if (controller.type == 'LastPeriod') {
-                    int difference = DateTime.now()
-                        .difference(controller.pregnancyInitialDay)
-                        .inDays;
+                    int difference = DateTime.now().difference(controller.pregnancyInitialDay).inDays;
                     if (difference > 15) {
                       body = {
                         "type": "lastPeriod",
-                        "date":
-                            "${DateFormat('yyyy-MM-dd').format(controller.pregnancyInitialDay).toEnglishDigit()}"
+                        "date": "${DateFormat('yyyy-MM-dd').format(controller.pregnancyInitialDay).toEnglishDigit()}"
                       };
 
                       controller.pregnancyCalculation(body: body);
@@ -459,17 +431,16 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                   } else if (controller.type == 'ConceptionDate') {
                     body = {
                       "type": "conception",
-                      "date":
-                          "${DateFormat('yyyy-MM-dd').format(controller.conceptionInitialDay)}"
+                      "date": "${DateFormat('yyyy-MM-dd').format(controller.conceptionInitialDay).toEnglishDigit()}"
                     };
+                    log("body--------------> ${body}");
 
                     controller.pregnancyCalculation(body: body);
                     Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
                   } else {
                     body = {
                       "type": "dueDate",
-                      "date":
-                          "${DateFormat('yyyy-MM-dd').format(controller.dueInitialDay)}"
+                      "date": "${DateFormat('yyyy-MM-dd').format(controller.dueInitialDay).toEnglishDigit()}"
                     };
                     controller.pregnancyCalculation(body: body);
                     Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);

@@ -344,6 +344,7 @@ class DoctorsController extends GetxController {
     pagingController.refresh();
     pagingController.itemList.clear();
     fetchDoctors(pagingController.firstPageKey);
+    update();
     // fetchDoctors(1);
   }
 

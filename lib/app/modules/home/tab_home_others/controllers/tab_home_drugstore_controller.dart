@@ -139,8 +139,7 @@ class DrugStoreController extends TabHomeOthersController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13
-                        .copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -159,9 +158,7 @@ class DrugStoreController extends TabHomeOthersController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l
-                                ? AppColors.secondary
-                                : AppColors.primary,
+                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -235,15 +232,12 @@ class DrugStoreController extends TabHomeOthersController {
           }
         case PermissionStatus.permanentlyDenied:
           {
-            AppGetDialog.show(
-                middleText:
-                    "you_have_to_allow_location_permission_in_settings".tr,
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => openAppSettings(),
-                    child: Text("open_settings".tr),
-                  ),
-                ]);
+            AppGetDialog.show(middleText: "you_have_to_allow_location_permission_in_settings".tr, actions: <Widget>[
+              TextButton(
+                onPressed: () => openAppSettings(),
+                child: Text("open_settings".tr),
+              ),
+            ]);
             break;
           }
         case PermissionStatus.provisional:
@@ -251,9 +245,7 @@ class DrugStoreController extends TabHomeOthersController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(
-          middleText:
-              e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
@@ -344,8 +336,7 @@ class DrugStoreController extends TabHomeOthersController {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
       print("serv-enabled $_serviceEnabled");
-      var locationData =
-          await location.getLocation().timeout(Duration(seconds: 10));
+      var locationData = await location.getLocation().timeout(Duration(seconds: 10));
       print("loc" + locationData.toString());
 
       // AuthController.to.setLastUserLocation(
@@ -376,10 +367,7 @@ class DrugStoreController extends TabHomeOthersController {
         "pharmacyId": pharmacyId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postPharmacyFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postPharmacyFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(pharmacyId: pharmacyId);
@@ -394,8 +382,7 @@ class DrugStoreController extends TabHomeOthersController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context, text: "${e.response.data['msg']}");
         log("e------asd--------> ${e.response.data['msg']}");
       });
     } on DioError catch (e) {
@@ -414,9 +401,7 @@ class DrugStoreController extends TabHomeOthersController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
           .then((value) {
         feedbackData.clear();
         log("value--------------> ${value.data}");
@@ -492,17 +477,13 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository()
-        .getDrugDetails(id: id, cancelToken: cancelToken)
-        .then((value) {
+    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {
       log("value--------------> $value");
     });
   }
 
   void searchData(int page) {
-    DrugStoreRepository()
-        .searchDrugStores(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
       log("data.data[data]--------------> ${data.data["data"]}");
 
@@ -545,12 +526,11 @@ class DrugStoreController extends TabHomeOthersController {
         .fetchDrugStores(
       page: page,
       sort: sort,
-      the24Hours: the24HourState,
       cancelToken: cancelToken,
       lat: latLang()?.latitude,
       lon: latLang()?.longitude,
       filterName: selectedSort,
-      limitPerPage: 50,
+      limitPerPage: 10,
     )
         .then((data) {
       //TODO handle all in model
@@ -619,13 +599,10 @@ class DrugStoreController extends TabHomeOthersController {
   var serviceList = <Services>[].obs;
   var productList = <ProductData>[].obs;
   void serviceData(String id) {
-    DrugStoreRepository()
-        .fetchPharmacyService(id: id, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().fetchPharmacyService(id: id, cancelToken: cancelToken).then((data) {
       serviceList.clear();
       update();
-      PharmacyServicesResModel resModel =
-          PharmacyServicesResModel.fromJson(data.data);
+      PharmacyServicesResModel resModel = PharmacyServicesResModel.fromJson(data.data);
       if (resModel.data.isNotEmpty) {
         serviceList.addAll(resModel.data);
         log("serviceList--------------> ${serviceList.length}");
@@ -648,13 +625,10 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void productData(String id) {
-    DrugStoreRepository()
-        .fetchPharmacyProduct(id: id, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().fetchPharmacyProduct(id: id, cancelToken: cancelToken).then((data) {
       productList.clear();
       update();
-      PharmacyProductResModel resModel =
-          PharmacyProductResModel.fromJson(data.data);
+      PharmacyProductResModel resModel = PharmacyProductResModel.fromJson(data.data);
       if (resModel.data.isNotEmpty) {
         productList.addAll(resModel.data);
         log("serviceList--------------> ${productList.length}");
@@ -701,7 +675,7 @@ class DrugStoreController extends TabHomeOthersController {
   }
 }
 
-class DrugStoreLabController extends TabHomeOthersController {
+class DrugStoreLabController extends GetxController {
   TextEditingController search = TextEditingController();
   @override
   var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
@@ -714,6 +688,7 @@ class DrugStoreLabController extends TabHomeOthersController {
   var sRating = 0.0.obs;
   var eRating = 0.0.obs;
   TextEditingController comment = TextEditingController();
+  CancelToken cancelToken = CancelToken();
 
   @override
   void onInit() {
@@ -745,10 +720,7 @@ class DrugStoreLabController extends TabHomeOthersController {
       log(" ${data}");
 
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postLabFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postLabFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(labId: labId);
@@ -764,8 +736,7 @@ class DrugStoreLabController extends TabHomeOthersController {
         eRating.value = 0.0;
         sRating.value = 0.0;
         Get.back();
-        Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context, text: "${e.response.data['msg']}");
         log("e------asd--------> ${e.response.data['msg']}");
       });
     } on DioError catch (e) {
@@ -784,9 +755,7 @@ class DrugStoreLabController extends TabHomeOthersController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getLabFeedback}${labId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getLabFeedback}${labId}')
           .then((value) {
         feedbackData.clear();
         log("value--------------> ${value.data}");
@@ -815,159 +784,6 @@ class DrugStoreLabController extends TabHomeOthersController {
   var light1 = true.obs;
   String sort = "";
   String selectedSort = "";
-
-  // void _handlePermission() async {
-  //   try {
-  //     var p = await Permission.location.request();
-  //
-  //     switch (p) {
-  //       case PermissionStatus.denied:
-  //         {
-  //           AppGetDialog.show(middleText: "you_denied_request".tr);
-  //           break;
-  //         }
-  //       case PermissionStatus.granted:
-  //         {
-  //           _getDeviceLocation();
-  //           break;
-  //         }
-  //       case PermissionStatus.restricted:
-  //         {
-  //           //TODO urgent must be tested in iphone
-  //           // _getDeviceLocation();
-  //           break;
-  //         }
-  //       case PermissionStatus.limited:
-  //         {
-  //           //TODO urgent must be tested in iphone
-  //
-  //           break;
-  //         }
-  //       case PermissionStatus.permanentlyDenied:
-  //         {
-  //           AppGetDialog.show(
-  //               middleText:
-  //                   "you_have_to_allow_location_permission_in_settings".tr,
-  //               actions: <Widget>[
-  //                 TextButton(
-  //                   onPressed: () => openAppSettings(),
-  //                   child: Text("open_settings".tr),
-  //                 ),
-  //               ]);
-  //           break;
-  //         }
-  //       case PermissionStatus.provisional:
-  //         // TODO: Handle this case.
-  //         break;
-  //     }
-  //   } catch (e) {
-  //     AppGetDialog.show(
-  //         middleText:
-  //             e.toString() ?? "Failed to request location permission :-(");
-  //   }
-  // }
-  //
-  // var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  // var latLang = Rx<LocationData>(null);
-  // void changeSort(String v) {
-  //   // if (i == selectedSort) {
-  //   //   // Get.back();
-  //   //   return;
-  //   // }
-  //
-  //   print('---->>>selectedSort>>>>>$selectedSort');
-  //   selectedSort = v;
-  //   //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-  //   if (v == 'most_rated'.tr) {
-  //     sort = "stars";
-  //     _refreshPage();
-  //   } else if (v == 'suggested'.tr) {
-  //     sort = "";
-  //     _refreshPage();
-  //   } else if (v == 'nearest'.tr) {
-  //     sort = "close";
-  //     if (latLang.value == null)
-  //       _handlePermission();
-  //     else {
-  //       _refreshPage();
-  //     }
-  //   } else if (v == 'A-Z') {
-  //     sort = "name";
-  //     _refreshPage();
-  //   } else {
-  //     sort = "";
-  //     _refreshPage();
-  //   }
-  //   // switch (v) {
-  //   //   case 'most_rated'.tr:
-  //   //     {
-  //   //       sort = "stars";
-  //   //       _refreshPage();
-  //   //       break;
-  //   //     }
-  //   //   case 1:
-  //   //     {
-  //   //       sort = "";
-  //   //       _refreshPage();
-  //   //       break;
-  //   //     }
-  //   //   case 2:
-  //   //     {
-  //   //       sort = "close";
-  //   //       if (latLang.value == null)
-  //   //         _handlePermission();
-  //   //       else {
-  //   //         _refreshPage();
-  //   //       }
-  //   //       break;
-  //   //     }
-  //   //   case 3:
-  //   //     {
-  //   //       sort = "name";
-  //   //       _refreshPage();
-  //   //       break;
-  //   //     }
-  //   //   default:
-  //   //     {
-  //   //       sort = "";
-  //   //       _refreshPage();
-  //   //     }
-  //   // }
-  // }
-  //
-  // void _refreshPage() {
-  //   cancelToken.cancel();
-  //   cancelToken = CancelToken();
-  //   // Utils.resetPagingController(pagingController);
-  //   pageController.refresh();
-  //   loadData(1);
-  // }
-  //
-  // Future<void> _getDeviceLocation() async {
-  //   fetechingGPSDataStatus(FetechingGPSDataStatus.loading);
-  //   EasyLoading.show(status: "getting_location_from_device".tr);
-  //   try {
-  //     Location location = new Location();
-  //     bool _serviceEnabled = await location.serviceEnabled();
-  //     print("serv-enabled $_serviceEnabled");
-  //     var locationData =
-  //         await location.getLocation().timeout(Duration(seconds: 10));
-  //     print("loc" + locationData.toString());
-  //
-  //     // AuthController.to.setLastUserLocation(
-  //     latLang.value = locationData;
-  //     // Utils.whereShouldIGo();
-  //     fetechingGPSDataStatus(FetechingGPSDataStatus.success);
-  //     EasyLoading.dismiss();
-  //     _refreshPage();
-  //   } catch (e) {
-  //     EasyLoading.dismiss();
-  //
-  //     fetechingGPSDataStatus(FetechingGPSDataStatus.failed);
-  //
-  //     AppGetDialog.show(middleText: "failed_to_get_location_data".tr);
-  //   }
-  // }
 
   @override
   void onReady() {
@@ -1001,17 +817,13 @@ class DrugStoreLabController extends TabHomeOthersController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository()
-        .getDrugDetails(id: id, cancelToken: cancelToken)
-        .then((value) {
+    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {
       log("value--------------> ${value}");
     });
   }
 
   void searchData(int page) {
-    DrugStoreRepository()
-        .searchDrugStores(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
       log("data.data[data]--------------> ${data.data["data"]}");
 
@@ -1051,13 +863,7 @@ class DrugStoreLabController extends TabHomeOthersController {
 
   void loadData(int page) {
     DrugStoreRepository()
-        .fetchDrugStores(
-            page: page,
-            sort: sort,
-            the24Hours: the24HourState,
-            cancelToken: cancelToken,
-            filterName: selectedSort,
-            limitPerPage: 50)
+        .fetchDrugStores(page: page, sort: sort, cancelToken: cancelToken, filterName: selectedSort, limitPerPage: 10)
         .then((data) {
       //TODO handle all in model
 

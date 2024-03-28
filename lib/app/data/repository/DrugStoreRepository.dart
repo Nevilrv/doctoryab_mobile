@@ -46,18 +46,15 @@ class DrugStoreRepository {
   Future<Response> fetchDrugStores({
     int page,
     String sort,
-    bool the24Hours,
     double lat,
     double lon,
     String filterName,
-    int limitPerPage = 50,
+    int limitPerPage = 10,
     void onError(e),
     CancelToken cancelToken,
   }) async {
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'نږدې  درملتون' ||
-        filterName == 'نزدیکترین دواخانه' ||
-        filterName == 'Nearest Pharmacy') {
+    if (filterName == 'نږدې  درملتون' || filterName == 'نزدیکترین دواخانه' || filterName == 'Nearest Pharmacy') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,

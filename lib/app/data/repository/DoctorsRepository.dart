@@ -128,7 +128,7 @@ class DoctorsRepository {
   Future<dynamic> fetchMyDoctors(
     int page, {
     Category cat,
-    int limitPerPage = 50,
+    int limitPerPage = 10,
     DOCTORS_LOAD_ACTION action = DOCTORS_LOAD_ACTION.fromCategory,
     String hospitalId,
     CancelToken cancelToken,

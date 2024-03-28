@@ -119,6 +119,8 @@ dependencies:
   percent_indicator: ^3.0.1
   remaths: ^0.0.7
   pdf:
+  flutter_localizations: # Add this line
+    sdk: flutter
 
 
 #  ca-app-pub-7346350725133754~2691623855

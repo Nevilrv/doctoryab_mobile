@@ -30,7 +30,7 @@ class DrugDatabaseRepository {
   Future<Response> updatedFetchDrugs(
     int page,
     String name, {
-    int limitPerPage = 6,
+    int limitPerPage = 10,
     void onError(e),
     CancelToken cancelToken,
   }) async {

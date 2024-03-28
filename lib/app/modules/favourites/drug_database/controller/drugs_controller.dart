@@ -121,7 +121,7 @@ class DrugsController extends GetxController {
       if (data == null) {
         data.data["data"] = [];
       }
-      print('==Datum=Drug==>${data.data}');
+      log('==Datum=Drug==>${data.data}');
 
       var newItems = <UpdatedDrug>[];
       var promotedItems = <UpdatedDrug>[];
@@ -141,7 +141,7 @@ class DrugsController extends GetxController {
       });
 
       // var newItems = DrugStoresModel.fromJson(data.data).data;
-      print('==Datum=Drug==>${promotedItems.length}======$page');
+      log('==Datum=Drug==>${promotedItems.length}======$page');
       if (promotedItems == null || promotedItems.length == 0) {
         pageController.appendLastPage(promotedItems);
       } else {

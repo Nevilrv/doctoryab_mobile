@@ -20,7 +20,7 @@ class HospitalRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   static Future<List<Hospital>> fetchHospitals({
-    int limitPerPage = 50,
+    int limitPerPage = 10,
     void onError(e),
     CancelToken cancelToken,
     int page,
@@ -71,10 +71,7 @@ class HospitalRepository {
   }
 
   static Future<List<Hospital>> searchHospitals(int page,
-      {int limitPerPage = 10,
-      String name,
-      void onError(e),
-      CancelToken cancelToken}) async {
+      {int limitPerPage = 10, String name, void onError(e), CancelToken cancelToken}) async {
     // TODO move to some utils func
 
     return await Utils.parseResponse<Hospital>(
@@ -159,9 +156,7 @@ class HospitalRepository {
   }
 
   static Future<List<Hospital>> fetchHospitalsDropdown(int page,
-      {int limitPerPage = 1000000,
-      void onError(e),
-      CancelToken cancelToken}) async {
+      {int limitPerPage = 1000000, void onError(e), CancelToken cancelToken}) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();

@@ -28,9 +28,12 @@ class PregnancyTrackerNewController extends GetxController {
       ? d.DateFormat('dd-MM-yyyy').format(DateTime.now())
       : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
 
-  String formattedDueDate = d.DateFormat('dd/MM/yyyy').format(DateTime.now());
-  String formattedConceptionDate =
-      d.DateFormat('dd/MM/yyyy').format(DateTime.now());
+  String formattedDueDate = SettingsController.appLanguge == 'English'
+      ? d.DateFormat('dd/MM/yyyy').format(DateTime.now())
+      : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
+  String formattedConceptionDate = SettingsController.appLanguge == 'English'
+      ? d.DateFormat('dd/MM/yyyy').format(DateTime.now())
+      : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
   int weekCount = 0;
 
   changeBool(bool value) {
@@ -77,9 +80,7 @@ class PregnancyTrackerNewController extends GetxController {
     isLoading = true;
     update();
 
-    PregnancyTrackerRepo()
-        .checkPregnancy(cancelToken: cancelToken)
-        .then((value) async {
+    PregnancyTrackerRepo().checkPregnancy(cancelToken: cancelToken).then((value) async {
       log('-----value.isSaved-----${value.isSaved}');
       if (value.data != null) {
         if (value.isSaved == true) {
@@ -101,8 +102,7 @@ class PregnancyTrackerNewController extends GetxController {
           if (element.week == value.data.currentWeek) {
             log("value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek--------------> ${value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek)}");
 
-            weekCount = value.data.ptModules.indexWhere(
-                (element) => element.week == value.data.currentWeek);
+            weekCount = value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek);
           }
         });
       }
@@ -122,9 +122,7 @@ class PregnancyTrackerNewController extends GetxController {
   void pregnancyCalculation({Map<String, dynamic> body}) {
     isLoading = true;
     update();
-    PregnancyTrackerRepo()
-        .calculateDate(body: body, cancelToken: cancelToken)
-        .then((value) async {
+    PregnancyTrackerRepo().calculateDate(body: body, cancelToken: cancelToken).then((value) async {
       if (value.data != null) {
         pregnancyData = value.data;
         // value.data.ptModules.forEach((element) {
@@ -157,9 +155,7 @@ class PregnancyTrackerNewController extends GetxController {
   void deleteTracker({String id, BuildContext context}) {
     isDeleteLoading = true;
     update();
-    PregnancyTrackerRepo()
-        .deleteTracker(id: id, cancelToken: cancelToken)
-        .then((value) async {
+    PregnancyTrackerRepo().deleteTracker(id: id, cancelToken: cancelToken).then((value) async {
       isDeleteLoading = false;
       update();
     }).catchError((e, s) {
@@ -219,9 +215,7 @@ class PregnancyTrackerNewController extends GetxController {
       'initialDate $initialDate must be on or before lastDate $lastDate.',
     );
     assert(
-      selectableDayPredicate == null ||
-          initialDate == null ||
-          selectableDayPredicate(initialDate),
+      selectableDayPredicate == null || initialDate == null || selectableDayPredicate(initialDate),
       'Provided initialDate $initialDate must satisfy provided selectableDayPredicate.',
     );
     assert(debugCheckHasMaterialLocalizations(context));

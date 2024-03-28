@@ -9,10 +9,8 @@ class StoriesRepository {
   static Dio dio = AppDioService.getDioInstance();
 
   static var _cachedDio = AppDioService.getCachedDio;
-  static Future<AdsModel> fetchAds(
-      {int limitPerPage = /*10*/ 50, CancelToken cancelToken}) async {
-    print(
-        "SettingsController.auth.savedCity.sId>>>>${SettingsController.auth.savedCity.sId}");
+  static Future<AdsModel> fetchAds({int limitPerPage = /*10*/ 10, CancelToken cancelToken}) async {
+    print("SettingsController.auth.savedCity.sId>>>>${SettingsController.auth.savedCity.sId}");
 
     var data = await dio.get(
       '${ApiConsts.storiesPath}/${SettingsController.auth.savedCity.sId}',

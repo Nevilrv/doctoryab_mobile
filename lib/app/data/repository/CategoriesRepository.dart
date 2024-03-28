@@ -18,8 +18,7 @@ class CategoriesRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   //* update profile
-  Future<dynamic> getCategories(int page,
-      {int limitPerPage = 50 /*10*/, CancelToken cancelToken}) async {
+  Future<dynamic> getCategories(int page, {int limitPerPage = 10 /*10*/, CancelToken cancelToken}) async {
     print("Get---Category---${ApiConsts.categoriesByCityPath}");
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
@@ -66,8 +65,7 @@ class CategoriesRepository {
     return _cats;
   }
 
-  static Future<dynamic> searchDoctor(int page, Doctor doctor,
-      {int limitPerPage = 10, void onError(e)}) async {
+  static Future<dynamic> searchDoctor(int page, Doctor doctor, {int limitPerPage = 10, void onError(e)}) async {
     //TODO move to some utils func
     List<Category> _cats;
     try {
