@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/doctor_feedback_res_model.dart';
@@ -24,8 +22,7 @@ class DoctorController extends GetxController {
   @override
   void onInit() {
     doctor = args;
-    log("doctor.datumId--------------> ${doctor.datumId}");
-    log("doctor.datumId--------------> ${doctor.name}");
+
     getDocFeedback(doctorId: doctor.datumId);
     super.onInit();
   }
@@ -53,7 +50,10 @@ class DoctorController extends GetxController {
         "doctorId": doctorId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postDoctorFeedback}")
+          .postDoctorFeedback(
+              cancelToken: cancelToken,
+              body: data,
+              url: "${ApiConsts.postDoctorFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(doctorId: doctor.datumId);
@@ -61,15 +61,15 @@ class DoctorController extends GetxController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        log("value--------------> ${value}");
+
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
+        Utils.commonSnackbar(
+            context: context, text: "${e.response.data['msg']}");
 
         update();
       });
@@ -90,10 +90,12 @@ class DoctorController extends GetxController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getDoctorFeedback}${doctorId}')
+          .getDoctorFeedback(
+              cancelToken: cancelToken,
+              url: '${ApiConsts.getDoctorFeedback}${doctorId}')
           .then((value) {
         feedbackData.clear();
-        log("value--------------> ${value.data}");
+
         if (value.data['data'] != null) {
           value.data['data'].forEach((element) {
             feedbackData.add(FeedbackData.fromJson(element));
@@ -102,7 +104,6 @@ class DoctorController extends GetxController {
           feedbackData = [];
         }
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });

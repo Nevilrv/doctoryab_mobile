@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io' as Io;
 
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -34,7 +33,6 @@ class ComplaintSuggestionController extends GetxController {
         AuthRepository()
             .complaintImageApi(image: image.value, id: id)
             .then((value) {
-          print("image>>>>value>>>>>>>>>>>>${value}");
           Get.back();
           Utils.commonSnackbar(
               text: "Complaint successfully uploaded", context: context);
@@ -44,8 +42,6 @@ class ComplaintSuggestionController extends GetxController {
         Utils.commonSnackbar(
             text: "Complaint successfully uploaded", context: context);
       }
-
-      log("value--------------> ${value}");
     }).catchError((e, s) {
       loading = false;
       DioExceptionHandler.handleException(
@@ -83,8 +79,6 @@ class ComplaintSuggestionController extends GetxController {
             text: "Suggestion successfully uploaded", context: context);
         Get.back();
       }
-
-      log("value--------------> ${value}");
     }).catchError((e, s) {
       loading = false;
       DioExceptionHandler.handleException(

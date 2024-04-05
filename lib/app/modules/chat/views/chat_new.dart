@@ -1938,8 +1938,6 @@ class ChatView extends GetView<ChatController> {
     String filePath = await downloadFile(fileUrl);
 
     final result = await OpenFilex.open(filePath);
-    log("result.type--------------> ${result.type}");
-    log("result.message--------------> ${result.message}");
   }
 
   Future<String> downloadFile(String fileUrl) async {

@@ -119,6 +119,9 @@ dependencies:
   percent_indicator: ^3.0.1
   remaths: ^0.0.7
   pdf:
+  persian_datetime_picker:
+    git:
+      url: https://github.com/doctoryab-dev/persian-datetime-picker.git
   flutter_localizations: # Add this line
     sdk: flutter
 
@@ -183,6 +186,7 @@ flutter:
     - family: Shrikhand
       fonts:
         - asset: "fonts/Shrikhand-Regular.ttf"
+
   # fonts:
   #   - family: Schyler
   #     fonts:

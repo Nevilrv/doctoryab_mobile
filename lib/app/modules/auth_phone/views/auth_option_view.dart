@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
+import 'dart:io' show Platform;
 import 'dart:math';
+import 'dart:math' as math;
+
 import 'package:crypto/crypto.dart';
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
+import 'package:doctor_yab/app/data/models/user_model.dart' as u;
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -11,8 +15,6 @@ import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:doctor_yab/app/data/models/user_model.dart' as u;
-import 'dart:io' show Platform;
 import 'package:get/get.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -20,7 +22,6 @@ import '../../../data/models/city_model.dart';
 import '../../../data/repository/AuthRepository.dart';
 import '../../../utils/utils.dart';
 import '../controllers/auth_phone_controller.dart';
-import 'dart:math' as math;
 
 class AuthView extends GetView<AuthPhoneController> {
   AuthPhoneController controller = Get.put(AuthPhoneController());
@@ -195,18 +196,11 @@ class AuthView extends GetView<AuthPhoneController> {
                                     SettingsController.userLogin = true;
                                     Get.offAllNamed(Routes.HOME);
                                   }
-                                  dev.log(
-                                      "SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
                                 } catch (e) {
                                   Utils.commonSnackbar(
                                       context: context,
                                       text: "Apple login failed");
-                                  dev.log("e--------------> ${e}");
                                 }
-                                dev.log(
-                                    "SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
-
-                                dev.log("value--------------> ${value}");
                               });
                             } catch (e) {
                               Utils.commonSnackbar(

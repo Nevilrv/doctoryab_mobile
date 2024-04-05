@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/modules/profile_update/controllers/profile_update_controller.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +5,6 @@ import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import '../../../controllers/settings_controller.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -20,10 +16,7 @@ class HomeController extends GetxController
       Get.put(NotificationController());
   setIndex(int index) {
     if (Get.arguments == null) {
-      log("index--------------> $index");
-    } else {
-      log(" Get.arguments['id']--------------> ${Get.arguments}");
-    }
+    } else {}
 
     selectedIndex = Get.arguments == null ? index : Get.arguments['id'];
     update();
@@ -40,7 +33,6 @@ class HomeController extends GetxController
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await _getPermission();
     });
-    log("jwt: ${SettingsController.userToken}");
   }
 
   SpeechRecognition speech;
@@ -61,9 +53,7 @@ class HomeController extends GetxController
     speech.setErrorHandler(
       () {},
     );
-    speech.activate('en_US').then((res) {
-      log("speechRecognitionAvailable--------------->$res");
-    });
+    speech.activate('en_US').then((res) {});
   }
 
   @override
@@ -77,15 +67,11 @@ class HomeController extends GetxController
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> checkForUpdate() async {
     InAppUpdate.checkForUpdate().then((info) {
-      log("------------------------- is_update_available: $info");
       if (info.updateAvailability == UpdateAvailability.updateAvailable) {
         InAppUpdate.performImmediateUpdate().catchError((e) async {
-          log("-----------------------------> performImmediateUpdate_failed ${e.toString()}");
           try {
             await InAppUpdate.startFlexibleUpdate();
-          } catch (e) {
-            log("-----------------------------> startFlexibleUpdate_failed ${e.toString()}");
-          }
+          } catch (e) {}
           return AppUpdateResult.inAppUpdateFailed;
         });
       }

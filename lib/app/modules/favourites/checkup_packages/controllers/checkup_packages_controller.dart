@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/checkUp_packge_res_model.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/hospital_lab_schedule_res_model.dart';
-import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/CheckUpRepository.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -48,18 +46,15 @@ class CheckupPackagesController extends GetxController {
 
     update();
     List<String> data = [];
-    log("picked.weekday.toString()--------------> ${picked.weekday.toString()}");
 
     scheduleList.forEach((element) {
       if (element.dayOfWeek.toString() == picked.weekday.toString()) {
         data.addAll(element.times);
         update();
-        log("element--------------> ${element}");
       } else if (picked.weekday.toString() == "7") {
         if (element.dayOfWeek.toString() == "0") {
           data.addAll(element.times);
           update();
-          log("element--------------> ${element}");
         }
       }
     });
@@ -67,7 +62,6 @@ class CheckupPackagesController extends GetxController {
       timeList.add(
           "${DateTime(picked.year, picked.month, picked.day, int.parse(element.split(":").first), int.parse(element.split(":").last), 0, 0, 0).toLocal()}");
     });
-    log("timeList--------------> ${timeList}");
 
     update();
   }
@@ -96,7 +90,6 @@ class CheckupPackagesController extends GetxController {
     String packageId,
   }) async {
     loading.value = true;
-    log("selectedDataTime--------------> ${DateTime.parse(selectedTime.value).toUtc().toIso8601String()}");
 
     await PackageRepository()
         .bookTime(
@@ -189,12 +182,9 @@ class CheckupPackagesController extends GetxController {
 // cancel: Text("bla bla"),
 // content: Text("bla bldddda"),
       );
-      log("value--------------> ${value}");
     }).catchError(
       (e, s) {
         loading.value = false;
-        log("e--------------> ${e.type}");
-        log("s--------------> ${e.response.data['message']}");
 
         if (e.type == DioErrorType.response) {
           AppGetDialog.showWithRetryCallBack(
@@ -231,14 +221,12 @@ class CheckupPackagesController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
-    log("response-statusCode-------------> ${response.statusCode}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -267,8 +255,6 @@ class CheckupPackagesController extends GetxController {
       packageHistory.addAll(checkUpPackageResModel.data);
       historyLoading = false;
       update();
-
-      log("value--------------> ${value}");
     }).catchError((e, s) {
       historyLoading = false;
       update();
@@ -304,12 +290,8 @@ class CheckupPackagesController extends GetxController {
                 return a.compareTo(b);
               });
             }
-            // log("DateTime.now()----$i----------> ${DateTime.now().add(Duration(days: i)).weekday}");
-            log("scheduleListDate--------------> ${scheduleListDate}");
           }
         });
-        log("value---value-----------> ${value}");
-        log("resModel---resModel-----------> ${resModel}");
       });
     } else {
       PackageRepository.fetchHospitalSchedule(
@@ -320,9 +302,6 @@ class CheckupPackagesController extends GetxController {
             HospitalLabScheduleResModel.fromJson(value);
         scheduleList.addAll(resModel.data);
         scheduleList.forEach((element) {
-          // log(" element.dayOfWeek--------------> ${element.dayOfWeek}");
-          // log("DateTime.now()--------------> ${DateTime.now()}");
-
           for (var i = 0; i < 15; i++) {
             if (DateTime.now().add(Duration(days: i)).weekday ==
                 element.dayOfWeek) {
@@ -331,14 +310,8 @@ class CheckupPackagesController extends GetxController {
                 return a.compareTo(b);
               });
             }
-            // log("DateTime.now()----$i----------> ${DateTime.now().add(Duration(days: i)).weekday}");
-            log("scheduleListDate--------------> ${scheduleListDate}");
           }
-
-          log("scheduleListDate------scheduleListDate--------> ${scheduleListDate}");
         });
-        log("value---value-----------> ${value}");
-        log("resModel---resModel-----------> ${resModel}");
       });
     }
     update();
@@ -374,8 +347,6 @@ class CheckupPackagesController extends GetxController {
       }
       isLoading = false;
       update();
-      log(" ${data.data}");
-      log("drugFeedback--------------> ${packageFeedback.length}");
     }).catchError((e, s) {
       isLoading = false;
       update();
@@ -402,8 +373,6 @@ class CheckupPackagesController extends GetxController {
       isLoadingFeedback = false;
       update();
       packageReview(packageId: packageId);
-      log(" ${data.data}");
-      log("drugFeedback--------------> ${packageFeedback.length}");
     }).catchError((e, s) {
       isLoadingFeedback = false;
       update();
@@ -490,7 +459,6 @@ class CheckupPackagesController extends GetxController {
           data.data["data"] = [];
         }
         var newItems = CheckupPackagesResModel.fromJson(data.data).data;
-        log("newItems--------------> ${newItems}");
 
         if (newItems == null || newItems.length == 0) {
           pagingController.appendLastPage(newItems);
@@ -501,8 +469,6 @@ class CheckupPackagesController extends GetxController {
         // print(data.value.success);
       } else {}
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       // cancelToken = new CancelToken();
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;

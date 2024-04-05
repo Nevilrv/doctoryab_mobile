@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/appointment_history_res_model.dart';
 import 'package:doctor_yab/app/data/models/histories.dart';
 import 'package:doctor_yab/app/data/repository/AppointmentRepository.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
@@ -30,7 +27,7 @@ class AppointmentHistoryController extends GetxController {
         .then((v) {
       // AdsModel v = AdsModel();
       appointmentList.clear();
-      log("v. ${v.data}");
+
       if (v.data.isNotEmpty) {
         appointmentList.addAll(v.data);
         update();
@@ -38,7 +35,6 @@ class AppointmentHistoryController extends GetxController {
       isLoading = false;
       update();
     }).catchError((e, s) {
-      log("e--------------> $e");
       isLoading = false;
       update();
       Logger().e("message", e, s);
@@ -68,7 +64,6 @@ class AppointmentHistoryController extends GetxController {
         "expertiseRating": eRating.toString(),
         "doctorId": doctorId
       };
-      log(" ${data}");
 
       var _response = await DoctorsRepository()
           .postDoctorFeedback(
@@ -84,7 +79,7 @@ class AppointmentHistoryController extends GetxController {
         cRating = 0.0;
         eRating = 0.0;
         sRating = 0.0;
-        log("value--------------> ${value}");
+
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
@@ -93,14 +88,13 @@ class AppointmentHistoryController extends GetxController {
         sRating = 0.0;
         Utils.commonSnackbar(
             context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
+
         isLoading1 = false;
         update();
       });
     } on DioError catch (e) {
       isLoading1 = false;
       update();
-      log("e--------------> ${e.response.data['msg']}");
 
       await Future.delayed(Duration(seconds: 2), () {});
       // if (!cancelToken.isCancelled) addDocFeedback(doctorId: doctorId);

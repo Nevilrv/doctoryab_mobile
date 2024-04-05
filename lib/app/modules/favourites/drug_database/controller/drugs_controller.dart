@@ -1,7 +1,7 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 
 import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/data/models/drug_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugDatabaseRepository.dart';
@@ -13,7 +13,6 @@ import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'dart:io' show Platform;
 
 class DrugsController extends GetxController {
   String filterSearch = "";
@@ -81,7 +80,7 @@ class DrugsController extends GetxController {
   //       var newItems = <Datum>[];
   //       var promotedItems = <Datum>[];
   //       data.data["data"].forEach((item) {
-  //         log("item['active']----->${item['active']}");
+  //
   //         if (item['active'] == true) {
   //           promotedItems.add(Datum.fromJson(item));
   //         } else {
@@ -113,7 +112,10 @@ class DrugsController extends GetxController {
   // }
 
   void updatedDrugData(int page) {
-    DrugDatabaseRepository().updatedFetchDrugs(page, searchController.text, cancelToken: cancelToken).then((data) {
+    DrugDatabaseRepository()
+        .updatedFetchDrugs(page, searchController.text,
+            cancelToken: cancelToken)
+        .then((data) {
       //TODO handle all in model
 
       log('-----data------${data.data}');
@@ -126,7 +128,6 @@ class DrugsController extends GetxController {
       var newItems = <UpdatedDrug>[];
       var promotedItems = <UpdatedDrug>[];
       data.data["data"].forEach((item) {
-        log("item['active']----->${item['active']}");
         if (item['active'] == true) {
           promotedItems.add(UpdatedDrug.fromJson(item));
         } else {
@@ -165,7 +166,8 @@ class DrugsController extends GetxController {
               height: Get.height * 0.154,
               width: bannerAd.size.width.toDouble(),
               alignment: Alignment.center,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: AdWidget(ad: bannerAd),
@@ -217,7 +219,9 @@ class DrugsController extends GetxController {
   void drugReview({String drugId}) {
     isLoading = true;
     update();
-    DrugDatabaseRepository().fetchDrugsReview(drugId: drugId, cancelToken: cancelToken).then((data) {
+    DrugDatabaseRepository()
+        .fetchDrugsReview(drugId: drugId, cancelToken: cancelToken)
+        .then((data) {
       drugFeedback.clear();
       if (data.data['data'] != null) {
         data.data['data'].forEach((element) {
@@ -226,8 +230,6 @@ class DrugsController extends GetxController {
       }
       isLoading = false;
       update();
-      log(" ${data.data}");
-      log("drugFeedback--------------> ${drugFeedback.length}");
     }).catchError((e, s) {
       isLoading = false;
       update();
@@ -242,15 +244,17 @@ class DrugsController extends GetxController {
     update();
     FocusManager.instance.primaryFocus?.unfocus();
     DrugDatabaseRepository()
-        .addDrugsReview(drugId: drugId, comment: comment.text, rating: rating, cancelToken: cancelToken)
+        .addDrugsReview(
+            drugId: drugId,
+            comment: comment.text,
+            rating: rating,
+            cancelToken: cancelToken)
         .then((data) {
       comment.clear();
       ratings = 0.0;
       isLoadingFeedback = false;
       update();
       drugReview(drugId: drugId);
-      log(" ${data.data}");
-      log("drugFeedback--------------> ${drugFeedback.length}");
     }).catchError((e, s) {
       isLoadingFeedback = false;
       update();

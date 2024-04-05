@@ -101,12 +101,15 @@ class LabsController extends GetxController {
           }
         case PermissionStatus.permanentlyDenied:
           {
-            AppGetDialog.show(middleText: "you_have_to_allow_location_permission_in_settings".tr, actions: <Widget>[
-              TextButton(
-                onPressed: () => openAppSettings(),
-                child: Text("open_settings".tr),
-              ),
-            ]);
+            AppGetDialog.show(
+                middleText:
+                    "you_have_to_allow_location_permission_in_settings".tr,
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => openAppSettings(),
+                    child: Text("open_settings".tr),
+                  ),
+                ]);
             break;
           }
         case PermissionStatus.provisional:
@@ -114,7 +117,9 @@ class LabsController extends GetxController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(
+          middleText:
+              e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
@@ -171,7 +176,8 @@ class LabsController extends GetxController {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
       print("serv-enabled $_serviceEnabled");
-      var locationData = await location.getLocation().timeout(Duration(seconds: 10));
+      var locationData =
+          await location.getLocation().timeout(Duration(seconds: 10));
       print("loc" + locationData.toString());
 
       // AuthController.to.setLastUserLocation(
@@ -195,7 +201,6 @@ class LabsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
     List<String> filterList = [
       'promoted'.tr,
       "best_rating".tr,
@@ -264,7 +269,8 @@ class LabsController extends GetxController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13
+                        .copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -284,7 +290,9 @@ class LabsController extends GetxController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
+                            color: selectedSort == l
+                                ? AppColors.secondary
+                                : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -396,9 +404,10 @@ class LabsController extends GetxController {
   void searchData(int page) {
     isSearching = true;
     update();
-    LabsRepository().searchLabs(name: search.text, cancelToken: cancelToken).then((data) {
+    LabsRepository()
+        .searchLabs(name: search.text, cancelToken: cancelToken)
+        .then((data) {
       //TODO handle all in model
-      log("data.data[data]--------------> ${data.data["data"]}");
 
       if (data != null) {
         if (data == null) {
@@ -440,7 +449,9 @@ class LabsController extends GetxController {
   }
 
   void searchData1(int page) {
-    LabsRepository().searchLabs(name: search.text, cancelToken: cancelToken).then((data) {
+    LabsRepository()
+        .searchLabs(name: search.text, cancelToken: cancelToken)
+        .then((data) {
       //TODO handle all in model
 
       if (data != null) {
@@ -471,18 +482,14 @@ class LabsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> $e");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();

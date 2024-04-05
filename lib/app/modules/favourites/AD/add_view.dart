@@ -1,10 +1,9 @@
-import 'dart:developer';
+import 'dart:io' show Platform;
 
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'dart:io' show Platform;
 
 class AddAd extends StatefulWidget {
   @override
@@ -25,19 +24,14 @@ class AddAdState extends State<AddAd> {
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
-          log("ad--------------> $ad");
-
           //if this is the first banner load set adsready true
           if (!_isBannerAdReady) {
             setState(() {
               _isBannerAdReady = true;
-              log("_isBannerAdReady--------------> $_isBannerAdReady");
             });
           }
         },
         onAdFailedToLoad: (ad, err) {
-          log("ad----err----------> $ad");
-          log('Failed to load a banner ad: ${err.message}');
           _isBannerAdReady = false;
           ad.dispose();
         },

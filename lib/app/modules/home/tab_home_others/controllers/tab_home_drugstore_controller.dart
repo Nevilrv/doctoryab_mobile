@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -28,7 +29,6 @@ import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../data/models/labs_model.dart';
-import 'dart:math' as math;
 
 enum FetechingGPSDataStatus {
   loading,
@@ -69,7 +69,6 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> ${selectedSort}");
     filterList = [
       'promoted'.tr,
       "best_rating".tr,
@@ -139,7 +138,8 @@ class DrugStoreController extends TabHomeOthersController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13
+                        .copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -158,7 +158,9 @@ class DrugStoreController extends TabHomeOthersController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
+                            color: selectedSort == l
+                                ? AppColors.secondary
+                                : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -232,12 +234,15 @@ class DrugStoreController extends TabHomeOthersController {
           }
         case PermissionStatus.permanentlyDenied:
           {
-            AppGetDialog.show(middleText: "you_have_to_allow_location_permission_in_settings".tr, actions: <Widget>[
-              TextButton(
-                onPressed: () => openAppSettings(),
-                child: Text("open_settings".tr),
-              ),
-            ]);
+            AppGetDialog.show(
+                middleText:
+                    "you_have_to_allow_location_permission_in_settings".tr,
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => openAppSettings(),
+                    child: Text("open_settings".tr),
+                  ),
+                ]);
             break;
           }
         case PermissionStatus.provisional:
@@ -245,7 +250,9 @@ class DrugStoreController extends TabHomeOthersController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(
+          middleText:
+              e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
@@ -336,7 +343,8 @@ class DrugStoreController extends TabHomeOthersController {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
       print("serv-enabled $_serviceEnabled");
-      var locationData = await location.getLocation().timeout(Duration(seconds: 10));
+      var locationData =
+          await location.getLocation().timeout(Duration(seconds: 10));
       print("loc" + locationData.toString());
 
       // AuthController.to.setLastUserLocation(
@@ -367,7 +375,10 @@ class DrugStoreController extends TabHomeOthersController {
         "pharmacyId": pharmacyId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postPharmacyFeedback}")
+          .postDoctorFeedback(
+              cancelToken: cancelToken,
+              body: data,
+              url: "${ApiConsts.postPharmacyFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(pharmacyId: pharmacyId);
@@ -375,15 +386,15 @@ class DrugStoreController extends TabHomeOthersController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        log("value--------------> ${value}");
+
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
+        Utils.commonSnackbar(
+            context: context, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -401,10 +412,12 @@ class DrugStoreController extends TabHomeOthersController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
+          .getDoctorFeedback(
+              cancelToken: cancelToken,
+              url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
           .then((value) {
         feedbackData.clear();
-        log("value--------------> ${value.data}");
+
         if (value.data['data'] != null) {
           value.data['data'].forEach((element) {
             feedbackData.add(PharmacyFeedback.fromJson(element));
@@ -413,7 +426,6 @@ class DrugStoreController extends TabHomeOthersController {
           feedbackData = [];
         }
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });
@@ -423,7 +435,6 @@ class DrugStoreController extends TabHomeOthersController {
       if (!cancelToken.isCancelled)
         // throw e;
         print(e);
-      log("e--------------> ${e}");
     }
   }
 
@@ -477,15 +488,16 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {
-      log("value--------------> $value");
-    });
+    DrugStoreRepository()
+        .getDrugDetails(id: id, cancelToken: cancelToken)
+        .then((value) {});
   }
 
   void searchData(int page) {
-    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
+    DrugStoreRepository()
+        .searchDrugStores(name: search.text, cancelToken: cancelToken)
+        .then((data) {
       //TODO handle all in model
-      log("data.data[data]--------------> ${data.data["data"]}");
 
       if (data != null) {
         if (data == null) {
@@ -584,7 +596,6 @@ class DrugStoreController extends TabHomeOthersController {
               locationTitle.add(element.name);
             }
           });
-          log("locationData--------------> ${locationData}");
         }
       } else {}
     }).catchError((e, s) {
@@ -599,13 +610,15 @@ class DrugStoreController extends TabHomeOthersController {
   var serviceList = <Services>[].obs;
   var productList = <ProductData>[].obs;
   void serviceData(String id) {
-    DrugStoreRepository().fetchPharmacyService(id: id, cancelToken: cancelToken).then((data) {
+    DrugStoreRepository()
+        .fetchPharmacyService(id: id, cancelToken: cancelToken)
+        .then((data) {
       serviceList.clear();
       update();
-      PharmacyServicesResModel resModel = PharmacyServicesResModel.fromJson(data.data);
+      PharmacyServicesResModel resModel =
+          PharmacyServicesResModel.fromJson(data.data);
       if (resModel.data.isNotEmpty) {
         serviceList.addAll(resModel.data);
-        log("serviceList--------------> ${serviceList.length}");
 
         update();
       } else {
@@ -613,8 +626,6 @@ class DrugStoreController extends TabHomeOthersController {
         update();
       }
       //TODO handle all in model
-
-      log("data---data-----data------> ${data}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pageController.error = e;
@@ -625,13 +636,15 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void productData(String id) {
-    DrugStoreRepository().fetchPharmacyProduct(id: id, cancelToken: cancelToken).then((data) {
+    DrugStoreRepository()
+        .fetchPharmacyProduct(id: id, cancelToken: cancelToken)
+        .then((data) {
       productList.clear();
       update();
-      PharmacyProductResModel resModel = PharmacyProductResModel.fromJson(data.data);
+      PharmacyProductResModel resModel =
+          PharmacyProductResModel.fromJson(data.data);
       if (resModel.data.isNotEmpty) {
         productList.addAll(resModel.data);
-        log("serviceList--------------> ${productList.length}");
 
         update();
       } else {
@@ -639,8 +652,6 @@ class DrugStoreController extends TabHomeOthersController {
         update();
       }
       //TODO handle all in model
-
-      log("data---data-----data------> ${data}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pageController.error = e;
@@ -655,18 +666,14 @@ class DrugStoreController extends TabHomeOthersController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();
@@ -717,10 +724,12 @@ class DrugStoreLabController extends GetxController {
         "expertiseRating": eRating.toString(),
         "labId": labId
       };
-      log(" ${data}");
 
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postLabFeedback}")
+          .postDoctorFeedback(
+              cancelToken: cancelToken,
+              body: data,
+              url: "${ApiConsts.postLabFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(labId: labId);
@@ -728,7 +737,7 @@ class DrugStoreLabController extends GetxController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        log("value--------------> ${value}");
+
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
@@ -736,8 +745,8 @@ class DrugStoreLabController extends GetxController {
         eRating.value = 0.0;
         sRating.value = 0.0;
         Get.back();
-        Utils.commonSnackbar(context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
+        Utils.commonSnackbar(
+            context: context, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -755,10 +764,12 @@ class DrugStoreLabController extends GetxController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getLabFeedback}${labId}')
+          .getDoctorFeedback(
+              cancelToken: cancelToken,
+              url: '${ApiConsts.getLabFeedback}${labId}')
           .then((value) {
         feedbackData.clear();
-        log("value--------------> ${value.data}");
+
         if (value.data['data'] != null) {
           value.data['data'].forEach((element) {
             feedbackData.add(LabsFeedback.fromJson(element));
@@ -767,7 +778,6 @@ class DrugStoreLabController extends GetxController {
           feedbackData = [];
         }
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });
@@ -777,7 +787,6 @@ class DrugStoreLabController extends GetxController {
       if (!cancelToken.isCancelled)
         // throw e;
         print(e);
-      log("e--------------> ${e}");
     }
   }
 
@@ -817,15 +826,16 @@ class DrugStoreLabController extends GetxController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {
-      log("value--------------> ${value}");
-    });
+    DrugStoreRepository()
+        .getDrugDetails(id: id, cancelToken: cancelToken)
+        .then((value) {});
   }
 
   void searchData(int page) {
-    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
+    DrugStoreRepository()
+        .searchDrugStores(name: search.text, cancelToken: cancelToken)
+        .then((data) {
       //TODO handle all in model
-      log("data.data[data]--------------> ${data.data["data"]}");
 
       if (data != null) {
         if (data == null) {
@@ -863,7 +873,12 @@ class DrugStoreLabController extends GetxController {
 
   void loadData(int page) {
     DrugStoreRepository()
-        .fetchDrugStores(page: page, sort: sort, cancelToken: cancelToken, filterName: selectedSort, limitPerPage: 10)
+        .fetchDrugStores(
+            page: page,
+            sort: sort,
+            cancelToken: cancelToken,
+            filterName: selectedSort,
+            limitPerPage: 10)
         .then((data) {
       //TODO handle all in model
 
@@ -898,7 +913,6 @@ class DrugStoreLabController extends GetxController {
               locationTitle.add(element.name);
             }
           });
-          log("locationData--------------> ${locationData}");
         }
       } else {}
     }).catchError((e, s) {
@@ -915,18 +929,14 @@ class DrugStoreLabController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();

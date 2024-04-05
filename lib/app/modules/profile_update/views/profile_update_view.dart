@@ -6,7 +6,6 @@ import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -800,7 +799,6 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                             controller
                                                                 .selectedLocationId
                                                                 .value = value.sId;
-                                                            log("controller.selectedLocationId.value--------------> ${controller.selectedLocationId.value}");
                                                           },
                                                           child: Text(
                                                               value.eName,

@@ -12,12 +12,10 @@ import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
-import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -207,7 +205,6 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 throw Exception(
                                                     'Could not launch ${item.link}');
                                               }
-                                              log("item.img--------------> ${item.link}");
                                             },
                                             child: Stack(
                                               children: [

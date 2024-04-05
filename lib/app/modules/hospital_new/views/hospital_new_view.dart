@@ -1,15 +1,11 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:math' as math;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/profile_view.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
-
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -17,21 +13,16 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../components/spacialAppBar.dart';
 import '../../../data/models/doctors_model.dart';
 import '../controllers/hospital_new_controller.dart';
-import '../tab_main/views/tab_main_view.dart';
 
 class HospitalNewView extends GetView<HospitalNewController> {
   HospitalNewController hospitalNewController = Get.find()
@@ -203,7 +194,6 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                           0]
                                                                       .dayOfWeek ==
                                                                   d.weekday) {
-                                                                log("d--as------------> ${d}");
                                                                 date = d
                                                                     .toPersianDateStr(
                                                                       strDay:
@@ -225,8 +215,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   slot =
                                                                       "${controller.doctorList[index].schedules[0].times.first} - ${controller.doctorList[index].schedules[0].times.last}";
                                                                 }
-                                                                log("date--------------> ${date}");
-                                                                log("slot--------------> ${slot}");
+
                                                                 break;
                                                               }
                                                             }
@@ -278,7 +267,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                               finalWeekDay =
                                                                   greater.first;
                                                             }
-                                                            log("greater--------------> ${greater}");
+
                                                             Schedule data;
                                                             controller
                                                                 .doctorList[
@@ -300,8 +289,6 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                     .schedules
                                                                     .indexOf(
                                                                         data);
-                                                            log("indexxx--------------> ${indexxx}");
-                                                            log("item.schedules--------------> ${controller.doctorList[index].schedules}");
 
                                                             if (indexxx ==
                                                                 controller
@@ -318,14 +305,11 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                             for (int i = 0;
                                                                 i <= 7;
                                                                 i++) {
-                                                              log("i--------------> ${i}");
-
                                                               DateTime d = DateTime
                                                                       .now()
                                                                   .add(Duration(
                                                                       days: i));
-                                                              log("item.schedules[indexxx].dayOfWeek--------------> ${controller.doctorList[index].schedules[indexxx].dayOfWeek}");
-                                                              log("d.weekday--------------> ${d.weekday}");
+
                                                               if (d.weekday ==
                                                                   7) {
                                                                 date = d
@@ -349,9 +333,6 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   slot =
                                                                       "${controller.doctorList[index].schedules[indexxx].times.first} - ${controller.doctorList[index].schedules[indexxx].times.last}";
                                                                 }
-
-                                                                log("date--------------> ${date}");
-                                                                log("slot--------------> ${slot}");
                                                               }
                                                               if (controller
                                                                       .doctorList[
@@ -360,9 +341,6 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                           indexxx]
                                                                       .dayOfWeek ==
                                                                   d.weekday) {
-                                                                log("d--------------> ${d}");
-                                                                log("item.schedules[indexxx + 1].times--------------> ${controller.doctorList[index].schedules[indexxx].times}");
-
                                                                 date = d
                                                                     .toPersianDateStr(
                                                                       strDay:
@@ -384,9 +362,6 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   slot =
                                                                       "${controller.doctorList[index].schedules[indexxx].times.first} - ${controller.doctorList[index].schedules[indexxx].times.last}";
                                                                 }
-
-                                                                log("date--------------> ${date}");
-                                                                log("slot--------------> ${slot}");
 
                                                                 break;
                                                               }

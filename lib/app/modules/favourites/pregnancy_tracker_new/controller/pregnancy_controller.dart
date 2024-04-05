@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/pregnancy_details_model.dart';
@@ -13,8 +10,6 @@ import 'package:intl/intl.dart' as d;
 import 'package:logger/logger.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-import '../../../../utils/utils.dart';
-
 class PregnancyTrackerNewController extends GetxController {
   CancelToken cancelToken = CancelToken();
   bool isPregnant = false;
@@ -26,14 +21,14 @@ class PregnancyTrackerNewController extends GetxController {
 
   String formattedPregnancyDate = SettingsController.appLanguge == 'English'
       ? d.DateFormat('dd-MM-yyyy').format(DateTime.now())
-      : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
+      : /*${DateTime.now().toJalali().formatter.wN}, */ '${DateTime.now().toJalali().formatter.yyyy}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.d}';
 
   String formattedDueDate = SettingsController.appLanguge == 'English'
       ? d.DateFormat('dd/MM/yyyy').format(DateTime.now())
-      : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
+      : /*${DateTime.now().toJalali().formatter.wN}, */ '${DateTime.now().toJalali().formatter.yyyy}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.d}';
   String formattedConceptionDate = SettingsController.appLanguge == 'English'
       ? d.DateFormat('dd/MM/yyyy').format(DateTime.now())
-      : '${DateTime.now().toJalali().formatter.wN}, ${DateTime.now().toJalali().formatter.d}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.yyyy}';
+      : /*${DateTime.now().toJalali().formatter.wN},*/ '${DateTime.now().toJalali().formatter.yyyy}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.d}';
   int weekCount = 0;
 
   changeBool(bool value) {
@@ -43,7 +38,6 @@ class PregnancyTrackerNewController extends GetxController {
 
   changeCalculationType(String value) {
     type = value;
-    log("type--------------> ${type}");
 
     update();
   }
@@ -80,8 +74,9 @@ class PregnancyTrackerNewController extends GetxController {
     isLoading = true;
     update();
 
-    PregnancyTrackerRepo().checkPregnancy(cancelToken: cancelToken).then((value) async {
-      log('-----value.isSaved-----${value.isSaved}');
+    PregnancyTrackerRepo()
+        .checkPregnancy(cancelToken: cancelToken)
+        .then((value) async {
       if (value.data != null) {
         if (value.isSaved == true) {
           Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
@@ -89,27 +84,20 @@ class PregnancyTrackerNewController extends GetxController {
 
         pregnancyData = value.data;
 
-        log('pregnancyData===>>>${jsonEncode(pregnancyData)}<<<<===');
-
         pregnancyData.ptModules.sort(
           (a, b) => a.week.compareTo(b.week),
         );
 
         pregnancyData.ptModules.forEach((element) {
-          log('----ssss-----${element.week}');
-          log(" value.data.currentWeek--------------> ${value.data.currentWeek}");
-
           if (element.week == value.data.currentWeek) {
-            log("value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek--------------> ${value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek)}");
-
-            weekCount = value.data.ptModules.indexWhere((element) => element.week == value.data.currentWeek);
+            weekCount = value.data.ptModules.indexWhere(
+                (element) => element.week == value.data.currentWeek);
           }
         });
       }
       isLoading = false;
       update();
     }).catchError((e, s) {
-      log("e--------------> $e");
       isLoading = false;
       update();
       Logger().e("message", e, s);
@@ -122,16 +110,15 @@ class PregnancyTrackerNewController extends GetxController {
   void pregnancyCalculation({Map<String, dynamic> body}) {
     isLoading = true;
     update();
-    PregnancyTrackerRepo().calculateDate(body: body, cancelToken: cancelToken).then((value) async {
+    PregnancyTrackerRepo()
+        .calculateDate(body: body, cancelToken: cancelToken)
+        .then((value) async {
       if (value.data != null) {
         pregnancyData = value.data;
         // value.data.ptModules.forEach((element) {
         //   if (element.week == value.data.currentWeek) {
-        log(" value.data.currentWeek--------------> ${value.data.currentWeek}");
 
         weekCount = value.data.ptModules.indexWhere((element) {
-          log("element.week--------------> ${element.week}");
-
           return element.week == value.data.currentWeek;
         });
         // }
@@ -143,7 +130,6 @@ class PregnancyTrackerNewController extends GetxController {
       isLoading = false;
       update();
     }).catchError((e, s) {
-      log("e--------------> $e");
       isLoading = false;
       update();
       Logger().e("message", e, s);
@@ -155,13 +141,15 @@ class PregnancyTrackerNewController extends GetxController {
   void deleteTracker({String id, BuildContext context}) {
     isDeleteLoading = true;
     update();
-    PregnancyTrackerRepo().deleteTracker(id: id, cancelToken: cancelToken).then((value) async {
+    PregnancyTrackerRepo()
+        .deleteTracker(id: id, cancelToken: cancelToken)
+        .then((value) async {
       isDeleteLoading = false;
       update();
     }).catchError((e, s) {
       // Get.offNamedUntil(Routes.PREGNANCY_TRACKER_NEW, (route) => false,
       //     arguments: {'type': 'LastPeriod', 'isCheck': true});
-      log("e--------------> $e");
+
       isDeleteLoading = false;
       update();
       Logger().e("message", e, s);
@@ -215,7 +203,9 @@ class PregnancyTrackerNewController extends GetxController {
       'initialDate $initialDate must be on or before lastDate $lastDate.',
     );
     assert(
-      selectableDayPredicate == null || initialDate == null || selectableDayPredicate(initialDate),
+      selectableDayPredicate == null ||
+          initialDate == null ||
+          selectableDayPredicate(initialDate),
       'Provided initialDate $initialDate must satisfy provided selectableDayPredicate.',
     );
     assert(debugCheckHasMaterialLocalizations(context));

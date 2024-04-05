@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
@@ -15,7 +13,6 @@ import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class BookingInfoScreen extends GetView<CheckupPackagesController> {
@@ -24,7 +21,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
 
   @override
   Widget build(BuildContext context) {
-    log("id-------->${SettingsController.userId}");
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -251,7 +247,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                             }
                                           });
                                         }
-                                        log("list--------------> ${list}");
 
                                         controller.getLabAndHospitalList(list);
 
@@ -391,7 +386,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       onChanged: (value) {
                                         controller.selectedHospitalLabId.value =
                                             value;
-                                        log("controller.selectedHospitalLabId.value--------------> ${controller.selectedHospitalLabId.value}");
 
                                         controller.selectHospitalLabList
                                             .forEach((element) {
@@ -684,8 +678,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       }).toList(),
                                       onChanged: (value) {
                                         controller.selectedTime.value = value;
-
-                                        // log("time-------->${DateTime.parse(controller.selectedTime.value).toUtc().toIso8601String()}");
                                       },
                                     ),
                                   ),
@@ -707,8 +699,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                   text: "please_select_time".tr,
                                   context: context);
                             } else {
-                              log("controller.selectedTime.value--------------> ${controller.selectedTime.value}");
-
                               Get.to(BookingOtherInfoScreen(
                                 selectedDate: controller.selectedTime.value,
                                 packageId: item.id,

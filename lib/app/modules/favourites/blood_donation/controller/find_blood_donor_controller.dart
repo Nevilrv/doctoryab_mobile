@@ -1,16 +1,11 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
 import 'package:doctor_yab/app/data/repository/HospitalRepository.dart';
 import 'package:doctor_yab/app/data/static.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
-import 'package:doctor_yab/app/services/DioService.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:place_picker/place_picker.dart';
@@ -137,7 +132,6 @@ class FindBloodDonorController extends GetxController {
     HospitalRepository.fetchHospitalsDropdown(1, cancelToken: cancelToken)
         .then((value) {
       nearByHospitalList.addAll(value);
-      log("value--------------> ${hospitalList.length}");
     });
   }
 }

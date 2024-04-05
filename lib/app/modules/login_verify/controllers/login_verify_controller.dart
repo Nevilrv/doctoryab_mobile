@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
@@ -37,11 +35,7 @@ class LoginVerifyController extends GetxController {
       try {
         SettingsController.savedUserProfile =
             User.fromJson(reponseData['user']);
-        log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
-      } catch (e) {
-        log("e--------------> $e");
-      }
-      log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
+      } catch (e) {}
 
       Utils.whereShouldIGo();
     }).catchError((e, s) {

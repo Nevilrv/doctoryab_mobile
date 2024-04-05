@@ -47,7 +47,7 @@ class HospitalNewController extends GetxController
               url: '${ApiConsts.getHospitalFeedback}${HospitalId}')
           .then((value) {
         feedbackData.clear();
-        log("value--------------> ${value.data}");
+
         if (value.data['data'] != null) {
           value.data['data'].forEach((element) {
             feedbackData.add(HospitalFeedback.fromJson(element));
@@ -57,7 +57,6 @@ class HospitalNewController extends GetxController
         }
         update();
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });
@@ -94,7 +93,7 @@ class HospitalNewController extends GetxController
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        log("value--------------> ${value}");
+
         Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
@@ -103,7 +102,6 @@ class HospitalNewController extends GetxController
         sRating.value = 0.0;
         Utils.commonSnackbar(
             context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
       });
       ;
     } on DioError catch (e) {
@@ -120,13 +118,10 @@ class HospitalNewController extends GetxController
     tabController = TabController(length: 3, vsync: this);
     hospital = Get.arguments;
 
-    log("hospital--------------> ${hospital.id}");
-
     fetchHospitalDoctors();
     // reviewsPagingController.addPageRequestListener((pageKey) {
     //   fetchReviews(pageKey);
     // });
-    log("hospital.id--------------> ${hospital.id}");
 
     getHospitalFeedback(HospitalId: hospital.id);
     super.onInit();
@@ -145,12 +140,9 @@ class HospitalNewController extends GetxController
       HospitalRepository()
           .fetchHospitalDetails(hospitalId: hospital.id)
           .then((value) {
-        log("value--------------> ${value}");
-
         resModel = HospitalDetailsResModel.fromJson(value);
         isLoading.value = false;
         update();
-        log("value--------------> ${resModel.data}");
       });
     } catch (e) {
       isLoading.value = false;
@@ -164,8 +156,6 @@ class HospitalNewController extends GetxController
       HospitalRepository()
           .fetchHospitalDoctors(hospitalId: hospital.id)
           .then((value) {
-        log("value--------------> ${value}");
-
         isLoadingDoctor = false;
         update();
         value['data'].forEach((element) {
@@ -173,7 +163,6 @@ class HospitalNewController extends GetxController
         });
         isLoadingDoctor = false;
         update();
-        log("doctorList--------------> ${doctorList.length}");
       });
     } catch (e) {
       isLoadingDoctor = false;
@@ -197,7 +186,6 @@ class HospitalNewController extends GetxController
         reviewsPagingController.appendPage(newItems, pageKey + 1);
       }
       reviewsCount(reviewsPagingController.itemList.length);
-      // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         reviewsPagingController.error = e;

@@ -1,23 +1,18 @@
 import 'dart:developer';
 
 import 'package:doctor_yab/app/components/background.dart';
-import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/controller/find_blood_donor_controller.dart';
-import 'package:doctor_yab/app/modules/favourites/blood_donation/view/donor_list_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
-import 'package:doctor_yab/app/theme/AppTheme.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:place_picker/entities/location_result.dart';
 
@@ -498,7 +493,6 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                             controller
                                                                     .selectedNearByHospitalData =
                                                                 element;
-                                                            log("selectedNearByHospitalData--------------> ${controller.selectedNearByHospitalData}");
                                                           }
                                                         });
                                                       },
@@ -537,8 +531,6 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                 .then((v) {
                                               if (v != null &&
                                                   v is LocationResult) {
-                                                log("v--------------> $v");
-
                                                 controller
                                                     .locationResult.value = v;
                                                 var x = v;
@@ -628,7 +620,6 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                       onTap: () {
                                         if (controller.formKey.currentState
                                             .validate()) {
-                                          log("controller.locationResult()--------------> ${controller.locationResult().name}");
                                           if (controller
                                                       .selectedNearByHospitalData ==
                                                   null &&

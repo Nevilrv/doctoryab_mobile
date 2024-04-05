@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
@@ -231,7 +230,6 @@ class HospitalsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
     List<String> filterList = [
       'promoted'.tr,
       "best_rating".tr,
@@ -432,7 +430,6 @@ class HospitalsController extends GetxController {
       //   pageController,
       //   page,
       // );
-      // log("pageController.itemList--------------> ${pageController.itemList}");
 
       var promotedItems = <Hospital>[];
       var newItems = <Hospital>[];
@@ -468,7 +465,6 @@ class HospitalsController extends GetxController {
           locationTitle.add(element.name);
         }
       });
-      log("locationData----HOSPITAl----------> ${locationData.length}");
 
       loader.value = false;
     });
@@ -493,7 +489,6 @@ class HospitalsController extends GetxController {
         pageController,
         page,
       );
-      log("pageController.itemList--------------> ${pageController.itemList}");
 
       locationData.clear();
       locationTitle.clear();
@@ -503,7 +498,6 @@ class HospitalsController extends GetxController {
           locationTitle.add(element.name);
         }
       });
-      log("locationData--------------> ${locationData}");
     });
   }
 
@@ -512,18 +506,14 @@ class HospitalsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();

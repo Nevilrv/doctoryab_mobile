@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'dart:math' as math;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
@@ -7,7 +7,6 @@ import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/modules/favourites/AD/add_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
@@ -33,7 +32,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
       resizeToAvoidBottomInset: false,
-      appBar: AppAppBar.primaryAppBar(title: "drug_database".tr, savedIcon: true),
+      appBar:
+          AppAppBar.primaryAppBar(title: "drug_database".tr, savedIcon: true),
       body: Stack(
         children: [
           Padding(
@@ -61,17 +61,20 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Divider(color: AppColors.primary, thickness: 1),
+                                  child: Divider(
+                                      color: AppColors.primary, thickness: 1),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 3),
                                   child: Text(
                                     "what_we_found".tr,
                                     style: AppTextStyle.mediumPrimary11,
                                   ),
                                 ),
                                 Expanded(
-                                  child: Divider(color: AppColors.primary, thickness: 1),
+                                  child: Divider(
+                                      color: AppColors.primary, thickness: 1),
                                 ),
                               ],
                             ),
@@ -82,8 +85,6 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          log("i--------------> $i");
-
                           // if (i == 5) {
                           if ((i + 1) % 5 == 0) {
                             return Padding(
@@ -99,17 +100,22 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           itemBuilder: (context, item, index) {
                             return drugsData(h, w, context, item);
                           },
-                          noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
-                          noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
-                          firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
+                          noMoreItemsIndicatorBuilder: (_) =>
+                              DotDotPagingNoMoreItems(),
+                          noItemsFoundIndicatorBuilder: (_) =>
+                              PagingNoItemFountList(),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              PagingErrorView(
                             controller: controller.pageController,
                           ),
-                          firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
+                          firstPageProgressIndicatorBuilder: (_) =>
+                              DrugsGridShimmer(
                             yCount: 5,
                             xCount: 1,
                             // linesCount: 4,
                           ),
-                          newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
+                          newPageProgressIndicatorBuilder: (_) =>
+                              DrugsGridShimmer(
                             yCount: 5,
                             xCount: 1,
                           ),
@@ -262,7 +268,9 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               5,
                               (subIndex) {
                                 return SvgPicture.asset(
-                                  subIndex == 4 ? AppImages.favGrey : AppImages.favGolden,
+                                  subIndex == 4
+                                      ? AppImages.favGrey
+                                      : AppImages.favGolden,
                                   height: 10,
                                   width: 10,
                                 ).paddingOnly(right: subIndex == 4 ? 0 : 6);
@@ -284,7 +292,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               color: AppColors.lightPurple2,
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            child: SettingsController.getUpdatedDrugData.any((element) => element.id.contains(item.id))
+                            child: SettingsController.getUpdatedDrugData.any(
+                                    (element) => element.id.contains(item.id))
                                 ? Icon(
                                     Icons.favorite,
                                     size: w * 0.03,
@@ -305,10 +314,11 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               height: h * 0.023,
                               width: w * 0.24,
                               decoration: BoxDecoration(
-                                color:
-                                    SettingsController.getUpdatedDrugData.any((element) => element.id.contains(item.id))
-                                        ? AppColors.primary
-                                        : AppColors.lightPurple2,
+                                color: SettingsController.getUpdatedDrugData
+                                        .any((element) =>
+                                            element.id.contains(item.id))
+                                    ? AppColors.primary
+                                    : AppColors.lightPurple2,
                                 borderRadius: BorderRadius.circular(3),
                               ),
                               child: Row(
@@ -318,7 +328,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   Text(
                                     "add_to_list".tr,
                                     style: SettingsController.getUpdatedDrugData
-                                            .any((element) => element.id.contains(item.id))
+                                            .any((element) =>
+                                                element.id.contains(item.id))
                                         ? AppTextStyle.boldWhite8
                                         : AppTextStyle.boldPrimary8,
                                   ),
@@ -357,12 +368,14 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                       ),
                       Text(
                         "${item.company ?? ''}",
-                        style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
+                        style:
+                            AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: h * 0.005, top: h * 0.005, right: 20),
+                        padding: EdgeInsets.only(
+                            bottom: h * 0.005, top: h * 0.005, right: 20),
                         child: Divider(
                           height: 0,
                           thickness: 1,
@@ -397,11 +410,15 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        controller.data[subIndex]["title"].toString().tr,
-                                        style: AppTextStyle.boldPrimary9.copyWith(height: 1.2),
+                                        controller.data[subIndex]["title"]
+                                            .toString()
+                                            .tr,
+                                        style: AppTextStyle.boldPrimary9
+                                            .copyWith(height: 1.2),
                                       ),
                                       SizedBox(
                                         height: Get.height * 0.003,
@@ -412,13 +429,24 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                           subIndex == 1
                                               ? item.quantity ?? "None"
                                               : subIndex == 2
-                                                  ? controller.data[2]["text"].toString().trArgs([item.packsAndPrices])
-                                                  : SettingsController.appLanguge == 'English'
-                                                      ? item.drugTypeEnglish ?? "None"
-                                                      : SettingsController.appLanguge == 'پشتو'
-                                                          ? item.drugTypePashto ?? "None"
-                                                          : item.drugTypeDari ?? "None",
-                                          style: AppTextStyle.regularPrimary9.copyWith(height: 1),
+                                                  ? controller.data[2]["text"]
+                                                      .toString()
+                                                      .trArgs(
+                                                          [item.packsAndPrices])
+                                                  : SettingsController
+                                                              .appLanguge ==
+                                                          'English'
+                                                      ? item.drugTypeEnglish ??
+                                                          "None"
+                                                      : SettingsController
+                                                                  .appLanguge ==
+                                                              'پشتو'
+                                                          ? item.drugTypePashto ??
+                                                              "None"
+                                                          : item.drugTypeDari ??
+                                                              "None",
+                                          style: AppTextStyle.regularPrimary9
+                                              .copyWith(height: 1),
                                           maxLines: 4,
                                         ),
                                       ),
@@ -438,8 +466,10 @@ class DrugsDatabaseView extends GetView<DrugsController> {
             item.active == true
                 ? Positioned(
                     top: -5,
-                    right: SettingsController.appLanguge != "English" ? null : -5,
-                    left: SettingsController.appLanguge == "English" ? null : -5,
+                    right:
+                        SettingsController.appLanguge != "English" ? null : -5,
+                    left:
+                        SettingsController.appLanguge == "English" ? null : -5,
                     child: SettingsController.appLanguge != "English"
                         ? Transform(
                             alignment: Alignment.center,

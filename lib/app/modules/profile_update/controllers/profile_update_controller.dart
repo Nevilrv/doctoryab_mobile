@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'dart:io' as Io;
 
-import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
@@ -19,9 +16,6 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
-
-import '../../../data/static.dart';
 
 class ProfileUpdateController extends GetxController {
   //TODO this user must be rx and must be in global
@@ -52,9 +46,6 @@ class ProfileUpdateController extends GetxController {
   var selectedGender = "Male".obs;
   @override
   void onInit() {
-    log("user?.name?.toString()--------------> ${user?.id}");
-    log("user?.name?.toString()--------------> ${user?.gender}");
-    log("user?.name?.toString()--------------> ${user?.language.runtimeType}");
     ever(image, (_) {
       uploadImage();
     });
@@ -76,13 +67,11 @@ class ProfileUpdateController extends GetxController {
   }
 
   getData() {
-    print('---->>>>Call');
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
     email.text = user?.email == null ? " " : user.email.toString();
     selectedLocation.value = SettingsController.auth.savedCity.eName ?? "";
     selectedLocationId.value = SettingsController.auth.savedCity.sId ?? "";
-    log("selectedLocationId.value--------------> ${selectedLocationId.value}");
 
     teNewNumber.text = user?.phone.toString() ?? "";
     selectedGender.value = user.gender == null ? "Male" : user.gender;
@@ -97,7 +86,6 @@ class ProfileUpdateController extends GetxController {
     //   updateName(null);
     //   return;
     // }
-    log("isUploadingImage--------------> $isUploadingImage");
 
     AuthRepository().updateImage(image.value, (pr) {
       uploadProgress.value = pr / 100;
@@ -142,13 +130,12 @@ class ProfileUpdateController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -211,8 +198,6 @@ class ProfileUpdateController extends GetxController {
       email: email.text,
     )
         .then((value) {
-      log("value--------------> ${value}");
-
       try {
         User user = User.fromJson(value.data["data"]);
         SettingsController.savedUserProfile = user;

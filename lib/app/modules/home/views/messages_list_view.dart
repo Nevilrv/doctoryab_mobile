@@ -1,9 +1,4 @@
-import 'dart:developer';
-
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
-import 'package:doctor_yab/app/modules/chat/controllers/chat_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -132,8 +127,6 @@ class MessagesListView extends GetView<MessagesListController> {
                               return MessageTile(
                                 chat: controller.chats[index],
                                 onTap: () {
-                                  log(" controller.chats[index]--------------> ${controller.chats[index].id}");
-
                                   controller.onTapMessageTile(
                                       controller.chats[index]);
                                 },

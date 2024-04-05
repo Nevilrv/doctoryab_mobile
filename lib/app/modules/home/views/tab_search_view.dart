@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'dart:math' as math;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctor_yab/app/components/background.dart';
@@ -61,7 +61,8 @@ class TabSearchView extends GetView<TabSearchController> {
                 Column(
                   children: [
                     TextField(
-                      style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                      style:
+                          AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                       cursorColor: AppColors.primary,
                       textAlignVertical: TextAlignVertical.center,
                       onChanged: (s) => controller.filterName(s),
@@ -70,10 +71,12 @@ class TabSearchView extends GetView<TabSearchController> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
                         hintText: "search_hint".tr,
-                        hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                        hintStyle:
+                            AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(11),
-                          child: SvgPicture.asset(AppImages.search, color: AppColors.primary),
+                          child: SvgPicture.asset(AppImages.search,
+                              color: AppColors.primary),
                         ),
                         filled: true,
                         fillColor: AppColors.white.withOpacity(0.1),
@@ -110,8 +113,6 @@ class TabSearchView extends GetView<TabSearchController> {
                               physics: BouncingScrollPhysics(),
                               separatorBuilder: (c, i) {
                                 if ((i + 1) % 5 == 0) {
-                                  log("i--------------> $i");
-
                                   // controller.bannerAds();
                                   return GetBuilder<TabSearchController>(
                                     builder: (controller) {
@@ -128,65 +129,80 @@ class TabSearchView extends GetView<TabSearchController> {
                                                     height: Get.height * 0.2,
                                                     viewportFraction: 1.0,
                                                     enlargeCenterPage: false,
-                                                    onPageChanged: (index, reason) {
-                                                      controller.adIndex = index;
+                                                    onPageChanged:
+                                                        (index, reason) {
+                                                      controller.adIndex =
+                                                          index;
                                                       controller.update();
                                                     },
                                                   ),
                                                   items: controller.adList
-                                                      .map((item) => GestureDetector(
-                                                            onTap: () async {
-                                                              if (!await launchUrl(Uri.parse(item.link))) {
-                                                                throw Exception('Could not launch ${item.link}');
-                                                              }
-                                                              log("item.img--------------> ${item.link}");
-                                                            },
-                                                            child: Stack(
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 5),
-                                                                  child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(15)),
-                                                                    // margin: EdgeInsets.all(5.0),
-                                                                    child: ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(Radius.circular(15.0)),
-                                                                      child: Image.network(
-                                                                          "${ApiConsts.hostUrl}${item.img}",
-                                                                          fit: BoxFit.cover,
-                                                                          width: 1000.0),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Positioned(
-                                                                  top: 10,
-                                                                  right: SettingsController.appLanguge != "English"
-                                                                      ? null
-                                                                      : 10,
-                                                                  left: SettingsController.appLanguge == "English"
-                                                                      ? null
-                                                                      : 10,
-                                                                  child: SettingsController.appLanguge != "English"
-                                                                      ? Transform(
-                                                                          alignment: Alignment.center,
-                                                                          transform: Matrix4.rotationY(math.pi),
-                                                                          child: Image.asset(
-                                                                            AppImages.promote,
-                                                                            height: 18,
-                                                                            width: 18,
-                                                                            color: AppColors.white,
-                                                                          ))
-                                                                      : Image.asset(
-                                                                          AppImages.promote,
-                                                                          height: 18,
-                                                                          width: 18,
-                                                                          color: AppColors.white,
+                                                      .map(
+                                                          (item) =>
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () async {
+                                                                  if (!await launchUrl(
+                                                                      Uri.parse(
+                                                                          item.link))) {
+                                                                    throw Exception(
+                                                                        'Could not launch ${item.link}');
+                                                                  }
+                                                                },
+                                                                child: Stack(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              5),
+                                                                      child:
+                                                                          Container(
+                                                                        decoration:
+                                                                            BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                                                        // margin: EdgeInsets.all(5.0),
+                                                                        child:
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(15.0)),
+                                                                          child: Image.network(
+                                                                              "${ApiConsts.hostUrl}${item.img}",
+                                                                              fit: BoxFit.cover,
+                                                                              width: 1000.0),
                                                                         ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ))
+                                                                      ),
+                                                                    ),
+                                                                    Positioned(
+                                                                      top: 10,
+                                                                      right: SettingsController.appLanguge !=
+                                                                              "English"
+                                                                          ? null
+                                                                          : 10,
+                                                                      left: SettingsController.appLanguge ==
+                                                                              "English"
+                                                                          ? null
+                                                                          : 10,
+                                                                      child: SettingsController.appLanguge !=
+                                                                              "English"
+                                                                          ? Transform(
+                                                                              alignment: Alignment.center,
+                                                                              transform: Matrix4.rotationY(math.pi),
+                                                                              child: Image.asset(
+                                                                                AppImages.promote,
+                                                                                height: 18,
+                                                                                width: 18,
+                                                                                color: AppColors.white,
+                                                                              ))
+                                                                          : Image.asset(
+                                                                              AppImages.promote,
+                                                                              height: 18,
+                                                                              width: 18,
+                                                                              color: AppColors.white,
+                                                                            ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ))
                                                       .toList()),
                                             ),
                                             Positioned(
@@ -195,16 +211,26 @@ class TabSearchView extends GetView<TabSearchController> {
                                               right: 0,
                                               child: Center(
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: List.generate(
                                                       controller.adList.length,
                                                       (index) => Padding(
-                                                            padding: const EdgeInsets.only(left: 3),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 3),
                                                             child: CircleAvatar(
                                                               radius: 5,
-                                                              backgroundColor: controller.adIndex == index
-                                                                  ? AppColors.primary
-                                                                  : AppColors.primary.withOpacity(0.2),
+                                                              backgroundColor: controller
+                                                                          .adIndex ==
+                                                                      index
+                                                                  ? AppColors
+                                                                      .primary
+                                                                  : AppColors
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.2),
                                                             ),
                                                           )),
                                                 ),
@@ -226,14 +252,18 @@ class TabSearchView extends GetView<TabSearchController> {
                                     item,
                                   );
                                 },
-                                noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
+                                noMoreItemsIndicatorBuilder: (_) =>
+                                    DotDotPagingNoMoreItems(),
                                 noItemsFoundIndicatorBuilder: (_) =>
-                                    PagingNoItemFountList().paddingOnly(top: Get.height * 0.3),
-                                firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
+                                    PagingNoItemFountList()
+                                        .paddingOnly(top: Get.height * 0.3),
+                                firstPageErrorIndicatorBuilder: (context) =>
+                                    PagingErrorView(
                                   controller: controller.pagingController,
                                 ),
                                 firstPageProgressIndicatorBuilder: (_) {
-                                  print('----firstPageProgressIndicatorBuilder----');
+                                  print(
+                                      '----firstPageProgressIndicatorBuilder----');
                                   return DrugsGridShimmer(
                                     yCount: 5,
                                     xCount: 1,
@@ -241,7 +271,8 @@ class TabSearchView extends GetView<TabSearchController> {
                                   );
                                 },
                                 newPageProgressIndicatorBuilder: (_) {
-                                  print('----newPageProgressIndicatorBuilder----');
+                                  print(
+                                      '----newPageProgressIndicatorBuilder----');
                                   // return DrugsGridShimmer(
                                   //   yCount: 5,
                                   //   xCount: 1,
@@ -289,7 +320,6 @@ class TabSearchView extends GetView<TabSearchController> {
         for (int i = 0; i <= 7; i++) {
           DateTime d = DateTime.now().add(Duration(days: i));
           if (item.schedules[0].dayOfWeek == d.weekday) {
-            log("d--as------------> $d");
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -299,10 +329,10 @@ class TabSearchView extends GetView<TabSearchController> {
                 .trim()
                 .split(' ');
             if (item.schedules[0].times.isNotEmpty) {
-              slot = "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
+              slot =
+                  "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
             }
-            log("date--------------> $date");
-            log("slot--------------> $slot");
+
             break;
           }
         }
@@ -323,7 +353,7 @@ class TabSearchView extends GetView<TabSearchController> {
         } else {
           finalWeekDay = greater.first;
         }
-        log("greater--------------> $greater");
+
         Schedule data;
         item.schedules.forEach((element) {
           if (element.dayOfWeek == finalWeekDay) {
@@ -332,8 +362,6 @@ class TabSearchView extends GetView<TabSearchController> {
         });
 
         int indexxx = item.schedules.indexOf(data);
-        log("indexxx--------------> $indexxx");
-        log("item.schedules--------------> ${item.schedules}");
 
         if (indexxx == item.schedules.length - 1) {
           indexxx = 0;
@@ -341,11 +369,8 @@ class TabSearchView extends GetView<TabSearchController> {
           indexxx = indexxx + 1;
         }
         for (int i = 0; i <= 7; i++) {
-          log("i--------------> $i");
-
           DateTime d = DateTime.now().add(Duration(days: i));
-          log("item.schedules[indexxx].dayOfWeek--------------> ${item.schedules[indexxx].dayOfWeek}");
-          log("d.weekday--------------> ${d.weekday}");
+
           if (d.weekday == 7) {
             date = d
                 .toPersianDateStr(
@@ -356,16 +381,11 @@ class TabSearchView extends GetView<TabSearchController> {
                 .trim()
                 .split(' ');
             if (item.schedules[indexxx].times.isNotEmpty) {
-              slot = "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+              slot =
+                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
             }
-
-            log("date--------------> $date");
-            log("slot--------------> $slot");
           }
           if (item.schedules[indexxx].dayOfWeek == d.weekday) {
-            log("d--------------> $d");
-            log("item.schedules[indexxx + 1].times--------------> ${item.schedules[indexxx].times}");
-
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -375,11 +395,9 @@ class TabSearchView extends GetView<TabSearchController> {
                 .trim()
                 .split(' ');
             if (item.schedules[indexxx].times.isNotEmpty) {
-              slot = "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+              slot =
+                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
             }
-
-            log("date--------------> $date");
-            log("slot--------------> $slot");
 
             break;
           }
@@ -414,8 +432,9 @@ class TabSearchView extends GetView<TabSearchController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.lightGrey),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CachedNetworkImage(
@@ -450,13 +469,16 @@ class TabSearchView extends GetView<TabSearchController> {
                                   width: Get.width * 0.49,
                                   child: Text(
                                     "${item.fullname ?? item.name ?? ""}",
-                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                    style: AppTextTheme.h(12)
+                                        .copyWith(color: AppColors.primary),
                                   ),
                                 ),
                                 SizedBox(height: 2),
                                 Text(
                                   "${item.speciality ?? ""}",
-                                  style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                  style: AppTextTheme.b(11).copyWith(
+                                      color:
+                                          AppColors.primary.withOpacity(0.5)),
                                 ),
                                 SizedBox(height: 2),
                                 Row(
@@ -470,7 +492,8 @@ class TabSearchView extends GetView<TabSearchController> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 1.0),
                                       itemBuilder: (context, _) => Icon(
                                         Icons.star,
                                         color: Colors.amber,
@@ -483,7 +506,9 @@ class TabSearchView extends GetView<TabSearchController> {
                                     SizedBox(width: 4),
                                     Text(
                                       '(12) Reviews',
-                                      style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                      style: AppTextTheme.b(12).copyWith(
+                                          color: AppColors.primary
+                                              .withOpacity(0.5)),
                                     ),
                                   ],
                                 ),
@@ -494,16 +519,23 @@ class TabSearchView extends GetView<TabSearchController> {
                                       flex: 2,
                                       child: GestureDetector(
                                         onTap: () {
-                                          Utils.openPhoneDialer(context, "${item.phone}");
+                                          Utils.openPhoneDialer(
+                                              context, "${item.phone}");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: w * 0.02),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: w * 0.02),
                                           decoration: BoxDecoration(
-                                              color: AppColors.secondary, borderRadius: BorderRadius.circular(20)),
+                                              color: AppColors.secondary,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
                                           child: Center(
                                             child: Text(
                                               "call".tr,
-                                              style: AppTextTheme.m(w * 0.032).copyWith(color: Colors.white),
+                                              style: AppTextTheme.m(w * 0.032)
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -523,13 +555,19 @@ class TabSearchView extends GetView<TabSearchController> {
                                           );
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: w * 0.01),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: w * 0.01),
                                           decoration: BoxDecoration(
-                                              color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
+                                              color: AppColors.lightBlack2,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
                                           child: Center(
                                             child: Text(
                                               "appointment".tr,
-                                              style: AppTextTheme.m(w * 0.032).copyWith(color: Colors.white),
+                                              style: AppTextTheme.m(w * 0.032)
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -559,7 +597,8 @@ class TabSearchView extends GetView<TabSearchController> {
                               border: Border.all(color: AppColors.primary),
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
@@ -575,15 +614,18 @@ class TabSearchView extends GetView<TabSearchController> {
                                   children: [
                                     Text(
                                       "${date[0]}",
-                                      style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                      style: AppTextTheme.m(10)
+                                          .copyWith(color: AppColors.primary),
                                     ),
                                     Text(
                                       " ${date[1]}",
-                                      style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                      style: AppTextTheme.m(10)
+                                          .copyWith(color: AppColors.primary),
                                     ),
                                     Text(
                                       " ${date[3]}",
-                                      style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                      style: AppTextTheme.m(10)
+                                          .copyWith(color: AppColors.primary),
                                     ),
                                   ],
                                 ),
@@ -606,7 +648,8 @@ class TabSearchView extends GetView<TabSearchController> {
                                     : FittedBox(
                                         child: Text(
                                           "${slot ?? "  -  "}",
-                                          style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
+                                          style: AppTextTheme.m(10).copyWith(
+                                              color: AppColors.primary),
                                         ),
                                       ),
                               ],
@@ -618,8 +661,10 @@ class TabSearchView extends GetView<TabSearchController> {
               item.isActive == true
                   ? Positioned(
                       top: -3,
-                      right: SettingsController.appLanguge != "English" ? null : 0,
-                      left: SettingsController.appLanguge == "English" ? null : 0,
+                      right:
+                          SettingsController.appLanguge != "English" ? null : 0,
+                      left:
+                          SettingsController.appLanguge == "English" ? null : 0,
                       child: SettingsController.appLanguge != "English"
                           ? Transform(
                               alignment: Alignment.center,
@@ -671,7 +716,8 @@ class TabSearchView extends GetView<TabSearchController> {
         IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (controller.teSearchController.text.isEmpty) Get.focusScope.unfocus();
+            if (controller.teSearchController.text.isEmpty)
+              Get.focusScope.unfocus();
             controller.teSearchController.clear();
             controller.firstSearchInit(false);
           },

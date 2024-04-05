@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/reports.dart';
 import 'package:doctor_yab/app/data/repository/ReportsRepository.dart';
@@ -40,8 +39,6 @@ class ReportsController extends GetxController {
         pagingController.error = e;
       }
     }).then((value) {
-      log("value----pagingController1----------> $value");
-
       Utils.addResponseToPagingController<Report>(
         value,
         pagingController,
@@ -57,7 +54,6 @@ class ReportsController extends GetxController {
         pagingController.error = e;
       }
     }).then((value) {
-      log("value--------------> $value");
       Utils.addResponseToPagingController<Report>(
         value,
         pagingController,

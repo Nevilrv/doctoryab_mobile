@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -47,8 +45,6 @@ class _MapScreenState extends State<MapScreen> {
       });
       setState(() {});
     } catch (e) {
-      log("e--------------> ${e}");
-
       _kGoogle = CameraPosition(
         target: LatLng(37.42796133580664, -122.885749655962),
         zoom: 12,

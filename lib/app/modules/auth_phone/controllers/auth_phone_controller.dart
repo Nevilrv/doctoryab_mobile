@@ -67,13 +67,12 @@ class AuthPhoneController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -162,7 +161,7 @@ class AuthPhoneController extends GetxController {
         idToken: googleSignInAuthentication.idToken);
     // final userCredential =
     //     await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
-    // log("userCredential${userCredential}");
+
     authResult = await FirebaseAuth.instance.signInWithCredential(credential);
 
     final User currentUser = FirebaseAuth.instance.currentUser;
@@ -179,16 +178,14 @@ class AuthPhoneController extends GetxController {
           var reponseData = value.data;
 
           SettingsController.userToken = reponseData["jwtoken"];
-          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+
           SettingsController.userProfileComplete =
               reponseData["profile_completed"];
-          log("SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
+
           SettingsController.userId = reponseData['user'] == null
               ? reponseData['newUser']['_id']
               : reponseData['user']['_id'];
-          log("SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
 
-          log("SettingsController.userToken--------------> ${SettingsController.userToken}");
           isLoading.value = false;
           try {
             SettingsController.savedUserProfile = u.User.fromJson(
@@ -203,23 +200,16 @@ class AuthPhoneController extends GetxController {
               SettingsController.userLogin = true;
               Get.offAllNamed(Routes.HOME);
             }
-            log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
           } catch (e) {
             Utils.commonSnackbar(context: context, text: "Google login failed");
-            log("e--------------> $e");
           }
-          log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userId}");
-
-          log("value--------------> $value");
         });
       } catch (e) {
         Utils.commonSnackbar(context: context, text: "Google login failed");
         isLoading.value = false;
       }
     }
-    log('token ID:- ${authResult.credential.token}');
-    log('token ID:- ${currentUser.uid}');
-    log('PROVIDER ID:- ${authResult.credential.providerId}');
+
     // }
     // catch (e) {
     //   Utils.commonSnackbar(context: context, text: e);

@@ -3,17 +3,12 @@ import 'dart:developer';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
-import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
-
-import 'package:doctor_yab/app/services/DioService.dart';
-
-import 'package:doctor_yab/app/utils/utils.dart';
-
-import 'package:flutter/cupertino.dart';
-
-import 'package:get/get.dart';
-
 import 'package:doctor_yab/app/data/models/user_model.dart' as u;
+import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
+import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 class RegisterGuestUserController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
@@ -57,14 +52,12 @@ class RegisterGuestUserController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
-    log("response-statusCode-------------> ${response.statusCode}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -125,12 +118,9 @@ class RegisterGuestUserController extends GetxController {
         SettingsController.userLogin = true;
         isLoading.value = false;
         Utils.whereShouldIGo();
-        log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.name}");
       } catch (e) {
         isLoading.value = false;
-        log("e--------------> ${e}");
       }
-      log("value--------------> ${value}");
     });
   }
 }

@@ -4,25 +4,19 @@ import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/components/paging_indicators/dotdot_nomore_items.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
-import 'package:doctor_yab/app/data/repository/AdRepository.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/lab_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_labs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
-import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +25,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/app/extentions/widget_exts.dart';
-import '../../../../components/paging_indicators/paging_error_view.dart';
 
 class TabHomeLabsView extends GetView<LabsController> {
   @override
@@ -76,9 +68,11 @@ class TabHomeLabsView extends GetView<LabsController> {
                             List<LatLng> latLng = [];
                             controller.locationData.forEach((element) {
                               if (element.coordinates != null) {
-                                latLng.add(LatLng(element.coordinates[1], element.coordinates[0]));
+                                latLng.add(LatLng(element.coordinates[1],
+                                    element.coordinates[0]));
                               }
-                              if (controller.locationData.length == latLng.length) {
+                              if (controller.locationData.length ==
+                                  latLng.length) {
                                 Get.to(MapScreen(
                                   latLng: latLng,
                                   name: controller.locationTitle,
@@ -94,7 +88,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 20),
                               child: Row(
                                 children: [
                                   SvgPicture.asset(
@@ -104,7 +99,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                                   Spacer(),
                                   Text(
                                     "view_all_in_maps".tr,
-                                    style: AppTextStyle.boldWhite12.copyWith(fontSize: 13),
+                                    style: AppTextStyle.boldWhite12
+                                        .copyWith(fontSize: 13),
                                   ),
                                   Spacer(),
                                 ],
@@ -144,9 +140,11 @@ class TabHomeLabsView extends GetView<LabsController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 9.5, horizontal: 10),
                               child: Center(
-                                  child: SettingsController.appLanguge != "English"
+                                  child: SettingsController.appLanguge !=
+                                          "English"
                                       ? Transform(
                                           alignment: Alignment.center,
                                           transform: Matrix4.rotationY(math.pi),
@@ -193,10 +191,12 @@ class TabHomeLabsView extends GetView<LabsController> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
                       hintText: "search_lab..".tr,
-                      hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                      hintStyle:
+                          AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                       suffixIcon: Padding(
                         padding: const EdgeInsets.all(11),
-                        child: SvgPicture.asset(AppImages.search, color: AppColors.primary),
+                        child: SvgPicture.asset(AppImages.search,
+                            color: AppColors.primary),
                       ),
                       filled: true,
                       fillColor: AppColors.white.withOpacity(0.1),
@@ -236,7 +236,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                                   physics: BouncingScrollPhysics(),
                                   // padding: EdgeInsets.only(bottom: 100),
                                   itemBuilder: (context, index) {
-                                    return _labData(context, controller.searchDataList[index], h, w);
+                                    return _labData(context,
+                                        controller.searchDataList[index], h, w);
                                   },
                                   separatorBuilder: (context, index) {
                                     if ((index + 1) % 5 == 0) {
@@ -249,65 +250,87 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                   height: Get.height * 0.2,
                                                   viewportFraction: 1.0,
                                                   enlargeCenterPage: false,
-                                                  onPageChanged: (index, reason) {
+                                                  onPageChanged:
+                                                      (index, reason) {
                                                     controller.adIndex = index;
                                                     controller.update();
                                                   },
                                                 ),
                                                 items: controller.adList
-                                                    .map((item) => GestureDetector(
-                                                          onTap: () async {
-                                                            if (!await launchUrl(Uri.parse(item.link))) {
-                                                              throw Exception('Could not launch ${item.link}');
-                                                            }
-                                                            log("item.img--------------> ${item.link}");
-                                                          },
-                                                          child: Stack(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 5),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(15)),
-                                                                  // margin: EdgeInsets.all(5.0),
-                                                                  child: ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(Radius.circular(15.0)),
-                                                                    child: Image.network(
-                                                                        "${ApiConsts.hostUrl}${item.img}",
-                                                                        fit: BoxFit.cover,
-                                                                        width: 1000.0),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Positioned(
-                                                                top: 10,
-                                                                right: SettingsController.appLanguge != "English"
-                                                                    ? null
-                                                                    : 10,
-                                                                left: SettingsController.appLanguge == "English"
-                                                                    ? null
-                                                                    : 10,
-                                                                child: SettingsController.appLanguge != "English"
-                                                                    ? Transform(
-                                                                        alignment: Alignment.center,
-                                                                        transform: Matrix4.rotationY(math.pi),
-                                                                        child: Image.asset(
-                                                                          AppImages.promote,
-                                                                          height: 18,
-                                                                          width: 18,
-                                                                          color: AppColors.white,
-                                                                        ))
-                                                                    : Image.asset(
-                                                                        AppImages.promote,
-                                                                        height: 18,
-                                                                        width: 18,
-                                                                        color: AppColors.white,
+                                                    .map(
+                                                        (item) =>
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                if (!await launchUrl(
+                                                                    Uri.parse(item
+                                                                        .link))) {
+                                                                  throw Exception(
+                                                                      'Could not launch ${item.link}');
+                                                                }
+                                                              },
+                                                              child: Stack(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            5),
+                                                                    child:
+                                                                        Container(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(15)),
+                                                                      // margin: EdgeInsets.all(5.0),
+                                                                      child:
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(15.0)),
+                                                                        child: Image.network(
+                                                                            "${ApiConsts.hostUrl}${item.img}",
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                            width: 1000.0),
                                                                       ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ))
+                                                                    ),
+                                                                  ),
+                                                                  Positioned(
+                                                                    top: 10,
+                                                                    right: SettingsController.appLanguge !=
+                                                                            "English"
+                                                                        ? null
+                                                                        : 10,
+                                                                    left: SettingsController.appLanguge ==
+                                                                            "English"
+                                                                        ? null
+                                                                        : 10,
+                                                                    child: SettingsController.appLanguge !=
+                                                                            "English"
+                                                                        ? Transform(
+                                                                            alignment: Alignment
+                                                                                .center,
+                                                                            transform: Matrix4.rotationY(math
+                                                                                .pi),
+                                                                            child: Image
+                                                                                .asset(
+                                                                              AppImages.promote,
+                                                                              height: 18,
+                                                                              width: 18,
+                                                                              color: AppColors.white,
+                                                                            ))
+                                                                        : Image
+                                                                            .asset(
+                                                                            AppImages.promote,
+                                                                            height:
+                                                                                18,
+                                                                            width:
+                                                                                18,
+                                                                            color:
+                                                                                AppColors.white,
+                                                                          ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ))
                                                     .toList()),
                                           ),
                                           Positioned(
@@ -316,16 +339,26 @@ class TabHomeLabsView extends GetView<LabsController> {
                                             right: 0,
                                             child: Center(
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: List.generate(
                                                     controller.adList.length,
                                                     (index) => Padding(
-                                                          padding: const EdgeInsets.only(left: 3),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 3),
                                                           child: CircleAvatar(
                                                             radius: 5,
-                                                            backgroundColor: controller.adIndex == index
-                                                                ? AppColors.primary
-                                                                : AppColors.primary.withOpacity(0.2),
+                                                            backgroundColor:
+                                                                controller.adIndex ==
+                                                                        index
+                                                                    ? AppColors
+                                                                        .primary
+                                                                    : AppColors
+                                                                        .primary
+                                                                        .withOpacity(
+                                                                            0.2),
                                                           ),
                                                         )),
                                               ),
@@ -360,14 +393,24 @@ class TabHomeLabsView extends GetView<LabsController> {
                                         ),
                                         items: controller.adList
                                             .map((item) => Padding(
-                                                  padding: const EdgeInsets.only(left: 5),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5),
                                                   child: Container(
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15)),
                                                     // margin: EdgeInsets.all(5.0),
                                                     child: ClipRRect(
-                                                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                                      child: Image.network("${ApiConsts.hostUrl}${item.img}",
-                                                          fit: BoxFit.cover, width: 1000.0),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  15.0)),
+                                                      child: Image.network(
+                                                          "${ApiConsts.hostUrl}${item.img}",
+                                                          fit: BoxFit.cover,
+                                                          width: 1000.0),
                                                     ),
                                                   ),
                                                 ))
@@ -379,16 +422,22 @@ class TabHomeLabsView extends GetView<LabsController> {
                                     right: 0,
                                     child: Center(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: List.generate(
                                             controller.adList.length,
                                             (index) => Padding(
-                                                  padding: const EdgeInsets.only(left: 3),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 3),
                                                   child: CircleAvatar(
                                                     radius: 5,
-                                                    backgroundColor: controller.adIndex == index
+                                                    backgroundColor: controller
+                                                                .adIndex ==
+                                                            index
                                                         ? AppColors.primary
-                                                        : AppColors.primary.withOpacity(0.2),
+                                                        : AppColors.primary
+                                                            .withOpacity(0.2),
                                                   ),
                                                 )),
                                       ),
@@ -409,12 +458,14 @@ class TabHomeLabsView extends GetView<LabsController> {
                             // firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                             //   controller: controller.pageController,
                             // ),
-                            firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
+                            firstPageProgressIndicatorBuilder: (_) =>
+                                DrugsGridShimmer(
                               yCount: 5,
                               xCount: 1,
                               // linesCount: 4,
                             ),
-                            newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
+                            newPageProgressIndicatorBuilder: (_) =>
+                                DrugsGridShimmer(
                               yCount: 5,
                               xCount: 1,
                             ),
@@ -718,8 +769,9 @@ class TabHomeLabsView extends GetView<LabsController> {
                             // color: Colors.black,
                             // height: 65,
                             // width: 65,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.lightGrey),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CachedNetworkImage(
@@ -767,7 +819,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                                 width: Get.width * 0.49,
                                 child: Text(
                                   "${item.name ?? ""}",
-                                  style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                  style: AppTextTheme.h(12)
+                                      .copyWith(color: AppColors.primary),
                                 ),
                               ),
 
@@ -779,12 +832,15 @@ class TabHomeLabsView extends GetView<LabsController> {
                                     ignoreGestures: true,
                                     itemSize: 17,
                                     initialRating: double.parse(
-                                        item.averageRatings == null ? "0.0" : item.averageRatings.toString()),
+                                        item.averageRatings == null
+                                            ? "0.0"
+                                            : item.averageRatings.toString()),
                                     // minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 1.0),
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       color: Colors.amber,
@@ -797,11 +853,16 @@ class TabHomeLabsView extends GetView<LabsController> {
                                   SizedBox(width: 4),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(Routes.REVIEW, arguments: ["Laboratory_Review", item]);
+                                      Get.toNamed(Routes.REVIEW, arguments: [
+                                        "Laboratory_Review",
+                                        item
+                                      ]);
                                     },
                                     child: Text(
                                       '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks}) ${"reviews".tr}',
-                                      style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                      style: AppTextTheme.b(12).copyWith(
+                                          color: AppColors.primary
+                                              .withOpacity(0.5)),
                                     ).paddingOnly(top: 3),
                                   ),
                                 ],
@@ -812,29 +873,40 @@ class TabHomeLabsView extends GetView<LabsController> {
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {
-                                        Utils.openPhoneDialer(context, "${item.phone[0]}");
+                                        Utils.openPhoneDialer(
+                                            context, "${item.phone[0]}");
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 5),
                                         decoration: BoxDecoration(
-                                            color: AppColors.secondary, borderRadius: BorderRadius.circular(10)),
+                                            color: AppColors.secondary,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
                                         child: Row(
                                           children: [
                                             Spacer(),
                                             Center(
                                               child: Text(
                                                 "call".tr,
-                                                style: AppTextTheme.m(12).copyWith(color: Colors.white),
+                                                style: AppTextTheme.m(12)
+                                                    .copyWith(
+                                                        color: Colors.white),
                                               ),
                                             ),
                                             Spacer(),
-                                            SettingsController.appLanguge != "English"
+                                            SettingsController.appLanguge !=
+                                                    "English"
                                                 ? Transform(
                                                     alignment: Alignment.center,
-                                                    transform: Matrix4.rotationY(math.pi),
-                                                    child: SvgPicture.asset(AppImages.phone),
+                                                    transform:
+                                                        Matrix4.rotationY(
+                                                            math.pi),
+                                                    child: SvgPicture.asset(
+                                                        AppImages.phone),
                                                   )
-                                                : SvgPicture.asset(AppImages.phone)
+                                                : SvgPicture.asset(
+                                                    AppImages.phone)
                                           ],
                                         ),
                                       ),
@@ -858,7 +930,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                       color: AppColors.lightGrey,
                       border: Border.all(color: AppColors.primary)),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -872,7 +945,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                             // "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
                             "${item.address}",
                             maxLines: 1,
-                            style: AppTextTheme.b(10).copyWith(color: AppColors.primary),
+                            style: AppTextTheme.b(10)
+                                .copyWith(color: AppColors.primary),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -888,7 +962,8 @@ class TabHomeLabsView extends GetView<LabsController> {
             item.active == true
                 ? Positioned(
                     top: -3,
-                    right: SettingsController.appLanguge != "English" ? null : 0,
+                    right:
+                        SettingsController.appLanguge != "English" ? null : 0,
                     left: SettingsController.appLanguge == "English" ? null : 0,
                     child: SettingsController.appLanguge != "English"
                         ? Transform(

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -73,7 +72,6 @@ class TabBlogController extends GetxController {
 
       //
 
-      log('---->>>tabTitles>>>>>$tabTitles');
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         pagingController.addPageRequestListener((pageKey) {
           loadPosts(pageKey, selectedIndex());
@@ -147,10 +145,7 @@ class TabBlogController extends GetxController {
       // v.data.likes.forEach((element) {
       //   if(element.)
       // });
-      log("v--------------> ${v.data}");
     }).catchError((e, s) {
-      log("e--------------> $e");
-
       Future.delayed(Duration(seconds: 3), () {});
     });
     update();
@@ -159,11 +154,8 @@ class TabBlogController extends GetxController {
   Future<void> shareBlog(String postId, int index, post.Post item) async {
     BlogRepository.blogShare(
             userId: SettingsController.userId, postId: postId.toString())
-        .then((v) {
-      log("v--------------> ${v.data}");
-    }).catchError((e, s) {
-      log("e--------------> $e");
-
+        .then((v) {})
+        .catchError((e, s) {
       Future.delayed(Duration(seconds: 3), () {});
     });
     update();
@@ -190,9 +182,7 @@ class TabBlogController extends GetxController {
       postList[index].comments.forEach((element) {
         // log('------elekment---${element['whoPosted']}');
       });
-      log(" controller.comment--------------> ${v.data.comments}");
     }).catchError((e, s) {
-      log("e--------------> $e");
       isLoadingComment = false;
       update();
       Future.delayed(Duration(seconds: 3), () {});
@@ -205,18 +195,14 @@ class TabBlogController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> $e");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();

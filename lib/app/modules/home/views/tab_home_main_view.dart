@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -16,12 +15,15 @@ import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
 import '../../../components/story_avatar.dart';
 import '../../../data/ApiConsts.dart';
 
 class TabHomeMainView extends GetView<TabHomeMainController> {
-  TabHomeMainController tabHomeMainController = Get.put(TabHomeMainController());
-  NotificationController notificationController = Get.put(NotificationController())..loadNotification();
+  TabHomeMainController tabHomeMainController =
+      Get.put(TabHomeMainController());
+  NotificationController notificationController =
+      Get.put(NotificationController())..loadNotification();
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -70,7 +72,8 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                     child: Center(
                       child: SizedBox(
                         child: TabBar(
-                          labelPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                          labelPadding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                           labelColor: Colors.white,
                           onTap: (value) {
                             if (value == 0) {
@@ -78,18 +81,20 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                             } else {
                               controller.isHomeScreen.value = false;
                             }
-                            log("value--------------> $value");
                           },
                           unselectedLabelColor: AppColors.black,
-                          labelStyle: AppTextStyle.regularWhite12.copyWith(fontWeight: FontWeight.w500),
-                          unselectedLabelStyle: AppTextStyle.mediumBlack12.copyWith(fontWeight: FontWeight.w500),
+                          labelStyle: AppTextStyle.regularWhite12
+                              .copyWith(fontWeight: FontWeight.w500),
+                          unselectedLabelStyle: AppTextStyle.mediumBlack12
+                              .copyWith(fontWeight: FontWeight.w500),
                           indicator: BoxDecoration(
                             color: Get.theme.primaryColor,
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           tabs: [
-                            FittedBox(child: Text("doctors".tr), fit: BoxFit.cover),
+                            FittedBox(
+                                child: Text("doctors".tr), fit: BoxFit.cover),
                             FittedBox(child: Text("hospitals".tr)),
                             FittedBox(child: Text("drug_store".tr)),
                             FittedBox(child: Text("labratories".tr)),
@@ -151,7 +156,8 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                   ),
                   Text(
                     "how_do_you_feel_today".tr,
-                    style: AppTextStyle.mediumWhite11.copyWith(color: AppColors.white.withOpacity(0.5), fontSize: 13),
+                    style: AppTextStyle.mediumWhite11.copyWith(
+                        color: AppColors.white.withOpacity(0.5), fontSize: 13),
                   ),
                 ],
               ),
@@ -173,7 +179,8 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                     right: 2,
                     top: 2,
                     child: CircleAvatar(
-                      backgroundColor: notificationController.notification.any((element) => element.status == "unread")
+                      backgroundColor: notificationController.notification
+                              .any((element) => element.status == "unread")
                           ? AppColors.red2
                           : Colors.transparent,
                       radius: 4,
@@ -251,7 +258,8 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         StoryAvatar(
-                          assetPath: "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
+                          assetPath:
+                              "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
                           isActive: true,
                           onTap: () {
                             // controller.resetStrories();

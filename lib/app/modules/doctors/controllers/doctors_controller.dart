@@ -45,7 +45,12 @@ class DoctorsController extends GetxController {
   String sort = "";
   String selectedSort = "".tr;
 
-  List<String> filterList = ['promoted'.tr, "best_rating".tr, 'nearest'.tr, 'a-z'.tr];
+  List<String> filterList = [
+    'promoted'.tr,
+    "best_rating".tr,
+    'nearest'.tr,
+    'a-z'.tr
+  ];
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   //*Location
@@ -74,8 +79,6 @@ class DoctorsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
-
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -136,7 +139,8 @@ class DoctorsController extends GetxController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13
+                        .copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -153,7 +157,9 @@ class DoctorsController extends GetxController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
+                            color: selectedSort == l
+                                ? AppColors.secondary
+                                : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -227,7 +233,6 @@ class DoctorsController extends GetxController {
 
       if (selectedSort == 'promoted'.tr) {
         data.data["data"].forEach((item) {
-          log("item['active']----->${item['active']}");
           if (item['active'] == true) {
             promotedItems.add(Doctor.fromJson(item));
           } else {
@@ -258,7 +263,7 @@ class DoctorsController extends GetxController {
           locationTitle.add(element.name);
         }
       });
-      log("locationData--------------> ${locationData.length}");
+
       // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -354,9 +359,9 @@ class DoctorsController extends GetxController {
     try {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
-      log("serv-enabled $_serviceEnabled");
+
       var locationData = await location.getLocation();
-      log("loc" + locationData.toString());
+
       // AuthController.to.setLastUserLocation(
       latLang.value = locationData;
       // Utils.whereShouldIGo();
@@ -408,7 +413,8 @@ class DoctorsController extends GetxController {
         case PermissionStatus.permanentlyDenied:
           {
             AppGetDialog.show(
-              middleText: "you_have_to_allow_location_permission_in_settings".tr,
+              middleText:
+                  "you_have_to_allow_location_permission_in_settings".tr,
               actions: <Widget>[
                 TextButton(
                   onPressed: () => openAppSettings(),
@@ -423,7 +429,9 @@ class DoctorsController extends GetxController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(
+          middleText:
+              e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
@@ -451,17 +459,14 @@ class DoctorsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v. ${v.data}");
 
       if (v.data != null) {
         v.data.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> $e");
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
         if (this != null) _fetchAds();

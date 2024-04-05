@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -17,9 +15,7 @@ import 'package:get/get.dart';
 
 class DrugDetailsView extends GetView<DrugsController> {
   DrugDetailsView({Key key}) : super(key: key) {
-    print('==controller.argumentsData==>${Get.arguments}');
     controller.setData(Get.arguments);
-    log("controller.argumentsData.id--------------> ${controller.argumentsData.id}");
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.drugReview(drugId: controller.argumentsData.id);

@@ -37,13 +37,12 @@ class TreatmentAbroadController extends GetxController {
       // Get all countries
       // List<Country>? countries = await CountryProvider.getAllCountries();
       List<Country> result = await CountryProvider.instance.getAllCountries();
-      // log("countries--------------> ${result}");
+
       countries.value = result;
       isLoading.value = false;
       update();
     } catch (e) {
       isLoading.value = false;
-      log("e--------------> ${e}");
     }
   }
 
@@ -59,8 +58,6 @@ class TreatmentAbroadController extends GetxController {
             translator: translator.value == "YES" ? true : false,
             visaSupport: visaSupport.value == "YES" ? true : false)
         .then((value) {
-      log("value['data']['_id']--------------> ${value['data']['_id']}");
-
       if (attachmentFile.value != "") {
         if (attachmentFile.value.isPDFFileName) {
           AbroadRepository()
@@ -73,9 +70,7 @@ class TreatmentAbroadController extends GetxController {
                 middleText: "done".tr + "\n\n" + "abroad_success".tr);
 
             apiLoading.value = false;
-            log("value--------------> ${value}");
           }).catchError((e, s) {
-            log("e------------------->${e.response.data['msg']}");
             apiLoading.value = false;
           });
         } else {
@@ -89,7 +84,6 @@ class TreatmentAbroadController extends GetxController {
                 middleText: "done".tr + "\n\n" + "abroad_success".tr);
 
             apiLoading.value = false;
-            log("value--------------> ${value}");
           }).catchError((e, s) {
             apiLoading.value = false;
           });
@@ -100,8 +94,6 @@ class TreatmentAbroadController extends GetxController {
             middleText: "done".tr + "\n\n" + "abroad_success".tr);
         apiLoading.value = false;
       }
-
-      log("value--------------> ${value}");
     }).catchError((e, s) {
       apiLoading.value = false;
       DioExceptionHandler.handleException(

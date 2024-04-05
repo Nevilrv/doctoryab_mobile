@@ -77,11 +77,9 @@ class ChatController extends GetxController {
     // if (!directory.existsSync()) {
     //   directory.createSync();
     // }
-    log('-----pathToAudio----$pathToAudio');
-    log('-----pathToAudioCondition----${pathToAudio == null}');
+
     if (pathToAudio == null) {
       final directory = await getApplicationDocumentsDirectory();
-      log("directory.path--------------> ${directory.path}");
 
       pathToAudio = '${directory.path}/temp.wav';
       recordingSession = FlutterSoundRecorder();
@@ -98,10 +96,10 @@ class ChatController extends GetxController {
       );
     }
 
-    StreamSubscription _recorderSubscription = recordingSession.onProgress.listen((e) {
-      log("e.duration.inMilliseconds--------------> ${e.duration.inMilliseconds}");
-
-      var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds, isUtc: true);
+    StreamSubscription _recorderSubscription =
+        recordingSession.onProgress.listen((e) {
+      var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
+          isUtc: true);
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
       // timerText.value = timeText.substring(0, 8);
       update();
@@ -250,7 +248,8 @@ class ChatController extends GetxController {
       update();
       return voiceDuration;
     } else {
-      voiceDuration = "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
+      voiceDuration =
+          "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
       update();
       return voiceDuration;
     }
@@ -301,7 +300,8 @@ class ChatController extends GetxController {
     sendingMessage(true);
     update();
     if (messageToSend != '') {
-      ChatRepository.sendMessage(chatArg().id, messageToSend, cancelToken: sendMessageCancelToken, onError: (e) {
+      ChatRepository.sendMessage(chatArg().id, messageToSend,
+          cancelToken: sendMessageCancelToken, onError: (e) {
         if (!(e is DioError && CancelToken.isCancel(e))) {
           // isLoading.value = false;
           Future.delayed(Duration(seconds: 2), () {
@@ -339,9 +339,13 @@ class ChatController extends GetxController {
       if (image.isNotEmpty) {
         try {
           image.forEach((element) {
-            ChatRepository().uploadImage(file: File(element.path)).then((value) {
+            ChatRepository()
+                .uploadImage(file: File(element.path))
+                .then((value) {
               ChatRepository.sendMessage(chatArg().id, "",
-                  images: value, type: attachmentString.value, cancelToken: sendMessageCancelToken, onError: (e) {
+                  images: value,
+                  type: attachmentString.value,
+                  cancelToken: sendMessageCancelToken, onError: (e) {
                 if (!(e is DioError && CancelToken.isCancel(e))) {
                   // isLoading.value = false;
                   Future.delayed(Duration(seconds: 2), () {
@@ -411,7 +415,9 @@ class ChatController extends GetxController {
         if (pathToAudio.isNotEmpty) {
           ChatRepository().uploadAudio(file: File(pathToAudio)).then((value) {
             ChatRepository.sendMessage(chatArg().id, "",
-                images: value, type: attachmentString.value, cancelToken: sendMessageCancelToken, onError: (e) {
+                images: value,
+                type: attachmentString.value,
+                cancelToken: sendMessageCancelToken, onError: (e) {
               if (!(e is DioError && CancelToken.isCancel(e))) {
                 // isLoading.value = false;
                 Future.delayed(
@@ -462,7 +468,9 @@ class ChatController extends GetxController {
           ChatRepository().uploadPDF(file: File(pdfFile.value)).then(
             (value) {
               ChatRepository.sendMessage(chatArg().id, "",
-                  images: value, type: attachmentString.value, cancelToken: sendMessageCancelToken, onError: (e) {
+                  images: value,
+                  type: attachmentString.value,
+                  cancelToken: sendMessageCancelToken, onError: (e) {
                 if (!(e is DioError && CancelToken.isCancel(e))) {
                   Future.delayed(Duration(seconds: 2), () {
                     sendMessageCancelToken.cancel();
@@ -556,8 +564,6 @@ class ChatController extends GetxController {
   Socket socket;
 
   initSocket() {
-    log("chatArg()?.id------------------->${chatArg()?.id}");
-
     socket = IO.io(ApiConsts.socketServerURL, <String, dynamic>{
       'autoConnect': true,
       'transports': ['websocket'],
@@ -582,7 +588,7 @@ class ChatController extends GetxController {
         if (m["chat"] != null) m["chat"]["users"] = [];
         // var _json = jsonDecode(m);
         // _json["readBy"] = [];
-        log("-mmmmmmmmmmmmmmmmmmmmmm-------------> ${m}");
+
         var _msg = ChatApiModel.fromJson(m);
 
         chat.insert(0, _msg);
@@ -628,8 +634,10 @@ class ChatController extends GetxController {
   }
 
   void pickPdf() async {
-    FilePickerResult result =
-        await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf'], allowMultiple: false);
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+        allowMultiple: false);
     pdfFile.value = result.files[0].path;
     update();
   }
@@ -642,17 +650,19 @@ class ChatController extends GetxController {
     // initSocket();
     voiceTrackRowSize = hi.length;
 
-    playerStateChangedSubscription1 = audioPlayer1.onPlayerComplete.listen((state) async {
+    playerStateChangedSubscription1 =
+        audioPlayer1.onPlayerComplete.listen((state) async {
       await stop1();
       update();
     });
 
-    positionChangedSubscription1 = audioPlayer1.onPositionChanged.listen((position) {
-      log("position------>${position}");
+    positionChangedSubscription1 =
+        audioPlayer1.onPositionChanged.listen((position) {
       position1 = position;
       update();
     });
-    durationChangedSubscription1 = audioPlayer1.onDurationChanged.listen((duration) {
+    durationChangedSubscription1 =
+        audioPlayer1.onDurationChanged.listen((duration) {
       duration1 = duration;
       update();
     });
@@ -665,16 +675,18 @@ class ChatController extends GetxController {
     initSocket();
     voiceTrackRowSize = hi.length;
 
-    playerStateChangedSubscription1 = audioPlayer1.onPlayerComplete.listen((state) async {
+    playerStateChangedSubscription1 =
+        audioPlayer1.onPlayerComplete.listen((state) async {
       await stop1();
     });
 
-    positionChangedSubscription1 = audioPlayer1.onPositionChanged.listen((position) {
+    positionChangedSubscription1 =
+        audioPlayer1.onPositionChanged.listen((position) {
       position1 = position;
     });
 
-    durationChangedSubscription1 = audioPlayer1.onDurationChanged.listen((duration) {
-      log("duration----->${duration.inSeconds}");
+    durationChangedSubscription1 =
+        audioPlayer1.onDurationChanged.listen((duration) {
       duration1 = duration;
     });
     super.onInit();
@@ -725,8 +737,10 @@ class ChatController extends GetxController {
   // }
   List<String> voiceDurationList = [];
   Future<void> loadChatList(int p) async {
-    ChatRepository.fetchChatsById(chatArg().id, cancelToken: chatCancelToken, page: p, limitPerPage: chatsPerPageLimit,
-        onError: (e) {
+    ChatRepository.fetchChatsById(chatArg().id,
+        cancelToken: chatCancelToken,
+        page: p,
+        limitPerPage: chatsPerPageLimit, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         // isLoading.value = false;
         Future.delayed(Duration(seconds: 2), () {
@@ -749,7 +763,8 @@ class ChatController extends GetxController {
             if (element.voiceNotes.isEmpty) {
               voiceDurationList.add('0');
             } else {
-              String d = await getVoiceDuration(url: '${ApiConsts.hostUrl}${element.voiceNotes[0]}');
+              String d = await getVoiceDuration(
+                  url: '${ApiConsts.hostUrl}${element.voiceNotes[0]}');
               voiceDurationList.add(d);
 
               log('-------ELEMENET----$voiceDurationList');

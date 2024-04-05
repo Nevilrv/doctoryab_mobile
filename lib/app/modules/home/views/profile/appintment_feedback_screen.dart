@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -7,18 +5,13 @@ import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/histories.dart';
 import 'package:doctor_yab/app/modules/home/controllers/appointmtnet_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
-import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class AppointmentFeedbackScreen extends StatelessWidget {
   History history;
@@ -31,8 +24,6 @@ class AppointmentFeedbackScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    log("history.doctor[0].averageRatings--------------> ${history.doctor[0].averageRatings.runtimeType}");
-
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
 
