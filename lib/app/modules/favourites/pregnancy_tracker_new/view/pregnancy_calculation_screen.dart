@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -178,8 +180,12 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                               await showPersianDatePicker(
                                                   context: context,
                                                   initialDate: Jalali.now(),
-                                                  firstDate: Jalali(1385, 8),
-                                                  lastDate: Jalali(1450, 9),
+                                                  firstDate: Jalali
+                                                      .fromDateTime(DateTime
+                                                              .now()
+                                                          .subtract(Duration(
+                                                              days: 266))),
+                                                  lastDate: Jalali.now(),
                                                   initialEntryMode:
                                                       PDatePickerEntryMode
                                                           .calendarOnly,
@@ -204,9 +210,17 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                     );
                                                   });
                                           if (picked != null) {
+                                            Gregorian gregorianDate =
+                                                picked.toGregorian();
+
+                                            DateTime gregorianDateTime =
+                                                DateTime(
+                                                    gregorianDate.year,
+                                                    gregorianDate.month,
+                                                    gregorianDate.day);
                                             controller.conceptionInitialDay =
-                                                DateTime.parse(
-                                                    picked.toJalaliDateTime());
+                                                gregorianDateTime;
+
                                             controller.formattedConceptionDate =
                                                 '${picked.year}-${picked.month}-${picked.day}';
                                             controller.update();
@@ -323,9 +337,12 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                   await showPersianDatePicker(
                                                       context: context,
                                                       initialDate: Jalali.now(),
-                                                      firstDate:
-                                                          Jalali(1385, 8),
-                                                      lastDate: Jalali(1450, 9),
+                                                      firstDate: Jalali
+                                                          .fromDateTime(DateTime
+                                                                  .now()
+                                                              .subtract(Duration(
+                                                                  days: 266))),
+                                                      lastDate: Jalali.now(),
                                                       initialEntryMode:
                                                           PDatePickerEntryMode
                                                               .calendarOnly,
@@ -353,9 +370,16 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                         );
                                                       });
                                               if (picked != null) {
+                                                Gregorian gregorianDate =
+                                                    picked.toGregorian();
+
+                                                DateTime gregorianDateTime =
+                                                    DateTime(
+                                                        gregorianDate.year,
+                                                        gregorianDate.month,
+                                                        gregorianDate.day);
                                                 controller.pregnancyInitialDay =
-                                                    DateTime.parse(picked
-                                                        .toJalaliDateTime());
+                                                    gregorianDateTime;
 
                                                 controller
                                                         .formattedPregnancyDate =
@@ -543,9 +567,9 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                           initialDate:
                                                               Jalali.now(),
                                                           firstDate:
-                                                              Jalali(1385, 8),
-                                                          lastDate:
-                                                              Jalali(1450, 9),
+                                                              Jalali.now(),
+                                                          lastDate: Jalali.now()
+                                                              .addDays(300),
                                                           initialEntryMode:
                                                               PDatePickerEntryMode
                                                                   .calendarOnly,
@@ -577,9 +601,17 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                             );
                                                           });
                                                   if (picked != null) {
+                                                    Gregorian gregorianDate =
+                                                        picked.toGregorian();
+
+                                                    DateTime gregorianDateTime =
+                                                        DateTime(
+                                                            gregorianDate.year,
+                                                            gregorianDate.month,
+                                                            gregorianDate.day);
                                                     controller.dueInitialDay =
-                                                        DateTime.parse(picked
-                                                            .toJalaliDateTime());
+                                                        gregorianDateTime;
+
                                                     controller
                                                             .formattedDueDate =
                                                         '${picked.year}-${picked.month}-${picked.day}';
@@ -637,6 +669,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                           "${DateFormat('yyyy-MM-dd').format(controller.conceptionInitialDay).toEnglishDigit()}"
                     };
 
+                    log('body ---------->>>>>>>> ${body}');
                     controller.pregnancyCalculation(body: body);
                     Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
                   } else {

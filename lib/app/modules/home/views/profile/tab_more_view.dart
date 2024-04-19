@@ -80,11 +80,6 @@ class TabMoreView extends GetView {
                     ],
                   ),
                 ),
-                // child: SvgPicture.asset(
-                //   AppImages.bellwhite,
-                //   height: 24,
-                //   width: 24,
-                // ),
               ),
             )
           ],

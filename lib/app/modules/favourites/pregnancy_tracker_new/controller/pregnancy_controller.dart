@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/pregnancy_details_model.dart';
@@ -19,6 +22,7 @@ class PregnancyTrackerNewController extends GetxController {
   DateTime dueInitialDay = DateTime.now();
   DateTime conceptionInitialDay = DateTime.now();
 
+  // String conceptionInitialDay = '';
   String formattedPregnancyDate = SettingsController.appLanguge == 'English'
       ? d.DateFormat('dd-MM-yyyy').format(DateTime.now())
       : /*${DateTime.now().toJalali().formatter.wN}, */ '${DateTime.now().toJalali().formatter.yyyy}-${DateTime.now().toJalali().formatter.mm}-${DateTime.now().toJalali().formatter.d}';
@@ -114,11 +118,14 @@ class PregnancyTrackerNewController extends GetxController {
         .calculateDate(body: body, cancelToken: cancelToken)
         .then((value) async {
       if (value.data != null) {
+        log('value ---------->>>>>>>> ${jsonEncode(value.data)}');
         pregnancyData = value.data;
         // value.data.ptModules.forEach((element) {
         //   if (element.week == value.data.currentWeek) {
-
+        log('value ---------->>>>>>>> ${value.data.ptModules}');
         weekCount = value.data.ptModules.indexWhere((element) {
+          log('element -----week----->>>>>>>> ${element.week}');
+          log('value.data.currentWeek ---------->>>>>>>> ${value.data.currentWeek}');
           return element.week == value.data.currentWeek;
         });
         // }
