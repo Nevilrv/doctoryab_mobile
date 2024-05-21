@@ -13,9 +13,9 @@ String drugDatabaseModelToJson(DrugDatabaseModel data) =>
     json.encode(data.toJson());
 
 class DrugDatabaseModel {
-  List<Datum> data;
-  int count;
-  int unVerifiedCount;
+  List<Datum>? data;
+  int? count;
+  int? unVerifiedCount;
 
   DrugDatabaseModel({
     this.data,
@@ -31,57 +31,57 @@ class DrugDatabaseModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
         "unVerifiedCount": unVerifiedCount,
       };
 }
 
 class Datum {
-  bool verified;
-  bool active;
-  String img;
-  String id;
+  bool? verified;
+  bool? active;
+  String? img;
+  String? id;
 
   ///based on app language
-  String name;
-  String pashtoName;
-  String englishDrugName;
-  String localLanguageDrugName;
-  String genericName;
-  String barcode;
-  String therapeuticClass;
-  String pharmacologicClass;
-  String usage;
-  String usageEnglish;
-  String usageDari;
-  String usagePashto;
-  String sideEffectsEnglish;
-  String sideEffectsDari;
-  String sideEffectsPashto;
-  String sideEffects;
-  String dosages;
-  String dosagesEnglish;
-  String dosagesDari;
-  String dosagesPashto;
-  String packsAndPrices;
-  String wholeSalePrice;
-  String warnings;
-  String warningsEnglish;
-  String warningsDari;
-  String warningsPashto;
-  String company;
-  String origin;
-  String notes;
-  String drugType;
-  String drugTypeEnglish;
-  String drugTypeDari;
-  String drugTypePashto;
-  String pack;
-  AdminId adminId;
-  String createdAt;
-  String updatedAt;
-  int v;
+  String? name;
+  String? pashtoName;
+  String? englishDrugName;
+  String? localLanguageDrugName;
+  String? genericName;
+  String? barcode;
+  String? therapeuticClass;
+  String? pharmacologicClass;
+  String? usage;
+  String? usageEnglish;
+  String? usageDari;
+  String? usagePashto;
+  String? sideEffectsEnglish;
+  String? sideEffectsDari;
+  String? sideEffectsPashto;
+  String? sideEffects;
+  String? dosages;
+  String? dosagesEnglish;
+  String? dosagesDari;
+  String? dosagesPashto;
+  String? packsAndPrices;
+  String? wholeSalePrice;
+  String? warnings;
+  String? warningsEnglish;
+  String? warningsDari;
+  String? warningsPashto;
+  String? company;
+  String? origin;
+  String? notes;
+  String? drugType;
+  String? drugTypeEnglish;
+  String? drugTypeDari;
+  String? drugTypePashto;
+  String? pack;
+  AdminId? adminId;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
 
   Datum({
     this.verified,
@@ -368,7 +368,7 @@ class Datum {
         "notes": notes == null ? null : notes,
         "drugType": drugType == null ? null : drugType,
         "pack": pack == null ? null : pack,
-        "adminId": adminId == null ? null : adminId.toJson(),
+        "adminId": adminId == null ? null : adminId!.toJson(),
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "drugTypeEnglish": drugTypeEnglish == null ? null : drugTypeEnglish,
@@ -390,9 +390,9 @@ class Datum {
 }
 
 class AdminId {
-  String name;
-  String id;
-  String email;
+  String? name;
+  String? id;
+  String? email;
 
   AdminId({
     this.name,

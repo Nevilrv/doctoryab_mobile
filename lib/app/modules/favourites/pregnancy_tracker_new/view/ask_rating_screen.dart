@@ -3,7 +3,7 @@ import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:flutter/material.dart';
 
 class AskRatingScreen extends StatefulWidget {
-  const AskRatingScreen({Key key}) : super(key: key);
+  const AskRatingScreen({Key? key}) : super(key: key);
 
   @override
   State<AskRatingScreen> createState() => _AskRatingScreenState();

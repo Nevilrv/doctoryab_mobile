@@ -4,12 +4,11 @@ import 'package:doctor_yab/app/data/repository/HistoryRepository.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logger/logger.dart';
 
 class TabMeetingTimeController extends GetxController {
   var pagingController = PagingController<int, History>(firstPageKey: 1);
-  int firstFutureItemIndex;
-  int firstPastItemIndex;
+  int? firstFutureItemIndex;
+  int? firstPastItemIndex;
 
   //*DIO
   CancelToken cancelToken = CancelToken();

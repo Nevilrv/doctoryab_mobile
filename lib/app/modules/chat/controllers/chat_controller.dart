@@ -19,14 +19,14 @@ import 'package:just_audio/just_audio.dart' as j;
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-// import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
+
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../data/repository/ChatRepository.dart';
 
 class ChatController extends GetxController {
-  Rx<ChatListApiModel> chatArg;
+  Rx<ChatListApiModel>? chatArg;
   TextEditingController messageC = TextEditingController();
   //paging
   var page = 1;
@@ -40,9 +40,9 @@ class ChatController extends GetxController {
 
   var messageToSend = "";
 
-  FlutterSoundRecorder recordingSession;
+  FlutterSoundRecorder? recordingSession;
   final recordingPlayer = AssetsAudioPlayer();
-  String pathToAudio;
+  String? pathToAudio;
   var playAudio = false.obs;
   var playRecord = false.obs;
   var timerText = '00:00:00'.obs;
@@ -55,12 +55,15 @@ class ChatController extends GetxController {
     pathToAudio = '${directory.path}/temp.wav';
     recordingSession = FlutterSoundRecorder();
 
-    await recordingSession.openAudioSession(
-        focus: AudioFocus.requestFocusAndStopOthers,
-        category: SessionCategory.playAndRecord,
-        mode: SessionMode.modeDefault,
-        device: AudioDevice.speaker);
-    await recordingSession.setSubscriptionDuration(Duration(milliseconds: 10));
+    // await recordingSession?.openAudioSession(
+    //     focus: AudioFocus.requestFocusAndStopOthers,
+    //     category: SessionCategory.playAndRecord,
+    //     mode: SessionMode.modeDefault,
+    //     device: AudioDevice.speaker);
+
+    await recordingSession!.openRecorder();
+
+    await recordingSession!.setSubscriptionDuration(Duration(milliseconds: 10));
     await initializeDateFormatting();
     await Permission.microphone.request();
     await Permission.storage.request();
@@ -83,21 +86,21 @@ class ChatController extends GetxController {
 
       pathToAudio = '${directory.path}/temp.wav';
       recordingSession = FlutterSoundRecorder();
-      recordingSession.openAudioSession();
-      await recordingSession.startRecorder(
+      recordingSession!.openRecorder();
+      await recordingSession!.startRecorder(
         toFile: pathToAudio,
         codec: Codec.pcm16WAV,
       );
     } else {
-      recordingSession.openAudioSession();
-      await recordingSession.startRecorder(
+      recordingSession!.openRecorder();
+      await recordingSession!.startRecorder(
         toFile: pathToAudio,
         codec: Codec.pcm16WAV,
       );
     }
 
     StreamSubscription _recorderSubscription =
-        recordingSession.onProgress.listen((e) {
+        recordingSession!.onProgress!.listen((e) {
       var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
           isUtc: true);
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
@@ -108,31 +111,31 @@ class ChatController extends GetxController {
     update();
   }
 
-  Future<String> stopRecording() async {
+  Future<String?> stopRecording() async {
     playRecord.value = false;
-    recordingSession.closeAudioSession();
+    recordingSession!.closeRecorder();
     update();
-    return await recordingSession.stopRecorder();
+    return await recordingSession!.stopRecorder();
   }
 
   Future pauseRecording() async {
     playRecord.value = false;
     // recordingSession.closeAudioSession();
-    recordingSession.pauseRecorder();
+    recordingSession!.pauseRecorder();
     update();
   }
 
   Future resumeRecording() async {
     playRecord.value = true;
     // recordingSession.closeAudioSession();
-    recordingSession.resumeRecorder();
+    recordingSession!.resumeRecorder();
     update();
   }
 
   Future<void> playFunc() async {
     await recordingPlayer
         .open(
-      Audio.file(pathToAudio),
+      Audio.file(pathToAudio!),
       autoStart: true,
       showNotification: true,
     )
@@ -200,14 +203,14 @@ class ChatController extends GetxController {
 
   int selectedIndex = -1;
   final audioPlayer1 = ap.AudioPlayer();
-  StreamSubscription<void> playerStateChangedSubscription1;
-  StreamSubscription<Duration> durationChangedSubscription1;
-  StreamSubscription<Duration> positionChangedSubscription1;
-  Duration position1;
-  Duration duration1;
+  StreamSubscription<void>? playerStateChangedSubscription1;
+  StreamSubscription<Duration>? durationChangedSubscription1;
+  StreamSubscription<Duration>? positionChangedSubscription1;
+  Duration? position1;
+  Duration? duration1;
   int current1 = -1;
   int current2 = -1;
-  int voiceTrackRowSize;
+  int? voiceTrackRowSize;
   String convertTime(int time) {
     int centiseconds = (time % 1000) ~/ 10;
     time ~/= 1000;
@@ -229,19 +232,19 @@ class ChatController extends GetxController {
     return "${time < 10 ? '0' : ''}$time";
   }
 
-  Future<void> play1({String path}) {
+  Future<void> play1({String? path}) {
     if (path == '') {
     } else {
-      return audioPlayer1.play(ap.UrlSource(path));
+      return audioPlayer1.play(ap.UrlSource(path!));
     }
     return audioPlayer1.stop();
   }
 
-  String voiceDuration;
+  String? voiceDuration;
 
-  Future<String> getVoiceDuration({String url}) async {
+  Future<String?> getVoiceDuration({String? url}) async {
     final player = j.AudioPlayer();
-    var duration = await player.setUrl(url);
+    var duration = await player.setUrl(url!);
 
     if (duration == null) {
       voiceDuration = '0';
@@ -262,13 +265,13 @@ class ChatController extends GetxController {
   }
 
   bool isPause1 = false;
-  Timer timers1;
+  Timer? timers1;
   //socket.io
   CancelToken chatCancelToken = CancelToken();
   CancelToken sendMessageCancelToken = CancelToken();
   var sendingMessage = false.obs;
   var sendingMessageFailed = false.obs;
-  ChatApiModel lastFailedMessage;
+  ChatApiModel? lastFailedMessage;
 
   ScrollController scrollC = ScrollController();
   RxList<ChatApiModel> chat = <ChatApiModel>[].obs;
@@ -300,7 +303,8 @@ class ChatController extends GetxController {
     sendingMessage(true);
     update();
     if (messageToSend != '') {
-      ChatRepository.sendMessage(chatArg().id, messageToSend,
+      log('chatArg!().id.toString() ---------->>>>>>>> ${chatArg!().id.toString()}');
+      ChatRepository.sendMessage(chatArg!().id.toString(), messageToSend,
           cancelToken: sendMessageCancelToken, onError: (e) {
         if (!(e is DioError && CancelToken.isCancel(e))) {
           // isLoading.value = false;
@@ -312,22 +316,20 @@ class ChatController extends GetxController {
         }
         update();
       }).then((value) {
-        if (value != null) {
-          if (socket.disconnected) {
-            print("isDisconnected is true");
-            sendingMessageFailed(true);
-            lastFailedMessage = value;
-            sendingMessage(true);
-            socket.connect();
-          } else {
-            socket.emit("new message", value.toJson());
-            sendingMessageFailed(false);
-            sendingMessage(false);
-          }
-          chat.value.insert(0, value);
-          chat.refresh();
-          update();
+        if (socket!.disconnected) {
+          print("isDisconnected is true");
+          sendingMessageFailed(true);
+          lastFailedMessage = value;
+          sendingMessage(true);
+          socket!.connect();
+        } else {
+          socket!.emit("new message", value.toJson());
+          sendingMessageFailed(false);
+          sendingMessage(false);
         }
+        chat.value.insert(0, value);
+        chat.refresh();
+        update();
       }).catchError((e, s) {
         Logger().e("message", e, s);
         update();
@@ -342,7 +344,7 @@ class ChatController extends GetxController {
             ChatRepository()
                 .uploadImage(file: File(element.path))
                 .then((value) {
-              ChatRepository.sendMessage(chatArg().id, "",
+              ChatRepository.sendMessage(chatArg!().id.toString(), "",
                   images: value,
                   type: attachmentString.value,
                   cancelToken: sendMessageCancelToken, onError: (e) {
@@ -357,14 +359,14 @@ class ChatController extends GetxController {
                 }
               }).then((value) {
                 if (value != null) {
-                  if (socket.disconnected) {
+                  if (socket!.disconnected) {
                     print("isDisconnected is true");
                     sendingMessageFailed(true);
                     lastFailedMessage = value;
                     sendingMessage(true);
-                    socket.connect();
+                    socket!.connect();
                   } else {
-                    socket.emit("new message", value.toJson());
+                    socket!.emit("new message", value.toJson());
                     sendingMessageFailed(false);
                     sendingMessage(false);
                   }
@@ -397,7 +399,7 @@ class ChatController extends GetxController {
 
       isPause1 = false;
       if (timers1 != null) {
-        timers1.cancel();
+        timers1!.cancel();
       }
 
       await audioPlayer1.pause();
@@ -412,9 +414,9 @@ class ChatController extends GetxController {
       sendingMessage(true);
       update();
       try {
-        if (pathToAudio.isNotEmpty) {
-          ChatRepository().uploadAudio(file: File(pathToAudio)).then((value) {
-            ChatRepository.sendMessage(chatArg().id, "",
+        if (pathToAudio!.isNotEmpty) {
+          ChatRepository().uploadAudio(file: File(pathToAudio!)).then((value) {
+            ChatRepository.sendMessage(chatArg!().id.toString(), "",
                 images: value,
                 type: attachmentString.value,
                 cancelToken: sendMessageCancelToken, onError: (e) {
@@ -432,13 +434,13 @@ class ChatController extends GetxController {
               }
             }).then((value) {
               if (value != null) {
-                if (socket.disconnected) {
+                if (socket!.disconnected) {
                   sendingMessageFailed(true);
                   lastFailedMessage = value;
                   sendingMessage(true);
-                  socket.connect();
+                  socket!.connect();
                 } else {
-                  socket.emit("new message", value.toJson());
+                  socket!.emit("new message", value.toJson());
                   sendingMessageFailed(false);
                   sendingMessage(false);
                 }
@@ -467,7 +469,7 @@ class ChatController extends GetxController {
         if (pdfFile.value != "") {
           ChatRepository().uploadPDF(file: File(pdfFile.value)).then(
             (value) {
-              ChatRepository.sendMessage(chatArg().id, "",
+              ChatRepository.sendMessage(chatArg!().id.toString(), "",
                   images: value,
                   type: attachmentString.value,
                   cancelToken: sendMessageCancelToken, onError: (e) {
@@ -482,14 +484,14 @@ class ChatController extends GetxController {
               }).then(
                 (value) {
                   if (value != null) {
-                    if (socket.disconnected) {
+                    if (socket!.disconnected) {
                       print("isDisconnected is true");
                       sendingMessageFailed(true);
                       lastFailedMessage = value;
                       sendingMessage(true);
-                      socket.connect();
+                      socket!.connect();
                     } else {
-                      socket.emit("new message", value.toJson());
+                      socket!.emit("new message", value.toJson());
                       sendingMessageFailed(false);
                       sendingMessage(false);
                     }
@@ -528,7 +530,7 @@ class ChatController extends GetxController {
 
   void _sendFailedMessages() {
     if (sendingMessageFailed()) {
-      socket.emit("new message", lastFailedMessage.toJson());
+      socket!.emit("new message", lastFailedMessage!.toJson());
       sendingMessageFailed(false);
       sendingMessage(false);
     }
@@ -561,27 +563,27 @@ class ChatController extends GetxController {
   //   isLoading.value = false;
   // }
 
-  Socket socket;
+  Socket? socket;
 
   initSocket() {
     socket = IO.io(ApiConsts.socketServerURL, <String, dynamic>{
       'autoConnect': true,
       'transports': ['websocket'],
     });
-    socket.connect();
-    socket.onConnect((_) {
+    socket!.connect();
+    socket!.onConnect((_) {
       log('Connection established');
-      socket.emit("join chat", chatArg()?.id);
-      socket.emit("setup", {"_id": chatArg()?.id});
+      socket!.emit("join chat", chatArg!().id);
+      socket!.emit("setup", {"_id": chatArg!().id});
 
       _sendFailedMessages();
     });
-    socket.onDisconnect((_) => print('Connection Disconnection'));
-    socket.onConnectError((err) => print(err));
-    socket.onError((err) => print(err));
+    socket!.onDisconnect((_) => print('Connection Disconnection'));
+    socket!.onConnectError((err) => print(err));
+    socket!.onError((err) => print(err));
 
     //
-    socket.on('message received', (m) {
+    socket!.on('message received', (m) {
       try {
         ///TODO have a note that we areforce removing this, because they dont match here
         m["readBy"] = [];
@@ -614,7 +616,7 @@ class ChatController extends GetxController {
   }
 
   void pickImage() async {
-    XFile value = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? value = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (value != null) {
       image.add(value);
     } else {
@@ -624,7 +626,7 @@ class ChatController extends GetxController {
   }
 
   void pickCameraImage() async {
-    XFile value = await ImagePicker().pickImage(source: ImageSource.camera);
+    XFile? value = await ImagePicker().pickImage(source: ImageSource.camera);
     if (value != null) {
       image.add(value);
     } else {
@@ -634,11 +636,11 @@ class ChatController extends GetxController {
   }
 
   void pickPdf() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf'],
         allowMultiple: false);
-    pdfFile.value = result.files[0].path;
+    pdfFile.value = result!.files[0].path!;
     update();
   }
 
@@ -703,14 +705,14 @@ class ChatController extends GetxController {
 
   @override
   void onClose() {
-    socket.disconnect();
-    socket.dispose();
-    playerStateChangedSubscription1.cancel();
-    positionChangedSubscription1.cancel();
-    durationChangedSubscription1.cancel();
+    socket!.disconnect();
+    socket!.dispose();
+    playerStateChangedSubscription1!.cancel();
+    positionChangedSubscription1!.cancel();
+    durationChangedSubscription1!.cancel();
     audioPlayer1.dispose();
     if (timers1 != null) {
-      timers1.cancel();
+      timers1!.cancel();
     }
     super.onClose();
   }
@@ -737,7 +739,7 @@ class ChatController extends GetxController {
   // }
   List<String> voiceDurationList = [];
   Future<void> loadChatList(int p) async {
-    ChatRepository.fetchChatsById(chatArg().id,
+    ChatRepository.fetchChatsById(chatArg!().id.toString(),
         cancelToken: chatCancelToken,
         page: p,
         limitPerPage: chatsPerPageLimit, onError: (e) {
@@ -760,12 +762,12 @@ class ChatController extends GetxController {
           chat.clear();
           chat.addAll(value);
           chat.forEach((element) async {
-            if (element.voiceNotes.isEmpty) {
+            if (element.voiceNotes!.isEmpty) {
               voiceDurationList.add('0');
             } else {
-              String d = await getVoiceDuration(
-                  url: '${ApiConsts.hostUrl}${element.voiceNotes[0]}');
-              voiceDurationList.add(d);
+              String? d = await getVoiceDuration(
+                  url: '${ApiConsts.hostUrl}${element.voiceNotes![0]}');
+              voiceDurationList.add(d!);
 
               log('-------ELEMENET----$voiceDurationList');
             }
@@ -787,7 +789,7 @@ class ChatController extends GetxController {
   }
 
   void swithChat(ChatListApiModel chatListApiModel) {
-    chatArg.value = chatListApiModel;
+    chatArg!.value = chatListApiModel;
     //
     page = 1;
     nextPageLoading.value = false;
@@ -815,8 +817,8 @@ class ChatController extends GetxController {
     chat.clear();
     messageC.clear();
     isLoading.value = true;
-    socket.disconnect();
-    socket.connect();
+    socket!.disconnect();
+    socket!.connect();
     loadChatList(1);
   }
 }

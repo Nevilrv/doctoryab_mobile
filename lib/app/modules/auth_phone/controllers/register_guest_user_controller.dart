@@ -108,9 +108,11 @@ class RegisterGuestUserController extends GetxController {
             selectedGender.value, selectedLocationId.value)
         .then((value) {
       log('value-------------->${value}');
+      log('value---------profile_completed----->${value["profile_completed"]}');
       try {
         SettingsController.userToken = value["jwtoken"];
-        SettingsController.userProfileComplete = value["profile_completed"];
+        SettingsController.userProfileComplete =
+            value["profile_completed"] ?? true;
         SettingsController.userId = value['guestUser']['_id'];
         SettingsController.savedUserProfile =
             u.User.fromJson(value['guestUser']);
@@ -120,6 +122,7 @@ class RegisterGuestUserController extends GetxController {
         Utils.whereShouldIGo();
       } catch (e) {
         isLoading.value = false;
+        log('e ---------->>>>>>>> ${e}');
       }
     });
   }

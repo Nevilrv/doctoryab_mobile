@@ -69,12 +69,13 @@ class ProfileUpdateController extends GetxController {
   getData() {
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
-    email.text = user?.email == null ? " " : user.email.toString();
-    selectedLocation.value = SettingsController.auth.savedCity.eName ?? "";
-    selectedLocationId.value = SettingsController.auth.savedCity.sId ?? "";
+    email.text = user?.email == null ? " " : user!.email.toString();
+    selectedLocation.value = SettingsController.auth.savedCity?.eName ?? "";
+    selectedLocationId.value = SettingsController.auth.savedCity?.sId ?? "";
 
     teNewNumber.text = user?.phone.toString() ?? "";
-    selectedGender.value = user.gender == null ? "Male" : user.gender;
+    selectedGender.value =
+        (user?.gender == null ? "Male" : user?.gender) ?? "Male";
   }
 
   @override
@@ -98,7 +99,7 @@ class ProfileUpdateController extends GetxController {
         lastUploadedImagePath.value = image.value.path.toString();
 
         if (SettingsController.savedUserProfile?.photo != null) {
-          User _user = SettingsController.savedUserProfile;
+          User? _user = SettingsController.savedUserProfile;
           // _user.photo = response["photo"];
           SettingsController.savedUserProfile = _user;
         }
@@ -231,7 +232,7 @@ class ProfileUpdateController extends GetxController {
 
   void pickImage() async {
     //TODO handle exception
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       Io.File pickedFileAsFile = Io.File(pickedFile.path);
@@ -249,7 +250,7 @@ class ProfileUpdateController extends GetxController {
       //*till here
 
       //*Image Croper start
-      Io.File croppedFile = await ImageCropper().cropImage(
+      Io.File? croppedFile = (await ImageCropper().cropImage(
         sourcePath: pickedFileAsFile.path,
         maxWidth: 512,
         maxHeight: 512,
@@ -257,23 +258,37 @@ class ProfileUpdateController extends GetxController {
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
         ],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'cropper'.tr,
-          toolbarColor: Get.theme.primaryColor,
-          toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-        ),
-        iosUiSettings: IOSUiSettings(
-          minimumAspectRatio: 1.0,
-          aspectRatioLockEnabled: true,
-        ),
-      );
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'cropper'.tr,
+            toolbarColor: Get.theme.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true,
+          ),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+            aspectRatioLockEnabled: true,
+          )
+        ],
+        // androidUiSettings: AndroidUiSettings(
+        //   toolbarTitle: 'cropper'.tr,
+        //   toolbarColor: Get.theme.primaryColor,
+        //   toolbarWidgetColor: Colors.white,
+        //   activeControlsWidgetColor: Colors.white,
+        //   initAspectRatio: CropAspectRatioPreset.square,
+        //   lockAspectRatio: true,
+        // ),
+        // iosUiSettings: IOSUiSettings(
+        //   minimumAspectRatio: 1.0,
+        //   aspectRatioLockEnabled: true,
+        // ),
+      )) as Io.File?;
       //*Image Croper End
       //file size limit
       // var pickedFileSize = await pickedFileAsFile.length() / 1024; //In KB
-      var pickedFileSize = await croppedFile.length() / 1024; //In KB
+      var pickedFileSize = (await croppedFile?.length())! / 1024; //In KB
       // AppGetDialog.show(middleText: pickedFileSize.toString());
       if (pickedFileSize > ApiConsts.maxImageSizeLimit) {
         imagePicked(false);
@@ -283,7 +298,7 @@ class ProfileUpdateController extends GetxController {
         return;
       }
 
-      image.value = croppedFile;
+      image.value = croppedFile!;
       imagePicked(true);
     } else {
       imagePicked(false);
@@ -298,7 +313,7 @@ class ProfileUpdateController extends GetxController {
 
   //*
   void validateForm() {
-    formValid(formKey.currentState.validate());
-    print(formKey.currentState.validate());
+    formValid(formKey.currentState!.validate());
+    print(formKey.currentState!.validate());
   }
 }

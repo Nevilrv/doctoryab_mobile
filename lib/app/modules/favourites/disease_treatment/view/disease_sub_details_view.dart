@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/disease_treatment/controller/disease_treatment_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ import 'package:audioplayers/audioplayers.dart' as ap;
 import '../../../../controllers/settings_controller.dart';
 
 class DiseaseSubDetailsView extends StatefulWidget {
-  DiseaseSubDetailsView({Key key}) : super(key: key);
+  DiseaseSubDetailsView({Key? key}) : super(key: key);
 
   @override
   State<DiseaseSubDetailsView> createState() => _DiseaseSubDetailsViewState();
@@ -65,20 +65,20 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
   final _audioPlayer1 = ap.AudioPlayer();
   final _audioPlayer2 = ap.AudioPlayer();
 
-  StreamSubscription<void> _playerStateChangedSubscription1;
-  StreamSubscription<Duration> _durationChangedSubscription1;
-  StreamSubscription<Duration> _positionChangedSubscription1;
-  StreamSubscription<void> _playerStateChangedSubscription2;
-  StreamSubscription<Duration> _durationChangedSubscription2;
-  StreamSubscription<Duration> _positionChangedSubscription2;
-  Duration _position1;
-  Duration _duration1;
+  StreamSubscription<void>? _playerStateChangedSubscription1;
+  StreamSubscription<Duration>? _durationChangedSubscription1;
+  StreamSubscription<Duration>? _positionChangedSubscription1;
+  StreamSubscription<void>? _playerStateChangedSubscription2;
+  StreamSubscription<Duration>? _durationChangedSubscription2;
+  StreamSubscription<Duration>? _positionChangedSubscription2;
+  Duration? _position1;
+  Duration? _duration1;
   int current1 = -1;
-  Duration _position2;
-  Duration _duration2;
+  Duration? _position2;
+  Duration? _duration2;
   int current2 = -1;
 
-  int voiceTrackRowSize;
+  int? voiceTrackRowSize;
   @override
   void initState() {
     voiceTrackRowSize = hi.length;
@@ -109,37 +109,37 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
       (duration) => setState(() {
         _duration1 = duration;
 
-        log('_duration1_duration1>> ${_duration2.inSeconds}');
+        log('_duration1_duration1>> ${_duration2!.inSeconds}');
       }),
     );
     _durationChangedSubscription2 = _audioPlayer2.onDurationChanged.listen(
       (duration) => setState(() {
         _duration2 = duration;
 
-        log('_duration1_duration1>> ${_duration2.inSeconds}');
+        log('_duration1_duration1>> ${_duration2!.inSeconds}');
       }),
     );
 
     super.initState();
   }
 
-  Future<void> play1({String path}) {
+  Future<void> play1({String? path}) {
     if (path == '') {
     } else {
       print('audioPath--${path}');
       return _audioPlayer1.play(
-        ap.UrlSource(path),
+        ap.UrlSource(path!),
       );
     }
     return _audioPlayer1.stop();
   }
 
-  Future<void> play2({String path}) {
+  Future<void> play2({String? path}) {
     if (path == '') {
     } else {
       print('audioPath--${path}');
       return _audioPlayer2.play(
-        ap.UrlSource(path),
+        ap.UrlSource(path!),
       );
     }
     return _audioPlayer2.stop();
@@ -161,32 +161,32 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
   bool isPause1 = false;
   bool isPause2 = false;
 
-  Timer timers1;
-  Timer timers2;
+  Timer? timers1;
+  Timer? timers2;
 
   @override
   void dispose() {
-    _playerStateChangedSubscription1.cancel();
+    _playerStateChangedSubscription1!.cancel();
 
-    _positionChangedSubscription1.cancel();
+    _positionChangedSubscription1!.cancel();
 
-    _durationChangedSubscription1.cancel();
+    _durationChangedSubscription1!.cancel();
 
     _audioPlayer1.dispose();
 
-    if (timers1.isActive) {
-      timers1.cancel();
+    if (timers1!.isActive) {
+      timers1?.cancel();
     }
-    _playerStateChangedSubscription2.cancel();
+    _playerStateChangedSubscription2!.cancel();
 
-    _positionChangedSubscription2.cancel();
+    _positionChangedSubscription2!.cancel();
 
-    _durationChangedSubscription2.cancel();
+    _durationChangedSubscription2!.cancel();
 
     _audioPlayer2.dispose();
 
-    if (timers2.isActive) {
-      timers2.cancel();
+    if (timers2!.isActive) {
+      timers2!.cancel();
     }
 
     // TODO: implement dispose
@@ -220,10 +220,10 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
               title: Container(
                 child: Text(
                   SettingsController.appLanguge == "English"
-                      ? controller.selectedDieases.title ?? ''
+                      ? controller.selectedDieases?.title ?? ''
                       : SettingsController.appLanguge == "فارسی"
-                          ? controller.selectedDieases.dariTitle ?? ''
-                          : controller.selectedDieases.pashtoTitle ?? '',
+                          ? controller.selectedDieases?.dariTitle ?? ''
+                          : controller.selectedDieases?.pashtoTitle ?? '',
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   // textWidthBasis: TextWidthBasis.longestLine,
@@ -273,7 +273,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                             style: AppTextStyle.boldPrimary11,
                           ),
                           SizedBox(height: 5),
-                          controller.selectedDieases.audio == null
+                          controller.selectedDieases?.audio == null
                               ? SizedBox()
                               : Row(
                                   mainAxisAlignment:
@@ -307,17 +307,19 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
 
                                             play1(
                                               path:
-                                                  "${ApiConsts.hostUrl}${SettingsController.appLanguge == "English" ? controller.selectedDieases.audio : SettingsController.appLanguge == "فارسی" ? controller.selectedDieases.audioDari : controller.selectedDieases.audioPashto}",
+                                                  "${ApiConsts.hostUrl}${SettingsController.appLanguge == "English" ? controller.selectedDieases?.audio : SettingsController.appLanguge == "فارسی" ? controller.selectedDieases?.audioDari : controller.selectedDieases?.audioPashto}",
                                             ).then((value) {
                                               setState(() {
                                                 isPause1 = false;
                                               });
                                               timers1 = Timer.periodic(
                                                   Duration(
-                                                      milliseconds: _duration1
+                                                      milliseconds: _duration1!
                                                               .inMilliseconds
                                                               .round() ~/
-                                                          voiceTrackRowSize),
+                                                          int.parse(
+                                                              voiceTrackRowSize
+                                                                  .toString())),
                                                   (timer) {
                                                 print(
                                                     '{timer.tick}${timer.tick}');
@@ -551,31 +553,37 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
                             Center(
                               child: Text(
                                 SettingsController.appLanguge == "English"
-                                    ? controller.selectedDieases.title ?? ''
+                                    ? controller.selectedDieases?.title ?? ''
                                     : SettingsController.appLanguge == "فارسی"
                                         ? controller
-                                                .selectedDieases.dariTitle ??
+                                                .selectedDieases?.dariTitle ??
                                             ''
                                         : controller
-                                                .selectedDieases.pashtoTitle ??
+                                                .selectedDieases?.pashtoTitle ??
                                             '',
                                 style: AppTextStyle.boldPrimary15,
                               ),
                             ),
                             Html(
                               data: SettingsController.appLanguge == "English"
-                                  ? controller.selectedDieases.desc ?? ""
+                                  ? controller.selectedDieases?.desc ?? ""
                                   : SettingsController.appLanguge == "فارسی"
-                                      ? controller.selectedDieases.dariDesc ??
+                                      ? controller.selectedDieases?.dariDesc ??
                                           ""
-                                      : controller.selectedDieases.pashtoDesc ??
+                                      : controller
+                                              .selectedDieases?.pashtoDesc ??
                                           "",
-                              defaultTextStyle: AppTextStyle.mediumPrimary8
-                                  .copyWith(height: 2, fontSize: 12),
-                              customTextAlign: (_) =>
-                                  SettingsController.appLanguge == "English"
-                                      ? TextAlign.left
-                                      : TextAlign.right,
+                              style: {
+                                'html': Style(
+                                    textAlign: SettingsController.appLanguge ==
+                                            "English"
+                                        ? TextAlign.left
+                                        : TextAlign.right,
+                                    color: AppColors.primary,
+                                    fontWeight: AppFontWeight.MEDIUM,
+                                    fontSize: FontSize(12),
+                                    fontFamily: AppFonts.acuminSemiCond),
+                              },
                             ),
                           ],
                         ),

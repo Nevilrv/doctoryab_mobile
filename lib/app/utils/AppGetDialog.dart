@@ -33,13 +33,13 @@ enum DialogType { ERROR, DONE, QUESTION, MESSAGE }
 
 class AppGetDialog {
   static show({
-    String title,
-    String mainButtonText,
-    String middleText,
-    List<Widget> actions,
-    Widget component,
-    Color color,
-    double double,
+    String? title,
+    String? mainButtonText,
+    String? middleText,
+    List<Widget>? actions,
+    Widget? component,
+    Color? color,
+    double? double,
     bool hasOnlyContent = false, //TODO this is bad way, use child instead
   }) {
     title = title == null ? "error".tr : title;
@@ -48,7 +48,7 @@ class AppGetDialog {
       title: hasOnlyContent ? '' : title,
       // titleStyle: TextStyle(color: AppColors.lgt1),
       titleStyle: hasOnlyContent ? TextStyle(fontSize: 1) : TextStyle(),
-      middleText: hasOnlyContent ? '' : middleText,
+      middleText: hasOnlyContent ? '' : middleText.toString(),
       radius: double ?? 10,
       content: hasOnlyContent ? component : null,
       actions: actions == null || actions.isEmpty || hasOnlyContent
@@ -72,7 +72,7 @@ class AppGetDialog {
     );
   }
 
-  static showSuccess({@required String middleText, VoidCallback onTap}) {
+  static showSuccess({required String? middleText, VoidCallback? onTap}) {
     show(
         hasOnlyContent: true,
         component: Column(
@@ -85,7 +85,7 @@ class AppGetDialog {
               height: 10,
             ),
             Text(
-              middleText,
+              middleText ?? "",
               textAlign: TextAlign.center,
               style: AppTextTheme.b2(),
             ),
@@ -122,7 +122,7 @@ class AppGetDialog {
   }
 
   static showAppointmentSuccess(
-      {@required String doctorName, DateTime date, VoidCallback onTap}) {
+      {required String? doctorName, DateTime? date, VoidCallback? onTap}) {
     show(
         hasOnlyContent: true,
         component: Column(
@@ -176,7 +176,7 @@ class AppGetDialog {
   }
 
   static showCancelAppointment(
-      {@required String doctorName, DateTime date, VoidCallback onTap}) {
+      {required String doctorName, DateTime? date, VoidCallback? onTap}) {
     show(
       hasOnlyContent: true,
       component: Column(
@@ -207,25 +207,26 @@ class AppGetDialog {
                 height: 70,
                 child: Center(
                   child: CustomRoundedButton(
-                    color: Color(0xff00A79D),
-                    textColor: Colors.white,
-                    splashColor: Colors.white.withOpacity(0.2),
-                    disabledColor: AppColors.easternBlue.withOpacity(0.2),
-                    // height: 50,
-                    width: 115,
-                    text: "yes".tr,
-                    onTap: onTap ??
-                        () {
-                          Get.back();
-                          // // Get.offAllNamed(Routes.HOME);
-                          //
-                          // Get.until((route) => route.isFirst);
-                          // Get.find<HomeController>().pageController.animateTo(2,
-                          //     duration: Duration(milliseconds: 0),
-                          //     curve: Curves.ease);
-                          // Get.find<HomeController>().setIndex(2);
-                        },
-                  ),
+                      color: Color(0xff00A79D),
+                      textColor: Colors.white,
+                      splashColor: Colors.white.withOpacity(0.2),
+                      disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                      // height: 50,
+                      width: 115,
+                      text: "yes".tr,
+                      onTap: onTap
+                      // ??
+                      // () {
+                      //   Get.back();
+                      //   // // Get.offAllNamed(Routes.HOME);
+                      //   //
+                      //   // Get.until((route) => route.isFirst);
+                      //   // Get.find<HomeController>().pageController.animateTo(2,
+                      //   //     duration: Duration(milliseconds: 0),
+                      //   //     curve: Curves.ease);
+                      //   // Get.find<HomeController>().setIndex(2);
+                      // },
+                      ),
                 ),
               ).paddingOnly(bottom: 0, top: 8, left: 20),
               Container(
@@ -239,17 +240,16 @@ class AppGetDialog {
                     // height: 50,
                     width: 115,
                     text: "no".tr,
-                    onTap: onTap ??
-                        () {
-                          Get.back();
-                          // // Get.offAllNamed(Routes.HOME);
-                          //
-                          // Get.until((route) => route.isFirst);
-                          // Get.find<HomeController>().pageController.animateTo(2,
-                          //     duration: Duration(milliseconds: 0),
-                          //     curve: Curves.ease);
-                          // Get.find<HomeController>().setIndex(2);
-                        },
+                    onTap: () {
+                      Get.back();
+                      // // Get.offAllNamed(Routes.HOME);
+                      //
+                      // Get.until((route) => route.isFirst);
+                      // Get.find<HomeController>().pageController.animateTo(2,
+                      //     duration: Duration(milliseconds: 0),
+                      //     curve: Curves.ease);
+                      // Get.find<HomeController>().setIndex(2);
+                    },
                   ),
                 ),
               ).paddingOnly(bottom: 0, top: 8, right: 20),
@@ -261,10 +261,10 @@ class AppGetDialog {
   }
 
   static pregnancyComplete(
-      {@required String title,
-      VoidCallback onTapYes,
-      VoidCallback onTapNo,
-      String image}) {
+      {required String title,
+      VoidCallback? onTapYes,
+      VoidCallback? onTapNo,
+      String? image}) {
     show(
       color: Color(0xffE1F0DA),
       double: 50.0,
@@ -272,7 +272,7 @@ class AppGetDialog {
       component: Column(
         children: [
           Image.asset(
-            image,
+            image!,
             height: 70,
           ),
           SizedBox(
@@ -326,10 +326,10 @@ class AppGetDialog {
   }
 
   static showWithRetryCallBack(
-      {@required String middleText,
-      Function retryCallBak,
-      String operationTitle,
-      String retryButtonText}) {
+      {required String middleText,
+      Function? retryCallBak,
+      String? operationTitle,
+      String? retryButtonText}) {
     show(
       hasOnlyContent: false,
       middleText: operationTitle == null
@@ -357,7 +357,7 @@ class AppGetDialog {
   //* City Select dialog
   static showSelctCityDialog(
       {bool restartApp = false,
-      cityChangedCallBack(City city),
+      required cityChangedCallBack(City city),
       bool saveInstantlyAfterClick = true}) {
     // var values = <City>[].obs;
     // var currentCity = AuthController.to.getCity();
@@ -375,7 +375,7 @@ class AppGetDialog {
           data.data["data"].forEach((item) {
             newItems.add(City.fromJson(item));
           });
-          if (newItems == null || newItems.length == 0) {
+          if (newItems == "" || newItems.length == 0) {
             _pagedController.appendLastPage(newItems);
           } else {
             var itt = _pagedController.itemList != null
@@ -383,7 +383,7 @@ class AppGetDialog {
                     .where(
                       (element) =>
                           // !(_pagedController.itemList.contains(element)),
-                          !_pagedController.itemList
+                          !_pagedController.itemList!
                               .any((el) => element.sId == el.sId),
                     )
                     .toList()
@@ -398,7 +398,7 @@ class AppGetDialog {
         _pagedController.error = e;
         if (e is FirebaseException) {
           var _eCode = (e).code;
-          if (_eCode != null) {
+          if (_eCode != "") {
             AppGetDialog.show(middleText: _eCode);
           }
         }
@@ -430,7 +430,8 @@ class AppGetDialog {
                   // var item = controller.latestVideos[index];
                   return ListTile(
                     // title: Center(child: Text(city.getMultiLangName())),
-                    title: Center(child: Text(item.getMultiLangName())),
+                    title:
+                        Center(child: Text(item.getMultiLangName().toString())),
                     // leading: Icon(Icons.language),
                     onTap: () {
                       Get.back();
@@ -439,10 +440,9 @@ class AppGetDialog {
                       if (saveInstantlyAfterClick)
                         SettingsController.auth.savedCity = item;
                       // print("dddddddd ${SettingsController.auth.savedCityId}");
-                      if (cityChangedCallBack != null)
-                        cityChangedCallBack(item);
+                      if (cityChangedCallBack != "") cityChangedCallBack(item);
                       if (restartApp)
-                        Phoenix.rebirth(Get.context); //TODO Fix this
+                        Phoenix.rebirth(Get.context!); //TODO Fix this
                     },
                     // trailing: currentCityId == city.id
                     //     ? Icon(Icons.done)
@@ -471,7 +471,7 @@ class AppGetDialog {
   //*
   static showSeleceDoctorCategoryDialog(
     Doctor doctor, {
-    onChange(Category category),
+    required onChange(Category category),
   }) {
     var _pagedController = PagingController<int, Category>(firstPageKey: 1);
     _fetchData(pageKey) {
@@ -482,8 +482,8 @@ class AppGetDialog {
           _pagedController.error = e;
         },
       ).then((data) {
-        if (data != null) {
-          if (data == null || data.length == 0) {
+        if (data != "") {
+          if (data == "" || data.length == 0) {
             _pagedController.appendLastPage(data);
           } else {
             _pagedController.appendPage(data, pageKey + 1);
@@ -514,7 +514,7 @@ class AppGetDialog {
                   title: Center(child: Text(item.title ?? "")),
                   onTap: () {
                     Get.back();
-                    if (onChange != null) onChange(item);
+                    if (onChange != "") onChange(item);
                   },
                 );
               },

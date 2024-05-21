@@ -2,28 +2,20 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/components/doctor_list_tile_item.dart';
-import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/doctors_model.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:doctor_yab/app/data/models/reports.dart';
 
-// import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -37,7 +29,9 @@ class ReportView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('reports'.tr, style: AppTextStyle.boldPrimary16.copyWith(fontWeight: FontWeight.w600)),
+        title: Text('reports'.tr,
+            style: AppTextStyle.boldPrimary16
+                .copyWith(fontWeight: FontWeight.w600)),
         centerTitle: true,
         leading: GestureDetector(
             onTap: () {
@@ -74,63 +68,75 @@ class ReportView extends StatelessWidget {
             report.title == null || report.title == ""
                 ? SizedBox()
                 : Text(
-                    "title".tr + ": " + report.title ?? "",
+                    "title".tr + ": " + report.title! ?? "",
                     style: AppTextTheme.b(20),
                     textAlign: TextAlign.center,
                   ),
             report.title == null || report.title == "" ? SizedBox() : Divider(),
-            report.title == null || report.title == "" ? SizedBox() : SizedBox(height: 10),
-            report.doctor.isEmpty
+            report.title == null || report.title == ""
                 ? SizedBox()
-                : Text("doctor_name".tr + ": " + report.doctor[0].name ?? "", style: AppTextTheme.b(14)
+                : SizedBox(height: 10),
+            report.doctor!.isEmpty
+                ? SizedBox()
+                : Text("doctor_name".tr + ": " + report.doctor![0].name! ?? "",
+                    style: AppTextTheme.b(14)
                     // textAlign: TextAlign.center,
                     ),
-            report.doctor.isEmpty ? SizedBox() : SizedBox(height: 5),
+            report.doctor!.isEmpty ? SizedBox() : SizedBox(height: 5),
             report.name == null || report.name == ""
                 ? SizedBox()
-                : Text("pat_name".tr + ": " + report.name ?? "", style: AppTextTheme.b(14)
+                : Text("pat_name".tr + ": " + report.name! ?? "",
+                    style: AppTextTheme.b(14)
                     // textAlign: TextAlign.center,
                     ),
-            report.name == null || report.name == "" ? SizedBox() : SizedBox(height: 5),
+            report.name == null || report.name == ""
+                ? SizedBox()
+                : SizedBox(height: 5),
             report.description == null && report.advice == null
                 ? SizedBox()
                 : Text(
                     "${"decription".tr} : ${report.description ?? report.advice ?? ""}",
                     style: AppTextTheme.r(14),
                   ),
-            report.description == null && report.advice == null ? SizedBox() : SizedBox(height: 5),
-            report.medicines.isEmpty
+            report.description == null && report.advice == null
+                ? SizedBox()
+                : SizedBox(height: 5),
+            report.medicines!.isEmpty
                 ? SizedBox()
                 : Text(
                     "${"medicine".tr} :",
                     style: AppTextTheme.r(16),
                   ),
-            report.medicines.isEmpty ? SizedBox() : SizedBox(height: 5),
-            report.medicines.isEmpty
+            report.medicines!.isEmpty ? SizedBox() : SizedBox(height: 5),
+            report.medicines!.isEmpty
                 ? SizedBox()
                 : Column(
                     children: List.generate(
-                        report.medicines.length,
+                        report.medicines?.length ?? 0,
                         (index) => Padding(
                               padding: const EdgeInsets.only(bottom: 5),
                               child: Container(
                                 width: Get.width,
-                                decoration: BoxDecoration(border: Border.all(color: AppColors.primary)),
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: AppColors.primary)),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${"drug_name".tr} : ${report.medicines[index].drug ?? ""}",
+                                        "${"drug_name".tr} : ${report.medicines![index].drug ?? ""}",
                                         style: AppTextTheme.r(14),
                                       ),
                                       Text(
-                                        "${"dosage".tr} : ${report.medicines[index].dosage ?? ""}",
+                                        "${"dosage".tr} : ${report.medicines![index].dosage ?? ""}",
                                         style: AppTextTheme.r(14),
                                       ),
                                       Text(
-                                        "${"duration".tr} : ${report.medicines[index].duration ?? ""}",
+                                        "${"duration".tr} : ${report.medicines![index].duration ?? ""}",
                                         style: AppTextTheme.r(14),
                                       ),
                                     ],
@@ -150,7 +156,7 @@ class ReportView extends StatelessWidget {
   }
 
   Widget _buildAttachments(Report report) {
-    return report.documents.length > 0
+    return report.documents!.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -163,7 +169,7 @@ class ReportView extends StatelessWidget {
               Divider(),
               SizedBox(height: 15),
             ]..addAll(() {
-                return report.documents.map<Widget>((e) {
+                return report.documents!.map<Widget>((e) {
                   return _buildAttachmentRow(e).paddingOnly(bottom: 20);
                 }).toList();
               }()),
@@ -203,7 +209,7 @@ class ReportView extends StatelessWidget {
       });
     } else
       getExternalStorageDirectory().then((value) {
-        var _filePath = "${value.path}/DoctorYab$document";
+        var _filePath = "${value!.path}/DoctorYab$document";
         print("file_path " + _filePath);
         File(_filePath).exists().then((value) {
           if (value) {
@@ -231,7 +237,7 @@ class ReportView extends StatelessWidget {
               text: "text dfdsdf werwer",
             ),
             maxLines: 1,
-            textScaleFactor: MediaQuery.of(Get.context).textScaleFactor,
+            textScaleFactor: MediaQuery.of(Get.context!).textScaleFactor,
             textDirection: TextDirection.ltr)
           ..layout())
         .size
@@ -253,7 +259,8 @@ class ReportView extends StatelessWidget {
                           text: document.split("/").last ?? "",
                         ),
                         maxLines: 1,
-                        textScaleFactor: MediaQuery.of(Get.context).textScaleFactor,
+                        textScaleFactor:
+                            MediaQuery.of(Get.context!).textScaleFactor,
                         textDirection: TextDirection.ltr)
                       ..layout())
                     .size;
@@ -263,11 +270,14 @@ class ReportView extends StatelessWidget {
                     size.width > constraints.maxWidth
                         ? () {
                             //Ya roh qudqudas :-()
-                            var startSubstr =
-                                constraints.maxWidth / (size.width / (document.split("/").last ?? "").length);
+                            var startSubstr = constraints.maxWidth /
+                                (size.width /
+                                    (document.split("/").last ?? "").length);
                             return "..." +
-                                (document.split("/").last ?? "")
-                                    .substring((document.split("/").last ?? "").length - startSubstr.toInt() + 3);
+                                (document.split("/").last ?? "").substring(
+                                    (document.split("/").last ?? "").length -
+                                        startSubstr.toInt() +
+                                        3);
                           }()
                         : (document.split("/").last ?? ""),
                     // overflow: TextOverflow.clip,
@@ -305,15 +315,17 @@ class ReportView extends StatelessWidget {
               } else {
                 var st = await Permission.storage.request().isGranted;
                 if (!st)
-                  ScaffoldMessenger.of(Get.context)
-                      .showSnackBar(SnackBar(content: Text("no storage permission granted")));
+                  ScaffoldMessenger.of(Get.context!).showSnackBar(
+                      SnackBar(content: Text("no storage permission granted")));
                 else
                   _download();
               }
             }
 
             return !isDownloading()
-                ? IconButton(icon: Icon(SimpleLineIcons.cloud_download), onPressed: () => _actionDownload())
+                ? IconButton(
+                    icon: Icon(Icons.cloud_download),
+                    onPressed: () => _actionDownload())
                 : hasErrorOccredWhileDownloading()
                     ? OutlinedButton.icon(
                         onPressed: () {
@@ -321,7 +333,7 @@ class ReportView extends StatelessWidget {
                           _actionDownload();
                         },
                         icon: Icon(
-                          AntDesign.reload1,
+                          Icons.refresh,
                           size: 15,
                         ),
                         label: Text("retry".tr))
@@ -365,8 +377,8 @@ class ReportView extends StatelessWidget {
 
   Future<void> _downloadFile(
     String file, {
-    @required void filePath(String str),
-    void onProgress(double d),
+    required void filePath(String str),
+    required void onProgress(double d),
   }) async {
     Dio _dio = AppDioService.getDioInstance();
     _dio.options..receiveTimeout = 50000;
@@ -378,12 +390,12 @@ class ReportView extends StatelessWidget {
       storagePath = _storageInfo.path;
     } else {
       var _storageInfo = await getExternalStorageDirectory();
-      storagePath = _storageInfo.path;
+      storagePath = _storageInfo!.path;
     }
 
     log(storagePath);
     var _filePath = "$storagePath/DoctorYab/$file";
-    if (filePath != null) filePath(_filePath);
+    if (filePath != "") filePath(_filePath);
     await _dio.download(
       ApiConsts.hostUrl + file,
       _filePath,

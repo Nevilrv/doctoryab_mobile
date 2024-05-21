@@ -21,27 +21,27 @@ class HospitalRepository {
 
   static Future<List<Hospital>> fetchHospitals({
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
-    int page,
-    String sort,
-    double lat,
-    double lon,
-    String filterName,
+    required void onError(e),
+    CancelToken? cancelToken,
+    int? page,
+    String? sort,
+    double? lat,
+    double? lon,
+    String? filterName,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    log("'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'--------------> ${'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}'}");
+    log("'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity!.sId}'--------------> ${'${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity!.sId}'}");
 
-    return await Utils.parseResponse<Hospital>(
+    List<Hospital> data = await Utils.parseResponse<Hospital>(
       () async {
         Map<String, dynamic> requestParameter = {};
         if (filterName == 'nearest_hospital'.tr) {
           requestParameter = {
             "limit": limitPerPage,
             "page": page,
-            "sort": sort.isEmpty ? " " : sort,
+            "sort": sort?.isEmpty ?? true ? " " : sort,
             "lat": lat,
             "lng": lon,
           };
@@ -49,14 +49,14 @@ class HospitalRepository {
           requestParameter = {
             "limit": limitPerPage,
             "page": page,
-            "sort": sort.isEmpty ? " " : sort,
+            "sort": sort!.isEmpty ? " " : sort,
           };
         }
 
         log('---URL>>>>>$requestParameter');
 
         var respose = await _cachedDio.get(
-          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
+          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity!.sId}',
           cancelToken: cancelToken,
           queryParameters: requestParameter,
           // data: {"name": name},
@@ -67,14 +67,18 @@ class HospitalRepository {
         return respose;
       },
       onError: onError,
-    );
+    ) as List<Hospital>;
+    return data;
   }
 
   static Future<List<Hospital>> searchHospitals(int page,
-      {int limitPerPage = 10, String name, void onError(e), CancelToken cancelToken}) async {
+      {int limitPerPage = 10,
+      String? name,
+      required void onError(e),
+      CancelToken? cancelToken}) async {
     // TODO move to some utils func
 
-    return await Utils.parseResponse<Hospital>(
+    List<Hospital> data = await Utils.parseResponse<Hospital>(
       () async {
         var respose = await _cachedDio.get(
           '${ApiConsts.searchHospital}$name',
@@ -92,14 +96,15 @@ class HospitalRepository {
         return respose;
       },
       onError: onError,
-    );
+    ) as List<Hospital>;
+    return data;
   }
 
   Future<dynamic> fetchReviews(
     int page, {
     int limitPerPage = 10,
-    String hospitalId,
-    CancelToken cancelToken,
+    String? hospitalId,
+    CancelToken? cancelToken,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
@@ -119,8 +124,8 @@ class HospitalRepository {
   }
 
   Future<dynamic> fetchHospitalDetails({
-    String hospitalId,
-    CancelToken cancelToken,
+    String? hospitalId,
+    CancelToken? cancelToken,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
@@ -138,8 +143,8 @@ class HospitalRepository {
   }
 
   Future<dynamic> fetchHospitalDoctors({
-    String hospitalId,
-    CancelToken cancelToken,
+    String? hospitalId,
+    CancelToken? cancelToken,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
@@ -156,14 +161,16 @@ class HospitalRepository {
   }
 
   static Future<List<Hospital>> fetchHospitalsDropdown(int page,
-      {int limitPerPage = 1000000, void onError(e), CancelToken cancelToken}) async {
+      {int limitPerPage = 1000000,
+      // void onError(e),
+      CancelToken? cancelToken}) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<Hospital>(
+    List<Hospital> data = await Utils.parseResponse<Hospital>(
       () async {
         var respose = await _cachedDio.get(
-          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity.sId}',
+          '${ApiConsts.hospitalByCity}/${SettingsController.auth.savedCity!.sId}',
           cancelToken: cancelToken,
           queryParameters: {
             "limit": limitPerPage,
@@ -177,7 +184,10 @@ class HospitalRepository {
         log("respose--------------> ${respose}");
         return respose;
       },
-      onError: onError,
-    );
+      onError: (e) {},
+      // onError: onError,
+    ) as List<Hospital>;
+
+    return data;
   }
 }

@@ -40,7 +40,7 @@ class TabTabHomeController extends GetxController {
         }
         var newItems = Categories.fromJson(data.data).data;
         if (newItems == null || newItems.length == 0) {
-          pagingController.appendLastPage(newItems);
+          pagingController.appendLastPage(newItems!);
         } else {
           pagingController.appendPage(newItems, pageKey + 1);
         }

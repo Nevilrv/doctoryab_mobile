@@ -2,7 +2,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:flutter/material.dart';
 
 class NewBlogView extends StatefulWidget {
-  const NewBlogView({Key key}) : super(key: key);
+  const NewBlogView({Key? key}) : super(key: key);
 
   @override
   State<NewBlogView> createState() => _NewBlogViewState();

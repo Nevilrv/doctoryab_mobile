@@ -15,10 +15,10 @@ class HospitalsModel {
     this.data,
   });
 
-  final List<Hospital> data;
+  final List<Hospital>? data;
 
   HospitalsModel copyWith({
-    List<Hospital> data,
+    List<Hospital>? data,
   }) =>
       HospitalsModel(
         data: data ?? this.data,
@@ -34,7 +34,7 @@ class HospitalsModel {
   Map<String, dynamic> toJson() => {
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -63,50 +63,50 @@ class Hospital {
     this.averageRatings,
   });
 
-  final String id;
-  final Geometry geometry;
-  final String photo;
-  final int type;
-  final List<List<DateTime>> times;
-  final String description;
-  final String email;
-  final String address;
-  final String name;
-  final String city;
-  final String phone;
-  final bool isEmergency;
-  final DateTime createAt;
-  final List<CheckUp> checkUp;
-  final int v;
-  final double stars;
-  final int usersStaredCount;
-  final List<dynamic> checkUps;
-  final bool active;
+  String? id;
+  Geometry? geometry;
+  String? photo;
+  int? type;
+  List<List<DateTime>>? times;
+  String? description;
+  String? email;
+  String? address;
+  String? name;
+  String? city;
+  String? phone;
+  bool? isEmergency;
+  DateTime? createAt;
+  List<CheckUp>? checkUp;
+  int? v;
+  double? stars;
+  int? usersStaredCount;
+  List<dynamic>? checkUps;
+  bool? active;
   dynamic totalFeedbacks;
   dynamic averageRatings;
 
   Hospital copyWith({
-    String id,
-    Geometry geometry,
-    String photo,
-    int type,
-    List<List<DateTime>> times,
-    String description,
-    String email,
-    String address,
-    String name,
-    String city,
-    String phone,
-    DateTime createAt,
-    List<CheckUp> checkUp,
-    int v,
-    double stars,
-    bool isEmergency,
-    int usersStaredCount,
+    String? id,
+    Geometry? geometry,
+    String? photo,
+    int? type,
+    List<List<DateTime>>? times,
+    String? description,
+    String? email,
+    String? address,
+    String? name,
+    String? city,
+    String? phone,
+    DateTime? createAt,
+    List<CheckUp>? checkUp,
+    int? v,
+    double? stars,
+    bool? isEmergency,
+    int? usersStaredCount,
     dynamic totalFeedbacks,
     dynamic averageRatings,
-    List<dynamic> checkUps,
-    bool active,
+    List<dynamic>? checkUps,
+    bool? active,
   }) =>
       Hospital(
         id: id ?? this.id,
@@ -174,12 +174,12 @@ class Hospital {
 
   Map<String, dynamic> toJson() => {
         "_id": id == null ? null : id,
-        "geometry": geometry == null ? null : geometry.toJson(),
+        "geometry": geometry == null ? null : geometry!.toJson(),
         "photo": photo == null ? null : photo,
         "type": type == null ? null : type,
         "times": times == null
             ? null
-            : List<dynamic>.from(times.map(
+            : List<dynamic>.from(times!.map(
                 (x) => List<dynamic>.from(x.map((x) => x.toIso8601String())))),
         "description": description == null ? null : description,
         "email": email == null ? null : email,
@@ -187,11 +187,11 @@ class Hospital {
         "name": name == null ? null : name,
         "city": city == null ? null : city,
         "phone": phone == null ? null : phone,
-        "createAt": createAt == null ? null : createAt.toIso8601String(),
+        "createAt": createAt == null ? null : createAt!.toIso8601String(),
         "is_emergency": isEmergency == null ? false : isEmergency,
         "checkUp": checkUp == null
             ? null
-            : List<dynamic>.from(checkUp.map((x) => x.toJson())),
+            : List<dynamic>.from(checkUp!.map((x) => x.toJson())),
         "__v": v == null ? null : v,
         "stars": stars == null ? null : stars,
         "active": active == null ? false : active,
@@ -199,7 +199,7 @@ class Hospital {
             usersStaredCount == null ? null : usersStaredCount,
         "CheckUps": checkUps == null
             ? null
-            : List<dynamic>.from(checkUps.map((x) => x)),
+            : List<dynamic>.from(checkUps!.map((x) => x)),
         "totalFeedbacks": totalFeedbacks == null ? null : totalFeedbacks,
         "averageRatings": averageRatings == null ? null : averageRatings,
       };

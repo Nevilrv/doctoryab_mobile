@@ -11,9 +11,9 @@ String doctorFeedbackResModelToJson(DoctorFeedbackResModel data) =>
     json.encode(data.toJson());
 
 class DoctorFeedbackResModel {
-  List<FeedbackData> data;
-  int averageRating;
-  int totalFeedbacks;
+  List<FeedbackData>? data;
+  int? averageRating;
+  int? totalFeedbacks;
 
   DoctorFeedbackResModel({
     this.data,
@@ -30,25 +30,25 @@ class DoctorFeedbackResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "averageRating": averageRating,
         "totalFeedbacks": totalFeedbacks,
       };
 }
 
 class FeedbackData {
-  String datumId;
-  String comment;
-  String whoPosted;
-  PostedBy postedBy;
-  String photo;
-  String createAt;
-  String commentId;
-  String cleaningRating;
-  String satifyRating;
-  String expertiseRating;
-  DoctorId doctorId;
-  String id;
+  String? datumId;
+  String? comment;
+  String? whoPosted;
+  PostedBy? postedBy;
+  String? photo;
+  String? createAt;
+  String? commentId;
+  String? cleaningRating;
+  String? satifyRating;
+  String? expertiseRating;
+  DoctorId? doctorId;
+  String? id;
   dynamic v;
   dynamic averageRating;
 
@@ -90,14 +90,14 @@ class FeedbackData {
         "_id": datumId,
         "comment": comment,
         "whoPosted": whoPosted,
-        "postedBy": postedBy.toJson(),
+        "postedBy": postedBy!.toJson(),
         "photo": photo,
         "createAt": createAt,
         "commentId": commentId,
         "cleaningRating": cleaningRating,
         "satifyRating": satifyRating,
         "expertiseRating": expertiseRating,
-        "doctorId": doctorId.toJson(),
+        "doctorId": doctorId!.toJson(),
         "ID": id,
         "__v": v,
         "averageRating": averageRating,
@@ -105,45 +105,45 @@ class FeedbackData {
 }
 
 class DoctorId {
-  Geometry geometry;
-  List<dynamic> exp;
-  List<dynamic> edu;
-  List<dynamic> lang;
-  List<dynamic> awards;
-  String photo;
+  Geometry? geometry;
+  List<dynamic>? exp;
+  List<dynamic>? edu;
+  List<dynamic>? lang;
+  List<dynamic>? awards;
+  String? photo;
   dynamic stars;
   dynamic popularity;
   dynamic treatment;
   dynamic knowledge;
   dynamic cleaning;
   dynamic countOfPatient;
-  bool isDeleted;
+  bool? isDeleted;
   dynamic totalStar;
-  bool active;
-  bool confirmed;
-  List<dynamic> comments;
+  bool? active;
+  bool? confirmed;
+  List<dynamic>? comments;
   dynamic doctor;
-  List<dynamic> tags;
-  bool verification;
+  List<dynamic>? tags;
+  bool? verification;
   dynamic type;
-  bool isActive;
-  String totalFeedbacks;
-  String fee;
-  String doctorIdId;
-  String email;
-  String fullname;
+  bool? isActive;
+  String? totalFeedbacks;
+  String? fee;
+  String? doctorIdId;
+  String? email;
+  String? fullname;
   dynamic id;
-  String createAt;
+  String? createAt;
   dynamic v;
-  String address;
-  String category;
-  String city;
-  String detail;
+  String? address;
+  String? category;
+  String? city;
+  String? detail;
   dynamic gender;
-  String lname;
-  String name;
-  String phone;
-  String speciality;
+  String? lname;
+  String? name;
+  String? phone;
+  String? speciality;
 
   DoctorId({
     this.geometry,
@@ -230,11 +230,11 @@ class DoctorId {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
-        "Exp": List<dynamic>.from(exp.map((x) => x)),
-        "Edu": List<dynamic>.from(edu.map((x) => x)),
-        "Lang": List<dynamic>.from(lang.map((x) => x)),
-        "Awards": List<dynamic>.from(awards.map((x) => x)),
+        "geometry": geometry!.toJson(),
+        "Exp": List<dynamic>.from(exp!.map((x) => x)),
+        "Edu": List<dynamic>.from(edu!.map((x) => x)),
+        "Lang": List<dynamic>.from(lang!.map((x) => x)),
+        "Awards": List<dynamic>.from(awards!.map((x) => x)),
         "photo": photo,
         "stars": stars,
         "popularity": popularity,
@@ -246,9 +246,9 @@ class DoctorId {
         "totalStar": totalStar,
         "active": active,
         "confirmed": confirmed,
-        "comments": List<dynamic>.from(comments.map((x) => x)),
+        "comments": List<dynamic>.from(comments!.map((x) => x)),
         "doctor": doctor,
-        "tags": List<dynamic>.from(tags.map((x) => x)),
+        "tags": List<dynamic>.from(tags!.map((x) => x)),
         "Verification": verification,
         "type": type,
         "is_active": isActive,
@@ -273,8 +273,8 @@ class DoctorId {
 }
 
 class Geometry {
-  String type;
-  List<dynamic> coordinates;
+  String? type;
+  List<dynamic>? coordinates;
 
   Geometry({
     this.type,
@@ -288,21 +288,21 @@ class Geometry {
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }
 
 class PostedBy {
-  Geometry geometry;
-  String photo;
-  String id;
-  String phone;
-  String fcm;
-  String createAt;
-  String patientId;
-  int v;
-  int age;
-  String name;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? phone;
+  String? fcm;
+  String? createAt;
+  String? patientId;
+  int? v;
+  int? age;
+  String? name;
 
   PostedBy({
     this.geometry,
@@ -331,7 +331,7 @@ class PostedBy {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "_id": id,
         "phone": phone,

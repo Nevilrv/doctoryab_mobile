@@ -14,8 +14,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 class AppointmentFeedbackScreen extends StatelessWidget {
-  History history;
-  AppointmentFeedbackScreen({Key key, this.history}) : super(key: key);
+  History? history;
+  AppointmentFeedbackScreen({Key? key, this.history}) : super(key: key);
 
   List question = [
     "Are you satify from Doctor examination and manner?",
@@ -109,7 +109,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: CachedNetworkImage(
                                             imageUrl:
-                                                "${ApiConsts.hostUrl}${history.doctor[0].photo}",
+                                                "${ApiConsts.hostUrl}${history?.doctor?[0].photo}",
                                             height: h * 0.11,
                                             width: h * 0.11,
                                             fit: BoxFit.cover,
@@ -141,14 +141,14 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                             children: [
                                               // SizedBox(height: 10),
                                               Text(
-                                                "${history.doctor[0].name}",
+                                                "${history?.doctor?[0].name}",
                                                 style: AppTextTheme.h(12)
                                                     .copyWith(
                                                         color:
                                                             AppColors.primary),
                                               ),
                                               Text(
-                                                "${history.doctor[0].category.title}",
+                                                "${history?.doctor?[0].category?.title}",
                                                 style: AppTextTheme.h(11)
                                                     .copyWith(
                                                         color: AppColors.primary
@@ -164,7 +164,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                                     ignoreGestures: true,
                                                     itemSize: 17,
                                                     initialRating: double.parse(
-                                                        "${history.doctor[0].averageRatings == null || history.doctor[0].averageRatings == "" ? "0" : history.doctor[0].averageRatings.toString()}"),
+                                                        "${history?.doctor?[0].averageRatings == null || history?.doctor?[0].averageRatings == "" ? "0" : history?.doctor?[0].averageRatings.toString()}"),
                                                     // minRating: 1,
                                                     direction: Axis.horizontal,
                                                     allowHalfRating: true,
@@ -195,7 +195,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                                       // );
                                                     },
                                                     child: Text(
-                                                      '(${history.doctor[0].totalFeedbacks == null ? 0 : history.doctor[0].totalFeedbacks}) ${"reviews".tr}',
+                                                      '(${history?.doctor?[0].totalFeedbacks == null ? 0 : history?.doctor?[0].totalFeedbacks}) ${"reviews".tr}',
                                                       style: AppTextTheme.b(12)
                                                           .copyWith(
                                                               color: AppColors
@@ -266,7 +266,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                                         .withOpacity(0.2)),
                                                 child: Padding(
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 10,
                                                       vertical: 5),
                                                   child: RatingBar.builder(
@@ -363,7 +363,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                               controller.addDocFeedback(
                                                   context: context,
                                                   doctorId: history
-                                                      .doctor[0].datumId);
+                                                      ?.doctor?[0].datumId);
                                             }
                                             // Get.to(AppointmentFeedbackScreen());
                                           },

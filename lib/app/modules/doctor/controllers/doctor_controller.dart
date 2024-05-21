@@ -12,7 +12,7 @@ class DoctorController extends GetxController {
   final args = Get.arguments;
   // var doctorsLoded = false.obs;
   Rxn<DoctorFullModel> doctorFullData = Rxn();
-  Doctor doctor;
+  Doctor? doctor;
   var cancelToken = CancelToken();
   var tabIndex = 0.obs;
   var cRating = 0.0.obs;
@@ -23,7 +23,7 @@ class DoctorController extends GetxController {
   void onInit() {
     doctor = args;
 
-    getDocFeedback(doctorId: doctor.datumId);
+    getDocFeedback(doctorId: doctor!.datumId!);
     super.onInit();
   }
 
@@ -38,8 +38,8 @@ class DoctorController extends GetxController {
   }
 
   void addDocFeedback({
-    String doctorId,
-    BuildContext context,
+    String? doctorId,
+    BuildContext? context,
   }) async {
     try {
       var data = {
@@ -56,20 +56,20 @@ class DoctorController extends GetxController {
               url: "${ApiConsts.postDoctorFeedback}")
           .then((value) {
         Get.back();
-        getDocFeedback(doctorId: doctor.datumId);
+        getDocFeedback(doctorId: doctor!.datumId!);
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
 
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
         Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+            context: context!, text: "${e.response.data['msg']}");
 
         update();
       });
@@ -85,7 +85,7 @@ class DoctorController extends GetxController {
   var feedbackData = <FeedbackData>[];
   var loading = false.obs;
   void getDocFeedback({
-    String doctorId,
+    String? doctorId,
   }) async {
     loading.value = true;
     try {

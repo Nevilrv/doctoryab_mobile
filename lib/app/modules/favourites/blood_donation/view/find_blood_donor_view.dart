@@ -17,7 +17,7 @@ import 'package:get/get.dart';
 import 'package:place_picker/entities/location_result.dart';
 
 class FindBloodDonorView extends GetView<FindBloodDonorController> {
-  const FindBloodDonorView({Key key}) : super(key: key);
+  const FindBloodDonorView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -124,7 +124,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                 }).toList(),
                                                 onChanged: (value) {
                                                   controller.selectedGroup
-                                                      .value = value;
+                                                      .value = value!;
                                                 },
                                               ),
                                             ),
@@ -197,7 +197,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                 }).toList(),
                                                 onChanged: (value) {
                                                   controller.selectedUnit
-                                                      .value = value;
+                                                      .value = value!;
                                                 },
                                               ),
                                             ),
@@ -411,43 +411,64 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    controller.nearByHospitalList.isEmpty
-                                        ? SizedBox()
-                                        : Container(
-                                            width: w,
-                                            // height: 10,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.4),
-                                                    width: 2),
-                                                color: AppColors.white),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10,
-                                                  top: 5,
-                                                  bottom: 5,
-                                                  left: 10),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: DropdownButton(
-                                                      underline: SizedBox(),
-                                                      // value: controller
-                                                      //         .selectedNearByHospital
-                                                      //         .value ??
-                                                      //     "",
-                                                      hint: Text(
-                                                          controller.selectedNearByHospital
-                                                                      .value ==
-                                                                  ""
-                                                              ? "Please select hospital"
-                                                                  .tr
-                                                              : controller
-                                                                  .selectedNearByHospital
-                                                                  .value,
+                                    if (controller.nearByHospitalList.isEmpty)
+                                      SizedBox()
+                                    else
+                                      Container(
+                                        width: w,
+                                        // height: 10,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            border: Border.all(
+                                                color: AppColors.primary
+                                                    .withOpacity(0.4),
+                                                width: 2),
+                                            color: AppColors.white),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 10,
+                                              top: 5,
+                                              bottom: 5,
+                                              left: 10),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: DropdownButton(
+                                                  underline: SizedBox(),
+                                                  // value: controller
+                                                  //         .selectedNearByHospital
+                                                  //         .value ??
+                                                  //     "",
+                                                  hint: Text(
+                                                      controller.selectedNearByHospital
+                                                                  .value ==
+                                                              ""
+                                                          ? "Please select hospital"
+                                                              .tr
+                                                          : controller
+                                                              .selectedNearByHospital
+                                                              .value,
+                                                      style: AppTextStyle
+                                                          .mediumPrimary12
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                  icon: Icon(Icons.expand_more,
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.4)),
+                                                  isDense: true,
+                                                  isExpanded: true,
+                                                  items: controller
+                                                      .nearByHospitalList
+                                                      .map((Hospital value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value.name,
+                                                      child: Text(
+                                                          value.name.toString(),
                                                           style: AppTextStyle
                                                               .mediumPrimary12
                                                               .copyWith(
@@ -455,53 +476,29 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                                       .primary
                                                                       .withOpacity(
                                                                           0.5))),
-                                                      icon: Icon(
-                                                          Icons.expand_more,
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(
-                                                                  0.4)),
-                                                      isDense: true,
-                                                      isExpanded: true,
-                                                      items: controller
-                                                          .nearByHospitalList
-                                                          .map(
-                                                              (Hospital value) {
-                                                        return DropdownMenuItem<
-                                                            String>(
-                                                          value: value.name,
-                                                          child: Text(
-                                                              value.name,
-                                                              style: AppTextStyle
-                                                                  .mediumPrimary12
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5))),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (value) {
+                                                    );
+                                                  }).toList(),
+                                                  onChanged: (value) {
+                                                    controller
+                                                        .selectedNearByHospital
+                                                        .value = value!;
+                                                    controller
+                                                        .nearByHospitalList
+                                                        .forEach((element) {
+                                                      if (element.name ==
+                                                          value) {
                                                         controller
-                                                            .selectedNearByHospital
-                                                            .value = value;
-                                                        controller
-                                                            .nearByHospitalList
-                                                            .forEach((element) {
-                                                          if (element.name ==
-                                                              value) {
-                                                            controller
-                                                                    .selectedNearByHospitalData =
-                                                                element;
-                                                          }
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
+                                                                .selectedNearByHospitalData =
+                                                            element;
+                                                      }
+                                                    });
+                                                  },
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
+                                        ),
+                                      ),
                                     controller.nearByHospitalList.isEmpty
                                         ? SizedBox()
                                         : SizedBox(
@@ -528,13 +525,13 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                     preventDuplicates: true,
                                                     arguments: controller
                                                         .locationResult())
-                                                .then((v) {
+                                                ?.then((v) {
                                               if (v != null &&
                                                   v is LocationResult) {
                                                 controller
                                                     .locationResult.value = v;
                                                 var x = v;
-                                                log(x.locality);
+                                                log(x.locality.toString());
                                               }
                                             });
                                           },
@@ -618,7 +615,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        if (controller.formKey.currentState
+                                        if (controller.formKey.currentState!
                                             .validate()) {
                                           if (controller
                                                       .selectedNearByHospitalData ==
@@ -629,7 +626,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
                                                 text: "Please select location",
                                                 context: context);
                                           } else {
-                                            Get.focusScope.unfocus();
+                                            Get.focusScope!.unfocus();
                                             controller.search();
                                           }
                                         } else {}
@@ -916,7 +913,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
 
   Widget _buildDropdownWithTitle(String title, VoidCallback onTap,
       RxInt selectedDropdownItem, List<dynamic> dropDownList,
-      {String dropdownValuePrefix, String dropdownValueSuffix}) {
+      {String? dropdownValuePrefix, String? dropdownValueSuffix}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -933,8 +930,8 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
             () => _buildGenderItem(
               "${dropDownList[selectedDropdownItem()]}",
               onTap,
-              dropdownValuePrefix: dropdownValuePrefix,
-              dropdownValueSuffix: dropdownValueSuffix,
+              dropdownValuePrefix: dropdownValuePrefix.toString(),
+              dropdownValueSuffix: dropdownValueSuffix.toString(),
             ),
           ),
         ),
@@ -943,7 +940,7 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
   }
 
   Widget _buildGenderItem(String text, VoidCallback onTap,
-      {String dropdownValuePrefix, String dropdownValueSuffix}) {
+      {String? dropdownValuePrefix, String? dropdownValueSuffix}) {
     return Container(
       // decoration: BoxDecoration(
       //   color: Colors.white,
@@ -1024,11 +1021,11 @@ class FindBloodDonorView extends GetView<FindBloodDonorController> {
         ),
         onPressed: () => Get.toNamed(Routes.LOCATION_PICKER,
                 preventDuplicates: true, arguments: controller.locationResult())
-            .then((v) {
+            ?.then((v) {
           if (v != null && v is LocationResult) {
             controller.locationResult.value = v;
             var x = v;
-            log(x.locality);
+            log(x.locality!);
           }
         }),
         icon: Icon(

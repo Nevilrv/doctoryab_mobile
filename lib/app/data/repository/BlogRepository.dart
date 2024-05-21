@@ -26,46 +26,42 @@ class BlogRepository {
   //* Search doctors
   static Future<List<BlogCategory>> fetchCategories({
     // int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<BlogCategory>(
+    List<BlogCategory> data = await Utils.parseResponse<BlogCategory>(
       () async {
-        // var doctorReports;
+// var doctorReports;
         return await _cachedDio.get(
-          // '/findBloodDonors/profile',
+// '/findBloodDonors/profile',
           ApiConsts.blogCategories,
           cancelToken: cancelToken,
           queryParameters: {
             "limit": 50,
             "page": 1,
           },
-          // cancelToken: _searchCancelToken,
+// cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
       },
       onError: onError,
-    );
+    ) as List<BlogCategory>;
+    return data;
   }
 
-  //* Search doctors
+  // * Search doctors
   static Future<List<Post>> fetchPostsByCategory(
     int page,
     BlogCategory blogCategory, {
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
-    // TODO move to some utils func
-    // _searchCancelToken.cancel();
-    // _searchCancelToken = CancelToken();
     return await Utils.parseResponse<Post>(
       () async {
-        log('-------url-url-url-----${ApiConsts.blogByCategories}${blogCategory.id}');
-
         // var doctorReports;
         var res = await _cachedDio.get(
           // '/findBloodDonors/profile',
@@ -75,30 +71,13 @@ class BlogRepository {
             "limit": limitPerPage,
             "page": page,
           },
-          // data: {
-          //   "bloodGroup": b.bloodGroup,
-          //   "bloodUnits": b.bloodUnits,
-          //   "critical": true,
-          //   "condition": "",
-          //   "name": b.name,
-          //   "number": b.number,
-          //   "geometry": {
-          //     "type": "Point",
-          //     "coordinates": [
-          //       b.geometry.coordinates[0],
-          //       b.geometry.coordinates[1]
-          //     ]
-          //   }
-          // },
-          // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
-        log("res---blog category-----------> ${res.data}");
 
         return res;
       },
       onError: onError,
-    );
+    ) as List<Post>;
   }
 
   // static Future<BlogLikeResModel> blogLike({
@@ -121,7 +100,7 @@ class BlogRepository {
   //   );
   // }
   static Future<BlogLikeResModel> blogLike(
-      {String postId, String userId, CancelToken cancelToken}) async {
+      {String? postId, String? userId, CancelToken? cancelToken}) async {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
@@ -140,7 +119,7 @@ class BlogRepository {
   }
 
   static Future<BlogLikeResModel> blogShare(
-      {String postId, String userId, CancelToken cancelToken}) async {
+      {String? postId, String? userId, CancelToken? cancelToken}) async {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
@@ -160,10 +139,10 @@ class BlogRepository {
   }
 
   static Future<BlogLikeResModel> blogComment(
-      {String postId,
-      String userId,
-      String text,
-      CancelToken cancelToken}) async {
+      {String? postId,
+      String? userId,
+      String? text,
+      CancelToken? cancelToken}) async {
     var headers = ApiConsts().commonHeader;
     var data = json.encode({
       "postId": postId.toString(),

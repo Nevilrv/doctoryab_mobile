@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
+import 'package:doctor_yab/app/data/models/drug_data_model.dart';
 import 'package:doctor_yab/app/data/models/drug_stores_model.dart';
 import 'package:doctor_yab/app/modules/drug_store_lab/views/pharmacy_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
@@ -67,7 +68,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
         onRefresh: () => Future.sync(
           () async {
             print(
-                "controller.pageController.firstPageKey>>>>${controller.pageController.firstPageKey}");
+                "controller.pageController.firstPageKey>>>>${controller.pageController?.firstPageKey}");
             await Future.delayed(Duration.zero, () {
               controller.cancelToken.cancel();
             });
@@ -96,8 +97,8 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               List<LatLng> latLng = [];
                               controller.locationData.forEach((element) {
                                 if (element.coordinates != null) {
-                                  latLng.add(LatLng(element.coordinates[1],
-                                      element.coordinates[0]));
+                                  latLng.add(LatLng(element.coordinates![1],
+                                      element.coordinates![0]));
                                 }
                                 if (controller.locationData.length ==
                                     latLng.length) {
@@ -227,16 +228,16 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       textAlignVertical: TextAlignVertical.center,
                       onChanged: (s) async {
                         if (s.isEmpty) {
-                          controller.pageController.itemList.clear();
+                          controller.pageController?.itemList?.clear();
                           controller.loadData(
-                            controller.pageController.firstPageKey,
+                            controller.pageController?.firstPageKey,
                           );
                         }
                       },
                       onSubmitted: (value) {
-                        controller.pageController.itemList.clear();
+                        controller.pageController?.itemList?.clear();
                         controller.searchData(
-                          controller.pageController.firstPageKey,
+                          controller.pageController?.firstPageKey,
                         );
                       },
                       decoration: InputDecoration(
@@ -277,7 +278,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                     ),
 
                     PagedListView.separated(
-                      pagingController: controller.pageController,
+                      pagingController: controller.pagingController,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       // padding: EdgeInsets.only(bottom: 100),
@@ -301,7 +302,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                         .map((item) => GestureDetector(
                                               onTap: () async {
                                                 if (!await launchUrl(
-                                                    Uri.parse(item.link))) {
+                                                    Uri.parse(item.link!))) {
                                                   throw Exception(
                                                       'Could not launch ${item.link}');
                                                 }
@@ -402,7 +403,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                           return SizedBox(height: 5);
                         }
                       },
-                      builderDelegate: PagedChildBuilderDelegate(
+                      builderDelegate: PagedChildBuilderDelegate<DrugStore>(
                         itemBuilder: (context, item, index) {
                           return _drugData(context, item, h, w);
                         },
@@ -679,8 +680,8 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
     return GestureDetector(
       onTap: () {
         controller.getDocFeedback(pharmacyId: item.id);
-        controller.serviceData(item.id);
-        controller.productData(item.id);
+        controller.serviceData(item.id!);
+        controller.productData(item.id!);
         // controller.getDrugDetails(item.id);
         Get.to(PharmacyDetailScreen(
           item: item,
@@ -737,7 +738,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               ),
                             ),
                           ),
-                          item.the24Hours.contains(DateTime.now().weekday)
+                          item.the24Hours!.contains(DateTime.now().weekday)
                               ? Positioned(
                                   top: -5,
                                   left:
@@ -821,7 +822,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                       onTap: () {
                                         print("item.phone>>>${item.phone}");
                                         Utils.openPhoneDialer(
-                                            context, "${item.phone[0]}");
+                                            context, "${item.phone![0]}");
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(

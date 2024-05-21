@@ -13,10 +13,10 @@ class AdsModel {
     this.data,
   });
 
-  List<Ad> data;
+  List<Ad>? data;
 
   AdsModel copyWith({
-    List<Ad> data,
+    List<Ad>? data,
   }) =>
       AdsModel(
         data: data ?? this.data,
@@ -31,7 +31,7 @@ class AdsModel {
   Map<String, dynamic> toJson() => {
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -48,26 +48,26 @@ class Ad {
     this.v,
   });
 
-  String id;
-  String img;
-  int displayed;
-  bool isDeleted;
-  bool isPublic;
-  List<String> city;
-  DateTime createAt;
-  String link;
-  int v;
+  String? id;
+  String? img;
+  int? displayed;
+  bool? isDeleted;
+  bool? isPublic;
+  List<String>? city;
+  DateTime? createAt;
+  String? link;
+  int? v;
 
   Ad copyWith({
-    String id,
-    String img,
-    int displayed,
-    bool isDeleted,
-    bool isPublic,
-    List<String> city,
-    DateTime createAt,
-    String link,
-    int v,
+    String? id,
+    String? img,
+    int? displayed,
+    bool? isDeleted,
+    bool? isPublic,
+    List<String>? city,
+    DateTime? createAt,
+    String? link,
+    int? v,
   }) =>
       Ad(
         id: id ?? this.id,
@@ -102,8 +102,8 @@ class Ad {
         "displayed": displayed == null ? null : displayed,
         "is_deleted": isDeleted == null ? null : isDeleted,
         "is_public": isPublic == null ? null : isPublic,
-        "city": city == null ? null : List<dynamic>.from(city.map((x) => x)),
-        "createAt": createAt == null ? null : createAt.toIso8601String(),
+        "city": city == null ? null : List<dynamic>.from(city!.map((x) => x)),
+        "createAt": createAt == null ? null : createAt!.toIso8601String(),
         "link": link == null ? null : link,
         "__v": v == null ? null : v,
       };

@@ -11,7 +11,7 @@ class BloodDonorsResultsController extends GetxController {
   var pagingController = PagingController<int, BloodDonor>(firstPageKey: 1);
   //*Dio
   CancelToken cancelToken = CancelToken();
-  BloodDonorSearchModel bloodDonorSearchModel;
+  BloodDonorSearchModel? bloodDonorSearchModel;
   @override
   void onInit() {
     super.onInit();
@@ -43,7 +43,7 @@ class BloodDonorsResultsController extends GetxController {
   void fetchDonors(
     int pageKey,
   ) {
-    BloodDonorRepository.search(pageKey, bloodDonorSearchModel,
+    BloodDonorRepository.search(pageKey, bloodDonorSearchModel!,
         cancelToken: cancelToken, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;

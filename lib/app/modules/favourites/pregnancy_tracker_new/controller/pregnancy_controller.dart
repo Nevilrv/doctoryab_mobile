@@ -71,7 +71,7 @@ class PregnancyTrackerNewController extends GetxController {
 
   bool isLoading = false;
   List<PtModule> ptModules = [];
-  PregnancyData pregnancyData;
+  PregnancyData? pregnancyData;
   bool isSaved = false;
   bool isRecalculate = true;
   void checkPregnancy() {
@@ -88,14 +88,14 @@ class PregnancyTrackerNewController extends GetxController {
 
         pregnancyData = value.data;
 
-        pregnancyData.ptModules.sort(
-          (a, b) => a.week.compareTo(b.week),
+        pregnancyData!.ptModules?.sort(
+          (a, b) => a.week!.compareTo(b.week!),
         );
 
-        pregnancyData.ptModules.forEach((element) {
-          if (element.week == value.data.currentWeek) {
-            weekCount = value.data.ptModules.indexWhere(
-                (element) => element.week == value.data.currentWeek);
+        pregnancyData!.ptModules!.forEach((element) {
+          if (element.week == value.data!.currentWeek) {
+            weekCount = value.data!.ptModules!.indexWhere(
+                (element) => element.week == value.data!.currentWeek);
           }
         });
       }
@@ -111,7 +111,7 @@ class PregnancyTrackerNewController extends GetxController {
     });
   }
 
-  void pregnancyCalculation({Map<String, dynamic> body}) {
+  void pregnancyCalculation({Map<String, dynamic>? body}) {
     isLoading = true;
     update();
     PregnancyTrackerRepo()
@@ -122,11 +122,11 @@ class PregnancyTrackerNewController extends GetxController {
         pregnancyData = value.data;
         // value.data.ptModules.forEach((element) {
         //   if (element.week == value.data.currentWeek) {
-        log('value ---------->>>>>>>> ${value.data.ptModules}');
-        weekCount = value.data.ptModules.indexWhere((element) {
+        log('value ---------->>>>>>>> ${value.data!.ptModules}');
+        weekCount = value.data!.ptModules!.indexWhere((element) {
           log('element -----week----->>>>>>>> ${element.week}');
-          log('value.data.currentWeek ---------->>>>>>>> ${value.data.currentWeek}');
-          return element.week == value.data.currentWeek;
+          log('value.data.currentWeek ---------->>>>>>>> ${value.data!.currentWeek}');
+          return element.week == value.data!.currentWeek;
         });
         // }
         // });
@@ -145,7 +145,7 @@ class PregnancyTrackerNewController extends GetxController {
   }
 
   bool isDeleteLoading = false;
-  void deleteTracker({String id, BuildContext context}) {
+  void deleteTracker({String? id, BuildContext? context}) {
     isDeleteLoading = true;
     update();
     PregnancyTrackerRepo()
@@ -164,39 +164,39 @@ class PregnancyTrackerNewController extends GetxController {
     });
   }
 
-  Future<DateTime> showDatePicker({
-    BuildContext context,
-    DateTime initialDate,
-    DateTime firstDate,
-    DateTime lastDate,
-    DateTime currentDate,
+  Future<DateTime?> showDatePicker({
+    BuildContext? context,
+    DateTime? initialDate,
+    DateTime? firstDate,
+    DateTime? lastDate,
+    DateTime? currentDate,
     DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
-    SelectableDayPredicate selectableDayPredicate,
-    String helpText,
-    String cancelText,
-    String confirmText,
-    Locale locale,
+    SelectableDayPredicate? selectableDayPredicate,
+    String? helpText,
+    String? cancelText,
+    String? confirmText,
+    Locale? locale,
     bool barrierDismissible = true,
-    Color barrierColor,
-    String barrierLabel,
+    Color? barrierColor,
+    String? barrierLabel,
     bool useRootNavigator = true,
-    RouteSettings routeSettings,
-    TextDirection textDirection,
-    TransitionBuilder builder,
+    RouteSettings? routeSettings,
+    TextDirection? textDirection,
+    TransitionBuilder? builder,
     DatePickerMode initialDatePickerMode = DatePickerMode.day,
-    String errorFormatText,
-    String errorInvalidText,
-    String fieldHintText,
-    String fieldLabelText,
-    TextInputType keyboardType,
-    Offset anchorPoint,
-    final ValueChanged<DatePickerEntryMode> onDatePickerModeChange,
-    final Icon switchToInputEntryModeIcon,
-    final Icon switchToCalendarEntryModeIcon,
+    String? errorFormatText,
+    String? errorInvalidText,
+    String? fieldHintText,
+    String? fieldLabelText,
+    TextInputType? keyboardType,
+    Offset? anchorPoint,
+    final ValueChanged<DatePickerEntryMode>? onDatePickerModeChange,
+    final Icon? switchToInputEntryModeIcon,
+    final Icon? switchToCalendarEntryModeIcon,
   }) async {
     initialDate = initialDate == null ? null : DateUtils.dateOnly(initialDate);
-    firstDate = DateUtils.dateOnly(firstDate);
-    lastDate = DateUtils.dateOnly(lastDate);
+    firstDate = DateUtils.dateOnly(firstDate!);
+    lastDate = DateUtils.dateOnly(lastDate!);
     assert(
       !lastDate.isBefore(firstDate),
       'lastDate $lastDate must be on or after firstDate $firstDate.',
@@ -215,7 +215,7 @@ class PregnancyTrackerNewController extends GetxController {
           selectableDayPredicate(initialDate),
       'Provided initialDate $initialDate must satisfy provided selectableDayPredicate.',
     );
-    assert(debugCheckHasMaterialLocalizations(context));
+    assert(debugCheckHasMaterialLocalizations(context!));
 
     Widget dialog = Theme(
       data: ThemeData(
@@ -257,14 +257,14 @@ class PregnancyTrackerNewController extends GetxController {
 
     if (locale != null) {
       dialog = Localizations.override(
-        context: context,
+        context: context!,
         locale: locale,
         child: dialog,
       );
     }
 
     return showDialog<DateTime>(
-      context: context,
+      context: context!,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
       barrierLabel: barrierLabel,

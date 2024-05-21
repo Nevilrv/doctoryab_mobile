@@ -111,7 +111,7 @@ String blogLikeResModelToJson(BlogLikeResModel data) =>
     json.encode(data.toJson());
 
 class BlogLikeResModel {
-  LikeData data;
+  LikeData? data;
 
   BlogLikeResModel({
     this.data,
@@ -123,30 +123,30 @@ class BlogLikeResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class LikeData {
-  String img;
-  List<dynamic> likes;
-  List<dynamic> shares;
-  List<Comment> comments;
-  bool isPublished;
-  String id;
-  String name;
-  String descEnglish;
-  String descDari;
-  String descPashto;
-  String categoryEnglish;
-  String categoryDari;
-  String categoryPashto;
-  String blogTitlePashto;
-  String blogTitleDari;
-  String blogTitleEnglish;
-  String doctorId;
-  String createAt;
-  int v;
+  String? img;
+  List<dynamic>? likes;
+  List<dynamic>? shares;
+  List<Comment>? comments;
+  bool? isPublished;
+  String? id;
+  String? name;
+  String? descEnglish;
+  String? descDari;
+  String? descPashto;
+  String? categoryEnglish;
+  String? categoryDari;
+  String? categoryPashto;
+  String? blogTitlePashto;
+  String? blogTitleDari;
+  String? blogTitleEnglish;
+  String? doctorId;
+  String? createAt;
+  int? v;
 
   LikeData({
     this.img,
@@ -195,9 +195,9 @@ class LikeData {
 
   Map<String, dynamic> toJson() => {
         "img": img,
-        "likes": List<dynamic>.from(likes.map((x) => x)),
-        "shares": List<dynamic>.from(shares.map((x) => x)),
-        "comments": List<Comment>.from(comments.map((x) => x.toJson())),
+        "likes": List<dynamic>.from(likes!.map((x) => x)),
+        "shares": List<dynamic>.from(shares!.map((x) => x)),
+        "comments": List<Comment>.from(comments!.map((x) => x.toJson())),
         "is_published": isPublished,
         "_id": id,
         "name": name,
@@ -217,11 +217,11 @@ class LikeData {
 }
 
 class Comment {
-  String text;
-  String whoPosted;
-  String postedBy;
-  String createAt;
-  String commentId;
+  String? text;
+  String? whoPosted;
+  String? postedBy;
+  String? createAt;
+  String? commentId;
 
   Comment({
     this.text,

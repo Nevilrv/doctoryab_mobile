@@ -11,14 +11,14 @@ class NotificationPayloadModel {
     this.data,
   });
 
-  String id;
-  String type;
-  String data;
+  String? id;
+  String? type;
+  String? data;
 
   NotificationPayloadModel copyWith({
-    String id,
-    String type,
-    String data,
+    String? id,
+    String? type,
+    String? data,
   }) =>
       NotificationPayloadModel(
         id: id ?? this.id,

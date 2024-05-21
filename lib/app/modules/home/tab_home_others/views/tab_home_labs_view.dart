@@ -44,7 +44,7 @@ class TabHomeLabsView extends GetView<LabsController> {
               controller.cancelToken.cancel();
             });
             controller.cancelToken = CancelToken();
-            controller.pageController.itemList.clear();
+            controller.pageController.itemList?.clear();
             controller.loadData(
               controller.pageController.firstPageKey,
             );
@@ -68,8 +68,8 @@ class TabHomeLabsView extends GetView<LabsController> {
                             List<LatLng> latLng = [];
                             controller.locationData.forEach((element) {
                               if (element.coordinates != null) {
-                                latLng.add(LatLng(element.coordinates[1],
-                                    element.coordinates[0]));
+                                latLng.add(LatLng(element.coordinates![1],
+                                    element.coordinates![0]));
                               }
                               if (controller.locationData.length ==
                                   latLng.length) {
@@ -263,7 +263,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                               onTap: () async {
                                                                 if (!await launchUrl(
                                                                     Uri.parse(item
-                                                                        .link))) {
+                                                                        .link!))) {
                                                                   throw Exception(
                                                                       'Could not launch ${item.link}');
                                                                 }
@@ -272,7 +272,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                                 children: [
                                                                   Padding(
                                                                     padding: const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             5),
                                                                     child:
@@ -346,7 +346,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                                     (index) => Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   left: 3),
                                                           child: CircleAvatar(
                                                             radius: 5,
@@ -449,7 +449,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                               return SizedBox(height: 5);
                             }
                           },
-                          builderDelegate: PagedChildBuilderDelegate(
+                          builderDelegate: PagedChildBuilderDelegate<Labs>(
                             itemBuilder: (context, item, index) {
                               return _labData(context, item, h, w);
                             },
@@ -874,7 +874,7 @@ class TabHomeLabsView extends GetView<LabsController> {
                                     child: GestureDetector(
                                       onTap: () {
                                         Utils.openPhoneDialer(
-                                            context, "${item.phone[0]}");
+                                            context, "${item.phone![0]}");
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(

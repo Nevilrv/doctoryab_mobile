@@ -5,6 +5,7 @@ import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/checkup_detail_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -22,7 +23,7 @@ import '../../../../components/shimmer/categories_grid_shimmer.dart';
 import '../../../../data/models/checkupPackages_res_model.dart';
 
 class CheckupPackagesView extends GetView<CheckupPackagesController> {
-  CheckupPackagesView({Key key}) : super(key: key);
+  CheckupPackagesView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,14 +136,14 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                 onChanged: (s) async {
                                   if (s.isEmpty) {
                                     controller.search(s);
-                                    controller.pagingController.itemList
+                                    controller.pagingController.itemList!
                                         .clear();
                                     controller.fetchCheckUpPackages(
                                       controller.pagingController.firstPageKey,
                                     );
                                   } else {
                                     controller.search(s);
-                                    controller.pagingController.itemList
+                                    controller.pagingController.itemList!
                                         .clear();
                                     controller.fetchCheckUpPackages(
                                       controller.pagingController.firstPageKey,
@@ -151,7 +152,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                 },
                                 onSubmitted: (v) async {
                                   controller.search(v);
-                                  controller.pagingController.itemList.clear();
+                                  controller.pagingController.itemList!.clear();
                                   controller.fetchCheckUpPackages(
                                     controller.pagingController.firstPageKey,
                                   );
@@ -342,7 +343,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                                 buildShowModalBottomSheet(
                                                     context,
                                                     h,
-                                                    item.packageInclude);
+                                                    item.packageInclude!);
                                               },
                                               child: Row(
                                                 children: [
@@ -449,7 +450,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       Row(
                                         children: [
                                           Text(
-                                            item.price,
+                                            item.price.toString(),
                                             style: AppTextTheme.b(12).copyWith(
                                                 color: AppColors.grey),
                                           ),
@@ -457,7 +458,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                             width: 5,
                                           ),
                                           Text(
-                                            item.rrp,
+                                            item.rrp.toString(),
                                             style: AppTextTheme.b(12).copyWith(
                                                 color: AppColors.grey
                                                     .withOpacity(0.5),
@@ -682,7 +683,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item[index].testTitle,
+                                      item[index].testTitle.toString(),
                                       style: AppTextStyle.boldGrey12.copyWith(
                                           color: AppColors.grey6,
                                           fontWeight: FontWeight.w500),
@@ -693,11 +694,16 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                     Container(
                                       width: Get.width * 0.72,
                                       child: Html(
-                                          data: item[index].testDesc,
-                                          defaultTextStyle:
-                                              AppTextStyle.boldGrey10.copyWith(
-                                                  color: AppColors.grey6,
-                                                  fontWeight: FontWeight.w400)),
+                                        data: item[index].testDesc,
+                                        style: {
+                                          'html': Style(
+                                              color: AppColors.grey6,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: FontSize(10),
+                                              fontFamily:
+                                                  AppFonts.acuminSemiCond),
+                                        },
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 5,

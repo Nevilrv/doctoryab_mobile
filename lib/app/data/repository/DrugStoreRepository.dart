@@ -44,17 +44,19 @@ class DrugStoreRepository {
   }*/
 
   Future<Response> fetchDrugStores({
-    int page,
-    String sort,
-    double lat,
-    double lon,
-    String filterName,
+    int? page,
+    String? sort,
+    double? lat,
+    double? lon,
+    String? filterName,
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'نږدې  درملتون' || filterName == 'نزدیکترین دواخانه' || filterName == 'Nearest Pharmacy') {
+    if (filterName == 'نږدې  درملتون' ||
+        filterName == 'نزدیکترین دواخانه' ||
+        filterName == 'Nearest Pharmacy') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
@@ -71,10 +73,10 @@ class DrugStoreRepository {
     }
 
     log('---requestParameter>>>>>$requestParameter');
-    log('---URL>>>>>${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}}');
+    log('---URL>>>>>${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity!.sId}}');
 
     final response = await _cachedDio.get(
-      '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity.sId}',
+      '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity!.sId}',
       cancelToken: cancelToken,
       queryParameters: requestParameter,
       // {
@@ -94,9 +96,9 @@ class DrugStoreRepository {
   }
 
   Future<Response> fetchPharmacyService({
-    String id,
-    void onError(e),
-    CancelToken cancelToken,
+    String? id,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     print("SettingsController.userToken>>>${SettingsController.userToken}");
     final response = await _cachedDio.get(
@@ -110,9 +112,9 @@ class DrugStoreRepository {
   }
 
   Future<Response> fetchPharmacyProduct({
-    String id,
-    void onError(e),
-    CancelToken cancelToken,
+    String? id,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     print("SettingsController.userToken>>>${SettingsController.userToken}");
     final response = await _cachedDio.get(
@@ -126,9 +128,9 @@ class DrugStoreRepository {
   }
 
   Future<Response> searchDrugStores({
-    String name,
-    void onError(e),
-    CancelToken cancelToken,
+    String? name,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     log("name--------------> $name");
 
@@ -142,9 +144,9 @@ class DrugStoreRepository {
   }
 
   Future<Response> getDrugDetails({
-    String id,
-    void onError(e),
-    CancelToken cancelToken,
+    String? id,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     log("name--------------> ${id}");
 

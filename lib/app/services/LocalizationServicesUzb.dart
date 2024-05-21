@@ -52,7 +52,8 @@ class LocalizationServiceUzb extends Translations {
   Locale changeLocale(String lang) {
     final locale = _getLocaleFromLanguage(lang);
     Get.updateLocale(locale);
-    Jiffy.locale(Get.locale.languageCode);
+    Jiffy.setLocale(Get.locale!.languageCode);
+    // Jiffy.locale(Get.locale.languageCode);
     return locale;
   }
 
@@ -67,7 +68,7 @@ class LocalizationServiceUzb extends Translations {
   //Find the short local code for API, Ex: name_en":"Category 2","name_dr":"کتگوری 2","name_ps":"2 کتکوری"
   static String getShortLocalCodeForApi() {
     String code = "";
-    String getLocalCode = Get.locale.languageCode;
+    String getLocalCode = Get.locale!.languageCode;
     if (getLocalCode == "en")
       code = "en";
     else if (getLocalCode == "fa")
@@ -78,9 +79,9 @@ class LocalizationServiceUzb extends Translations {
   }
 
   String standardLandguageCode() {
-    var formated = Get.locale.languageCode.toLowerCase() +
+    var formated = Get.locale!.languageCode.toLowerCase() +
         "_" +
-        Get.locale.countryCode.toUpperCase();
+        Get.locale!.countryCode!.toUpperCase();
     print(formated);
     return formated;
   }

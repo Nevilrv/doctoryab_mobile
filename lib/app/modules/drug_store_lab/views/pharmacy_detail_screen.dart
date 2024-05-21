@@ -16,9 +16,9 @@ import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class PharmacyDetailScreen extends GetView<DrugStoreController> {
-  final DrugStore item;
+  final DrugStore? item;
   PharmacyDetailScreen({
-    Key key,
+    Key? key,
     this.item,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
 // class HospitalNewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    controller.pharmacyId.value = item.id;
+    controller.pharmacyId.value = item!.id.toString();
 
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
@@ -50,18 +50,18 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
         body: Stack(
           children: [
             ProfileViewNew(
-              address: item.address ?? "",
-              photo: "${ApiConsts.hostUrl}${item.photo}",
-              star: double.parse(item.averageRatings == null
+              address: item?.address ?? "",
+              photo: "${ApiConsts.hostUrl}${item?.photo}",
+              star: double.parse(item?.averageRatings == null
                   ? "0"
-                  : item.averageRatings.toString()),
-              geometry: item.geometry,
+                  : item!.averageRatings.toString()),
+              geometry: item?.geometry,
               reviewTitle: "pharmacy_reviews",
-              name: item.name ?? "",
-              phoneNumbers: item.phone[0] ?? "",
-              numberOfusersRated: item.totalFeedbacks == null
+              name: item?.name ?? "",
+              phoneNumbers: item?.phone![0] ?? "",
+              numberOfusersRated: item?.totalFeedbacks == null
                   ? 0
-                  : int.parse(item.totalFeedbacks.round().toString()),
+                  : int.parse(item!.totalFeedbacks.round().toString()),
               reviewFunction: () {
                 controller.tabIndex.value = 2;
                 // Get.toNamed(Routes.REVIEW,
@@ -149,7 +149,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                 Get.dialog(
                                                   Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 30),
                                                     child: Center(
                                                       child: Container(
@@ -165,7 +165,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       20,
                                                                   vertical: 10),
@@ -289,7 +289,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 5,
                                                                 horizontal: 10),
                                                         child: Center(
@@ -334,7 +334,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         30),
                                                             child: Center(
@@ -352,7 +352,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                 ),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
-                                                                          .symmetric(
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           20,
                                                                       vertical:
@@ -413,7 +413,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 bottom: 10),
                                                         child: Row(
                                                           crossAxisAlignment:
@@ -460,7 +460,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                           .primary)),
                                                               child: Padding(
                                                                 padding: const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     vertical: 5,
                                                                     horizontal:
                                                                         10),
@@ -495,7 +495,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                   StateSetter setStates) {
                                                 return Padding(
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 30),
                                                   child: Center(
                                                     child: Container(
@@ -509,7 +509,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 20,
                                                                 vertical: 10),
                                                         child: Column(
@@ -723,9 +723,9 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                             GestureDetector(
                                                               onTap: () {
                                                                 controller.addDocFeedback(
-                                                                    pharmacyId: item
-                                                                        .id
-                                                                        .toString(),
+                                                                    pharmacyId:
+                                                                        item!.id
+                                                                            .toString(),
                                                                     context:
                                                                         context);
                                                               },
@@ -739,7 +739,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                         .primary),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
-                                                                          .symmetric(
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           10,
                                                                       vertical:
@@ -830,7 +830,8 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                 controller
                                                                     .feedbackData[
                                                                         index]
-                                                                    .createAt)
+                                                                    .createAt
+                                                                    .toString())
                                                             .toPersianDateStr(
                                                               strDay: false,
                                                               strMonth: true,
@@ -842,7 +843,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                         return Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10.0),
                                                           child: Column(
                                                             children: [
@@ -890,8 +891,10 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                       flex: 6,
                                                                       child:
                                                                           Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(horizontal: 5),
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                5),
                                                                         child:
                                                                             Column(
                                                                           mainAxisAlignment:
@@ -908,7 +911,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                                 Container(
                                                                                   width: Get.width * 0.38,
                                                                                   child: Text(
-                                                                                    controller.feedbackData[index].postedBy.name ?? "",
+                                                                                    controller.feedbackData[index].postedBy?.name ?? "",
                                                                                     style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                   ),
                                                                                 ),

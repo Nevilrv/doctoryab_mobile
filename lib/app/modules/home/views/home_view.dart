@@ -31,9 +31,9 @@ class HomeView extends GetView<HomeController> {
         //     ? controller.webViewController.canGoBack()
         //     : true;
 
-        if (controller.pageController.index == 3 &&
-            await controller.webViewController.canGoBack()) {
-          controller.webViewController.goBack();
+        if (controller.pageController?.index == 3 &&
+            await controller.webViewController!.canGoBack()) {
+          controller.webViewController?.goBack();
           return false;
         }
 
@@ -69,12 +69,15 @@ class HomeView extends GetView<HomeController> {
 }
 
 class BottomBarView extends StatelessWidget {
-  bool isHomeScreen = true;
-  bool isBlueBottomBar = false;
-  bool isBlueBackground = false;
+  bool? isHomeScreen = true;
+  bool? isBlueBottomBar = false;
+  bool? isBlueBackground = false;
 
   BottomBarView(
-      {Key key, this.isHomeScreen, this.isBlueBackground, this.isBlueBottomBar})
+      {Key? key,
+      this.isHomeScreen,
+      this.isBlueBackground,
+      this.isBlueBottomBar})
       : super(key: key);
   List bottomBarItem = [
     AppImages.home,
@@ -114,7 +117,7 @@ class BottomBarView extends StatelessWidget {
                                   controller.setIndex(index);
                                   controller.selectedIndex = index;
 
-                                  controller.pageController.animateTo(index,
+                                  controller.pageController?.animateTo(index,
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.ease);
                                 },
@@ -174,7 +177,7 @@ class BottomBarView extends StatelessWidget {
 
                                   controller.setIndex(index);
                                   controller.selectedIndex = index;
-                                  controller.pageController.animateTo(index,
+                                  controller.pageController?.animateTo(index,
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.ease);
                                 },
@@ -243,7 +246,8 @@ class BottomBarView extends StatelessWidget {
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
 
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 500),
                                           curve: Curves.ease);
                                     },
@@ -305,7 +309,8 @@ class BottomBarView extends StatelessWidget {
 
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 10),
                                           curve: Curves.ease);
                                     },
@@ -379,7 +384,8 @@ class BottomBarView extends StatelessWidget {
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
 
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 500),
                                           curve: Curves.ease);
                                     },
@@ -452,7 +458,8 @@ class BottomBarView extends StatelessWidget {
 
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 10),
                                           curve: Curves.ease);
                                     },

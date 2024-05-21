@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ReportsController extends GetxController {
-  REPORT_TYPE reportType;
+  REPORT_TYPE? reportType;
   var pagingController = PagingController<int, Report>(firstPageKey: 1);
 
   CancelToken cancelToken = CancelToken();
   var tabIndex = 0.obs;
 
-  int index;
+  int? index;
 
   @override
   void onInit() {

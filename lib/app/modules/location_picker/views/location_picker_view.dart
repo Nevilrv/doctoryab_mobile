@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:get/get.dart';
 import 'package:place_picker/entities/localization_item.dart';
@@ -9,7 +8,7 @@ import '../../../data/ApiConsts.dart';
 import '../controllers/location_picker_controller.dart';
 
 class LocationPickerView extends GetView<LocationPickerController> {
-  const LocationPickerView({Key key}) : super(key: key);
+  const LocationPickerView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +44,11 @@ class LocationPickerView extends GetView<LocationPickerController> {
             overlyTopPadding:
                 MediaQuery.of(context).padding.top + kToolbarHeight,
             searchIcon: Icon(
-              Feather.search,
+              Icons.search,
               color: Get.theme.colorScheme.secondary,
             ),
             clearTextIcon: Icon(
-              AntDesign.close,
+              Icons.close,
               color: Get.theme.colorScheme.secondary,
             ),
             inputDecoration: InputDecoration(

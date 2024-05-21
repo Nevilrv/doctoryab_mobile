@@ -49,7 +49,7 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                     onPressed: () async {
                       var args = jsonEncode({
                         "doctor":
-                            jsonEncode(controller.item.doctor[0]?.toJson()),
+                            jsonEncode(controller.item.doctor![0]?.toJson()),
                         "pid": controller.item.id,
                       });
                       var rate =
@@ -86,7 +86,7 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                   },
                   {
                     "visited_by_doctor".tr: controller.item.visited != null
-                        ? controller.item.visited
+                        ? controller.item.visited!
                             ? "yes".tr
                             : "no".tr
                         : "null"
@@ -94,7 +94,7 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                   {
                     "date_reserved".tr: () {
                       var _d = DateTime.fromMillisecondsSinceEpoch(
-                              int.tryParse(controller.item.createAt))
+                              int.parse(controller.item.createAt.toString()))
                           ?.toLocal();
                       if (_d != null) {
                         if (AppStatics.envVars.isUzbekApp && _d != null)
@@ -122,28 +122,28 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
               ),
               _buildSection(
                 "doctor_info".trArgs(
-                    [Utils.getTextOfBlaBla(controller.item.doctor[0]?.type)]),
+                    [Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]),
                 [
                   {
                     "doctor_name".trArgs([
-                      Utils.getTextOfBlaBla(controller.item.doctor[0]?.type)
-                    ]): '${controller.item.doctor[0]?.name}'
+                      Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
+                    ]): '${controller.item.doctor![0].name}'
                   },
-                  if (controller.item.doctor[0]?.type == 1) //is user
+                  if (controller.item.doctor![0].type == 1) //is user
                     {
                       "doctor_speciality".trArgs([
-                        Utils.getTextOfBlaBla(controller.item.doctor[0]?.type)
-                      ]): '${controller.item.doctor[0]?.speciality}'
+                        Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
+                      ]): '${controller.item.doctor![0].speciality}'
                     },
                   {
                     "doctor_phone".trArgs([
-                      Utils.getTextOfBlaBla(controller.item.doctor[0]?.type)
-                    ]): '${controller.item.doctor[0]?.phone}'
+                      Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
+                    ]): '${controller.item.doctor![0].phone}'
                   },
                   {
                     "doctor_address".trArgs([
-                      Utils.getTextOfBlaBla(controller.item.doctor[0]?.type)
-                    ]): '${controller.item.doctor[0]?.address}'
+                      Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
+                    ]): '${controller.item.doctor![0].address}'
                   },
                 ],
               ),

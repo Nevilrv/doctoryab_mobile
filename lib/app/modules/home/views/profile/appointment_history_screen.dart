@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
-  AppointmentHistoryScreen({Key key}) : super(key: key);
+  AppointmentHistoryScreen({Key? key}) : super(key: key);
   AppointmentHistoryController appointmentHistoryController = Get.find()
     ..fetchAppointmentHistory();
   @override
@@ -99,13 +99,14 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                               ? DateTime.now()
                                               : DateTime
                                                       .fromMillisecondsSinceEpoch(
-                                                          int.tryParse(controller
+                                                          int.parse(controller
                                                               .appointmentList[
                                                                   index]
-                                                              .createAt))
-                                                  ?.toLocal();
+                                                              .createAt
+                                                              .toString()))
+                                                  .toLocal();
 
-                                          var date = _d
+                                          var date = _d!
                                               .toPersianDateStr(
                                                 strDay: false,
                                                 strMonth: true,
@@ -117,12 +118,13 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                           var visitDate = DateTime.parse(
                                                   controller.appointmentList[
                                                               index] ==
-                                                          null
+                                                          ''
                                                       ? DateTime.now()
+                                                          .toString()
                                                       : controller
                                                           .appointmentList[
                                                               index]
-                                                          .visitDate
+                                                          .visitDate!
                                                           .toLocal()
                                                           .toString())
                                               .toPersianDateStr(
@@ -136,11 +138,11 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                           var visitDate121 = DateTime.parse(
                                               controller.appointmentList[
                                                           index] ==
-                                                      null
-                                                  ? DateTime.now()
+                                                      ""
+                                                  ? DateTime.now().toString()
                                                   : controller
                                                       .appointmentList[index]
-                                                      .visitDate
+                                                      .visitDate!
                                                       .toLocal()
                                                       .toString());
                                           print('visitDate$visitDate121');
@@ -165,7 +167,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                     ]),
                                                 child: Padding(
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 10),
                                                   child: Column(
@@ -189,7 +191,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                   child:
                                                                       Padding(
                                                                     padding: const EdgeInsets
-                                                                            .symmetric(
+                                                                        .symmetric(
                                                                         horizontal:
                                                                             10,
                                                                         vertical:
@@ -238,7 +240,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                   child:
                                                                       Padding(
                                                                     padding: const EdgeInsets
-                                                                            .symmetric(
+                                                                        .symmetric(
                                                                         horizontal:
                                                                             10,
                                                                         vertical:
@@ -294,7 +296,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                               FontWeight.w400),
                                                                 ),
                                                                 Text(
-                                                                  " ${controller.appointmentList[index].doctor[0].category.title ?? ''}",
+                                                                  " ${controller.appointmentList[index].doctor![0].category?.title ?? ''}",
                                                                   style: AppTextStyle
                                                                       .boldBlack10
                                                                       .copyWith(
@@ -330,7 +332,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                                             .w400),
                                                           ),
                                                           Text(
-                                                            " ${controller.appointmentList[index].doctor[0].fullname ?? ""}",
+                                                            " ${controller.appointmentList[index].doctor?[0].fullname ?? ""}",
                                                             style: AppTextStyle
                                                                 .boldBlack10
                                                                 .copyWith(
@@ -443,7 +445,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                             itemSize: 17,
                                                             initialRating:
                                                                 double.parse(
-                                                                    "${controller.appointmentList[index].doctor[0].averageRatings == null ? "0" : controller.appointmentList[index].doctor[0].averageRatings.toString()}"),
+                                                                    "${controller.appointmentList[index].doctor?[0].averageRatings == null ? "0" : controller.appointmentList[index].doctor?[0].averageRatings.toString()}"),
                                                             // minRating: 1,
                                                             direction:
                                                                 Axis.horizontal,
@@ -504,7 +506,7 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                       ]),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         vertical: 10),
                                                     child: Center(
                                                       child: Text(

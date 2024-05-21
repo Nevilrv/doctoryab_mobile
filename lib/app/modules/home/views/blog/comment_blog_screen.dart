@@ -13,7 +13,7 @@ import '../../../../utils/utils.dart';
 class CommentView extends GetView<TabBlogController> {
   // final Post data;
   final int index;
-  CommentView(this.index, {Key key}) : super(key: key);
+  CommentView(this.index, {Key? key}) : super(key: key);
   ScrollController scrollController = ScrollController();
 
   @override
@@ -62,7 +62,7 @@ class CommentView extends GetView<TabBlogController> {
                   //this helps to show the loading of next page
 
                   Expanded(
-                    child: controller.postList[index].comments.isEmpty
+                    child: controller.postList[index].comments!.isEmpty
                         ? Center(child: Text("No comments"))
                         : ListView.separated(
                             physics: BouncingScrollPhysics(),
@@ -85,13 +85,13 @@ class CommentView extends GetView<TabBlogController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          controller.postList[index].comments[i]
-                                                  .whoPosted ??
+                                          controller.postList[index]
+                                                  .comments![i].whoPosted ??
                                               '',
                                           style: AppTextStyle.boldBlack16),
                                       Text(
-                                          controller.postList[index].comments[i]
-                                                  .text ??
+                                          controller.postList[index]
+                                                  .comments![i].text ??
                                               '',
                                           style: AppTextStyle.boldBlack16
                                               .copyWith(
@@ -106,7 +106,7 @@ class CommentView extends GetView<TabBlogController> {
                                   height: 22,
                                 ),
                             itemCount:
-                                controller.postList[index].comments.length
+                                controller.postList[index].comments!.length
                             //  controller.chat.value.messages.length,
 
                             ),
@@ -173,7 +173,7 @@ class CommentView extends GetView<TabBlogController> {
                                   } else {
                                     controller
                                         .commentBlog(
-                                            controller.postList[index].id,
+                                            controller.postList[index].id!,
                                             controller.comment.text,
                                             index)
                                         .then((value) {

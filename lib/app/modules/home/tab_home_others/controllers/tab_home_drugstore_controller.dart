@@ -39,13 +39,14 @@ enum FetechingGPSDataStatus {
 
 class DrugStoreController extends TabHomeOthersController {
   TextEditingController search = TextEditingController();
-  @override
-  var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
+
+  PagingController<int, DrugStore> pagingController =
+      PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   var pharmacyId = "".obs;
-  var permissionStatus = Rx<PermissionStatus>(null);
+  var permissionStatus = Rxn<PermissionStatus>();
 
   var cRating = 0.0.obs;
   var sRating = 0.0.obs;
@@ -59,7 +60,7 @@ class DrugStoreController extends TabHomeOthersController {
     print('===onInit===');
     // loadData(pageController.firstPageKey);
 
-    pageController.addPageRequestListener((pageKey) {
+    pagingController.addPageRequestListener((pageKey) {
       print('===LISTNER===');
       loadData(pageKey);
     });
@@ -257,7 +258,7 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>();
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
@@ -330,10 +331,10 @@ class DrugStoreController extends TabHomeOthersController {
   void _refreshPage() {
     cancelToken.cancel();
     cancelToken = CancelToken();
-    pageController.refresh();
+    pagingController.refresh();
 
     // pageController.itemList.clear();
-    loadData(pageController.firstPageKey);
+    loadData(pagingController.firstPageKey);
   }
 
   Future<void> _getDeviceLocation() async {
@@ -363,8 +364,8 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void addDocFeedback({
-    String pharmacyId,
-    BuildContext context,
+    String? pharmacyId,
+    BuildContext? context,
   }) async {
     try {
       var data = {
@@ -381,20 +382,20 @@ class DrugStoreController extends TabHomeOthersController {
               url: "${ApiConsts.postPharmacyFeedback}")
           .then((value) {
         Get.back();
-        getDocFeedback(pharmacyId: pharmacyId);
+        getDocFeedback(pharmacyId: pharmacyId!);
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
 
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
         Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+            context: context!, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -407,7 +408,7 @@ class DrugStoreController extends TabHomeOthersController {
   var feedbackData = <PharmacyFeedback>[];
   var loading = false.obs;
   void getDocFeedback({
-    String pharmacyId,
+    String? pharmacyId,
   }) async {
     loading.value = true;
     try {
@@ -470,19 +471,19 @@ class DrugStoreController extends TabHomeOthersController {
   void show24HoursData() {
     if (is24HourSelected == true) {
       List<DrugStore> hoursList = [];
-      pageController.itemList.forEach((element) {
-        if (element.the24Hours.contains(DateTime.now().weekday)) {
+      pagingController.itemList?.forEach((element) {
+        if (element.the24Hours!.contains(DateTime.now().weekday)) {
           hoursList.add(element);
         }
       });
-      pageController.itemList.clear();
+      pagingController.itemList!.clear();
 
       update();
-      pageController.appendLastPage(hoursList);
+      pagingController.appendLastPage(hoursList);
     } else {
-      pageController.itemList.clear();
+      pagingController.itemList!.clear();
 
-      loadData(pageController.firstPageKey);
+      loadData(pagingController.firstPageKey);
       update();
     }
   }
@@ -513,10 +514,10 @@ class DrugStoreController extends TabHomeOthersController {
         // if (newItems == null || newItems.length == 0) {
         //   pageController.appendLastPage(newItems);
         // } else {
-        pageController.appendPage(newItems, page + 1);
+        pageController?.appendPage(newItems, page + 1);
         locationData.clear();
         locationTitle.clear();
-        pageController.itemList.forEach((element) {
+        pageController?.itemList?.forEach((element) {
           if (element.geometry.coordinates != null) {
             locationData.add(element.geometry);
             locationTitle.add(element.name);
@@ -526,7 +527,7 @@ class DrugStoreController extends TabHomeOthersController {
       } else {}
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pageController?.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -547,60 +548,55 @@ class DrugStoreController extends TabHomeOthersController {
         .then((data) {
       //TODO handle all in model
       print('------->>>>$sort');
-      if (data != null) {
-        if (data == null) {
-          data.data["data"] = [];
-        }
 
-        var newItems = <DrugStore>[];
-        var promotedItems = <DrugStore>[];
+      var newItems = <DrugStore>[];
+      var promotedItems = <DrugStore>[];
 
-        if (selectedSort == 'promoted'.tr) {
-          data.data["data"].forEach((item) {
-            if (item['active'] == true) {
-              promotedItems.add(DrugStore.fromJson(item));
-            } else {
-              newItems.add(DrugStore.fromJson(item));
-            }
-          });
-
-          newItems.forEach((element) {
-            promotedItems.add(element);
-          });
-        } else {
-          data.data["data"].forEach((item) {
+      if (selectedSort == 'promoted'.tr) {
+        data.data["data"].forEach((item) {
+          if (item['active'] == true) {
             promotedItems.add(DrugStore.fromJson(item));
-          });
-        }
+          } else {
+            newItems.add(DrugStore.fromJson(item));
+          }
+        });
 
-        // var newItems = DrugStoresModel.fromJson(data.data).data;
+        newItems.forEach((element) {
+          promotedItems.add(element);
+        });
+      } else {
+        data.data["data"].forEach((item) {
+          promotedItems.add(DrugStore.fromJson(item));
+        });
+      }
 
-        print('==newItems===>${promotedItems.length}');
-        if (promotedItems == null || promotedItems.length == 0) {
-          pageController.appendLastPage(promotedItems);
-          locationData.clear();
-          locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
-            }
-          });
-        } else {
-          pageController.appendPage(promotedItems, page + 1);
-          locationData.clear();
-          locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
-            }
-          });
-        }
-      } else {}
+      // var newItems = DrugStoresModel.fromJson(data.data).data;
+
+      print('==newItems===>${promotedItems.length}');
+      if (promotedItems == null || promotedItems.length == 0) {
+        pagingController.appendLastPage(promotedItems);
+        locationData.clear();
+        locationTitle.clear();
+        pagingController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
+          }
+        });
+      } else {
+        pagingController.appendPage(promotedItems, page + 1);
+        locationData.clear();
+        locationTitle.clear();
+        pagingController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
+          }
+        });
+      }
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pagingController.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -617,8 +613,8 @@ class DrugStoreController extends TabHomeOthersController {
       update();
       PharmacyServicesResModel resModel =
           PharmacyServicesResModel.fromJson(data.data);
-      if (resModel.data.isNotEmpty) {
-        serviceList.addAll(resModel.data);
+      if (resModel.data?.isNotEmpty ?? true) {
+        serviceList.addAll(resModel.data!);
 
         update();
       } else {
@@ -628,7 +624,7 @@ class DrugStoreController extends TabHomeOthersController {
       //TODO handle all in model
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pagingController.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -643,8 +639,8 @@ class DrugStoreController extends TabHomeOthersController {
       update();
       PharmacyProductResModel resModel =
           PharmacyProductResModel.fromJson(data.data);
-      if (resModel.data.isNotEmpty) {
-        productList.addAll(resModel.data);
+      if (resModel.data?.isNotEmpty ?? true) {
+        productList.addAll(resModel.data!);
 
         update();
       } else {
@@ -654,7 +650,7 @@ class DrugStoreController extends TabHomeOthersController {
       //TODO handle all in model
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pagingController.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -668,7 +664,7 @@ class DrugStoreController extends TabHomeOthersController {
       // AdsModel v = AdsModel();
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
         });
@@ -676,7 +672,7 @@ class DrugStoreController extends TabHomeOthersController {
     }).catchError((e, s) {
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }
@@ -684,7 +680,6 @@ class DrugStoreController extends TabHomeOthersController {
 
 class DrugStoreLabController extends GetxController {
   TextEditingController search = TextEditingController();
-  @override
   var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
   List<Geometry> locationData = [];
@@ -712,8 +707,8 @@ class DrugStoreLabController extends GetxController {
   }
 
   void addDocFeedback({
-    String labId,
-    BuildContext context,
+    String? labId,
+    BuildContext? context,
   }) async {
     try {
       var data = {
@@ -732,13 +727,13 @@ class DrugStoreLabController extends GetxController {
               url: "${ApiConsts.postLabFeedback}")
           .then((value) {
         Get.back();
-        getDocFeedback(labId: labId);
+        getDocFeedback(labId: labId!);
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
 
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
@@ -746,7 +741,7 @@ class DrugStoreLabController extends GetxController {
         sRating.value = 0.0;
         Get.back();
         Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+            context: context!, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -759,7 +754,7 @@ class DrugStoreLabController extends GetxController {
   var feedbackData = <LabsFeedback>[];
   var loading = false.obs;
   void getDocFeedback({
-    String labId,
+    String? labId,
   }) async {
     loading.value = true;
     try {
@@ -808,17 +803,17 @@ class DrugStoreLabController extends GetxController {
   void show24HoursData() {
     if (is24HourSelected == true) {
       List<DrugStore> hoursList = [];
-      pageController.itemList.forEach((element) {
-        if (element.the24Hours.contains(DateTime.now().weekday)) {
+      pageController.itemList?.forEach((element) {
+        if (element.the24Hours!.contains(DateTime.now().weekday)) {
           hoursList.add(element);
         }
       });
-      pageController.itemList.clear();
+      pageController.itemList?.clear();
 
       update();
       pageController.appendLastPage(hoursList);
     } else {
-      pageController.itemList.clear();
+      pageController.itemList?.clear();
 
       loadData(pageController.firstPageKey);
       update();
@@ -854,10 +849,10 @@ class DrugStoreLabController extends GetxController {
         pageController.appendPage(newItems, page + 1);
         locationData.clear();
         locationTitle.clear();
-        pageController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+        pageController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
           }
         });
         // }
@@ -897,20 +892,20 @@ class DrugStoreLabController extends GetxController {
           pageController.appendLastPage(newItems);
           locationData.clear();
           locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
+          pageController.itemList?.forEach((element) {
+            if (element.geometry?.coordinates != null) {
+              locationData.add(element.geometry!);
+              locationTitle.add(element.name!);
             }
           });
         } else {
           pageController.appendPage(newItems, page + 1);
           locationData.clear();
           locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
+          pageController.itemList?.forEach((element) {
+            if (element.geometry?.coordinates != null) {
+              locationData.add(element.geometry!);
+              locationTitle.add(element.name!);
             }
           });
         }
@@ -931,7 +926,7 @@ class DrugStoreLabController extends GetxController {
       // AdsModel v = AdsModel();
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
         });
@@ -939,7 +934,7 @@ class DrugStoreLabController extends GetxController {
     }).catchError((e, s) {
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

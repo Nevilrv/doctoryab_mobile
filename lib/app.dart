@@ -36,12 +36,12 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   pushNotificationService.fcmListener(message);
 }
 
-Future<void> appMain({@required VoidCallback envInit}) async {
+Future<void> appMain({required VoidCallback envInit}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAuth.instance.authStateChanges().listen((user) {
     print(
-        'Current user id: ${user?.uid}, ${FirebaseAuth.instance?.currentUser?.uid}');
+        'Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser?.uid}');
   });
 //  await GetStorage.init();
   // Directory directory = await pathProvider.getApplicationDocumentsDirectory();
@@ -82,7 +82,7 @@ Future<void> appMain({@required VoidCallback envInit}) async {
         initialBinding: SplashScreenBinding(),
         theme: AppTheme.light(),
         builder: Utils.initBuilder,
-        navigatorKey: Get.find(),
+        // navigatorKey: Get.find(),
         onReady: () {},
       ),
     ),

@@ -299,7 +299,7 @@ class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
                           items: controller.locations.map((City value) {
                             return DropdownMenuItem<String>(
                               value: value.sId,
-                              child: Text(value.eName,
+                              child: Text(value.eName!,
                                   style: AppTextStyle.mediumPrimary12
                                       .copyWith(color: AppColors.primary)),
                             );
@@ -308,12 +308,12 @@ class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
                             controller.locations.forEach((element) {
                               if (value == element.sId) {
                                 controller.selectedLocation.value =
-                                    element.eName;
+                                    element.eName!;
                                 SettingsController.auth.savedCity = element;
                               }
                             });
 
-                            controller.selectedLocationId.value = value;
+                            controller.selectedLocationId.value = value!;
                           },
                         ),
                       ),
@@ -384,7 +384,7 @@ class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
                             );
                           }).toList(),
                           onChanged: (value) {
-                            controller.selectedGender.value = value;
+                            controller.selectedGender.value = value!;
                           },
                         ),
                       ),
@@ -406,7 +406,7 @@ class RegisterGuestUserScreen extends GetView<RegisterGuestUserController> {
                       radius: 10,
                       padding: EdgeInsets.symmetric(vertical: 8),
                       onTap: () {
-                        if (controller.formKey.currentState.validate()) {
+                        if (controller.formKey.currentState!.validate()) {
                           if (controller.selectedLocationId.value == "") {
                             Utils.showSnackBar(
                                 context, "Please_select_city".tr);

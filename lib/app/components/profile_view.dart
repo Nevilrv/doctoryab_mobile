@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/modules/hospital_new/tab_main/views/tab_main_view.dart';
-import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
+
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,6 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
-import '../modules/drug_store_lab/views/drug_store_lab_view.dart';
 import '../theme/AppColors.dart';
 import '../theme/TextTheme.dart';
 import '../utils/utils.dart';
@@ -22,14 +19,14 @@ import 'dart:math' as math;
 
 class ProfileViewNew extends StatelessWidget {
   const ProfileViewNew(
-      {Key key,
-      this.photo,
-      this.name,
+      {Key? key,
+      required this.photo,
+      required this.name,
       this.star,
-      this.address,
-      this.geometry,
-      this.phoneNumbers,
-      this.child,
+      required this.address,
+      required this.geometry,
+      required this.phoneNumbers,
+      required this.child,
       this.showChildInBox = true,
       this.numberOfusersRated,
       this.reviewTitle,
@@ -37,15 +34,15 @@ class ProfileViewNew extends StatelessWidget {
       : super(key: key);
   final String photo;
   final String name;
-  final String reviewTitle;
-  final double star;
+  final String? reviewTitle;
+  final double? star;
   final String address;
-  final Geometry geometry;
+  final Geometry? geometry;
   final String phoneNumbers;
   final Widget child;
   final bool showChildInBox;
-  final num numberOfusersRated;
-  final Function() reviewFunction;
+  final num? numberOfusersRated;
+  final Function()? reviewFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +55,8 @@ class ProfileViewNew extends StatelessWidget {
         // height: 220,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15), topLeft: Radius.circular(15)),
           // boxShadow: [
           //   BoxShadow(
           //     color: Colors.grey.withOpacity(0.1),
@@ -80,7 +78,9 @@ class ProfileViewNew extends StatelessWidget {
                     // color: Colors.black,
                     // height: 65,
                     // width: 65,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.lightGrey),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CachedNetworkImage(
@@ -114,7 +114,8 @@ class ProfileViewNew extends StatelessWidget {
                           // SizedBox(height: 10),
                           Text(
                             name ?? "",
-                            style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                            style: AppTextTheme.h(12)
+                                .copyWith(color: AppColors.primary),
                           ),
                           SizedBox(height: 2),
                           Row(
@@ -128,7 +129,8 @@ class ProfileViewNew extends StatelessWidget {
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
                                 itemCount: 5,
-                                itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 1.0),
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
                                   color: Colors.amber,
@@ -143,7 +145,9 @@ class ProfileViewNew extends StatelessWidget {
                                 onTap: reviewFunction,
                                 child: Text(
                                   '(${numberOfusersRated}) ${"reviews".tr}',
-                                  style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                  style: AppTextTheme.b(12).copyWith(
+                                      color:
+                                          AppColors.primary.withOpacity(0.5)),
                                 ),
                               )
                             ],
@@ -154,27 +158,35 @@ class ProfileViewNew extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Utils.openPhoneDialer(context, phoneNumbers ?? "");
+                                    Utils.openPhoneDialer(
+                                        context, phoneNumbers ?? "");
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
                                     decoration: BoxDecoration(
-                                        color: AppColors.secondary, borderRadius: BorderRadius.circular(20)),
+                                        color: AppColors.secondary,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
                                     child: Row(
                                       children: [
                                         Spacer(),
                                         Center(
                                           child: Text(
                                             "call".tr,
-                                            style: AppTextTheme.m(12).copyWith(color: Colors.white),
+                                            style: AppTextTheme.m(12)
+                                                .copyWith(color: Colors.white),
                                           ),
                                         ),
                                         Spacer(),
-                                        SettingsController.appLanguge != "English"
+                                        SettingsController.appLanguge !=
+                                                "English"
                                             ? Transform(
                                                 alignment: Alignment.center,
-                                                transform: Matrix4.rotationY(math.pi),
-                                                child: SvgPicture.asset(AppImages.phone),
+                                                transform:
+                                                    Matrix4.rotationY(math.pi),
+                                                child: SvgPicture.asset(
+                                                    AppImages.phone),
                                               )
                                             : SvgPicture.asset(AppImages.phone)
                                       ],
@@ -195,7 +207,9 @@ class ProfileViewNew extends StatelessWidget {
               height: 5,
             ),
             Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.lightGrey),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppColors.lightGrey),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 5,
@@ -264,7 +278,8 @@ class ProfileViewNew extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           children: [
-                            SvgPicture.asset(AppImages.map, height: 22, width: 22),
+                            SvgPicture.asset(AppImages.map,
+                                height: 22, width: 22),
                             SizedBox(
                               width: 5,
                             ),
@@ -272,8 +287,10 @@ class ProfileViewNew extends StatelessWidget {
                               width: Get.width * 0.69,
                               child: Text(
                                 "${address}",
-                                style: AppTextStyle.mediumBlack12
-                                    .copyWith(color: AppColors.lightBlack2, fontSize: 11, fontWeight: FontWeight.w500),
+                                style: AppTextStyle.mediumBlack12.copyWith(
+                                    color: AppColors.lightBlack2,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Spacer(),
@@ -286,7 +303,8 @@ class ProfileViewNew extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0, geometry?.coordinates[0] ?? 0.0);
+                        Utils.openGoogleMaps(geometry!.coordinates?[1] ?? 0.0,
+                            geometry?.coordinates![0] ?? 0.0);
                       },
                       child: Container(
                         width: w,

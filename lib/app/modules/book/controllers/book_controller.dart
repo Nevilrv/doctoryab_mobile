@@ -6,20 +6,16 @@ import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/models/schedule_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
-import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/TextTheme.dart';
+
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:intl/intl.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class BookController extends GetxController {
-  Doctor doctor;
+  Doctor? doctor;
   var category = BookingController.to.selectedCategory;
 
   var selectDate = ["8", "9", "10", "11", "12"].obs;
@@ -53,10 +49,10 @@ class BookController extends GetxController {
   void onInit() {
     log("Get.arguments--------------> ${Get.arguments}");
     doctor = Get.arguments;
-    log("doctor--------------> ${doctor.datumId}");
-    teName.text = SettingsController.savedUserProfile.name ?? "";
-    teNewNumber.text = SettingsController.savedUserProfile.phone ?? "";
-    teAge.text = SettingsController.savedUserProfile.age.toString() ?? "";
+    log("doctor--------------> ${doctor!.datumId}");
+    teName.text = SettingsController.savedUserProfile?.name ?? "";
+    teNewNumber.text = SettingsController.savedUserProfile?.phone ?? "";
+    teAge.text = SettingsController.savedUserProfile?.age.toString() ?? "";
     update();
     // assert(Get.arguments != null && Get.arguments is Doctor);
     pagingController.addPageRequestListener((pageKey) {
@@ -94,7 +90,7 @@ class BookController extends GetxController {
     DoctorsRepository()
         .fetchDoctorsTimeTable(
       pageKey,
-      doctor,
+      doctor!,
     )
         .then((data) {
       log(" ${data}");
@@ -105,8 +101,8 @@ class BookController extends GetxController {
       });
       if (dataList.isNotEmpty) {
         selectedDate = dataList[0].date.toString();
-        selectedDataList = dataList[0].times;
-        selectedDataTime = dataList[0].times[0].toString();
+        selectedDataList = dataList[0].times!;
+        selectedDataTime = dataList[0].times![0].toString();
       }
       isLoading = false;
       update();
@@ -134,10 +130,11 @@ class BookController extends GetxController {
   Future<void> bookNow() async {
     loading.value = true;
     log("selectedDataTime--------------> ${DateTime.parse(selectedDataTime).toUtc().toIso8601String()}");
+    log('teName.text ---------->>>>>>>> ${teName.text}');
 
     DoctorsRepository()
         .bookTime(
-            patId: SettingsController.savedUserProfile.patientID,
+            patId: SettingsController.savedUserProfile!.patientID,
             doctor: doctor,
             age: teAge.text,
             name: teName.text,
@@ -161,7 +158,7 @@ class BookController extends GetxController {
       // );
 
       AppGetDialog.showAppointmentSuccess(
-          doctorName: doctor.fullname ?? doctor.name ?? '',
+          doctorName: doctor?.fullname ?? doctor?.name ?? '',
           date: DateTime.parse(selectedDataTime));
 
       log("value--------------> $value");

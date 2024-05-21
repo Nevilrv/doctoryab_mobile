@@ -13,10 +13,10 @@ class Schedule {
     this.data,
   });
 
-  List<ScheduleData> data;
+  List<ScheduleData>? data;
 
   Schedule copyWith({
-    List<ScheduleData> data,
+    List<ScheduleData>? data,
   }) =>
       Schedule(
         data: data ?? this.data,
@@ -32,7 +32,7 @@ class Schedule {
   Map<String, dynamic> toJson() => {
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -43,14 +43,14 @@ class ScheduleData {
     this.times,
   });
 
-  DateTime date;
-  int count;
-  List<DateTime> times;
+  DateTime? date;
+  int? count;
+  List<DateTime>? times;
 
   ScheduleData copyWith({
-    DateTime date,
-    int count,
-    List<DateTime> times,
+    DateTime? date,
+    int? count,
+    List<DateTime>? times,
   }) =>
       ScheduleData(
         date: date ?? this.date,
@@ -67,10 +67,10 @@ class ScheduleData {
       );
 
   Map<String, dynamic> toJson() => {
-        "date": date == null ? null : date.toIso8601String(),
+        "date": date == null ? null : date!.toIso8601String(),
         "count": count == null ? null : count,
         "times": times == null
             ? null
-            : List<dynamic>.from(times.map((x) => x.toIso8601String())),
+            : List<dynamic>.from(times!.map((x) => x.toIso8601String())),
       };
 }

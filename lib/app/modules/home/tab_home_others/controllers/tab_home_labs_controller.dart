@@ -124,7 +124,7 @@ class LabsController extends GetxController {
   }
 
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>(null);
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
@@ -164,7 +164,7 @@ class LabsController extends GetxController {
     cancelToken = CancelToken();
     pageController.refresh();
 
-    pageController.itemList.clear();
+    pageController.itemList!.clear();
     // pageController.itemList = [];
     loadData(pageController.firstPageKey);
   }
@@ -385,10 +385,10 @@ class LabsController extends GetxController {
 
         locationData.clear();
         locationTitle.clear();
-        pageController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+        pageController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
           }
         });
       } else {}
@@ -420,9 +420,9 @@ class LabsController extends GetxController {
         locationData.clear();
         locationTitle.clear();
         searchDataList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
           }
         });
         isSearching = false;
@@ -484,7 +484,7 @@ class LabsController extends GetxController {
       // AdsModel v = AdsModel();
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
         });
@@ -492,7 +492,7 @@ class LabsController extends GetxController {
     }).catchError((e, s) {
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

@@ -33,7 +33,7 @@ class CitySelectController extends GetxController {
                   .where(
                     (element) =>
                         // !(_pagedController.itemList.contains(element)),
-                        !pagedController.itemList
+                        !pagedController.itemList!
                             .any((el) => element.sId == el.sId),
                   )
                   .toList()

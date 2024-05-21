@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SavedDrugsView extends GetView<DrugsController> {
-  SavedDrugsView({Key key}) : super(key: key);
+  SavedDrugsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +302,7 @@ class SavedDrugsView extends GetView<DrugsController> {
                                                 .trArgs([
                                                 SettingsController
                                                     .getUpdatedDrugData[index]
-                                                    .packsAndPrices
+                                                    .packsAndPrices!
                                               ])
                                             : SettingsController.appLanguge ==
                                                     'English'

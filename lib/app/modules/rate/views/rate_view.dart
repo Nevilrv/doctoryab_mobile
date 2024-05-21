@@ -18,7 +18,7 @@ class RateView extends GetView<RateController> {
       ),
       body: Column(
         children: [
-          DoctorListTileItem(controller.doctor)
+          DoctorListTileItem(controller.doctor!)
               .paddingHorizontal(10)
               .paddingVertical(20),
           // SizedBox(height: 20),
@@ -39,15 +39,20 @@ class RateView extends GetView<RateController> {
                   onPressed: controller.isButtonDeactive.value
                       ? null
                       : () {
-                          print((controller.pageController.page.toInt()));
+                          print((controller.pageController.page?.toInt()));
                           // if (controller.pageController.page.toInt() < 3) {
                           controller.pageController.animateToPage(
-                              ((controller.pageController.page.toInt() - 1)),
+                              (((controller.pageController.page?.toInt() ?? 0) -
+                                  1)),
                               duration: Duration(milliseconds: 300),
                               curve: Curves.easeIn);
-                          if (controller.pageController.page.toInt() - 1 == 0) {
+                          if ((controller.pageController.page?.toInt() ?? 0) -
+                                  1 ==
+                              0) {
                             controller.isButtonDeactive.value =
-                                controller.pageController.page.toInt() - 1 == 0
+                                (controller.pageController.page?.toInt() ?? 0) -
+                                            1 ==
+                                        0
                                     ? true
                                     : false;
                           }
@@ -69,15 +74,15 @@ class RateView extends GetView<RateController> {
                         : AppColors.scaffoldColor;
                   })),
                   onPressed: () {
-                    if (controller.pageController.page.toInt() == 2) {
+                    if (controller.pageController.page!.toInt() == 2) {
                       controller.rate(context);
                     }
                     controller.pageController.animateToPage(
-                        ((controller.pageController.page.toInt() + 1)),
+                        ((controller.pageController.page!.toInt() + 1)),
                         duration: Duration(milliseconds: 300),
                         curve: Curves.easeIn);
                     controller.isButtonDeactive.value = false;
-                    if (controller.pageController.page.toInt() + 1 == 2) {
+                    if (controller.pageController.page!.toInt() + 1 == 2) {
                       controller.done.value = true;
                     }
                   })),

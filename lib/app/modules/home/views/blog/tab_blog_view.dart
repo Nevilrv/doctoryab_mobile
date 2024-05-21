@@ -30,7 +30,7 @@ import 'blog_details_screen.dart';
 
 // ignore: must_be_immutable
 class TabBlogView extends GetView<TabBlogController> {
-  TabBlogView({Key key}) : super(key: key) {
+  TabBlogView({Key? key}) : super(key: key) {
     if (Get.arguments != null) {
       if (Get.arguments['id'] != null) {
         if (Get.arguments['id'] == "notification") {
@@ -93,6 +93,9 @@ class TabBlogView extends GetView<TabBlogController> {
                               onTap: () {
                                 controller.selected.value = index;
                                 controller.update();
+                                controller.pagingController =
+                                    PagingController<int, Post>(
+                                        firstPageKey: 1);
                                 controller.changeSelectedCategory(index);
                               },
                               child: Column(
@@ -201,7 +204,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                       .map((item) => GestureDetector(
                                             onTap: () async {
                                               if (!await launchUrl(
-                                                  Uri.parse(item.link))) {
+                                                  Uri.parse(item.link!))) {
                                                 throw Exception(
                                                     'Could not launch ${item.link}');
                                               }
@@ -304,11 +307,8 @@ class TabBlogView extends GetView<TabBlogController> {
                       return SizedBox(height: 15);
                     }
                   },
-
-                  // padding: EdgeInsets.symmetric(vertical: 30, horizontal: 22),
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   pagingController: controller.pagingController,
-
                   builderDelegate: PagedChildBuilderDelegate<Post>(
                     itemBuilder: (context, item, index) {
                       return Column(
@@ -446,7 +446,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                 children: [
                                                   Flexible(
                                                     child: Text(
-                                                      "${calculateTime(DateTime.parse(controller.postList[index].createAt))} ",
+                                                      "${calculateTime(DateTime.parse(controller.postList[index].createAt.toString()))} ",
                                                       // maxLines: 1,
                                                       // overflow:
                                                       // TextOverflow.clip,
@@ -498,13 +498,13 @@ class TabBlogView extends GetView<TabBlogController> {
                                         "${ApiConsts.hostUrl}${controller.postList[index].img}",
                                       ),
                                       fit: BoxFit.cover,
-                                      onError: (exception, stackTrace) {
-                                        log('================== ON ERROR CALLED ==================');
-                                        return Image.asset(
-                                          "assets/png/person-placeholder.jpg",
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
+                                      // onError: (exception, stackTrace) {
+                                      //   log('================== ON ERROR CALLED ==================');
+                                      //   return Image.asset(
+                                      //     "assets/png/person-placeholder.jpg",
+                                      //     fit: BoxFit.cover,
+                                      //   );
+                                      // },
                                     ),
                                   ),
                                 ),
@@ -535,14 +535,23 @@ class TabBlogView extends GetView<TabBlogController> {
                               //     ?
                               Html(
                                   data: controller.postList[index].descEnglish,
-                                  customTextAlign: (_) =>
-                                      SettingsController.appLanguge == "English"
-                                          ? TextAlign.left
-                                          : TextAlign.right,
-                                  onImageError: (exception, stackTrace) {
-                                    return Image.network(
-                                        "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                                  // customTextAlign: (_) =>
+                                  //     SettingsController.appLanguge == "English"
+                                  //         ? TextAlign.left
+                                  //         : TextAlign.right,
+                                  style: {
+                                    'html': Style(
+                                      textAlign:
+                                          SettingsController.appLanguge ==
+                                                  "English"
+                                              ? TextAlign.left
+                                              : TextAlign.right,
+                                    ),
                                   },
+                                  // onImageError: (exception, stackTrace) {
+                                  //   return Image.network(
+                                  //       "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                                  // },
                                 )
 
                               // ShowMoreLessHTML(
@@ -581,7 +590,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      controller.postList[index].likes.length
+                                      controller.postList[index].likes!.length
                                           .toString(),
                                       style: AppTextTheme.h(14).copyWith(
                                           color: AppColors.primary
@@ -590,7 +599,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                     ),
                                     Spacer(),
                                     Text(
-                                      "${controller.postList[index].comments.length.toString()} ",
+                                      "${controller.postList[index].comments!.length.toString()} ",
                                       style: AppTextTheme.h(14).copyWith(
                                           color: AppColors.primary
                                               .withOpacity(0.7),
@@ -611,7 +620,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "${controller.postList[index].shares.length.toString()} ",
+                                      "${controller.postList[index].shares!.length.toString()} ",
                                       style: AppTextTheme.h(14).copyWith(
                                           color: AppColors.primary
                                               .withOpacity(0.7),
@@ -636,27 +645,27 @@ class TabBlogView extends GetView<TabBlogController> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          if (controller.postList[index].likes
+                                          if (controller.postList[index].likes!
                                               .contains(SettingsController
                                                   .userId
                                                   .toString())) {
-                                            controller.postList[index].likes
+                                            controller.postList[index].likes!
                                                 .remove(
                                                     SettingsController.userId);
                                           } else {
-                                            controller.postList[index].likes
+                                            controller.postList[index].likes!
                                                 .add(SettingsController.userId);
                                           }
 
                                           controller.update();
                                           controller.likeBlog(
-                                              controller.postList[index].id,
+                                              controller.postList[index].id!,
                                               index,
                                               controller.postList[index]);
                                         },
                                         child: Row(
                                           children: [
-                                            controller.postList[index].likes
+                                            controller.postList[index].likes!
                                                     .contains(SettingsController
                                                         .userId
                                                         .toString())
@@ -727,7 +736,7 @@ class TabBlogView extends GetView<TabBlogController> {
                                                       ? parse(controller
                                                               .postList[index]
                                                               .descEnglish)
-                                                          .body
+                                                          .body!
                                                           .text
                                                       : SettingsController
                                                                   .appLanguge ==
@@ -736,21 +745,21 @@ class TabBlogView extends GetView<TabBlogController> {
                                                                   .postList[
                                                                       index]
                                                                   .descPashto)
-                                                              .body
+                                                              .body!
                                                               .text
                                                           : parse(controller
                                                                   .postList[
                                                                       index]
                                                                   .descDari)
-                                                              .body
+                                                              .body!
                                                               .text);
                                           if (result.status ==
                                               ShareResultStatus.success) {
-                                            controller.postList[index].shares
+                                            controller.postList[index].shares!
                                                 .add(SettingsController.userId);
                                             controller.update();
                                             controller.shareBlog(
-                                                controller.postList[index].id,
+                                                controller.postList[index].id!,
                                                 index,
                                                 controller.postList[index]);
                                           }
@@ -1880,7 +1889,7 @@ class TabBlogView extends GetView<TabBlogController> {
 }
 
 class ShowMoreLessHTML extends StatefulWidget {
-  final String htmlContent;
+  final String? htmlContent;
   final int maxLines;
 
   ShowMoreLessHTML({this.htmlContent, this.maxLines = 1});
@@ -1899,14 +1908,17 @@ class _ShowMoreLessHTMLState extends State<ShowMoreLessHTML> {
       children: [
         Html(
           data: isExpanded ? widget.htmlContent : _getTruncatedHtmlContent(),
-          customTextAlign: (_) => SettingsController.appLanguge == "English"
-              ? TextAlign.left
-              : TextAlign.right,
-          // style: {
-          //   'body': Style(
-          //     fontSize: FontSize(14.0),
-          //   ),
-          // },
+          // customTextAlign: (_) => SettingsController.appLanguge == "English"
+          //     ? TextAlign.left
+          //     : TextAlign.right,
+
+          style: {
+            'html': Style(
+              textAlign: SettingsController.appLanguge == "English"
+                  ? TextAlign.left
+                  : TextAlign.right,
+            ),
+          },
         ),
         GestureDetector(
           onTap: () {
@@ -1924,7 +1936,7 @@ class _ShowMoreLessHTMLState extends State<ShowMoreLessHTML> {
   }
 
   String _getTruncatedHtmlContent() {
-    if (widget.htmlContent.isEmpty) return widget.htmlContent;
+    if (widget.htmlContent!.isEmpty) return widget.htmlContent!;
 
     final document = parse(widget.htmlContent);
     final buffer = StringBuffer();
@@ -1943,8 +1955,8 @@ class _ShowMoreLessHTMLState extends State<ShowMoreLessHTML> {
 
 class Body extends StatelessWidget {
   const Body({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
 
   final TabBlogController controller;
@@ -1962,7 +1974,9 @@ class Body extends StatelessWidget {
                 itemCount: controller.tabTitles.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => controller.changeSelectedCategory(index),
+                    onTap: () {
+                      controller.changeSelectedCategory(index);
+                    },
                     child: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -1979,7 +1993,7 @@ class Body extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         alignment: Alignment.center,
                         child: Text(
-                          controller.tabTitles[index].categoryEnglish,
+                          controller.tabTitles[index].categoryEnglish!,
                           style: AppTextTheme.m(16).copyWith(
                             color: controller.selectedIndex.value == index
                                 ? Colors.white
@@ -2036,7 +2050,7 @@ class Body extends StatelessWidget {
 }
 
 class PostItemView extends StatefulWidget {
-  PostItemView(this.item, {Key key}) : super(key: key);
+  PostItemView(this.item, {Key? key}) : super(key: key);
   final Post item;
 
   @override
@@ -2080,7 +2094,7 @@ class _PostItemViewState extends State<PostItemView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.item?.blogTitleEnglish ?? "",
+                        widget.item.blogTitleEnglish ?? "",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),

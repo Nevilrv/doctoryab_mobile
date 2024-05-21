@@ -5,14 +5,14 @@ import 'dart:math';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
 class CustomSwitchController {
-  VoidCallback _toggle;
+  VoidCallback? _toggle;
   bool _isInitComplete = false;
   void dispose() {
     _toggle = null;
-    _isInitComplete = null;
+    _isInitComplete = false;
   }
 
-  VoidCallback get toggle => _toggle;
+  VoidCallback get toggle => _toggle!;
   set toggle(VoidCallback tog) {
     if (!_isInitComplete) {
       _toggle = tog;
@@ -27,11 +27,11 @@ class CustomSwitchController {
 
 class CustomSwitchControllerException implements Exception {
   // @override
-  String _message;
+  String? _message;
   CustomSwitchControllerException([this._message]);
   @override
   String toString() {
-    return _message;
+    return _message ?? "";
   }
 }
 
@@ -39,19 +39,19 @@ class CustomAnimatedSwitch extends StatefulWidget {
   @required
   final bool value;
   @required
-  final Function(bool) onChanged;
+  final Function(bool)? onChanged;
   // final String textOff;
   // final String textOn;
   final Color colorOn;
   final Color colorOff;
   // final double textSize;
   final Duration animationDuration;
-  final Function onTap;
+  final Function? onTap;
   // final Function onDoubleTap;
   // final Function onSwipe;
   final width = 57.0;
   final height = 30.0;
-  final CustomSwitchController controller;
+  final CustomSwitchController? controller;
 
   CustomAnimatedSwitch({
     this.controller,
@@ -74,16 +74,16 @@ class CustomAnimatedSwitch extends StatefulWidget {
 
 class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
     with SingleTickerProviderStateMixin {
-  CustomSwitchController controller;
-  AnimationController animationController;
-  Animation<double> animation;
+  CustomSwitchController? controller;
+  AnimationController? animationController;
+  Animation<double>? animation;
   double value = 0.0;
 
-  bool turnState;
+  bool? turnState;
 
   @override
   void dispose() {
-    animationController.dispose();
+    animationController?.dispose();
     super.dispose();
   }
 
@@ -91,7 +91,7 @@ class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
   void initState() {
     controller = widget.controller;
     if (controller != null) {
-      controller.toggle = _action;
+      controller!.toggle = _action;
     }
     super.initState();
     animationController = AnimationController(
@@ -100,10 +100,10 @@ class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
         upperBound: 1.0,
         duration: widget.animationDuration);
     animation =
-        CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
-    animationController.addListener(() {
+        CurvedAnimation(parent: animationController!, curve: Curves.easeInOut);
+    animationController?.addListener(() {
       setState(() {
-        value = animation.value;
+        value = animation?.value ?? 0;
       });
     });
     turnState = widget.value;
@@ -112,7 +112,7 @@ class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
 
   @override
   Widget build(BuildContext context) {
-    Color transitionColor = Color.lerp(widget.colorOff, widget.colorOn, value);
+    Color transitionColor = Color.lerp(widget.colorOff, widget.colorOn, value)!;
 
     return GestureDetector(
       // onDoubleTap: () {
@@ -121,7 +121,7 @@ class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
       // },
       onTap: () {
         _action();
-        if (widget.onTap != null) widget.onTap();
+        if (widget.onTap != null) widget.onTap!();
       },
       // onPanEnd: (details) {
       //   _action();
@@ -143,7 +143,7 @@ class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
             Transform.translate(
               offset: Offset(27 * value, 0), //TODO change static value here
               child: Transform.rotate(
-                angle: lerpDouble(0, 2 * pi, value),
+                angle: lerpDouble(0, 2 * pi, value) ?? 0,
                 child: Container(
                   height: widget.height,
                   width: widget.height - 2, //! TODO Bug here: not true left
@@ -199,12 +199,12 @@ class _CustomAnimatedSwitchState extends State<CustomAnimatedSwitch>
   _determine({bool changeState = false}) {
     Future.delayed(Duration.zero, () {
       setState(() {
-        if (changeState) turnState = !turnState;
-        (turnState)
-            ? animationController.forward()
-            : animationController.reverse();
+        if (changeState) turnState = !turnState!;
+        (turnState == true)
+            ? animationController!.forward()
+            : animationController!.reverse();
 
-        if (widget.onChanged != null) widget.onChanged(turnState);
+        if (widget.onChanged != null) widget.onChanged!(turnState!);
       });
     });
   }

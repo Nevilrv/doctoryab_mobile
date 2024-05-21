@@ -16,7 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class BasketDetailScreen extends GetView<CheckupPackagesController> {
-  BasketDetailScreen({Key key}) : super(key: key);
+  BasketDetailScreen({Key? key}) : super(key: key);
   CheckupPackagesController checkupPackagesController = Get.find()
     ..getPackageHistory();
   @override
@@ -161,7 +161,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                       ]),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         vertical: 10,
                                                         horizontal: 10),
                                                     child: Column(
@@ -180,7 +180,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                                               4)),
                                                               child: Padding(
                                                                 padding: const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         10,
                                                                     vertical:
@@ -189,7 +189,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                                   child: Row(
                                                                     children: [
                                                                       Text(
-                                                                        "${_d[0]}",
+                                                                        "${_d![0]}",
                                                                         // "${DateFormat("dd.MM.yyyy").format(DateTime.parse(controller.packageHistory[index].visitDate.toString() == null ? DateTime.now().toString() : controller.packageHistory[index].visitDate.toString()))}",
                                                                         style: AppTextStyle
                                                                             .mediumPrimary12
@@ -247,7 +247,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                                       Get.width *
                                                                           0.27,
                                                                   child: Text(
-                                                                    "${controller.packageHistory[index].packageId.title ?? ''}",
+                                                                    "${controller.packageHistory[index].packageId?.title ?? ''}",
                                                                     maxLines: 1,
                                                                     overflow:
                                                                         TextOverflow
@@ -294,7 +294,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                               width: Get.width *
                                                                   0.5,
                                                               child: Text(
-                                                                " ${controller.packageHistory[index].hospitalId.name ?? ""}",
+                                                                " ${controller.packageHistory[index].hospitalId?.name ?? ""}",
                                                                 style: AppTextStyle
                                                                     .boldBlack10
                                                                     .copyWith(
@@ -404,7 +404,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                                               .w400),
                                                             ),
                                                             Text(
-                                                              " ${"${controller.packageHistory[index].packageId.price}" ?? ""}",
+                                                              " ${"${controller.packageHistory[index].packageId?.price}" ?? ""}",
                                                               style: AppTextStyle
                                                                   .boldBlack16
                                                                   .copyWith(
@@ -446,7 +446,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                               itemSize: 17,
                                                               initialRating:
                                                                   double.parse(
-                                                                      "${controller.packageHistory[index].packageId.averageRating}"),
+                                                                      "${controller.packageHistory[index].packageId?.averageRating}"),
                                                               // minRating: 1,
                                                               direction: Axis
                                                                   .horizontal,
@@ -509,7 +509,7 @@ class BasketDetailScreen extends GetView<CheckupPackagesController> {
                                                         ]),
                                                     child: Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           vertical: 10),
                                                       child: Center(
                                                         child: Text(

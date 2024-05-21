@@ -49,11 +49,11 @@ class CheckupPackagesController extends GetxController {
 
     scheduleList.forEach((element) {
       if (element.dayOfWeek.toString() == picked.weekday.toString()) {
-        data.addAll(element.times);
+        data.addAll(element.times!);
         update();
       } else if (picked.weekday.toString() == "7") {
         if (element.dayOfWeek.toString() == "0") {
-          data.addAll(element.times);
+          data.addAll(element.times!);
           update();
         }
       }
@@ -72,9 +72,9 @@ class CheckupPackagesController extends GetxController {
   void onInit() {
     selectedTest = 0;
     update();
-    teName.text = SettingsController.savedUserProfile.name ?? "";
-    teNewNumber.text = SettingsController.savedUserProfile.phone ?? "";
-    teAge.text = SettingsController.savedUserProfile.age.toString() ?? "";
+    teName.text = SettingsController.savedUserProfile?.name ?? "";
+    teNewNumber.text = SettingsController.savedUserProfile?.phone ?? "";
+    teAge.text = SettingsController.savedUserProfile?.age.toString() ?? "";
     update();
     pagingController.addPageRequestListener((pageKey) {
       fetchCheckUpPackages(pageKey);
@@ -87,7 +87,7 @@ class CheckupPackagesController extends GetxController {
 
   var loading = false.obs;
   Future<void> bookNow({
-    String packageId,
+    String? packageId,
   }) async {
     loading.value = true;
 
@@ -252,7 +252,7 @@ class CheckupPackagesController extends GetxController {
     ).then((value) {
       CheckUpPackageResModel checkUpPackageResModel =
           CheckUpPackageResModel.fromJson(value);
-      packageHistory.addAll(checkUpPackageResModel.data);
+      packageHistory.addAll(checkUpPackageResModel.data!);
       historyLoading = false;
       update();
     }).catchError((e, s) {
@@ -266,7 +266,7 @@ class CheckupPackagesController extends GetxController {
 
   var scheduleList = <Schedule>[].obs;
   var scheduleListDate = <DateTime>[].obs;
-  getLabScheduleList({String labId, String hospitalId, String type}) {
+  getLabScheduleList({String? labId, String? hospitalId, String? type}) {
     scheduleList.clear();
     scheduleListDate.clear();
 
@@ -280,7 +280,7 @@ class CheckupPackagesController extends GetxController {
         HospitalLabScheduleResModel resModel =
             HospitalLabScheduleResModel.fromJson(value);
 
-        scheduleList.addAll(resModel.data);
+        scheduleList.addAll(resModel.data!);
         scheduleList.forEach((element) {
           for (var i = 0; i < 15; i++) {
             if (DateTime.now().add(Duration(days: i)).weekday ==
@@ -300,7 +300,7 @@ class CheckupPackagesController extends GetxController {
       ).then((value) {
         HospitalLabScheduleResModel resModel =
             HospitalLabScheduleResModel.fromJson(value);
-        scheduleList.addAll(resModel.data);
+        scheduleList.addAll(resModel.data!);
         scheduleList.forEach((element) {
           for (var i = 0; i < 15; i++) {
             if (DateTime.now().add(Duration(days: i)).weekday ==
@@ -333,7 +333,7 @@ class CheckupPackagesController extends GetxController {
   bool isLoading = false;
   bool isLoadingFeedback = false;
   double ratings = 0.0;
-  void packageReview({String packageId}) {
+  void packageReview({String? packageId}) {
     isLoading = true;
     update();
     PackageRepository()
@@ -356,7 +356,7 @@ class CheckupPackagesController extends GetxController {
     });
   }
 
-  void addPackageFeedback({String packageId, String rating}) {
+  void addPackageFeedback({String? packageId, String? rating}) {
     Get.back();
     isLoadingFeedback = true;
     update();
@@ -383,7 +383,7 @@ class CheckupPackagesController extends GetxController {
   }
 
   int selectedTest = 0;
-  SpeechRecognition speech;
+  SpeechRecognition? speech;
   bool speechRecognitionAvailable = false;
   bool isListening = false;
 
@@ -391,19 +391,19 @@ class CheckupPackagesController extends GetxController {
     isListening = false;
     // print('_MyAppState.activateSpeechRecognizer... ');
     speech = SpeechRecognition();
-    speech.setAvailabilityHandler(onSpeechAvailability);
-    speech.setRecognitionStartedHandler(onRecognitionStarted);
-    speech.setRecognitionResultHandler(onRecognitionResult);
-    speech.setRecognitionCompleteHandler(onRecognitionComplete);
-    speech.setErrorHandler(errorHandler);
-    speech.activate('en_US').then((res) {
+    speech?.setAvailabilityHandler(onSpeechAvailability);
+    speech?.setRecognitionStartedHandler(onRecognitionStarted);
+    speech?.setRecognitionResultHandler(onRecognitionResult);
+    speech?.setRecognitionCompleteHandler(onRecognitionComplete);
+    speech?.setErrorHandler(errorHandler);
+    speech?.activate('en_US').then((res) {
       speechRecognitionAvailable = res;
       update();
     });
   }
 
-  void start() => speech.activate('en_US').then((_) {
-        return speech.listen().then((result) {
+  void start() => speech?.activate('en_US').then((_) {
+        return speech?.listen().then((result) {
           // print('_MyAppState.start => result $result');
 
           isListening = result;
@@ -411,7 +411,7 @@ class CheckupPackagesController extends GetxController {
         });
       });
 
-  void stop() => speech.stop().then((_) {
+  void stop() => speech!.stop().then((_) {
         isListening = false;
         update();
       });
@@ -461,7 +461,7 @@ class CheckupPackagesController extends GetxController {
         var newItems = CheckupPackagesResModel.fromJson(data.data).data;
 
         if (newItems == null || newItems.length == 0) {
-          pagingController.appendLastPage(newItems);
+          pagingController.appendLastPage(newItems!);
         } else {
           pagingController.appendPage(newItems, pageKey + 1);
         }

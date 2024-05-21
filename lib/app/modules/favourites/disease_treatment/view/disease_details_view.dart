@@ -1,7 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/disease_treatment/controller/disease_treatment_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
@@ -16,7 +18,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../../../controllers/settings_controller.dart';
 
 class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
-  DiseaseDetailsView({Key key}) : super(key: key);
+  DiseaseDetailsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,10 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
         return Scaffold(
             appBar: AppAppBar.primaryAppBar(
                 title: SettingsController.appLanguge == "English"
-                    ? controller.selectedCategory.eTitle ?? ''
+                    ? controller.selectedCategory?.eTitle ?? ''
                     : SettingsController.appLanguge == "فارسی"
-                        ? controller.selectedCategory.fTitle
-                        : controller.selectedCategory.pTitle),
+                        ? controller.selectedCategory?.fTitle
+                        : controller.selectedCategory?.pTitle),
             backgroundColor: AppColors.lightGrey,
             // bottomNavigationBar: BottomBarView(isHomeScreen: false),
             body: controller.isLoadingList == true
@@ -42,7 +44,8 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                     height: h,
                     child: Stack(
                       children: [
-                        SingleChildScrollView(padding: EdgeInsets.only(bottom:70),
+                        SingleChildScrollView(
+                          padding: EdgeInsets.only(bottom: 70),
                           physics: BouncingScrollPhysics(),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -52,7 +55,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                     ? SizedBox()
                                     : Container(
                                         height: Get.height * 0.154,
-                                        width: controller.bannerAd.size.width
+                                        width: controller.bannerAd?.size.width
                                             .toDouble(),
                                         decoration: BoxDecoration(
                                             borderRadius:
@@ -62,7 +65,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: AdWidget(
-                                            ad: controller.bannerAd,
+                                            ad: controller.bannerAd!,
                                           ),
                                         ),
                                       ),
@@ -92,8 +95,13 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                         height: h * 0.119,
                                         width: w * 0.305,
                                         decoration: BoxDecoration(
-                                          color: Color(int.parse(
-                                              "0xff${controller.selectedCategory.background.replaceFirst("#", "")}")),
+                                          color: Color(controller
+                                                      .selectedCategory
+                                                      ?.background ==
+                                                  null
+                                              ? 0xffFFFFFF
+                                              : int.parse(
+                                                  "0xff${controller.selectedCategory?.background?.replaceFirst("#", "")}")),
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),
@@ -102,7 +110,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                             height: h * 0.067,
                                             width: w * 0.146,
                                             imageUrl:
-                                                "${ApiConsts.hostUrl}${controller.selectedCategory.photo}",
+                                                "${ApiConsts.hostUrl}${controller.selectedCategory?.photo}",
                                             fit: BoxFit.cover,
                                             placeholder: (_, __) {
                                               return Image.asset(
@@ -128,13 +136,13 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "${SettingsController.appLanguge == "English" ? controller.selectedCategory.eTitle ?? "" : SettingsController.appLanguge == "فارسی" ? controller.selectedCategory.fTitle ?? "" : controller.selectedCategory.pTitle ?? ""}",
+                                              "${SettingsController.appLanguge == "English" ? controller.selectedCategory?.eTitle ?? "" : SettingsController.appLanguge == "فارسی" ? controller.selectedCategory?.fTitle ?? "" : controller.selectedCategory?.pTitle ?? ""}",
                                               style: AppTextStyle.boldPrimary11,
                                             ),
                                             SizedBox(height: 10),
                                             Text(
                                               controller.selectedCategory
-                                                      .detail ??
+                                                      ?.detail ??
                                                   "",
                                               style: AppTextStyle.mediumPrimary8
                                                   .copyWith(height: 1.2),
@@ -146,7 +154,7 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                   ),
                                 ),
                                 ...List.generate(
-                                  controller.diaseaList.length ,
+                                  controller.diaseaList.length,
                                   (index) => GestureDetector(
                                     onTap: () {
                                       controller.selectedDieases =
@@ -186,7 +194,8 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                               SettingsController.appLanguge ==
                                                       "English"
                                                   ? controller.diaseaList[index]
-                                                          .title ??
+                                                          .title
+                                                          .toString() ??
                                                       ""
                                                   : SettingsController
                                                               .appLanguge ==
@@ -194,9 +203,11 @@ class DiseaseDetailsView extends GetView<DiseaseTreatmentController> {
                                                       ? controller
                                                           .diaseaList[index]
                                                           .dariTitle
+                                                          .toString()
                                                       : controller
                                                           .diaseaList[index]
-                                                          .pashtoTitle,
+                                                          .pashtoTitle
+                                                          .toString(),
                                               style: AppTextStyle.boldPrimary11,
                                             ),
                                           ),

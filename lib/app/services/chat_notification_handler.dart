@@ -20,7 +20,7 @@ class ChatNotificationHandler {
     } catch (e) {}
     try {
       var _msgData = ChatNotificationMessageDataModel.fromJson(
-          json.decode(chat.messageData));
+          json.decode(chat.messageData!));
       // PushNotificationService().showNotification(
       //     _msgData?.sender ?? "New Chat", _msgData?.content ?? "Null");
       PushNotificationService().showNotification(
@@ -34,17 +34,17 @@ class ChatNotificationHandler {
   }
 
   static void handleClick(ChatNotificationModel chat) {
-    ChatController _chatController;
+    ChatController? _chatController;
     try {
       _chatController = Get.find<ChatController>();
     } catch (e) {}
     try {
-      var _chatDecoded = Chat.fromJson(json.decode(chat.chat));
+      var _chatDecoded = Chat.fromJson(json.decode(chat.chat!));
 
       var _msgData = ChatNotificationMessageDataModel.fromJson(
-          json.decode(chat.messageData));
-      if (_chatController != null && _chatController?.chatArg()?.id != null) {
-        if (_chatController.chatArg().id != _msgData.chat) {
+          json.decode(chat.messageData!));
+      if (_chatController!.chatArg!().id != "") {
+        if (_chatController.chatArg!().id != _msgData.chat) {
           _chatController.swithChat(ChatListApiModel(
               id: _msgData.chat, chatName: _chatDecoded.chatName));
           // _chatController.chatArg.value = ChatListApiModel(

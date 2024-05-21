@@ -6,9 +6,12 @@ import 'package:get/get.dart';
 
 class BookingController extends GetxService {
   static var to = Get.put(BookingController());
-  final Rx<DateTime> selectedDate = Rx<DateTime>(null);
-  final Rx<Category> selectedCategory = Rx<Category>(null);
-  final Rx<Doctor> selectedDoctor = Rx<Doctor>(null);
+  final Rxn<DateTime> selectedDate = Rxn<DateTime>(null);
+  final Rxn<Category> selectedCategory = Rxn<Category>(null);
+  final Rxn<Doctor> selectedDoctor = Rxn<Doctor>(null);
+  // final Rx<DateTime> selectedDate = Rx<DateTime>(null);
+  // final Rx<Category> selectedCategory = Rx<Category>(null);
+  // final Rx<Doctor> selectedDoctor = Rx<Doctor>(null);
   @override
   void onInit() {
     super.onInit();

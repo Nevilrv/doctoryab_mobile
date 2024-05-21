@@ -1,19 +1,10 @@
 // import 'dart:io' as Io;
 
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/data/models/blog_like_res_model.dart';
 import 'package:doctor_yab/app/data/models/diaease_data_list_res_model.dart';
-import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
-
-import '../../utils/utils.dart';
-
-import '../models/blog_categories.dart';
 import '../models/diaese_category_res_model.dart';
 
 class DieaseTreatementRepository {
@@ -58,7 +49,7 @@ class DieaseTreatementRepository {
     // );
 
     final response = await _cachedDio.get(
-      ApiConsts.deseaseDatalist + title+"?page=1&limit=1000000000000",
+      ApiConsts.deseaseDatalist + title + "?page=1&limit=1000000000000",
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
     return DieaseDataListResModel.fromJson(response.data);

@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
-  TreatmentAbroadView({Key key}) : super(key: key);
+  TreatmentAbroadView({Key? key}) : super(key: key);
 
   List countryImage = [
     AppImages.turkey,
@@ -171,7 +171,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                     (index) => Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   right: 15,
                                                                   top: 5),
                                                           child:
@@ -562,7 +562,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                               5)),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 10,
                                                         vertical: 5),
                                                     child: Row(
@@ -740,7 +740,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                               5)),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 10,
                                                         vertical: 5),
                                                     child: Row(

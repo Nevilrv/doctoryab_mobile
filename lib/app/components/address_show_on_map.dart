@@ -9,21 +9,21 @@ import '/app/extentions/widget_exts.dart';
 
 class AddressShowOnMap extends StatelessWidget {
   const AddressShowOnMap({
-    Key key,
-    @required this.address,
+    Key? key,
+    required this.address,
     this.lat,
     this.lon,
   }) : super(key: key);
 
   final String address;
-  final double lat, lon;
+  final double? lat, lon;
 
   @override
   Widget build(BuildContext context) {
     var _flag = lat != null && lon != null;
     return Column(
       children: [
-        if (address != null && address != "")
+        if (address != "")
           Row(
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class AddressShowOnMap extends StatelessWidget {
           OutlinedButton(
             onPressed: (_flag)
                 ? () {
-                    Utils.openGoogleMaps(lat, lon);
+                    Utils.openGoogleMaps(lat!, lon!);
                   }
                 : null,
             child: Row(

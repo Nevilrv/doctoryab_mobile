@@ -8,7 +8,7 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 
 class FullScreenImageViewr extends StatelessWidget {
   final String imgUrl;
-  const FullScreenImageViewr(this.imgUrl, {Key key}) : super(key: key);
+  const FullScreenImageViewr(this.imgUrl, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class FullScreenImageViewr extends StatelessWidget {
         child: Hero(
           tag: imgUrl,
           child: PinchZoom(
-            resetDuration: const Duration(milliseconds: 100),
+            // resetDuration: const Duration(milliseconds: 100),
             maxScale: 2.5,
             child: CachedNetworkImage(
               imageUrl: imgUrl,

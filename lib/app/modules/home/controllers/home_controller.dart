@@ -9,9 +9,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
   var selectedIndex = Get.arguments == null ? 0 : Get.arguments['id'];
-  TabController pageController;
+  TabController? pageController;
   var dropdownValue = ''.obs;
-  WebViewController webViewController;
+  WebViewController? webViewController;
   NotificationController notificationController =
       Get.put(NotificationController());
   setIndex(int index) {
@@ -25,7 +25,7 @@ class HomeController extends GetxController
   @override
   void onInit() {
     pageController = TabController(length: 5, vsync: this);
-    pageController.animateTo(Get.arguments == null ? 0 : Get.arguments['id']);
+    pageController!.animateTo(Get.arguments == null ? 0 : Get.arguments['id']);
     super.onInit();
     Get.put(ProfileUpdateController());
     notificationController.changeLanguage();
@@ -35,25 +35,25 @@ class HomeController extends GetxController
     });
   }
 
-  SpeechRecognition speech;
+  SpeechRecognition? speech;
   Future _getPermission() async {
     speech = SpeechRecognition();
-    speech.setAvailabilityHandler(
+    speech?.setAvailabilityHandler(
       (result) {},
     );
-    speech.setRecognitionStartedHandler(
+    speech?.setRecognitionStartedHandler(
       () {},
     );
-    speech.setRecognitionResultHandler(
+    speech?.setRecognitionResultHandler(
       (text) {},
     );
-    speech.setRecognitionCompleteHandler(
+    speech?.setRecognitionCompleteHandler(
       (text) {},
     );
-    speech.setErrorHandler(
+    speech?.setErrorHandler(
       () {},
     );
-    speech.activate('en_US').then((res) {});
+    speech?.activate('en_US').then((res) {});
   }
 
   @override

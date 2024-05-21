@@ -144,7 +144,7 @@ class TabSearchView extends GetView<TabSearchController> {
                                                                     () async {
                                                                   if (!await launchUrl(
                                                                       Uri.parse(
-                                                                          item.link))) {
+                                                                          item.link!))) {
                                                                     throw Exception(
                                                                         'Could not launch ${item.link}');
                                                                   }
@@ -153,7 +153,7 @@ class TabSearchView extends GetView<TabSearchController> {
                                                                   children: [
                                                                     Padding(
                                                                       padding: const EdgeInsets
-                                                                              .only(
+                                                                          .only(
                                                                           left:
                                                                               5),
                                                                       child:
@@ -218,7 +218,7 @@ class TabSearchView extends GetView<TabSearchController> {
                                                       (index) => Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 3),
                                                             child: CircleAvatar(
                                                               radius: 5,
@@ -245,7 +245,8 @@ class TabSearchView extends GetView<TabSearchController> {
                                   return SizedBox(height: 5);
                                 }
                               },
-                              builderDelegate: PagedChildBuilderDelegate(
+                              builderDelegate:
+                                  PagedChildBuilderDelegate<Doctor>(
                                 itemBuilder: (context, item, index) {
                                   return _doctorData(
                                     context,
@@ -313,13 +314,13 @@ class TabSearchView extends GetView<TabSearchController> {
     final w = MediaQuery.of(context).size.width;
 
     var date;
-    String slot;
+    String? slot;
 
-    if (item.schedules.isNotEmpty) {
-      if (item.schedules.length == 1) {
+    if (item.schedules!.isNotEmpty) {
+      if (item.schedules!.length == 1) {
         for (int i = 0; i <= 7; i++) {
           DateTime d = DateTime.now().add(Duration(days: i));
-          if (item.schedules[0].dayOfWeek == d.weekday) {
+          if (item.schedules![0].dayOfWeek == d.weekday) {
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -328,9 +329,9 @@ class TabSearchView extends GetView<TabSearchController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[0].times.isNotEmpty) {
+            if (item.schedules![0].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
+                  "${item.schedules![0].times!.first} - ${item.schedules![0].times!.last}";
             }
 
             break;
@@ -340,9 +341,9 @@ class TabSearchView extends GetView<TabSearchController> {
         // List<Schedule> dataSort ;
         // dataSort.add(value)
         List da = [];
-        item.schedules.sort((a, b) => a.dayOfWeek.compareTo(b.dayOfWeek));
-        for (int i = 0; i < item.schedules.length; i++) {
-          da.add(item.schedules[i].dayOfWeek);
+        item.schedules!.sort((a, b) => a.dayOfWeek!.compareTo(b.dayOfWeek!));
+        for (int i = 0; i < item.schedules!.length; i++) {
+          da.add(item.schedules![i].dayOfWeek);
         }
         var n = DateTime.now().weekday;
         var finalWeekDay;
@@ -354,16 +355,16 @@ class TabSearchView extends GetView<TabSearchController> {
           finalWeekDay = greater.first;
         }
 
-        Schedule data;
-        item.schedules.forEach((element) {
+        Schedule? data;
+        item.schedules!.forEach((element) {
           if (element.dayOfWeek == finalWeekDay) {
             data = element;
           }
         });
 
-        int indexxx = item.schedules.indexOf(data);
+        int indexxx = item.schedules!.indexOf(data!);
 
-        if (indexxx == item.schedules.length - 1) {
+        if (indexxx == item.schedules!.length - 1) {
           indexxx = 0;
         } else {
           indexxx = indexxx + 1;
@@ -380,12 +381,12 @@ class TabSearchView extends GetView<TabSearchController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[indexxx].times.isNotEmpty) {
+            if (item.schedules![indexxx].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
           }
-          if (item.schedules[indexxx].dayOfWeek == d.weekday) {
+          if (item.schedules![indexxx].dayOfWeek == d.weekday) {
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -394,9 +395,9 @@ class TabSearchView extends GetView<TabSearchController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[indexxx].times.isNotEmpty) {
+            if (item.schedules![indexxx].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
 
             break;
@@ -717,7 +718,7 @@ class TabSearchView extends GetView<TabSearchController> {
           icon: Icon(Icons.clear),
           onPressed: () {
             if (controller.teSearchController.text.isEmpty)
-              Get.focusScope.unfocus();
+              Get.focusScope!.unfocus();
             controller.teSearchController.clear();
             controller.firstSearchInit(false);
           },

@@ -38,7 +38,7 @@ class PatientInfoView extends GetView<PatientInfoController> {
                     // width: 65,
                     child: CachedNetworkImage(
                       imageUrl:
-                          "${ApiConsts.hostUrl}${controller.doctor().photo}",
+                          "${ApiConsts.hostUrl}${controller.doctor()!.photo}",
                       fit: BoxFit.cover,
                       placeholder: (_, __) {
                         return Image.asset(
@@ -61,7 +61,7 @@ class PatientInfoView extends GetView<PatientInfoController> {
                 ),
               ),
               title: Text(
-                "${controller.doctor().name ?? ""} ${controller.doctor().lname ?? ""}",
+                "${controller.doctor()?.name ?? ""} ${controller.doctor()?.lname ?? ""}",
                 style: AppTextTheme.h(15).copyWith(color: AppColors.black2),
               ).paddingOnly(top: 8),
               subtitle: Text(

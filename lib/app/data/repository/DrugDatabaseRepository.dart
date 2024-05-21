@@ -11,10 +11,14 @@ class DrugDatabaseRepository {
     int page,
     String name, {
     int limitPerPage = 6,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
-    print("Query---Parameter---${{"limit": limitPerPage, "page": page, "name": name}}");
+    print("Query---Parameter---${{
+      "limit": limitPerPage,
+      "page": page,
+      "name": name
+    }}");
     final response = await _cachedDio.get(
       '${ApiConsts.drugDatabase}',
       cancelToken: cancelToken,
@@ -31,10 +35,14 @@ class DrugDatabaseRepository {
     int page,
     String name, {
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
-    print("Query---Parameter---${{"limit": limitPerPage, "page": page, "name": name}}");
+    print("Query---Parameter---${{
+      "limit": limitPerPage,
+      "page": page,
+      "name": name
+    }}");
     final response = await _cachedDio.get(
       '${ApiConsts.drugDatabaseUpdated}',
       cancelToken: cancelToken,
@@ -46,9 +54,9 @@ class DrugDatabaseRepository {
   }
 
   Future<Response> fetchDrugsReview({
-    String drugId,
-    void onError(e),
-    CancelToken cancelToken,
+    String? drugId,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.drugDatabaseReview}$drugId',
@@ -60,11 +68,11 @@ class DrugDatabaseRepository {
   }
 
   Future<Response> addDrugsReview({
-    String drugId,
-    String rating,
-    String comment,
-    void onError(e),
-    CancelToken cancelToken,
+    String? drugId,
+    String? rating,
+    String? comment,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     var data = {"comment": comment, "rating": rating, "drugId": drugId};
     final response = await _cachedDio.post(

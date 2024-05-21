@@ -28,7 +28,7 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
                 controller.cancelToken.cancel();
               });
               controller.cancelToken = new CancelToken();
-              controller.pagingController.itemList.clear();
+              controller.pagingController.itemList?.clear();
               controller.fetchCategories(
                 controller.pagingController.firstPageKey,
               );

@@ -13,8 +13,8 @@ Doctors doctorsFromJson(String str) => Doctors.fromJson(json.decode(str));
 String doctorsToJson(Doctors data) => json.encode(data.toJson());
 
 class Doctors {
-  bool success;
-  List<Doctor> data;
+  bool? success;
+  List<Doctor>? data;
 
   Doctors({
     this.success,
@@ -28,20 +28,20 @@ class Doctors {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Doctor {
-  String datumId;
-  Geometry geometry;
-  List<dynamic> exp;
-  List<dynamic> edu;
-  List<dynamic> lang;
-  List<dynamic> awards;
-  String photo;
+  String? datumId;
+  Geometry? geometry;
+  List<dynamic>? exp;
+  List<dynamic>? edu;
+  List<dynamic>? lang;
+  List<dynamic>? awards;
+  String? photo;
   dynamic stars;
-  int popularity;
+  int? popularity;
   dynamic treatment;
   dynamic knowledge;
   dynamic cleaning;
@@ -50,33 +50,33 @@ class Doctor {
   dynamic totalCleaning;
   dynamic totalTreatment;
   dynamic totalknowledge;
-  List<dynamic> comments;
-  int doctor;
-  List<String> tags;
-  bool verification;
-  int type;
-  bool isActive;
-  String fee;
-  String email;
-  String fullname;
-  int id;
-  String address;
-  Category category;
-  String city;
-  String detail;
-  int gender;
-  String lname;
-  String name;
-  String phone;
-  String speciality;
-  List<Schedule> schedules;
+  List<dynamic>? comments;
+  int? doctor;
+  List<String>? tags;
+  bool? verification;
+  int? type;
+  bool? isActive;
+  String? fee;
+  String? email;
+  String? fullname;
+  int? id;
+  String? address;
+  Category? category;
+  String? city;
+  String? detail;
+  int? gender;
+  String? lname;
+  String? name;
+  String? phone;
+  String? speciality;
+  List<Schedule>? schedules;
   dynamic totalFeedbacks;
   dynamic averageRatings;
-  int totalExperience;
-  int day;
-  int month;
-  int year;
-  bool active;
+  int? totalExperience;
+  int? day;
+  int? month;
+  int? year;
+  bool? active;
 
   Doctor({
     this.datumId,
@@ -191,12 +191,12 @@ class Doctor {
 
   Map<String, dynamic> toJson() => {
         "_id": datumId,
-        "geometry": geometry.toJson(),
-        "Exp": exp == null ? null : List<dynamic>.from(exp.map((x) => x)),
-        "Edu": edu == null ? null : List<dynamic>.from(edu.map((x) => x)),
-        "Lang": lang == null ? null : List<dynamic>.from(lang.map((x) => x)),
+        "geometry": geometry!.toJson(),
+        "Exp": exp == null ? null : List<dynamic>.from(exp!.map((x) => x)),
+        "Edu": edu == null ? null : List<dynamic>.from(edu!.map((x) => x)),
+        "Lang": lang == null ? null : List<dynamic>.from(lang!.map((x) => x)),
         "Awards":
-            awards == null ? null : List<dynamic>.from(awards.map((x) => x)),
+            awards == null ? null : List<dynamic>.from(awards!.map((x) => x)),
         "photo": photo,
         "stars": stars,
         "popularity": popularity,
@@ -210,9 +210,9 @@ class Doctor {
         "totalknowledge": totalknowledge,
         "comments": comments == null
             ? null
-            : List<dynamic>.from(comments.map((x) => x)),
+            : List<dynamic>.from(comments!.map((x) => x)),
         "doctor": doctor,
-        "tags": tags == null ? null : List<dynamic>.from(tags.map((x) => x)),
+        "tags": tags == null ? null : List<dynamic>.from(tags!.map((x) => x)),
         "Verification": verification,
         "type": type,
         "is_active": isActive,
@@ -221,7 +221,7 @@ class Doctor {
         "fullname": fullname,
         "ID": id,
         "address": address,
-        "category": category == null ? null : category.toJson(),
+        "category": category == null ? null : category!.toJson(),
         "city": city,
         "detail": detail,
         "gender": gender,
@@ -231,7 +231,7 @@ class Doctor {
         "speciality": speciality,
         "schedules": schedules == null
             ? []
-            : List<dynamic>.from(schedules.map((x) => x.toJson())),
+            : List<dynamic>.from(schedules!.map((x) => x.toJson())),
         "totalFeedbacks": totalFeedbacks,
         "averageRatings": averageRatings,
         "totalExperience": totalExperience,
@@ -243,12 +243,12 @@ class Doctor {
 }
 
 class Schedule {
-  List<String> times;
-  List<dynamic> counts;
-  String id;
-  int dayOfWeek;
-  String user;
-  int v;
+  List<String>? times;
+  List<dynamic>? counts;
+  String? id;
+  int? dayOfWeek;
+  String? user;
+  int? v;
 
   Schedule({
     this.times,
@@ -269,8 +269,8 @@ class Schedule {
       );
 
   Map<String, dynamic> toJson() => {
-        "times": List<dynamic>.from(times.map((x) => x)),
-        "counts": List<dynamic>.from(counts.map((x) => x)),
+        "times": List<dynamic>.from(times!.map((x) => x)),
+        "counts": List<dynamic>.from(counts!.map((x) => x)),
         "_id": id,
         "dayOfWeek": dayOfWeek,
         "user": user,
@@ -279,8 +279,8 @@ class Schedule {
 }
 
 class Coordinate {
-  double lat;
-  double lng;
+  double? lat;
+  double? lng;
 
   Coordinate({
     this.lat,
@@ -299,16 +299,16 @@ class Coordinate {
 }
 
 class Feedback {
-  String comment;
-  String whoPosted;
-  String postedBy;
-  String photo;
-  String createAt;
-  String commentId;
-  int cleaningRating;
-  int satifyRating;
-  int expertiseRating;
-  String doctorId;
+  String? comment;
+  String? whoPosted;
+  String? postedBy;
+  String? photo;
+  String? createAt;
+  String? commentId;
+  int? cleaningRating;
+  int? satifyRating;
+  int? expertiseRating;
+  String? doctorId;
 
   Feedback({
     this.comment,

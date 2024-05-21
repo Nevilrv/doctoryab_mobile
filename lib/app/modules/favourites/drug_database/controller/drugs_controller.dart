@@ -42,7 +42,7 @@ class DrugsController extends GetxController {
 
   @override
   void onClose() {
-    bannerAd.dispose();
+    bannerAd!.dispose();
     // TODO: implement onClose
     super.onClose();
   }
@@ -164,29 +164,29 @@ class DrugsController extends GetxController {
           ? SizedBox()
           : Container(
               height: Get.height * 0.154,
-              width: bannerAd.size.width.toDouble(),
+              width: bannerAd!.size.width.toDouble(),
               alignment: Alignment.center,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: AdWidget(ad: bannerAd),
+                child: AdWidget(ad: bannerAd!),
               ),
             ),
     );
   }
 
-  UpdatedDrug argumentsData;
+  UpdatedDrug? argumentsData;
 
   setData(UpdatedDrug value) {
     print('======>value===>${value}');
 
     argumentsData = value ?? UpdatedDrug();
 
-    print('======>argumentsData===>${argumentsData.toJson()}');
+    print('======>argumentsData===>${argumentsData!.toJson()}');
   }
 
-  BannerAd bannerAd;
+  BannerAd? bannerAd;
   bool isLoadAd = false;
 
   bannerAds() {
@@ -209,14 +209,14 @@ class DrugsController extends GetxController {
         ),
         request: AdRequest());
     update();
-    return bannerAd.load();
+    return bannerAd!.load();
   }
 
   List<DrugFeedback> drugFeedback = [];
   bool isLoading = false;
   bool isLoadingFeedback = false;
   double ratings = 0.0;
-  void drugReview({String drugId}) {
+  void drugReview({String? drugId}) {
     isLoading = true;
     update();
     DrugDatabaseRepository()
@@ -239,7 +239,7 @@ class DrugsController extends GetxController {
     });
   }
 
-  void addDrugFeedback({String drugId, String rating}) {
+  void addDrugFeedback({String? drugId, String? rating}) {
     isLoadingFeedback = true;
     update();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -265,7 +265,7 @@ class DrugsController extends GetxController {
   }
 
   int selectedTest = 0;
-  SpeechRecognition speech;
+  SpeechRecognition? speech;
   bool speechRecognitionAvailable = false;
   bool isListening = false;
 
@@ -273,19 +273,19 @@ class DrugsController extends GetxController {
     isListening = false;
     // print('_MyAppState.activateSpeechRecognizer... ');
     speech = SpeechRecognition();
-    speech.setAvailabilityHandler(onSpeechAvailability);
-    speech.setRecognitionStartedHandler(onRecognitionStarted);
-    speech.setRecognitionResultHandler(onRecognitionResult);
-    speech.setRecognitionCompleteHandler(onRecognitionComplete);
-    speech.setErrorHandler(errorHandler);
-    speech.activate('en_US').then((res) {
+    speech?.setAvailabilityHandler(onSpeechAvailability);
+    speech?.setRecognitionStartedHandler(onRecognitionStarted);
+    speech?.setRecognitionResultHandler(onRecognitionResult);
+    speech?.setRecognitionCompleteHandler(onRecognitionComplete);
+    speech?.setErrorHandler(errorHandler);
+    speech?.activate('en_US').then((res) {
       speechRecognitionAvailable = res;
       update();
     });
   }
 
-  void start() => speech.activate('en_US').then((_) {
-        return speech.listen().then((result) {
+  void start() => speech?.activate('en_US').then((_) {
+        return speech?.listen().then((result) {
           // print('_MyAppState.start => result $result');
 
           isListening = result;
@@ -293,7 +293,7 @@ class DrugsController extends GetxController {
         });
       });
 
-  void stop() => speech.stop().then((_) {
+  void stop() => speech!.stop().then((_) {
         isListening = false;
         update();
       });

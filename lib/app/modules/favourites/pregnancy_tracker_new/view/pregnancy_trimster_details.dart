@@ -15,7 +15,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
-  PregnancyTrimster({Key key}) : super(key: key);
+  PregnancyTrimster({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,15 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
       backgroundColor: Color(0xffF2F2F2),
       body: GetBuilder<PregnancyTrackerNewController>(
         builder: (controller) {
-          Jalali c;
-          Jalali d;
+          Jalali? c;
+          Jalali? d;
           if (controller.isLoading == true) {
           } else {
             DateTime conceptionDate =
-                DateTime.parse(controller.pregnancyData.conceptionDate);
+                DateTime.parse(controller.pregnancyData!.conceptionDate!);
             c = conceptionDate.toJalali();
-            DateTime dueDate = DateTime.parse(controller.pregnancyData.dueDate);
+            DateTime dueDate =
+                DateTime.parse(controller.pregnancyData!.dueDate!);
             d = dueDate.toJalali();
           }
 
@@ -91,7 +92,7 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                     },
                                     onTapYes: () {
                                       controller.deleteTracker(
-                                          id: controller.pregnancyData.id,
+                                          id: controller.pregnancyData!.id,
                                           context: context);
                                       Get.offNamedUntil(
                                           Routes.PREGNANCY_TRACKER_NEW,
@@ -161,11 +162,11 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                       lineHeight: h * 0.05,
                                       animationDuration: 2500,
                                       percent: (controller
-                                              .pregnancyData
-                                              .ptModules[controller.weekCount]
-                                              .week /
-                                          controller.pregnancyData.ptModules
-                                              .last.week),
+                                              .pregnancyData!
+                                              .ptModules![controller.weekCount]
+                                              .week! /
+                                          controller.pregnancyData!.ptModules!
+                                              .last.week!),
                                       center: RotatedBox(
                                         quarterTurns:
                                             SettingsController.appLanguge ==
@@ -173,7 +174,7 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                                 ? 4
                                                 : 2,
                                         child: Text(
-                                          "${'week'.tr}: ${controller.pregnancyData.ptModules[controller.weekCount].week}",
+                                          "${'week'.tr}: ${controller.pregnancyData?.ptModules?[controller.weekCount].week}",
                                           style: TextStyle(
                                             color: AppColors.black,
                                             fontWeight: FontWeight.w600,
@@ -189,11 +190,11 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    log('---------sss?/${controller.pregnancyData.ptModules[controller.weekCount].week}');
+                                    log('---------sss?/${controller.pregnancyData?.ptModules?[controller.weekCount].week}');
 
                                     if (controller
-                                            .pregnancyData
-                                            .ptModules[controller.weekCount]
+                                            .pregnancyData!
+                                            .ptModules![controller.weekCount]
                                             .week ==
                                         39) {
                                       AppGetDialog.pregnancyComplete(
@@ -209,14 +210,14 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                         },
                                       );
                                     } else if (controller
-                                            .pregnancyData
-                                            .ptModules[controller.weekCount]
+                                            .pregnancyData!
+                                            .ptModules![controller.weekCount]
                                             .week ==
-                                        controller.pregnancyData.ptModules.last
-                                            .week) {
+                                        controller.pregnancyData!.ptModules!
+                                            .last.week) {
                                       Get.toNamed(Routes.PREGNANCY_COMPLETION);
                                     } else if (controller.weekCount <
-                                        controller.pregnancyData.ptModules
+                                        controller.pregnancyData!.ptModules!
                                                 .length -
                                             1) {
                                       controller.incrementTrimster();
@@ -244,27 +245,29 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                   horizontal: w * 0.04, vertical: h * 0.03),
                               decoration: BoxDecoration(
                                 color: (controller
-                                                .pregnancyData
-                                                .ptModules[controller.weekCount]
-                                                .week >
+                                                .pregnancyData!
+                                                .ptModules![
+                                                    controller.weekCount]
+                                                .week! >
                                             0 &&
                                         controller
-                                                .pregnancyData
-                                                .ptModules[controller.weekCount]
-                                                .week <
+                                                .pregnancyData!
+                                                .ptModules![
+                                                    controller.weekCount]
+                                                .week! <
                                             13)
                                     ? Color(0xffE1F0DA)
                                     : (controller
-                                                    .pregnancyData
-                                                    .ptModules[
+                                                    .pregnancyData!
+                                                    .ptModules![
                                                         controller.weekCount]
-                                                    .week >
+                                                    .week! >
                                                 12 &&
                                             controller
-                                                    .pregnancyData
-                                                    .ptModules[
+                                                    .pregnancyData!
+                                                    .ptModules![
                                                         controller.weekCount]
-                                                    .week <
+                                                    .week! <
                                                 28)
                                         ? Color(0xffF2E5FF)
                                         : Color(0xffFFDEE8),
@@ -298,8 +301,8 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                             Text(
                                               SettingsController.appLanguge ==
                                                       'English'
-                                                  ? "${DateFormat('EE, dd MMM yyyy').format(DateTime.parse(controller.pregnancyData.conceptionDate))}"
-                                                  : '${c.formatter.wN}, ${c.formatter.d}-${c.formatter.mm}-${c.formatter.yyyy}',
+                                                  ? "${DateFormat('EE, dd MMM yyyy').format(DateTime.parse(controller.pregnancyData!.conceptionDate.toString()))}"
+                                                  : '${c!.formatter.wN}, ${c.formatter.d}-${c.formatter.mm}-${c.formatter.yyyy}',
                                               style: TextStyle(
                                                 color: AppColors.black,
                                                 fontWeight: FontWeight.w500,
@@ -333,8 +336,8 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                             Text(
                                               SettingsController.appLanguge ==
                                                       'English'
-                                                  ? "${DateFormat('EE, dd MMM yyyy').format(DateTime.parse(controller.pregnancyData.dueDate))}"
-                                                  : '${d.formatter.wN}, ${d.formatter.d}-${d.formatter.mm}-${d.formatter.yyyy}',
+                                                  ? "${DateFormat('EE, dd MMM yyyy').format(DateTime.parse(controller.pregnancyData!.dueDate.toString()))}"
+                                                  : '${d!.formatter.wN}, ${d.formatter.d}-${d.formatter.mm}-${d.formatter.yyyy}',
                                               style: TextStyle(
                                                 color: AppColors.black,
                                                 fontWeight: FontWeight.w500,
@@ -356,31 +359,29 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                         Image.network(
                                             ApiConsts.hostUrl +
                                                 controller
-                                                    .pregnancyData
-                                                    .ptModules[
+                                                    .pregnancyData!
+                                                    .ptModules![
                                                         controller.weekCount]
-                                                    .img,
+                                                    .img
+                                                    .toString(),
                                             height: h * 0.21),
-                                        SizedBox(
-                                          width: w * 0.04,
-                                        ),
-                                        new CircularPercentIndicator(
-                                          radius: h * 0.168,
+                                        CircularPercentIndicator(
+                                          radius: h * 0.09,
                                           lineWidth: w * 0.03,
                                           animation: true,
                                           percent: controller
-                                                  .pregnancyData
-                                                  .ptModules[
+                                                  .pregnancyData!
+                                                  .ptModules![
                                                       controller.weekCount]
-                                                  .week /
-                                              controller.pregnancyData.ptModules
-                                                  .last.week,
+                                                  .week! /
+                                              controller.pregnancyData!
+                                                  .ptModules!.last.week!,
                                           center: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${controller.pregnancyData.ptModules[controller.weekCount].trimister} ${'trimster'.tr}',
+                                                '${controller.pregnancyData?.ptModules?[controller.weekCount].trimister} ${'trimster'.tr}',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   color: AppColors.black,
@@ -394,7 +395,7 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                                 color: Color(0xff737373),
                                               ),
                                               Text(
-                                                '${((controller.pregnancyData.ptModules.last.week - controller.pregnancyData.ptModules[controller.weekCount].week) * 7)} ${'days_left'.tr}',
+                                                '${((controller.pregnancyData!.ptModules!.last.week! - controller.pregnancyData!.ptModules![controller.weekCount].week!) * 7)} ${'days_left'.tr}',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w400,
                                                   color: AppColors.black,
@@ -416,29 +417,29 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                     width: w,
                                     decoration: BoxDecoration(
                                       color: (controller
-                                                      .pregnancyData
-                                                      .ptModules[
+                                                      .pregnancyData!
+                                                      .ptModules![
                                                           controller.weekCount]
-                                                      .week >
+                                                      .week! >
                                                   0 &&
                                               controller
-                                                      .pregnancyData
-                                                      .ptModules[
+                                                      .pregnancyData!
+                                                      .ptModules![
                                                           controller.weekCount]
-                                                      .week <
+                                                      .week! <
                                                   13)
                                           ? Color(0xff80CBC4)
                                           : (controller
-                                                          .pregnancyData
-                                                          .ptModules[controller
+                                                          .pregnancyData!
+                                                          .ptModules![controller
                                                               .weekCount]
-                                                          .week >
+                                                          .week! >
                                                       12 &&
                                                   controller
-                                                          .pregnancyData
-                                                          .ptModules[controller
+                                                          .pregnancyData!
+                                                          .ptModules![controller
                                                               .weekCount]
-                                                          .week <
+                                                          .week! <
                                                       28)
                                               ? Color(0xffBC92FF)
                                               : Color(0xffFFA4A4),
@@ -463,24 +464,25 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                                 SettingsController.appLanguge ==
                                                         'English'
                                                     ? controller
-                                                            .pregnancyData
-                                                            .ptModules[controller
-                                                                .weekCount]
+                                                            .pregnancyData!
+                                                            .ptModules![
+                                                                controller
+                                                                    .weekCount]
                                                             .sizeEnglish ??
                                                         "None"
                                                     : SettingsController
                                                                 .appLanguge ==
                                                             'پشتو'
                                                         ? controller
-                                                                .pregnancyData
-                                                                .ptModules[
+                                                                .pregnancyData!
+                                                                .ptModules![
                                                                     controller
                                                                         .weekCount]
                                                                 .sizePashto ??
                                                             "None"
                                                         : controller
-                                                                .pregnancyData
-                                                                .ptModules[
+                                                                .pregnancyData!
+                                                                .ptModules![
                                                                     controller
                                                                         .weekCount]
                                                                 .sizeDari ??
@@ -506,24 +508,25 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                                 SettingsController.appLanguge ==
                                                         'English'
                                                     ? controller
-                                                            .pregnancyData
-                                                            .ptModules[controller
-                                                                .weekCount]
+                                                            .pregnancyData!
+                                                            .ptModules![
+                                                                controller
+                                                                    .weekCount]
                                                             .weightEnglish ??
                                                         "None"
                                                     : SettingsController
                                                                 .appLanguge ==
                                                             'پشتو'
                                                         ? controller
-                                                                .pregnancyData
-                                                                .ptModules[
+                                                                .pregnancyData!
+                                                                .ptModules![
                                                                     controller
                                                                         .weekCount]
                                                                 .weightPashto ??
                                                             "None"
                                                         : controller
-                                                                .pregnancyData
-                                                                .ptModules[
+                                                                .pregnancyData!
+                                                                .ptModules![
                                                                     controller
                                                                         .weekCount]
                                                                 .weightDari ??
@@ -549,24 +552,25 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                                 SettingsController.appLanguge ==
                                                         'English'
                                                     ? controller
-                                                            .pregnancyData
-                                                            .ptModules[controller
-                                                                .weekCount]
+                                                            .pregnancyData!
+                                                            .ptModules![
+                                                                controller
+                                                                    .weekCount]
                                                             .lengthEnglish ??
                                                         "None"
                                                     : SettingsController
                                                                 .appLanguge ==
                                                             'پشتو'
                                                         ? controller
-                                                                .pregnancyData
-                                                                .ptModules[
+                                                                .pregnancyData!
+                                                                .ptModules![
                                                                     controller
                                                                         .weekCount]
                                                                 .lengthPashto ??
                                                             "None"
                                                         : controller
-                                                                .pregnancyData
-                                                                .ptModules[
+                                                                .pregnancyData!
+                                                                .ptModules![
                                                                     controller
                                                                         .weekCount]
                                                                 .lengthDari ??
@@ -601,18 +605,27 @@ class PregnancyTrimster extends GetView<PregnancyTrackerNewController> {
                                   EdgeInsets.symmetric(horizontal: w * 0.05),
                               child: Html(
                                 data: SettingsController.appLanguge == 'English'
-                                    ? "${controller.pregnancyData.ptModules[controller.weekCount].weekInfoEnglish}"
+                                    ? "${controller.pregnancyData!.ptModules![controller.weekCount].weekInfoEnglish}"
                                     : SettingsController.appLanguge == 'پشتو'
-                                        ? "${controller.pregnancyData.ptModules[controller.weekCount].weekInfoPashto}"
-                                        : "${controller.pregnancyData.ptModules[controller.weekCount].weekInfoDari}",
-                                customTextAlign: (_) =>
-                                    SettingsController.appLanguge == "English"
+                                        ? "${controller.pregnancyData!.ptModules![controller.weekCount].weekInfoPashto}"
+                                        : "${controller.pregnancyData!.ptModules![controller.weekCount].weekInfoDari}",
+
+                                style: {
+                                  'html': Style(
+                                    textAlign: SettingsController.appLanguge ==
+                                            "English"
                                         ? TextAlign.left
                                         : TextAlign.right,
-                                onImageError: (exception, stackTrace) {
-                                  return Image.network(
-                                      "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                                  ),
                                 },
+                                // customTextAlign: (_) =>
+                                //     SettingsController.appLanguge == "English"
+                                //         ? TextAlign.left
+                                //         : TextAlign.right,
+                                // onImageError: (exception, stackTrace) {
+                                //   return Image.network(
+                                //       "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                                // },
                               ),
                             ),
                           ],

@@ -5,10 +5,10 @@ import '../theme/AppColors.dart';
 
 class StoryAvatar extends StatelessWidget {
   const StoryAvatar({
-    Key key,
-    @required this.assetPath,
-    @required this.isActive,
-    this.onTap,
+    Key? key,
+    required this.assetPath,
+    required this.isActive,
+    required this.onTap,
   }) : super(key: key);
   final String assetPath;
   final bool isActive;

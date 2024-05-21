@@ -33,19 +33,19 @@
 //   }
 // }
 class User {
-  Geometry geometry;
-  String photo;
-  String id;
-  String email;
-  String name;
-  String language;
-  String fcm;
-  String createAt;
-  String patientID;
-  String gender;
-  String phone;
-  int v;
-  int age;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? email;
+  String? name;
+  String? language;
+  String? fcm;
+  String? createAt;
+  String? patientID;
+  String? gender;
+  String? phone;
+  int? v;
+  int? age;
 
   User({
     this.geometry,
@@ -82,7 +82,7 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "_id": id,
         "email": email,
@@ -99,8 +99,8 @@ class User {
 }
 
 class Geometry {
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry({
     this.type,
@@ -115,6 +115,6 @@ class Geometry {
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

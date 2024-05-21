@@ -2,26 +2,23 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/booking_info_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
-import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
   Package item;
-  CheckUpDetailScreen(this.item, {Key key}) : super(key: key);
+  CheckUpDetailScreen(this.item, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -422,7 +419,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                               SizedBox(
                                 height: 5,
                               ),
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
                                   : Row(
                                       children: [
@@ -460,7 +457,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                         GestureDetector(
                                           onTap: () {
                                             buildShowModalBottomSheet(context,
-                                                h, item.packageInclude);
+                                                h, item.packageInclude!);
                                           },
                                           child: Container(
                                             width: 120,
@@ -487,12 +484,12 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                         ),
                                       ],
                                     ),
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
                                   : SizedBox(
                                       height: 5,
                                     ),
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
                                   : Wrap(
                                       crossAxisAlignment:
@@ -503,7 +500,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                       runSpacing: 10,
                                       spacing: 05,
                                       children: List.generate(
-                                        item.packageInclude.length,
+                                        item.packageInclude!.length,
                                         (index) => IntrinsicWidth(
                                           child: GestureDetector(
                                             onTap: () {
@@ -538,8 +535,11 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                                       width: 2,
                                                     ),
                                                     Text(
-                                                      item.packageInclude[index]
-                                                          .testTitle,
+                                                      item
+                                                          .packageInclude![
+                                                              index]
+                                                          .testTitle
+                                                          .toString(),
                                                       style: AppTextTheme.b(10)
                                                           .copyWith(
                                                         color: AppColors.white,
@@ -554,15 +554,17 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                       ),
                                     ),
 
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
                                   : Divider(
                                       thickness: 1,
                                       color: AppColors.grey3,
                                     ),
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
-                                  : item.packageInclude[controller.selectedTest]
+                                  : item
+                                              .packageInclude![
+                                                  controller.selectedTest]
                                               .testDesc ==
                                           ""
                                       ? SizedBox()
@@ -582,18 +584,22 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                             ),
                                           ],
                                         ),
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
-                                  : item.packageInclude[controller.selectedTest]
+                                  : item
+                                              .packageInclude![
+                                                  controller.selectedTest]
                                               .testDesc ==
                                           ""
                                       ? SizedBox()
                                       : SizedBox(
                                           height: 5,
                                         ),
-                              item.packageInclude.isEmpty
+                              item.packageInclude!.isEmpty
                                   ? SizedBox()
-                                  : item.packageInclude[controller.selectedTest]
+                                  : item
+                                              .packageInclude![
+                                                  controller.selectedTest]
                                               .testDesc ==
                                           ""
                                       ? SizedBox()
@@ -610,17 +616,20 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                                   const EdgeInsets.all(10.0),
                                               child: Html(
                                                 data: item
-                                                        .packageInclude[
+                                                        .packageInclude![
                                                             controller
                                                                 .selectedTest]
                                                         .testDesc ??
                                                     "",
-                                                defaultTextStyle: AppTextStyle
-                                                    .boldPrimary12
-                                                    .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.black6,
-                                                ),
+                                                style: {
+                                                  'html': Style(
+                                                      color: AppColors.black6,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: FontSize(12),
+                                                      fontFamily: AppFonts
+                                                          .acuminSemiCond),
+                                                },
                                               ) /* ExpandableText(
                                "${item.packageInclude[controller.selectedTest].testDesc}",
                                expandText: 'Read more',
@@ -986,7 +995,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
   }
 
   Widget commonTitleBox({
-    String text,
+    String? text,
     Color color = AppColors.lightPurple,
     Color textColor = AppColors.primary,
   }) {
@@ -998,7 +1007,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
         borderRadius: BorderRadius.circular(3),
       ),
       child: Text(
-        text,
+        text.toString(),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: AppTextStyle.regularPrimary10.copyWith(color: textColor),
@@ -1118,7 +1127,7 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item[index].testTitle,
+                                      item[index].testTitle.toString(),
                                       style: AppTextStyle.boldGrey12.copyWith(
                                           color: AppColors.grey6,
                                           fontWeight: FontWeight.w500),
@@ -1129,11 +1138,16 @@ class CheckUpDetailScreen extends GetView<CheckupPackagesController> {
                                     Container(
                                       width: Get.width * 0.72,
                                       child: Html(
-                                          data: item[index].testDesc,
-                                          defaultTextStyle:
-                                              AppTextStyle.boldGrey10.copyWith(
-                                                  color: AppColors.grey6,
-                                                  fontWeight: FontWeight.w400)),
+                                        data: item[index].testDesc,
+                                        style: {
+                                          'html': Style(
+                                              color: AppColors.grey6,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: FontSize(10),
+                                              fontFamily:
+                                                  AppFonts.acuminSemiCond),
+                                        },
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 5,

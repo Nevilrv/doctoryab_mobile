@@ -10,6 +10,7 @@ import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
+import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
@@ -20,8 +21,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
-  PackageHistory history;
-  BasketSubDetailScreen({Key key, this.history}) : super(key: key);
+  PackageHistory? history;
+  BasketSubDetailScreen({Key? key, this.history}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                 width: w,
                                 child: CachedNetworkImage(
                                   imageUrl:
-                                      "${ApiConsts.hostUrl}${history.packageId.img}",
+                                      "${ApiConsts.hostUrl}${history?.packageId?.img}",
                                   fit: BoxFit.cover,
                                   placeholder: (_, __) {
                                     return Image.asset(
@@ -109,7 +110,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                             ),
                             Center(
                               child: Text(
-                                history.packageId.title ?? "",
+                                history?.packageId?.title ?? "",
                                 style: AppTextStyle.boldBlack18.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -120,7 +121,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                             ),
                             RichText(
                               text: new TextSpan(
-                                text: history.packageId.description ?? "",
+                                text: history?.packageId?.description ?? "",
                                 style: AppTextStyle.boldBlack12.copyWith(
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -151,13 +152,13 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                   width: 30,
                                 ),
                                 Text(
-                                  history.packageId.price ?? "0.0",
+                                  history?.packageId?.price ?? "0.0",
                                   style: AppTextTheme.b(25)
                                       .copyWith(color: AppColors.grey),
                                 ),
                                 Spacer(),
-                                history.packageId.discount == "0" ||
-                                        history.packageId.discount == null
+                                history?.packageId?.discount == "0" ||
+                                        history?.packageId?.discount == null
                                     ? SizedBox()
                                     : Container(
                                         width: 100,
@@ -174,7 +175,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                               vertical: 5, horizontal: 10),
                                           child: Center(
                                             child: Text(
-                                              "${history.packageId.discount ?? 0} ${"OFF".tr}",
+                                              "${history?.packageId?.discount ?? 0} ${"OFF".tr}",
                                               style:
                                                   AppTextTheme.b(15).copyWith(
                                                 color: AppColors.red2,
@@ -184,8 +185,8 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                         ),
                                       ),
                                 Spacer(),
-                                history.packageId.discount == "0" ||
-                                        history.packageId.discount == null
+                                history?.packageId?.discount == "0" ||
+                                        history?.packageId?.discount == null
                                     ? SizedBox()
                                     : Row(
                                         children: [
@@ -195,7 +196,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                             width: 30,
                                           ),
                                           Text(
-                                            history.packageId.rrp ?? "0.0",
+                                            history?.packageId?.rrp ?? "0.0",
                                             style: AppTextTheme.b(25).copyWith(
                                                 color: AppColors.grey
                                                     .withOpacity(0.5),
@@ -240,7 +241,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "${history.packageId.duration}",
+                                  "${history?.packageId?.duration}",
                                   style: AppTextStyle.mediumBlack12,
                                 ),
                               ],
@@ -293,7 +294,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                         vertical: 5, horizontal: 10),
                                     child: Center(
                                       child: Text(
-                                        "${history.packageId.sampleType ?? ""}",
+                                        "${history?.packageId?.sampleType ?? ""}",
                                         style: AppTextTheme.b(10).copyWith(
                                           color: AppColors.red2,
                                         ),
@@ -346,7 +347,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                         vertical: 5, horizontal: 10),
                                     child: Center(
                                       child: Text(
-                                        "${history.packageId.fastingRequired ?? ""}",
+                                        "${history?.packageId?.fastingRequired ?? ""}",
                                         style: AppTextTheme.b(10).copyWith(
                                           color: AppColors.red2,
                                         ),
@@ -359,7 +360,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                             SizedBox(
                               height: 5,
                             ),
-                            history.packageId.packageInclude.isEmpty
+                            history?.packageId?.packageInclude?.isEmpty ?? true
                                 ? SizedBox()
                                 : Row(
                                     children: [
@@ -396,8 +397,11 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          buildShowModalBottomSheet(context, h,
-                                              history.packageId.packageInclude);
+                                          buildShowModalBottomSheet(
+                                              context,
+                                              h,
+                                              history!
+                                                  .packageId!.packageInclude!);
                                         },
                                         child: Container(
                                           width: 120,
@@ -422,18 +426,19 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                       ),
                                     ],
                                   ),
-                            history.packageId.packageInclude.isEmpty
+                            history!.packageId!.packageInclude!.isEmpty
                                 ? SizedBox()
                                 : SizedBox(
                                     height: 5,
                                   ),
-                            history.packageId.packageInclude.isEmpty
+                            history!.packageId!.packageInclude!.isEmpty
                                 ? SizedBox()
                                 : SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: List.generate(
-                                        history.packageId.packageInclude.length,
+                                        history!
+                                            .packageId!.packageInclude!.length,
                                         (index) => Padding(
                                           padding:
                                               const EdgeInsets.only(left: 10),
@@ -466,11 +471,12 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                                         width: 5,
                                                       ),
                                                       Text(
-                                                        history
-                                                            .packageId
-                                                            .packageInclude[
+                                                        history!
+                                                            .packageId!
+                                                            .packageInclude![
                                                                 index]
-                                                            .testTitle,
+                                                            .testTitle
+                                                            .toString(),
                                                         style:
                                                             AppTextTheme.b(10)
                                                                 .copyWith(
@@ -489,17 +495,17 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                     ),
                                   ),
 
-                            history.packageId.packageInclude.isEmpty
+                            history!.packageId!.packageInclude!.isEmpty
                                 ? SizedBox()
                                 : Divider(
                                     thickness: 1,
                                     color: AppColors.grey3,
                                   ),
-                            history.packageId.packageInclude.isEmpty
+                            history!.packageId!.packageInclude!.isEmpty
                                 ? SizedBox()
-                                : history
-                                            .packageId
-                                            .packageInclude[
+                                : history!
+                                            .packageId!
+                                            .packageInclude![
                                                 controller.selectedTest]
                                             .testDesc ==
                                         ""
@@ -519,11 +525,11 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                           ),
                                         ],
                                       ),
-                            history.packageId.packageInclude.isEmpty
+                            history!.packageId!.packageInclude!.isEmpty
                                 ? SizedBox()
-                                : history
-                                            .packageId
-                                            .packageInclude[
+                                : history!
+                                            .packageId!
+                                            .packageInclude![
                                                 controller.selectedTest]
                                             .testDesc ==
                                         ""
@@ -531,11 +537,11 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                     : SizedBox(
                                         height: 5,
                                       ),
-                            history.packageId.packageInclude.isEmpty
+                            history!.packageId!.packageInclude!.isEmpty
                                 ? SizedBox()
-                                : history
-                                            .packageId
-                                            .packageInclude[
+                                : history!
+                                            .packageId!
+                                            .packageInclude![
                                                 controller.selectedTest]
                                             .testDesc ==
                                         ""
@@ -551,18 +557,29 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                         child: Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Html(
-                                              data: history
-                                                      .packageId
-                                                      .packageInclude[controller
-                                                          .selectedTest]
+                                              data: history!
+                                                      .packageId!
+                                                      .packageInclude![
+                                                          controller
+                                                              .selectedTest]
                                                       .testDesc ??
                                                   "",
-                                              defaultTextStyle: AppTextStyle
-                                                  .boldPrimary12
-                                                  .copyWith(
-                                                fontWeight: FontWeight.w500,
-                                                color: AppColors.black6,
-                                              ),
+
+                                              style: {
+                                                'html': Style(
+                                                    color: AppColors.black6,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: FontSize(12),
+                                                    fontFamily: AppFonts
+                                                        .acuminSemiCond),
+                                              },
+
+                                              // defaultTextStyle: AppTextStyle
+                                              //     .boldPrimary12
+                                              //     .copyWith(
+                                              //   fontWeight: FontWeight.w500,
+                                              //   color: AppColors.black6,
+                                              // ),
                                             ) /* ExpandableText(
                                "${item.packageInclude[controller.selectedTest].testDesc}",
                                expandText: 'Read more',
@@ -585,7 +602,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                               children: [
                                 CachedNetworkImage(
                                   imageUrl:
-                                      "${ApiConsts.hostUrl}${history.packageId.observerImg}",
+                                      "${ApiConsts.hostUrl}${history?.packageId?.observerImg}",
                                   height: 10,
                                   width: 13,
                                   fit: BoxFit.cover,
@@ -606,7 +623,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "${history.packageId.byObservation}",
+                                  "${history?.packageId?.byObservation}",
                                   style: AppTextStyle.mediumBlack12,
                                 ),
                                 // Text(
@@ -902,7 +919,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 20,
                                                         vertical: 10),
                                                     child: Column(
@@ -1023,8 +1040,8 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                                           onTap: () {
                                                             controller.addPackageFeedback(
                                                                 packageId: history
-                                                                    .packageId
-                                                                    .id,
+                                                                    ?.packageId
+                                                                    ?.id,
                                                                 rating: controller
                                                                     .ratings
                                                                     .toString());
@@ -1038,11 +1055,13 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                                                 color: AppColors
                                                                     .primary),
                                                             child: Padding(
-                                                              padding: const EdgeInsets
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal:
-                                                                      10,
-                                                                  vertical: 5),
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          5),
                                                               child: Center(
                                                                   child: Row(
                                                                 mainAxisAlignment:
@@ -1233,7 +1252,7 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item[index].testTitle,
+                                      item[index].testTitle.toString(),
                                       style: AppTextStyle.boldGrey12.copyWith(
                                           color: AppColors.grey6,
                                           fontWeight: FontWeight.w500),
@@ -1244,11 +1263,16 @@ class BasketSubDetailScreen extends GetView<CheckupPackagesController> {
                                     Container(
                                       width: Get.width * 0.72,
                                       child: Html(
-                                          data: item[index].testDesc,
-                                          defaultTextStyle:
-                                              AppTextStyle.boldGrey10.copyWith(
-                                                  color: AppColors.grey6,
-                                                  fontWeight: FontWeight.w400)),
+                                        data: item[index].testDesc,
+                                        style: {
+                                          'html': Style(
+                                              color: AppColors.grey6,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: FontSize(10),
+                                              fontFamily:
+                                                  AppFonts.acuminSemiCond),
+                                        },
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 5,

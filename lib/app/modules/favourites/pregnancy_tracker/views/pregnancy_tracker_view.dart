@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
-  PregnancyTrackerView({Key key}) : super(key: key);
+  PregnancyTrackerView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -139,14 +139,14 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
           ),
           GestureDetector(
             onTap: () {
-              controller.pageController.index = 0;
+              controller.pageController?.index = 0;
               controller.update();
             },
             child: Container(
               height: h * 0.055,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: controller.pageController.index == 0
+                color: controller.pageController?.index == 0
                     ? AppColors.white
                     : AppColors.primary,
                 border: Border.all(
@@ -157,7 +157,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               child: Center(
                 child: Text(
                   "calc".tr,
-                  style: controller.pageController.index == 0
+                  style: controller.pageController?.index == 0
                       ? AppTextStyle.boldPrimary15
                       : AppTextStyle.boldWhite15,
                 ),
@@ -166,7 +166,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
           ),
           GestureDetector(
             onTap: () {
-              controller.pageController.index = 1;
+              controller.pageController?.index = 1;
               controller.update();
             },
             child: Container(
@@ -174,7 +174,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               margin: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: controller.pageController.index == 0
+                color: controller.pageController?.index == 0
                     ? AppColors.primary
                     : AppColors.white,
                 border: Border.all(
@@ -185,7 +185,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               child: Center(
                 child: Text(
                   "calender".tr,
-                  style: controller.pageController.index == 0
+                  style: controller.pageController?.index == 0
                       ? AppTextStyle.boldWhite15
                       : AppTextStyle.boldPrimary15,
                 ),

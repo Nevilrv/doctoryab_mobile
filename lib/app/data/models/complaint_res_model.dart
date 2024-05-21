@@ -11,8 +11,8 @@ String complaintResModelToJson(ComplaintResModel data) =>
     json.encode(data.toJson());
 
 class ComplaintResModel {
-  String msg;
-  Data data;
+  String? msg;
+  Data? data;
 
   ComplaintResModel({
     this.msg,
@@ -27,18 +27,18 @@ class ComplaintResModel {
 
   Map<String, dynamic> toJson() => {
         "msg": msg,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class Data {
-  String img;
-  String id;
-  String title;
-  String desc;
-  String user;
-  String createAt;
-  int v;
+  String? img;
+  String? id;
+  String? title;
+  String? desc;
+  String? user;
+  String? createAt;
+  int? v;
 
   Data({
     this.img,

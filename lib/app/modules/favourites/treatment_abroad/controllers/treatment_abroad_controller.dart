@@ -108,7 +108,7 @@ class TreatmentAbroadController extends GetxController {
 
   var attachmentFile = "".obs;
   void pickAttachment() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: [
           'jpeg',
@@ -121,6 +121,6 @@ class TreatmentAbroadController extends GetxController {
           "PDF"
         ],
         allowMultiple: false);
-    attachmentFile.value = result.files[0].path;
+    attachmentFile.value = result!.files[0].path!;
   }
 }

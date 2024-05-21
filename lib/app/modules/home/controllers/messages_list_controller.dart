@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/chat_list_api_model.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import '../../../routes/app_pages.dart';
 
 class MessagesListController extends GetxController {
   final isLoading = true.obs;
-  var filterSearch = RxString(null);
+  var filterSearch = RxnString();
   TextEditingController teSearchController = TextEditingController();
 
   var sending = false.obs;
@@ -46,8 +48,8 @@ class MessagesListController extends GetxController {
         sending(false);
         Get.toNamed(Routes.CHAT,
                 arguments: ChatListApiModel(
-                    id: value.chat.id, chatName: value.chat.chatName))
-            .then((value) {
+                    id: value.chat!.id, chatName: value.chat!.chatName))
+            ?.then((value) {
           try {
             reloadChats();
           } catch (e) {}
@@ -138,6 +140,7 @@ class MessagesListController extends GetxController {
   void onInit() {
     // chats.value = [_systemChat, ...userChats];
     chats.value = [...userChats];
+
     debounce(filterSearch, (_) {
       // // if (teSearchController.text.trim() != "") {
       // pagingController.error = null;
@@ -168,7 +171,7 @@ class MessagesListController extends GetxController {
   }
 
   Future<void> loadChatList({bool cleanTheArray = false}) async {
-    await ChatRepository.fetchChatList(filterSearch.value,
+    await ChatRepository.fetchChatList(filterSearch.value ?? "",
         cancelToken: chatCancelToken, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         // isLoading.value = false;
@@ -191,6 +194,7 @@ class MessagesListController extends GetxController {
       //   );
       // }).toList();
       // if (cleanTheArray) {
+      log('value ---------->>>>>>>> ${value}');
       chats.clear();
       // }
       chats.addAll(value);

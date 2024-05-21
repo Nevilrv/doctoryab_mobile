@@ -52,7 +52,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                 controller.cancelToken.cancel();
               });
               controller.cancelToken = new CancelToken();
-              controller.pageController.itemList.clear();
+              controller.pageController.itemList?.clear();
               controller.loadData(
                 controller.pageController.firstPageKey,
               );
@@ -76,8 +76,8 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                 List<LatLng> latLng = [];
                                 controller.locationData.forEach((element) {
                                   if (element.coordinates != null) {
-                                    latLng.add(LatLng(element.coordinates[1],
-                                        element.coordinates[0]));
+                                    latLng.add(LatLng(element.coordinates![1],
+                                        element.coordinates![0]));
                                   }
                                 });
                                 Get.to(MapScreen(
@@ -205,14 +205,14 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                         textAlignVertical: TextAlignVertical.center,
                         onChanged: (s) async {
                           if (s.isEmpty) {
-                            controller.pageController.itemList.clear();
+                            controller.pageController.itemList?.clear();
                             controller.loadData(
                               controller.pageController.firstPageKey,
                             );
                           }
                         },
                         onSubmitted: (value) {
-                          controller.pageController.itemList.clear();
+                          controller.pageController.itemList!.clear();
                           controller.searchData(
                             controller.pageController.firstPageKey,
                           );
@@ -281,7 +281,8 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                           .map((item) => GestureDetector(
                                                 onTap: () async {
                                                   if (!await launchUrl(
-                                                      Uri.parse(item.link))) {
+                                                      Uri.parse(item.link
+                                                          .toString()))) {
                                                     throw Exception(
                                                         'Could not launch ${item.link}');
                                                   }
@@ -388,7 +389,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                             return SizedBox(height: 5);
                           }
                         },
-                        builderDelegate: PagedChildBuilderDelegate(
+                        builderDelegate: PagedChildBuilderDelegate<Hospital>(
                           itemBuilder: (context, item, index) {
                             return buildItem(w, item, h, context);
                           },

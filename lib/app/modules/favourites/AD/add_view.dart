@@ -12,7 +12,7 @@ class AddAd extends StatefulWidget {
 
 class AddAdState extends State<AddAd> {
   //ad setup
-  BannerAd _bannerAd;
+  BannerAd? _bannerAd;
   bool _isBannerAdReady = false;
 
   @override
@@ -38,7 +38,7 @@ class AddAdState extends State<AddAd> {
       ),
     );
 
-    _bannerAd.load();
+    _bannerAd!.load();
     setState(() {});
 
     super.initState();
@@ -46,7 +46,7 @@ class AddAdState extends State<AddAd> {
 
   @override
   void dispose() {
-    _bannerAd.dispose();
+    _bannerAd!.dispose();
     super.dispose();
   }
 
@@ -56,12 +56,12 @@ class AddAdState extends State<AddAd> {
     return _isBannerAdReady == true
         ? Container(
             height: Get.height * 0.1,
-            width: _bannerAd.size.width.toDouble(),
+            width: _bannerAd!.size.width.toDouble(),
             alignment: Alignment.center,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: AdWidget(ad: _bannerAd),
+              child: AdWidget(ad: _bannerAd!),
             ),
           )
         : Container(

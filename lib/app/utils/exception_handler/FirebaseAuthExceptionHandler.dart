@@ -1,7 +1,6 @@
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 
 class FirebaseAuthExceptionHandler {
@@ -25,7 +24,7 @@ class FirebaseAuthExceptionHandler {
         }
       default:
         {
-          AppGetDialog.show(middleText: e.code + ": " + e.message);
+          AppGetDialog.show(middleText: e.code + ": " + e.message.toString());
         }
     }
   }

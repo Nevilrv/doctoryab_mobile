@@ -15,9 +15,9 @@ import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class LabDetailScreen extends GetView<DrugStoreLabController> {
-  Labs item;
+  Labs? item;
   LabDetailScreen({
-    Key key,
+    Key? key,
     this.item,
   }) : super(key: key);
   List tab = ["services_list".tr, "reviews".tr];
@@ -47,17 +47,17 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
           return Stack(
             children: [
               ProfileViewNew(
-                address: item.address,
+                address: item!.address.toString(),
                 reviewTitle: "laboratories_reviews",
-                photo: "${ApiConsts.hostUrl}${item.photo}",
-                star: double.parse(item.averageRatings == null
+                photo: "${ApiConsts.hostUrl}${item!.photo}",
+                star: double.parse(item!.averageRatings == null
                     ? "0"
-                    : item.averageRatings.toString()),
-                geometry: item.geometry,
-                name: item.name ?? "",
-                phoneNumbers: item.phone[0],
+                    : item!.averageRatings.toString()),
+                geometry: item!.geometry,
+                name: item!.name ?? "",
+                phoneNumbers: item!.phone![0],
                 numberOfusersRated:
-                    item.totalFeedbacks == 0 ? 0 : item.totalFeedbacks,
+                    item!.totalFeedbacks == 0 ? 0 : item!.totalFeedbacks,
                 reviewFunction: () {
                   controller.tabIndex.value = 1;
                 },
@@ -112,7 +112,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                             child: SingleChildScrollView(
                               physics: BouncingScrollPhysics(),
                               padding: EdgeInsets.only(top: 10),
-                              child: item.checkUp.isEmpty
+                              child: item!.checkUp!.isEmpty
                                   ? Center(
                                       child: Padding(
                                       padding: EdgeInsets.only(
@@ -122,14 +122,14 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                   : Column(
                                       children: [
                                         ...List.generate(
-                                            item.checkUp.length,
+                                            item!.checkUp!.length,
                                             (index) => GestureDetector(
                                                   onTap: () {
                                                     Get.dialog(
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 30),
                                                         child: Center(
                                                           child: Container(
@@ -144,11 +144,13 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                   .white,
                                                             ),
                                                             child: Padding(
-                                                              padding: const EdgeInsets
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal:
-                                                                      20,
-                                                                  vertical: 10),
+                                                                      horizontal:
+                                                                          20,
+                                                                      vertical:
+                                                                          10),
                                                               child: Column(
                                                                 mainAxisSize:
                                                                     MainAxisSize
@@ -187,12 +189,12 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                     ],
                                                                   ),
                                                                   Text(
-                                                                    "${item.checkUp[index].title ?? ""}",
+                                                                    "${item!.checkUp![index].title ?? ""}",
                                                                     style: AppTextStyle
                                                                         .boldBlack13,
                                                                   ),
                                                                   Text(
-                                                                    "${item.checkUp[index].content ?? ""}" ??
+                                                                    "${item!.checkUp![index].content ?? ""}" ??
                                                                         "",
                                                                     style: AppTextStyle
                                                                         .boldBlack13
@@ -223,7 +225,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                              "${item.checkUp[index].title ?? ""}",
+                                                              "${item!.checkUp![index].title ?? ""}",
                                                               style: AppTextStyle
                                                                   .boldPrimary12,
                                                             ),
@@ -231,7 +233,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                               width: Get.width *
                                                                   0.6,
                                                               child: Text(
-                                                                "${item.checkUp[index].content ?? ""}",
+                                                                "${item!.checkUp?[index].content ?? ""}",
                                                                 maxLines: 2,
                                                                 overflow:
                                                                     TextOverflow
@@ -261,13 +263,13 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     vertical: 5,
                                                                     horizontal:
                                                                         10),
                                                             child: Center(
                                                               child: Text(
-                                                                "${item.checkUp[index].price} ${"afn".tr}",
+                                                                "${item!.checkUp?[index].price} ${"afn".tr}",
                                                                 style: AppTextStyle
                                                                     .boldWhite12,
                                                               ),
@@ -309,7 +311,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 20,
                                                         vertical: 10),
                                                     child: Column(
@@ -520,7 +522,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                           onTap: () {
                                                             controller
                                                                 .addDocFeedback(
-                                                                    labId: item
+                                                                    labId: item!
                                                                         .datumId
                                                                         .toString(),
                                                                     context:
@@ -535,11 +537,13 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                 color: AppColors
                                                                     .primary),
                                                             child: Padding(
-                                                              padding: const EdgeInsets
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal:
-                                                                      10,
-                                                                  vertical: 5),
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          5),
                                                               child: Center(
                                                                   child: Row(
                                                                 mainAxisAlignment:
@@ -623,7 +627,8 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                             controller
                                                                 .feedbackData[
                                                                     index]
-                                                                .createAt)
+                                                                .createAt
+                                                                .toString())
                                                         .toPersianDateStr(
                                                           strDay: false,
                                                           strMonth: true,
@@ -688,7 +693,7 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                   child:
                                                                       Padding(
                                                                     padding: const EdgeInsets
-                                                                            .symmetric(
+                                                                        .symmetric(
                                                                         horizontal:
                                                                             5),
                                                                     child:
@@ -710,9 +715,9 @@ class LabDetailScreen extends GetView<DrugStoreLabController> {
                                                                               MainAxisSize.min,
                                                                           children: [
                                                                             Container(
-                                                                              width: Get.width * 0.38,
+                                                                              width: Get.width * 0.33,
                                                                               child: Text(
-                                                                                controller.feedbackData[index].postedBy.name ?? "",
+                                                                                controller.feedbackData[index].postedBy?.name ?? "",
                                                                                 style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                               ),
                                                                             ),

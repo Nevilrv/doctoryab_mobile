@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FavouritesScreenView extends GetView<TabHomeMainController> {
-  FavouritesScreenView({Key key}) : super(key: key);
+  FavouritesScreenView({Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> gridData = [
     {
@@ -216,8 +216,8 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
     return Shimmer.fromColors(
       period: Duration(seconds: 1),
       direction: ShimmerDirection.ltr,
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[100],
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -267,14 +267,14 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                     ),
                     itemBuilder: (context, index) => StoryAvatar(
                       assetPath:
-                          "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
+                          "${ApiConsts.hostUrl}${controller.dataList()!.data![index].img}",
                       isActive: true,
                       onTap: () {
                         return controller.onTapStoryAvatar(index);
                       },
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: controller.dataList().data.length,
+                    itemCount: controller.dataList()!.data!.length,
                   ),
           ),
         ),

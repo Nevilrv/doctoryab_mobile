@@ -10,7 +10,7 @@ class PregnancyTrackerRepo {
   var _cachedDio = AppDioService.getCachedDio;
 
   Future<PregnancyDetailsModel> checkPregnancy(
-      {CancelToken cancelToken}) async {
+      {CancelToken? cancelToken}) async {
     // var response = await _cachedDio.get(
     //   ApiConsts.checkPregnancy,
     //   // cancelToken: cancelToken,
@@ -21,19 +21,14 @@ class PregnancyTrackerRepo {
     var headers = ApiConsts().commonHeader;
 
     var dio = Dio();
-    var response = await dio
-        .get(
+    var response = await dio.get(
       ApiConsts.baseUrl + ApiConsts.checkPregnancy,
       options: Options(
         method: 'Get',
         headers: headers,
       ),
-    )
-        .onError((error, stackTrace) {
-      log('error=121==>>>${error}');
-      log('stackTrace=121==>>>${stackTrace}');
-      return;
-    });
+    );
+
     // return BlogLikeResModel.fromJson(response.data);
 
     log('------vvv----${response.statusCode}');
@@ -47,7 +42,7 @@ class PregnancyTrackerRepo {
   }
 
   Future<PregnancyDetailsModel> calculateDate(
-      {Map<String, dynamic> body, CancelToken cancelToken}) async {
+      {Map<String, dynamic>? body, CancelToken? cancelToken}) async {
     var response = await _cachedDio.post(
       ApiConsts.calculateDate,
       data: body,
@@ -60,9 +55,9 @@ class PregnancyTrackerRepo {
   }
 
   Future<Map<String, dynamic>> deleteTracker(
-      {String id, CancelToken cancelToken}) async {
+      {String? id, CancelToken? cancelToken}) async {
     var response = await _cachedDio.delete(
-      ApiConsts.deleteTracker + id,
+      ApiConsts.deleteTracker + id!,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 

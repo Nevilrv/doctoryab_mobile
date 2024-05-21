@@ -20,7 +20,7 @@ import '../../../profile_update/views/profile_update_view.dart';
 import '../../controllers/tab_home_main_controller.dart';
 
 class TabMoreView extends GetView {
-  TabMoreView({Key key}) : super(key: key);
+  TabMoreView({Key? key}) : super(key: key);
   NotificationController notificationController =
       Get.put(NotificationController())..loadNotification();
 
@@ -482,7 +482,7 @@ class TabMoreView extends GetView {
     ];
   }
 
-  Widget commonprofilemenu({Function() onTap, String title, String icon}) {
+  Widget commonprofilemenu({Function()? onTap, String? title, String? icon}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: GestureDetector(
@@ -494,11 +494,11 @@ class TabMoreView extends GetView {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                SvgPicture.asset(icon,
+                SvgPicture.asset(icon!,
                     color: AppColors.primary, height: 21, width: 21),
                 Spacer(),
                 Text(
-                  title,
+                  title ?? "",
                   style: AppTextStyle.boldPrimary14,
                 ),
                 Spacer(),
@@ -539,7 +539,7 @@ class TabMoreView extends GetView {
   }
 
   _button(String text,
-      {Color color, VoidCallback onTap, @required IconData icon}) {
+      {Color? color, VoidCallback? onTap, required IconData icon}) {
     return Container(
       color: color ?? Get.theme.primaryColor,
       child: Row(

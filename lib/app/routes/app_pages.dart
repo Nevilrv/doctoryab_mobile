@@ -35,8 +35,6 @@ import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pre
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/vaccinate_baby_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/bindings/treatment_abroad_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatment_abroad_view.dart';
-import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
-import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appointment_history_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart';
@@ -64,7 +62,6 @@ import '../modules/blood_donors_results/views/blood_donors_results_view.dart';
 import '../modules/book/bindings/book_binding.dart';
 import '../modules/book/views/book_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
-import '../modules/chat/views/chat_view.dart';
 import '../modules/city_select/bindings/city_select_binding.dart';
 import '../modules/city_select/views/city_select_view.dart';
 import '../modules/doctor/bindings/doctor_binding.dart';
@@ -282,27 +279,27 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOCATION_PICKER,
-      page: () => const LocationPickerView(),
+      page: () => LocationPickerView(),
       binding: LocationPickerBinding(),
     ),
     GetPage(
       name: _Paths.FIND_BLOOD_DONOR,
-      page: () => const FindBloodDonorView(),
+      page: () => FindBloodDonorView(),
       binding: FindBloodDonorBinding(),
     ),
     GetPage(
       name: _Paths.DONOR_LIST,
-      page: () => const DonorListScreen(),
+      page: () => DonorListScreen(),
       binding: FindBloodDonorBinding(),
     ),
     GetPage(
       name: _Paths.BLOOD_DONORS_RESULTS,
-      page: () => const BloodDonorsResultsView(),
+      page: () => BloodDonorsResultsView(),
       binding: BloodDonorsResultsBinding(),
     ),
     GetPage(
       name: _Paths.BLOG,
-      page: () => const BlogView(),
+      page: () => BlogView(),
       binding: BlogBinding(),
     ),
     GetPage(
@@ -317,7 +314,7 @@ class AppPages {
     // ),
     GetPage(
       name: _Paths.APP_STORY,
-      page: () => const AppStoryView(),
+      page: () => AppStoryView(),
       binding: AppStoryBinding(),
     ),
 
@@ -349,7 +346,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NEW_CHAT,
-      page: () => const NewChatView(),
+      page: () => NewChatView(),
       binding: NewChatBinding(),
     ),
     GetPage(

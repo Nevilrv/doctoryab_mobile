@@ -11,13 +11,11 @@ class CategoryItem extends StatelessWidget {
   final Category item;
   const CategoryItem(
     this.item, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
     return Container(
       // height: h * 0.1,
       // width: 142,
@@ -45,7 +43,7 @@ class CategoryItem extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Utils.hexToColor(
-                  item.background,
+                  item.background!,
                   defaultColorIfInvalid: AppColors.disabledButtonColor,
                 ).withOpacity(1),
               ),
@@ -78,7 +76,7 @@ class CategoryItem extends StatelessWidget {
           Expanded(
             child: Center(
               child: AutoSizeText(
-                item.title,
+                item.title!,
                 maxLines: 2,
                 minFontSize: 8, maxFontSize: 12, textAlign: TextAlign.center,
                 style: AppTextStyle.mediumBlack12

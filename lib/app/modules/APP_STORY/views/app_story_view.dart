@@ -7,7 +7,7 @@ import '../../../utils/utils.dart';
 import '../controllers/app_story_controller.dart';
 
 class AppStoryView extends GetView<AppStoryController> {
-  const AppStoryView({Key key}) : super(key: key);
+  const AppStoryView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -19,7 +19,7 @@ class AppStoryView extends GetView<AppStoryController> {
         body: Stack(
           children: [
             StoryView(
-              controller: controller.storyC,
+              controller: controller.storyC!,
               progressPosition: ProgressPosition.top,
               onComplete: () => Get.back(),
               storyItems: [
@@ -29,11 +29,11 @@ class AppStoryView extends GetView<AppStoryController> {
                 //   ),
                 // ),
 
-                ...controller.stories.data
+                ...controller.stories.data!
                     .map(
                       (e) => StoryItem.inlineProviderImage(
                         CachedNetworkImageProvider(
-                          Utils.getFullPathOfAssets(e.img),
+                          Utils.getFullPathOfAssets(e.img!),
                         ),
                       ),
                     )

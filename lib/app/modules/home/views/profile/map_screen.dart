@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
-  List<LatLng> latLng;
-  List<String> name;
-  String title;
-  MapScreen({Key key, this.latLng, this.name, this.title}) : super(key: key);
+  List<LatLng>? latLng;
+  List<String>? name;
+  String? title;
+  MapScreen({Key? key, this.latLng, this.name, this.title}) : super(key: key);
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -20,7 +20,7 @@ class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
 
   // on below line we are specifying our camera position
-  CameraPosition _kGoogle;
+  CameraPosition? _kGoogle;
 
   // on below line we have created list of markers
   List<Marker> _marker = [];
@@ -29,17 +29,17 @@ class _MapScreenState extends State<MapScreen> {
   void _determinePosition() async {
     try {
       _kGoogle = CameraPosition(
-        target: LatLng(widget.latLng[0].latitude, widget.latLng[0].longitude),
+        target: LatLng(widget.latLng![0].latitude, widget.latLng![0].longitude),
         zoom: 12,
       );
       setState(() {});
-      widget.latLng.forEach((element) {
+      widget.latLng!.forEach((element) {
         _marker.add(
           Marker(
-              markerId: MarkerId(widget.latLng.indexOf(element).toString()),
+              markerId: MarkerId(widget.latLng!.indexOf(element).toString()),
               position: LatLng(element.latitude, element.longitude),
               infoWindow: InfoWindow(
-                title: widget.name[widget.latLng.indexOf(element)],
+                title: widget.name![widget.latLng!.indexOf(element)],
               )),
         );
       });
@@ -71,14 +71,14 @@ class _MapScreenState extends State<MapScreen> {
             },
           ),
           backgroundColor: AppColors.primary,
-          title: Text(widget.title, style: AppTextStyle.boldWhite14),
+          title: Text(widget.title!, style: AppTextStyle.boldWhite14),
         ),
         body: Container(
           // on below line creating google maps.
           child: GoogleMap(
             markers: Set<Marker>.of(_marker),
             // on below line setting camera position
-            initialCameraPosition: _kGoogle,
+            initialCameraPosition: _kGoogle!,
             // on below line specifying map type.
             mapType: MapType.normal,
             // on below line setting user location enabled.

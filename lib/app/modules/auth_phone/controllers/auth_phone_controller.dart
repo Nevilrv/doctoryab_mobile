@@ -44,7 +44,7 @@ class AuthPhoneController extends GetxController {
     // loadCities();
     ever(phoneValid, (_) {
       //
-      if (phoneValid()) Get.focusScope.unfocus();
+      if (phoneValid()) Get.focusScope!.unfocus();
     });
     super.onInit();
   }
@@ -77,19 +77,19 @@ class AuthPhoneController extends GetxController {
     return response;
   }
 
-  void verfyPhoneNumber(String number) {
+  void verfyPhoneNumber(String? number) {
     try {
-      number = number.toEnglishDigit();
+      number = number!.toEnglishDigit();
     } catch (e) {}
-    PhoneValidatorUtils phoneValidatorUtils =
-        PhoneValidatorUtils(number: number);
+    PhoneValidatorUtils? phoneValidatorUtils =
+        PhoneValidatorUtils(number: number!);
     phoneValid(phoneValidatorUtils.isValid());
     phoneValidationError(phoneValidatorUtils.errorMessage);
     phoneValidatorUtils = null;
   }
 
   signInWithPhone() {
-    Get.focusScope.unfocus();
+    Get.focusScope!.unfocus();
     // SettingsController.setAppLanguage(
     //     controller.selectedLang());
     var _phoneNum =
@@ -135,7 +135,7 @@ class AuthPhoneController extends GetxController {
     }
   }
 
-  Future<String> signInWithGoogle(BuildContext context) async {
+  Future<String?> signInWithGoogle(BuildContext context) async {
     UserCredential authResult;
 
     AuthCredential credential;
@@ -144,7 +144,8 @@ class AuthPhoneController extends GetxController {
     // googleSignIn.currentUser!.clearAuthCache();
     googleSignIn.signOut();
 
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
     if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() ==
         'failed_to_recover_auth') {
       isLoading.value = false;
@@ -154,7 +155,7 @@ class AuthPhoneController extends GetxController {
         'GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
 
     final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+        await googleSignInAccount!.authentication;
 
     credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
@@ -164,7 +165,7 @@ class AuthPhoneController extends GetxController {
 
     authResult = await FirebaseAuth.instance.signInWithCredential(credential);
 
-    final User currentUser = FirebaseAuth.instance.currentUser;
+    final User? currentUser = FirebaseAuth.instance.currentUser;
 
     log('ACCESSTOKEN :- ${googleSignInAuthentication.accessToken}');
 
@@ -173,14 +174,15 @@ class AuthPhoneController extends GetxController {
     if (googleSignInAuthentication.idToken != null) {
       try {
         AuthRepository()
-            .signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken)
+            .signInWithGoogleFacebboklApi(
+                googleSignInAuthentication.idToken.toString())
             .then((value) {
           var reponseData = value.data;
 
           SettingsController.userToken = reponseData["jwtoken"];
 
           SettingsController.userProfileComplete =
-              reponseData["profile_completed"];
+              reponseData["profile_completed"] == null ? false : true;
 
           SettingsController.userId = reponseData['user'] == null
               ? reponseData['newUser']['_id']

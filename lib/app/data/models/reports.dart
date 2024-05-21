@@ -11,7 +11,7 @@ Reports reportsFromJson(String str) => Reports.fromJson(json.decode(str));
 String reportsToJson(Reports data) => json.encode(data.toJson());
 
 class Reports {
-  List<Report> data;
+  List<Report>? data;
 
   Reports({
     this.data,
@@ -22,31 +22,31 @@ class Reports {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Report {
-  String id;
-  List<String> documents;
-  String patientId;
-  String name;
-  String phone;
-  String title;
-  String description;
-  List<Doctor> doctor;
-  List<Medicine> medicines;
-  int age;
-  String appointmentDocId;
-  String advice;
-  String bp;
-  String doctorSignature;
-  String followUp;
-  String gender;
-  String height;
-  String prescriptionCreateAt;
-  String temp;
-  String weight;
+  String? id;
+  List<String>? documents;
+  String? patientId;
+  String? name;
+  String? phone;
+  String? title;
+  String? description;
+  List<Doctor>? doctor;
+  List<Medicine>? medicines;
+  int? age;
+  String? appointmentDocId;
+  String? advice;
+  String? bp;
+  String? doctorSignature;
+  String? followUp;
+  String? gender;
+  String? height;
+  String? prescriptionCreateAt;
+  String? temp;
+  String? weight;
 
   Report({
     this.id,
@@ -100,16 +100,16 @@ class Report {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "documents": List<dynamic>.from(documents.map((x) => x)),
+        "documents": List<dynamic>.from(documents!.map((x) => x)),
         "patientId": patientId,
         "name": name,
         "phone": phone,
         "title": title,
         "description": description,
-        "doctor": List<dynamic>.from(doctor.map((x) => x.toJson())),
+        "doctor": List<dynamic>.from(doctor!.map((x) => x.toJson())),
         "medicines": medicines == null
             ? []
-            : List<dynamic>.from(medicines.map((x) => x.toJson())),
+            : List<dynamic>.from(medicines!.map((x) => x.toJson())),
         "age": age,
         "appointmentDocId": appointmentDocId,
         "advice": advice,
@@ -125,17 +125,17 @@ class Report {
 }
 
 class Category {
-  String id;
-  bool isDeleted;
-  String fTitle;
-  String eTitle;
-  String pTitle;
-  String background;
-  int v;
-  String photo;
-  String createdAt;
-  String updatedAt;
-  int order;
+  String? id;
+  bool? isDeleted;
+  String? fTitle;
+  String? eTitle;
+  String? pTitle;
+  String? background;
+  int? v;
+  String? photo;
+  String? createdAt;
+  String? updatedAt;
+  int? order;
 
   Category({
     this.id,
@@ -181,8 +181,8 @@ class Category {
 }
 
 class Coordinate {
-  double lat;
-  double lng;
+  double? lat;
+  double? lng;
 
   Coordinate({
     this.lat,
@@ -201,8 +201,8 @@ class Coordinate {
 }
 
 class Geometry {
-  List<double> coordinates;
-  String type;
+  List<double>? coordinates;
+  String? type;
 
   Geometry({
     this.coordinates,
@@ -216,15 +216,15 @@ class Geometry {
       );
 
   Map<String, dynamic> toJson() => {
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
         "type": type,
       };
 }
 
 class Medicine {
-  String drug;
-  String dosage;
-  String duration;
+  String? drug;
+  String? dosage;
+  String? duration;
 
   Medicine({
     this.drug,

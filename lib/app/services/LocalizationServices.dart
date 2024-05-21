@@ -48,9 +48,10 @@ class LocalizationService extends Translations {
     Get.updateLocale(locale);
     try {
       print(locale);
-      Jiffy.locale(Get.locale.languageCode);
+      Jiffy.setLocale(Get.locale!.languageCode);
+      // Jiffy.locale(Get.locale!.languageCode);
     } catch (e) {
-      log(e);
+      // log(e);
     }
     return locale;
   }
@@ -67,7 +68,7 @@ class LocalizationService extends Translations {
   //TODO this needs to be tested with the new changes
   static String getShortLocalCodeForApi() {
     String code = "";
-    String getLocalCode = Get.locale.languageCode;
+    String getLocalCode = Get.locale!.languageCode;
     if (getLocalCode == "en")
       code = "en";
     else if (getLocalCode == "fa")
@@ -78,9 +79,9 @@ class LocalizationService extends Translations {
   }
 
   String standardLandguageCode() {
-    var formated = Get.locale.languageCode.toLowerCase() +
+    var formated = Get.locale!.languageCode.toLowerCase() +
         "_" +
-        Get.locale.countryCode.toUpperCase();
+        Get.locale!.countryCode!.toUpperCase();
     print(formated);
     return formated;
   }

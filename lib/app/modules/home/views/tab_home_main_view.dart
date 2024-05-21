@@ -12,7 +12,9 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -93,11 +95,23 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           tabs: [
-                            FittedBox(
-                                child: Text("doctors".tr), fit: BoxFit.cover),
-                            FittedBox(child: Text("hospitals".tr)),
-                            FittedBox(child: Text("drug_store".tr)),
-                            FittedBox(child: Text("labratories".tr)),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Text("doctors".tr),
+                            ),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Text("hospitals".tr)),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: Text("drug_store".tr)),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 2),
+                                child: Text("labratories".tr)),
                           ],
                         ) /*.size(
                           width: MediaQuery.of(context).size.width > 600 ? 500 : 324,
@@ -151,7 +165,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${"hi".tr}, ${SettingsController.savedUserProfile.name ?? ""}!",
+                    "${"hi".tr}, ${SettingsController.savedUserProfile?.name ?? ""}!",
                     style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
                   ),
                   Text(
@@ -259,7 +273,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       children: [
                         StoryAvatar(
                           assetPath:
-                              "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
+                              "${ApiConsts.hostUrl}${controller.dataList()?.data?[index].img}",
                           isActive: true,
                           onTap: () {
                             // controller.resetStrories();
@@ -271,7 +285,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       ],
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: controller.dataList().data.length,
+                    itemCount: controller.dataList()!.data!.length,
                   ),
             // : Stories(
             //     displayProgress: true,

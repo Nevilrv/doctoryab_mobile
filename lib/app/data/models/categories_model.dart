@@ -17,12 +17,12 @@ class Categories {
     this.data,
   });
 
-  bool success;
-  List<Category> data;
+  bool? success;
+  List<Category>? data;
 
   Categories copyWith({
-    bool success,
-    List<Category> data,
+    bool? success,
+    List<Category>? data,
   }) =>
       Categories(
         success: success ?? this.success,
@@ -41,7 +41,7 @@ class Categories {
         "success": success == null ? null : success,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -57,34 +57,34 @@ class Category {
     this.photo,
   });
 
-  String id;
-  bool isDeleted;
-  String fTitle;
-  String eTitle;
-  String pTitle;
-  String background;
-  int v;
-  String photo;
+  String? id;
+  bool? isDeleted;
+  String? fTitle;
+  String? eTitle;
+  String? pTitle;
+  String? background;
+  int? v;
+  String? photo;
 
   ///FOR ALL LANGS
-  String get title {
-    if (Get.locale.languageCode == "fa" || Get.locale.languageCode == "uz")
+  String? get title {
+    if (Get.locale!.languageCode == "fa" || Get.locale!.languageCode == "uz")
       return this.fTitle;
-    if (Get.locale.languageCode == "ps" || Get.locale.languageCode == "ru")
+    if (Get.locale!.languageCode == "ps" || Get.locale!.languageCode == "ru")
       return this.pTitle;
 
     return this.eTitle;
   }
 
   Category copyWith({
-    String id,
-    bool isDeleted,
-    String fTitle,
-    String eTitle,
-    String pTitle,
-    String background,
-    int v,
-    String photo,
+    String? id,
+    bool? isDeleted,
+    String? fTitle,
+    String? eTitle,
+    String? pTitle,
+    String? background,
+    int? v,
+    String? photo,
   }) =>
       Category(
         id: id ?? this.id,

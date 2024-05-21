@@ -11,9 +11,9 @@ String updatedDrugDatabaseModelToJson(UpdatedDrugDatabaseModel data) =>
     json.encode(data.toJson());
 
 class UpdatedDrugDatabaseModel {
-  List<UpdatedDrug> data;
-  int count;
-  int unVerifiedCount;
+  List<UpdatedDrug>? data;
+  int? count;
+  int? unVerifiedCount;
 
   UpdatedDrugDatabaseModel({
     this.data,
@@ -30,53 +30,53 @@ class UpdatedDrugDatabaseModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
         "unVerifiedCount": unVerifiedCount,
       };
 }
 
 class UpdatedDrug {
-  bool verified;
-  bool active;
-  List<dynamic> similarDrugs;
-  List<dynamic> aGradeTags;
-  List<dynamic> bGradeTags;
-  String totalFeedbacks;
-  String averageRating;
-  String img;
-  String id;
-  String englishDrugName;
-  String localLanguageDrugName;
-  String genericName;
-  String barcode;
-  String therapeuticClass;
-  String pharmacologicClass;
-  String usageDari;
-  String usageEnglish;
-  String usagePashto;
-  String sideEffectsEnglish;
-  String sideEffectsPashto;
-  String sideEffectsDari;
-  String dosagesEnglish;
-  String dosagesDari;
-  String dosagesPashto;
-  String packsAndPrices;
-  String wholeSalePrice;
-  String warningsEnglish;
-  String warningsDari;
-  String warningsPashto;
-  String company;
-  String origin;
-  String notes;
-  String drugTypeEnglish;
-  String drugTypeDari;
-  String drugTypePashto;
-  String quantity;
-  AdminId adminId;
-  String createdAt;
-  String updatedAt;
-  int v;
+  bool? verified;
+  bool? active;
+  List<dynamic>? similarDrugs;
+  List<dynamic>? aGradeTags;
+  List<dynamic>? bGradeTags;
+  String? totalFeedbacks;
+  String? averageRating;
+  String? img;
+  String? id;
+  String? englishDrugName;
+  String? localLanguageDrugName;
+  String? genericName;
+  String? barcode;
+  String? therapeuticClass;
+  String? pharmacologicClass;
+  String? usageDari;
+  String? usageEnglish;
+  String? usagePashto;
+  String? sideEffectsEnglish;
+  String? sideEffectsPashto;
+  String? sideEffectsDari;
+  String? dosagesEnglish;
+  String? dosagesDari;
+  String? dosagesPashto;
+  String? packsAndPrices;
+  String? wholeSalePrice;
+  String? warningsEnglish;
+  String? warningsDari;
+  String? warningsPashto;
+  String? company;
+  String? origin;
+  String? notes;
+  String? drugTypeEnglish;
+  String? drugTypeDari;
+  String? drugTypePashto;
+  String? quantity;
+  AdminId? adminId;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
 
   UpdatedDrug({
     this.verified,
@@ -204,13 +204,13 @@ class UpdatedDrug {
         "active": active == null ? null : active,
         "similarDrugs": similarDrugs == null
             ? null
-            : List<dynamic>.from(similarDrugs.map((x) => x)),
+            : List<dynamic>.from(similarDrugs!.map((x) => x)),
         "aGradeTags": aGradeTags == null
             ? null
-            : List<dynamic>.from(aGradeTags.map((x) => x)),
+            : List<dynamic>.from(aGradeTags!.map((x) => x)),
         "bGradeTags": bGradeTags == null
             ? null
-            : List<dynamic>.from(bGradeTags.map((x) => x)),
+            : List<dynamic>.from(bGradeTags!.map((x) => x)),
         "totalFeedbacks": totalFeedbacks == null ? null : totalFeedbacks,
         "averageRating": averageRating == null ? null : averageRating,
         "img": img == null ? null : img,
@@ -246,7 +246,7 @@ class UpdatedDrug {
         "drugTypeDari": drugTypeDari == null ? null : drugTypeDari,
         "drugTypePashto": drugTypePashto == null ? null : drugTypePashto,
         "quantity": quantity == null ? null : quantity,
-        "adminId": adminId == null ? null : adminId.toJson(),
+        "adminId": adminId == null ? null : adminId!.toJson(),
         "createdAt": createdAt == null ? null : createdAt,
         "updatedAt": updatedAt == null ? null : updatedAt,
         "__v": v == null ? null : v,
@@ -254,9 +254,9 @@ class UpdatedDrug {
 }
 
 class AdminId {
-  String name;
-  String id;
-  String email;
+  String? name;
+  String? id;
+  String? email;
 
   AdminId({
     this.name,

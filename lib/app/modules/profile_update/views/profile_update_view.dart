@@ -156,27 +156,45 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           height: h * 0.15,
                                           width: h * 0.15,
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: controller
-                                                            .lastUploadedImagePath() !=
-                                                        ""
-                                                    ? FileImage(
-                                                        controller.image.value)
-                                                    : SettingsController
-                                                                .savedUserProfile
-                                                                ?.photo ==
-                                                            null
-                                                        ? AssetImage(
-                                                            "assets/png/person-placeholder.jpg")
-                                                        : NetworkImage(
-                                                            "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
-                                                          ),
-                                                onError:
-                                                    (exception, stackTrace) {
-                                                  return _profilePlaceHolder();
-                                                },
-                                              )),
+                                            shape: BoxShape.circle,
+                                            // image: DecorationImage(
+                                            //   image: controller
+                                            //               .lastUploadedImagePath() !=
+                                            //           ""
+                                            //       ? NetworkImage(
+                                            //           "assets/png/person-placeholder.jpg")
+                                            //       : NetworkImage(
+                                            //           "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
+                                            //         ),
+                                            //   onError:
+                                            //       (exception, stackTrace) {
+                                            //     return _profilePlaceHolder();
+                                            //   },
+                                            // ),
+                                          ),
+                                          child: controller
+                                                      .lastUploadedImagePath() !=
+                                                  ""
+                                              ? Image.file(
+                                                  controller.image.value,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return _profilePlaceHolder();
+                                                  },
+                                                )
+                                              : SettingsController
+                                                          .savedUserProfile
+                                                          ?.photo ==
+                                                      null
+                                                  ? Image.asset(
+                                                      "assets/png/person-placeholder.jpg")
+                                                  : Image.network(
+                                                      "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
+                                                      errorBuilder: (context,
+                                                          error, stackTrace) {
+                                                        return _profilePlaceHolder();
+                                                      },
+                                                    ),
                                         ),
                                       ),
                                       Positioned(
@@ -627,7 +645,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             onChanged: (_) =>
                                                 controller.validateForm(),
                                             validator: (age) =>
-                                                Utils.ageValidatore(age,
+                                                Utils.ageValidatore(age!,
                                                     minAge: 12, maxAge: 120),
                                             cursorColor: AppColors.primary,
                                             style: AppTextStyle.mediumPrimary12
@@ -798,10 +816,11 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                           onTap: () {
                                                             controller
                                                                 .selectedLocationId
-                                                                .value = value.sId;
+                                                                .value = value.sId!;
                                                           },
                                                           child: Text(
-                                                              value.eName,
+                                                              value.eName
+                                                                  .toString(),
                                                               style: AppTextStyle
                                                                   .mediumPrimary12
                                                                   .copyWith(
@@ -814,7 +833,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                       onChanged: (value) {
                                                         controller
                                                             .selectedLocation
-                                                            .value = value;
+                                                            .value = value!;
                                                       },
                                                     ),
                                                   ),
@@ -925,7 +944,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                       onChanged: (value) {
                                                         controller
                                                             .selectedGender
-                                                            .value = value;
+                                                            .value = value!;
                                                       },
                                                     ),
                                                   ),
@@ -957,9 +976,9 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   // width: 300,
                                                   onTap: () {
                                                     if (controller
-                                                        .formKey.currentState
+                                                        .formKey.currentState!
                                                         .validate()) {
-                                                      Get.focusScope.unfocus();
+                                                      Get.focusScope!.unfocus();
                                                       controller
                                                           .updateApi(context);
                                                     } else {
@@ -1288,7 +1307,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
     );
   }
 
-  Widget _profilePlaceHolder() {
+  _profilePlaceHolder() {
     return Image.asset(
       "assets/png/person-placeholder.jpg",
       width: 150,
@@ -1298,7 +1317,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
   }
 
   _button(String text,
-      {Color color, VoidCallback onTap, @required IconData icon}) {
+      {Color? color, VoidCallback? onTap, required IconData icon}) {
     return Container(
       color: color ?? Get.theme.primaryColor,
       child: Row(

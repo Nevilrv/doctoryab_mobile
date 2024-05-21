@@ -9,6 +9,7 @@ import 'package:doctor_yab/app/data/repository/AdRepository.dart';
 import 'package:doctor_yab/app/data/repository/BlogRepository.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -28,7 +29,7 @@ class TabBlogController extends GetxController {
   final postList = <post.Post>[];
   static Dio dio = AppDioService.getDioInstance();
   bool isLoadingComment = false;
-  bool isBottom;
+  bool? isBottom;
   int showDesc = -1;
 
   @override
@@ -49,7 +50,7 @@ class TabBlogController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    loadCategories();
+    // loadCategories();
   }
 
   Future<void> loadCategories() async {
@@ -62,25 +63,16 @@ class TabBlogController extends GetxController {
         }).then((value) {
       tabTitles.value = value;
 
-      // tabTitles.value = value.where((element) {
-      //   log('-----dede--$element');
-      //   return (element?.category ?? "").trim() != "";
-      // }).toList();
       tabTitles.refresh();
 
       isLoading.value = false;
 
-      //
-
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         pagingController.addPageRequestListener((pageKey) {
-          loadPosts(pageKey, selectedIndex());
+          loadPosts(pageKey, selectedIndex.value);
         });
       });
-
       Utils.resetPagingController(pagingController);
-      // pagingController.refresh();
-      // loadPosts(pagingController.firstPageKey, selectedIndex());
       Future.delayed(Duration.zero, () {
         changeSelectedCategory(0);
       });
@@ -98,20 +90,19 @@ class TabBlogController extends GetxController {
       Duration.zero,
       () {
         blogCancelToken.cancel();
-        // categoriesCancelToken.cancel();
       },
     );
     blogCancelToken = new CancelToken();
-    // categoriesCancelToken = new CancelToken();
-    loadPosts(pagingController.firstPageKey, selectedIndex());
+    loadPosts(pagingController.firstPageKey, selectedIndex.value);
+    pagingController.addPageRequestListener((pageKey) {
+      loadPosts(pageKey, selectedIndex.value);
+    });
 
-    print(i);
+    update();
   }
 
   Future<void> loadPosts(int pageKey, int index) async {
-    // await Future.delayed(const Duration(seconds: 2));
-    isLoading.value = true;
-    BlogRepository.fetchPostsByCategory(pageKey, tabTitles()[index],
+    BlogRepository.fetchPostsByCategory(pageKey, tabTitles[index],
         cancelToken: blogCancelToken, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;
@@ -122,20 +113,11 @@ class TabBlogController extends GetxController {
         pagingController,
         pageKey,
       );
-
       postList.clear();
-      postList.addAll(pagingController.value.itemList);
+      postList.addAll(pagingController.value.itemList ?? []);
+
       update();
     });
-
-    // Replace with actual API call
-    // postsList.value = [
-    //   Post(blogTitle: "Post 1", desc: "Content of Post 1"),
-    //   Post(blogTitle: "Post 2", desc: "Content of Post 2"),
-    //   Post(blogTitle: "Post 3", desc: "Content of Post 3"),
-    // ];
-
-    isLoading.value = false;
   }
 
   Future<void> likeBlog(String postId, int index, post.Post item) async {
@@ -172,14 +154,14 @@ class TabBlogController extends GetxController {
       isLoadingComment = false;
       update();
       comment.clear();
-      postList[index].comments.clear();
+      postList[index].comments!.clear();
 
-      v.data.comments.forEach((element) {
-        postList[index].comments.add(element);
+      v.data!.comments!.forEach((element) {
+        postList[index].comments!.add(element);
       });
       update();
 
-      postList[index].comments.forEach((element) {
+      postList[index].comments?.forEach((element) {
         // log('------elekment---${element['whoPosted']}');
       });
     }).catchError((e, s) {
@@ -197,7 +179,7 @@ class TabBlogController extends GetxController {
       // AdsModel v = AdsModel();
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
         });
@@ -205,7 +187,7 @@ class TabBlogController extends GetxController {
     }).catchError((e, s) {
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

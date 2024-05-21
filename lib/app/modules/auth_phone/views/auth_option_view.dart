@@ -158,7 +158,8 @@ class AuthView extends GetView<AuthPhoneController> {
                           if (authResult.credential != null) {
                             try {
                               AuthRepository()
-                                  .signInWithGAppleApi(oauthCredential.idToken)
+                                  .signInWithGAppleApi(
+                                      oauthCredential.idToken.toString())
                                   .then((value) {
                                 var reponseData = value.data;
 
@@ -224,7 +225,7 @@ class AuthView extends GetView<AuthPhoneController> {
                           // }
                         } on FirebaseAuthException catch (e) {
                           Utils.commonSnackbar(
-                              context: context, text: e.message);
+                              context: context, text: e.message.toString());
                         }
                       },
                       child: Container(

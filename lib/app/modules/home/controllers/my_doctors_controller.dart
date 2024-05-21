@@ -31,10 +31,10 @@ class MyDoctorsController extends GetxController {
   // var arguments = Get.arguments as CategoryBridge;
   var category = BookingController.to.selectedCategory;
 
-  String hospitalId;
+  String? hospitalId;
   String sort = "";
   String selectedSort = "promoted".tr;
-  DOCTORS_LOAD_ACTION action;
+  DOCTORS_LOAD_ACTION? action;
   List<String> filterList = [
     'promoted'.tr,
     "best_rating".tr,
@@ -42,14 +42,14 @@ class MyDoctorsController extends GetxController {
     'nearest'.tr,
     'a-z'.tr
   ];
-  var permissionStatus = Rx<PermissionStatus>(null);
+  var permissionStatus = Rxn<PermissionStatus>();
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>();
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
 
   bool _nearByResturantsPageInitDone = false;
-  Doctor selectedDoctorData;
+  Doctor? selectedDoctorData;
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
 
   //*Dio
@@ -382,10 +382,10 @@ class MyDoctorsController extends GetxController {
 
       locationData.clear();
       locationTitle.clear();
-      pagingController.itemList.forEach((element) {
-        if (element.geometry.coordinates != null) {
-          locationData.add(element.geometry);
-          locationTitle.add(element.name);
+      pagingController.itemList?.forEach((element) {
+        if (element.geometry!.coordinates != null) {
+          locationData.add(element.geometry!);
+          locationTitle.add(element.name!);
         }
       });
 
@@ -474,7 +474,7 @@ class MyDoctorsController extends GetxController {
     // Utils.resetPagingController(pagingController);
 
     pagingController.refresh();
-    pagingController.itemList.clear();
+    pagingController.itemList?.clear();
     fetchDoctors(pagingController.firstPageKey);
     // fetchDoctors(1);
   }

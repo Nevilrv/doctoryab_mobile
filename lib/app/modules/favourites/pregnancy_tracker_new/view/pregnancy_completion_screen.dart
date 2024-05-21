@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
-  PregnancyCompletion({Key key}) : super(key: key);
+  PregnancyCompletion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,8 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
             height: h * 0.12,
             width: w,
             color: AppColors.primary,
-            padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04, top: h * 0.04),
+            padding:
+                EdgeInsets.only(left: w * 0.04, right: w * 0.04, top: h * 0.04),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -34,7 +35,8 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                       Get.back();
                     },
                     child: RotatedBox(
-                      quarterTurns: SettingsController.appLanguge == 'English' ? 4 : 2,
+                      quarterTurns:
+                          SettingsController.appLanguge == 'English' ? 4 : 2,
                       child: Image.asset(
                         AppImages.arrowImage,
                         color: AppColors.white,
@@ -70,7 +72,10 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
             child: Text(
               'congratulations'.tr,
               style: TextStyle(
-                  fontFamily: 'Shrikhand', fontSize: 25, fontWeight: FontWeight.w400, color: AppColors.primary),
+                  fontFamily: 'Shrikhand',
+                  fontSize: 25,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.primary),
             ),
           ),
           Image.asset(
@@ -79,7 +84,8 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
           ),
           GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.VACCINATE_BABY, arguments: {'type': '', 'isCheck': true});
+              Get.toNamed(Routes.VACCINATE_BABY,
+                  arguments: {'type': '', 'isCheck': true});
             },
             child: Container(
               height: h * 0.058,
@@ -94,8 +100,12 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      left: SettingsController.appLanguge == 'English' ? w * 0.09 : w * 0,
-                      right: SettingsController.appLanguge == 'English' ? w * 0.0 : w * 0.09,
+                      left: SettingsController.appLanguge == 'English'
+                          ? w * 0.09
+                          : w * 0,
+                      right: SettingsController.appLanguge == 'English'
+                          ? w * 0.0
+                          : w * 0.09,
                     ),
                     child: Text(
                       'next'.tr,
@@ -108,11 +118,16 @@ class PregnancyCompletion extends GetView<PregnancyTrackerNewController> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      right: SettingsController.appLanguge == 'English' ? w * 0.02 : w * 0,
-                      left: SettingsController.appLanguge == 'English' ? w * 0.0 : w * 0.02,
+                      right: SettingsController.appLanguge == 'English'
+                          ? w * 0.02
+                          : w * 0,
+                      left: SettingsController.appLanguge == 'English'
+                          ? w * 0.0
+                          : w * 0.02,
                     ),
                     child: RotatedBox(
-                      quarterTurns: SettingsController.appLanguge == 'English' ? 4 : 2,
+                      quarterTurns:
+                          SettingsController.appLanguge == 'English' ? 4 : 2,
                       child: Image.asset(
                         AppImages.arrowImage,
                         color: AppColors.white,

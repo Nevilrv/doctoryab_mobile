@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import '../controllers/intro_controller.dart';
 class IntroView extends GetView<IntroController> {
   final bool splashScreenMode;
   IntroView({this.splashScreenMode = true}) {
+    log('controller.splahScreenMode ---------->>>>>>>> ${controller.splahScreenMode}');
     controller.splahScreenMode = this.splashScreenMode;
   }
   @override

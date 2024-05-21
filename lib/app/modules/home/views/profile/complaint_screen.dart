@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ComplaintScreen extends GetView<ComplaintSuggestionController> {
-  ComplaintScreen({Key key}) : super(key: key);
+  ComplaintScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +179,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  controller.image.value = null;
+                                  // controller.image.value = null;
                                   controller.pickImage();
                                 },
                                 child: Container(

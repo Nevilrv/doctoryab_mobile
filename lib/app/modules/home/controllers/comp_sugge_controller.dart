@@ -93,7 +93,7 @@ class ComplaintSuggestionController extends GetxController {
 
   void pickImage() async {
     //TODO handle exception
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       Io.File pickedFileAsFile = Io.File(pickedFile.path);
@@ -111,31 +111,32 @@ class ComplaintSuggestionController extends GetxController {
       //*till here
 
       //*Image Croper start
-      Io.File croppedFile = await ImageCropper().cropImage(
-        sourcePath: pickedFileAsFile.path,
-        maxWidth: 512,
-        maxHeight: 512,
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'cropper'.tr,
-          toolbarColor: Get.theme.primaryColor,
-          toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-        ),
-        iosUiSettings: IOSUiSettings(
-          minimumAspectRatio: 1.0,
-          aspectRatioLockEnabled: true,
-        ),
-      );
+      Io.File? croppedFile = (await ImageCropper().cropImage(
+          sourcePath: pickedFileAsFile.path,
+          maxWidth: 512,
+          maxHeight: 512,
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'cropper'.tr,
+              toolbarColor: Get.theme.primaryColor,
+              toolbarWidgetColor: Colors.white,
+              activeControlsWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.square,
+              lockAspectRatio: true,
+            ),
+            IOSUiSettings(
+              minimumAspectRatio: 1.0,
+              aspectRatioLockEnabled: true,
+            ),
+          ])) as Io.File?;
       //*Image Croper End
       //file size limit
       // var pickedFileSize = await pickedFileAsFile.length() / 1024; //In KB
-      var pickedFileSize = await croppedFile.length() / 1024; //In KB
+      var pickedFileSize = (await croppedFile?.length())! / 1024; //In KB
       // AppGetDialog.show(middleText: pickedFileSize.toString());
       if (pickedFileSize > ApiConsts.maxImageSizeLimit) {
         AppGetDialog.show(middleText: "max_file_limit_is_5MB".tr);
@@ -144,7 +145,7 @@ class ComplaintSuggestionController extends GetxController {
         return;
       }
 
-      image.value = croppedFile;
+      image.value = croppedFile!;
     } else {}
     update();
   }

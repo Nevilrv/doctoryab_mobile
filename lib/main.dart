@@ -26,7 +26,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAuth.instance.authStateChanges().listen((user) {
-    log('Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser.uid}');
+    log('Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser?.uid}');
   });
 //  await GetStorage.init();
   // Directory directory = await pathProvider.getApplicationDocumentsDirectory();

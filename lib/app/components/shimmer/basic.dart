@@ -6,7 +6,7 @@ class ShimmerBasic extends StatelessWidget {
   final Color highlightColor;
   final Color color;
   const ShimmerBasic({
-    Key key,
+    Key? key,
     this.baseColor = Colors.grey,
     // this.baseColor = AppColors.shimmerBaseColor,
     // this.baseColor =  Color.,

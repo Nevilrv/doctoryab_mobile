@@ -11,8 +11,8 @@ String appointmentHistoryResModelToJson(AppointmentHistoryResModel data) =>
     json.encode(data.toJson());
 
 class AppointmentHistoryResModel {
-  List<AppointmentHistory> data;
-  int count;
+  List<AppointmentHistory>? data;
+  int? count;
 
   AppointmentHistoryResModel({
     this.data,
@@ -27,23 +27,23 @@ class AppointmentHistoryResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class AppointmentHistory {
-  bool bookingNotified;
-  bool visited;
-  String id;
-  PackageId packageId;
-  PatientId patientId;
-  String visitDate;
-  Id labId;
-  Id hospitalId;
-  String cityId;
-  String createAt;
-  int v;
+  bool? bookingNotified;
+  bool? visited;
+  String? id;
+  PackageId? packageId;
+  PatientId? patientId;
+  String? visitDate;
+  Id? labId;
+  Id? hospitalId;
+  String? cityId;
+  String? createAt;
+  int? v;
 
   AppointmentHistory({
     this.bookingNotified,
@@ -82,9 +82,9 @@ class AppointmentHistory {
         "visited": visited,
         "_id": id,
         "packageId": packageId?.toJson(),
-        "patientId": patientId.toJson(),
+        "patientId": patientId?.toJson(),
         "visit_date": visitDate,
-        "labId": labId.toJson(),
+        "labId": labId?.toJson(),
         "hospitalId": hospitalId?.toJson(),
         "cityId": cityId,
         "createAt": createAt,
@@ -93,8 +93,8 @@ class AppointmentHistory {
 }
 
 class Id {
-  String id;
-  String name;
+  String? id;
+  String? name;
 
   Id({
     this.id,
@@ -113,10 +113,10 @@ class Id {
 }
 
 class PackageId {
-  List<HospitalLocation> hospitalLocation;
-  List<LabLocation> labLocation;
-  String id;
-  String title;
+  List<HospitalLocation>? hospitalLocation;
+  List<LabLocation>? labLocation;
+  String? id;
+  String? title;
 
   PackageId({
     this.hospitalLocation,
@@ -136,18 +136,18 @@ class PackageId {
 
   Map<String, dynamic> toJson() => {
         "hospitalLocation":
-            List<dynamic>.from(hospitalLocation.map((x) => x.toJson())),
-        "labLocation": List<dynamic>.from(labLocation.map((x) => x.toJson())),
+            List<dynamic>.from(hospitalLocation!.map((x) => x.toJson())),
+        "labLocation": List<dynamic>.from(labLocation!.map((x) => x.toJson())),
         "_id": id,
         "title": title,
       };
 }
 
 class HospitalLocation {
-  String id;
-  String address;
-  String name;
-  String phone;
+  String? id;
+  String? address;
+  String? name;
+  String? phone;
 
   HospitalLocation({
     this.id,
@@ -173,9 +173,9 @@ class HospitalLocation {
 }
 
 class LabLocation {
-  List<String> phone;
-  String id;
-  String name;
+  List<String>? phone;
+  String? id;
+  String? name;
 
   LabLocation({
     this.phone,
@@ -190,17 +190,17 @@ class LabLocation {
       );
 
   Map<String, dynamic> toJson() => {
-        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "phone": List<dynamic>.from(phone!.map((x) => x)),
         "_id": id,
         "name": name,
       };
 }
 
 class PatientId {
-  String id;
-  String phone;
-  String patientId;
-  String name;
+  String? id;
+  String? phone;
+  String? patientId;
+  String? name;
 
   PatientId({
     this.id,

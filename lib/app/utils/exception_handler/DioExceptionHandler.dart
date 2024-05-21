@@ -9,10 +9,10 @@ import 'package:logger/logger.dart';
 
 class DioExceptionHandler {
   static handleException(
-      {@required exception,
-      Function retryCallBak,
-      String operationTitle,
-      String retryButtonText}) {
+      {required exception,
+      Function? retryCallBak,
+      String? operationTitle,
+      String? retryButtonText}) {
     try {
       FirebaseCrashlytics.instance
           .recordError(exception, (exception as DioError).stackTrace);
@@ -70,7 +70,7 @@ class DioExceptionHandler {
               middleText: "unexpected_server_error_occured".tr +
                   "\n" +
                   "server_error_response".tr +
-                  ": ${exception?.response?.statusCode ?? responseMessage ?? 'null'}\n" +
+                  ": ${exception.response?.statusCode ?? responseMessage ?? 'null'}\n" +
                   "recheck_the_request_and_retry".tr,
               operationTitle: operationTitle,
               retryButtonText: retryButtonText,

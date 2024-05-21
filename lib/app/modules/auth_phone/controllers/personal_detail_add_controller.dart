@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart' as u;
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
+import 'package:doctor_yab/app/data/static.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
@@ -65,24 +68,32 @@ class AddPersonalInfoController extends GetxController {
   }
 
   void addPersonalInfo() {
-    isLoading.value = true;
+    // isLoading.value = true;
     if (loginType == "") {
       AuthRepository()
           .addPersonalInfoApi(teName.text, teNewNumber.text,
               selectedGender.value, selectedLocationId.value)
           .then((value) {
+        print(
+            'SettingsController.userLoginGet ---------->>>>>>>> ${SettingsController.userLoginGet}');
+        print(
+            'value["profile_completed"] ---------->>>>>>>> ${value["profile_completed"]}');
         try {
-          SettingsController.userProfileComplete = value["profile_completed"];
+          SettingsController.userProfileComplete =
+              value["profile_completed"] == null ? false : true;
           SettingsController.userId = value['user']['_id'];
           SettingsController.savedUserProfile = u.User.fromJson(value['user']);
           SettingsController.userLogin = true;
           isLoading.value = false;
-          if (SettingsController.auth.savedCity == null) {
+          print(
+              'SettingsController.auth.savedCity ---------->>>>>>>> ${SettingsController.auth.savedCity}');
+          if (SettingsController.auth.savedCity!.sId == '') {
             Get.offAllNamed(Routes.CITY_SELECT);
           } else {
             Utils.whereShouldIGo();
           }
         } catch (e) {
+          print('e ---------->>>>>>>> ${e}');
           isLoading.value = false;
         }
       });

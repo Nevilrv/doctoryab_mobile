@@ -11,9 +11,9 @@ String drugFeedBackResModelToJson(DrugFeedBackResModel data) =>
     json.encode(data.toJson());
 
 class DrugFeedBackResModel {
-  List<DrugFeedback> data;
-  double averageRating;
-  int totalRating;
+  List<DrugFeedback>? data;
+  double? averageRating;
+  int? totalRating;
 
   DrugFeedBackResModel({
     this.data,
@@ -30,23 +30,23 @@ class DrugFeedBackResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "averageRating": averageRating,
         "totalRating": totalRating,
       };
 }
 
 class DrugFeedback {
-  String id;
-  String comment;
-  String whoPosted;
-  PostedBy postedBy;
-  String photo;
-  String createAt;
-  String commentId;
-  String rating;
-  String drugId;
-  int v;
+  String? id;
+  String? comment;
+  String? whoPosted;
+  PostedBy? postedBy;
+  String? photo;
+  String? createAt;
+  String? commentId;
+  String? rating;
+  String? drugId;
+  int? v;
 
   DrugFeedback({
     this.id,
@@ -78,7 +78,7 @@ class DrugFeedback {
         "_id": id,
         "comment": comment,
         "whoPosted": whoPosted,
-        "postedBy": postedBy.toJson(),
+        "postedBy": postedBy!.toJson(),
         "photo": photo,
         "createAt": createAt,
         "commentId": commentId,
@@ -89,20 +89,20 @@ class DrugFeedback {
 }
 
 class PostedBy {
-  Geometry geometry;
-  String photo;
-  String id;
-  String email;
-  String language;
-  String fcm;
-  String createAt;
-  String patientId;
-  int v;
-  String city;
-  String gender;
-  String name;
-  String phone;
-  int age;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? email;
+  String? language;
+  String? fcm;
+  String? createAt;
+  String? patientId;
+  int? v;
+  String? city;
+  String? gender;
+  String? name;
+  String? phone;
+  int? age;
 
   PostedBy({
     this.geometry,
@@ -139,7 +139,7 @@ class PostedBy {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "_id": id,
         "email": email,
@@ -157,8 +157,8 @@ class PostedBy {
 }
 
 class Geometry {
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry({
     this.type,
@@ -173,6 +173,6 @@ class Geometry {
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

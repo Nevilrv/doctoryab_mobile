@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VaccinateBaby extends GetView<PregnancyTrackerNewController> {
-  VaccinateBaby({Key key}) : super(key: key);
+  VaccinateBaby({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

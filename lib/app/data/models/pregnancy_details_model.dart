@@ -11,8 +11,8 @@ String pregnancyDetailsModelToJson(PregnancyDetailsModel data) =>
     json.encode(data.toJson());
 
 class PregnancyDetailsModel {
-  bool isSaved;
-  PregnancyData data;
+  bool? isSaved;
+  PregnancyData? data;
 
   PregnancyDetailsModel({
     this.isSaved,
@@ -27,19 +27,19 @@ class PregnancyDetailsModel {
 
   Map<String, dynamic> toJson() => {
         "isSaved": isSaved,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class PregnancyData {
-  String id;
-  String conceptionDate;
-  String dueDate;
-  String patientId;
-  String createAt;
-  String lastPeriodDate;
-  int currentWeek;
-  List<PtModule> ptModules;
+  String? id;
+  String? conceptionDate;
+  String? dueDate;
+  String? patientId;
+  String? createAt;
+  String? lastPeriodDate;
+  int? currentWeek;
+  List<PtModule>? ptModules;
 
   PregnancyData({
     this.id,
@@ -72,30 +72,30 @@ class PregnancyData {
         "createAt": createAt,
         "lastPeriodDate": lastPeriodDate,
         "currentWeek": currentWeek,
-        "ptModules": List<dynamic>.from(ptModules.map((x) => x.toJson())),
+        "ptModules": List<dynamic>.from(ptModules!.map((x) => x.toJson())),
       };
 }
 
 class PtModule {
-  String img;
-  String id;
-  int week;
-  String trimister;
-  String sizeEnglish;
-  String sizeDari;
-  String sizePashto;
-  String weightEnglish;
-  String weightDari;
-  String weightPashto;
-  String lengthEnglish;
-  String lengthDari;
-  String lengthPashto;
-  String weekInfoEnglish;
-  String weekInfoDari;
-  String weekInfoPashto;
-  String userId;
-  String createAt;
-  int v;
+  String? img;
+  String? id;
+  int? week;
+  String? trimister;
+  String? sizeEnglish;
+  String? sizeDari;
+  String? sizePashto;
+  String? weightEnglish;
+  String? weightDari;
+  String? weightPashto;
+  String? lengthEnglish;
+  String? lengthDari;
+  String? lengthPashto;
+  String? weekInfoEnglish;
+  String? weekInfoDari;
+  String? weekInfoPashto;
+  String? userId;
+  String? createAt;
+  int? v;
 
   PtModule({
     this.img,

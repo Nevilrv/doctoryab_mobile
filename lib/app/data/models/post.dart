@@ -11,8 +11,8 @@ PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
 class PostModel {
-  List<Post> data;
-  int count;
+  List<Post>? data;
+  int? count;
 
   PostModel({
     this.data,
@@ -25,31 +25,31 @@ class PostModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class Post {
-  String img;
-  List<String> likes;
-  List<dynamic> shares;
-  List<Comment> comments;
-  bool isPublished;
-  String id;
-  String name;
-  String descEnglish;
-  String descDari;
-  String descPashto;
-  String categoryEnglish;
-  String categoryDari;
-  String categoryPashto;
-  String blogTitlePashto;
-  String blogTitleDari;
-  String blogTitleEnglish;
-  String doctorId;
-  String createAt;
-  int v;
+  String? img;
+  List<String>? likes;
+  List<dynamic>? shares;
+  List<Comment>? comments;
+  bool? isPublished;
+  String? id;
+  String? name;
+  String? descEnglish;
+  String? descDari;
+  String? descPashto;
+  String? categoryEnglish;
+  String? categoryDari;
+  String? categoryPashto;
+  String? blogTitlePashto;
+  String? blogTitleDari;
+  String? blogTitleEnglish;
+  String? doctorId;
+  String? createAt;
+  int? v;
 
   Post({
     this.img,
@@ -98,9 +98,9 @@ class Post {
 
   Map<String, dynamic> toJson() => {
         "img": img,
-        "likes": List<dynamic>.from(likes.map((x) => x)),
-        "shares": List<dynamic>.from(shares.map((x) => x)),
-        "comments": List<Comment>.from(comments.map((x) => x)),
+        "likes": List<dynamic>.from(likes!.map((x) => x)),
+        "shares": List<dynamic>.from(shares!.map((x) => x)),
+        "comments": List<Comment>.from(comments!.map((x) => x)),
         "is_published": isPublished,
         "_id": id,
         "name": name,

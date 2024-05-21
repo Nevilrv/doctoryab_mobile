@@ -29,7 +29,7 @@ class AuthRepository {
     }
     //TODO handle exception
     var _firebaseIdToken =
-        await AuthController.to.firebaseAuth.currentUser.getIdToken();
+        await AuthController.to.firebaseAuth.currentUser!.getIdToken();
     log("AuthController.to.firebaseAuth.currentUse--------------> $_firebaseIdToken");
     var data = {
       "idtoken": _firebaseIdToken,
@@ -132,10 +132,13 @@ class AuthRepository {
       "city": city,
       "gender": gender
     };
-    log(" $data");
-    log("ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
-    log("SettingsController.userToken--------------> ${SettingsController.userToken}");
-    log("ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
+    print(" $data");
+    print(
+        "ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
+    print(
+        "SettingsController.userToken--------------> ${SettingsController.userToken}");
+    print(
+        "ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
 
     try {
       final response = await dio.put(
@@ -143,7 +146,7 @@ class AuthRepository {
         data: data,
       );
 
-      log("response------DSDSDS--------> $response");
+      print("response------DSDSDS--------> $response");
 
       // var headers = {
       //   'apikey':
@@ -192,7 +195,7 @@ class AuthRepository {
 
   //* update profile image
   Future<dynamic> updateImage(File file,
-      [void uploadProgress(double percent)]) async {
+      [void uploadProgress(double percent)?]) async {
     log("file.path--------------> ${file.path}");
 
     String fileName = file.path.split('/').last;
@@ -220,13 +223,13 @@ class AuthRepository {
 
   //* update profile
   Future<dynamic> updateProfile({
-    String firebaseUserToken,
-    String name,
-    int age,
-    String gender,
-    String cityId,
-    String phone,
-    String email,
+    String? firebaseUserToken,
+    String? name,
+    int? age,
+    String? gender,
+    String? cityId,
+    String? phone,
+    String? email,
   }) async {
     final response = await dio.put(
       ApiConsts.authPath,
@@ -273,8 +276,8 @@ class AuthRepository {
 
   ///complaint api
   Future<dynamic> complaintApi({
-    String title,
-    String desc,
+    String? title,
+    String? desc,
   }) async {
     log("ApiConsts.complaint--------------> ${ApiConsts.complaint}");
 
@@ -291,12 +294,12 @@ class AuthRepository {
 
   ///complaint image api
   Future<dynamic> complaintImageApi({
-    File image,
-    String id,
+    File? image,
+    String? id,
   }) async {
     FormData formData = FormData.fromMap(
       {
-        "img": image.path != ""
+        "img": image!.path != ""
             ? await MultipartFile.fromFile(
                 image.path,
                 filename: image.path.split('/').last,
@@ -316,8 +319,8 @@ class AuthRepository {
 
   ///suggestion api
   Future<dynamic> suggestionApi({
-    String title,
-    String desc,
+    String? title,
+    String? desc,
   }) async {
     log("ApiConsts.complaint--------------> ${ApiConsts.suggestion}");
 
@@ -334,12 +337,12 @@ class AuthRepository {
 
   ///suggestion image api
   Future<dynamic> suggestionImageApi({
-    File image,
-    String id,
+    File? image,
+    String? id,
   }) async {
     FormData formData = FormData.fromMap(
       {
-        "img": image.path != ""
+        "img": image!.path != ""
             ? await MultipartFile.fromFile(
                 image.path,
                 filename: image.path.split('/').last,

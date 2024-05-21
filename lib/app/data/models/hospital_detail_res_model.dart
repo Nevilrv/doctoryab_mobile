@@ -19,9 +19,9 @@ String hospitalDetailsResModelToJson(HospitalDetailsResModel data) =>
     json.encode(data.toJson());
 
 class HospitalDetailsResModel {
-  Data data;
-  List<Cat> cats;
-  List<Doct> docts;
+  Data? data;
+  List<Cat>? cats;
+  List<Doct>? docts;
 
   HospitalDetailsResModel({
     this.data,
@@ -37,15 +37,15 @@ class HospitalDetailsResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
-        "cats": List<dynamic>.from(cats.map((x) => x.toJson())),
-        "docts": List<dynamic>.from(docts.map((x) => x.toJson())),
+        "data": data!.toJson(),
+        "cats": List<dynamic>.from(cats!.map((x) => x.toJson())),
+        "docts": List<dynamic>.from(docts!.map((x) => x.toJson())),
       };
 }
 
 class Cat {
-  String id;
-  String eTitle;
+  String? id;
+  String? eTitle;
 
   Cat({
     this.id,
@@ -64,29 +64,29 @@ class Cat {
 }
 
 class Data {
-  Geometry geometry;
-  String photo;
-  List<String> tags;
-  List<String> categories;
-  List<String> doctors;
-  int type;
-  List<List<String>> times;
-  String description;
-  String email;
-  String totalFeedbacks;
-  String averageRating;
-  int stars;
-  bool isEmergency;
-  int usersStaredCount;
-  String dataId;
-  String address;
-  String name;
-  String city;
-  String phone;
-  String createAt;
-  List<CheckUp> checkUp;
-  int v;
-  int id;
+  Geometry? geometry;
+  String? photo;
+  List<String>? tags;
+  List<String>? categories;
+  List<String>? doctors;
+  int? type;
+  List<List<String>>? times;
+  String? description;
+  String? email;
+  String? totalFeedbacks;
+  String? averageRating;
+  int? stars;
+  bool? isEmergency;
+  int? usersStaredCount;
+  String? dataId;
+  String? address;
+  String? name;
+  String? city;
+  String? phone;
+  String? createAt;
+  List<CheckUp>? checkUp;
+  int? v;
+  int? id;
 
   Data({
     this.geometry,
@@ -143,14 +143,14 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
-        "tags": List<dynamic>.from(tags.map((x) => x)),
-        "categories": List<dynamic>.from(categories.map((x) => x)),
-        "doctors": List<dynamic>.from(doctors.map((x) => x)),
+        "tags": List<dynamic>.from(tags!.map((x) => x)),
+        "categories": List<dynamic>.from(categories!.map((x) => x)),
+        "doctors": List<dynamic>.from(doctors!.map((x) => x)),
         "type": type,
         "times": List<dynamic>.from(
-            times.map((x) => List<dynamic>.from(x.map((x) => x)))),
+            times!.map((x) => List<dynamic>.from(x.map((x) => x)))),
         "description": description,
         "email": email,
         "totalFeedbacks": totalFeedbacks,
@@ -164,19 +164,19 @@ class Data {
         "city": city,
         "phone": phone,
         "createAt": createAt,
-        "checkUp": List<dynamic>.from(checkUp.map((x) => x.toJson())),
+        "checkUp": List<dynamic>.from(checkUp!.map((x) => x.toJson())),
         "__v": v,
         "ID": id,
       };
 }
 
 class CheckUp {
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
-  String img;
+  bool? isBrief;
+  int? price;
+  String? id;
+  String? title;
+  String? content;
+  String? img;
 
   CheckUp({
     this.isBrief,
@@ -207,13 +207,13 @@ class CheckUp {
 }
 
 class Doct {
-  String id;
-  String fullname;
-  String photo;
-  List<Edu> edu;
-  List<Exp> exp;
-  double stars;
-  String speciality;
+  String? id;
+  String? fullname;
+  String? photo;
+  List<Edu>? edu;
+  List<Exp>? exp;
+  double? stars;
+  String? speciality;
 
   Doct({
     this.id,
@@ -239,20 +239,20 @@ class Doct {
         "_id": id,
         "fullname": fullname,
         "photo": photo,
-        "Edu": List<dynamic>.from(edu.map((x) => x.toJson())),
-        "Exp": List<dynamic>.from(exp.map((x) => x.toJson())),
+        "Edu": List<dynamic>.from(edu!.map((x) => x.toJson())),
+        "Exp": List<dynamic>.from(exp!.map((x) => x.toJson())),
         "stars": stars,
         "speciality": speciality,
       };
 }
 
 class Edu {
-  String id;
-  String name;
-  String start;
-  String end;
-  String user;
-  int v;
+  String? id;
+  String? name;
+  String? start;
+  String? end;
+  String? user;
+  int? v;
 
   Edu({
     this.id,
@@ -283,11 +283,11 @@ class Edu {
 }
 
 class Exp {
-  String id;
-  String name;
-  double year;
-  String user;
-  int v;
+  String? id;
+  String? name;
+  double? year;
+  String? user;
+  int? v;
 
   Exp({
     this.id,

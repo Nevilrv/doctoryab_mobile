@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:doctor_yab/app/data/models/city_model.dart';
-import 'package:doctor_yab/app/data/models/drug_database_model.dart';
 import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/static.dart';
@@ -31,7 +27,7 @@ class SettingsController extends GetxController {
   static String get appLanguge {
     //['English', 'فارسی', 'پشتو']
     var _dbLang = AppStatics.hive.settingsBox.get("lang")?.toString();
-    if (_dbLang != null && _dbLang is String) {
+    if (_dbLang != null) {
       if (LocalizationService.langs.contains(_dbLang)) {
         return _dbLang;
       }
@@ -62,7 +58,7 @@ class SettingsController extends GetxController {
   }
 
   static String get userToken {
-    return AppStatics.hive.authBox.get("user_token");
+    return AppStatics.hive.authBox.get("user_token") ?? "";
   }
 
   static set setToken(String s) {
@@ -96,7 +92,7 @@ class SettingsController extends GetxController {
 
     print("-------------------> isUserLoggedInToApi $isUserLoggedInToApi");
 
-    return AppStatics.hive.authBox.get("user_Login");
+    return AppStatics.hive.authBox.get("user_Login") == null ? false : true;
   }
 
   static set userLogin(bool s) {
@@ -104,10 +100,10 @@ class SettingsController extends GetxController {
   }
 
   static bool get isUserLoggedInToApi {
-    return userToken != null;
+    return userToken == "" ? false : true;
   }
 
-  static User get savedUserProfile {
+  static User? get savedUserProfile {
     var _user = AppStatics.hive.authBox.get("user");
 
     //patch update from version 2 to 3.0
@@ -125,8 +121,8 @@ class SettingsController extends GetxController {
           );
   }
 
-  static set savedUserProfile(User user) {
-    AppStatics.hive.authBox.put("user", user.toJson());
+  static set savedUserProfile(User? user) {
+    AppStatics.hive.authBox.put("user", user!.toJson());
   }
 
   // static List<Datum> get drugData {
@@ -188,10 +184,10 @@ class SettingsController extends GetxController {
 
 class _AuthSettings {
   // _AuthSettings();
-  City get savedCity {
+  City? get savedCity {
     var _city = AppStatics.hive.authBox.get("city");
     return _city == null
-        ? null
+        ? City()
         : City.fromJson(
             Map<String, dynamic>.from(
               AppStatics.hive.authBox.get("city"),
@@ -199,7 +195,7 @@ class _AuthSettings {
           );
   }
 
-  set savedCity(City city) {
-    AppStatics.hive.authBox.put("city", city.toJson());
+  set savedCity(City? city) {
+    AppStatics.hive.authBox.put("city", city?.toJson());
   }
 }

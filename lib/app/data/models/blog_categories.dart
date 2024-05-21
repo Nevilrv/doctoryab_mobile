@@ -10,9 +10,9 @@ BlogCategories blogCategoriesFromJson(String str) =>
 String blogCategoriesToJson(BlogCategories data) => json.encode(data.toJson());
 
 class BlogCategories {
-  bool success;
-  List<BlogCategory> data;
-  int count;
+  bool? success;
+  List<BlogCategory>? data;
+  int? count;
 
   BlogCategories({
     this.success,
@@ -31,23 +31,24 @@ class BlogCategories {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data":
-            data == null ? [] : List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class BlogCategory {
-  String id;
-  bool isDeleted;
-  String photo;
-  String categoryEnglish;
-  String categoryDari;
-  String categoryPashto;
-  String detail;
-  String createAt;
-  int v;
-  bool active;
+  String? id;
+  bool? isDeleted;
+  String? photo;
+  String? categoryEnglish;
+  String? categoryDari;
+  String? categoryPashto;
+  String? detail;
+  String? createAt;
+  int? v;
+  bool? active;
 
   BlogCategory({
     this.id,

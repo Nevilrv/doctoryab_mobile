@@ -14,7 +14,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import '../../../../controllers/settings_controller.dart';
 
 class SuggestionScreen extends GetView<ComplaintSuggestionController> {
-  const SuggestionScreen({Key key}) : super(key: key);
+  const SuggestionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +181,7 @@ class SuggestionScreen extends GetView<ComplaintSuggestionController> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  controller.image.value = null;
+                                  // controller.image.value = null;
                                   controller.pickImage();
                                 },
                                 child: Container(

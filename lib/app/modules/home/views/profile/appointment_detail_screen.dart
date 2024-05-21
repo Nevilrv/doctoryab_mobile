@@ -1,33 +1,29 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/appointment_history_res_model.dart';
 import 'package:doctor_yab/app/data/models/histories.dart';
+import 'package:doctor_yab/app/modules/home/controllers/appointmtnet_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appintment_feedback_screen.dart';
-import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class AppointmentDetailScreen extends StatelessWidget {
-  History history;
-  AppointmentDetailScreen({Key key, this.history}) : super(key: key);
+  History? history;
+  AppointmentDetailScreen({Key? key, this.history}) : super(key: key);
+  AppointmentHistoryController appointmentHistoryController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +73,7 @@ class AppointmentDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ListView.builder(
-                    itemCount: history.doctor.length,
+                    itemCount: history!.doctor?.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Container(
@@ -112,7 +108,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                            "${ApiConsts.hostUrl}${history.doctor[index].photo}",
+                                            "${ApiConsts.hostUrl}${history?.doctor?[index].photo}",
                                         height: h * 0.11,
                                         width: h * 0.11,
                                         fit: BoxFit.cover,
@@ -146,14 +142,14 @@ class AppointmentDetailScreen extends StatelessWidget {
                                             history == null
                                                 ? SizedBox()
                                                 : Text(
-                                                    "${history.doctor[index].name ?? ""}",
+                                                    "${history?.doctor?[index].name ?? ""}",
                                                     style: AppTextTheme.h(12)
                                                         .copyWith(
                                                             color: AppColors
                                                                 .primary),
                                                   ),
                                             Text(
-                                              "${history.doctor[index].category.title}",
+                                              "${history?.doctor?[index].category?.title}",
                                               style: AppTextTheme.h(11)
                                                   .copyWith(
                                                       color: AppColors.primary
@@ -169,7 +165,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                                                   ignoreGestures: true,
                                                   itemSize: 17,
                                                   initialRating: double.parse(
-                                                      "${history.doctor[index].averageRatings == null ? "0" : history.doctor[index].averageRatings.toString()}"),
+                                                      "${history?.doctor?[index].averageRatings == null ? "0" : history?.doctor?[index].averageRatings.toString()}"),
                                                   // minRating: 1,
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
@@ -197,11 +193,12 @@ class AppointmentDetailScreen extends StatelessWidget {
                                                     Get.toNamed(Routes.REVIEW,
                                                         arguments: [
                                                           "Doctor_Review",
-                                                          history.doctor[index]
+                                                          history
+                                                              ?.doctor?[index]
                                                         ]);
                                                   },
                                                   child: Text(
-                                                    '(${history.doctor[index].totalFeedbacks == null ? "0" : history.doctor[index].totalFeedbacks.toString()}) ${"reviews".tr}',
+                                                    '(${history?.doctor?[index].totalFeedbacks == null ? "0" : history?.doctor?[index].totalFeedbacks.toString()}) ${"reviews".tr}',
                                                     style: AppTextTheme.b(12)
                                                         .copyWith(
                                                             color: AppColors
@@ -263,37 +260,63 @@ class AppointmentDetailScreen extends StatelessWidget {
                               SizedBox(
                                 height: h * 0.03,
                               ),
-                              history.visited == false
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        AppGetDialog.showCancelAppointment(
-                                            doctorName: '');
-                                      },
-                                      child: Container(
-                                        width: w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                            color: AppColors.primary,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  offset: Offset(0, 4),
-                                                  blurRadius: 4,
-                                                  color: AppColors.black
-                                                      .withOpacity(0.1))
-                                            ]),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12),
-                                          child: Center(
-                                            child: Text(
-                                              "Cancel Appointments",
-                                              style: AppTextStyle.boldWhite10,
+                              history?.visited == false
+                                  ? history?.status == "cancelled"
+                                      ? Text(
+                                          SettingsController.appLanguge ==
+                                                  "English"
+                                              ? "Your appointment is cancelled!"
+                                              : SettingsController.appLanguge ==
+                                                      "فارسی"
+                                                  ? " !وقت معاینه شما کنسل شد"
+                                                  : " ستاسو ملاقات لغوه شو",
+                                          style: AppTextTheme.h(13).copyWith(
+                                              color: AppColors.red2
+                                                  .withOpacity(0.7),
+                                              fontWeight: FontWeight.w500))
+                                      : GestureDetector(
+                                          onTap: () {
+                                            AppGetDialog.showCancelAppointment(
+                                              doctorName: '',
+                                              onTap: () {
+                                                Get.back();
+                                                appointmentHistoryController
+                                                    .cancelAppointment(
+                                                        id: history?.id,
+                                                        patientId:
+                                                            history?.patientId,
+                                                        context: context);
+                                                Get.back();
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            width: w,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                color: AppColors.primary,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(0, 4),
+                                                      blurRadius: 4,
+                                                      color: AppColors.black
+                                                          .withOpacity(0.1))
+                                                ]),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12),
+                                              child: Center(
+                                                child: Text(
+                                                  "Cancel Appointments",
+                                                  style:
+                                                      AppTextStyle.boldWhite10,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    )
+                                        )
                                   : SizedBox(),
                               SizedBox(
                                 height: h * 0.02,
@@ -301,7 +324,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   Get.to(AppointmentFeedbackScreen(
-                                    history: history,
+                                    history: history!,
                                   ));
                                 },
                                 child: Container(
@@ -476,7 +499,7 @@ class AppointmentDetailScreen extends StatelessWidget {
   // }
 
   Stack VisitedDoctorBox(double w) {
-    log('------history.visited-----${history.visited}');
+    log('------history.visited-----${history?.visited}');
 
     return Stack(
       clipBehavior: Clip.none,
@@ -499,7 +522,7 @@ class AppointmentDetailScreen extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: history.visited == true
+                      color: history?.visited == true
                           ? AppColors.green.withOpacity(0.1)
                           : AppColors.red.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4)),
@@ -508,9 +531,9 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        history.visited == true ? "YES" : "NO",
+                        history?.visited == true ? "YES" : "NO",
                         style: AppTextStyle.mediumPrimary12.copyWith(
-                          color: history.visited == true
+                          color: history?.visited == true
                               ? AppColors.green
                               : AppColors.red,
                         ),
@@ -542,9 +565,9 @@ class AppointmentDetailScreen extends StatelessWidget {
   }
 
   Stack DateAppointmentBox(double w) {
-    var d = DateTime.parse(history.visitDate == null
-            ? DateTime.now()
-            : history.visitDate.toLocal().toString())
+    var d = DateTime.parse(history?.visitDate == null
+            ? DateTime.now().toString()
+            : history!.visitDate!.toLocal().toString())
         .toPersianDateStr(
           strDay: false,
           strMonth: true,
@@ -635,7 +658,7 @@ class AppointmentDetailScreen extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: Center(
                       child: Text(
-                        "${DateFormat("HH.MM").format(DateTime.parse(history.visitDate.toString() == null ? DateTime.now().toString() : history.visitDate.toString()))}",
+                        "${DateFormat("HH.MM").format(DateTime.parse(history?.visitDate.toString() == null ? DateTime.now().toString() : history!.visitDate.toString()))}",
                         style: AppTextStyle.mediumPrimary12
                             .copyWith(color: AppColors.red),
                       ),

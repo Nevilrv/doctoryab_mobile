@@ -29,9 +29,9 @@ class ChatRepository {
   static Future<List<ChatListApiModel>> fetchChatList(
     String searchValue, {
     int limitPerPage = 100,
-    int page,
-    void onError(e),
-    CancelToken cancelToken,
+    int? page,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
@@ -50,25 +50,27 @@ class ChatRepository {
             "searchVal": searchValue,
           },
 
-          // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
       },
       onError: onError,
-    );
+    ) as List<ChatListApiModel>;
+
+    // log("data========================${data}");
+    // return data;
   }
 
   static Future<List<ChatApiModel>> fetchChatsById(
     String chatID, {
-    int limitPerPage = 10,
-    int page,
-    void onError(e),
-    CancelToken cancelToken,
+    int? limitPerPage = 10,
+    int? page,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<ChatApiModel>(
+    List<ChatApiModel> data = await Utils.parseResponse<ChatApiModel>(
       () async {
         // var doctorReports;
 
@@ -96,16 +98,17 @@ class ChatRepository {
         return res;
       },
       onError: onError,
-    );
+    ) as List<ChatApiModel>;
+    return data;
   }
 
   static Future<ChatApiModel> sendMessage(
     String chatID,
     String message, {
-    void onError(e),
-    String type,
-    List<dynamic> images,
-    CancelToken cancelToken,
+    required void onError(e),
+    String? type,
+    List<dynamic>? images,
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
@@ -164,11 +167,11 @@ class ChatRepository {
   }
 
   Future<dynamic> uploadImage({
-    File file,
+    File? file,
   }) async {
     FormData formData = FormData.fromMap(
       {
-        "imgs": file.path != ""
+        "imgs": file!.path != ""
             ? await MultipartFile.fromFile(
                 file.path,
                 filename: file.path.split('/').last,
@@ -191,16 +194,17 @@ class ChatRepository {
   }
 
   Future<dynamic> uploadPDF({
-    File file,
+    File? file,
   }) async {
-    File pdfFile = File(file.path.toString());
+    File pdfFile = File(file!.path.toString());
     log("pdfFile--------------> ${pdfFile.path}");
 
     FormData formData = FormData.fromMap(
       {
         "file": pdfFile.path != ""
             ? await MultipartFile.fromFile("${pdfFile.path}",
-                filename: pdfFile.path.split('/').last, contentType: MediaType('application', 'pdf'))
+                filename: pdfFile.path.split('/').last,
+                contentType: MediaType('application', 'pdf'))
             : null,
       },
     );
@@ -217,9 +221,9 @@ class ChatRepository {
   }
 
   Future<dynamic> uploadAudio({
-    File file,
+    File? file,
   }) async {
-    File audioFile = File(file.path.toString());
+    File audioFile = File(file!.path.toString());
     log("file.path--------------> ${audioFile.path}");
 
     FormData formData = FormData.fromMap(
@@ -249,8 +253,8 @@ class ChatRepository {
   static Future<ChatApiModel> createNewChat(
     String title,
     String message, {
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();

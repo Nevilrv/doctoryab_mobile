@@ -2,7 +2,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:flutter/material.dart';
 
 class PointPainter extends StatelessWidget {
-  final TextStyle style;
+  final TextStyle? style;
   const PointPainter({this.style});
 
   @override

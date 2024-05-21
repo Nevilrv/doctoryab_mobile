@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/histories.dart';
 import 'package:doctor_yab/app/data/repository/AppointmentRepository.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
+import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,8 +31,8 @@ class AppointmentHistoryController extends GetxController {
       // AdsModel v = AdsModel();
       appointmentList.clear();
 
-      if (v.data.isNotEmpty) {
-        appointmentList.addAll(v.data);
+      if (v.data!.isNotEmpty) {
+        appointmentList.addAll(v.data!);
         update();
       }
       isLoading = false;
@@ -39,7 +42,7 @@ class AppointmentHistoryController extends GetxController {
       update();
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) fetchAppointmentHistory();
+        fetchAppointmentHistory();
       });
     });
   }
@@ -51,8 +54,8 @@ class AppointmentHistoryController extends GetxController {
 
   bool isLoading1 = false;
   void addDocFeedback({
-    String doctorId,
-    BuildContext context,
+    String? doctorId,
+    BuildContext? context,
   }) async {
     isLoading1 = true;
     update();
@@ -80,14 +83,14 @@ class AppointmentHistoryController extends GetxController {
         eRating = 0.0;
         sRating = 0.0;
 
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating = 0.0;
         eRating = 0.0;
         sRating = 0.0;
         Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+            context: context!, text: "${e.response.data['msg']}");
 
         isLoading1 = false;
         update();
@@ -101,5 +104,27 @@ class AppointmentHistoryController extends GetxController {
       // throw e;
       print(e);
     }
+  }
+
+  cancelAppointment({String? id, String? patientId, BuildContext? context}) {
+    log('id ---------->>>>>>>> ${id}');
+    log('patientId ---------->>>>>>>> ${patientId}');
+    isLoading = true;
+    update();
+    try {
+      AppointmentRepository()
+          .cancelAppointment(id: id, patientId: patientId)
+          .then((data) {
+        fetchAppointmentHistory();
+        isLoading = false;
+        update();
+      });
+    } catch (e) {
+      log('e ---------->>>>>>>> ${e}');
+      Utils.commonSnackbar(context: context!, text: "${e}");
+      isLoading = false;
+      update();
+    }
+    update();
   }
 }

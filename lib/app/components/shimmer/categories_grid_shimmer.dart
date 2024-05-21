@@ -5,13 +5,13 @@ import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:get/get.dart';
 
 class CategoriesGridShimmer extends StatelessWidget {
-  final Color baseColor;
-  final Color highlightColor;
-  final Color color;
-  final int xCount;
-  final int yCount;
+  final Color? baseColor;
+  final Color? highlightColor;
+  final Color? color;
+  final int? xCount;
+  final int? yCount;
   const CategoriesGridShimmer({
-    Key key,
+    Key? key,
     this.baseColor,
     // this.baseColor = AppColors.shimmerBaseColor,
     // this.baseColor =  Color.,
@@ -33,8 +33,8 @@ class CategoriesGridShimmer extends StatelessWidget {
       // baseColor: Colors.grey[300],
       // highlightColor: Colors.white,
 
-      baseColor: baseColor ?? Colors.grey[300],
-      highlightColor: highlightColor ?? Colors.grey[100],
+      baseColor: baseColor ?? (Colors.grey[300]!),
+      highlightColor: highlightColor ?? (Colors.grey[100]!),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,13 +68,13 @@ class CategoriesGridShimmer extends StatelessWidget {
 }
 
 class PackageGridShimmer extends StatelessWidget {
-  final Color baseColor;
-  final Color highlightColor;
-  final Color color;
-  final int xCount;
-  final int yCount;
+  final Color? baseColor;
+  final Color? highlightColor;
+  final Color? color;
+  final int? xCount;
+  final int? yCount;
   const PackageGridShimmer({
-    Key key,
+    Key? key,
     this.baseColor,
     // this.baseColor = AppColors.shimmerBaseColor,
     // this.baseColor =  Color.,
@@ -96,8 +96,8 @@ class PackageGridShimmer extends StatelessWidget {
       // baseColor: Colors.grey[300],
       // highlightColor: Colors.white,
 
-      baseColor: baseColor ?? Colors.grey[300],
-      highlightColor: highlightColor ?? Colors.grey[100],
+      baseColor: baseColor ?? Colors.grey[300]!,
+      highlightColor: highlightColor ?? Colors.grey[100]!,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

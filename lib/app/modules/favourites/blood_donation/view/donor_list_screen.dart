@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class DonorListScreen extends GetView<FindBloodDonorController> {
-  const DonorListScreen({Key key}) : super(key: key);
+  const DonorListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +226,7 @@ class DonorListScreen extends GetView<FindBloodDonorController> {
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       15),
                                                           child: Center(
@@ -263,7 +263,7 @@ class DonorListScreen extends GetView<FindBloodDonorController> {
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       15),
                                                           child: Center(

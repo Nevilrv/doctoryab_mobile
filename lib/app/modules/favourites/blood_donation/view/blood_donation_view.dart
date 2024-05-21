@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BloodDonationView extends GetView<BloodDonationController> {
-  BloodDonationView({Key key}) : super(key: key);
+  BloodDonationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

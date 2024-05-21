@@ -61,22 +61,24 @@ class HospitalNewView extends GetView<HospitalNewController> {
                   : GetBuilder<HospitalNewController>(
                       builder: (controller) {
                         return ProfileViewNew(
-                            address: controller.resModel.data.address ?? "",
+                            address: controller.resModel!.data!.address ?? "",
                             photo:
-                                "${ApiConsts.hostUrl}${controller.resModel.data.photo}",
+                                "${ApiConsts.hostUrl}${controller.resModel!.data!.photo}",
                             star: double.parse(
-                                controller.resModel.data.averageRating == null
+                                controller.resModel!.data!.averageRating == null
                                     ? "0"
-                                    : controller.resModel.data.averageRating
+                                    : controller.resModel!.data!.averageRating
                                         .toString()),
                             reviewTitle: "hospital_reviews",
-                            geometry: controller.resModel.data.geometry,
-                            name: controller.resModel.data.name,
-                            phoneNumbers: controller.resModel.data.phone,
+                            geometry: controller.resModel!.data!.geometry,
+                            name: controller.resModel!.data!.name ?? "",
+                            phoneNumbers:
+                                controller.resModel!.data!.phone ?? "",
                             numberOfusersRated: int.parse(
-                                controller.resModel.data.totalFeedbacks == null
+                                controller.resModel!.data!.totalFeedbacks ==
+                                        null
                                     ? "0"
-                                    : controller.resModel.data.totalFeedbacks
+                                    : controller.resModel!.data!.totalFeedbacks
                                         .toString()),
                             reviewFunction: () {
                               controller.tabIndex = 3;
@@ -117,7 +119,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                               .primary)),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 5,
                                                         vertical: 8),
                                                     child: Center(
@@ -168,16 +170,16 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                           controller.doctorList
                                                               .length, (index) {
                                                         var date;
-                                                        String slot;
+                                                        String? slot;
 
                                                         if (controller
                                                             .doctorList[index]
-                                                            .schedules
+                                                            .schedules!
                                                             .isNotEmpty) {
                                                           if (controller
                                                                   .doctorList[
                                                                       index]
-                                                                  .schedules
+                                                                  .schedules!
                                                                   .length ==
                                                               1) {
                                                             for (int i = 0;
@@ -190,7 +192,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                               if (controller
                                                                       .doctorList[
                                                                           index]
-                                                                      .schedules[
+                                                                      .schedules![
                                                                           0]
                                                                       .dayOfWeek ==
                                                                   d.weekday) {
@@ -208,12 +210,12 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                 if (controller
                                                                     .doctorList[
                                                                         index]
-                                                                    .schedules[
+                                                                    .schedules![
                                                                         0]
-                                                                    .times
+                                                                    .times!
                                                                     .isNotEmpty) {
                                                                   slot =
-                                                                      "${controller.doctorList[index].schedules[0].times.first} - ${controller.doctorList[index].schedules[0].times.last}";
+                                                                      "${controller.doctorList[index].schedules![0].times!.first} - ${controller.doctorList[index].schedules![0].times!.last}";
                                                                 }
 
                                                                 break;
@@ -226,23 +228,24 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                             controller
                                                                 .doctorList[
                                                                     index]
-                                                                .schedules
+                                                                .schedules!
                                                                 .sort((a, b) => a
-                                                                    .dayOfWeek
+                                                                    .dayOfWeek!
                                                                     .compareTo(b
-                                                                        .dayOfWeek));
+                                                                        .dayOfWeek!
+                                                                        .toInt()));
                                                             for (int i = 0;
                                                                 i <
                                                                     controller
                                                                         .doctorList[
                                                                             index]
-                                                                        .schedules
+                                                                        .schedules!
                                                                         .length;
                                                                 i++) {
                                                               da.add(controller
                                                                   .doctorList[
                                                                       index]
-                                                                  .schedules[i]
+                                                                  .schedules![i]
                                                                   .dayOfWeek);
                                                             }
                                                             var n =
@@ -268,11 +271,11 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   greater.first;
                                                             }
 
-                                                            Schedule data;
+                                                            Schedule? data;
                                                             controller
                                                                 .doctorList[
                                                                     index]
-                                                                .schedules
+                                                                .schedules!
                                                                 .forEach(
                                                                     (element) {
                                                               if (element
@@ -286,15 +289,15 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                 controller
                                                                     .doctorList[
                                                                         index]
-                                                                    .schedules
+                                                                    .schedules!
                                                                     .indexOf(
-                                                                        data);
+                                                                        data!);
 
                                                             if (indexxx ==
                                                                 controller
                                                                         .doctorList[
                                                                             index]
-                                                                        .schedules
+                                                                        .schedules!
                                                                         .length -
                                                                     1) {
                                                               indexxx = 0;
@@ -326,18 +329,18 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                 if (controller
                                                                     .doctorList[
                                                                         index]
-                                                                    .schedules[
+                                                                    .schedules![
                                                                         indexxx]
-                                                                    .times
+                                                                    .times!
                                                                     .isNotEmpty) {
                                                                   slot =
-                                                                      "${controller.doctorList[index].schedules[indexxx].times.first} - ${controller.doctorList[index].schedules[indexxx].times.last}";
+                                                                      "${controller.doctorList[index].schedules![indexxx].times!.first} - ${controller.doctorList[index].schedules![indexxx].times!.last}";
                                                                 }
                                                               }
                                                               if (controller
                                                                       .doctorList[
                                                                           index]
-                                                                      .schedules[
+                                                                      .schedules![
                                                                           indexxx]
                                                                       .dayOfWeek ==
                                                                   d.weekday) {
@@ -355,12 +358,12 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                 if (controller
                                                                     .doctorList[
                                                                         index]
-                                                                    .schedules[
+                                                                    .schedules![
                                                                         indexxx]
-                                                                    .times
+                                                                    .times!
                                                                     .isNotEmpty) {
                                                                   slot =
-                                                                      "${controller.doctorList[index].schedules[indexxx].times.first} - ${controller.doctorList[index].schedules[indexxx].times.last}";
+                                                                      "${controller.doctorList[index].schedules![indexxx].times!.first} - ${controller.doctorList[index].schedules![indexxx].times!.last}";
                                                                 }
 
                                                                 break;
@@ -555,7 +558,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                           height:
                                                                               10,
                                                                         ),
-                                                                        controller.doctorList[index].schedules.isEmpty
+                                                                        controller.doctorList[index].schedules!.isEmpty
                                                                             ? SizedBox()
                                                                             : Container(
                                                                                 padding: EdgeInsets.symmetric(
@@ -659,8 +662,9 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                         ),
                                       )
                                     : controller.tabIndex == 1
-                                        ? controller
-                                                .resModel.data.checkUp.isEmpty
+                                        ? controller.resModel!.data!.checkUp
+                                                    ?.isEmpty ??
+                                                true
                                             ? Center(
                                                 child: Padding(
                                                 padding: EdgeInsets.only(
@@ -677,9 +681,9 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                       EdgeInsets.only(top: 10),
                                                   child: GridView.builder(
                                                     itemCount: controller
-                                                        .resModel
-                                                        .data
-                                                        .checkUp
+                                                        .resModel!
+                                                        .data!
+                                                        .checkUp!
                                                         .length,
                                                     shrinkWrap: true,
                                                     physics:
@@ -698,10 +702,11 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                         onTap: () {
                                                           Get.dialog(
                                                             Padding(
-                                                              padding: const EdgeInsets
+                                                              padding:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal:
-                                                                      30),
+                                                                      horizontal:
+                                                                          30),
                                                               child: Center(
                                                                 child:
                                                                     Container(
@@ -717,7 +722,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   child:
                                                                       Padding(
                                                                     padding: const EdgeInsets
-                                                                            .symmetric(
+                                                                        .symmetric(
                                                                         horizontal:
                                                                             20,
                                                                         vertical:
@@ -753,12 +758,12 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                           ],
                                                                         ),
                                                                         Text(
-                                                                          "${controller.resModel.data.checkUp[index].title ?? ""}",
+                                                                          "${controller.resModel!.data!.checkUp![index].title ?? ""}",
                                                                           style:
                                                                               AppTextStyle.boldBlack13,
                                                                         ),
                                                                         Text(
-                                                                          "${controller.resModel.data.checkUp[index].content ?? ""}" ??
+                                                                          "${controller.resModel!.data!.checkUp![index].content ?? ""}" ??
                                                                               "",
                                                                           style: AppTextStyle
                                                                               .boldBlack13
@@ -791,7 +796,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   child:
                                                                       CachedNetworkImage(
                                                                     imageUrl:
-                                                                        "${ApiConsts.hostUrl}${controller.resModel.data.checkUp[index].img}",
+                                                                        "${ApiConsts.hostUrl}${controller.resModel!.data!.checkUp![index].img}",
                                                                     fit: BoxFit
                                                                         .cover,
                                                                     placeholder:
@@ -817,12 +822,12 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                 ),
                                                               ),
                                                               Text(
-                                                                "${controller.resModel.data.checkUp[index].title ?? ""}",
+                                                                "${controller.resModel?.data!.checkUp?[index].title ?? ""}",
                                                                 style: AppTextStyle
                                                                     .boldPrimary12,
                                                               ),
                                                               Text(
-                                                                "${controller.resModel.data.checkUp[index].content ?? ""}",
+                                                                "${controller.resModel?.data!.checkUp?[index].content ?? ""}",
                                                                 maxLines: 2,
                                                                 overflow:
                                                                     TextOverflow
@@ -847,14 +852,14 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                             .primary)),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
-                                                                          .symmetric(
+                                                                      .symmetric(
                                                                       vertical:
                                                                           5,
                                                                       horizontal:
                                                                           5),
                                                                   child: Center(
                                                                     child: Text(
-                                                                      "${controller.resModel.data.checkUp[index].price}  ${"afn".tr}",
+                                                                      "${controller.resModel?.data!.checkUp?[index].price}  ${"afn".tr}",
                                                                       style: AppTextStyle
                                                                           .boldWhite12,
                                                                     ),
@@ -870,11 +875,11 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                 ),
                                               )
                                         : controller.tabIndex == 2
-                                            ? controller.resModel.data
-                                                            .description ==
+                                            ? controller.resModel?.data
+                                                            ?.description ==
                                                         "" ||
-                                                    controller.resModel.data
-                                                            .description ==
+                                                    controller.resModel?.data
+                                                            ?.description ==
                                                         null
                                                 ? Center(
                                                     child: Padding(
@@ -933,7 +938,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                   ),
                                                                   child:
                                                                       ExpandableText(
-                                                                    "${controller.resModel.data.description}",
+                                                                    "${controller.resModel?.data?.description}",
                                                                     expandText:
                                                                         'Read more',
                                                                     collapseText:
@@ -971,7 +976,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                       setStates) {
                                                                 return Padding(
                                                                   padding: const EdgeInsets
-                                                                          .symmetric(
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           30),
                                                                   child: Center(
@@ -987,7 +992,8 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                       ),
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsets.symmetric(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
                                                                             horizontal:
                                                                                 20,
                                                                             vertical:
@@ -1106,7 +1112,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                             ),
                                                                             GestureDetector(
                                                                               onTap: () {
-                                                                                controller.addDocFeedback(hospitalId: controller.hospital.id.toString(), context: context);
+                                                                                controller.addDocFeedback(hospitalId: controller.hospital?.id.toString(), context: context);
                                                                               },
                                                                               child: Container(
                                                                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: AppColors.primary),
@@ -1147,7 +1153,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         10,
                                                                     vertical:
@@ -1205,7 +1211,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                               .feedbackData
                                                                               .length,
                                                                           (index) {
-                                                                        var d = DateTime.parse(controller.feedbackData[index].createAt)
+                                                                        var d = DateTime.parse(controller.feedbackData[index].createAt.toString())
                                                                             .toPersianDateStr(
                                                                               strDay: false,
                                                                               strMonth: true,
@@ -1214,8 +1220,9 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                             .trim()
                                                                             .split(' ');
                                                                         return Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(bottom: 10.0),
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              bottom: 10.0),
                                                                           child:
                                                                               Column(
                                                                             children: [
@@ -1270,7 +1277,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                                                 Container(
                                                                                                   width: Get.width * 0.38,
                                                                                                   child: Text(
-                                                                                                    controller.feedbackData[index].postedBy.name ?? "",
+                                                                                                    controller.feedbackData[index].postedBy?.name ?? "",
                                                                                                     style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                                   ),
                                                                                                 ),
@@ -1278,7 +1285,7 @@ class HospitalNewView extends GetView<HospitalNewController> {
                                                                                                 RatingBar.builder(
                                                                                                   ignoreGestures: true,
                                                                                                   itemSize: 17,
-                                                                                                  initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0"),
+                                                                                                  initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}"),
                                                                                                   // minRating: 1,
                                                                                                   direction: Axis.horizontal,
                                                                                                   allowHalfRating: true,

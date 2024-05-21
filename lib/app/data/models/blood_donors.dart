@@ -14,10 +14,10 @@ class BloodDonors {
     this.bloodDonors,
   });
 
-  List<BloodDonor> bloodDonors;
+  List<BloodDonor>? bloodDonors;
 
   BloodDonors copyWith({
-    List<BloodDonor> data,
+    List<BloodDonor>? data,
   }) =>
       BloodDonors(
         bloodDonors: data ?? this.bloodDonors,
@@ -29,7 +29,7 @@ class BloodDonors {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(bloodDonors.map((x) => x.toJson())),
+        "data": List<dynamic>.from(bloodDonors!.map((x) => x.toJson())),
       };
 }
 
@@ -49,32 +49,32 @@ class BloodDonor {
     this.distance,
   });
 
-  String datumId;
-  Geometry geometry;
-  bool verified;
-  DateTime createAt;
-  String donorName;
-  int age;
-  num phone;
-  String bloodGroup;
-  String gender;
-  int id;
-  int v;
-  double distance;
+  String? datumId;
+  Geometry? geometry;
+  bool? verified;
+  DateTime? createAt;
+  String? donorName;
+  int? age;
+  num? phone;
+  String? bloodGroup;
+  String? gender;
+  int? id;
+  int? v;
+  double? distance;
 
   BloodDonor copyWith({
-    String datumId,
-    Geometry geometry,
-    bool verified,
-    DateTime createAt,
-    String donorName,
-    int age,
-    num phone,
-    String bloodGroup,
-    String gender,
-    int id,
-    int v,
-    double distance,
+    String? datumId,
+    Geometry? geometry,
+    bool? verified,
+    DateTime? createAt,
+    String? donorName,
+    int? age,
+    num? phone,
+    String? bloodGroup,
+    String? gender,
+    int? id,
+    int? v,
+    double? distance,
   }) =>
       BloodDonor(
         datumId: datumId ?? this.datumId,
@@ -109,9 +109,9 @@ class BloodDonor {
 
   Map<String, dynamic> toJson() => {
         "_id": datumId,
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "verified": verified,
-        "createAt": createAt.toIso8601String(),
+        "createAt": createAt!.toIso8601String(),
         "donorName": donorName,
         "age": age,
         "phone": phone,
@@ -129,12 +129,12 @@ class Geometry {
     this.coordinates,
   });
 
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry copyWith({
-    String type,
-    List<double> coordinates,
+    String? type,
+    List<double>? coordinates,
   }) =>
       Geometry(
         type: type ?? this.type,
@@ -149,6 +149,6 @@ class Geometry {
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

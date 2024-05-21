@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/modules/intro/controllers/intro_controller.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
@@ -12,6 +14,10 @@ class SplashScreenBinding extends Bindings {
       SplashScreenController(),
     );
     Get.put(IntroController());
-    Jiffy.locale(Get.locale.languageCode);
+
+    log('Get.locale!.languageCode ---------->>>>>>>> ${Get.locale!.languageCode}');
+    Jiffy.setLocale(Get.locale!.languageCode);
+
+    // Jiffy.locale(Get.locale.languageCode);
   }
 }

@@ -3,12 +3,12 @@ import 'package:shimmer/shimmer.dart';
 import 'package:get/get.dart';
 
 class CityShimmer extends StatelessWidget {
-  final Color baseColor;
-  final Color highlightColor;
-  final Color color;
-  final int linesCount;
+  final Color? baseColor;
+  final Color? highlightColor;
+  final Color? color;
+  final int? linesCount;
   const CityShimmer({
-    Key key,
+    Key? key,
     this.baseColor,
     // this.baseColor = AppColors.shimmerBaseColor,
     // this.baseColor =  Color.,
@@ -27,14 +27,14 @@ class CityShimmer extends StatelessWidget {
       // baseColor: Colors.grey[300],
       // highlightColor: Colors.white,
 
-      baseColor: baseColor ?? Colors.grey[300],
-      highlightColor: highlightColor ?? Colors.grey[100],
+      baseColor: baseColor ?? Colors.grey[300]!,
+      highlightColor: highlightColor ?? Colors.grey[100]!,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: () {
           var _tmpList = <Widget>[];
-          for (int i = 0; i < linesCount ?? 4; i++) {
+          for (int i = 0; i < (linesCount ?? 4); i++) {
             _tmpList.add(_buildDevider());
           }
           return _tmpList;

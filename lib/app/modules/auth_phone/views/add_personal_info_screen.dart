@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/modules/auth_phone/controllers/personal_detail_add_controller.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -17,12 +14,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/auth_phone_controller.dart';
-
 class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       // appBar: AppBar(
@@ -306,7 +300,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                           items: controller.locations.map((City value) {
                             return DropdownMenuItem<String>(
                               value: value.sId,
-                              child: Text(value.eName,
+                              child: Text(value.eName!,
                                   style: AppTextStyle.mediumPrimary12
                                       .copyWith(color: AppColors.primary)),
                             );
@@ -315,12 +309,12 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                             controller.locations.forEach((element) {
                               if (value == element.sId) {
                                 controller.selectedLocation.value =
-                                    element.eName;
+                                    element.eName!;
                                 SettingsController.auth.savedCity = element;
                               }
                             });
 
-                            controller.selectedLocationId.value = value;
+                            controller.selectedLocationId.value = value!;
                           },
                         ),
                       ),
@@ -391,7 +385,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                             );
                           }).toList(),
                           onChanged: (value) {
-                            controller.selectedGender.value = value;
+                            controller.selectedGender.value = value!;
                           },
                         ),
                       ),
@@ -413,7 +407,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                       radius: 10,
                       padding: EdgeInsets.symmetric(vertical: 8),
                       onTap: () {
-                        if (controller.formKey.currentState.validate()) {
+                        if (controller.formKey.currentState!.validate()) {
                           if (controller.selectedLocationId.value == "") {
                             Utils.showSnackBar(
                                 context, "Please_select_city".tr);

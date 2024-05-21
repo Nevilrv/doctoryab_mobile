@@ -10,14 +10,14 @@ import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
 class DoctorListTileItem extends StatelessWidget {
   final Doctor doctor;
-  final Widget trailing;
+  final Widget? trailing;
   final int imageRadius;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final ListTileMode listTileMode;
 
   const DoctorListTileItem(
     this.doctor, {
-    Key key,
+    Key? key,
     this.imageRadius = 20,
     this.trailing,
     this.onTap,
@@ -121,7 +121,7 @@ class DoctorListTileItem extends StatelessWidget {
     );
   }
 
-  Widget _profileImge({int radius, Doctor doctor}) {
+  Widget _profileImge({int? radius, Doctor? doctor}) {
     return Container(
       // color: Colors.black,
       // height: 65,
@@ -133,7 +133,7 @@ class DoctorListTileItem extends StatelessWidget {
           //   ),
           // ).radiusAll(imageRadius ?? 20),
           CachedNetworkImage(
-        imageUrl: "${ApiConsts.hostUrl}${doctor.photo}",
+        imageUrl: "${ApiConsts.hostUrl}${doctor!.photo}",
         placeholder: (_, __) {
           return Image.asset(
             "assets/png/person-placeholder.jpg",

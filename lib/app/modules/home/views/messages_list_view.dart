@@ -8,7 +8,7 @@ import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
 
 class MessagesListView extends GetView<MessagesListController> {
-  const MessagesListView({Key key}) : super(key: key);
+  const MessagesListView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Theme(

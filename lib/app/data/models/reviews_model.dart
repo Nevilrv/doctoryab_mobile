@@ -16,14 +16,14 @@ class ReviewsModel {
     this.avarageHospitalRating,
   });
 
-  final List<Review> data;
-  final int totalHospitalVisiter;
-  final double avarageHospitalRating;
+  final List<Review>? data;
+  final int? totalHospitalVisiter;
+  final double? avarageHospitalRating;
 
   ReviewsModel copyWith({
-    List<Review> data,
-    int totalHospitalVisiter,
-    double avarageHospitalRating,
+    List<Review>? data,
+    int? totalHospitalVisiter,
+    double? avarageHospitalRating,
   }) =>
       ReviewsModel(
         data: data ?? this.data,
@@ -47,7 +47,7 @@ class ReviewsModel {
   Map<String, dynamic> toJson() => {
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "totalHospitalVisiter":
             totalHospitalVisiter == null ? null : totalHospitalVisiter,
         "AvarageHospitalRating":
@@ -67,24 +67,24 @@ class Review {
     this.comment,
   });
 
-  final String name;
-  final String email;
-  final String photo;
-  final int visitor;
-  final String speciality;
-  final double docTotalRating;
-  final String id;
-  final String comment;
+  final String? name;
+  final String? email;
+  final String? photo;
+  final int? visitor;
+  final String? speciality;
+  final double? docTotalRating;
+  final String? id;
+  final String? comment;
 
   Review copyWith({
-    String name,
-    String email,
-    String photo,
-    int visitor,
-    String speciality,
-    double docTotalRating,
-    String id,
-    String comment,
+    String? name,
+    String? email,
+    String? photo,
+    int? visitor,
+    String? speciality,
+    double? docTotalRating,
+    String? id,
+    String? comment,
   }) =>
       Review(
         name: name ?? this.name,

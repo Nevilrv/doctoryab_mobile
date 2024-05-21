@@ -26,7 +26,7 @@ class PushNotificationService {
   // Chat
   static var _notificationType = NotificationType.rate;
   NotificationType get notificationType => _notificationType;
-  ChatNotificationModel chatNotification;
+  ChatNotificationModel? chatNotification;
 
   //TODO this commit must be tested
   Future initialise() async {
@@ -59,7 +59,7 @@ class PushNotificationService {
     // If you want to test the push notification locally,
     // you need to get the token and input to the Firebase console
     // https://console.firebase.google.com/project/YOUR_PROJECT_ID/notification/compose
-    String token = await _fcm.getToken();
+    String? token = await _fcm.getToken();
     log("FirebaseMessaging token: $token");
 
     FirebaseMessaging.onMessage.listen(fcmListener);
@@ -75,15 +75,15 @@ class PushNotificationService {
   ///
 
   Future<void> fcmListener(RemoteMessage message) async {
-    RemoteNotification notification = message.notification;
-    AndroidNotification android = message.notification?.android;
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
 
     log("fcm_data: ${jsonEncode(message.data)}");
     log("fcm_data: ${message.data}");
     // print(Doctor.fromJson(json.decode(message?.data['doctor'] ?? "{}") ?? {})
     //     .name);
     //
-    if (message.data != null) {
+    if (message.data != "") {
       if (message.data["purpose"] != null &&
           message.data["purpose"] == "send-message") {
         _notificationType = NotificationType.message;
@@ -92,10 +92,10 @@ class PushNotificationService {
           chatNotification = ChatNotificationModel.fromJson(message.data);
 
           ChatNotificationHandler.handle(
-            chatNotification,
+            chatNotification!,
             NotificationPayloadModel(
-                data: chatNotification.toRawJson(),
-                id: message.messageId,
+                data: chatNotification!.toRawJson(),
+                id: message.messageId.toString(),
                 type: "$_notificationType"),
           );
         } catch (e, s) {
@@ -175,12 +175,12 @@ class PushNotificationService {
     // Get.to(() => RateView());
 
     if (notificationResponse.payload != null) {
-      NotificationPayloadModel payload =
-          NotificationPayloadModel.fromRawJson(notificationResponse.payload);
+      NotificationPayloadModel payload = NotificationPayloadModel.fromRawJson(
+          notificationResponse.payload.toString());
       log("payload.type---->${payload.type}");
       log("payload.type---->${payload.data}");
 
-      var data = jsonDecode(notificationResponse.payload);
+      var data = jsonDecode(notificationResponse.payload.toString());
 
       if (data['purpose'] == 'appointment-reminder') {
         Get.toNamed(Routes.APPOINTMENT_HISTORY);
@@ -193,7 +193,7 @@ class PushNotificationService {
             binding: TabMainBinding(), arguments: {'id': 'notification'});
       } else if (data['purpose'] == 'send-message') {
         ChatNotificationHandler.handleClick(
-            ChatNotificationModel.fromRawJson(payload.data));
+            ChatNotificationModel.fromRawJson(payload.data.toString()));
       } else {}
       log("data------------->${data['purpose']}");
       // if (payload.type == "${NotificationType.rate}")

@@ -24,22 +24,24 @@ class DoctorsRepository {
   //* fetchDoctorsByCat
   Future<dynamic> fetchDoctors(
     int page, {
-    Category cat,
+    Category? cat,
     int limitPerPage = 10,
-    DOCTORS_LOAD_ACTION action = DOCTORS_LOAD_ACTION.fromCategory,
-    String hospitalId,
-    CancelToken cancelToken,
-    String sort,
-    double lat,
-    double lon,
-    String filterName,
+    DOCTORS_LOAD_ACTION? action = DOCTORS_LOAD_ACTION.fromCategory,
+    String? hospitalId,
+    CancelToken? cancelToken,
+    String? sort,
+    double? lat,
+    double? lon,
+    String? filterName,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
     var response;
 
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'Nearest Doctor' || filterName == 'نږدې ډاکټران' || filterName == 'نزدیکترین داکتر') {
+    if (filterName == 'Nearest Doctor' ||
+        filterName == 'نږدې ډاکټران' ||
+        filterName == 'نزدیکترین داکتر') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
@@ -55,9 +57,9 @@ class DoctorsRepository {
       };
     }
 
-    log('======REQUEST PARAMETER======>>>$requestParameter');
+    log('======REQUEST PARAMETER=====1111111111111=>>>$requestParameter');
     response = await _cachedDio.get(
-      '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity.sId}/${cat.id}',
+      '${ApiConsts.doctorsPath}/${SettingsController.auth.savedCity?.sId}/${cat?.id}',
       cancelToken: cancelToken,
       queryParameters: requestParameter,
       // cancelToken: loginCancelToken,
@@ -120,6 +122,8 @@ class DoctorsRepository {
         }
     }*/
 
+    log('response ---------->>>>>>>> ${response}');
+
     return response;
   }
 
@@ -127,15 +131,15 @@ class DoctorsRepository {
 
   Future<dynamic> fetchMyDoctors(
     int page, {
-    Category cat,
+    Category? cat,
     int limitPerPage = 10,
-    DOCTORS_LOAD_ACTION action = DOCTORS_LOAD_ACTION.fromCategory,
-    String hospitalId,
-    CancelToken cancelToken,
-    String sort,
-    double lat,
-    double lon,
-    String filterName,
+    DOCTORS_LOAD_ACTION? action = DOCTORS_LOAD_ACTION.fromCategory,
+    String? hospitalId,
+    CancelToken? cancelToken,
+    String? sort,
+    double? lat,
+    double? lon,
+    String? filterName,
   }) async {
     assert(SettingsController.auth.savedCity != null);
     // assert(cat != null || loadMyDoctorsMode != null && loadMyDoctorsMode);
@@ -143,7 +147,9 @@ class DoctorsRepository {
     var response;
 
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'Nearest Doctor' || filterName == 'نږدې ډاکټران' || filterName == 'نزدیکترین داکتر') {
+    if (filterName == 'Nearest Doctor' ||
+        filterName == 'نږدې ډاکټران' ||
+        filterName == 'نزدیکترین داکتر') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
@@ -172,7 +178,8 @@ class DoctorsRepository {
   }
 
   //* fetchDoctorsTimeTable
-  Future<dynamic> fetchDoctorsTimeTable(int page, Doctor doctor, {int limitPerPage = 10}) async {
+  Future<dynamic> fetchDoctorsTimeTable(int page, Doctor doctor,
+      {int limitPerPage = 10}) async {
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
       '${ApiConsts.doctorTimeTablePath}/${doctor.datumId}',
@@ -222,34 +229,32 @@ class DoctorsRepository {
 
   //* Search doctors
   Future<dynamic> bookTime({
-    String patId,
-    Doctor doctor,
-    Category cat,
-    String name,
-    String age,
-    String phone,
-    String time,
+    String? patId,
+    Doctor? doctor,
+    Category? cat,
+    String? name,
+    String? age,
+    String? phone,
+    String? time,
   }) async {
-    log("${ApiConsts.doctorBookPath}/${doctor.id}------age--------> ${ApiConsts.doctorBookPath}/${doctor.datumId} ---- ${age == 'null'}");
-    log("ttt------------${{
-      "visit_date": time,
-      "name": name,
-      "age": age == null ? 0 : age.toEnglishDigit().toString(),
-      "phone": phone.toEnglishDigit(),
-      "patientId": patId,
-    }}");
+    log('age ---------->>>>>>>> ${age.runtimeType}');
+    log("${ApiConsts.doctorBookPath}/${doctor!.id}------age--------> ${age == 'null'}");
 
     assert(SettingsController.auth.savedCity != null);
 
+    log('doctor.datumId ---------->>>>>>>> ${doctor.datumId}');
+    var data = {
+      "visit_date": time,
+      "name": name,
+      "age": age == 'null' ? 0 : age!.toEnglishDigit().toString(),
+      "phone": phone!.toEnglishDigit().toString(),
+      "patientId": patId,
+    };
+    log('data ---------->>>>>>>> ${data}');
+
     final response = await dio.post(
       '${ApiConsts.doctorBookPath}/${doctor.datumId}',
-      data: {
-        "visit_date": time,
-        "name": name,
-        "age": age == 'null' ? 0 : age.toEnglishDigit().toString(),
-        "phone": phone.toEnglishDigit().toString(),
-        "patientId": patId,
-      },
+      data: data,
       // cancelToken: loginCancelToken,
       // options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
@@ -259,11 +264,12 @@ class DoctorsRepository {
     return response;
   }
 
-  static Future<List<Doctor>> searchDoctors(int page, String name, {int limitPerPage = 10, void onError(e)}) async {
+  static Future<List<Doctor>> searchDoctors(int page, String name,
+      {int limitPerPage = 10, required void onError(e)}) async {
     //TODO move to some utils func
     _searchCancelToken.cancel();
     _searchCancelToken = CancelToken();
-    List<Doctor> _doctors;
+    List<Doctor>? _doctors;
     try {
       final response = await staticDio.post(
         '${ApiConsts.searchPath}',
@@ -298,11 +304,11 @@ class DoctorsRepository {
       }
       FirebaseCrashlytics.instance.recordError(e, s);
     }
-    return _doctors;
+    return _doctors!;
   }
 
   //* rate doctor
-  static Future<void> rateDoctorByPatId(
+  static Future<Response> rateDoctorByPatId(
     String pid,
     double cleaningForDoc,
     double knowledgeForDoc,
@@ -321,7 +327,8 @@ class DoctorsRepository {
     return response;
   }
 
-  Future<Response<dynamic>> fetchDoctorFullData(String doctorID, {CancelToken cancelToken}) async {
+  Future<Response<dynamic>> fetchDoctorFullData(String doctorID,
+      {CancelToken? cancelToken}) async {
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
       '${ApiConsts.doctorsFullData}/$doctorID',
@@ -333,11 +340,12 @@ class DoctorsRepository {
     return response;
   }
 
-  Future<Response<dynamic>> postDoctorFeedback({CancelToken cancelToken, var body, String url}) async {
+  Future<Response<dynamic>> postDoctorFeedback(
+      {CancelToken? cancelToken, var body, String? url}) async {
     log("url--------------> ${url}");
 
     final response = await _cachedDio.post(
-      url,
+      url!,
       cancelToken: cancelToken,
       data: body,
       // cancelToken: loginCancelToken,
@@ -346,9 +354,10 @@ class DoctorsRepository {
     return response;
   }
 
-  Future<Response<dynamic>> getDoctorFeedback({CancelToken cancelToken, String url}) async {
+  Future<Response<dynamic>> getDoctorFeedback(
+      {CancelToken? cancelToken, String? url}) async {
     final response = await _cachedDio.get(
-      url,
+      url!,
       cancelToken: cancelToken,
 
       // cancelToken: loginCancelToken,

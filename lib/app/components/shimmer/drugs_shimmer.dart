@@ -5,13 +5,13 @@ import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:get/get.dart';
 
 class DrugsGridShimmer extends StatelessWidget {
-  final Color baseColor;
-  final Color highlightColor;
-  final Color color;
-  final int xCount;
-  final int yCount;
+  final Color? baseColor;
+  final Color? highlightColor;
+  final Color? color;
+  final int? xCount;
+  final int? yCount;
   const DrugsGridShimmer({
-    Key key,
+    Key? key,
     this.baseColor,
     // this.baseColor = AppColors.shimmerBaseColor,
     // this.baseColor =  Color.,
@@ -33,8 +33,8 @@ class DrugsGridShimmer extends StatelessWidget {
       // baseColor: Colors.grey[300],
       // highlightColor: Colors.white,
 
-      baseColor: baseColor ?? Colors.grey[300],
-      highlightColor: highlightColor ?? Colors.grey[100],
+      baseColor: baseColor ?? Colors.grey[300]!,
+      highlightColor: highlightColor ?? Colors.grey[100]!,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

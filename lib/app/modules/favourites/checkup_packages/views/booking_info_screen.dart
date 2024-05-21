@@ -16,8 +16,8 @@ import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class BookingInfoScreen extends GetView<CheckupPackagesController> {
-  Package item;
-  BookingInfoScreen({Key key, this.item}) : super(key: key);
+  Package? item;
+  BookingInfoScreen({Key? key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +200,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                           .map((City value) {
                                         return DropdownMenuItem<String>(
                                           value: value.sId,
-                                          child: Text(value.eName,
+                                          child: Text(value.eName.toString(),
                                               style: AppTextStyle
                                                   .mediumPrimary12
                                                   .copyWith(
@@ -212,14 +212,15 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                         controller.locations.forEach((element) {
                                           if (value == element.sId) {
                                             controller.selectedLocation.value =
-                                                element.eName;
+                                                element.eName.toString();
                                           }
                                         });
                                         controller.selectedLocationId.value =
-                                            value;
+                                            value!;
                                         List<dynamic> list = [];
-                                        if (item.hospitalLocation.isNotEmpty) {
-                                          item.hospitalLocation
+                                        if (item!
+                                            .hospitalLocation!.isNotEmpty) {
+                                          item!.hospitalLocation!
                                               .forEach((element) {
                                             if (controller
                                                     .selectedLocationId.value
@@ -233,8 +234,8 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                             }
                                           });
                                         }
-                                        if (item.labLocation.isNotEmpty) {
-                                          item.labLocation.forEach((element) {
+                                        if (item!.labLocation!.isNotEmpty) {
+                                          item!.labLocation!.forEach((element) {
                                             if (controller
                                                     .selectedLocationId.value
                                                     .toString() ==
@@ -677,7 +678,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                         );
                                       }).toList(),
                                       onChanged: (value) {
-                                        controller.selectedTime.value = value;
+                                        controller.selectedTime.value = value!;
                                       },
                                     ),
                                   ),
@@ -701,7 +702,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             } else {
                               Get.to(BookingOtherInfoScreen(
                                 selectedDate: controller.selectedTime.value,
-                                packageId: item.id,
+                                packageId: item!.id.toString(),
                               ));
                             }
                           },

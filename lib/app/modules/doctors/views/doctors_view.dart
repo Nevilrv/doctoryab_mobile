@@ -32,11 +32,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/doctors_controller.dart';
 
 class DoctorsView extends GetView<DoctorsController> {
-  DoctorsController controller;
-  String hospitalId;
-  String hospitalName;
+  late DoctorsController controller;
+  String? hospitalId;
+  String? hospitalName;
   final bool hideAppbar;
-  final Color bgColor;
+  final Color? bgColor;
   // final bool loadMyDoctorsMode;
   DOCTORS_LOAD_ACTION action;
   DoctorsView({
@@ -49,7 +49,7 @@ class DoctorsView extends GetView<DoctorsController> {
     controller =
         Get.put(DoctorsController(), tag: "doctors_controller_$action");
 
-    controller.hospitalId = hospitalId;
+    controller!.hospitalId = hospitalId;
   }
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class DoctorsView extends GetView<DoctorsController> {
                     case DOCTORS_LOAD_ACTION.fromCategory:
                       {
                         return "doctors_of"
-                            .trArgs([controller?.category()?.title]);
+                            .trArgs([controller.category()!.title.toString()]);
                       }
                     case DOCTORS_LOAD_ACTION.myDoctors:
                       {
@@ -120,8 +120,8 @@ class DoctorsView extends GetView<DoctorsController> {
                             List<LatLng> latLng = [];
                             controller.locationData.forEach((element) {
                               if (element.coordinates != null) {
-                                latLng.add(LatLng(element.coordinates[1],
-                                    element.coordinates[0]));
+                                latLng.add(LatLng(element.coordinates![1],
+                                    element.coordinates![0]));
                               }
                               if (controller.locationData.length ==
                                   latLng.length) {
@@ -260,7 +260,8 @@ class DoctorsView extends GetView<DoctorsController> {
                                             .map((item) => GestureDetector(
                                                   onTap: () async {
                                                     if (!await launchUrl(
-                                                        Uri.parse(item.link))) {
+                                                        Uri.parse(item.link
+                                                            .toString()))) {
                                                       throw Exception(
                                                           'Could not launch ${item.link}');
                                                     }
@@ -374,7 +375,7 @@ class DoctorsView extends GetView<DoctorsController> {
                             return SizedBox(height: 5);
                           }
                         },
-                        builderDelegate: PagedChildBuilderDelegate(
+                        builderDelegate: PagedChildBuilderDelegate<Doctor>(
                           itemBuilder: (context, item, index) {
                             return _doctorData(
                               context,
@@ -459,13 +460,13 @@ class DoctorsView extends GetView<DoctorsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     var date;
-    String slot;
+    String? slot;
 
-    if (item.schedules.isNotEmpty) {
-      if (item.schedules.length == 1) {
+    if (item.schedules!.isNotEmpty) {
+      if (item.schedules!.length == 1) {
         for (int i = 0; i <= 7; i++) {
           DateTime d = DateTime.now().add(Duration(days: i));
-          if (item.schedules[0].dayOfWeek == d.weekday) {
+          if (item.schedules![0].dayOfWeek == d.weekday) {
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -474,9 +475,9 @@ class DoctorsView extends GetView<DoctorsController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[0].times.isNotEmpty) {
+            if (item.schedules![0].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
+                  "${item.schedules![0].times!.first} - ${item.schedules![0].times!.last}";
             }
 
             break;
@@ -486,9 +487,10 @@ class DoctorsView extends GetView<DoctorsController> {
         // List<Schedule> dataSort ;
         // dataSort.add(value)
         List da = [];
-        item.schedules.sort((a, b) => a.dayOfWeek.compareTo(b.dayOfWeek));
-        for (int i = 0; i < item.schedules.length; i++) {
-          da.add(item.schedules[i].dayOfWeek);
+        item.schedules!
+            .sort((a, b) => a.dayOfWeek!.compareTo(b.dayOfWeek!.toInt()));
+        for (int i = 0; i < item.schedules!.length; i++) {
+          da.add(item.schedules![i].dayOfWeek);
         }
         var n = DateTime.now().weekday;
         var finalWeekDay;
@@ -500,16 +502,16 @@ class DoctorsView extends GetView<DoctorsController> {
           finalWeekDay = greater.first;
         }
 
-        Schedule data;
-        item.schedules.forEach((element) {
+        Schedule? data;
+        item.schedules?.forEach((element) {
           if (element.dayOfWeek == finalWeekDay) {
             data = element;
           }
         });
 
-        int indexxx = item.schedules.indexOf(data);
+        int indexxx = item.schedules!.indexOf(data!);
 
-        if (indexxx == item.schedules.length - 1) {
+        if (indexxx == item.schedules!.length - 1) {
           indexxx = 0;
         } else {
           indexxx = indexxx + 1;
@@ -526,12 +528,12 @@ class DoctorsView extends GetView<DoctorsController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[indexxx].times.isNotEmpty) {
+            if (item.schedules![indexxx].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
           }
-          if (item.schedules[indexxx].dayOfWeek == d.weekday) {
+          if (item.schedules![indexxx].dayOfWeek == d.weekday) {
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -540,9 +542,9 @@ class DoctorsView extends GetView<DoctorsController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[indexxx].times.isNotEmpty) {
+            if (item.schedules![indexxx].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
 
             break;

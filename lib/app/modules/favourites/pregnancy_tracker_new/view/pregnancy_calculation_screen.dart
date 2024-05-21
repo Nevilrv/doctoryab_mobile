@@ -12,7 +12,7 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
-  PregnancyCalculation({Key key}) : super(key: key);
+  PregnancyCalculation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +176,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                       )
                                     : GestureDetector(
                                         onTap: () async {
-                                          Jalali picked =
+                                          Jalali? picked =
                                               await showPersianDatePicker(
                                                   context: context,
                                                   initialDate: Jalali.now(),
@@ -206,7 +206,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                               AppColors.black,
                                                         ),
                                                       ),
-                                                      child: child,
+                                                      child: child!,
                                                     );
                                                   });
                                           if (picked != null) {
@@ -333,7 +333,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                           )
                                         : GestureDetector(
                                             onTap: () async {
-                                              Jalali picked =
+                                              Jalali? picked =
                                                   await showPersianDatePicker(
                                                       context: context,
                                                       initialDate: Jalali.now(),
@@ -366,7 +366,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                                       .black,
                                                             ),
                                                           ),
-                                                          child: child,
+                                                          child: child!,
                                                         );
                                                       });
                                               if (picked != null) {
@@ -561,7 +561,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                               )
                                             : GestureDetector(
                                                 onTap: () async {
-                                                  Jalali picked =
+                                                  Jalali? picked =
                                                       await showPersianDatePicker(
                                                           context: context,
                                                           initialDate:
@@ -597,7 +597,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                                                           .black,
                                                                 ),
                                                               ),
-                                                              child: child,
+                                                              child: child!,
                                                             );
                                                           });
                                                   if (picked != null) {

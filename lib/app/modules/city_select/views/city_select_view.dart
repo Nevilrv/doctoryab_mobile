@@ -62,7 +62,10 @@ class CitySelectView extends GetView<CitySelectController> {
                         Text(
                           controller.selectedCity().sId == null
                               ? "select_city".tr
-                              : controller.selectedCity().getMultiLangName(),
+                              : controller
+                                  .selectedCity()
+                                  .getMultiLangName()
+                                  .toString(),
                           style: TextStyle(color: AppColors.primary),
                           overflow: TextOverflow.fade,
                         ),

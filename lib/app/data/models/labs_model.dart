@@ -9,8 +9,8 @@ LabsModel labsModelFromJson(String str) => LabsModel.fromJson(json.decode(str));
 String labsModelToJson(LabsModel data) => json.encode(data.toJson());
 
 class LabsModel {
-  List<Labs> data;
-  int count;
+  List<Labs>? data;
+  int? count;
 
   LabsModel({
     this.data,
@@ -23,30 +23,30 @@ class LabsModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class Labs {
-  String datumId;
-  Geometry geometry;
-  String photo;
-  bool isDeleted;
-  List<String> phone;
-  List<List<String>> times;
-  String name;
-  String city;
-  String address;
-  String createAt;
-  int v;
-  List<CheckUp> checkUp;
-  int id;
-  List<Feedback> feedbacks;
-  String rating;
+  String? datumId;
+  Geometry? geometry;
+  String? photo;
+  bool? isDeleted;
+  List<String>? phone;
+  List<List<String>>? times;
+  String? name;
+  String? city;
+  String? address;
+  String? createAt;
+  int? v;
+  List<CheckUp>? checkUp;
+  int? id;
+  List<Feedback>? feedbacks;
+  String? rating;
   dynamic totalFeedbacks;
   dynamic averageRatings;
-  bool active;
+  bool? active;
 
   Labs({
     this.datumId,
@@ -97,22 +97,22 @@ class Labs {
 
   Map<String, dynamic> toJson() => {
         "_id": datumId,
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "is_deleted": isDeleted,
-        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "phone": List<dynamic>.from(phone!.map((x) => x)),
         "times": List<dynamic>.from(
-            times.map((x) => List<dynamic>.from(x.map((x) => x)))),
+            times!.map((x) => List<dynamic>.from(x.map((x) => x)))),
         "name": name,
         "city": city,
         "address": address,
         "createAt": createAt,
         "__v": v,
-        "checkUp": List<dynamic>.from(checkUp.map((x) => x.toJson())),
+        "checkUp": List<dynamic>.from(checkUp!.map((x) => x.toJson())),
         "ID": id,
         "feedbacks": feedbacks == null
             ? []
-            : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
+            : List<dynamic>.from(feedbacks!.map((x) => x.toJson())),
         "rating": rating,
         "totalFeedbacks": totalFeedbacks,
         "averageRatings": averageRatings,
@@ -121,12 +121,12 @@ class Labs {
 }
 
 class CheckUp {
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
-  String img;
+  bool? isBrief;
+  int? price;
+  String? id;
+  String? title;
+  String? content;
+  String? img;
 
   CheckUp({
     this.isBrief,
@@ -157,14 +157,14 @@ class CheckUp {
 }
 
 class Feedback {
-  String comment;
-  String whoPosted;
-  String postedBy;
-  String photo;
-  String createAt;
-  String commentId;
-  int rating;
-  String labId;
+  String? comment;
+  String? whoPosted;
+  String? postedBy;
+  String? photo;
+  String? createAt;
+  String? commentId;
+  int? rating;
+  String? labId;
 
   Feedback({
     this.comment,
@@ -201,8 +201,8 @@ class Feedback {
 }
 
 class Geometry {
-  List<double> coordinates;
-  String type;
+  List<double>? coordinates;
+  String? type;
 
   Geometry({
     this.coordinates,
@@ -219,7 +219,7 @@ class Geometry {
   Map<String, dynamic> toJson() => {
         "coordinates": coordinates == null
             ? null
-            : List<dynamic>.from(coordinates.map((x) => x)),
+            : List<dynamic>.from(coordinates!.map((x) => x)),
         "type": type,
       };
 }

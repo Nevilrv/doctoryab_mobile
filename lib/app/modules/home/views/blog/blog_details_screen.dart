@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
@@ -15,9 +18,9 @@ import 'package:html/parser.dart' show parse;
 import 'comment_blog_screen.dart';
 
 class BlogDetailsScreen extends StatefulWidget {
-  final Post post;
-  final int index;
-  BlogDetailsScreen({Key key, this.post, this.index}) : super(key: key);
+  final Post? post;
+  final int? index;
+  BlogDetailsScreen({Key? key, this.post, this.index}) : super(key: key);
 
   @override
   State<BlogDetailsScreen> createState() => _BlogDetailsScreenState();
@@ -26,6 +29,7 @@ class BlogDetailsScreen extends StatefulWidget {
 class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    log('widget.post ---------->>>>>>>> ${jsonEncode(widget.post)}');
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primary,
@@ -40,10 +44,10 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
           centerTitle: true,
           title: Text(
             SettingsController.appLanguge == 'English'
-                ? "${widget.post.blogTitleEnglish}"
+                ? "${widget.post!.blogTitleEnglish}"
                 : SettingsController.appLanguge == 'پشتو'
-                    ? "${widget.post.blogTitlePashto}"
-                    : '${widget.post.blogTitleDari}',
+                    ? "${widget.post!.blogTitlePashto}"
+                    : '${widget.post!.blogTitleDari}',
             style: AppTextStyle.boldWhite18,
           ),
         ),
@@ -93,18 +97,27 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                         children: [
                           Html(
                             data: SettingsController.appLanguge == 'English'
-                                ? "${widget.post.descEnglish}"
+                                ? "${widget.post!.descEnglish}"
                                 : SettingsController.appLanguge == 'پشتو'
-                                    ? "${widget.post.descPashto}"
-                                    : '${widget.post.descDari}',
-                            customTextAlign: (_) =>
-                                SettingsController.appLanguge == "English"
-                                    ? TextAlign.left
-                                    : TextAlign.right,
-                            onImageError: (exception, stackTrace) {
-                              return Image.network(
-                                  "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                                    ? "${widget.post!.descPashto}"
+                                    : '${widget.post!.descDari}',
+                            style: {
+                              'html': Style(
+                                textAlign:
+                                    SettingsController.appLanguge == "English"
+                                        ? TextAlign.left
+                                        : TextAlign.right,
+                              ),
                             },
+
+                            // customTextAlign: (_) =>
+                            //     SettingsController.appLanguge == "English"
+                            //         ? TextAlign.left
+                            //         : TextAlign.right,
+                            // onImageError: (exception, stackTrace) {
+                            //   return Image.network(
+                            //       "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                            // },
                           ),
                         ],
                       ),
@@ -127,14 +140,14 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            widget.post.likes.length.toString(),
+                            widget.post!.likes!.length.toString(),
                             style: AppTextTheme.h(14).copyWith(
                                 color: AppColors.primary.withOpacity(0.7),
                                 fontWeight: FontWeight.w400),
                           ),
                           Spacer(),
                           Text(
-                            "${widget.post.comments.length.toString()} ",
+                            "${widget.post!.comments!.length.toString()} ",
                             style: AppTextTheme.h(14).copyWith(
                                 color: AppColors.primary.withOpacity(0.7),
                                 fontWeight: FontWeight.w400),
@@ -153,7 +166,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            "${widget.post.shares.length.toString()} ",
+                            "${widget.post!.shares!.length.toString()} ",
                             style: AppTextTheme.h(14).copyWith(
                                 color: AppColors.primary.withOpacity(0.7),
                                 fontWeight: FontWeight.w400),
@@ -175,22 +188,22 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (widget.post.likes.contains(
+                                if (widget.post!.likes!.contains(
                                     SettingsController.userId.toString())) {
-                                  widget.post.likes
+                                  widget.post!.likes!
                                       .remove(SettingsController.userId);
                                 } else {
-                                  widget.post.likes
+                                  widget.post!.likes!
                                       .add(SettingsController.userId);
                                 }
 
                                 controller.update();
-                                controller.likeBlog(
-                                    widget.post.id, widget.index, widget.post);
+                                controller.likeBlog(widget.post!.id!,
+                                    widget.index!, widget.post!);
                               },
                               child: Row(
                                 children: [
-                                  widget.post.likes.contains(
+                                  widget.post!.likes!.contains(
                                           SettingsController.userId.toString())
                                       ? SvgPicture.asset(
                                           AppImages.likeFill,
@@ -221,7 +234,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                             GestureDetector(
                               onTap: () {
                                 Get.to(
-                                  CommentView(widget.index),
+                                  CommentView(widget.index!),
                                 );
                               },
                               child: Row(
@@ -248,22 +261,24 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                               onTap: () async {
                                 final result = await Share.shareWithResult(
                                   SettingsController.appLanguge == 'English'
-                                      ? parse(widget.post.descEnglish).body.text
+                                      ? parse(widget.post!.descEnglish)
+                                          .body!
+                                          .text
                                       : SettingsController.appLanguge == 'پشتو'
-                                          ? parse(widget.post.descPashto)
-                                              .body
+                                          ? parse(widget.post!.descPashto)
+                                              .body!
                                               .text
-                                          : parse(widget.post.descDari)
-                                              .body
+                                          : parse(widget.post!.descDari)
+                                              .body!
                                               .text,
                                 );
                                 if (result.status ==
                                     ShareResultStatus.success) {
-                                  widget.post.shares
+                                  widget.post!.shares!
                                       .add(SettingsController.userId);
                                   controller.update();
-                                  controller.shareBlog(widget.post.id,
-                                      widget.index, widget.post);
+                                  controller.shareBlog(widget.post!.id!,
+                                      widget.index!, widget.post!);
                                 }
                               },
                               child: Row(

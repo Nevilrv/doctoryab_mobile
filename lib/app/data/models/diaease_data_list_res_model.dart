@@ -11,8 +11,8 @@ String dieaseDataListResModelToJson(DieaseDataListResModel data) =>
     json.encode(data.toJson());
 
 class DieaseDataListResModel {
-  List<Datum> data;
-  int count;
+  List<Datum>? data;
+  int? count;
 
   DieaseDataListResModel({
     this.data,
@@ -26,30 +26,30 @@ class DieaseDataListResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class Datum {
-  String img;
-  List<dynamic> views;
-  String audio;
-  String audioPashto;
-  String audioDari;
-  String id;
-  String title;
-  String dariTitle;
-  String pashtoTitle;
-  String desc;
-  String pashtoDesc;
-  String dariDesc;
-  String pashtoCategory;
-  String dariCategory;
-  String category;
-  String doctorId;
-  String createAt;
-  int v;
+  String? img;
+  List<dynamic>? views;
+  String? audio;
+  String? audioPashto;
+  String? audioDari;
+  String? id;
+  String? title;
+  String? dariTitle;
+  String? pashtoTitle;
+  String? desc;
+  String? pashtoDesc;
+  String? dariDesc;
+  String? pashtoCategory;
+  String? dariCategory;
+  String? category;
+  String? doctorId;
+  String? createAt;
+  int? v;
 
   Datum({
     this.img,
@@ -95,7 +95,7 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "img": img,
-        "views": List<dynamic>.from(views.map((x) => x)),
+        "views": List<dynamic>.from(views!.map((x) => x)),
         "audio": audio,
         "audioPashto": audioPashto,
         "audioDari": audioDari,

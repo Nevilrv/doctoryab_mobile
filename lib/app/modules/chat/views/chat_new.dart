@@ -24,7 +24,7 @@ import '../controllers/chat_controller.dart';
 
 class ChatView extends GetView<ChatController> {
   ChatController chatController = Get.find()..onInitCall();
-  ChatView({Key key}) : super(key: key);
+  ChatView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -378,8 +378,7 @@ class ChatView extends GetView<ChatController> {
                                         children: [
                                           Obx(() => Text(
                                                 controller
-                                                        .chatArg()
-                                                        ?.chatName ??
+                                                        .chatArg!().chatName ??
                                                     "N/A",
                                                 style:
                                                     AppTextStyle.boldPrimary16,
@@ -451,13 +450,12 @@ class ChatView extends GetView<ChatController> {
                                       ),
                                       itemBuilder: (context, index) {
                                         // var msg = controller.chat.value?.messages[index];
-                                        log('-----controller.chat[index].isUsersMessage-----${controller.chat[index].sender.patientId}');
-                                        log('-----controller.chat[index]-----${SettingsController.savedUserProfile.patientID}');
+
                                         return Column(
                                           children: [
                                             if (controller.nextPageLoading() &&
                                                 index ==
-                                                    (controller?.chat?.length ??
+                                                    (controller.chat?.length ??
                                                             0) -
                                                         1)
                                               Center(
@@ -573,18 +571,21 @@ class ChatView extends GetView<ChatController> {
                                                       //     ),
                                                       //   ).paddingOnly(
                                                       //       bottom: 8),
-                                                      controller.chat[index]
-                                                              .images.isEmpty
+                                                      controller
+                                                                  .chat[index]
+                                                                  .images
+                                                                  ?.isEmpty ??
+                                                              false
                                                           ? SizedBox()
                                                           : GestureDetector(
                                                               onTap: () {
                                                                 openFile(
-                                                                    "${ApiConsts.hostUrl}${controller.chat[index].images[0]}");
+                                                                    "${ApiConsts.hostUrl}${controller.chat[index].images![0]}");
                                                               },
                                                               child: Center(
                                                                 child: Image
                                                                     .network(
-                                                                  "${ApiConsts.hostUrl}${controller.chat[index].images[0]}",
+                                                                  "${ApiConsts.hostUrl}${controller.chat[index].images![0]}",
                                                                   height:
                                                                       Get.height *
                                                                           0.2,
@@ -595,13 +596,15 @@ class ChatView extends GetView<ChatController> {
                                                               ),
                                                             ),
 
-                                                      controller.chat[index]
-                                                              .documents.isEmpty
+                                                      controller
+                                                              .chat[index]
+                                                              .documents!
+                                                              .isEmpty
                                                           ? SizedBox()
                                                           : GestureDetector(
                                                               onTap: () {
                                                                 openFile(
-                                                                    "${ApiConsts.hostUrl}${controller.chat[index].documents[0]}");
+                                                                    "${ApiConsts.hostUrl}${controller.chat[index].documents![0]}");
                                                               },
                                                               child: Center(
                                                                 child: Icon(
@@ -614,7 +617,7 @@ class ChatView extends GetView<ChatController> {
 
                                                       controller
                                                               .chat[index]
-                                                              .voiceNotes
+                                                              .voiceNotes!
                                                               .isEmpty
                                                           ? SizedBox()
                                                           : GetBuilder<
@@ -665,7 +668,7 @@ class ChatView extends GetView<ChatController> {
                                                                               GestureDetector(
                                                                                 onTap: () async {
                                                                                   if (controller.timers1 != null) {
-                                                                                    controller.timers1.cancel();
+                                                                                    controller.timers1!.cancel();
                                                                                   }
                                                                                   controller.update();
                                                                                   if (controller.audioPlayer1.state == ap.PlayerState.playing) {
@@ -678,12 +681,12 @@ class ChatView extends GetView<ChatController> {
                                                                                     // controller.timers1.cancel();
                                                                                     await controller
                                                                                         .play1(
-                                                                                      path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes[0]}",
+                                                                                      path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes![0]}",
                                                                                     )
                                                                                         .then((value) {
                                                                                       controller.isPause1 = false;
                                                                                       controller.update();
-                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1 == null ? 0 : controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
+                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1 == null ? 0 : controller.duration1!.inMilliseconds.round() ~/ int.parse(controller.voiceTrackRowSize.toString())), (timer) {
                                                                                         log('{timer.tick}${timer.tick}');
 
                                                                                         if (controller.isPause1 == true) {
@@ -729,7 +732,7 @@ class ChatView extends GetView<ChatController> {
                                                                             children: [
                                                                               // Text('${chatController.getFileDuration(controller.chat[index].voiceNotes[0])}'),
                                                                               // controller.current1 == -1 ? SizedBox() : Text('${DateFormat('hh:mm:ss').format(controller.position1)}'),
-                                                                              Text('${controller.position1 == null ? 0 : controller.convertTime(controller.position1.inMilliseconds)}/${controller.duration1 == null ? 0 : controller.convertTime(controller.duration1.inMilliseconds ?? 0)}'),
+                                                                              Text('${controller.position1 == null ? 0 : controller.convertTime(controller.position1!.inMilliseconds)}/${controller.duration1 == null ? 0 : controller.convertTime(controller.duration1!.inMilliseconds ?? 0)}'),
                                                                               // SizedBox(),
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 20, top: 2),
@@ -799,7 +802,7 @@ class ChatView extends GetView<ChatController> {
 
                                                                                   controller.isPause1 = false;
                                                                                   if (controller.timers1 != null) {
-                                                                                    controller.timers1.cancel();
+                                                                                    controller.timers1!.cancel();
                                                                                   }
 
                                                                                   await controller.audioPlayer1.pause();
@@ -813,12 +816,12 @@ class ChatView extends GetView<ChatController> {
                                                                                   } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
                                                                                     await controller
                                                                                         .play1(
-                                                                                      path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes[0]}",
+                                                                                      path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes![0]}",
                                                                                     )
                                                                                         .then((value) {
                                                                                       controller.isPause1 = false;
                                                                                       controller.update();
-                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize), (timer) {
+                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1!.inMilliseconds.round() ~/ int.parse(controller.voiceTrackRowSize.toString())), (timer) {
                                                                                         log('{timer.tick}${timer.tick}');
 
                                                                                         if (controller.isPause1 == true) {
@@ -1050,7 +1053,7 @@ class ChatView extends GetView<ChatController> {
                                                                     .playAudio
                                                                     .value) {
                                                                   controller
-                                                                      .timers1
+                                                                      .timers1!
                                                                       .cancel();
 
                                                                   controller
@@ -1078,7 +1081,7 @@ class ChatView extends GetView<ChatController> {
                                                                     controller.timers1 = Timer.periodic(
                                                                         Duration(
                                                                             milliseconds:
-                                                                                controller.duration1.inMilliseconds.round() ~/ controller.voiceTrackRowSize),
+                                                                                controller.duration1!.inMilliseconds.round() ~/ int.parse(controller.voiceTrackRowSize.toString())),
                                                                         (timer) {
                                                                       log('{timer.tick}${timer.tick}');
 
@@ -1395,7 +1398,7 @@ class ChatView extends GetView<ChatController> {
                                                                   0.2,
                                                               margin:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       bottom:
                                                                           10,
                                                                       right:
@@ -1437,8 +1440,7 @@ class ChatView extends GetView<ChatController> {
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .center,
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 controller.playRecord
                                                                             .value ==
                                                                         true
@@ -1934,13 +1936,13 @@ class ChatView extends GetView<ChatController> {
     );
   }
 
-  Future<void> openFile(String fileUrl) async {
-    String filePath = await downloadFile(fileUrl);
+  Future<void> openFile(String? fileUrl) async {
+    String? filePath = await downloadFile(fileUrl!);
 
     final result = await OpenFilex.open(filePath);
   }
 
-  Future<String> downloadFile(String fileUrl) async {
+  Future<String?> downloadFile(String fileUrl) async {
     Dio dio = Dio();
     try {
       Directory appDocDir = await getApplicationDocumentsDirectory();

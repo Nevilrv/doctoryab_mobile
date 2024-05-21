@@ -19,13 +19,13 @@ import '../../../data/models/reviews_model.dart';
 class HospitalNewController extends GetxController
     with GetSingleTickerProviderStateMixin {
   var reviewsCount = 0.obs;
-  Hospital hospital;
+  Hospital? hospital;
   var reviewsPagingController = PagingController<int, Review>(firstPageKey: 1);
-  HospitalDetailsResModel resModel;
+  HospitalDetailsResModel? resModel;
   var doctorList = <Doctor>[].obs;
   var isLoading = false.obs;
   var isLoadingDoctor = false;
-  TabController tabController;
+  TabController? tabController;
   int tabIndex = 0;
   //*Dio
   CancelToken reviewsCancelToken = CancelToken();
@@ -37,7 +37,7 @@ class HospitalNewController extends GetxController
   var sRating = 0.0.obs;
   var eRating = 0.0.obs;
   void getHospitalFeedback({
-    String HospitalId,
+    String? HospitalId,
   }) async {
     loading.value = true;
     try {
@@ -70,8 +70,8 @@ class HospitalNewController extends GetxController
   }
 
   void addDocFeedback({
-    String hospitalId,
-    BuildContext context,
+    String? hospitalId,
+    BuildContext? context,
   }) async {
     try {
       var data = {
@@ -94,14 +94,14 @@ class HospitalNewController extends GetxController
         eRating.value = 0.0;
         sRating.value = 0.0;
 
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
         Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
+            context: context!, text: "${e.response.data['msg']}");
       });
       ;
     } on DioError catch (e) {
@@ -123,7 +123,7 @@ class HospitalNewController extends GetxController
     //   fetchReviews(pageKey);
     // });
 
-    getHospitalFeedback(HospitalId: hospital.id);
+    getHospitalFeedback(HospitalId: hospital!.id);
     super.onInit();
   }
 
@@ -138,7 +138,7 @@ class HospitalNewController extends GetxController
     isLoading.value = true;
     try {
       HospitalRepository()
-          .fetchHospitalDetails(hospitalId: hospital.id)
+          .fetchHospitalDetails(hospitalId: hospital!.id)
           .then((value) {
         resModel = HospitalDetailsResModel.fromJson(value);
         isLoading.value = false;
@@ -154,7 +154,7 @@ class HospitalNewController extends GetxController
     update();
     try {
       HospitalRepository()
-          .fetchHospitalDoctors(hospitalId: hospital.id)
+          .fetchHospitalDoctors(hospitalId: hospital!.id)
           .then((value) {
         isLoadingDoctor = false;
         update();
@@ -175,17 +175,17 @@ class HospitalNewController extends GetxController
     HospitalRepository()
         .fetchReviews(
       pageKey,
-      hospitalId: hospital.id,
+      hospitalId: hospital!.id,
       cancelToken: reviewsCancelToken,
     )
         .then((data) {
       var newItems = ReviewsModel.fromJson(data.data).data;
       if (newItems == null || newItems.length == 0) {
-        reviewsPagingController.appendLastPage(newItems);
+        reviewsPagingController.appendLastPage(newItems!);
       } else {
         reviewsPagingController.appendPage(newItems, pageKey + 1);
       }
-      reviewsCount(reviewsPagingController.itemList.length);
+      reviewsCount(reviewsPagingController.itemList!.length);
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         reviewsPagingController.error = e;
@@ -201,7 +201,7 @@ class HospitalNewController extends GetxController
       case 0:
         return true;
       case 1:
-        return ((hospital.checkUp?.length ?? 0) > 0);
+        return ((hospital!.checkUp?.length ?? 0) > 0);
       case 2:
         return true;
       case 3:

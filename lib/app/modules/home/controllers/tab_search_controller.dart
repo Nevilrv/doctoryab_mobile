@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
 import 'package:doctor_yab/app/data/repository/AdRepository.dart';
@@ -10,7 +12,7 @@ import 'package:logger/logger.dart';
 class TabSearchController extends GetxController {
   //
   TextEditingController teSearchController = TextEditingController();
-  var filterName = RxString(null);
+  var filterName = RxnString(null);
 
   //Paging
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
@@ -80,8 +82,10 @@ class TabSearchController extends GetxController {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
 
+      log('v.data  ---------->>>>>>>> ${v.data}');
+
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
         });
@@ -89,7 +93,7 @@ class TabSearchController extends GetxController {
     }).catchError((e, s) {
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

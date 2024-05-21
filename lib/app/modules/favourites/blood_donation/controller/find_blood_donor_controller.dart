@@ -58,7 +58,7 @@ class FindBloodDonorController extends GetxController {
   var selectedUnit = "1".obs;
   var selectedAboutCondition = "Need for pregnant woman.".obs;
   var selectedNearByHospital = "".obs;
-  Hospital selectedNearByHospitalData;
+  Hospital? selectedNearByHospitalData;
   @override
   void onInit() {
     locationResult.value.locality = "Kabul";
@@ -75,7 +75,7 @@ class FindBloodDonorController extends GetxController {
   void onReady() {
     super.onReady();
     fullname.text = user?.name?.toString() ?? "";
-    phoneNumber.text = AuthController.to.getUser.phoneNumber
+    phoneNumber.text = AuthController.to.getUser.phoneNumber!
             .replaceFirst(AppStatics.envVars.countryCode, "0") ??
         "";
   }
@@ -87,8 +87,8 @@ class FindBloodDonorController extends GetxController {
 
   //*
   void validateForm() {
-    formValid(formKey.currentState.validate());
-    print(formKey.currentState.validate());
+    formValid(formKey.currentState!.validate());
+    print(formKey.currentState!.validate());
   }
 
   //*
@@ -104,10 +104,10 @@ class FindBloodDonorController extends GetxController {
         number: phoneNumber.text,
         geometry: selectedNearByHospitalData != null
             ? Geometry(
-                coordinates: selectedNearByHospitalData.geometry.coordinates)
+                coordinates: selectedNearByHospitalData!.geometry!.coordinates)
             : Geometry(coordinates: [
-                locationResult().latLng.longitude,
-                locationResult().latLng.latitude
+                locationResult().latLng!.longitude,
+                locationResult().latLng!.latitude
               ]),
       ),
     );
@@ -129,8 +129,10 @@ class FindBloodDonorController extends GetxController {
   }
 
   void getHospitalData() {
-    HospitalRepository.fetchHospitalsDropdown(1, cancelToken: cancelToken)
-        .then((value) {
+    HospitalRepository.fetchHospitalsDropdown(
+      1,
+      cancelToken: cancelToken,
+    ).then((value) {
       nearByHospitalList.addAll(value);
     });
   }

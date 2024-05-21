@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 3.0.1+56
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   firebase_database: ^10.2.4
@@ -34,7 +34,7 @@ dependencies:
     # path: local_packages/alice
     # git:
     #   url: https://github.com/mozaffari/alice.git
-  intl: ^0.17.0
+  intl: ^0.18.1
   firebase_crashlytics: ^3.3.4
   persian_number_utility: ^1.1.1
   shamsi_date: ^1.0.1
@@ -47,26 +47,26 @@ dependencies:
     #  git:
     #   url: https://github.com/vrtdev/dio-http-cache.git
     #   ref: feature/nullsafety-dio4
-  flutter_icons: ^1.1.0
-  infinite_scroll_pagination: ^3.1.0
-  shimmer: ^2.0.0
+#  flutter_icons:
+
+  infinite_scroll_pagination: ^4.0.0
+  shimmer: ^3.0.0
   cached_network_image: ^3.2.0
   auto_size_text: ^3.0.0
-  image_cropper: ^1.4.1
-  # image_picker: ^0.7.3
-  image_picker: ^0.8.4+9
+  image_cropper: ^4.0.1
+  image_picker: ^1.0.8
   pretty_dio_logger: ^1.1.1
-  lottie: ^1.2.1
+  lottie: ^2.7.0
   dio: ^4.0.4
   flutter_phoenix: ^1.0.0
   hive_flutter: ^1.1.0
   # get_storage: 1.4.0
   # hive_flutter: 0.3.1
   hive: ^2.0.5
-  flutter_svg: ^1.0.3
+  flutter_svg:
   flutter_easyloading: ^3.0.0
   timer_count_down: ^2.2.1
-  pin_code_fields: ^7.0.0
+  pin_code_fields: ^8.0.1
   logger: ^1.1.0
   firebase_dynamic_links: ^5.0.15
   firebase_auth: ^4.7.1
@@ -86,19 +86,19 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   path_provider: ^2.0.1
-  jiffy: ^5.0.0
+  jiffy: ^6.2.1
   loading_indicator: ^3.0.1
   smooth_page_indicator: ^1.0.0+2
   location: ^4.3.0
   firebase_database_web: ^0.2.0+3
-  pinch_zoom: ^1.0.0
+  pinch_zoom: ^2.0.0
   sticky_headers: ^0.3.0+2
-  readmore: ^2.1.0
-  flutter_html: ^0.11.1
-  webview_flutter: ^3.0.4
+  readmore: ^3.0.0
+  flutter_html: ^3.0.0-beta.2
+  webview_flutter: ^4.5.0
   stories_for_flutter:
     path: ../local_pachages/stories_for_flutter
-  story_view: ^0.14.0
+  story_view: ^0.16.3
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0
   expandable_text: ^2.3.0
@@ -108,15 +108,15 @@ dependencies:
   http_parser: ^4.0.2
   google_maps_flutter:
   flutter_speech: ^2.0.0
-  google_mobile_ads: ^0.13.4
+  google_mobile_ads: ^4.0.0
   carousel_slider: ^4.2.1
   file_picker:
-  flutter_sound: ^8.1.9
+  flutter_sound: ^9.2.13
   assets_audio_player: ^3.1.1
   country_provider2: ^1.0.2+4
   in_app_update: ^4.2.2
   just_audio: ^0.9.36
-  percent_indicator: ^3.0.1
+  percent_indicator: ^4.2.3
   remaths: ^0.0.7
   pdf:
   persian_datetime_picker:

@@ -7,14 +7,14 @@ class AppEnvVars {
 
   /// Test Server
 
-  // final String apiURL = "https://testserver.doctoryab.app/";
+  final String apiURL = "https://testserver.doctoryab.app/";
 
   /// Almost Server
 
-  final String apiURL = "https://server.doctoryab.app";
+  // final String apiURL = "https://server.doctoryab.app";
   final String countryCode = "+93";
   final String appName = "DoctorYab";
-  final Pattern phoneNumberPattern = r'^07[7,6,2,3,8,9,0,1,4][0-9]{7}';
+  final String phoneNumberPattern = r'^07[7,6,2,3,8,9,0,1,4][0-9]{7}';
 
   final langs = ['English', 'فارسی', 'پشتو'];
   final locales = [Locale('en', 'US'), Locale('fa', 'IR'), Locale('ps', 'AF')];
@@ -44,7 +44,7 @@ class UzbEnvVars extends AppEnvVars {
   @override
   final String apiURL = "https://demoserver.doctoryab.app/";
   @override
-  final Pattern phoneNumberPattern = r'^099[0-9]{7}';
+  final String phoneNumberPattern = r'^099[0-9]{7}';
   @override
   final String countryCode = "+998";
   @override

@@ -6,16 +6,15 @@ import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class AppAppBar {
   static AppBar specialAppBar(
     String title, {
-    Color backgroundColor,
-    Widget leading,
+    Color? backgroundColor,
+    Widget? leading,
     bool showLeading = true,
-    PreferredSizeWidget bottom,
+    PreferredSizeWidget? bottom,
     // Widget action,
   }) {
     return AppBar(
@@ -51,7 +50,7 @@ class AppAppBar {
     );
   }
 
-  static AppBar primaryAppBar({String title, bool savedIcon = false}) {
+  static AppBar primaryAppBar({String? title, bool savedIcon = false}) {
     return AppBar(
       backgroundColor: AppColors.lightGrey,
       elevation: 0,
@@ -68,7 +67,7 @@ class AppAppBar {
         ),
       ),
       title: Text(
-        title,
+        title ?? "",
         textAlign: TextAlign.center,
         style: AppTextStyle.boldPrimary16,
       ),
@@ -106,7 +105,7 @@ class AppAppBar {
     );
   }
 
-  static AppBar whiteAppBar({String title, bool bloodIcon = false}) {
+  static AppBar whiteAppBar({String? title, bool bloodIcon = false}) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -161,7 +160,7 @@ class AppAppBar {
     );
   }
 
-  static AppBar blueAppBar({String title, bool bloodIcon = false}) {
+  static AppBar blueAppBar({String? title, bool bloodIcon = false}) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,

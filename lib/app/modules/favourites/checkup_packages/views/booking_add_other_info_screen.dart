@@ -16,9 +16,9 @@ import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
-  String selectedDate;
-  String packageId;
-  BookingOtherInfoScreen({Key key, this.selectedDate, this.packageId})
+  String? selectedDate;
+  String? packageId;
+  BookingOtherInfoScreen({Key? key, this.selectedDate, this.packageId})
       : super(key: key);
 
   @override
@@ -617,7 +617,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 10),
                                                         child: SvgPicture.asset(
                                                           AppImages.user,
@@ -671,7 +671,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                           onChanged: (value) {
                                                             controller
                                                                 .selectedGender
-                                                                .value = value;
+                                                                .value = value!;
                                                           },
                                                         ),
                                                       ),
@@ -759,14 +759,14 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
   }
 
   String get formatedDate {
-    var _str = DateTime.parse(selectedDate)
+    var _str = DateTime.parse(selectedDate!)
         .toPersianDateStr(useAfghaniMonthName: true);
 
     return _str.split(" ")[0] + " " + _str.split(" ")[1];
   }
 
   String get formatedTime {
-    var _tmp = DateTime.parse(selectedDate).toLocal();
+    var _tmp = DateTime.parse(selectedDate!).toLocal();
 
     return "${DateFormat('hh:mm').format(_tmp)} ${DateFormat("hh:mm a").format(_tmp).toString().contains("AM") ? "am".tr : "pm".tr}";
   }

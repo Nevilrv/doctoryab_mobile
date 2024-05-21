@@ -13,9 +13,9 @@ import '../../../../data/models/diaese_category_res_model.dart';
 
 class DiseaseTreatmentController extends GetxController {
   List<Datum> category = [];
-  Datum selectedCategory;
+  Datum? selectedCategory;
   List<d.Datum> diaseaList = [];
-  d.Datum selectedDieases;
+  d.Datum? selectedDieases;
 
   bool isLoading = false;
   bool isLoadingList = false;
@@ -41,7 +41,7 @@ class DiseaseTreatmentController extends GetxController {
     DieaseTreatementRepository.getDieaseCategory().then((v) {
       isLoading = false;
       if (v.success == true) {
-        category.addAll(v.data);
+        category.addAll(v.data!);
         update();
       } else {
         isLoading = false;
@@ -65,8 +65,8 @@ class DiseaseTreatmentController extends GetxController {
       isLoadingList = false;
       update();
       diaseaList.clear();
-      if (v.data.isNotEmpty) {
-        diaseaList.addAll(v.data);
+      if (v.data!.isNotEmpty) {
+        diaseaList.addAll(v.data!);
       }
     }).catchError((e, s) {
       category = [];
@@ -77,7 +77,7 @@ class DiseaseTreatmentController extends GetxController {
     update();
   }
 
-  BannerAd bannerAd;
+  BannerAd? bannerAd;
   bool isLoadAd = false;
 
   bannerAds() {
@@ -99,6 +99,6 @@ class DiseaseTreatmentController extends GetxController {
           },
         ),
         request: AdRequest());
-    return bannerAd.load();
+    return bannerAd!.load();
   }
 }

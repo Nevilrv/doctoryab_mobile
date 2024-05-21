@@ -23,7 +23,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
 
 class DrugsDatabaseView extends GetView<DrugsController> {
-  DrugsDatabaseView({Key key}) : super(key: key);
+  DrugsDatabaseView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           }
                           // return SizedBox(height: 15);
                         },
-                        builderDelegate: PagedChildBuilderDelegate(
+                        builderDelegate: PagedChildBuilderDelegate<UpdatedDrug>(
                           itemBuilder: (context, item, index) {
                             return drugsData(h, w, context, item);
                           },
@@ -293,7 +293,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               borderRadius: BorderRadius.circular(3),
                             ),
                             child: SettingsController.getUpdatedDrugData.any(
-                                    (element) => element.id.contains(item.id))
+                                    (element) => element.id!.contains(item.id!))
                                 ? Icon(
                                     Icons.favorite,
                                     size: w * 0.03,
@@ -316,7 +316,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               decoration: BoxDecoration(
                                 color: SettingsController.getUpdatedDrugData
                                         .any((element) =>
-                                            element.id.contains(item.id))
+                                            element.id!.contains(item.id!))
                                     ? AppColors.primary
                                     : AppColors.lightPurple2,
                                 borderRadius: BorderRadius.circular(3),
@@ -329,7 +329,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                     "add_to_list".tr,
                                     style: SettingsController.getUpdatedDrugData
                                             .any((element) =>
-                                                element.id.contains(item.id))
+                                                element.id!.contains(item.id!))
                                         ? AppTextStyle.boldWhite8
                                         : AppTextStyle.boldPrimary8,
                                   ),
@@ -431,8 +431,9 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                               : subIndex == 2
                                                   ? controller.data[2]["text"]
                                                       .toString()
-                                                      .trArgs(
-                                                          [item.packsAndPrices])
+                                                      .trArgs([
+                                                      item.packsAndPrices!
+                                                    ])
                                                   : SettingsController
                                                               .appLanguge ==
                                                           'English'
@@ -502,7 +503,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
         onChanged: (s) async {
           controller.search(s);
           controller.pageController.refresh();
-          controller.pageController.itemList.clear();
+          controller.pageController.itemList!.clear();
 
           // controller.getUpdatedDrugData(controller.pageController.firstPageKey);
           controller.updatedDrugData(controller.pageController.firstPageKey);
@@ -510,7 +511,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
         onSubmitted: (v) async {
           controller.search(v);
           controller.pageController.refresh();
-          controller.pageController.itemList.clear();
+          controller.pageController.itemList!.clear();
           // controller.getUpdatedDrugData(controller.pageController.firstPageKey);
           controller.updatedDrugData(controller.pageController.firstPageKey);
         },

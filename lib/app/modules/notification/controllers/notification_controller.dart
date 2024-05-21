@@ -17,7 +17,7 @@ class NotificationController extends GetxController {
     try {
       NotificationRepository().loadNotification().then((data) {
         n.NotificationModel res = n.NotificationModel.fromJson(data);
-        res.data.forEach((element) {
+        res.data?.forEach((element) {
           if (element.status == 'read') {
           } else {
             notification.add(element);

@@ -14,13 +14,13 @@ class NewItems extends StatelessWidget {
   final String title, address, imagePath, phoneNumber;
   final List<double> latLng;
   const NewItems({
-    Key key,
+    Key? key,
     this.is24Hour = false,
-    this.title,
-    this.address,
-    this.imagePath,
-    this.phoneNumber,
-    this.latLng,
+    required this.title,
+    required this.address,
+    required this.imagePath,
+    required this.phoneNumber,
+    required this.latLng,
   }) : super(key: key);
 
   @override

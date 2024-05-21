@@ -11,9 +11,9 @@ class MeetingTimeRow extends StatelessWidget {
   final String docName;
   final bool isActive;
   const MeetingTimeRow({
-    Key key,
-    this.date,
-    this.docName,
+    Key? key,
+    required this.date,
+    required this.docName,
     this.isActive = true,
   }) : super(key: key);
 
@@ -28,7 +28,7 @@ class MeetingTimeRow extends StatelessWidget {
       children: [
         DateSquare(
           date: date,
-          color: isActive ? null : AppColors.lgt,
+          color: isActive ? null! : AppColors.lgt,
         ),
         SizedBox(
           width: 17,

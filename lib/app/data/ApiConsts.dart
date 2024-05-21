@@ -66,7 +66,8 @@ class ApiConsts {
   static const drugDatabaseReview = "/drugs/getDrugFeedbacks/";
   static const giveFeedbackToDrug = "/drugs/giveFeedbackToDrug";
   static const checkupPackageReview = "/checkupPackage/getPackageFeedbacks/";
-  static const giveFeedbackTocheckupPackage = "/checkupPackage/giveFeedbackToPackage";
+  static const giveFeedbackTocheckupPackage =
+      "/checkupPackage/giveFeedbackToPackage";
   //
   static const updateAndRegisterBloodDonor = "/bloodDonors/profile";
   static const findBloodDonorsRegisterBloodDonor = "/findBloodDonors/profile";
@@ -83,7 +84,8 @@ class ApiConsts {
 
   ///dieasetreatement
   static const String deseasecategory = '/Deseasecategory';
-  static const String deseaseDatalist = '/deseasetreatment/getDiseaseTreatmentsByCategory/';
+  static const String deseaseDatalist =
+      '/deseasetreatment/getDiseaseTreatmentsByCategory/';
 
   ///checkup
   static const String checkupPackage = '/checkupPackage';
@@ -105,10 +107,12 @@ class ApiConsts {
   static const String getHospitalFeedback = '/hospital/getHospitalFeedbacks/';
 
   ///appointment
-  static const String getPackageAppointmentHistory = '/packageAppointment/getPatientAppointments/';
+  static const String getPackageAppointmentHistory =
+      '/packageAppointment/getPatientAppointments/';
   static const String getAppointmentHistory = '/patient/history';
   static const String bookPackageAppointment = '/packageAppointment';
   static const String getCheckupPackageHistory = '/packageAppointment';
+  static const String cancelAppointment = '/appointment';
 
   ///abroad treatment
 
@@ -127,5 +131,6 @@ class ApiConsts {
 
   static const String checkPregnancy = '/pregnancyTracker/checkPregnancy';
   static const String calculateDate = '/pregnancyTracker/calculateDate';
-  static const String deleteTracker = '/pregnancyTracker/deleteSubscription?id=';
+  static const String deleteTracker =
+      '/pregnancyTracker/deleteSubscription?id=';
 }

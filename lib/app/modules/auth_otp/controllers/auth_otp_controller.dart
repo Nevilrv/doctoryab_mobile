@@ -24,7 +24,7 @@ class AuthOtpController extends GetxController {
   void onInit() {
     ever(otpFormatValid, (_) {
       //
-      if (otpFormatValid()) Get.focusScope.unfocus();
+      if (otpFormatValid()) Get.focusScope!.unfocus();
     });
     super.onInit();
   }
@@ -43,14 +43,12 @@ class AuthOtpController extends GetxController {
 
     if (GetPlatform.isWeb) {
       //TODO handle Error
-      UserCredential uc = await AuthController.to.confirmationResult.confirm(
+      UserCredential uc = await AuthController.to.confirmationResult!.confirm(
         textEditingController.text,
       );
       log('signinToFirebaseWithSmsCode--11111');
-      if (uc != null) {
-        EasyLoading.dismiss();
-        Utils.whereShouldIGo();
-      }
+      EasyLoading.dismiss();
+      Utils.whereShouldIGo();
     } else {
       //TODO handle Error
       await AuthController.to

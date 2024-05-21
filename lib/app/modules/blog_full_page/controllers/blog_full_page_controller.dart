@@ -6,7 +6,7 @@ class BlogFullPageController extends GetxController {
   //TODO: Implement BlogFullPageController
 
   final count = 0.obs;
-  Post post;
+  Post? post;
   @override
   void onInit() {
     super.onInit();

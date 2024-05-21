@@ -17,10 +17,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class TabDocsView extends GetView<ReportsController> {
-  TabDocsView({Key key}) : super(key: key) {
+  TabDocsView({Key? key}) : super(key: key) {
     if (Get.arguments != null) {
       controller.index = int.parse(Get.arguments['id']);
-      controller.tabIndex.value = controller.index;
+      controller.tabIndex.value = controller.index!;
       controller.pagingController.itemList = [];
       controller.pagingController.refresh();
       if (controller.tabIndex.value == 0) {
@@ -106,12 +106,12 @@ class TabDocsView extends GetView<ReportsController> {
 
                                       if (index == 0) {
                                         controller.pagingController.itemList
-                                            .clear();
+                                            ?.clear();
                                         controller.fetchReportsDoctor(controller
                                             .pagingController.firstPageKey);
                                       } else {
                                         controller.pagingController.itemList
-                                            .clear();
+                                            ?.clear();
                                         controller.fetchReportsLab(controller
                                             .pagingController.firstPageKey);
                                       }
@@ -169,15 +169,16 @@ class TabDocsView extends GetView<ReportsController> {
                                     var _d = DateTime.parse(
                                             item.prescriptionCreateAt == null
                                                 ? DateTime.now().toString()
-                                                : item.prescriptionCreateAt)
-                                        ?.toLocal()
-                                        ?.toPersianDateStr(
+                                                : item.prescriptionCreateAt
+                                                    .toString())
+                                        .toLocal()
+                                        .toPersianDateStr(
                                           strDay: false,
                                           strMonth: true,
                                           useAfghaniMonthName: true,
                                         )
-                                        ?.trim()
-                                        ?.split(' ');
+                                        .trim()
+                                        .split(' ');
 
                                     // var item = controller.latestVideos[index];
                                     return Container(
@@ -188,7 +189,7 @@ class TabDocsView extends GetView<ReportsController> {
                                           children: [
                                             Row(
                                               children: [
-                                                item.documents.isEmpty
+                                                item.documents!.isEmpty
                                                     ? SizedBox()
                                                     : Container(
                                                         height: 60,
@@ -212,7 +213,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                               width: 25),
                                                         ),
                                                       ),
-                                                item.documents.isEmpty
+                                                item.documents!.isEmpty
                                                     ? SizedBox()
                                                     : SizedBox(
                                                         width: 10,
@@ -222,10 +223,10 @@ class TabDocsView extends GetView<ReportsController> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
-                                                      width:
-                                                          item.documents.isEmpty
-                                                              ? null
-                                                              : w * 0.61,
+                                                      width: item.documents!
+                                                              .isEmpty
+                                                          ? null
+                                                          : w * 0.61,
                                                       child: Text(
                                                         "${"pat_name".tr}: ${item.name ?? ""}",
                                                         style: AppTextStyle
@@ -233,12 +234,12 @@ class TabDocsView extends GetView<ReportsController> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      width:
-                                                          item.documents.isEmpty
-                                                              ? null
-                                                              : w * 0.61,
+                                                      width: item.documents!
+                                                              .isEmpty
+                                                          ? null
+                                                          : w * 0.61,
                                                       child: Text(
-                                                        "${"doctor_name".tr} ${item.doctor[0].name ?? ""}",
+                                                        "${"doctor_name".tr} ${item.doctor![0].name ?? ""}",
                                                         style: AppTextStyle
                                                             .boldPrimary14
                                                             .copyWith(
@@ -257,7 +258,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                         ? SizedBox()
                                                         : Container(
                                                             width: item
-                                                                    .documents
+                                                                    .documents!
                                                                     .isEmpty
                                                                 ? w * 0.8
                                                                 : w * 0.61,
@@ -311,7 +312,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       5),
                                                           child: Center(
@@ -368,7 +369,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         5,
                                                                     vertical:
@@ -393,7 +394,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                                 .circular(4)),
                                                     child: Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 5),
                                                       child: Center(
                                                         child: Text(
@@ -444,15 +445,16 @@ class TabDocsView extends GetView<ReportsController> {
                                     var _d = DateTime.parse(
                                             item.prescriptionCreateAt == null
                                                 ? DateTime.now().toString()
-                                                : item.prescriptionCreateAt)
-                                        ?.toLocal()
-                                        ?.toPersianDateStr(
+                                                : item.prescriptionCreateAt
+                                                    .toString())
+                                        .toLocal()
+                                        .toPersianDateStr(
                                           strDay: false,
                                           strMonth: true,
                                           useAfghaniMonthName: true,
                                         )
-                                        ?.trim()
-                                        ?.split(' ');
+                                        .trim()
+                                        .split(' ');
 
                                     // var item = controller.latestVideos[index];
                                     return Container(
@@ -463,7 +465,7 @@ class TabDocsView extends GetView<ReportsController> {
                                           children: [
                                             Row(
                                               children: [
-                                                item.documents.isEmpty
+                                                item.documents!.isEmpty
                                                     ? SizedBox()
                                                     : Container(
                                                         height: 60,
@@ -625,7 +627,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         5,
                                                                     vertical:
@@ -650,7 +652,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                                 .circular(4)),
                                                     child: Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 5),
                                                       child: Center(
                                                         child: Text(

@@ -21,13 +21,13 @@ class ReportsRepository {
   static Future<List<Report>> fetchLabReports(
     int page, {
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<Report>(
+    List<Report> data = await Utils.parseResponse<Report>(
       () async {
         log("ApiConsts.labReportsPath--------------> ${ApiConsts.labReportsPath}");
 
@@ -48,20 +48,21 @@ class ReportsRepository {
         return res;
       },
       onError: onError,
-    );
+    ) as List<Report>;
+    return data;
   }
 
   static Future<List<Report>> fetchDoctorReports(
     int page, {
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     log('vall api');
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<Report>(
+    List<Report> data = await Utils.parseResponse<Report>(
       () async {
         // var doctorReports;
         var res = await _cachedDio.get(
@@ -80,7 +81,8 @@ class ReportsRepository {
         return res;
       },
       onError: onError,
-    );
+    ) as List<Report>;
+    return data;
   }
 }
 

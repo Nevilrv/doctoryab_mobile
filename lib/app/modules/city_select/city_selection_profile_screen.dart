@@ -111,7 +111,7 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                                           horizontal: 20, vertical: 10),
                                       child: Center(
                                         child: Text(
-                                          item.getMultiLangName(),
+                                          item.getMultiLangName().toString(),
                                           style: controller
                                                       .selectedCityItem.value ==
                                                   item
@@ -152,8 +152,8 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                             SettingsController.auth.savedCity = City.fromJson(
                                 jsonDecode(jsonEncode(
                                     controller.selectedCityItem.value)));
-                            Get.find<TabHomeMainController>()
-                                .cityChanged(SettingsController.auth.savedCity);
+                            Get.find<TabHomeMainController>().cityChanged(
+                                SettingsController.auth.savedCity as City);
                             Get.offAllNamed(Routes.HOME, arguments: {'id': 4});
                           } else {
                             Utils.showSnackBar(context, "Please select city");

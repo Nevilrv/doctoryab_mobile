@@ -7,13 +7,13 @@ import '../../../components/spacialAppBar.dart';
 import '../controllers/blog_full_page_controller.dart';
 
 class BlogFullPageView extends GetView<BlogFullPageController> {
-  BlogFullPageView({Key key}) : super(key: key);
+  BlogFullPageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppAppBar.specialAppBar(
-        controller?.post?.blogTitleEnglish ?? "blog".tr,
+        controller.post?.blogTitleEnglish ?? "blog".tr,
         showLeading: false,
       ),
       body: SingleChildScrollView(
@@ -24,7 +24,10 @@ class BlogFullPageView extends GetView<BlogFullPageController> {
 
           data: controller.post?.descEnglish ?? "",
           //TODO fix this for english posts
-          customTextAlign: (elem) => TextAlign.right,
+          style: {
+            'html': Style(textAlign: TextAlign.right),
+          },
+          // customTextAlign: (elem) => TextAlign.right,
         ).paddingAll(16),
       ),
     );

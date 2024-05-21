@@ -87,7 +87,7 @@ class DoctorView extends GetView<DoctorController> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: CachedNetworkImage(
                                   imageUrl:
-                                      "${ApiConsts.hostUrl}${controller.doctor.photo}",
+                                      "${ApiConsts.hostUrl}${controller.doctor!.photo}",
                                   height: h * 0.11,
                                   width: h * 0.11,
                                   fit: BoxFit.cover,
@@ -117,13 +117,13 @@ class DoctorView extends GetView<DoctorController> {
                                   children: [
                                     // SizedBox(height: 10),
                                     Text(
-                                      "${controller.doctor.fullname ?? ""}",
+                                      "${controller.doctor?.fullname ?? ""}",
                                       style: AppTextTheme.h(12)
                                           .copyWith(color: AppColors.primary),
                                     ),
                                     SizedBox(height: 2),
                                     Text(
-                                      "${controller.doctor.speciality}",
+                                      "${controller.doctor?.speciality}",
                                       style: AppTextTheme.b(11).copyWith(
                                           color: AppColors.primary
                                               .withOpacity(0.5)),
@@ -144,11 +144,11 @@ class DoctorView extends GetView<DoctorController> {
                                             itemSize: 17,
                                             initialRating: double.parse(controller
                                                             .doctor
-                                                            .averageRatings ==
+                                                            ?.averageRatings ==
                                                         null
                                                     ? "0.0"
                                                     : controller.doctor
-                                                            .averageRatings
+                                                            ?.averageRatings
                                                             .toString() ??
                                                         '0.0') ??
                                                 0.0,
@@ -174,7 +174,7 @@ class DoctorView extends GetView<DoctorController> {
                                           //       .copyWith(color: AppColors.lgt2),
                                           // ),
                                           Text(
-                                            '(${controller.doctor.totalFeedbacks == null ? 0 : controller.doctor.totalFeedbacks ?? 0}) ${'reviews'.tr}',
+                                            '(${controller.doctor?.totalFeedbacks == null ? 0 : controller.doctor?.totalFeedbacks ?? 0}) ${'reviews'.tr}',
                                             style: AppTextTheme.b(11).copyWith(
                                                 color: AppColors.primary
                                                     .withOpacity(0.5)),
@@ -223,7 +223,7 @@ class DoctorView extends GetView<DoctorController> {
                                                             20)),
                                                 child: Center(
                                                   child: Text(
-                                                    "${"fee".tr} ${controller.doctor.fee == "" ? "0" : controller.doctor.fee ?? "0"} ${"afn".tr}",
+                                                    "${"fee".tr} ${controller.doctor?.fee == "" ? "0" : controller.doctor?.fee ?? "0"} ${"afn".tr}",
                                                     style: AppTextTheme.m(
                                                             w * 0.032)
                                                         .copyWith(
@@ -253,7 +253,7 @@ class DoctorView extends GetView<DoctorController> {
                                                             20)),
                                                 child: Center(
                                                   child: Text(
-                                                    "${"exp".tr} ${controller.doctor.totalExperience == null ? "0" : controller.doctor.totalExperience.toString()} ${"year".tr}",
+                                                    "${"exp".tr} ${controller.doctor?.totalExperience == null ? "0" : controller.doctor?.totalExperience.toString()} ${"year".tr}",
                                                     style: AppTextTheme.m(
                                                             w * 0.032)
                                                         .copyWith(
@@ -340,11 +340,11 @@ class DoctorView extends GetView<DoctorController> {
                                   physics: BouncingScrollPhysics(),
                                   child: Column(
                                     children: [
-                                      controller.doctor.address == "" ||
-                                              controller.doctor.address == null
+                                      controller.doctor?.address == "" ||
+                                              controller.doctor?.address == null
                                           ? SizedBox()
-                                          : controller.doctor.address == "" ||
-                                                  controller.doctor.address ==
+                                          : controller.doctor?.address == "" ||
+                                                  controller.doctor?.address ==
                                                       null
                                               ? SizedBox()
                                               : Column(
@@ -424,7 +424,7 @@ class DoctorView extends GetView<DoctorController> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 10),
                                                         child: Row(
                                                           children: [
@@ -439,7 +439,7 @@ class DoctorView extends GetView<DoctorController> {
                                                               width: Get.width *
                                                                   0.69,
                                                               child: Text(
-                                                                "${controller.doctor.address}",
+                                                                "${controller.doctor?.address}",
                                                                 style: AppTextStyle
                                                                     .mediumBlack12
                                                                     .copyWith(
@@ -465,13 +465,13 @@ class DoctorView extends GetView<DoctorController> {
                                                             controller
                                                                         .doctor
                                                                         ?.geometry
-                                                                        ?.coordinates[
+                                                                        ?.coordinates![
                                                                     1] ??
                                                                 0.0,
                                                             controller
                                                                     .doctor
                                                                     ?.geometry
-                                                                    ?.coordinates[0] ??
+                                                                    ?.coordinates![0] ??
                                                                 0.0);
                                                       },
                                                       child: Container(
@@ -489,7 +489,7 @@ class DoctorView extends GetView<DoctorController> {
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   vertical: 10),
                                                           child: Center(
                                                               child: Text(
@@ -505,7 +505,7 @@ class DoctorView extends GetView<DoctorController> {
                                                     ),
                                                   ],
                                                 ),
-                                      controller.doctor.tags.isEmpty
+                                      controller.doctor?.tags?.isEmpty ?? true
                                           ? SizedBox()
                                           : Column(
                                               crossAxisAlignment:
@@ -582,11 +582,11 @@ class DoctorView extends GetView<DoctorController> {
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 10),
                                                     child: Center(
                                                       child: Text(
-                                                        "${controller.doctor.tags.join(',') ?? ""}",
+                                                        "${controller.doctor?.tags?.join(',') ?? ""}",
                                                         style: AppTextStyle
                                                             .mediumBlack12
                                                             .copyWith(
@@ -602,8 +602,8 @@ class DoctorView extends GetView<DoctorController> {
                                                 ),
                                               ],
                                             ),
-                                      controller.doctor.detail == "" ||
-                                              controller.doctor.detail == null
+                                      controller.doctor?.detail == "" ||
+                                              controller.doctor?.detail == null
                                           ? SizedBox()
                                           : Column(
                                               crossAxisAlignment:
@@ -680,11 +680,11 @@ class DoctorView extends GetView<DoctorController> {
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 10),
                                                     child: Center(
                                                       child: Text(
-                                                        "${controller.doctor.detail ?? ""}",
+                                                        "${controller.doctor?.detail ?? ""}",
                                                         style: AppTextStyle
                                                             .mediumBlack12
                                                             .copyWith(
@@ -802,7 +802,7 @@ class DoctorView extends GetView<DoctorController> {
                                                   StateSetter setStates) {
                                                 return Padding(
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 30),
                                                   child: Center(
                                                     child: Container(
@@ -816,7 +816,7 @@ class DoctorView extends GetView<DoctorController> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 20,
                                                                 vertical: 10),
                                                         child: Column(
@@ -1031,7 +1031,7 @@ class DoctorView extends GetView<DoctorController> {
                                                               onTap: () {
                                                                 controller.addDocFeedback(
                                                                     doctorId: controller
-                                                                        .doctor
+                                                                        .doctor!
                                                                         .datumId
                                                                         .toString(),
                                                                     context:
@@ -1047,7 +1047,7 @@ class DoctorView extends GetView<DoctorController> {
                                                                         .primary),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
-                                                                          .symmetric(
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           10,
                                                                       vertical:
@@ -1138,7 +1138,8 @@ class DoctorView extends GetView<DoctorController> {
                                                                 controller
                                                                     .feedbackData[
                                                                         index]
-                                                                    .createAt)
+                                                                    .createAt
+                                                                    .toString())
                                                             .toPersianDateStr(
                                                               strDay: false,
                                                               strMonth: true,
@@ -1150,7 +1151,7 @@ class DoctorView extends GetView<DoctorController> {
                                                         return Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10.0),
                                                           child: Column(
                                                             children: [
@@ -1198,8 +1199,10 @@ class DoctorView extends GetView<DoctorController> {
                                                                       flex: 6,
                                                                       child:
                                                                           Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(horizontal: 5),
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                5),
                                                                         child:
                                                                             Column(
                                                                           mainAxisAlignment:
@@ -1216,7 +1219,7 @@ class DoctorView extends GetView<DoctorController> {
                                                                                 Container(
                                                                                   width: Get.width * 0.39,
                                                                                   child: Text(
-                                                                                    controller.feedbackData[index].postedBy.name ?? "",
+                                                                                    controller.feedbackData[index].postedBy?.name ?? "",
                                                                                     style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                                                   ),
                                                                                 ),
