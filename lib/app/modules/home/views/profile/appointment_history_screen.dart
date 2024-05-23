@@ -418,59 +418,68 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                       SizedBox(
                                                         height: 5,
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              AppImages.chat,
-                                                              height: 20,
-                                                              width: 20),
-                                                          SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                          Text(
-                                                            "review".tr,
-                                                            style: AppTextStyle
-                                                                .boldBlack10
-                                                                .copyWith(
-                                                                    color: AppColors
-                                                                        .lightBlack2,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                          ),
-                                                          Spacer(),
-                                                          RatingBar.builder(
-                                                            ignoreGestures:
-                                                                true,
-                                                            itemSize: 17,
-                                                            initialRating:
-                                                                double.parse(
-                                                                    "${controller.appointmentList[index].doctor?[0].averageRatings == null ? "0" : controller.appointmentList[index].doctor?[0].averageRatings.toString()}"),
-                                                            // minRating: 1,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            allowHalfRating:
-                                                                true,
-                                                            itemCount: 5,
-                                                            itemPadding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        1.0),
-                                                            itemBuilder:
-                                                                (context, _) =>
-                                                                    Icon(
-                                                              Icons.star,
-                                                              color:
-                                                                  Colors.amber,
-                                                              // size: 10,
+                                                      controller
+                                                                  .appointmentList[
+                                                                      index]
+                                                                  .status ==
+                                                              "cancelled"
+                                                          ? SizedBox()
+                                                          : Row(
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    AppImages
+                                                                        .chat,
+                                                                    height: 20,
+                                                                    width: 20),
+                                                                SizedBox(
+                                                                  width: 20,
+                                                                ),
+                                                                Text(
+                                                                  "review".tr,
+                                                                  style: AppTextStyle
+                                                                      .boldBlack10
+                                                                      .copyWith(
+                                                                          color: AppColors
+                                                                              .lightBlack2,
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                ),
+                                                                Spacer(),
+                                                                RatingBar
+                                                                    .builder(
+                                                                  ignoreGestures:
+                                                                      true,
+                                                                  itemSize: 17,
+                                                                  initialRating:
+                                                                      double.parse(
+                                                                          "${controller.appointmentList[index].doctor?[0].averageRatings == null ? "0" : controller.appointmentList[index].doctor?[0].averageRatings.toString()}"),
+                                                                  // minRating: 1,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
+                                                                  itemCount: 5,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              1.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
+                                                                    // size: 10,
+                                                                  ),
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    print(
+                                                                        rating);
+                                                                  },
+                                                                ),
+                                                              ],
                                                             ),
-                                                            onRatingUpdate:
-                                                                (rating) {
-                                                              print(rating);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -493,7 +502,13 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               5),
-                                                      color: AppColors.primary,
+                                                      color: controller
+                                                                  .appointmentList[
+                                                                      index]
+                                                                  .status ==
+                                                              "cancelled"
+                                                          ? Color(0xffFE9402)
+                                                          : AppColors.primary,
                                                       boxShadow: [
                                                         BoxShadow(
                                                             offset:
@@ -510,7 +525,13 @@ class AppointmentHistoryScreen extends GetView<AppointmentHistoryController> {
                                                         vertical: 10),
                                                     child: Center(
                                                       child: Text(
-                                                        "see_details".tr,
+                                                        controller
+                                                                    .appointmentList[
+                                                                        index]
+                                                                    .status ==
+                                                                "cancelled"
+                                                            ? "cancel".tr
+                                                            : "see_details".tr,
                                                         style: AppTextStyle
                                                             .boldWhite10,
                                                       ),

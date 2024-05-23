@@ -321,36 +321,39 @@ class AppointmentDetailScreen extends StatelessWidget {
                               SizedBox(
                                 height: h * 0.02,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(AppointmentFeedbackScreen(
-                                    history: history!,
-                                  ));
-                                },
-                                child: Container(
-                                  width: w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(40),
-                                      color: AppColors.primary,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: Offset(0, 4),
-                                            blurRadius: 4,
-                                            color: AppColors.black
-                                                .withOpacity(0.25))
-                                      ]),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
-                                    child: Center(
-                                      child: Text(
-                                        "give_feedback".tr,
-                                        style: AppTextStyle.boldWhite10,
+                              history?.status == "cancelled"
+                                  ? SizedBox()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        Get.to(AppointmentFeedbackScreen(
+                                          history: history!,
+                                        ));
+                                      },
+                                      child: Container(
+                                        width: w,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            color: AppColors.primary,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: Offset(0, 4),
+                                                  blurRadius: 4,
+                                                  color: AppColors.black
+                                                      .withOpacity(0.25))
+                                            ]),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12),
+                                          child: Center(
+                                            child: Text(
+                                              "give_feedback".tr,
+                                              style: AppTextStyle.boldWhite10,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         ),

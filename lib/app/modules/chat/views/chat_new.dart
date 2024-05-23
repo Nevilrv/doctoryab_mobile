@@ -455,7 +455,7 @@ class ChatView extends GetView<ChatController> {
                                           children: [
                                             if (controller.nextPageLoading() &&
                                                 index ==
-                                                    (controller.chat?.length ??
+                                                    (controller.chat.length ??
                                                             0) -
                                                         1)
                                               Center(
@@ -1210,6 +1210,7 @@ class ChatView extends GetView<ChatController> {
                                                 size: 27,
                                               ),
                                             ),
+                                            Spacer(),
                                             controller.playRecord.value == true
                                                 ? GestureDetector(
                                                     onTap: () {
@@ -1245,6 +1246,19 @@ class ChatView extends GetView<ChatController> {
                                                       size: 40,
                                                     ),
                                                   ),
+                                            SizedBox(
+                                              width: Get.width * 0.02,
+                                            ),
+                                            Text(
+                                              // "",
+                                              "${controller.minute}:${controller.second}",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xff8A3BEE),
+                                              ),
+                                            ),
+                                            Spacer(),
                                             GestureDetector(
                                               onTap:
                                                   (controller.isLoading.value ||

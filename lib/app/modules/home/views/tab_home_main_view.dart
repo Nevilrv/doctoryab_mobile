@@ -94,24 +94,51 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20),
                           ),
+                          indicatorColor: Colors.transparent,
+                          indicatorPadding: EdgeInsets.zero,
+                          dividerColor: Colors.transparent,
+                          indicatorWeight: 0,
                           tabs: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Text("doctors".tr),
+                            FittedBox(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Get.width * 0.02),
+                                child: Text(
+                                  "doctors".tr,
+                                  style: TextStyle(fontSize: Get.width * 0.033),
+                                ),
+                              ),
                             ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Text("hospitals".tr)),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Text("drug_store".tr)),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 2),
-                                child: Text("labratories".tr)),
+                            FittedBox(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Get.width * 0.01),
+                                child: Text(
+                                  "hospitals".tr,
+                                  style: TextStyle(fontSize: Get.width * 0.033),
+                                ),
+                              ),
+                            ),
+                            FittedBox(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Get.width * 0.01),
+                                child: Text(
+                                  "drug_store".tr,
+                                  style: TextStyle(fontSize: Get.width * 0.033),
+                                ),
+                              ),
+                            ),
+                            FittedBox(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Get.width * 0.005),
+                                child: Text(
+                                  "labratories".tr,
+                                  style: TextStyle(fontSize: Get.width * 0.033),
+                                ),
+                              ),
+                            ),
                           ],
                         ) /*.size(
                           width: MediaQuery.of(context).size.width > 600 ? 500 : 324,

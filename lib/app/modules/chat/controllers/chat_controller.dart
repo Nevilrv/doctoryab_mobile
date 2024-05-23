@@ -37,7 +37,10 @@ class ChatController extends GetxController {
   var chatsPerPageLimit = 16;
   // nextPageTrigger will have a value equivalent to 80% of the list size.
   var nextPageTrigger = 0.0;
-
+  Timer? timer;
+  int start = 0;
+  String minute = "00";
+  String second = "00";
   var messageToSend = "";
 
   FlutterSoundRecorder? recordingSession;
@@ -75,7 +78,11 @@ class ChatController extends GetxController {
   }
 
   Future<void> startRecording() async {
+    start = 0;
+    minute = "00";
+    second = "00";
     playRecord.value = true;
+    update();
     // Directory directory = Directory(path.dirname(pathToAudio));
     // if (!directory.existsSync()) {
     //   directory.createSync();
@@ -104,16 +111,32 @@ class ChatController extends GetxController {
       var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
           isUtc: true);
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
+      log('timeText ---------->>>>>>>> ${timeText}');
       // timerText.value = timeText.substring(0, 8);
       update();
     });
     _recorderSubscription.cancel();
+
+    timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      start++;
+      formattedTime(timeInSecond: start);
+    });
+    update();
+  }
+
+  formattedTime({required int timeInSecond}) {
+    int sec = timeInSecond % 60;
+    int min = (timeInSecond / 60).floor();
+    minute = min.toString().length <= 1 ? "0$min" : "$min";
+    second = sec.toString().length <= 1 ? "0$sec" : "$sec";
     update();
   }
 
   Future<String?> stopRecording() async {
+    timer?.cancel();
     playRecord.value = false;
-    recordingSession!.closeRecorder();
+
+    recordingSession?.closeRecorder();
     update();
     return await recordingSession!.stopRecorder();
   }
@@ -433,21 +456,19 @@ class ChatController extends GetxController {
                 update();
               }
             }).then((value) {
-              if (value != null) {
-                if (socket!.disconnected) {
-                  sendingMessageFailed(true);
-                  lastFailedMessage = value;
-                  sendingMessage(true);
-                  socket!.connect();
-                } else {
-                  socket!.emit("new message", value.toJson());
-                  sendingMessageFailed(false);
-                  sendingMessage(false);
-                }
-                chat.value.insert(0, value);
-                chat.refresh();
-                update();
+              if (socket!.disconnected) {
+                sendingMessageFailed(true);
+                lastFailedMessage = value;
+                sendingMessage(true);
+                socket!.connect();
+              } else {
+                socket!.emit("new message", value.toJson());
+                sendingMessageFailed(false);
+                sendingMessage(false);
               }
+              chat.value.insert(0, value);
+              chat.refresh();
+              update();
             }).catchError((e, s) {
               Logger().e("message", e, s);
               update();
