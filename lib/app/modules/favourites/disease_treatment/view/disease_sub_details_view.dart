@@ -109,14 +109,14 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
       (duration) => setState(() {
         _duration1 = duration;
 
-        log('_duration1_duration1>> ${_duration2!.inSeconds}');
+        log('_duration1_duration1>> ${_duration2?.inSeconds}');
       }),
     );
     _durationChangedSubscription2 = _audioPlayer2.onDurationChanged.listen(
       (duration) => setState(() {
         _duration2 = duration;
 
-        log('_duration1_duration1>> ${_duration2!.inSeconds}');
+        log('_duration1_duration1>> ${_duration2?.inSeconds}');
       }),
     );
 
@@ -186,7 +186,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
     _audioPlayer2.dispose();
 
     if (timers2!.isActive) {
-      timers2!.cancel();
+      timers2?.cancel();
     }
 
     // TODO: implement dispose
