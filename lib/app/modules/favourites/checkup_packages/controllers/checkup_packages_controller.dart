@@ -97,10 +97,7 @@ class CheckupPackagesController extends GetxController {
             packageId: packageId,
             labId: selectedTime.value,
             type: selectedType.value,
-            time: DateTime.parse(selectedTime.value)
-                .toLocal()
-                .toIso8601String()
-                .toString())
+            time: DateTime.parse(selectedTime.value).toLocal().toIso8601String().toString())
         .then((value) {
       loading.value = false;
       var response = value.data;
@@ -119,8 +116,7 @@ class CheckupPackagesController extends GetxController {
                 color: AppColors.white,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: Get.height * 0.03, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: Get.height * 0.03, vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -137,8 +133,7 @@ class CheckupPackagesController extends GetxController {
                     ),
                     Text(
                       "book_success".tr,
-                      style: AppTextStyle.boldPrimary24
-                          .copyWith(color: AppColors.green3),
+                      style: AppTextStyle.boldPrimary24.copyWith(color: AppColors.green3),
                     ),
                     SizedBox(
                       height: Get.height * 0.01,
@@ -146,8 +141,7 @@ class CheckupPackagesController extends GetxController {
                     Text(
                       "Your booking request succesfully, check your e-mail other details!",
                       textAlign: TextAlign.center,
-                      style: AppTextStyle.mediumBlack16
-                          .copyWith(color: AppColors.black3, fontSize: 15),
+                      style: AppTextStyle.mediumBlack16.copyWith(color: AppColors.black3, fontSize: 15),
                     ),
                     SizedBox(
                       height: Get.height * 0.03,
@@ -159,15 +153,10 @@ class CheckupPackagesController extends GetxController {
                       },
                       child: Container(
                         width: Get.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.primary),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.primary),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
-                          child: Center(
-                              child: Text("back_to_checkup_list".tr,
-                                  style: AppTextStyle.boldWhite15)),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          child: Center(child: Text("back_to_checkup_list".tr, style: AppTextStyle.boldWhite15)),
                         ),
                       ),
                     )
@@ -188,8 +177,7 @@ class CheckupPackagesController extends GetxController {
 
         if (e.type == DioErrorType.response) {
           AppGetDialog.showWithRetryCallBack(
-            middleText: e.response.data['message'] ??
-                "check_internet_connection_and_retry".tr,
+            middleText: e.response.data['message'] ?? "check_internet_connection_and_retry".tr,
             // "check_internet_connection_and_retry".tr,
             operationTitle: "",
             retryButtonText: "",
@@ -250,8 +238,7 @@ class CheckupPackagesController extends GetxController {
     PackageRepository.fetchPackageHistory(
       cancelToken: cancelToken,
     ).then((value) {
-      CheckUpPackageResModel checkUpPackageResModel =
-          CheckUpPackageResModel.fromJson(value);
+      CheckUpPackageResModel checkUpPackageResModel = CheckUpPackageResModel.fromJson(value);
       packageHistory.addAll(checkUpPackageResModel.data!);
       historyLoading = false;
       update();
@@ -274,17 +261,13 @@ class CheckupPackagesController extends GetxController {
     timeList.clear();
     selectedDate.value = "";
     if (type == "lab") {
-      PackageRepository.fetchLabsSchedule(
-              cancelToken: cancelToken, labId: labId)
-          .then((value) {
-        HospitalLabScheduleResModel resModel =
-            HospitalLabScheduleResModel.fromJson(value);
+      PackageRepository.fetchLabsSchedule(cancelToken: cancelToken, labId: labId).then((value) {
+        HospitalLabScheduleResModel resModel = HospitalLabScheduleResModel.fromJson(value);
 
         scheduleList.addAll(resModel.data!);
         scheduleList.forEach((element) {
           for (var i = 0; i < 15; i++) {
-            if (DateTime.now().add(Duration(days: i)).weekday ==
-                element.dayOfWeek) {
+            if (DateTime.now().add(Duration(days: i)).weekday == element.dayOfWeek) {
               scheduleListDate.add(DateTime.now().add(Duration(days: i)));
               scheduleListDate.sort((a, b) {
                 return a.compareTo(b);
@@ -298,13 +281,11 @@ class CheckupPackagesController extends GetxController {
         cancelToken: cancelToken,
         hospitalId: hospitalId,
       ).then((value) {
-        HospitalLabScheduleResModel resModel =
-            HospitalLabScheduleResModel.fromJson(value);
+        HospitalLabScheduleResModel resModel = HospitalLabScheduleResModel.fromJson(value);
         scheduleList.addAll(resModel.data!);
         scheduleList.forEach((element) {
           for (var i = 0; i < 15; i++) {
-            if (DateTime.now().add(Duration(days: i)).weekday ==
-                element.dayOfWeek) {
+            if (DateTime.now().add(Duration(days: i)).weekday == element.dayOfWeek) {
               scheduleListDate.add(DateTime.now().add(Duration(days: i)));
               scheduleListDate.sort((a, b) {
                 return a.compareTo(b);
@@ -332,13 +313,11 @@ class CheckupPackagesController extends GetxController {
   List<PackageFeedback> packageFeedback = [];
   bool isLoading = false;
   bool isLoadingFeedback = false;
-  double ratings = 0.0;
+  double ratings = 5.0;
   void packageReview({String? packageId}) {
     isLoading = true;
     update();
-    PackageRepository()
-        .fetchPackageReview(packageId: packageId, cancelToken: cancelToken)
-        .then((data) {
+    PackageRepository().fetchPackageReview(packageId: packageId, cancelToken: cancelToken).then((data) {
       packageFeedback.clear();
       if (data.data['data'] != null) {
         data.data['data'].forEach((element) {
@@ -362,11 +341,7 @@ class CheckupPackagesController extends GetxController {
     update();
     FocusManager.instance.primaryFocus?.unfocus();
     PackageRepository()
-        .addPackageReview(
-            packageId: packageId,
-            comment: comment.text,
-            rating: rating,
-            cancelToken: cancelToken)
+        .addPackageReview(packageId: packageId, comment: comment.text, rating: rating, cancelToken: cancelToken)
         .then((data) {
       comment.clear();
       ratings = 0.0;
@@ -447,10 +422,7 @@ class CheckupPackagesController extends GetxController {
 
   var pagingController = PagingController<int, Package>(firstPageKey: 1);
   void fetchCheckUpPackages(int pageKey) {
-    PackageRepository()
-        .checkupPackages(pageKey, searchController.text,
-            cancelToken: cancelToken)
-        .then((data) {
+    PackageRepository().checkupPackages(pageKey, searchController.text, cancelToken: cancelToken).then((data) {
       // cancelToken = new CancelToken();
       // print(10 / 0);
       //TODO handle all in model

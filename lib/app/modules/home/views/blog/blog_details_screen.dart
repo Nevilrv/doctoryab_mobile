@@ -10,8 +10,9 @@ import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:html/parser.dart' show parse;
@@ -20,6 +21,7 @@ import 'comment_blog_screen.dart';
 class BlogDetailsScreen extends StatefulWidget {
   final Post? post;
   final int? index;
+
   BlogDetailsScreen({Key? key, this.post, this.index}) : super(key: key);
 
   @override
@@ -95,30 +97,40 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
-                          Html(
-                            data: SettingsController.appLanguge == 'English'
+                          HtmlWidget(
+                            SettingsController.appLanguge == 'English'
                                 ? "${widget.post!.descEnglish}"
                                 : SettingsController.appLanguge == 'پشتو'
                                     ? "${widget.post!.descPashto}"
                                     : '${widget.post!.descDari}',
-                            style: {
-                              'html': Style(
-                                textAlign:
-                                    SettingsController.appLanguge == "English"
-                                        ? TextAlign.left
-                                        : TextAlign.right,
-                              ),
-                            },
-
-                            // customTextAlign: (_) =>
-                            //     SettingsController.appLanguge == "English"
-                            //         ? TextAlign.left
-                            //         : TextAlign.right,
-                            // onImageError: (exception, stackTrace) {
-                            //   return Image.network(
-                            //       "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
-                            // },
+                            // textStyle:TextStyle(
+                            //   textAlign: SettingsController.appLanguge == "English" ? TextAlign.left : TextAlign.right,
+                            // ),
                           ),
+
+                          /// Old Flutter Html Package
+
+                          // Html(
+                          //   data: SettingsController.appLanguge == 'English'
+                          //       ? "${widget.post!.descEnglish}"
+                          //       : SettingsController.appLanguge == 'پشتو'
+                          //           ? "${widget.post!.descPashto}"
+                          //           : '${widget.post!.descDari}',
+                          //   style: {
+                          //     'html': Style(
+                          //       textAlign: SettingsController.appLanguge == "English" ? TextAlign.left : TextAlign.right,
+                          //     ),
+                          //   },
+                          //
+                          //   // customTextAlign: (_) =>
+                          //   //     SettingsController.appLanguge == "English"
+                          //   //         ? TextAlign.left
+                          //   //         : TextAlign.right,
+                          //   // onImageError: (exception, stackTrace) {
+                          //   //   return Image.network(
+                          //   //       "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg");
+                          //   // },
+                          // ),
                         ],
                       ),
                     ),
@@ -141,22 +153,16 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                           SizedBox(width: 5),
                           Text(
                             widget.post!.likes!.length.toString(),
-                            style: AppTextTheme.h(14).copyWith(
-                                color: AppColors.primary.withOpacity(0.7),
-                                fontWeight: FontWeight.w400),
+                            style: AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                           ),
                           Spacer(),
                           Text(
                             "${widget.post!.comments!.length.toString()} ",
-                            style: AppTextTheme.h(14).copyWith(
-                                color: AppColors.primary.withOpacity(0.7),
-                                fontWeight: FontWeight.w400),
+                            style: AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                           ),
                           Text(
                             "comment".tr,
-                            style: AppTextTheme.h(14).copyWith(
-                                color: AppColors.primary.withOpacity(0.7),
-                                fontWeight: FontWeight.w400),
+                            style: AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                           ),
                           SizedBox(width: 5),
                           Icon(
@@ -167,15 +173,11 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                           SizedBox(width: 5),
                           Text(
                             "${widget.post!.shares!.length.toString()} ",
-                            style: AppTextTheme.h(14).copyWith(
-                                color: AppColors.primary.withOpacity(0.7),
-                                fontWeight: FontWeight.w400),
+                            style: AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                           ),
                           Text(
                             "shares".tr,
-                            style: AppTextTheme.h(14).copyWith(
-                                color: AppColors.primary.withOpacity(0.7),
-                                fontWeight: FontWeight.w400),
+                            style: AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                           )
                         ],
                       ),
@@ -188,44 +190,35 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (widget.post!.likes!.contains(
-                                    SettingsController.userId.toString())) {
-                                  widget.post!.likes!
-                                      .remove(SettingsController.userId);
+                                if (widget.post!.likes!.contains(SettingsController.userId.toString())) {
+                                  widget.post!.likes!.remove(SettingsController.userId);
                                 } else {
-                                  widget.post!.likes!
-                                      .add(SettingsController.userId);
+                                  widget.post!.likes!.add(SettingsController.userId);
                                 }
 
                                 controller.update();
-                                controller.likeBlog(widget.post!.id!,
-                                    widget.index!, widget.post!);
+                                controller.likeBlog(widget.post!.id!, widget.index!, widget.post!);
                               },
                               child: Row(
                                 children: [
-                                  widget.post!.likes!.contains(
-                                          SettingsController.userId.toString())
+                                  widget.post!.likes!.contains(SettingsController.userId.toString())
                                       ? SvgPicture.asset(
                                           AppImages.likeFill,
                                           width: 20,
                                           height: 20,
-                                          color: AppColors.primary
-                                              .withOpacity(0.7),
+                                          color: AppColors.primary.withOpacity(0.7),
                                         )
                                       : SvgPicture.asset(
                                           AppImages.like2,
                                           width: 20,
                                           height: 20,
-                                          color: AppColors.primary
-                                              .withOpacity(0.7),
+                                          color: AppColors.primary.withOpacity(0.7),
                                         ),
                                   SizedBox(width: 5),
                                   Text(
                                     "like".tr,
-                                    style: AppTextTheme.h(14).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.7),
-                                        fontWeight: FontWeight.w400),
+                                    style:
+                                        AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                                   ),
                                 ],
                               ),
@@ -248,10 +241,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                   SizedBox(width: 5),
                                   Text(
                                     "comment".tr,
-                                    style: AppTextTheme.h(14).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.7),
-                                        fontWeight: FontWeight.w400),
+                                    style:
+                                        AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                                   ),
                                 ],
                               ),
@@ -261,24 +252,15 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                               onTap: () async {
                                 final result = await Share.shareWithResult(
                                   SettingsController.appLanguge == 'English'
-                                      ? parse(widget.post!.descEnglish)
-                                          .body!
-                                          .text
+                                      ? parse(widget.post!.descEnglish).body!.text
                                       : SettingsController.appLanguge == 'پشتو'
-                                          ? parse(widget.post!.descPashto)
-                                              .body!
-                                              .text
-                                          : parse(widget.post!.descDari)
-                                              .body!
-                                              .text,
+                                          ? parse(widget.post!.descPashto).body!.text
+                                          : parse(widget.post!.descDari).body!.text,
                                 );
-                                if (result.status ==
-                                    ShareResultStatus.success) {
-                                  widget.post!.shares!
-                                      .add(SettingsController.userId);
+                                if (result.status == ShareResultStatus.success) {
+                                  widget.post!.shares!.add(SettingsController.userId);
                                   controller.update();
-                                  controller.shareBlog(widget.post!.id!,
-                                      widget.index!, widget.post!);
+                                  controller.shareBlog(widget.post!.id!, widget.index!, widget.post!);
                                 }
                               },
                               child: Row(
@@ -292,10 +274,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                   SizedBox(width: 5),
                                   Text(
                                     "share".tr,
-                                    style: AppTextTheme.h(14).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.7),
-                                        fontWeight: FontWeight.w400),
+                                    style:
+                                        AppTextTheme.h(14).copyWith(color: AppColors.primary.withOpacity(0.7), fontWeight: FontWeight.w400),
                                   ),
                                 ],
                               ),

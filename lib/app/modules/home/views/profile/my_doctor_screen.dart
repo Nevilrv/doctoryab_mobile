@@ -51,22 +51,25 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text("my_doctors".tr,
-              style: AppTextStyle.boldPrimary16
-                  .copyWith(fontWeight: FontWeight.w600)),
+          title: Text("my_doctors".tr, style: AppTextStyle.boldPrimary16.copyWith(fontWeight: FontWeight.w600)),
           centerTitle: true,
           leading: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: RotatedBox(
-                quarterTurns:
-                    SettingsController.appLanguge == "English" ? 0 : 2,
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: AppColors.primary,
-                ),
-              )),
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: AppColors.primary,
+            ),
+            // child: RotatedBox(
+            //   quarterTurns:
+            //       SettingsController.appLanguge == "English" ? 0 : 2,
+            //   child: Icon(
+            //     Icons.arrow_back_ios_new,
+            //     color: AppColors.primary,
+            //   ),
+            // ),
+          ),
           elevation: 0,
           // actions: [
           //   Padding(
@@ -90,8 +93,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -99,11 +101,9 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                             List<LatLng> latLng = [];
                             controller.locationData.forEach((element) {
                               if (element.coordinates != null) {
-                                latLng.add(LatLng(element.coordinates![1],
-                                    element.coordinates![0]));
+                                latLng.add(LatLng(element.coordinates![1], element.coordinates![0]));
                               }
-                              if (controller.locationData.length ==
-                                  latLng.length) {
+                              if (controller.locationData.length == latLng.length) {
                                 Get.to(MapScreen(
                                   latLng: latLng,
                                   name: controller.locationTitle,
@@ -119,11 +119,9 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SvgPicture.asset(
                                     AppImages.map,
@@ -131,8 +129,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                   ),
                                   Text(
                                     "view_all_in_maps".tr,
-                                    style: AppTextStyle.boldWhite12
-                                        .copyWith(fontSize: 13),
+                                    style: AppTextStyle.boldWhite12.copyWith(fontSize: 13),
                                   ),
                                   SizedBox()
                                 ],
@@ -162,11 +159,9 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 9.5, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
                               child: Center(
-                                  child: SettingsController.appLanguge !=
-                                          "English"
+                                  child: SettingsController.appLanguge != "English"
                                       ? Transform(
                                           alignment: Alignment.center,
                                           transform: Matrix4.rotationY(math.pi),
@@ -301,24 +296,20 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                               item,
                             );
                           },
-                          noMoreItemsIndicatorBuilder: (_) =>
-                              DotDotPagingNoMoreItems(),
+                          noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
                           noItemsFoundIndicatorBuilder: (_) => Padding(
                             padding: EdgeInsets.only(top: h * 0.28),
                             child: PagingNoItemFountList(),
                           ),
-                          firstPageErrorIndicatorBuilder: (context) =>
-                              PagingErrorView(
+                          firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                             controller: controller.pagingController,
                           ),
-                          firstPageProgressIndicatorBuilder: (_) =>
-                              DrugsGridShimmer(
+                          firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                             yCount: 5,
                             xCount: 1,
                             // linesCount: 4,
                           ),
-                          newPageProgressIndicatorBuilder: (_) =>
-                              DrugsGridShimmer(
+                          newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                             yCount: 5,
                             xCount: 1,
                           ),
@@ -927,8 +918,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                 .trim()
                 .split(' ');
             if (item.schedules![0].times!.isNotEmpty) {
-              slot =
-                  "${item.schedules![0].times!.first} - ${item.schedules![0].times!.last}";
+              slot = "${item.schedules![0].times!.first} - ${item.schedules![0].times!.last}";
             }
 
             break;
@@ -979,8 +969,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                 .trim()
                 .split(' ');
             if (item.schedules![indexxx].times!.isNotEmpty) {
-              slot =
-                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
+              slot = "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
           }
           if (item.schedules![indexxx].dayOfWeek == d.weekday) {
@@ -993,8 +982,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                 .trim()
                 .split(' ');
             if (item.schedules![indexxx].times!.isNotEmpty) {
-              slot =
-                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
+              slot = "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
 
             break;
@@ -1028,9 +1016,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.lightGrey),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CachedNetworkImage(
@@ -1065,16 +1051,13 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                   width: Get.width * 0.49,
                                   child: Text(
                                     "${item.fullname ?? item.name ?? ""}",
-                                    style: AppTextTheme.h(12)
-                                        .copyWith(color: AppColors.primary),
+                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                   ),
                                 ),
                                 SizedBox(height: 2),
                                 Text(
                                   "${item.speciality}",
-                                  style: AppTextTheme.b(11).copyWith(
-                                      color:
-                                          AppColors.primary.withOpacity(0.5)),
+                                  style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                 ),
                                 SizedBox(height: 2),
                                 Row(
@@ -1083,18 +1066,13 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                     RatingBar.builder(
                                       ignoreGestures: true,
                                       itemSize: 15,
-                                      initialRating: double.parse(
-                                          item.averageRatings == null
-                                              ? "0.0"
-                                              : item.averageRatings
-                                                      .toString() ??
-                                                  "0.0"),
+                                      initialRating:
+                                          double.parse(item.averageRatings == null ? "0.0" : item.averageRatings.toString() ?? "0.0"),
                                       // minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                       itemBuilder: (context, _) => Icon(
                                         Icons.star,
                                         color: Colors.amber,
@@ -1107,14 +1085,11 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                     SizedBox(width: 4),
                                     GestureDetector(
                                       onTap: () {
-                                        Get.toNamed(Routes.REVIEW,
-                                            arguments: ["Doctor_Review", item]);
+                                        Get.toNamed(Routes.REVIEW, arguments: ["Doctor_Review", item]);
                                       },
                                       child: Text(
                                         '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks ?? 0}) ${'reviews'.tr}',
-                                        style: AppTextTheme.b(12).copyWith(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5)),
+                                        style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                       ),
                                     ),
                                   ],
@@ -1126,23 +1101,15 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                       flex: 2,
                                       child: GestureDetector(
                                         onTap: () {
-                                          Utils.openPhoneDialer(
-                                              context, "${item.phone}");
+                                          Utils.openPhoneDialer(context, "${item.phone}");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 5,
-                                              horizontal: w * 0.02),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
+                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: w * 0.02),
+                                          decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(20)),
                                           child: Center(
                                             child: Text(
                                               "call".tr,
-                                              style: AppTextTheme.m(w * 0.032)
-                                                  .copyWith(
-                                                      color: Colors.white),
+                                              style: AppTextTheme.m(w * 0.032).copyWith(color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -1162,19 +1129,12 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                           );
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 5,
-                                              horizontal: w * 0.01),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.lightBlack2,
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
+                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: w * 0.01),
+                                          decoration: BoxDecoration(color: AppColors.lightBlack2, borderRadius: BorderRadius.circular(20)),
                                           child: Center(
                                             child: Text(
                                               "appointment".tr,
-                                              style: AppTextTheme.m(w * 0.032)
-                                                  .copyWith(
-                                                      color: Colors.white),
+                                              style: AppTextTheme.m(w * 0.032).copyWith(color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -1231,8 +1191,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                               border: Border.all(color: AppColors.primary),
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
+                            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
@@ -1248,18 +1207,15 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                   children: [
                                     Text(
                                       "${date[0]}",
-                                      style: AppTextTheme.m(10)
-                                          .copyWith(color: AppColors.primary),
+                                      style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                     ),
                                     Text(
                                       " ${date[1]}",
-                                      style: AppTextTheme.m(10)
-                                          .copyWith(color: AppColors.primary),
+                                      style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                     ),
                                     Text(
                                       " ${date[3]}",
-                                      style: AppTextTheme.m(10)
-                                          .copyWith(color: AppColors.primary),
+                                      style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                     ),
                                   ],
                                 ),
@@ -1282,8 +1238,7 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
                                     : FittedBox(
                                         child: Text(
                                           "${slot ?? "  -  "}",
-                                          style: AppTextTheme.m(10).copyWith(
-                                              color: AppColors.primary),
+                                          style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                         ),
                                       ),
                               ],
@@ -1295,10 +1250,8 @@ class MyDoctorsView extends GetView<MyDoctorsController> {
               item.isActive == true
                   ? Positioned(
                       top: -3,
-                      right:
-                          SettingsController.appLanguge != "English" ? null : 0,
-                      left:
-                          SettingsController.appLanguge == "English" ? null : 0,
+                      right: SettingsController.appLanguge != "English" ? null : 0,
+                      left: SettingsController.appLanguge == "English" ? null : 0,
                       child: SettingsController.appLanguge != "English"
                           ? Transform(
                               alignment: Alignment.center,

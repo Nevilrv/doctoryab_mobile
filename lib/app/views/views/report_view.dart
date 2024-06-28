@@ -29,18 +29,18 @@ class ReportView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('reports'.tr,
-            style: AppTextStyle.boldPrimary16
-                .copyWith(fontWeight: FontWeight.w600)),
+        title: Text('reports'.tr, style: AppTextStyle.boldPrimary16.copyWith(fontWeight: FontWeight.w600)),
         centerTitle: true,
         leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: RotatedBox(
-              quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
-            )),
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+          // child: RotatedBox(
+          //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+          //   child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+          // ),
+        ),
         elevation: 0,
         // actions: [
         //   Padding(
@@ -73,34 +73,26 @@ class ReportView extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
             report.title == null || report.title == "" ? SizedBox() : Divider(),
-            report.title == null || report.title == ""
-                ? SizedBox()
-                : SizedBox(height: 10),
+            report.title == null || report.title == "" ? SizedBox() : SizedBox(height: 10),
             report.doctor!.isEmpty
                 ? SizedBox()
-                : Text("doctor_name".tr + ": " + report.doctor![0].name! ?? "",
-                    style: AppTextTheme.b(14)
+                : Text("doctor_name".tr + ": " + report.doctor![0].name! ?? "", style: AppTextTheme.b(14)
                     // textAlign: TextAlign.center,
                     ),
             report.doctor!.isEmpty ? SizedBox() : SizedBox(height: 5),
             report.name == null || report.name == ""
                 ? SizedBox()
-                : Text("pat_name".tr + ": " + report.name! ?? "",
-                    style: AppTextTheme.b(14)
+                : Text("pat_name".tr + ": " + report.name! ?? "", style: AppTextTheme.b(14)
                     // textAlign: TextAlign.center,
                     ),
-            report.name == null || report.name == ""
-                ? SizedBox()
-                : SizedBox(height: 5),
+            report.name == null || report.name == "" ? SizedBox() : SizedBox(height: 5),
             report.description == null && report.advice == null
                 ? SizedBox()
                 : Text(
                     "${"decription".tr} : ${report.description ?? report.advice ?? ""}",
                     style: AppTextTheme.r(14),
                   ),
-            report.description == null && report.advice == null
-                ? SizedBox()
-                : SizedBox(height: 5),
+            report.description == null && report.advice == null ? SizedBox() : SizedBox(height: 5),
             report.medicines!.isEmpty
                 ? SizedBox()
                 : Text(
@@ -117,15 +109,11 @@ class ReportView extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 5),
                               child: Container(
                                 width: Get.width,
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: AppColors.primary)),
+                                decoration: BoxDecoration(border: Border.all(color: AppColors.primary)),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "${"drug_name".tr} : ${report.medicines![index].drug ?? ""}",
@@ -259,8 +247,7 @@ class ReportView extends StatelessWidget {
                           text: document.split("/").last ?? "",
                         ),
                         maxLines: 1,
-                        textScaleFactor:
-                            MediaQuery.of(Get.context!).textScaleFactor,
+                        textScaleFactor: MediaQuery.of(Get.context!).textScaleFactor,
                         textDirection: TextDirection.ltr)
                       ..layout())
                     .size;
@@ -270,14 +257,10 @@ class ReportView extends StatelessWidget {
                     size.width > constraints.maxWidth
                         ? () {
                             //Ya roh qudqudas :-()
-                            var startSubstr = constraints.maxWidth /
-                                (size.width /
-                                    (document.split("/").last ?? "").length);
+                            var startSubstr = constraints.maxWidth / (size.width / (document.split("/").last ?? "").length);
                             return "..." +
-                                (document.split("/").last ?? "").substring(
-                                    (document.split("/").last ?? "").length -
-                                        startSubstr.toInt() +
-                                        3);
+                                (document.split("/").last ?? "")
+                                    .substring((document.split("/").last ?? "").length - startSubstr.toInt() + 3);
                           }()
                         : (document.split("/").last ?? ""),
                     // overflow: TextOverflow.clip,
@@ -315,17 +298,14 @@ class ReportView extends StatelessWidget {
               } else {
                 var st = await Permission.storage.request().isGranted;
                 if (!st)
-                  ScaffoldMessenger.of(Get.context!).showSnackBar(
-                      SnackBar(content: Text("no storage permission granted")));
+                  ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text("no storage permission granted")));
                 else
                   _download();
               }
             }
 
             return !isDownloading()
-                ? IconButton(
-                    icon: Icon(Icons.cloud_download),
-                    onPressed: () => _actionDownload())
+                ? IconButton(icon: Icon(Icons.cloud_download), onPressed: () => _actionDownload())
                 : hasErrorOccredWhileDownloading()
                     ? OutlinedButton.icon(
                         onPressed: () {

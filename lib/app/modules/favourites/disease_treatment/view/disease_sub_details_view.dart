@@ -11,8 +11,10 @@ import 'package:doctor_yab/app/theme/AppFonts.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:audioplayers/audioplayers.dart' as ap;
 
@@ -79,17 +81,16 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
   int current2 = -1;
 
   int? voiceTrackRowSize;
+
   @override
   void initState() {
     voiceTrackRowSize = hi.length;
 
-    _playerStateChangedSubscription1 =
-        _audioPlayer1.onPlayerComplete.listen((state) async {
+    _playerStateChangedSubscription1 = _audioPlayer1.onPlayerComplete.listen((state) async {
       await stop1();
       setState(() {});
     });
-    _playerStateChangedSubscription2 =
-        _audioPlayer2.onPlayerComplete.listen((state) async {
+    _playerStateChangedSubscription2 = _audioPlayer2.onPlayerComplete.listen((state) async {
       await stop2();
       setState(() {});
     });
@@ -146,6 +147,7 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
   }
 
   Future<void> pause1() => _audioPlayer1.pause();
+
   Future<void> pause2() => _audioPlayer2.pause();
 
   Future<void> stop1() async {
@@ -174,18 +176,18 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
 
     _audioPlayer1.dispose();
 
-    if (timers1!.isActive) {
+    if (timers1?.isActive ?? false) {
       timers1?.cancel();
     }
-    _playerStateChangedSubscription2!.cancel();
+    _playerStateChangedSubscription2?.cancel();
 
-    _positionChangedSubscription2!.cancel();
+    _positionChangedSubscription2?.cancel();
 
-    _durationChangedSubscription2!.cancel();
+    _durationChangedSubscription2?.cancel();
 
     _audioPlayer2.dispose();
 
-    if (timers2!.isActive) {
+    if (timers2?.isActive ?? false) {
       timers2?.cancel();
     }
 
@@ -200,399 +202,389 @@ class _DiseaseSubDetailsViewState extends State<DiseaseSubDetailsView> {
     return GetBuilder<DiseaseTreatmentController>(
       builder: (controller) {
         return Scaffold(
-            appBar: AppBar(
-              backgroundColor: AppColors.lightGrey,
-              elevation: 0,
-              leading: GestureDetector(
-                  onTap: () {
-                    _audioPlayer1.pause();
-                    _audioPlayer2.pause();
-                    Get.back();
-                  },
-                  child: RotatedBox(
-                    quarterTurns:
-                        SettingsController.appLanguge == "English" ? 0 : 2,
-                    child: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: AppColors.primary,
-                    ),
-                  )),
-              title: Container(
-                child: Text(
-                  SettingsController.appLanguge == "English"
-                      ? controller.selectedDieases?.title ?? ''
-                      : SettingsController.appLanguge == "فارسی"
-                          ? controller.selectedDieases?.dariTitle ?? ''
-                          : controller.selectedDieases?.pashtoTitle ?? '',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  // textWidthBasis: TextWidthBasis.longestLine,
-                  style: AppTextStyle.boldPrimary16.copyWith(),
-                ),
-              ),
-              centerTitle: true,
-              // actions: [
-              //   Padding(
-              //     padding: const EdgeInsets.only(right: 20, left: 10),
-              //     child: GestureDetector(
-              //       onTap: () {
-              //         Get.toNamed(Routes.NOTIFICATION);
-              //       },
-              //       child: SvgPicture.asset(
-              //         AppImages.blackBell,
-              //         height: 24,
-              //         width: 24,
-              //       ),
-              //     ),
-              //   ),
-              // ],
-            ),
+          appBar: AppBar(
             backgroundColor: AppColors.lightGrey,
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-              child: BottomBarView(isHomeScreen: false),
+            elevation: 0,
+            leading: GestureDetector(
+              onTap: () {
+                _audioPlayer1.pause();
+                _audioPlayer2.pause();
+                Get.back();
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: AppColors.primary,
+              ),
+              // child: RotatedBox(
+              //   quarterTurns:
+              //       SettingsController.appLanguge == "English" ? 0 : 2,
+              //   child: Icon(
+              //     Icons.arrow_back_ios_new_rounded,
+              //     color: AppColors.primary,
+              //   ),
+              // ),
             ),
-            body: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.white,
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            "${"listen_whole_page".tr}",
-                            style: AppTextStyle.boldPrimary11,
-                          ),
-                          SizedBox(height: 5),
-                          controller.selectedDieases?.audio == null
-                              ? SizedBox()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          if (_audioPlayer2.state ==
-                                              ap.PlayerState.playing) {
+            title: Container(
+              child: Text(
+                SettingsController.appLanguge == "English"
+                    ? controller.selectedDieases?.title ?? ''
+                    : SettingsController.appLanguge == "فارسی"
+                        ? controller.selectedDieases?.dariTitle ?? ''
+                        : controller.selectedDieases?.pashtoTitle ?? '',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                // textWidthBasis: TextWidthBasis.longestLine,
+                style: AppTextStyle.boldPrimary16.copyWith(),
+              ),
+            ),
+            centerTitle: true,
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.only(right: 20, left: 10),
+            //     child: GestureDetector(
+            //       onTap: () {
+            //         Get.toNamed(Routes.NOTIFICATION);
+            //       },
+            //       child: SvgPicture.asset(
+            //         AppImages.blackBell,
+            //         height: 24,
+            //         width: 24,
+            //       ),
+            //     ),
+            //   ),
+            // ],
+          ),
+          backgroundColor: AppColors.lightGrey,
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            child: BottomBarView(isHomeScreen: false),
+          ),
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "${"listen_whole_page".tr}",
+                          style: AppTextStyle.boldPrimary11,
+                        ),
+                        SizedBox(height: 5),
+                        controller.selectedDieases?.audio == null
+                            ? SizedBox()
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (_audioPlayer2.state == ap.PlayerState.playing) {
+                                        setState(() {
+                                          isPause2 = true;
+                                        });
+
+                                        // stop2();
+                                        _audioPlayer2.pause();
+                                      }
+                                      if (_audioPlayer1.state == ap.PlayerState.playing) {
+                                        setState(() {
+                                          isPause1 = true;
+                                        });
+
+                                        // stop2();
+                                        _audioPlayer1.pause();
+                                      } else if (_audioPlayer1.state == ap.PlayerState.paused ||
+                                          _audioPlayer1.state == ap.PlayerState.stopped) {
+                                        log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
+                                        // setState(() {
+
+                                        play1(
+                                          path:
+                                              "${ApiConsts.hostUrl}${SettingsController.appLanguge == "English" ? controller.selectedDieases?.audio : SettingsController.appLanguge == "فارسی" ? controller.selectedDieases?.audioDari : controller.selectedDieases?.audioPashto}",
+                                        ).then((value) {
+                                          setState(() {
+                                            isPause1 = false;
+                                          });
+                                          timers1 = Timer.periodic(
+                                              Duration(
+                                                  milliseconds: _duration1!.inMilliseconds.round() ~/
+                                                      int.parse(voiceTrackRowSize.toString())), (timer) {
+                                            print('{timer.tick}${timer.tick}');
+
                                             setState(() {
-                                              isPause2 = true;
+                                              if (isPause1 == true) {
+                                                // current2 = current2 + 0;
+                                                current1 = current1 + 0;
+                                                // current2 = -1;
+                                                timer.cancel();
+                                              } else {
+                                                current1++;
+                                              }
+
+                                              log('current $current1');
                                             });
 
-                                            // stop2();
-                                            _audioPlayer2.pause();
-                                          }
-                                          if (_audioPlayer1.state ==
-                                              ap.PlayerState.playing) {
-                                            setState(() {
-                                              isPause1 = true;
-                                            });
+                                            if (current1 == voiceTrackRowSize) {
+                                              timer.cancel();
 
-                                            // stop2();
-                                            _audioPlayer1.pause();
-                                          } else if (_audioPlayer1.state ==
-                                                  ap.PlayerState.paused ||
-                                              _audioPlayer1.state ==
-                                                  ap.PlayerState.stopped) {
-                                            log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
-                                            // setState(() {
-
-                                            play1(
-                                              path:
-                                                  "${ApiConsts.hostUrl}${SettingsController.appLanguge == "English" ? controller.selectedDieases?.audio : SettingsController.appLanguge == "فارسی" ? controller.selectedDieases?.audioDari : controller.selectedDieases?.audioPashto}",
-                                            ).then((value) {
                                               setState(() {
                                                 isPause1 = false;
                                               });
-                                              timers1 = Timer.periodic(
-                                                  Duration(
-                                                      milliseconds: _duration1!
-                                                              .inMilliseconds
-                                                              .round() ~/
-                                                          int.parse(
-                                                              voiceTrackRowSize
-                                                                  .toString())),
-                                                  (timer) {
-                                                print(
-                                                    '{timer.tick}${timer.tick}');
-
-                                                setState(() {
-                                                  if (isPause1 == true) {
-                                                    // current2 = current2 + 0;
-                                                    current1 = current1 + 0;
-                                                    // current2 = -1;
-                                                    timer.cancel();
-                                                  } else {
-                                                    current1++;
-                                                  }
-
-                                                  log('current $current1');
-                                                });
-
-                                                if (current1 ==
-                                                    voiceTrackRowSize) {
-                                                  timer.cancel();
-
-                                                  setState(() {
-                                                    isPause1 = false;
-                                                  });
-                                                  current1 = -1;
-                                                }
-                                              });
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: Get.height * 0.05,
-                                          width: Get.height * 0.05,
+                                              current1 = -1;
+                                            }
+                                          });
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height: Get.height * 0.05,
+                                      width: Get.height * 0.05,
+                                      decoration:
+                                          BoxDecoration(border: Border.all(color: AppColors.primary, width: 2), shape: BoxShape.circle),
+                                      child: Icon(_audioPlayer1.state == ap.PlayerState.playing ? Icons.pause : Icons.play_arrow,
+                                          color: AppColors.primary),
+                                    ),
+                                  ),
+                                  ...List.generate(hi.length, (index1) {
+                                    return Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Get.width * 0.003,
+                                        ),
+                                        AnimatedContainer(
+                                          duration: Duration(milliseconds: 500),
+                                          height: hi[index1].toDouble(),
+                                          width: Get.width * 0.007,
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: AppColors.primary,
-                                                  width: 2),
-                                              shape: BoxShape.circle),
-                                          child: Icon(
-                                              _audioPlayer1.state ==
-                                                      ap.PlayerState.playing
-                                                  ? Icons.pause
-                                                  : Icons.play_arrow,
-                                              color: AppColors.primary),
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: index1 > current1 ? Colors.grey : AppColors.primary,
+                                          ),
                                         ),
-                                      ),
-                                      ...List.generate(hi.length, (index1) {
-                                        return Row(
-                                          children: [
-                                            SizedBox(
-                                              width: Get.width * 0.003,
-                                            ),
-                                            AnimatedContainer(
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              height: hi[index1].toDouble(),
-                                              width: Get.width * 0.007,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: index1 > current1
-                                                    ? Colors.grey
-                                                    : AppColors.primary,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: Get.width * 0.003),
-                                        child: Text(
-                                          _duration1 == null
-                                              ? ""
-                                              : _position1
-                                                  .toString()
-                                                  .split('.')
-                                                  .first,
-                                          style: AppTextStyle.boldPrimary14,
-                                        ),
-                                      ),
-                                    ]),
-                          // Text(
-                          //   "Listen Whole Pashto Audio",
-                          //   style: AppTextStyle.boldPrimary11,
-                          // ),
-                          // Text(
-                          //   "${"listen_whole_page".tr} (${"what_is".tr} ${controller.selectedDieases.category} ?)",
-                          //   style: AppTextStyle.boldPrimary11,
-                          // ),
-                          // controller.selectedDieases.audioPashto == null
-                          //     ? SizedBox()
-                          //     : Row(
-                          //         mainAxisAlignment:
-                          //             MainAxisAlignment.spaceBetween,
-                          //         children: [
-                          //             GestureDetector(
-                          //               onTap: () {
-                          //                 if (_audioPlayer1.state ==
-                          //                     ap.PlayerState.playing) {
-                          //                   setState(() {
-                          //                     isPause1 = true;
-                          //                   });
-                          //
-                          //                   // stop2();
-                          //                   _audioPlayer1.pause();
-                          //                 }
-                          //                 if (_audioPlayer2.state ==
-                          //                     ap.PlayerState.playing) {
-                          //                   setState(() {
-                          //                     isPause2 = true;
-                          //                   });
-                          //
-                          //                   // stop2();
-                          //                   _audioPlayer2.pause();
-                          //                 } else if (_audioPlayer2.state ==
-                          //                         ap.PlayerState.paused ||
-                          //                     _audioPlayer2.state ==
-                          //                         ap.PlayerState.stopped) {
-                          //                   log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
-                          //                   // setState(() {
-                          //
-                          //                   play2(
-                          //                     path:
-                          //                         "${ApiConsts.hostUrl}${controller.selectedDieases.audioPashto}",
-                          //                   ).then((value) {
-                          //                     setState(() {
-                          //                       isPause2 = false;
-                          //                     });
-                          //                     timers2 = Timer.periodic(
-                          //                         Duration(
-                          //                             milliseconds: _duration2
-                          //                                     .inMilliseconds
-                          //                                     .round() ~/
-                          //                                 voiceTrackRowSize),
-                          //                         (timer) {
-                          //                       print(
-                          //                           '{timer.tick}${timer.tick}');
-                          //
-                          //                       setState(() {
-                          //                         if (isPause2 == true) {
-                          //                           // current2 = current2 + 0;
-                          //                           current2 = current2 + 0;
-                          //                           // current2 = -1;
-                          //                           timers2.cancel();
-                          //                         } else {
-                          //                           current2++;
-                          //                         }
-                          //
-                          //                         log('current ${current2}');
-                          //                       });
-                          //
-                          //                       if (current2 ==
-                          //                           voiceTrackRowSize) {
-                          //                         timer.cancel();
-                          //
-                          //                         setState(() {
-                          //                           isPause2 = false;
-                          //                         });
-                          //                         current2 = -1;
-                          //                       }
-                          //                     });
-                          //                   });
-                          //                 }
-                          //               },
-                          //               child: Container(
-                          //                 height: Get.height * 0.05,
-                          //                 width: Get.height * 0.05,
-                          //                 decoration: BoxDecoration(
-                          //                     border: Border.all(
-                          //                         color: AppColors.primary,
-                          //                         width: 2),
-                          //                     shape: BoxShape.circle),
-                          //                 child: Icon(
-                          //                     _audioPlayer2.state ==
-                          //                             ap.PlayerState.playing
-                          //                         ? Icons.pause
-                          //                         : Icons.play_arrow,
-                          //                     color: AppColors.primary),
-                          //               ),
-                          //             ),
-                          //             ...List.generate(hi.length, (index1) {
-                          //               return Row(
-                          //                 children: [
-                          //                   SizedBox(
-                          //                     width: Get.width * 0.003,
-                          //                   ),
-                          //                   AnimatedContainer(
-                          //                     duration:
-                          //                         Duration(milliseconds: 500),
-                          //                     height: hi[index1].toDouble(),
-                          //                     width: Get.width * 0.007,
-                          //                     decoration: BoxDecoration(
-                          //                       borderRadius:
-                          //                           BorderRadius.circular(10),
-                          //                       color: index1 > current2
-                          //                           ? Colors.grey
-                          //                           : AppColors.primary,
-                          //                     ),
-                          //                   ),
-                          //                 ],
-                          //               );
-                          //             }),
-                          //             Padding(
-                          //               padding: EdgeInsets.only(
-                          //                   left: Get.width * 0.003),
-                          //               child: Text(
-                          //                 _duration2 == null
-                          //                     ? ""
-                          //                     : _position2
-                          //                         .toString()
-                          //                         .split('.')
-                          //                         .first,
-                          //                 style: AppTextStyle.boldPrimary14,
-                          //               ),
-                          //             ),
-                          //           ]),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Text(
-                                SettingsController.appLanguge == "English"
-                                    ? controller.selectedDieases?.title ?? ''
-                                    : SettingsController.appLanguge == "فارسی"
-                                        ? controller
-                                                .selectedDieases?.dariTitle ??
-                                            ''
-                                        : controller
-                                                .selectedDieases?.pashtoTitle ??
-                                            '',
-                                style: AppTextStyle.boldPrimary15,
+                                      ],
+                                    );
+                                  }),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: Get.width * 0.003),
+                                    child: Text(
+                                      _duration1 == null ? "" : _position1.toString().split('.').first,
+                                      style: AppTextStyle.boldPrimary14,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Html(
-                              data: SettingsController.appLanguge == "English"
-                                  ? controller.selectedDieases?.desc ?? ""
-                                  : SettingsController.appLanguge == "فارسی"
-                                      ? controller.selectedDieases?.dariDesc ??
-                                          ""
-                                      : controller
-                                              .selectedDieases?.pashtoDesc ??
-                                          "",
-                              style: {
-                                'html': Style(
-                                    textAlign: SettingsController.appLanguge ==
-                                            "English"
-                                        ? TextAlign.left
-                                        : TextAlign.right,
-                                    color: AppColors.primary,
-                                    fontWeight: AppFontWeight.MEDIUM,
-                                    fontSize: FontSize(12),
-                                    fontFamily: AppFonts.acuminSemiCond),
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+                        // Text(
+                        //   "Listen Whole Pashto Audio",
+                        //   style: AppTextStyle.boldPrimary11,
+                        // ),
+                        // Text(
+                        //   "${"listen_whole_page".tr} (${"what_is".tr} ${controller.selectedDieases.category} ?)",
+                        //   style: AppTextStyle.boldPrimary11,
+                        // ),
+                        // controller.selectedDieases.audioPashto == null
+                        //     ? SizedBox()
+                        //     : Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //             GestureDetector(
+                        //               onTap: () {
+                        //                 if (_audioPlayer1.state ==
+                        //                     ap.PlayerState.playing) {
+                        //                   setState(() {
+                        //                     isPause1 = true;
+                        //                   });
+                        //
+                        //                   // stop2();
+                        //                   _audioPlayer1.pause();
+                        //                 }
+                        //                 if (_audioPlayer2.state ==
+                        //                     ap.PlayerState.playing) {
+                        //                   setState(() {
+                        //                     isPause2 = true;
+                        //                   });
+                        //
+                        //                   // stop2();
+                        //                   _audioPlayer2.pause();
+                        //                 } else if (_audioPlayer2.state ==
+                        //                         ap.PlayerState.paused ||
+                        //                     _audioPlayer2.state ==
+                        //                         ap.PlayerState.stopped) {
+                        //                   log('_audioPlayer1.state ==ap.PlayerState.playing11 ');
+                        //                   // setState(() {
+                        //
+                        //                   play2(
+                        //                     path:
+                        //                         "${ApiConsts.hostUrl}${controller.selectedDieases.audioPashto}",
+                        //                   ).then((value) {
+                        //                     setState(() {
+                        //                       isPause2 = false;
+                        //                     });
+                        //                     timers2 = Timer.periodic(
+                        //                         Duration(
+                        //                             milliseconds: _duration2
+                        //                                     .inMilliseconds
+                        //                                     .round() ~/
+                        //                                 voiceTrackRowSize),
+                        //                         (timer) {
+                        //                       print(
+                        //                           '{timer.tick}${timer.tick}');
+                        //
+                        //                       setState(() {
+                        //                         if (isPause2 == true) {
+                        //                           // current2 = current2 + 0;
+                        //                           current2 = current2 + 0;
+                        //                           // current2 = -1;
+                        //                           timers2.cancel();
+                        //                         } else {
+                        //                           current2++;
+                        //                         }
+                        //
+                        //                         log('current ${current2}');
+                        //                       });
+                        //
+                        //                       if (current2 ==
+                        //                           voiceTrackRowSize) {
+                        //                         timer.cancel();
+                        //
+                        //                         setState(() {
+                        //                           isPause2 = false;
+                        //                         });
+                        //                         current2 = -1;
+                        //                       }
+                        //                     });
+                        //                   });
+                        //                 }
+                        //               },
+                        //               child: Container(
+                        //                 height: Get.height * 0.05,
+                        //                 width: Get.height * 0.05,
+                        //                 decoration: BoxDecoration(
+                        //                     border: Border.all(
+                        //                         color: AppColors.primary,
+                        //                         width: 2),
+                        //                     shape: BoxShape.circle),
+                        //                 child: Icon(
+                        //                     _audioPlayer2.state ==
+                        //                             ap.PlayerState.playing
+                        //                         ? Icons.pause
+                        //                         : Icons.play_arrow,
+                        //                     color: AppColors.primary),
+                        //               ),
+                        //             ),
+                        //             ...List.generate(hi.length, (index1) {
+                        //               return Row(
+                        //                 children: [
+                        //                   SizedBox(
+                        //                     width: Get.width * 0.003,
+                        //                   ),
+                        //                   AnimatedContainer(
+                        //                     duration:
+                        //                         Duration(milliseconds: 500),
+                        //                     height: hi[index1].toDouble(),
+                        //                     width: Get.width * 0.007,
+                        //                     decoration: BoxDecoration(
+                        //                       borderRadius:
+                        //                           BorderRadius.circular(10),
+                        //                       color: index1 > current2
+                        //                           ? Colors.grey
+                        //                           : AppColors.primary,
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               );
+                        //             }),
+                        //             Padding(
+                        //               padding: EdgeInsets.only(
+                        //                   left: Get.width * 0.003),
+                        //               child: Text(
+                        //                 _duration2 == null
+                        //                     ? ""
+                        //                     : _position2
+                        //                         .toString()
+                        //                         .split('.')
+                        //                         .first,
+                        //                 style: AppTextStyle.boldPrimary14,
+                        //               ),
+                        //             ),
+                        //           ]),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.white,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            SettingsController.appLanguge == "English"
+                                ? controller.selectedDieases?.title ?? ''
+                                : SettingsController.appLanguge == "فارسی"
+                                    ? controller.selectedDieases?.dariTitle ?? ''
+                                    : controller.selectedDieases?.pashtoTitle ?? '',
+                            style: AppTextStyle.boldPrimary15,
+                          ),
+                        ),
+                        HtmlWidget(
+                          SettingsController.appLanguge == "English"
+                              ? controller.selectedDieases?.desc ?? ""
+                              : SettingsController.appLanguge == "فارسی"
+                                  ? controller.selectedDieases?.dariDesc ?? ""
+                                  : controller.selectedDieases?.pashtoDesc ?? "",
+                          textStyle: TextStyle(
+                            // textAlign: SettingsController.appLanguge == "English" ? TextAlign.left : TextAlign.right,
+                            color: AppColors.primary,
+                            fontWeight: AppFontWeight.MEDIUM,
+                            fontSize: 12,
+                            fontFamily: AppFonts.acuminSemiCond,
+
+                            // backgroundColor: Colors.red,
+                            // width: Width(100),
+                            // display: Display.inline,
+                          ),
+                        ),
+
+                        /// Old flutter_html Package
+
+                        // Html(
+                        //   data: SettingsController.appLanguge == "English"
+                        //       ? controller.selectedDieases?.desc ?? ""
+                        //       : SettingsController.appLanguge == "فارسی"
+                        //           ? controller.selectedDieases?.dariDesc ?? ""
+                        //           : controller.selectedDieases?.pashtoDesc ?? "",
+                        //   style: {
+                        //     'html': Style(
+                        //       textAlign: SettingsController.appLanguge == "English" ? TextAlign.left : TextAlign.right,
+                        //       color: AppColors.primary,
+                        //       fontWeight: AppFontWeight.MEDIUM,
+                        //       fontSize: FontSize(12),
+                        //       fontFamily: AppFonts.acuminSemiCond,
+                        //       // backgroundColor: Colors.red,
+                        //       // width: Width(100),
+                        //       // display: Display.inline,
+                        //     ),
+                        //   },
+                        // ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ));
+            ),
+          ),
+        );
       },
     );
   }

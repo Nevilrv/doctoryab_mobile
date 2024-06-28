@@ -8,6 +8,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,8 +71,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   child: CachedNetworkImage(
                                     height: 250,
                                     width: 250,
-                                    imageUrl:
-                                        "${ApiConsts.hostUrl}${controller.argumentsData?.img}",
+                                    imageUrl: "${ApiConsts.hostUrl}${controller.argumentsData?.img}",
                                     fit: BoxFit.cover,
                                     placeholder: (_, __) {
                                       return Image.asset(
@@ -86,13 +86,12 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   ),
                                 ),
                               ),
-                              // Center(child: Image.asset(AppImages.vitamins)),
+                              Center(child: Image.asset(AppImages.vitamins)),
                               Positioned(
                                 bottom: -8,
                                 child: IntrinsicWidth(
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 3),
+                                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                                     margin: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(3),
@@ -103,13 +102,10 @@ class DrugDetailsView extends GetView<DrugsController> {
                                         5,
                                         (subIndex) {
                                           return SvgPicture.asset(
-                                            subIndex == 4
-                                                ? AppImages.favGrey
-                                                : AppImages.favGolden,
+                                            subIndex == 4 ? AppImages.favGrey : AppImages.favGolden,
                                             height: 9,
                                             width: 9,
-                                          ).paddingOnly(
-                                              right: subIndex == 4 ? 0 : 3);
+                                          ).paddingOnly(right: subIndex == 4 ? 0 : 3);
                                         },
                                       ),
                                     ),
@@ -148,15 +144,11 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        controller.data[index]["title"]
-                                            .toString()
-                                            .tr,
-                                        style: AppTextStyle.boldPrimary9
-                                            .copyWith(height: 1.2),
+                                        controller.data[index]["title"].toString().tr,
+                                        style: AppTextStyle.boldPrimary9.copyWith(height: 1.2),
                                       ),
                                       SizedBox(
                                         height: Get.height * 0.003,
@@ -165,36 +157,17 @@ class DrugDetailsView extends GetView<DrugsController> {
                                         width: w * 0.17,
                                         child: Text(
                                           index == 1
-                                              ? controller
-                                                  .argumentsData!.quantity
-                                                  .toString()
+                                              ? controller.argumentsData!.quantity.toString()
                                               : index == 2
                                                   ? controller.data[2]["text"]
                                                       .toString()
-                                                      .trArgs([
-                                                      controller.argumentsData!
-                                                          .packsAndPrices
-                                                          .toString()
-                                                    ])
-                                                  : SettingsController
-                                                              .appLanguge ==
-                                                          'English'
-                                                      ? controller.argumentsData!
-                                                              .drugTypeEnglish ??
-                                                          "None"
-                                                      : SettingsController
-                                                                  .appLanguge ==
-                                                              'پشتو'
-                                                          ? controller
-                                                                  .argumentsData!
-                                                                  .drugTypePashto ??
-                                                              "None"
-                                                          : controller
-                                                                  .argumentsData!
-                                                                  .drugTypeDari ??
-                                                              "None",
-                                          style: AppTextStyle.regularPrimary9
-                                              .copyWith(height: 1),
+                                                      .trArgs([controller.argumentsData!.packsAndPrices.toString()])
+                                                  : SettingsController.appLanguge == 'English'
+                                                      ? controller.argumentsData!.drugTypeEnglish ?? "None"
+                                                      : SettingsController.appLanguge == 'پشتو'
+                                                          ? controller.argumentsData!.drugTypePashto ?? "None"
+                                                          : controller.argumentsData!.drugTypeDari ?? "None",
+                                          style: AppTextStyle.regularPrimary9.copyWith(height: 1),
                                           maxLines: 4,
                                         ),
                                       )
@@ -220,8 +193,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   commonTitleBox(text: "gen_name".tr),
-                                  commonTextBox(
-                                      "${controller.argumentsData?.genericName}"),
+                                  commonTextBox("${controller.argumentsData?.genericName}"),
                                 ],
                               ),
 
@@ -239,19 +211,11 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
                                       SettingsController.appLanguge == 'English'
-                                          ? controller.argumentsData
-                                                  ?.usageEnglish ??
-                                              ''
-                                          : SettingsController.appLanguge ==
-                                                  'پشتو'
-                                              ? controller.argumentsData
-                                                      ?.usagePashto ??
-                                                  ''
-                                              : controller.argumentsData
-                                                      ?.usageDari ??
-                                                  '',
-                                      style: AppTextStyle.mediumPrimary10
-                                          .copyWith(height: 2),
+                                          ? controller.argumentsData?.usageEnglish ?? ''
+                                          : SettingsController.appLanguge == 'پشتو'
+                                              ? controller.argumentsData?.usagePashto ?? ''
+                                              : controller.argumentsData?.usageDari ?? '',
+                                      style: AppTextStyle.mediumPrimary10.copyWith(height: 2),
                                     ),
                                   ),
                                 ],
@@ -269,17 +233,10 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   ),
                                   commonTextBox(
                                     SettingsController.appLanguge == 'English'
-                                        ? controller.argumentsData
-                                                ?.sideEffectsEnglish ??
-                                            ''
-                                        : SettingsController.appLanguge ==
-                                                'پشتو'
-                                            ? controller.argumentsData
-                                                    ?.sideEffectsPashto ??
-                                                ''
-                                            : controller.argumentsData
-                                                    ?.sideEffectsDari ??
-                                                '',
+                                        ? controller.argumentsData?.sideEffectsEnglish ?? ''
+                                        : SettingsController.appLanguge == 'پشتو'
+                                            ? controller.argumentsData?.sideEffectsPashto ?? ''
+                                            : controller.argumentsData?.sideEffectsDari ?? '',
                                   ),
                                 ],
                               ),
@@ -296,17 +253,10 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   ),
                                   commonTextBox(
                                     SettingsController.appLanguge == 'English'
-                                        ? controller.argumentsData
-                                                ?.warningsEnglish ??
-                                            ''
-                                        : SettingsController.appLanguge ==
-                                                'پشتو'
-                                            ? controller.argumentsData
-                                                    ?.warningsPashto ??
-                                                ''
-                                            : controller.argumentsData
-                                                    ?.warningsDari ??
-                                                '',
+                                        ? controller.argumentsData?.warningsEnglish ?? ''
+                                        : SettingsController.appLanguge == 'پشتو'
+                                            ? controller.argumentsData?.warningsPashto ?? ''
+                                            : controller.argumentsData?.warningsDari ?? '',
                                   ),
                                 ],
                               ),
@@ -323,17 +273,10 @@ class DrugDetailsView extends GetView<DrugsController> {
                                   commonTitleBox(text: "dosages".tr),
                                   commonTextBox(
                                     SettingsController.appLanguge == 'English'
-                                        ? controller.argumentsData
-                                                ?.dosagesEnglish ??
-                                            ''
-                                        : SettingsController.appLanguge ==
-                                                'پشتو'
-                                            ? controller.argumentsData
-                                                    ?.dosagesPashto ??
-                                                ''
-                                            : controller.argumentsData
-                                                    ?.dosagesDari ??
-                                                '',
+                                        ? controller.argumentsData?.dosagesEnglish ?? ''
+                                        : SettingsController.appLanguge == 'پشتو'
+                                            ? controller.argumentsData?.dosagesPashto ?? ''
+                                            : controller.argumentsData?.dosagesDari ?? '',
                                   ),
                                 ],
                               ),
@@ -344,8 +287,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   commonTitleBox(text: "origin".tr),
-                                  commonTextBox(
-                                      "${controller.argumentsData?.origin}"),
+                                  commonTextBox("${controller.argumentsData?.origin}"),
                                 ],
                               ),
 
@@ -353,11 +295,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                             ? SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  commonTitleBox(text: "comp".tr),
-                                  commonTextBox(
-                                      "${controller.argumentsData?.company}")
-                                ],
+                                children: [commonTitleBox(text: "comp".tr), commonTextBox("${controller.argumentsData?.company}")],
                               ),
 
                         SizedBox(height: 10),
@@ -373,27 +311,37 @@ class DrugDetailsView extends GetView<DrugsController> {
                           onTap: () {
                             showDialog(
                               context: context,
+                              barrierDismissible: false,
                               builder: (context) {
                                 return Dialog(
                                   child: SizedBox(
-                                    height: 265,
+                                    height: 280,
+                                    // height: 265,
                                     child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 5),
+                                      padding: EdgeInsets.symmetric(vertical: 5),
                                       child: Column(
                                         children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Icon(Icons.cancel_rounded, color: AppColors.primary),
+                                              ),
+                                              SizedBox(width: 15),
+                                            ],
+                                          ),
                                           Text(
                                             "give_feedback".tr,
-                                            style:
-                                                AppTextStyle.regularPrimary16,
+                                            style: AppTextStyle.regularPrimary16,
                                           ),
                                           Container(
                                             padding: EdgeInsets.all(5),
-                                            margin: EdgeInsets.only(
-                                                top: 10, bottom: 15),
+                                            margin: EdgeInsets.only(top: 10, bottom: 15),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
+                                              borderRadius: BorderRadius.circular(3),
                                               color: AppColors.lightPurple,
                                             ),
                                             child: RatingBar.builder(
@@ -403,8 +351,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                                               direction: Axis.horizontal,
                                               allowHalfRating: true,
                                               itemCount: 5,
-                                              itemPadding: EdgeInsets.symmetric(
-                                                  horizontal: 1.0),
+                                              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                               itemBuilder: (context, _) => Icon(
                                                 Icons.star,
                                                 color: Colors.amber,
@@ -418,43 +365,32 @@ class DrugDetailsView extends GetView<DrugsController> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 10),
+                                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                             child: addCommentsTextField(),
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              if (controller
-                                                  .comment.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    context: context,
-                                                    text:
-                                                        "please_add_review".tr);
+                                              if (controller.comment.text.isEmpty) {
+                                                Utils.commonSnackbar(context: context, text: "please_add_review".tr);
                                               } else {
                                                 controller.addDrugFeedback(
-                                                  rating: controller.ratings
-                                                      .toString(),
-                                                  drugId: controller
-                                                      .argumentsData?.id,
+                                                  rating: controller.ratings.toString(),
+                                                  drugId: controller.argumentsData?.id,
                                                 );
                                               }
                                               Get.back();
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 23, vertical: 10),
-                                              margin: EdgeInsets.only(
-                                                  top: 10, left: 20, right: 20),
+                                              padding: EdgeInsets.symmetric(horizontal: 23, vertical: 8),
+                                              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(3),
+                                                borderRadius: BorderRadius.circular(3),
                                                 color: AppColors.primary,
                                               ),
                                               child: Center(
                                                 child: Text(
                                                   "send".tr,
-                                                  style:
-                                                      AppTextStyle.boldWhite8,
+                                                  style: AppTextStyle.boldWhite12,
                                                 ),
                                               ),
                                             ),
@@ -468,8 +404,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                             );
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 23, vertical: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 23, vertical: 10),
                             margin: EdgeInsets.only(top: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3),
@@ -478,7 +413,7 @@ class DrugDetailsView extends GetView<DrugsController> {
                             child: Center(
                               child: Text(
                                 "give_feedback".tr,
-                                style: AppTextStyle.boldWhite8,
+                                style: AppTextStyle.boldWhite12,
                               ),
                             ),
                           ),
@@ -502,6 +437,8 @@ class DrugDetailsView extends GetView<DrugsController> {
                                 children: List.generate(
                                   controller.drugFeedback.length,
                                   (index) {
+                                    print("Rating :::::::::::::::: ${controller.drugFeedback[index].rating}");
+
                                     return Container(
                                       padding: EdgeInsets.only(
                                         top: 10,
@@ -511,12 +448,10 @@ class DrugDetailsView extends GetView<DrugsController> {
                                       ),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(
-                                            color: AppColors.lightPurple),
+                                        border: Border.all(color: AppColors.lightPurple),
                                       ),
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           // CachedNetworkImage(
                                           //   imageUrl: "${ApiConsts.hostUrl}${  controller
@@ -545,56 +480,46 @@ class DrugDetailsView extends GetView<DrugsController> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
-                                                image: NetworkImage(
-                                                    "${ApiConsts.hostUrl}${controller.drugFeedback[index].photo}"),
+                                                image: NetworkImage("${ApiConsts.hostUrl}${controller.drugFeedback[index].photo}"),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
+                                          if (SettingsController.appLanguge != 'English') ...[
+                                            SizedBox(width: 10),
+                                          ],
+
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      controller
-                                                              .drugFeedback[
-                                                                  index]
-                                                              .whoPosted ??
-                                                          "",
-                                                      style: AppTextStyle
-                                                          .regularPrimary9,
+                                                      controller.drugFeedback[index].whoPosted ?? "",
+                                                      style: AppTextStyle.regularPrimary9,
                                                     ),
                                                     Spacer(),
                                                     RatingBar.builder(
                                                       ignoreGestures: true,
                                                       itemSize: 15,
-                                                      initialRating: double
-                                                          .parse(controller
-                                                                      .drugFeedback[
-                                                                          index]
-                                                                      .rating ==
-                                                                  null
-                                                              ? "0"
-                                                              : controller
-                                                                      .drugFeedback[
-                                                                          index]
-                                                                      .rating ??
-                                                                  "0.0"),
+
+                                                      initialRating: controller.drugFeedback[index].rating == null ||
+                                                              controller.drugFeedback[index].rating == "0.0"
+                                                          ? 5.0
+                                                          : double.tryParse(controller.drugFeedback[index].rating ?? "5.0") ?? 5.0,
+
+                                                      // initialRating: double.parse(controller.drugFeedback[index].rating == null
+                                                      //     ? "0.0"
+                                                      //     : controller.drugFeedback[index].rating ?? "5.0"),
+
                                                       // minRating: 1,
-                                                      direction:
-                                                          Axis.horizontal,
+                                                      direction: Axis.horizontal,
                                                       allowHalfRating: true,
                                                       itemCount: 5,
-                                                      itemPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 1.0),
-                                                      itemBuilder:
-                                                          (context, _) => Icon(
+                                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                      itemBuilder: (context, _) => Icon(
                                                         Icons.star,
                                                         color: Colors.amber,
                                                         // size: 10,
@@ -606,14 +531,9 @@ class DrugDetailsView extends GetView<DrugsController> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  controller.drugFeedback[index]
-                                                          .comment ??
-                                                      '',
-                                                  style: AppTextStyle
-                                                      .regularPrimary7
-                                                      .copyWith(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.6),
+                                                  controller.drugFeedback[index].comment ?? '',
+                                                  style: AppTextStyle.regularPrimary7.copyWith(
+                                                    color: AppColors.primary.withOpacity(0.6),
                                                     height: 1.2,
                                                   ),
                                                 ),
@@ -699,24 +619,28 @@ class DrugDetailsView extends GetView<DrugsController> {
       controller: controller.comment,
       decoration: InputDecoration(
         hintText: "add_comm".tr,
-        hintStyle: AppTextStyle.mediumLightPurple3_10,
+        hintStyle: AppTextStyle.mediumPrimary10,
+        // hintStyle: AppTextStyle.mediumLightPurple3_10,
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(
-            color: AppColors.lightPurple,
+            color: AppColors.primary,
+            // color: AppColors.lightPurple,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(
-            color: AppColors.lightPurple,
+            color: AppColors.primary,
+            // color: AppColors.lightPurple,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(
-            color: AppColors.lightPurple,
+            color: AppColors.primary,
+            // color: AppColors.lightPurple,
           ),
         ),
       ),

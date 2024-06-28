@@ -40,17 +40,16 @@ enum FetechingGPSDataStatus {
 class DrugStoreController extends TabHomeOthersController {
   TextEditingController search = TextEditingController();
 
-  PagingController<int, DrugStore> pagingController =
-      PagingController<int, DrugStore>(firstPageKey: 1);
+  PagingController<int, DrugStore> pagingController = PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   var pharmacyId = "".obs;
   var permissionStatus = Rxn<PermissionStatus>();
 
-  var cRating = 0.0.obs;
-  var sRating = 0.0.obs;
-  var eRating = 0.0.obs;
+  var cRating = 5.0.obs;
+  var sRating = 5.0.obs;
+  var eRating = 5.0.obs;
   TextEditingController comment = TextEditingController();
 
   @override
@@ -139,8 +138,7 @@ class DrugStoreController extends TabHomeOthersController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13
-                        .copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -159,9 +157,7 @@ class DrugStoreController extends TabHomeOthersController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l
-                                ? AppColors.secondary
-                                : AppColors.primary,
+                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -235,15 +231,12 @@ class DrugStoreController extends TabHomeOthersController {
           }
         case PermissionStatus.permanentlyDenied:
           {
-            AppGetDialog.show(
-                middleText:
-                    "you_have_to_allow_location_permission_in_settings".tr,
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => openAppSettings(),
-                    child: Text("open_settings".tr),
-                  ),
-                ]);
+            AppGetDialog.show(middleText: "you_have_to_allow_location_permission_in_settings".tr, actions: <Widget>[
+              TextButton(
+                onPressed: () => openAppSettings(),
+                child: Text("open_settings".tr),
+              ),
+            ]);
             break;
           }
         case PermissionStatus.provisional:
@@ -251,14 +244,13 @@ class DrugStoreController extends TabHomeOthersController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(
-          middleText:
-              e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
   var latLang = Rxn<LocationData>();
+
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
@@ -344,8 +336,7 @@ class DrugStoreController extends TabHomeOthersController {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
       print("serv-enabled $_serviceEnabled");
-      var locationData =
-          await location.getLocation().timeout(Duration(seconds: 10));
+      var locationData = await location.getLocation().timeout(Duration(seconds: 10));
       print("loc" + locationData.toString());
 
       // AuthController.to.setLastUserLocation(
@@ -376,10 +367,7 @@ class DrugStoreController extends TabHomeOthersController {
         "pharmacyId": pharmacyId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postPharmacyFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postPharmacyFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(pharmacyId: pharmacyId!);
@@ -394,8 +382,7 @@ class DrugStoreController extends TabHomeOthersController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(
-            context: context!, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -407,15 +394,14 @@ class DrugStoreController extends TabHomeOthersController {
 
   var feedbackData = <PharmacyFeedback>[];
   var loading = false.obs;
+
   void getDocFeedback({
     String? pharmacyId,
   }) async {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
           .then((value) {
         feedbackData.clear();
 
@@ -440,6 +426,7 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   var light1 = true.obs;
+
   // List<String> filterList = [
   //   'most_rated'.tr,
   //   'suggested'.tr,
@@ -468,6 +455,7 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   bool is24HourSelected = false;
+
   void show24HoursData() {
     if (is24HourSelected == true) {
       List<DrugStore> hoursList = [];
@@ -489,15 +477,11 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository()
-        .getDrugDetails(id: id, cancelToken: cancelToken)
-        .then((value) {});
+    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {});
   }
 
   void searchData(int page) {
-    DrugStoreRepository()
-        .searchDrugStores(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
 
       if (data != null) {
@@ -546,29 +530,28 @@ class DrugStoreController extends TabHomeOthersController {
       limitPerPage: 10,
     )
         .then((data) {
-      //TODO handle all in model
-      print('------->>>>$sort');
+      debugPrint('Sort Pharmacy ::::::::::::::::: $sort');
 
       var newItems = <DrugStore>[];
       var promotedItems = <DrugStore>[];
 
-      if (selectedSort == 'promoted'.tr) {
-        data.data["data"].forEach((item) {
-          if (item['active'] == true) {
-            promotedItems.add(DrugStore.fromJson(item));
-          } else {
-            newItems.add(DrugStore.fromJson(item));
-          }
-        });
-
-        newItems.forEach((element) {
-          promotedItems.add(element);
-        });
-      } else {
-        data.data["data"].forEach((item) {
-          promotedItems.add(DrugStore.fromJson(item));
-        });
-      }
+      // if (selectedSort == 'promoted'.tr) {
+      //   data.data["data"].forEach((item) {
+      //     if (item['active'] == true) {
+      //       promotedItems.add(DrugStore.fromJson(item));
+      //     } else {
+      //       newItems.add(DrugStore.fromJson(item));
+      //     }
+      //   });
+      //
+      //   newItems.forEach((element) {
+      //     promotedItems.add(element);
+      //   });
+      // } else {
+      data.data["data"].forEach((item) {
+        promotedItems.add(DrugStore.fromJson(item));
+      });
+      // }
 
       // var newItems = DrugStoresModel.fromJson(data.data).data;
 
@@ -605,14 +588,12 @@ class DrugStoreController extends TabHomeOthersController {
 
   var serviceList = <Services>[].obs;
   var productList = <ProductData>[].obs;
+
   void serviceData(String id) {
-    DrugStoreRepository()
-        .fetchPharmacyService(id: id, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().fetchPharmacyService(id: id, cancelToken: cancelToken).then((data) {
       serviceList.clear();
       update();
-      PharmacyServicesResModel resModel =
-          PharmacyServicesResModel.fromJson(data.data);
+      PharmacyServicesResModel resModel = PharmacyServicesResModel.fromJson(data.data);
       if (resModel.data?.isNotEmpty ?? true) {
         serviceList.addAll(resModel.data!);
 
@@ -632,13 +613,10 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void productData(String id) {
-    DrugStoreRepository()
-        .fetchPharmacyProduct(id: id, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().fetchPharmacyProduct(id: id, cancelToken: cancelToken).then((data) {
       productList.clear();
       update();
-      PharmacyProductResModel resModel =
-          PharmacyProductResModel.fromJson(data.data);
+      PharmacyProductResModel resModel = PharmacyProductResModel.fromJson(data.data);
       if (resModel.data?.isNotEmpty ?? true) {
         productList.addAll(resModel.data!);
 
@@ -659,6 +637,7 @@ class DrugStoreController extends TabHomeOthersController {
 
   List<Ad> adList = [];
   var adIndex = 0;
+
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
@@ -686,9 +665,9 @@ class DrugStoreLabController extends GetxController {
   List<String> locationTitle = [];
   var pharmacyId = "".obs;
 
-  var cRating = 0.0.obs;
-  var sRating = 0.0.obs;
-  var eRating = 0.0.obs;
+  var cRating = 5.0.obs;
+  var sRating = 5.0.obs;
+  var eRating = 5.0.obs;
   TextEditingController comment = TextEditingController();
   CancelToken cancelToken = CancelToken();
 
@@ -721,10 +700,7 @@ class DrugStoreLabController extends GetxController {
       };
 
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postLabFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postLabFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(labId: labId!);
@@ -740,8 +716,7 @@ class DrugStoreLabController extends GetxController {
         eRating.value = 0.0;
         sRating.value = 0.0;
         Get.back();
-        Utils.commonSnackbar(
-            context: context!, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -753,16 +728,14 @@ class DrugStoreLabController extends GetxController {
 
   var feedbackData = <LabsFeedback>[];
   var loading = false.obs;
+
   void getDocFeedback({
     String? labId,
   }) async {
     loading.value = true;
     try {
-      var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getLabFeedback}${labId}')
-          .then((value) {
+      var _response =
+          await DoctorsRepository().getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getLabFeedback}${labId}').then((value) {
         feedbackData.clear();
 
         if (value.data['data'] != null) {
@@ -800,6 +773,7 @@ class DrugStoreLabController extends GetxController {
   }
 
   bool is24HourSelected = false;
+
   void show24HoursData() {
     if (is24HourSelected == true) {
       List<DrugStore> hoursList = [];
@@ -821,15 +795,11 @@ class DrugStoreLabController extends GetxController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository()
-        .getDrugDetails(id: id, cancelToken: cancelToken)
-        .then((value) {});
+    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {});
   }
 
   void searchData(int page) {
-    DrugStoreRepository()
-        .searchDrugStores(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
 
       if (data != null) {
@@ -868,12 +838,7 @@ class DrugStoreLabController extends GetxController {
 
   void loadData(int page) {
     DrugStoreRepository()
-        .fetchDrugStores(
-            page: page,
-            sort: sort,
-            cancelToken: cancelToken,
-            filterName: selectedSort,
-            limitPerPage: 10)
+        .fetchDrugStores(page: page, sort: sort, cancelToken: cancelToken, filterName: selectedSort, limitPerPage: 10)
         .then((data) {
       //TODO handle all in model
 
@@ -921,6 +886,7 @@ class DrugStoreLabController extends GetxController {
 
   List<Ad> adList = [];
   var adIndex = 0;
+
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();

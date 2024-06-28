@@ -22,27 +22,29 @@ class AppAppBar {
       backgroundColor: backgroundColor ?? AppColors.primary, centerTitle: true,
       title: Text(
         title,
-        style: AppTextTheme.m(16).copyWith(
-            color: backgroundColor == AppColors.scaffoldColor
-                ? Colors.black
-                : AppColors.primary,
-            fontWeight: FontWeight.w600),
+        style: AppTextTheme.m(16)
+            .copyWith(color: backgroundColor == AppColors.scaffoldColor ? Colors.black : AppColors.primary, fontWeight: FontWeight.w600),
       ).paddingHorizontal(showLeading ? 0 : 16),
       leading: showLeading
           ? leading ??
               IconButton(
                 onPressed: () => Get.back(),
-                icon: RotatedBox(
-                  quarterTurns:
-                      SettingsController.appLanguge == "English" ? 0 : 2,
-                  child: Icon(
-                    Icons.arrow_back_ios_new,
-                    size: 22,
-                    color: backgroundColor == AppColors.scaffoldColor
-                        ? Colors.black
-                        : AppColors.primary,
-                  ),
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 22,
+                  color: backgroundColor == AppColors.scaffoldColor ? Colors.black : AppColors.primary,
                 ),
+                // icon: RotatedBox(
+                //   quarterTurns:
+                //       SettingsController.appLanguge == "English" ? 0 : 2,
+                //   child: Icon(
+                //     Icons.arrow_back_ios_new,
+                //     size: 22,
+                //     color: backgroundColor == AppColors.scaffoldColor
+                //         ? Colors.black
+                //         : AppColors.primary,
+                //   ),
+                // ),
               )
           : null,
       // centerTitle: true,
@@ -58,13 +60,17 @@ class AppAppBar {
         onTap: () {
           Get.back();
         },
-        child: RotatedBox(
-          quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
-          child: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.primary,
-          ),
+        child: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: AppColors.primary,
         ),
+        // child: RotatedBox(
+        //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+        //   child: Icon(
+        //     Icons.arrow_back_ios_new_rounded,
+        //     color: AppColors.primary,
+        //   ),
+        // ),
       ),
       title: Text(
         title ?? "",
@@ -79,8 +85,7 @@ class AppAppBar {
                   Get.toNamed(Routes.SAVED_DRUGS);
                 },
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(right: 15, bottom: 5, left: 15),
+                  padding: const EdgeInsets.only(right: 15, bottom: 5, left: 15),
                   child: Icon(
                     Icons.bookmark_border_rounded,
                     color: AppColors.primary,
@@ -110,16 +115,21 @@ class AppAppBar {
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: RotatedBox(
-            quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: AppColors.white,
-            ),
-          )),
+        onTap: () {
+          Get.back();
+        },
+        child: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: AppColors.white,
+        ),
+        // child: RotatedBox(
+        //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+        //   child: Icon(
+        //     Icons.arrow_back_ios_new_rounded,
+        //     color: AppColors.white,
+        //   ),
+        // ),
+      ),
       title: bloodIcon == false
           ? Text(
               "$title ",
@@ -168,13 +178,17 @@ class AppAppBar {
         onTap: () {
           Get.back();
         },
-        child: RotatedBox(
-          quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
-          child: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.primary,
-          ),
+        child: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: AppColors.primary,
         ),
+        // child: RotatedBox(
+        //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+        //   child: Icon(
+        //     Icons.arrow_back_ios_new_rounded,
+        //     color: AppColors.primary,
+        //   ),
+        // ),
       ),
       title: bloodIcon == false
           ? Text(

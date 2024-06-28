@@ -15,9 +15,9 @@ class DoctorController extends GetxController {
   Doctor? doctor;
   var cancelToken = CancelToken();
   var tabIndex = 0.obs;
-  var cRating = 0.0.obs;
-  var sRating = 0.0.obs;
-  var eRating = 0.0.obs;
+  var cRating = 5.0.obs;
+  var sRating = 5.0.obs;
+  var eRating = 5.0.obs;
   TextEditingController comment = TextEditingController();
   @override
   void onInit() {
@@ -50,10 +50,7 @@ class DoctorController extends GetxController {
         "doctorId": doctorId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postDoctorFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postDoctorFeedback}")
           .then((value) {
         Get.back();
         getDocFeedback(doctorId: doctor!.datumId!);
@@ -68,8 +65,7 @@ class DoctorController extends GetxController {
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(
-            context: context!, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
 
         update();
       });
@@ -90,9 +86,7 @@ class DoctorController extends GetxController {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getDoctorFeedback}${doctorId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getDoctorFeedback}${doctorId}')
           .then((value) {
         feedbackData.clear();
 

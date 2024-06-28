@@ -39,14 +39,18 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                   onTap: () {
                     Get.back();
                   },
-                  child: RotatedBox(
-                    quarterTurns:
-                        SettingsController.appLanguge == "English" ? 0 : 2,
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: AppColors.white,
-                    ),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.white,
                   ),
+                  // child: RotatedBox(
+                  //   quarterTurns:
+                  //       SettingsController.appLanguge == "English" ? 0 : 2,
+                  //   child: Icon(
+                  //     Icons.arrow_back_ios,
+                  //     color: AppColors.white,
+                  //   ),
+                  // ),
                 ),
               ),
               Spacer(),
@@ -67,17 +71,11 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                 children: [
                   Text(
                     "full_name".tr,
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white),
+                    style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.white),
                   ),
                   Text(
                     "*",
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.red3),
+                    style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                   ),
                 ],
               ),
@@ -88,8 +86,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                 // onChanged: (_) =>
                 //     controller.validateForm(),
                 validator: Utils.nameValidator,
-                style: AppTextStyle.mediumPrimary12
-                    .copyWith(color: AppColors.primary),
+                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary),
                 cursorColor: AppColors.primary,
 
                 // maxLength: 6,
@@ -100,8 +97,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                     filled: true,
                     fillColor: AppColors.white,
                     hintText: "please_enter_name".tr,
-                    hintStyle: AppTextStyle.mediumPrimary12
-                        .copyWith(color: AppColors.primary),
+                    hintStyle: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
@@ -128,15 +124,11 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                         height: 16,
                       ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: AppColors.white)),
-                    errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: AppColors.red)),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: AppColors.red)),
+                    focusedBorder:
+                        OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.white)),
+                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red)),
+                    focusedErrorBorder:
+                        OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red)),
                     contentPadding: EdgeInsets.symmetric(vertical: 0)
                     // errorText: controller.nameLastError() == ""
                     //     ? null
@@ -155,10 +147,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                       children: [
                         Text(
                           "Phone_number".tr,
-                          style: AppTextStyle.boldGrey12.copyWith(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.white),
+                          style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.white),
                         ),
                       ],
                     )
@@ -174,8 +163,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                       //     controller.validateForm(),
                       validator: Utils.numberValidator,
                       cursorColor: AppColors.primary,
-                      style: AppTextStyle.mediumPrimary12
-                          .copyWith(color: AppColors.primary),
+                      style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary),
                       // maxLength: 6,
                       // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       keyboardType: TextInputType.phone,
@@ -246,17 +234,11 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                 children: [
                   Text(
                     "your_city_selection".tr,
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white),
+                    style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.white),
                   ),
                   Text(
                     "*",
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.red3),
+                    style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                   ),
                 ],
               ),
@@ -267,12 +249,9 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                 width: w,
                 // height: 10,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.white),
-                    color: AppColors.white),
+                    borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.white), color: AppColors.white),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      right: 10, top: 10, bottom: 10, left: 10),
+                  padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10, left: 10),
                   child: Row(
                     children: [
                       Padding(
@@ -287,29 +266,21 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                         child: DropdownButton<String>(
                           underline: SizedBox(),
                           // value: controller.selectedLocation.value ?? "",
-                          icon:
-                              Icon(Icons.expand_more, color: AppColors.primary),
+                          icon: Icon(Icons.expand_more, color: AppColors.primary),
                           isDense: true,
-                          hint: Text(
-                              controller.selectedLocation.value == ""
-                                  ? "Please_select_city".tr
-                                  : controller.selectedLocation.value,
-                              style: AppTextStyle.mediumPrimary12
-                                  .copyWith(color: AppColors.primary)),
+                          hint: Text(controller.selectedLocation.value == "" ? "Please_select_city".tr : controller.selectedLocation.value,
+                              style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                           isExpanded: true,
                           items: controller.locations.map((City value) {
                             return DropdownMenuItem<String>(
                               value: value.sId,
-                              child: Text(value.eName!,
-                                  style: AppTextStyle.mediumPrimary12
-                                      .copyWith(color: AppColors.primary)),
+                              child: Text(value.eName!, style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                             );
                           }).toList(),
                           onChanged: (value) {
                             controller.locations.forEach((element) {
                               if (value == element.sId) {
-                                controller.selectedLocation.value =
-                                    element.eName!;
+                                controller.selectedLocation.value = element.eName!;
                                 SettingsController.auth.savedCity = element;
                               }
                             });
@@ -329,17 +300,11 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                 children: [
                   Text(
                     "gender".tr,
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white),
+                    style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.white),
                   ),
                   Text(
                     "*",
-                    style: AppTextStyle.boldGrey12.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.red3),
+                    style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                   ),
                 ],
               ),
@@ -350,12 +315,9 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                 width: w,
                 // height: 10,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.primary),
-                    color: AppColors.white),
+                    borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.primary), color: AppColors.white),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      right: 10, top: 10, bottom: 10, left: 10),
+                  padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10, left: 10),
                   child: Row(
                     children: [
                       Padding(
@@ -369,19 +331,14 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                         child: DropdownButton<String>(
                           underline: SizedBox(),
                           value: controller.selectedGender.value ?? "",
-                          icon:
-                              Icon(Icons.expand_more, color: AppColors.primary),
+                          icon: Icon(Icons.expand_more, color: AppColors.primary),
                           isDense: true,
-                          hint: Text("Please_select_gender".tr,
-                              style: AppTextStyle.mediumPrimary12
-                                  .copyWith(color: AppColors.primary)),
+                          hint: Text("Please_select_gender".tr, style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                           isExpanded: true,
                           items: controller.genderList.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value,
-                                  style: AppTextStyle.mediumPrimary12
-                                      .copyWith(color: AppColors.primary)),
+                              child: Text(value, style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -409,8 +366,7 @@ class AddPersonalInfoScreen extends GetView<AddPersonalInfoController> {
                       onTap: () {
                         if (controller.formKey.currentState!.validate()) {
                           if (controller.selectedLocationId.value == "") {
-                            Utils.showSnackBar(
-                                context, "Please_select_city".tr);
+                            Utils.showSnackBar(context, "Please_select_city".tr);
                           } else {
                             controller.addPersonalInfo();
                           }

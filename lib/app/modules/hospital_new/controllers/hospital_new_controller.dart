@@ -16,8 +16,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/reviews_model.dart';
 
-class HospitalNewController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class HospitalNewController extends GetxController with GetSingleTickerProviderStateMixin {
   var reviewsCount = 0.obs;
   Hospital? hospital;
   var reviewsPagingController = PagingController<int, Review>(firstPageKey: 1);
@@ -33,18 +32,16 @@ class HospitalNewController extends GetxController
   TextEditingController comment = TextEditingController();
   var feedbackData = <HospitalFeedback>[].obs;
   var loading = false.obs;
-  var cRating = 0.0.obs;
-  var sRating = 0.0.obs;
-  var eRating = 0.0.obs;
+  var cRating = 5.0.obs;
+  var sRating = 5.0.obs;
+  var eRating = 5.0.obs;
   void getHospitalFeedback({
     String? HospitalId,
   }) async {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: reviewsCancelToken,
-              url: '${ApiConsts.getHospitalFeedback}${HospitalId}')
+          .getDoctorFeedback(cancelToken: reviewsCancelToken, url: '${ApiConsts.getHospitalFeedback}${HospitalId}')
           .then((value) {
         feedbackData.clear();
 
@@ -82,10 +79,7 @@ class HospitalNewController extends GetxController
         "hospitalId": hospitalId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: reviewsCancelToken,
-              body: data,
-              url: "${ApiConsts.postHospitalFeedback}")
+          .postDoctorFeedback(cancelToken: reviewsCancelToken, body: data, url: "${ApiConsts.postHospitalFeedback}")
           .then((value) {
         Get.back();
         getHospitalFeedback(HospitalId: hospitalId);
@@ -100,14 +94,12 @@ class HospitalNewController extends GetxController
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(
-            context: context!, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
       });
       ;
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
-      if (!reviewsCancelToken.isCancelled)
-        addDocFeedback(hospitalId: hospitalId);
+      if (!reviewsCancelToken.isCancelled) addDocFeedback(hospitalId: hospitalId);
       // throw e;
       print(e);
     }
@@ -137,9 +129,7 @@ class HospitalNewController extends GetxController
   void fetchHospitalDetails() {
     isLoading.value = true;
     try {
-      HospitalRepository()
-          .fetchHospitalDetails(hospitalId: hospital!.id)
-          .then((value) {
+      HospitalRepository().fetchHospitalDetails(hospitalId: hospital!.id).then((value) {
         resModel = HospitalDetailsResModel.fromJson(value);
         isLoading.value = false;
         update();
@@ -153,9 +143,7 @@ class HospitalNewController extends GetxController
     isLoadingDoctor = true;
     update();
     try {
-      HospitalRepository()
-          .fetchHospitalDoctors(hospitalId: hospital!.id)
-          .then((value) {
+      HospitalRepository().fetchHospitalDoctors(hospitalId: hospital!.id).then((value) {
         isLoadingDoctor = false;
         update();
         value['data'].forEach((element) {

@@ -26,8 +26,7 @@ class AppointmentHistoryController extends GetxController {
   void fetchAppointmentHistory() {
     isLoading = true;
     update();
-    AppointmentRepository.fetchAppointmentHistory(cancelToken: cancelToken)
-        .then((v) {
+    AppointmentRepository.fetchAppointmentHistory(cancelToken: cancelToken).then((v) {
       // AdsModel v = AdsModel();
       appointmentList.clear();
 
@@ -47,9 +46,9 @@ class AppointmentHistoryController extends GetxController {
     });
   }
 
-  var cRating = 0.0;
-  var sRating = 0.0;
-  var eRating = 0.0;
+  var cRating = 5.0;
+  var sRating = 5.0;
+  var eRating = 5.0;
   TextEditingController comment = TextEditingController();
 
   bool isLoading1 = false;
@@ -69,10 +68,7 @@ class AppointmentHistoryController extends GetxController {
       };
 
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postDoctorFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postDoctorFeedback}")
           .then((value) {
         Get.back();
         Get.back();
@@ -89,8 +85,7 @@ class AppointmentHistoryController extends GetxController {
         cRating = 0.0;
         eRating = 0.0;
         sRating = 0.0;
-        Utils.commonSnackbar(
-            context: context!, text: "${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
 
         isLoading1 = false;
         update();
@@ -112,9 +107,7 @@ class AppointmentHistoryController extends GetxController {
     isLoading = true;
     update();
     try {
-      AppointmentRepository()
-          .cancelAppointment(id: id, patientId: patientId)
-          .then((data) {
+      AppointmentRepository().cancelAppointment(id: id, patientId: patientId).then((data) {
         fetchAppointmentHistory();
         isLoading = false;
         update();

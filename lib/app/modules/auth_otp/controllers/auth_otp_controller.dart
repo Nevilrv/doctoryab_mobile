@@ -14,12 +14,15 @@ class AuthOtpController extends GetxController {
 
   var enableSubmitButton = false.obs;
   TextEditingController textEditingController = TextEditingController();
+
   //countdown
   var countDountController = CountdownController(autoStart: true);
   var countDownFinished = false.obs;
   var waitingForFirebasToResendOtp = false.obs;
+
   //
   final arg = Get.arguments;
+
   @override
   void onInit() {
     ever(otpFormatValid, (_) {
@@ -40,6 +43,7 @@ class AuthOtpController extends GetxController {
   verfyOtp() async {
     // waitingForFirebaseotpToVerify(true);
     EasyLoading.show(status: "please_wait".tr);
+    // EasyLoading.show(status: "please_wait".tr, indicator: CircularProgressIndicator(color: Colors.white));
 
     if (GetPlatform.isWeb) {
       //TODO handle Error
@@ -51,8 +55,7 @@ class AuthOtpController extends GetxController {
       Utils.whereShouldIGo();
     } else {
       //TODO handle Error
-      await AuthController.to
-          .signinToFirebaseWithSmsCode(smsCode: textEditingController.text);
+      await AuthController.to.signinToFirebaseWithSmsCode(smsCode: textEditingController.text);
     }
   }
 

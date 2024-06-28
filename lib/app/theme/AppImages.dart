@@ -67,6 +67,7 @@ class AppImages {
   static const userCircle = "assets/svg/User_Circle.svg";
   static const facebook = "assets/svg/Facebook.svg";
   static const likeFill = "assets/svg/like_fill.svg";
+
   // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG
@@ -75,6 +76,9 @@ class AppImages {
   static const pills = "assets/png/pills.png";
   static const microscope = "assets/png/microscope.png";
   static const blood = "assets/png/blood.png";
+  static const findBloodDonor = "assets/png/findBloodDonor.PNG";
+
+  static const registerAsBloodDonor = "assets/png/registerAsBloodDonor.PNG";
   static const bandage = "assets/png/bandage.png";
   static const airplane = "assets/png/airplane.png";
   static const baby = "assets/png/baby.png";

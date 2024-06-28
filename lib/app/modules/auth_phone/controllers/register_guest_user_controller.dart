@@ -12,7 +12,8 @@ import 'package:get/get.dart';
 
 class RegisterGuestUserController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
-  TextEditingController teNewNumber = TextEditingController();
+
+  // TextEditingController teNewNumber = TextEditingController();
   TextEditingController teAge = TextEditingController();
   TextEditingController teName = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -27,6 +28,7 @@ class RegisterGuestUserController extends GetxController {
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   var isLoading = false.obs;
+
   @override
   void onInit() {
     loadCities();
@@ -104,18 +106,20 @@ class RegisterGuestUserController extends GetxController {
     // isLoading.value = false;
     // Utils.whereShouldIGo();
     AuthRepository()
-        .registerGuestUserApi(teName.text, teNewNumber.text,
-            selectedGender.value, selectedLocationId.value)
+        .registerGuestUserApi(
+      teName.text,
+      // teNewNumber.text,
+      selectedGender.value,
+      selectedLocationId.value,
+    )
         .then((value) {
       log('value-------------->${value}');
       log('value---------profile_completed----->${value["profile_completed"]}');
       try {
         SettingsController.userToken = value["jwtoken"];
-        SettingsController.userProfileComplete =
-            value["profile_completed"] ?? true;
+        SettingsController.userProfileComplete = value["profile_completed"] ?? true;
         SettingsController.userId = value['guestUser']['_id'];
-        SettingsController.savedUserProfile =
-            u.User.fromJson(value['guestUser']);
+        SettingsController.savedUserProfile = u.User.fromJson(value['guestUser']);
         SettingsController.auth.savedCity = City.fromJson(value['city']);
         SettingsController.userLogin = true;
         isLoading.value = false;

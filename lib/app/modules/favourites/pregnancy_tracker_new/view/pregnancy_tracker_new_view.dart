@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -28,22 +29,21 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                       height: h * 0.12,
                       width: w,
                       color: AppColors.primary,
-                      padding: EdgeInsets.only(
-                          left: w * 0.04, right: w * 0.04, top: h * 0.04),
+                      padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04, top: h * 0.04),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Get.offAllNamed(Routes.HOME,
-                                  arguments: {'id': 2});
+                              Get.offAllNamed(Routes.HOME, arguments: {'id': 2});
                             },
                             child: CircleAvatar(
                               radius: 22,
                               backgroundColor: AppColors.white,
                               child: Icon(
-                                Icons.keyboard_arrow_left,
+                                Icons.arrow_back_ios_new,
                                 color: AppColors.primary,
+                                size: 22,
                               ),
                             ),
                           ),
@@ -94,8 +94,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                             radius: 35,
                                             backgroundColor: Colors.green,
                                             child: Padding(
-                                              padding:
-                                                  EdgeInsets.all(h * 0.018),
+                                              padding: EdgeInsets.all(h * 0.018),
                                               child: Image.asset(
                                                 AppImages.thumbsUp,
                                                 color: AppColors.white,
@@ -106,12 +105,10 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                             height: h * 0.015,
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10),
+                                            padding: EdgeInsets.symmetric(horizontal: 10),
                                             decoration: BoxDecoration(
                                               color: Colors.green,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
                                             child: Text(
                                               'yes'.tr,
@@ -137,8 +134,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                             radius: 35,
                                             backgroundColor: Colors.red,
                                             child: Padding(
-                                              padding:
-                                                  EdgeInsets.all(h * 0.018),
+                                              padding: EdgeInsets.all(h * 0.018),
                                               child: RotatedBox(
                                                 quarterTurns: 2,
                                                 child: Image.asset(
@@ -152,12 +148,10 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                             height: h * 0.015,
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10),
+                                            padding: EdgeInsets.symmetric(horizontal: 10),
                                             decoration: BoxDecoration(
                                               color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
                                             child: Text(
                                               'no'.tr,
@@ -184,8 +178,7 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                   color: Color(0xffF652A0),
                                 ),
                                 child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: h * 0.035),
+                                  padding: EdgeInsets.symmetric(vertical: h * 0.035),
                                   child: Image.asset(AppImages.pregnantWomenBg),
                                 ),
                               ),
@@ -215,32 +208,23 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await controller.changeCalculationType(
-                                        'ConceptionDate');
-                                    Get.toNamed(Routes.CALCULATION_METHODS,
-                                        arguments: {
-                                          'type': 'ConceptionDate',
-                                          'isCheck': true
-                                        });
+                                    await controller.changeCalculationType('ConceptionDate');
+                                    Get.toNamed(Routes.CALCULATION_METHODS, arguments: {'type': 'ConceptionDate', 'isCheck': true});
                                   },
                                   child: Container(
                                     height: h * 0.065,
                                     width: w,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8),
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Color(0xffE1F0DA),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 0, bottom: 8, top: 8),
-                                          child: Image.asset(
-                                              AppImages.conceptionDate),
+                                          padding: EdgeInsets.only(left: 0, bottom: 8, top: 8),
+                                          child: Image.asset(AppImages.conceptionDate),
                                         ),
                                         Text(
                                           'conception_date'.tr,
@@ -251,43 +235,34 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                           ),
                                         ),
                                         Icon(
-                                          Icons.keyboard_arrow_right_rounded,
+                                          Icons.arrow_forward_ios_rounded,
                                           color: AppColors.red,
-                                        )
+                                          size: 18,
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    controller
-                                        .changeCalculationType('LastPeriod');
-                                    Get.toNamed(Routes.CALCULATION_METHODS,
-                                        arguments: {
-                                          'type': 'LastPeriod',
-                                          'isCheck': true
-                                        });
+                                    controller.changeCalculationType('LastPeriod');
+                                    Get.toNamed(Routes.CALCULATION_METHODS, arguments: {'type': 'LastPeriod', 'isCheck': true});
                                   },
                                   child: Container(
                                     height: h * 0.065,
                                     width: w,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8),
-                                    margin:
-                                        EdgeInsets.only(bottom: 12, top: 15),
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
+                                    margin: EdgeInsets.only(bottom: 12, top: 15),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Color(0xffFBFADA),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 5, bottom: 8, top: 8),
-                                          child: Image.asset(
-                                              AppImages.periodsDate),
+                                          padding: EdgeInsets.only(left: 5, bottom: 8, top: 8),
+                                          child: Image.asset(AppImages.periodsDate),
                                         ),
                                         Text(
                                           'last_period'.tr,
@@ -298,40 +273,33 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                           ),
                                         ),
                                         Icon(
-                                          Icons.keyboard_arrow_right_rounded,
+                                          Icons.arrow_forward_ios_rounded,
                                           color: AppColors.red,
-                                        )
+                                          size: 18,
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await controller
-                                        .changeCalculationType('DueDate');
-                                    Get.toNamed(Routes.CALCULATION_METHODS,
-                                        arguments: {
-                                          'type': 'DueDate',
-                                          'isCheck': true
-                                        });
+                                    await controller.changeCalculationType('DueDate');
+                                    Get.toNamed(Routes.CALCULATION_METHODS, arguments: {'type': 'DueDate', 'isCheck': true});
                                   },
                                   child: Container(
                                     height: h * 0.065,
                                     width: w,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8),
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
                                     margin: EdgeInsets.only(bottom: 12),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Color(0xffFFDEE8),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 5, bottom: 8, top: 8),
+                                          padding: EdgeInsets.only(left: 5, bottom: 8, top: 8),
                                           child: Image.asset(AppImages.dueDate),
                                         ),
                                         Text(
@@ -343,9 +311,10 @@ class PregnancyTrackerNewView extends GetView<PregnancyTrackerNewController> {
                                           ),
                                         ),
                                         Icon(
-                                          Icons.keyboard_arrow_right_rounded,
+                                          Icons.arrow_forward_ios_rounded,
                                           color: AppColors.red,
-                                        )
+                                          size: 18,
+                                        ),
                                       ],
                                     ),
                                   ),

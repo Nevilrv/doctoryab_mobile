@@ -92,14 +92,14 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                        child: RotatedBox(
-                      quarterTurns:
-                          SettingsController.appLanguge == "English" ? 0 : 2,
-                      child: SvgPicture.asset(
-                        AppImages.back2,
-                        height: 14,
+                      child: RotatedBox(
+                        quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+                        child: SvgPicture.asset(
+                          AppImages.back2,
+                          height: 14,
+                        ),
                       ),
-                    )),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -146,9 +146,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               height: h * 0.055,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: controller.pageController?.index == 0
-                    ? AppColors.white
-                    : AppColors.primary,
+                color: controller.pageController?.index == 0 ? AppColors.white : AppColors.primary,
                 border: Border.all(
                   color: AppColors.white,
                   width: 1,
@@ -157,9 +155,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               child: Center(
                 child: Text(
                   "calc".tr,
-                  style: controller.pageController?.index == 0
-                      ? AppTextStyle.boldPrimary15
-                      : AppTextStyle.boldWhite15,
+                  style: controller.pageController?.index == 0 ? AppTextStyle.boldPrimary15 : AppTextStyle.boldWhite15,
                 ),
               ),
             ),
@@ -174,9 +170,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               margin: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: controller.pageController?.index == 0
-                    ? AppColors.primary
-                    : AppColors.white,
+                color: controller.pageController?.index == 0 ? AppColors.primary : AppColors.white,
                 border: Border.all(
                   color: AppColors.white,
                   width: 1,
@@ -185,9 +179,7 @@ class PregnancyTrackerView extends GetView<PregnancyTrackerController> {
               child: Center(
                 child: Text(
                   "calender".tr,
-                  style: controller.pageController?.index == 0
-                      ? AppTextStyle.boldWhite15
-                      : AppTextStyle.boldPrimary15,
+                  style: controller.pageController?.index == 0 ? AppTextStyle.boldWhite15 : AppTextStyle.boldPrimary15,
                 ),
               ),
             ),

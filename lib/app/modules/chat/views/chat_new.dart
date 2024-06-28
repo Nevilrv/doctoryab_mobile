@@ -24,7 +24,9 @@ import '../controllers/chat_controller.dart';
 
 class ChatView extends GetView<ChatController> {
   ChatController chatController = Get.find()..onInitCall();
+
   ChatView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -162,11 +164,9 @@ class ChatView extends GetView<ChatController> {
                               ),
                               Spacer(),
                               Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 30),
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
                                       onTap: () {
@@ -180,19 +180,14 @@ class ChatView extends GetView<ChatController> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: (controller.isLoading.value ||
-                                              controller.sendingMessage())
+                                      onTap: (controller.isLoading.value || controller.sendingMessage())
                                           ? null
                                           : () {
-                                              if (controller.messageC.text
-                                                      .isNotEmpty ||
+                                              if (controller.messageC.text.isNotEmpty ||
                                                   controller.image.isNotEmpty ||
-                                                  controller.pathToAudio !=
-                                                      null ||
-                                                  controller.pdfFile.value !=
-                                                      "") {
-                                                controller.messageToSend =
-                                                    controller.messageC.text;
+                                                  controller.pathToAudio != null ||
+                                                  controller.pdfFile.value != "") {
+                                                controller.messageToSend = controller.messageC.text;
                                                 controller.messageC.clear();
                                                 controller.sendMessage();
                                               }
@@ -202,12 +197,10 @@ class ChatView extends GetView<ChatController> {
                                         width: 45,
                                         decoration: BoxDecoration(
                                           color: Color(0xff2DB899),
-                                          borderRadius:
-                                              BorderRadius.circular(100),
+                                          borderRadius: BorderRadius.circular(100),
                                         ),
                                         alignment: Alignment.center,
-                                        child: (controller.isLoading.value ||
-                                                controller.sendingMessage())
+                                        child: (controller.isLoading.value || controller.sendingMessage())
                                             ? const CircularProgressIndicator(
                                                 color: AppColors.white,
                                               )
@@ -239,14 +232,11 @@ class ChatView extends GetView<ChatController> {
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 50, right: 15),
+                                      padding: EdgeInsets.only(top: 50, right: 15),
                                       child: GestureDetector(
                                         onTap: () {
-                                          controller.tapAttachment.value =
-                                              false;
-                                          controller.attachmentString.value =
-                                              "";
+                                          controller.tapAttachment.value = false;
+                                          controller.attachmentString.value = "";
                                           controller.pdfFile.value = '';
                                           controller.update();
                                         },
@@ -263,8 +253,7 @@ class ChatView extends GetView<ChatController> {
                                   ),
                                   Container(
                                     width: Get.width * 0.5,
-                                    margin: const EdgeInsets.only(
-                                        bottom: 10, right: 10),
+                                    margin: const EdgeInsets.only(bottom: 10, right: 10),
                                     height: 200,
                                     color: AppColors.grey,
                                     child: Center(
@@ -273,16 +262,13 @@ class ChatView extends GetView<ChatController> {
                                   ),
                                   Spacer(),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 30),
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            controller.attachmentString.value =
-                                                "";
+                                            controller.attachmentString.value = "";
                                             controller.image.clear();
                                             controller.update();
                                           },
@@ -292,24 +278,16 @@ class ChatView extends GetView<ChatController> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: (controller.isLoading.value ||
-                                                  controller.sendingMessage())
+                                          onTap: (controller.isLoading.value || controller.sendingMessage())
                                               ? null
                                               : () {
-                                                  if (controller.messageC.text
-                                                          .isNotEmpty ||
-                                                      controller
-                                                          .image.isNotEmpty ||
-                                                      controller.pathToAudio !=
-                                                          null ||
-                                                      controller
-                                                              .pdfFile.value !=
-                                                          "") {
+                                                  if (controller.messageC.text.isNotEmpty ||
+                                                      controller.image.isNotEmpty ||
+                                                      controller.pathToAudio != null ||
+                                                      controller.pdfFile.value != "") {
                                                     log('---controller.messageC.text---${controller.messageC.text}');
 
-                                                    controller.messageToSend =
-                                                        controller
-                                                            .messageC.text;
+                                                    controller.messageToSend = controller.messageC.text;
                                                     controller.messageC.clear();
                                                     controller.sendMessage();
                                                   }
@@ -319,13 +297,10 @@ class ChatView extends GetView<ChatController> {
                                             width: 45,
                                             decoration: BoxDecoration(
                                               color: Color(0xff2DB899),
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
+                                              borderRadius: BorderRadius.circular(100),
                                             ),
                                             alignment: Alignment.center,
-                                            child: (controller
-                                                        .isLoading.value ||
-                                                    controller.sendingMessage())
+                                            child: (controller.isLoading.value || controller.sendingMessage())
                                                 ? const CircularProgressIndicator(
                                                     color: AppColors.white,
                                                   )
@@ -349,17 +324,14 @@ class ChatView extends GetView<ChatController> {
                           children: [
                             Container(
                               height: 119,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: Get.width * 0.05),
+                              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: Get.width * 0.05),
                               color: AppColors.white,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       GestureDetector(
                                         onTap: () {
@@ -373,15 +345,11 @@ class ChatView extends GetView<ChatController> {
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Obx(() => Text(
-                                                controller
-                                                        .chatArg!().chatName ??
-                                                    "N/A",
-                                                style:
-                                                    AppTextStyle.boldPrimary16,
+                                                controller.chatArg!().chatName ?? "N/A",
+                                                style: AppTextStyle.boldPrimary16,
                                               )),
                                           const SizedBox(
                                             width: 8.0,
@@ -431,8 +399,7 @@ class ChatView extends GetView<ChatController> {
                               ),
                             ),
                             //this helps to show the loading of next page
-                            if (controller.nextPageLoading())
-                              SizedBox(height: 0),
+                            if (controller.nextPageLoading()) SizedBox(height: 0),
                             Expanded(
                               child: controller.isLoading()
                                   ? Center(
@@ -453,14 +420,9 @@ class ChatView extends GetView<ChatController> {
 
                                         return Column(
                                           children: [
-                                            if (controller.nextPageLoading() &&
-                                                index ==
-                                                    (controller.chat.length ??
-                                                            0) -
-                                                        1)
+                                            if (controller.nextPageLoading() && index == (controller.chat.length ?? 0) - 1)
                                               Center(
-                                                child:
-                                                    CircularProgressIndicator(
+                                                child: CircularProgressIndicator(
                                                   color: AppColors.primary,
                                                 ),
                                               ).paddingExceptTop(8),
@@ -471,37 +433,22 @@ class ChatView extends GetView<ChatController> {
                                             // Placeholder(),
 
                                             Row(
-                                              mainAxisAlignment: controller
-                                                      .chat[index]
-                                                      .isUsersMessage
-                                                  ? MainAxisAlignment.end
-                                                  : MainAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  controller.chat[index].isUsersMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   width: 268,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 6.0,
-                                                      horizontal: 14.0),
+                                                  padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 14.0),
                                                   decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                    color: controller
-                                                            .chat[index]
-                                                            .isUsersMessage
-                                                        ? AppColors.white
-                                                        : Color(0xffEDFFD5),
+                                                    borderRadius: BorderRadius.circular(16.0),
+                                                    color: controller.chat[index].isUsersMessage ? AppColors.white : Color(0xffEDFFD5),
                                                   ),
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       SingleChildScrollView(
-                                                        physics:
-                                                            PageScrollPhysics(),
-                                                        scrollDirection:
-                                                            Axis.horizontal,
+                                                        physics: PageScrollPhysics(),
+                                                        scrollDirection: Axis.horizontal,
                                                         child: Row(
                                                           children: [
                                                             // if (msg.image != null)
@@ -571,71 +518,47 @@ class ChatView extends GetView<ChatController> {
                                                       //     ),
                                                       //   ).paddingOnly(
                                                       //       bottom: 8),
-                                                      controller
-                                                                  .chat[index]
-                                                                  .images
-                                                                  ?.isEmpty ??
-                                                              false
+                                                      controller.chat[index].images?.isEmpty ?? false
                                                           ? SizedBox()
                                                           : GestureDetector(
                                                               onTap: () {
-                                                                openFile(
-                                                                    "${ApiConsts.hostUrl}${controller.chat[index].images![0]}");
+                                                                openFile("${ApiConsts.hostUrl}${controller.chat[index].images![0]}");
                                                               },
                                                               child: Center(
-                                                                child: Image
-                                                                    .network(
+                                                                child: Image.network(
                                                                   "${ApiConsts.hostUrl}${controller.chat[index].images![0]}",
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.2,
-                                                                  width:
-                                                                      Get.height *
-                                                                          0.2,
+                                                                  height: Get.height * 0.2,
+                                                                  width: Get.height * 0.2,
                                                                 ),
                                                               ),
                                                             ),
 
-                                                      controller
-                                                              .chat[index]
-                                                              .documents!
-                                                              .isEmpty
+                                                      controller.chat[index].documents!.isEmpty
                                                           ? SizedBox()
                                                           : GestureDetector(
                                                               onTap: () {
-                                                                openFile(
-                                                                    "${ApiConsts.hostUrl}${controller.chat[index].documents![0]}");
+                                                                openFile("${ApiConsts.hostUrl}${controller.chat[index].documents![0]}");
                                                               },
                                                               child: Center(
                                                                 child: Icon(
-                                                                  Icons
-                                                                      .picture_as_pdf,
+                                                                  Icons.picture_as_pdf,
                                                                   size: 60,
                                                                 ),
                                                               ),
                                                             ),
 
-                                                      controller
-                                                              .chat[index]
-                                                              .voiceNotes!
-                                                              .isEmpty
+                                                      controller.chat[index].voiceNotes!.isEmpty
                                                           ? SizedBox()
-                                                          : GetBuilder<
-                                                              ChatController>(
-                                                              builder:
-                                                                  (controller) {
-                                                                return controller
-                                                                            .selectedIndex ==
-                                                                        index
+                                                          : GetBuilder<ChatController>(
+                                                              builder: (controller) {
+                                                                return controller.selectedIndex == index
                                                                     ? Column(
                                                                         children: [
                                                                           SizedBox(
-                                                                            height:
-                                                                                10,
+                                                                            height: 10,
                                                                           ),
                                                                           Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 5),
@@ -643,7 +566,9 @@ class ChatView extends GetView<ChatController> {
                                                                                   height: Get.height * 0.05,
                                                                                   child: Icon(
                                                                                     Icons.keyboard_voice,
-                                                                                    color: controller.chat[index].isRead == true ? AppColors.green : Color(0xff38B6FF),
+                                                                                    color: controller.chat[index].isRead == true
+                                                                                        ? AppColors.green
+                                                                                        : Color(0xff38B6FF),
                                                                                   ),
                                                                                 ),
                                                                               ),
@@ -659,7 +584,9 @@ class ChatView extends GetView<ChatController> {
                                                                                       width: Get.width * 0.005,
                                                                                       decoration: BoxDecoration(
                                                                                         borderRadius: BorderRadius.circular(10),
-                                                                                        color: index1 > controller.current1 ? Colors.grey.withOpacity(0.2) : Colors.grey,
+                                                                                        color: index1 > controller.current1
+                                                                                            ? Colors.grey.withOpacity(0.2)
+                                                                                            : Colors.grey,
                                                                                       ),
                                                                                     ),
                                                                                   ],
@@ -667,26 +594,40 @@ class ChatView extends GetView<ChatController> {
                                                                               }),
                                                                               GestureDetector(
                                                                                 onTap: () async {
+                                                                                  log("Tap Play Button 111 ::::::::::::::::");
+
                                                                                   if (controller.timers1 != null) {
                                                                                     controller.timers1!.cancel();
                                                                                   }
                                                                                   controller.update();
-                                                                                  if (controller.audioPlayer1.state == ap.PlayerState.playing) {
+                                                                                  if (controller.audioPlayer1.state ==
+                                                                                      ap.PlayerState.playing) {
                                                                                     controller.isPause1 = true;
                                                                                     controller.update();
                                                                                     // stop2();
                                                                                     await controller.audioPlayer1.pause();
-                                                                                  } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
+                                                                                  } else if (controller.audioPlayer1.state ==
+                                                                                          ap.PlayerState.paused ||
+                                                                                      controller.audioPlayer1.state ==
+                                                                                          ap.PlayerState.stopped) {
                                                                                     controller.isPause1 = false;
                                                                                     // controller.timers1.cancel();
                                                                                     await controller
                                                                                         .play1(
-                                                                                      path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes![0]}",
+                                                                                      path:
+                                                                                          "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes![0]}",
                                                                                     )
                                                                                         .then((value) {
                                                                                       controller.isPause1 = false;
                                                                                       controller.update();
-                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1 == null ? 0 : controller.duration1!.inMilliseconds.round() ~/ int.parse(controller.voiceTrackRowSize.toString())), (timer) {
+                                                                                      controller.timers1 = Timer.periodic(
+                                                                                          Duration(
+                                                                                              milliseconds: controller.duration1 == null
+                                                                                                  ? 0
+                                                                                                  : controller.duration1!.inMilliseconds
+                                                                                                          .round() ~/
+                                                                                                      int.parse(controller.voiceTrackRowSize
+                                                                                                          .toString())), (timer) {
                                                                                         log('{timer.tick}${timer.tick}');
 
                                                                                         if (controller.isPause1 == true) {
@@ -700,7 +641,8 @@ class ChatView extends GetView<ChatController> {
                                                                                         controller.update();
                                                                                         log('current ${controller.current1}');
 
-                                                                                        if (controller.current1 == controller.voiceTrackRowSize) {
+                                                                                        if (controller.current1 ==
+                                                                                            controller.voiceTrackRowSize) {
                                                                                           timer.cancel();
 
                                                                                           controller.isPause1 = false;
@@ -718,8 +660,12 @@ class ChatView extends GetView<ChatController> {
                                                                                 },
                                                                                 child: Container(
                                                                                   child: Icon(
-                                                                                    controller.audioPlayer1.state == ap.PlayerState.playing ? Icons.pause : Icons.play_arrow,
-                                                                                    color: controller.chat[index].isRead == true ? AppColors.green : Color(0xff38B6FF),
+                                                                                    controller.audioPlayer1.state == ap.PlayerState.playing
+                                                                                        ? Icons.pause
+                                                                                        : Icons.play_arrow,
+                                                                                    color: controller.chat[index].isRead == true
+                                                                                        ? AppColors.green
+                                                                                        : Color(0xff38B6FF),
                                                                                     size: 35,
                                                                                   ),
                                                                                 ),
@@ -727,12 +673,12 @@ class ChatView extends GetView<ChatController> {
                                                                             ],
                                                                           ),
                                                                           Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               // Text('${chatController.getFileDuration(controller.chat[index].voiceNotes[0])}'),
                                                                               // controller.current1 == -1 ? SizedBox() : Text('${DateFormat('hh:mm:ss').format(controller.position1)}'),
-                                                                              Text('${controller.position1 == null ? 0 : controller.convertTime(controller.position1!.inMilliseconds)}/${controller.duration1 == null ? 0 : controller.convertTime(controller.duration1!.inMilliseconds ?? 0)}'),
+                                                                              Text(
+                                                                                  '${controller.position1 == null ? 0 : controller.convertTime(controller.position1!.inMilliseconds)}/${controller.duration1 == null ? 0 : controller.convertTime(controller.duration1!.inMilliseconds ?? 0)}'),
                                                                               // SizedBox(),
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 20, top: 2),
@@ -743,7 +689,9 @@ class ChatView extends GetView<ChatController> {
                                                                                   style: TextStyle(
                                                                                     fontSize: 10,
                                                                                     fontWeight: FontWeight.w300,
-                                                                                    color: controller.chat[index].isUsersMessage ? AppColors.black : AppColors.black,
+                                                                                    color: controller.chat[index].isUsersMessage
+                                                                                        ? AppColors.black
+                                                                                        : AppColors.black,
                                                                                   ),
                                                                                   textAlign: TextAlign.right,
                                                                                 ),
@@ -755,12 +703,10 @@ class ChatView extends GetView<ChatController> {
                                                                     : Column(
                                                                         children: [
                                                                           SizedBox(
-                                                                            height:
-                                                                                10,
+                                                                            height: 10,
                                                                           ),
                                                                           Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               controller.chat[index].isUsersMessage
                                                                                   ? Padding(
@@ -769,7 +715,9 @@ class ChatView extends GetView<ChatController> {
                                                                                         height: Get.height * 0.05,
                                                                                         child: Icon(
                                                                                           Icons.keyboard_voice,
-                                                                                          color: controller.chat[index].isRead == true ? AppColors.green : Color(0xff38B6FF),
+                                                                                          color: controller.chat[index].isRead == true
+                                                                                              ? AppColors.green
+                                                                                              : Color(0xff38B6FF),
                                                                                         ),
                                                                                       ),
                                                                                     )
@@ -794,6 +742,8 @@ class ChatView extends GetView<ChatController> {
                                                                               }),
                                                                               GestureDetector(
                                                                                 onTap: () async {
+                                                                                  log("Tap Play Button 222 ::::::::::::::::");
+
                                                                                   controller.position1 = null;
                                                                                   controller.duration1 = null;
                                                                                   controller.selectedIndex = index;
@@ -808,20 +758,31 @@ class ChatView extends GetView<ChatController> {
                                                                                   await controller.audioPlayer1.pause();
                                                                                   await controller.audioPlayer1.stop();
                                                                                   controller.update();
-                                                                                  if (controller.audioPlayer1.state == ap.PlayerState.playing) {
+                                                                                  if (controller.audioPlayer1.state ==
+                                                                                      ap.PlayerState.playing) {
                                                                                     controller.isPause1 = true;
                                                                                     controller.update();
                                                                                     // stop2();
                                                                                     await controller.audioPlayer1.pause();
-                                                                                  } else if (controller.audioPlayer1.state == ap.PlayerState.paused || controller.audioPlayer1.state == ap.PlayerState.stopped) {
+                                                                                  } else if (controller.audioPlayer1.state ==
+                                                                                          ap.PlayerState.paused ||
+                                                                                      controller.audioPlayer1.state ==
+                                                                                          ap.PlayerState.stopped) {
                                                                                     await controller
                                                                                         .play1(
-                                                                                      path: "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes![0]}",
+                                                                                      path:
+                                                                                          "${ApiConsts.hostUrl}${controller.chat[index].voiceNotes![0]}",
                                                                                     )
                                                                                         .then((value) {
                                                                                       controller.isPause1 = false;
                                                                                       controller.update();
-                                                                                      controller.timers1 = Timer.periodic(Duration(milliseconds: controller.duration1!.inMilliseconds.round() ~/ int.parse(controller.voiceTrackRowSize.toString())), (timer) {
+                                                                                      controller.timers1 = Timer.periodic(
+                                                                                          Duration(
+                                                                                              milliseconds: controller
+                                                                                                      .duration1!.inMilliseconds
+                                                                                                      .round() ~/
+                                                                                                  int.parse(controller.voiceTrackRowSize
+                                                                                                      .toString())), (timer) {
                                                                                         log('{timer.tick}${timer.tick}');
 
                                                                                         if (controller.isPause1 == true) {
@@ -835,7 +796,8 @@ class ChatView extends GetView<ChatController> {
                                                                                         controller.update();
                                                                                         log('current ${controller.current1}');
 
-                                                                                        if (controller.current1 == controller.voiceTrackRowSize) {
+                                                                                        if (controller.current1 ==
+                                                                                            controller.voiceTrackRowSize) {
                                                                                           timer.cancel();
                                                                                           controller.isPause1 = false;
                                                                                           controller.current1 = -1;
@@ -866,8 +828,7 @@ class ChatView extends GetView<ChatController> {
                                                                             ],
                                                                           ),
                                                                           Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               // Text('${controller.voiceDurationList[index]}'),
                                                                               Padding(
@@ -880,7 +841,9 @@ class ChatView extends GetView<ChatController> {
                                                                                   style: TextStyle(
                                                                                     fontSize: 10,
                                                                                     fontWeight: FontWeight.w300,
-                                                                                    color: controller.chat[index].isUsersMessage ? AppColors.black : AppColors.black,
+                                                                                    color: controller.chat[index].isUsersMessage
+                                                                                        ? AppColors.black
+                                                                                        : AppColors.black,
                                                                                   ),
                                                                                   textAlign: TextAlign.right,
                                                                                 ),
@@ -892,58 +855,36 @@ class ChatView extends GetView<ChatController> {
                                                               },
                                                             ),
 
-                                                      controller.chat[index]
-                                                                  .content ==
-                                                              ""
+                                                      controller.chat[index].content == ""
                                                           ? SizedBox()
                                                           : SizedBox(
                                                               width: 250,
                                                               child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
                                                                   SizedBox(
                                                                     width: 170,
                                                                     child: Text(
-                                                                      controller
-                                                                              .chat[index]
-                                                                              .content ??
-                                                                          "",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w300,
-                                                                        color: AppColors
-                                                                            .black,
+                                                                      controller.chat[index].content ?? "",
+                                                                      style: TextStyle(
+                                                                        fontSize: 16,
+                                                                        fontWeight: FontWeight.w300,
+                                                                        color: AppColors.black,
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .bottomRight,
+                                                                    alignment: Alignment.bottomRight,
                                                                     child: Text(
                                                                       // DateFormat(
                                                                       //         'dd/MM/yyyy - hh:mm a ')
-                                                                      DateFormat(
-                                                                              'hh:mm a')
-                                                                          .format(
-                                                                              DateTime.now()),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            10,
-                                                                        fontWeight:
-                                                                            FontWeight.w300,
-                                                                        color: AppColors
-                                                                            .black,
+                                                                      DateFormat('hh:mm a').format(DateTime.now()),
+                                                                      style: TextStyle(
+                                                                        fontSize: 10,
+                                                                        fontWeight: FontWeight.w300,
+                                                                        color: AppColors.black,
                                                                       ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .right,
+                                                                      textAlign: TextAlign.right,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -957,8 +898,7 @@ class ChatView extends GetView<ChatController> {
                                           ],
                                         );
                                       },
-                                      separatorBuilder: (context, i) =>
-                                          const SizedBox(height: 14),
+                                      separatorBuilder: (context, i) => const SizedBox(height: 14),
                                       itemCount: controller.chat.length
                                       //  controller.chat.value.messages.length,
                                       ),
@@ -968,214 +908,124 @@ class ChatView extends GetView<ChatController> {
                                 /// Voice Send Button
 
                                 ? Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 0, vertical: 6),
+                                          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 6),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              controller.playRecord.value ==
-                                                      true
+                                              controller.playRecord.value == true
                                                   // ? SizedBox()
                                                   ? Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Lottie.asset(
                                                           'assets/lot/Animation - 1707890620680.json',
                                                           repeat: true,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.93,
+                                                          width: MediaQuery.of(context).size.width * 0.93,
                                                           height: 80,
                                                           fit: BoxFit.fill,
                                                         )
                                                       ],
                                                     )
                                                   : SizedBox(),
-                                              controller.playRecord.value ==
-                                                      true
+                                              controller.playRecord.value == true
                                                   ? SizedBox()
                                                   : Center(
                                                       child: Container(
                                                         height: height * 0.075,
                                                         width: width * 0.9,
-                                                        margin: EdgeInsets.only(
-                                                            right:
-                                                                width * 0.025),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal:
-                                                                    width *
-                                                                        0.03),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xffEAEAF3),
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    15),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    15),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    15),
+                                                        margin: EdgeInsets.only(right: width * 0.025),
+                                                        padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xffEAEAF3),
+                                                          borderRadius: BorderRadius.only(
+                                                            topLeft: Radius.circular(15),
+                                                            topRight: Radius.circular(15),
+                                                            bottomRight: Radius.circular(15),
                                                           ),
                                                         ),
                                                         child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () {
-                                                                controller
-                                                                        .playAudio
-                                                                        .value =
-                                                                    !controller
-                                                                        .playAudio
-                                                                        .value;
+                                                                log("Tap Play Button 333 ::::::::::::::::");
 
-                                                                if (!controller
-                                                                    .playAudio
-                                                                    .value) {
-                                                                  controller
-                                                                      .timers1!
-                                                                      .cancel();
+                                                                controller.playAudio.value = !controller.playAudio.value;
 
-                                                                  controller
-                                                                          .isPause1 =
-                                                                      false;
-                                                                  controller
-                                                                      .current2 = -1;
+                                                                if (!controller.playAudio.value) {
+                                                                  controller.timers1!.cancel();
+
+                                                                  controller.isPause1 = false;
+                                                                  controller.current2 = -1;
                                                                   // stop2();
-                                                                  controller
-                                                                      .stopPlayFunc();
-                                                                  controller
-                                                                      .update();
-                                                                } else if (controller
-                                                                    .playAudio
-                                                                    .value) {
-                                                                  controller
-                                                                      .playFunc()
-                                                                      .then(
-                                                                          (value) {
-                                                                    controller
-                                                                            .isPause1 =
-                                                                        false;
-                                                                    controller
-                                                                        .update();
+                                                                  controller.stopPlayFunc();
+                                                                  controller.update();
+                                                                } else if (controller.playAudio.value) {
+                                                                  controller.playFunc().then((value) {
+                                                                    controller.isPause1 = false;
+                                                                    controller.update();
                                                                     controller.timers1 = Timer.periodic(
                                                                         Duration(
-                                                                            milliseconds:
-                                                                                controller.duration1!.inMilliseconds.round() ~/ int.parse(controller.voiceTrackRowSize.toString())),
+                                                                            milliseconds: controller.duration1!.inMilliseconds.round() ~/
+                                                                                int.parse(controller.voiceTrackRowSize.toString())),
                                                                         (timer) {
                                                                       log('{timer.tick}${timer.tick}');
 
-                                                                      if (controller
-                                                                              .isPause1 ==
-                                                                          true) {
+                                                                      if (controller.isPause1 == true) {
                                                                         // current2 = current2 + 0;
-                                                                        controller
-                                                                            .current2 = controller
-                                                                                .current2 +
-                                                                            0;
+                                                                        controller.current2 = controller.current2 + 0;
                                                                         // current2 = -1;
-                                                                        timer
-                                                                            .cancel();
+                                                                        timer.cancel();
                                                                       } else {
-                                                                        controller
-                                                                            .current2++;
+                                                                        controller.current2++;
                                                                       }
-                                                                      controller
-                                                                          .update();
+                                                                      controller.update();
                                                                       log('current ${controller.current2}');
 
-                                                                      if (controller
-                                                                              .current2 ==
-                                                                          controller
-                                                                              .voiceTrackRowSize) {
-                                                                        timer
-                                                                            .cancel();
+                                                                      if (controller.current2 == controller.voiceTrackRowSize) {
+                                                                        timer.cancel();
 
-                                                                        controller.isPause1 =
-                                                                            false;
+                                                                        controller.isPause1 = false;
 
-                                                                        controller.current2 =
-                                                                            -1;
+                                                                        controller.current2 = -1;
 
-                                                                        controller
-                                                                            .update();
+                                                                        controller.update();
                                                                       }
                                                                     });
                                                                   });
                                                                 }
                                                               },
-                                                              child:
-                                                                  CircleAvatar(
+                                                              child: CircleAvatar(
                                                                 radius: 18,
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xff0079FF),
+                                                                backgroundColor: Color(0xff0079FF),
                                                                 child: Icon(
-                                                                  controller
-                                                                          .playAudio
-                                                                          .value
-                                                                      ? Icons
-                                                                          .pause
-                                                                      : Icons
-                                                                          .play_arrow,
+                                                                  controller.playAudio.value ? Icons.pause : Icons.play_arrow,
                                                                   size: 25,
-                                                                  color:
-                                                                      AppColors
-                                                                          .white,
+                                                                  color: AppColors.white,
                                                                 ),
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              width:
-                                                                  width * 0.05,
-                                                            ),
+                                                            SizedBox(width: width * 0.05),
                                                             ...List.generate(
-                                                              controller
-                                                                  .hi.length,
+                                                              controller.hi.length,
                                                               (index1) {
                                                                 return Row(
                                                                   children: [
                                                                     SizedBox(
-                                                                      width: Get
-                                                                              .width *
-                                                                          0.01,
+                                                                      width: Get.width * 0.01,
                                                                     ),
                                                                     AnimatedContainer(
-                                                                      duration: Duration(
-                                                                          milliseconds:
-                                                                              500),
-                                                                      height: controller
-                                                                          .hi[index1]
-                                                                          .toDouble(),
-                                                                      width: Get
-                                                                              .width *
-                                                                          0.005,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        color: index1 >
-                                                                                controller.current2
+                                                                      duration: Duration(milliseconds: 500),
+                                                                      height: controller.hi[index1].toDouble(),
+                                                                      width: Get.width * 0.005,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(10),
+                                                                        color: index1 > controller.current2
                                                                             ? Colors.grey.withOpacity(0.2)
                                                                             : Colors.grey,
                                                                       ),
@@ -1192,15 +1042,12 @@ class ChatView extends GetView<ChatController> {
                                           ),
                                         ),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                controller.playRecord.value =
-                                                    false;
-                                                controller.attachmentString
-                                                    .value = '';
+                                                controller.playRecord.value = false;
+                                                controller.attachmentString.value = '';
                                                 controller.stopRecording();
                                                 controller.update();
                                               },
@@ -1216,16 +1063,12 @@ class ChatView extends GetView<ChatController> {
                                                     onTap: () {
                                                       // controller
                                                       //     .pauseRecording();
-                                                      controller
-                                                          .stopRecording();
+                                                      controller.stopRecording();
                                                     },
                                                     child: Container(
                                                       height: 40,
                                                       width: 40,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.red,
-                                                          shape:
-                                                              BoxShape.circle),
+                                                      decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                                                       child: Icon(
                                                         Icons.pause,
                                                         color: AppColors.white,
@@ -1236,12 +1079,10 @@ class ChatView extends GetView<ChatController> {
                                                     onTap: () {
                                                       // controller
                                                       //     .resumeRecording();
-                                                      controller
-                                                          .startRecording();
+                                                      controller.startRecording();
                                                     },
                                                     child: Icon(
-                                                      Icons
-                                                          .keyboard_voice_sharp,
+                                                      Icons.keyboard_voice_sharp,
                                                       color: Colors.red,
                                                       size: 40,
                                                     ),
@@ -1260,57 +1101,34 @@ class ChatView extends GetView<ChatController> {
                                             ),
                                             Spacer(),
                                             GestureDetector(
-                                              onTap:
-                                                  (controller.isLoading.value ||
-                                                          controller
-                                                              .sendingMessage())
-                                                      ? null
-                                                      : () {
-                                                          if (controller
-                                                                  .messageC
-                                                                  .text
-                                                                  .isNotEmpty ||
-                                                              controller.image
-                                                                  .isNotEmpty ||
-                                                              controller
-                                                                      .pathToAudio !=
-                                                                  null ||
-                                                              controller.pdfFile
-                                                                      .value !=
-                                                                  "") {
-                                                            controller
-                                                                    .messageToSend =
-                                                                controller
-                                                                    .messageC
-                                                                    .text;
-                                                            controller.messageC
-                                                                .clear();
-                                                            controller
-                                                                .sendMessage();
-                                                          }
-                                                        },
+                                              onTap: (controller.isLoading.value || controller.sendingMessage())
+                                                  ? null
+                                                  : () {
+                                                      if (controller.messageC.text.isNotEmpty ||
+                                                          controller.image.isNotEmpty ||
+                                                          controller.pathToAudio != null ||
+                                                          controller.pdfFile.value != "") {
+                                                        controller.messageToSend = controller.messageC.text;
+                                                        controller.messageC.clear();
+                                                        controller.sendMessage();
+                                                      }
+                                                    },
                                               child: Container(
                                                 height: 45,
                                                 width: 45,
                                                 decoration: BoxDecoration(
                                                   color: Color(0xff2DB899),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
+                                                  borderRadius: BorderRadius.circular(100),
                                                 ),
                                                 alignment: Alignment.center,
-                                                child: (controller
-                                                            .isLoading.value ||
-                                                        controller
-                                                            .sendingMessage())
+                                                child: (controller.isLoading.value || controller.sendingMessage())
                                                     ? const CircularProgressIndicator(
                                                         color: AppColors.white,
                                                       )
                                                     : Center(
                                                         child: Icon(
                                                           Icons.send,
-                                                          color:
-                                                              AppColors.white,
+                                                          color: AppColors.white,
                                                           size: 25,
                                                         ),
                                                       ),
@@ -1322,51 +1140,36 @@ class ChatView extends GetView<ChatController> {
                                     ),
                                   )
                                 : Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: Get.width * 0.03,
-                                        vertical: 10.0),
+                                    margin: EdgeInsets.symmetric(horizontal: Get.width * 0.03, vertical: 10.0),
                                     child: SizedBox(
-                                      height: controller
-                                                  .attachmentString.value !=
-                                              ""
-                                          ? controller.attachmentString.value ==
-                                                  "voice"
+                                      height: controller.attachmentString.value != ""
+                                          ? controller.attachmentString.value == "voice"
                                               ? 110
                                               : 170
-                                          : controller.tapAttachment.value ==
-                                                  true
+                                          : controller.tapAttachment.value == true
                                               ? 110
                                               : null,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          controller.attachmentString.value ==
-                                                  "image"
+                                          controller.attachmentString.value == "image"
                                               ? controller.image.isNotEmpty
                                                   ? Expanded(
-                                                      child:
-                                                          SingleChildScrollView(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
+                                                      child: SingleChildScrollView(
+                                                        scrollDirection: Axis.horizontal,
                                                         child: Row(
                                                           children: [
-                                                            ...controller.image
-                                                                .map(
+                                                            ...controller.image.map(
                                                               (element) {
-                                                                return element ==
-                                                                        null
+                                                                return element == null
                                                                     ? SizedBox()
                                                                     : Stack(
                                                                         children: [
                                                                           Container(
-                                                                            width:
-                                                                                Get.width * 0.2,
-                                                                            margin:
-                                                                                const EdgeInsets.only(bottom: 10, right: 10),
-                                                                            height:
-                                                                                100,
-                                                                            decoration:
-                                                                                BoxDecoration(
+                                                                            width: Get.width * 0.2,
+                                                                            margin: const EdgeInsets.only(bottom: 10, right: 10),
+                                                                            height: 100,
+                                                                            decoration: BoxDecoration(
                                                                               image: DecorationImage(
                                                                                 fit: BoxFit.cover,
                                                                                 image: FileImage(
@@ -1376,15 +1179,13 @@ class ChatView extends GetView<ChatController> {
                                                                             ),
                                                                           ),
                                                                           GestureDetector(
-                                                                            onTap:
-                                                                                () {
+                                                                            onTap: () {
                                                                               controller.tapAttachment.value = false;
 
                                                                               controller.attachmentString.value = "";
                                                                               controller.image.remove(element);
                                                                             },
-                                                                            child:
-                                                                                Icon(
+                                                                            child: Icon(
                                                                               Icons.cancel,
                                                                               color: AppColors.red,
                                                                               size: 16,
@@ -1399,163 +1200,99 @@ class ChatView extends GetView<ChatController> {
                                                       ),
                                                     )
                                                   : SizedBox()
-                                              : controller.attachmentString
-                                                          .value ==
-                                                      "pdf"
-                                                  ? controller.pdfFile.value ==
-                                                          ""
+                                              : controller.attachmentString.value == "pdf"
+                                                  ? controller.pdfFile.value == ""
                                                       ? SizedBox()
                                                       : Stack(
                                                           children: [
                                                             Container(
-                                                              width: Get.width *
-                                                                  0.2,
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      bottom:
-                                                                          10,
-                                                                      right:
-                                                                          10),
+                                                              width: Get.width * 0.2,
+                                                              margin: const EdgeInsets.only(bottom: 10, right: 10),
                                                               height: 100,
-                                                              color: AppColors
-                                                                  .grey,
-                                                              child: Center(
-                                                                  child: Icon(Icons
-                                                                      .picture_as_pdf)),
+                                                              color: AppColors.grey,
+                                                              child: Center(child: Icon(Icons.picture_as_pdf)),
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                controller
-                                                                    .tapAttachment
-                                                                    .value = false;
-                                                                controller
-                                                                    .pdfFile
-                                                                    .value = '';
-                                                                controller
-                                                                    .attachmentString
-                                                                    .value = "";
+                                                                controller.tapAttachment.value = false;
+                                                                controller.pdfFile.value = '';
+                                                                controller.attachmentString.value = "";
                                                               },
                                                               child: Icon(
                                                                 Icons.cancel,
-                                                                color: AppColors
-                                                                    .red,
+                                                                color: AppColors.red,
                                                                 size: 16,
                                                               ),
                                                             ),
                                                           ],
                                                         )
-                                                  : controller.attachmentString
-                                                              .value ==
-                                                          "voice"
+                                                  : controller.attachmentString.value == "voice"
                                                       ? Column(
                                                           children: [
                                                             Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
                                                               children: <Widget>[
-                                                                controller.playRecord
-                                                                            .value ==
-                                                                        true
+                                                                controller.playRecord.value == true
                                                                     ? GestureDetector(
-                                                                        onTap:
-                                                                            () {
-                                                                          controller
-                                                                              .stopRecording();
-                                                                          controller
-                                                                              .update();
+                                                                        onTap: () {
+                                                                          controller.stopRecording();
+                                                                          controller.update();
                                                                         },
-                                                                        child:
-                                                                            Container(
-                                                                          height:
-                                                                              45,
-                                                                          width:
-                                                                              45,
+                                                                        child: Container(
+                                                                          height: 45,
+                                                                          width: 45,
                                                                           decoration: BoxDecoration(
-                                                                              color: AppColors.primary,
-                                                                              shape: BoxShape.circle),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(8.0),
-                                                                            child:
-                                                                                Icon(Icons.stop, color: AppColors.white),
+                                                                              color: AppColors.primary, shape: BoxShape.circle),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.all(8.0),
+                                                                            child: Icon(Icons.stop, color: AppColors.white),
                                                                           ),
                                                                         ),
                                                                       )
                                                                     : GestureDetector(
-                                                                        onTap:
-                                                                            () {
-                                                                          controller
-                                                                              .startRecording();
+                                                                        onTap: () {
+                                                                          controller.startRecording();
                                                                         },
-                                                                        child:
-                                                                            Container(
-                                                                          height:
-                                                                              45,
-                                                                          width:
-                                                                              45,
+                                                                        child: Container(
+                                                                          height: 45,
+                                                                          width: 45,
                                                                           decoration: BoxDecoration(
-                                                                              color: AppColors.primary,
-                                                                              shape: BoxShape.circle),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(8.0),
-                                                                            child:
-                                                                                Icon(Icons.mic, color: AppColors.white),
+                                                                              color: AppColors.primary, shape: BoxShape.circle),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.all(8.0),
+                                                                            child: Icon(Icons.mic, color: AppColors.white),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                 SizedBox(
                                                                   width: 10,
                                                                 ),
-                                                                controller.playRecord
-                                                                            .value ==
-                                                                        true
+                                                                controller.playRecord.value == true
                                                                     ? Container(
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              Text(
+                                                                        child: Center(
+                                                                          child: Text(
                                                                             "Recording.......",
-                                                                            style:
-                                                                                TextStyle(fontSize: 15, color: Colors.red),
+                                                                            style: TextStyle(fontSize: 15, color: Colors.red),
                                                                           ),
                                                                         ),
                                                                       )
                                                                     : SizedBox(),
                                                                 Spacer(),
-                                                                controller.playRecord
-                                                                            .value ==
-                                                                        true
+                                                                controller.playRecord.value == true
                                                                     ? SizedBox()
                                                                     : GestureDetector(
-                                                                        onTap:
-                                                                            () {
-                                                                          controller
-                                                                              .playAudio
-                                                                              .value = !controller.playAudio.value;
+                                                                        onTap: () {
+                                                                          controller.playAudio.value = !controller.playAudio.value;
 
-                                                                          if (controller
-                                                                              .playAudio
-                                                                              .value)
-                                                                            controller.playFunc();
-                                                                          if (!controller
-                                                                              .playAudio
-                                                                              .value)
-                                                                            controller.stopPlayFunc();
-                                                                          controller
-                                                                              .update();
+                                                                          if (controller.playAudio.value) controller.playFunc();
+                                                                          if (!controller.playAudio.value) controller.stopPlayFunc();
+                                                                          controller.update();
                                                                         },
-                                                                        child:
-                                                                            Container(
+                                                                        child: Container(
                                                                           decoration: BoxDecoration(
                                                                               borderRadius: BorderRadius.circular(3),
                                                                               color: AppColors.primary),
-                                                                          child:
-                                                                              Padding(
+                                                                          child: Padding(
                                                                             padding:
                                                                                 const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                                                             child: controller.playAudio.value
@@ -1575,8 +1312,7 @@ class ChatView extends GetView<ChatController> {
                                                           ],
                                                         )
                                                       : SizedBox(),
-                                          if (controller.tapAttachment.value ==
-                                              true)
+                                          if (controller.tapAttachment.value == true)
                                             Column(
                                               children: [
                                                 Row(
@@ -1619,31 +1355,17 @@ class ChatView extends GetView<ChatController> {
                                                     /// PDF BUTTON
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        controller
-                                                            .attachmentString
-                                                            .value = "pdf";
-                                                        controller.tapAttachment
-                                                            .value = false;
+                                                        controller.attachmentString.value = "pdf";
+                                                        controller.tapAttachment.value = false;
                                                         controller.pickPdf();
                                                       },
                                                       child: Container(
                                                         height: 45,
                                                         width: 45,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: AppColors
-                                                                    .primary,
-                                                                shape: BoxShape
-                                                                    .circle),
+                                                        decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Icon(
-                                                              Icons
-                                                                  .picture_as_pdf,
-                                                              color: AppColors
-                                                                  .white),
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Icon(Icons.picture_as_pdf, color: AppColors.white),
                                                         ),
                                                       ),
                                                     ),
@@ -1654,30 +1376,17 @@ class ChatView extends GetView<ChatController> {
                                                     /// GALLARY BUTTON
                                                     GestureDetector(
                                                       onTap: () {
-                                                        controller
-                                                            .attachmentString
-                                                            .value = "image";
-                                                        controller.tapAttachment
-                                                            .value = false;
+                                                        controller.attachmentString.value = "image";
+                                                        controller.tapAttachment.value = false;
                                                         controller.pickImage();
                                                       },
                                                       child: Container(
                                                         height: 45,
                                                         width: 45,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: AppColors
-                                                                    .primary,
-                                                                shape: BoxShape
-                                                                    .circle),
+                                                        decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Icon(
-                                                              Icons.photo,
-                                                              color: AppColors
-                                                                  .white),
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Icon(Icons.photo, color: AppColors.white),
                                                         ),
                                                       ),
                                                     ),
@@ -1688,33 +1397,20 @@ class ChatView extends GetView<ChatController> {
                                                     /// CAMERA BUTTON
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        controller
-                                                            .attachmentString
-                                                            .value = "image";
-                                                        controller.tapAttachment
-                                                            .value = false;
-                                                        controller
-                                                            .pickCameraImage();
+                                                        controller.attachmentString.value = "image";
+                                                        controller.tapAttachment.value = false;
+                                                        controller.pickCameraImage();
                                                         controller.update();
                                                       },
                                                       child: Container(
                                                         height: 45,
                                                         width: 45,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: AppColors
-                                                                    .primary,
-                                                                shape: BoxShape
-                                                                    .circle),
+                                                        decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
+                                                          padding: const EdgeInsets.all(8.0),
                                                           child: Icon(
-                                                            Icons
-                                                                .camera_alt_outlined,
-                                                            color:
-                                                                AppColors.white,
+                                                            Icons.camera_alt_outlined,
+                                                            color: AppColors.white,
                                                           ),
                                                         ),
                                                       ),
@@ -1736,60 +1432,32 @@ class ChatView extends GetView<ChatController> {
                                                 child: Container(
                                                   width: Get.width * 0.75,
                                                   decoration: ShapeDecoration(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(6),
                                                     ),
                                                   ),
                                                   child: TextFormField(
                                                     // onTap: controller.scrollToEnd,
-                                                    controller:
-                                                        controller.messageC,
+                                                    controller: controller.messageC,
                                                     minLines: 1,
                                                     maxLines: null,
-                                                    keyboardType:
-                                                        TextInputType.multiline,
+                                                    keyboardType: TextInputType.multiline,
                                                     decoration: InputDecoration(
-                                                        prefixIcon: controller
-                                                                .messageC
-                                                                .text
-                                                                .isEmpty
+                                                        prefixIcon: controller.messageC.text.isEmpty
                                                             ? GestureDetector(
                                                                 onTap: () {
-                                                                  controller
-                                                                          .tapAttachment
-                                                                          .value =
-                                                                      !controller
-                                                                          .tapAttachment
-                                                                          .value;
-                                                                  controller
-                                                                      .pdfFile
-                                                                      .value = '';
-                                                                  controller
-                                                                      .attachmentString
-                                                                      .value = "";
-                                                                  controller
-                                                                      .update();
+                                                                  controller.tapAttachment.value = !controller.tapAttachment.value;
+                                                                  controller.pdfFile.value = '';
+                                                                  controller.attachmentString.value = "";
+                                                                  controller.update();
                                                                 },
-                                                                child:
-                                                                    IntrinsicWidth(
-                                                                  child:
-                                                                      Container(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    child: SvgPicture
-                                                                        .asset(
-                                                                      AppImages
-                                                                          .attachment,
-                                                                      color: AppColors
-                                                                          .black
-                                                                          .withOpacity(
-                                                                              0.7),
-                                                                      height:
-                                                                          23,
+                                                                child: IntrinsicWidth(
+                                                                  child: Container(
+                                                                    alignment: Alignment.center,
+                                                                    child: SvgPicture.asset(
+                                                                      AppImages.attachment,
+                                                                      color: AppColors.black.withOpacity(0.7),
+                                                                      height: 23,
                                                                       width: 23,
                                                                     ),
                                                                   ),
@@ -1803,24 +1471,13 @@ class ChatView extends GetView<ChatController> {
                                                         //     size: 18,
                                                         //   ),
                                                         // ),
-                                                        contentPadding:
-                                                            EdgeInsets.symmetric(
-                                                                vertical: 10.0,
-                                                                horizontal:
-                                                                    14.0),
+                                                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 14.0),
                                                         hintText: 'Message',
-                                                        hintStyle: AppTextStyle
-                                                            .regularGrey16,
+                                                        hintStyle: AppTextStyle.regularGrey16,
                                                         filled: true,
-                                                        fillColor:
-                                                            AppColors.white,
+                                                        fillColor: AppColors.white,
                                                         border: OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide.none,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        6))),
+                                                            borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
                                                     onChanged: (value) {
                                                       controller.update();
                                                     },
@@ -1833,103 +1490,57 @@ class ChatView extends GetView<ChatController> {
                                               controller.messageC.text.isEmpty
                                                   ? GestureDetector(
                                                       onTap: () {
-                                                        controller
-                                                            .attachmentString
-                                                            .value = "voice";
-                                                        controller.tapAttachment
-                                                            .value = false;
-                                                        controller
-                                                            .startRecording();
+                                                        controller.attachmentString.value = "voice";
+                                                        controller.tapAttachment.value = false;
+                                                        controller.startRecording();
                                                         controller.update();
                                                       },
                                                       child: Container(
                                                         height: 45,
                                                         width: 45,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xff2DB899),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100),
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xff2DB899),
+                                                          borderRadius: BorderRadius.circular(100),
                                                         ),
-                                                        alignment:
-                                                            Alignment.center,
+                                                        alignment: Alignment.center,
                                                         child: Center(
                                                           child: Icon(
-                                                            Icons
-                                                                .keyboard_voice_rounded,
-                                                            color:
-                                                                AppColors.white,
+                                                            Icons.keyboard_voice_rounded,
+                                                            color: AppColors.white,
                                                             size: 25,
                                                           ),
                                                         ),
                                                       ),
                                                     )
                                                   : GestureDetector(
-                                                      onTap: (controller
-                                                                  .isLoading
-                                                                  .value ||
-                                                              controller
-                                                                  .sendingMessage())
+                                                      onTap: (controller.isLoading.value || controller.sendingMessage())
                                                           ? null
                                                           : () {
-                                                              if (controller
-                                                                      .messageC
-                                                                      .text
-                                                                      .isNotEmpty ||
-                                                                  controller
-                                                                      .image
-                                                                      .isNotEmpty ||
-                                                                  controller
-                                                                          .pathToAudio !=
-                                                                      null ||
-                                                                  controller
-                                                                          .pdfFile
-                                                                          .value !=
-                                                                      "") {
-                                                                controller
-                                                                        .messageToSend =
-                                                                    controller
-                                                                        .messageC
-                                                                        .text;
-                                                                controller
-                                                                    .messageC
-                                                                    .clear();
-                                                                controller
-                                                                    .sendMessage();
+                                                              if (controller.messageC.text.isNotEmpty ||
+                                                                  controller.image.isNotEmpty ||
+                                                                  controller.pathToAudio != null ||
+                                                                  controller.pdfFile.value != "") {
+                                                                controller.messageToSend = controller.messageC.text;
+                                                                controller.messageC.clear();
+                                                                controller.sendMessage();
                                                               }
                                                             },
                                                       child: Container(
                                                         height: 45,
                                                         width: 45,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xff2DB899),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100),
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xff2DB899),
+                                                          borderRadius: BorderRadius.circular(100),
                                                         ),
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: (controller
-                                                                    .isLoading
-                                                                    .value ||
-                                                                controller
-                                                                    .sendingMessage())
+                                                        alignment: Alignment.center,
+                                                        child: (controller.isLoading.value || controller.sendingMessage())
                                                             ? const CircularProgressIndicator(
-                                                                color: AppColors
-                                                                    .white,
+                                                                color: AppColors.white,
                                                               )
                                                             : Center(
                                                                 child: Icon(
                                                                   Icons.send,
-                                                                  color:
-                                                                      AppColors
-                                                                          .white,
+                                                                  color: AppColors.white,
                                                                   size: 25,
                                                                 ),
                                                               ),
@@ -1960,8 +1571,7 @@ class ChatView extends GetView<ChatController> {
     Dio dio = Dio();
     try {
       Directory appDocDir = await getApplicationDocumentsDirectory();
-      String filePath =
-          '${appDocDir.path}/${fileUrl.split('/').last}'; // Change the file extension based on the file type
+      String filePath = '${appDocDir.path}/${fileUrl.split('/').last}'; // Change the file extension based on the file type
 
       await dio.download(fileUrl, filePath);
       return filePath; // Return the local file path after download

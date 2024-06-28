@@ -9,6 +9,7 @@ import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 // import 'package:file/file.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
@@ -28,15 +29,9 @@ class AuthRepository {
       Logger().e("", e, s);
     }
     //TODO handle exception
-    var _firebaseIdToken =
-        await AuthController.to.firebaseAuth.currentUser!.getIdToken();
+    var _firebaseIdToken = await AuthController.to.firebaseAuth.currentUser!.getIdToken();
     log("AuthController.to.firebaseAuth.currentUse--------------> $_firebaseIdToken");
-    var data = {
-      "idtoken": _firebaseIdToken,
-      "fcm": fcmToken ?? "",
-      "method": "Phone",
-      "language": SettingsController.appLanguge
-    };
+    var data = {"idtoken": _firebaseIdToken, "fcm": fcmToken ?? "", "method": "Phone", "language": SettingsController.appLanguge};
     final response = await dio.post(
       ApiConsts.authPath,
       data: data,
@@ -61,12 +56,7 @@ class AuthRepository {
 
     final response = await dio.post(
       ApiConsts.authPathGoogleFB,
-      data: {
-        "idtoken": token,
-        "fcm": fcmToken ?? "",
-        "language": "English",
-        "method": "Google"
-      },
+      data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English", "method": "Google"},
     );
     log("response--------------> ${response.data}");
 
@@ -84,12 +74,7 @@ class AuthRepository {
 
     final response = await dio.post(
       ApiConsts.authPathGoogleFB,
-      data: {
-        "idtoken": token,
-        "fcm": fcmToken ?? "",
-        "language": "English",
-        "method": "Apple"
-      },
+      data: {"idtoken": token, "fcm": fcmToken ?? "", "language": "English", "method": "Apple"},
     );
     log("response--------------> ${response.data}");
 
@@ -97,7 +82,11 @@ class AuthRepository {
   }
 
   Future<dynamic> registerGuestUserApi(
-      String name, String phone, String gender, String city) async {
+    String name,
+    // String phone,
+    String gender,
+    String city,
+  ) async {
     //TODO handle exception
     var fcmToken;
     try {
@@ -107,7 +96,7 @@ class AuthRepository {
     }
     var data = {
       "name": name,
-      "phone": int.parse(phone),
+      // "phone": int.parse(phone),
       "city": city,
       "gender": gender,
       "language": "English",
@@ -123,22 +112,13 @@ class AuthRepository {
     return response.data;
   }
 
-  Future<dynamic> addPersonalInfoApi(
-      String name, String phone, String gender, String city) async {
+  Future<dynamic> addPersonalInfoApi(String name, String phone, String gender, String city) async {
     //TODO handle exception
-    var data = {
-      "name": name,
-      "phone": int.parse(phone),
-      "city": city,
-      "gender": gender
-    };
+    var data = {"name": name, "phone": int.parse(phone), "city": city, "gender": gender};
     print(" $data");
-    print(
-        "ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
-    print(
-        "SettingsController.userToken--------------> ${SettingsController.userToken}");
-    print(
-        "ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
+    print("ApiConsts.addPersonalInfo--------------> ${ApiConsts.addPersonalInfo}");
+    print("SettingsController.userToken--------------> ${SettingsController.userToken}");
+    print("ApiConsts().commonHeader--------------> ${ApiConsts().commonHeader}");
 
     try {
       final response = await dio.put(
@@ -170,8 +150,7 @@ class AuthRepository {
     }
   }
 
-  Future<dynamic> addPersonalInfoPhoneApi(
-      String name, String phone, String gender, String city) async {
+  Future<dynamic> addPersonalInfoPhoneApi(String name, String phone, String gender, String city) async {
     //TODO handle exception
     var data = {
       // "age": age,
@@ -194,8 +173,7 @@ class AuthRepository {
   }
 
   //* update profile image
-  Future<dynamic> updateImage(File file,
-      [void uploadProgress(double percent)?]) async {
+  Future<dynamic> updateImage(File file, [void uploadProgress(double percent)?]) async {
     log("file.path--------------> ${file.path}");
 
     String fileName = file.path.split('/').last;
@@ -265,12 +243,11 @@ class AuthRepository {
   }
 
   static Future<bool> numberExists(String number) async {
-    final response =
-        await dio.get(ApiConsts.checkIfNumberExistsPath, queryParameters: {
+    final response = await dio.get(ApiConsts.checkIfNumberExistsPath, queryParameters: {
       "phone": number.toEnglishDigit(),
     }
-            // cancelToken: loginCancelToken,
-            );
+        // cancelToken: loginCancelToken,
+        );
     return (response?.data['isExist'] ?? true);
   }
 

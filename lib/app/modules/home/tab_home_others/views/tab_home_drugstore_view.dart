@@ -67,8 +67,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
       child: RefreshIndicator(
         onRefresh: () => Future.sync(
           () async {
-            print(
-                "controller.pageController.firstPageKey>>>>${controller.pageController?.firstPageKey}");
+            print("controller.pageController.firstPageKey>>>>${controller.pageController?.firstPageKey}");
             await Future.delayed(Duration.zero, () {
               controller.cancelToken.cancel();
             });
@@ -97,11 +96,9 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                               List<LatLng> latLng = [];
                               controller.locationData.forEach((element) {
                                 if (element.coordinates != null) {
-                                  latLng.add(LatLng(element.coordinates![1],
-                                      element.coordinates![0]));
+                                  latLng.add(LatLng(element.coordinates![1], element.coordinates![0]));
                                 }
-                                if (controller.locationData.length ==
-                                    latLng.length) {
+                                if (controller.locationData.length == latLng.length) {
                                   Get.to(MapScreen(
                                     latLng: latLng,
                                     name: controller.locationTitle,
@@ -117,8 +114,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 20),
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
@@ -130,8 +126,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                     ),
                                     Text(
                                       "view_all_in_maps".tr,
-                                      style: AppTextStyle.boldWhite12
-                                          .copyWith(fontSize: 13),
+                                      style: AppTextStyle.boldWhite12.copyWith(fontSize: 13),
                                     ),
                                   ],
                                 ),
@@ -140,23 +135,17 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              controller.is24HourSelected =
-                                  !controller.is24HourSelected;
+                              controller.is24HourSelected = !controller.is24HourSelected;
                               controller.update();
                               controller.show24HoursData();
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.red3,
-                                    width: controller.is24HourSelected == false
-                                        ? 1
-                                        : 2),
+                                border: Border.all(color: AppColors.red3, width: controller.is24HourSelected == false ? 1 : 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 9.5, horizontal: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
                                 child: Center(
                                     child: SvgPicture.asset(
                                   AppImages.moon,
@@ -192,15 +181,12 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 9.5, horizontal: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
                                 child: Center(
-                                    child: SettingsController.appLanguge !=
-                                            "English"
+                                    child: SettingsController.appLanguge != "English"
                                         ? Transform(
                                             alignment: Alignment.center,
-                                            transform:
-                                                Matrix4.rotationY(math.pi),
+                                            transform: Matrix4.rotationY(math.pi),
                                             child: Image.asset(
                                               AppImages.filter,
                                               width: 25,
@@ -221,8 +207,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       ),
                     ),
                     TextField(
-                      style:
-                          AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                      style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                       cursorColor: AppColors.primary,
                       controller: controller.search,
                       textAlignVertical: TextAlignVertical.center,
@@ -243,12 +228,10 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
                         hintText: "search_pharmacy..".tr,
-                        hintStyle:
-                            AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                        hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(11),
-                          child: SvgPicture.asset(AppImages.search,
-                              color: AppColors.primary),
+                          child: SvgPicture.asset(AppImages.search, color: AppColors.primary),
                         ),
                         filled: true,
                         fillColor: AppColors.white.withOpacity(0.1),
@@ -301,71 +284,43 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                     items: controller.adList
                                         .map((item) => GestureDetector(
                                               onTap: () async {
-                                                if (!await launchUrl(
-                                                    Uri.parse(item.link!))) {
-                                                  throw Exception(
-                                                      'Could not launch ${item.link}');
+                                                if (!await launchUrl(Uri.parse(item.link!))) {
+                                                  throw Exception('Could not launch ${item.link}');
                                                 }
                                               },
                                               child: Stack(
                                                 children: [
                                                   Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 5),
+                                                    padding: const EdgeInsets.only(left: 5),
                                                     child: Container(
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      15)),
+                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                                                       // margin: EdgeInsets.all(5.0),
                                                       child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    15.0)),
-                                                        child: Image.network(
-                                                            "${ApiConsts.hostUrl}${item.img}",
-                                                            fit: BoxFit.cover,
-                                                            width: 1000.0),
+                                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                        child: Image.network("${ApiConsts.hostUrl}${item.img}",
+                                                            fit: BoxFit.cover, width: 1000.0),
                                                       ),
                                                     ),
                                                   ),
                                                   Positioned(
                                                     top: 10,
-                                                    right: SettingsController
-                                                                .appLanguge !=
-                                                            "English"
-                                                        ? null
-                                                        : 10,
-                                                    left: SettingsController
-                                                                .appLanguge ==
-                                                            "English"
-                                                        ? null
-                                                        : 10,
-                                                    child: SettingsController
-                                                                .appLanguge !=
-                                                            "English"
+                                                    right: SettingsController.appLanguge != "English" ? null : 10,
+                                                    left: SettingsController.appLanguge == "English" ? null : 10,
+                                                    child: SettingsController.appLanguge != "English"
                                                         ? Transform(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            transform: Matrix4
-                                                                .rotationY(
-                                                                    math.pi),
+                                                            alignment: Alignment.center,
+                                                            transform: Matrix4.rotationY(math.pi),
                                                             child: Image.asset(
                                                               AppImages.promote,
                                                               height: 18,
                                                               width: 18,
-                                                              color: AppColors
-                                                                  .white,
+                                                              color: AppColors.white,
                                                             ))
                                                         : Image.asset(
                                                             AppImages.promote,
                                                             height: 18,
                                                             width: 18,
-                                                            color:
-                                                                AppColors.white,
+                                                            color: AppColors.white,
                                                           ),
                                                   )
                                                 ],
@@ -383,15 +338,11 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                     children: List.generate(
                                         controller.adList.length,
                                         (index) => Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 3),
+                                              padding: const EdgeInsets.only(left: 3),
                                               child: CircleAvatar(
                                                 radius: 5,
                                                 backgroundColor:
-                                                    controller.adIndex == index
-                                                        ? AppColors.primary
-                                                        : AppColors.primary
-                                                            .withOpacity(0.2),
+                                                    controller.adIndex == index ? AppColors.primary : AppColors.primary.withOpacity(0.2),
                                               ),
                                             )),
                                   ),
@@ -407,19 +358,18 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                         itemBuilder: (context, item, index) {
                           return _drugData(context, item, h, w);
                         },
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            DrugsGridShimmer(
+                        firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                           yCount: 5,
                           xCount: 1,
                           // linesCount: 4,
                         ),
-                        newPageProgressIndicatorBuilder: (_) =>
-                            DrugsGridShimmer(
+                        newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                           yCount: 5,
                           xCount: 1,
                         ),
                       ),
                     ),
+                    SizedBox(height: 100),
                     // SingleChildScrollView(
                     //   physics: BouncingScrollPhysics(),
                     //   child: Column(
@@ -683,9 +633,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
         controller.serviceData(item.id!);
         controller.productData(item.id!);
         // controller.getDrugDetails(item.id);
-        Get.to(PharmacyDetailScreen(
-          item: item,
-        ));
+        Get.to(PharmacyDetailScreen(item: item));
         // Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
       },
       child: Container(
@@ -713,9 +661,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                             // color: Colors.black,
                             // height: 65,
                             // width: 65,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColors.lightGrey),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CachedNetworkImage(
@@ -741,16 +687,9 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                           item.the24Hours!.contains(DateTime.now().weekday)
                               ? Positioned(
                                   top: -5,
-                                  left:
-                                      SettingsController.appLanguge != "English"
-                                          ? null
-                                          : -5,
-                                  right:
-                                      SettingsController.appLanguge == "English"
-                                          ? null
-                                          : -5,
-                                  child:
-                                      SvgPicture.asset(AppImages.roundedMoon))
+                                  left: SettingsController.appLanguge != "English" ? null : -5,
+                                  right: SettingsController.appLanguge == "English" ? null : -5,
+                                  child: SvgPicture.asset(AppImages.roundedMoon))
                               : SizedBox()
                         ],
                       ),
@@ -767,8 +706,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                 width: Get.width * 0.49,
                                 child: Text(
                                   "${item.name}",
-                                  style: AppTextTheme.h(12)
-                                      .copyWith(color: AppColors.primary),
+                                  style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                 ),
                               ),
 
@@ -779,14 +717,12 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                   RatingBar.builder(
                                     ignoreGestures: true,
                                     itemSize: 17,
-                                    initialRating: double.parse(
-                                        "${item.averageRatings == null ? "0.0" : item.averageRatings}"),
+                                    initialRating: double.parse("${item.averageRatings == null ? "0.0" : item.averageRatings}"),
                                     // minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       color: Colors.amber,
@@ -799,17 +735,14 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                   SizedBox(width: 4),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(Routes.REVIEW,
-                                          arguments: ["Pharmacy_Review", item]);
+                                      Get.toNamed(Routes.REVIEW, arguments: ["Pharmacy_Review", item]);
                                       // Get.to(ReviewScreen(
                                       //   appBarTitle: "pharmacy_reviews",
                                       // ));
                                     },
                                     child: Text(
                                       '(${item.totalFeedbacks == null ? 0 : item.totalFeedbacks}) ${"reviews".tr}',
-                                      style: AppTextTheme.b(12).copyWith(
-                                          color: AppColors.primary
-                                              .withOpacity(0.5)),
+                                      style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                     ).paddingOnly(top: 3),
                                   ),
                                 ],
@@ -821,40 +754,28 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                                     child: GestureDetector(
                                       onTap: () {
                                         print("item.phone>>>${item.phone}");
-                                        Utils.openPhoneDialer(
-                                            context, "${item.phone![0]}");
+                                        Utils.openPhoneDialer(context, "${item.phone![0]}");
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 5, horizontal: 5),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.secondary,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
+                                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                        decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(10)),
                                         child: Row(
                                           children: [
                                             Spacer(),
                                             Center(
                                               child: Text(
                                                 "call".tr,
-                                                style: AppTextTheme.m(12)
-                                                    .copyWith(
-                                                        color: Colors.white),
+                                                style: AppTextTheme.m(12).copyWith(color: Colors.white),
                                               ),
                                             ),
                                             Spacer(),
-                                            SettingsController.appLanguge !=
-                                                    "English"
+                                            SettingsController.appLanguge != "English"
                                                 ? Transform(
                                                     alignment: Alignment.center,
-                                                    transform:
-                                                        Matrix4.rotationY(
-                                                            math.pi),
-                                                    child: SvgPicture.asset(
-                                                        AppImages.phone),
+                                                    transform: Matrix4.rotationY(math.pi),
+                                                    child: SvgPicture.asset(AppImages.phone),
                                                   )
-                                                : SvgPicture.asset(
-                                                    AppImages.phone)
+                                                : SvgPicture.asset(AppImages.phone)
                                           ],
                                         ),
                                       ),
@@ -874,12 +795,9 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppColors.lightGrey,
-                      border: Border.all(color: AppColors.primary)),
+                      borderRadius: BorderRadius.circular(5), color: AppColors.lightGrey, border: Border.all(color: AppColors.primary)),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -893,8 +811,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
                             // "H4FC+6VJ, Kabul, Afganistan, H4FC+6VJ، کابل",
                             "${item.address}",
                             maxLines: 1,
-                            style: AppTextTheme.b(10)
-                                .copyWith(color: AppColors.primary),
+                            style: AppTextTheme.b(10).copyWith(color: AppColors.primary),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -910,8 +827,7 @@ class TabHomeDrugstoreView extends GetView<DrugStoreController> {
             item.active == true
                 ? Positioned(
                     top: -3,
-                    right:
-                        SettingsController.appLanguge != "English" ? null : 0,
+                    right: SettingsController.appLanguge != "English" ? null : 0,
                     left: SettingsController.appLanguge == "English" ? null : 0,
                     child: SettingsController.appLanguge != "English"
                         ? Transform(

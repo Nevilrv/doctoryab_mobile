@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/controllers/checkup_packages_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/checkup_packages/views/basket_detail_screen.dart';
@@ -10,9 +11,10 @@ import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -68,17 +70,19 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
-                                    child: SvgPicture.asset(
-                                      AppImages.back2,
-                                      height: 14,
+                                    child: RotatedBox(
+                                      quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+                                      child: SvgPicture.asset(
+                                        AppImages.back2,
+                                        height: 14,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
                                   child: Text(
                                     "health_packages_list".tr,
                                     textAlign: TextAlign.center,
@@ -136,15 +140,13 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                 onChanged: (s) async {
                                   if (s.isEmpty) {
                                     controller.search(s);
-                                    controller.pagingController.itemList!
-                                        .clear();
+                                    controller.pagingController.itemList!.clear();
                                     controller.fetchCheckUpPackages(
                                       controller.pagingController.firstPageKey,
                                     );
                                   } else {
                                     controller.search(s);
-                                    controller.pagingController.itemList!
-                                        .clear();
+                                    controller.pagingController.itemList!.clear();
                                     controller.fetchCheckUpPackages(
                                       controller.pagingController.firstPageKey,
                                     );
@@ -164,10 +166,8 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.zero,
                                   hintText: "search...".tr,
-                                  hintStyle: AppTextStyle.boldGrey16.copyWith(
-                                      fontSize: 15,
-                                      color: AppColors.grey4,
-                                      fontWeight: FontWeight.w400),
+                                  hintStyle:
+                                      AppTextStyle.boldGrey16.copyWith(fontSize: 15, color: AppColors.grey4, fontWeight: FontWeight.w400),
                                   prefixIcon: Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: SvgPicture.asset(
@@ -267,8 +267,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
 
                           // itemCount: 9,
                           // primary: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             // childAspectRatio: 132 / 169,
                             // mainAxisExtent: 2,
                             mainAxisExtent: h * 0.32,
@@ -296,23 +295,17 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                   Get.to(CheckUpDetailScreen(item));
                                 },
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: AppColors.grey5),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: AppColors.grey5),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20)),
+                                        borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
                                         child: Container(
                                           height: h * 0.1,
                                           width: w,
                                           child: CachedNetworkImage(
-                                            imageUrl:
-                                                "${ApiConsts.hostUrl}${item.img}",
+                                            imageUrl: "${ApiConsts.hostUrl}${item.img}",
                                             fit: BoxFit.cover,
                                             placeholder: (_, __) {
                                               return Image.asset(
@@ -331,35 +324,23 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       ),
                                       Text(
                                         "${item.title}",
-                                        style: AppTextStyle.boldPrimary10
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold),
+                                        style: AppTextStyle.boldPrimary10.copyWith(fontWeight: FontWeight.bold),
                                       ),
-                                      item.totalTests == "" ||
-                                              item.totalTests == null
+                                      item.totalTests == "" || item.totalTests == null
                                           ? SizedBox()
                                           : GestureDetector(
                                               onTap: () {
-                                                buildShowModalBottomSheet(
-                                                    context,
-                                                    h,
-                                                    item.packageInclude!);
+                                                buildShowModalBottomSheet(context, h, item.packageInclude!);
                                               },
                                               child: Row(
                                                 children: [
                                                   Text(
                                                     "${item.totalTests}",
-                                                    style: AppTextStyle
-                                                        .boldPrimary10
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 8,
-                                                            color:
-                                                                AppColors.teal,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline),
+                                                    style: AppTextStyle.boldPrimary10.copyWith(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 8,
+                                                        color: AppColors.teal,
+                                                        decoration: TextDecoration.underline),
                                                   ),
                                                   Icon(
                                                     Icons.navigate_next,
@@ -370,15 +351,13 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                               ),
                                             ),
                                       Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             width: w * 0.35,
                                             child: Text(
                                               "${item.byObservation}",
-                                              style: AppTextStyle.boldPrimary10
-                                                  .copyWith(
+                                              style: AppTextStyle.boldPrimary10.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 8,
                                                 color: AppColors.darkBlue1,
@@ -389,8 +368,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                             width: 3,
                                           ),
                                           CachedNetworkImage(
-                                            imageUrl:
-                                                "${ApiConsts.hostUrl}${item.observerImg}",
+                                            imageUrl: "${ApiConsts.hostUrl}${item.observerImg}",
                                             height: 10,
                                             width: 13,
                                             fit: BoxFit.cover,
@@ -415,17 +393,12 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                           RatingBar.builder(
                                             ignoreGestures: true,
                                             itemSize: 12,
-                                            initialRating: double.parse(
-                                                item.averageRatings == null
-                                                    ? "0"
-                                                    : item.averageRatings
-                                                        .toString()),
+                                            initialRating: double.parse(item.averageRatings == null ? "0" : item.averageRatings.toString()),
                                             // minRating: 1,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
                                             itemCount: 5,
-                                            itemPadding: EdgeInsets.symmetric(
-                                                horizontal: 1.0),
+                                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                             itemBuilder: (context, _) => Icon(
                                               Icons.star,
                                               color: Colors.amber,
@@ -440,8 +413,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                             onTap: () {},
                                             child: Text(
                                               '(${item.countOfPatient}) ${"booked".tr}',
-                                              style: AppTextTheme.b(6).copyWith(
-                                                  color: AppColors.grey4),
+                                              style: AppTextTheme.b(6).copyWith(color: AppColors.grey4),
                                             ),
                                           )
                                         ],
@@ -451,8 +423,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                         children: [
                                           Text(
                                             item.price.toString(),
-                                            style: AppTextTheme.b(12).copyWith(
-                                                color: AppColors.grey),
+                                            style: AppTextTheme.b(12).copyWith(color: AppColors.grey),
                                           ),
                                           SizedBox(
                                             width: 5,
@@ -460,10 +431,8 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                           Text(
                                             item.rrp.toString(),
                                             style: AppTextTheme.b(12).copyWith(
-                                                color: AppColors.grey
-                                                    .withOpacity(0.5),
-                                                decoration:
-                                                    TextDecoration.lineThrough,
+                                                color: AppColors.grey.withOpacity(0.5),
+                                                decoration: TextDecoration.lineThrough,
                                                 decorationColor: Colors.red,
                                                 decorationThickness: 2),
                                           ),
@@ -471,21 +440,15 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color:
-                                                AppColors.red2.withOpacity(0.1),
-                                            border: Border.all(
-                                                color: AppColors.red2
-                                                    .withOpacity(0.1))),
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: AppColors.red2.withOpacity(0.1),
+                                            border: Border.all(color: AppColors.red2.withOpacity(0.1))),
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 10),
+                                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                                           child: Center(
                                             child: Text(
                                               "${item.discount} ${"OFF".tr}",
-                                              style:
-                                                  AppTextTheme.b(13).copyWith(
+                                              style: AppTextTheme.b(13).copyWith(
                                                 color: AppColors.red2,
                                               ),
                                             ),
@@ -502,18 +465,13 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: AppColors.primary)),
+                                              borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.primary)),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                             child: Center(
                                               child: Text(
                                                 "book1".tr,
-                                                style:
-                                                    AppTextTheme.b(10).copyWith(
+                                                style: AppTextTheme.b(10).copyWith(
                                                   color: AppColors.primary,
                                                 ),
                                               ),
@@ -524,10 +482,8 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                       Center(
                                         child: Text(
                                           "${item.duration}",
-                                          style: AppTextTheme.b(10).copyWith(
-                                              color: AppColors.black
-                                                  .withOpacity(0.8),
-                                              fontWeight: FontWeight.w400),
+                                          style: AppTextTheme.b(10)
+                                              .copyWith(color: AppColors.black.withOpacity(0.8), fontWeight: FontWeight.w400),
                                         ),
                                       ),
                                     ],
@@ -535,18 +491,14 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                 ),
                               );
                             },
-                            noMoreItemsIndicatorBuilder: (_) =>
-                                DotDotPagingNoMoreItems(),
-                            noItemsFoundIndicatorBuilder: (_) =>
-                                PagingNoItemFountList(),
-                            firstPageErrorIndicatorBuilder: (context) =>
-                                PagingErrorView(
+                            noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
+                            noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
+                            firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                               controller: controller.pagingController,
                             ),
-                            firstPageProgressIndicatorBuilder: (_) =>
-                                PackageGridShimmer(yCount: 2, xCount: 2
-                                    // linesCount: 4,
-                                    ),
+                            firstPageProgressIndicatorBuilder: (_) => PackageGridShimmer(yCount: 2, xCount: 2
+                                // linesCount: 4,
+                                ),
                             newPageProgressIndicatorBuilder: (_) => Center(
                                 child: CircularProgressIndicator(
                               color: AppColors.primary,
@@ -572,25 +524,19 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
     );
   }
 
-  Future<void> buildShowModalBottomSheet(
-      BuildContext context, double h, List<PackageInclude> item) {
+  Future<void> buildShowModalBottomSheet(BuildContext context, double h, List<PackageInclude> item) {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       barrierColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       builder: (BuildContext context) {
         return FractionallySizedBox(
           heightFactor: 0.72,
           child: Container(
             height: h * 0.72,
             decoration: BoxDecoration(
-                color: AppColors.grey5,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30))),
+                color: AppColors.grey5, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: SingleChildScrollView(
@@ -601,9 +547,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                     Container(
                       height: 5,
                       width: 188,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.black3),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.black3),
                     ),
                     SizedBox(
                       height: 10,
@@ -648,8 +592,7 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                               shape: BoxShape.circle,
                             ),
                             child: Center(
-                              child: Icon(Icons.cancel_outlined,
-                                  color: AppColors.primary, size: 25),
+                              child: Icon(Icons.cancel_outlined, color: AppColors.primary, size: 25),
                             ),
                           ),
                         ),
@@ -684,27 +627,42 @@ class CheckupPackagesView extends GetView<CheckupPackagesController> {
                                   children: [
                                     Text(
                                       item[index].testTitle.toString(),
-                                      style: AppTextStyle.boldGrey12.copyWith(
-                                          color: AppColors.grey6,
-                                          fontWeight: FontWeight.w500),
+                                      style: AppTextStyle.boldGrey12.copyWith(color: AppColors.grey6, fontWeight: FontWeight.w500),
                                     ),
                                     SizedBox(
                                       height: 5,
                                     ),
                                     Container(
                                       width: Get.width * 0.72,
-                                      child: Html(
-                                        data: item[index].testDesc,
-                                        style: {
-                                          'html': Style(
-                                              color: AppColors.grey6,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: FontSize(10),
-                                              fontFamily:
-                                                  AppFonts.acuminSemiCond),
-                                        },
+                                      child: HtmlWidget(
+                                        item[index].testDesc ?? "",
+                                        textStyle: TextStyle(
+                                          color: AppColors.grey6,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 10,
+                                          fontFamily: AppFonts.acuminSemiCond,
+                                        ),
                                       ),
                                     ),
+
+                                    /// Old Flutter_Html Package
+
+                                    // Container(
+                                    //   width: Get.width * 0.72,
+                                    //   child: Html(
+                                    //     data: item[index].testDesc,
+                                    //     style: {
+                                    //       'html': Style(
+                                    //           color: AppColors.grey6,
+                                    //           fontWeight: FontWeight.w400,
+                                    //           fontSize: FontSize(10),
+                                    //           fontFamily: AppFonts.acuminSemiCond),
+                                    //     },
+                                    //   ),
+                                    // ),
+
+                                    /// *****************
+
                                     SizedBox(
                                       height: 5,
                                     ),

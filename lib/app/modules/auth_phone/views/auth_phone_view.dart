@@ -56,9 +56,7 @@ class AuthPhoneView extends GetView<AuthPhoneController> {
                     cursorColor: AppColors.white,
                     controller: controller.textEditingController,
                     decoration: InputDecoration(
-                      errorText: controller.phoneValidationError() == ""
-                          ? null
-                          : controller.phoneValidationError(),
+                      errorText: controller.phoneValidationError() == "" ? null : controller.phoneValidationError(),
                       labelText: 'phone_number'.tr,
                       labelStyle: TextStyle(color: Colors.white),
                       // labelStyle: TextStyle(color: Colors.white),
@@ -78,17 +76,16 @@ class AuthPhoneView extends GetView<AuthPhoneController> {
                   text: "confirm".tr,
                   width: Get.width,
                   radius: 5,
-                  onTap: !controller.phoneValid.value
-                      ? null
-                      : () => controller.signInWithPhone(),
+                  onTap: !controller.phoneValid.value ? null : () => controller.signInWithPhone(),
                 ).paddingOnly(bottom: 40),
               ),
             ),
+
             Hero(
               tag: "tmp",
               child: CustomRoundedButton(
                 text: "other_sign_in_option".tr,
-                width: 220,
+                width: 240,
                 onTap: () => Get.back(),
               ).paddingOnly(bottom: 40),
             ),

@@ -29,7 +29,7 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                   Obx(() => RatingBar.builder(
                         ignoreGestures: true,
                         itemSize: 16,
-                        initialRating: 4,
+                        initialRating: 5,
                         // minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -48,14 +48,11 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                   OutlinedButton(
                     onPressed: () async {
                       var args = jsonEncode({
-                        "doctor":
-                            jsonEncode(controller.item.doctor![0]?.toJson()),
+                        "doctor": jsonEncode(controller.item.doctor![0]?.toJson()),
                         "pid": controller.item.id,
                       });
-                      var rate =
-                          await Get.toNamed(Routes.RATE, arguments: args);
-                      if (rate != null && rate is double)
-                        controller.currentRate(rate);
+                      var rate = await Get.toNamed(Routes.RATE, arguments: args);
+                      if (rate != null && rate is double) controller.currentRate(rate);
                     },
                     child: Text("rate".tr),
                   ),
@@ -93,9 +90,7 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                   },
                   {
                     "date_reserved".tr: () {
-                      var _d = DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(controller.item.createAt.toString()))
-                          ?.toLocal();
+                      var _d = DateTime.fromMillisecondsSinceEpoch(int.parse(controller.item.createAt.toString()))?.toLocal();
                       if (_d != null) {
                         if (AppStatics.envVars.isUzbekApp && _d != null)
                           return DateFormat.yMEd().format(_d);
@@ -121,29 +116,22 @@ class HistoryDetailsView extends GetView<HistoryDetailsController> {
                 ],
               ),
               _buildSection(
-                "doctor_info".trArgs(
-                    [Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]),
+                "doctor_info".trArgs([Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]),
                 [
                   {
-                    "doctor_name".trArgs([
-                      Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
-                    ]): '${controller.item.doctor![0].name}'
+                    "doctor_name".trArgs([Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]): '${controller.item.doctor![0].name}'
                   },
                   if (controller.item.doctor![0].type == 1) //is user
                     {
-                      "doctor_speciality".trArgs([
-                        Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
-                      ]): '${controller.item.doctor![0].speciality}'
+                      "doctor_speciality".trArgs([Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]):
+                          '${controller.item.doctor![0].speciality}'
                     },
                   {
-                    "doctor_phone".trArgs([
-                      Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
-                    ]): '${controller.item.doctor![0].phone}'
+                    "doctor_phone".trArgs([Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]): '${controller.item.doctor![0].phone}'
                   },
                   {
-                    "doctor_address".trArgs([
-                      Utils.getTextOfBlaBla(controller.item.doctor![0].type!)
-                    ]): '${controller.item.doctor![0].address}'
+                    "doctor_address".trArgs([Utils.getTextOfBlaBla(controller.item.doctor![0].type!)]):
+                        '${controller.item.doctor![0].address}'
                   },
                 ],
               ),

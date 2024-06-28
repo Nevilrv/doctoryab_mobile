@@ -29,8 +29,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                 height: h * 0.12,
                 width: w,
                 color: AppColors.primary,
-                padding: EdgeInsets.only(
-                    left: w * 0.04, right: w * 0.04, top: h * 0.04),
+                padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04, top: h * 0.04),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -42,8 +41,9 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                         radius: 22,
                         backgroundColor: AppColors.white,
                         child: Icon(
-                          Icons.keyboard_arrow_left,
+                          Icons.arrow_back_ios_new,
                           color: AppColors.primary,
+                          size: 20,
                         ),
                       ),
                     ),
@@ -91,8 +91,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 12, bottom: 8, top: 10, right: 10),
+                                  padding: EdgeInsets.only(left: 12, bottom: 8, top: 10, right: 10),
                                   child: Image.asset(
                                     AppImages.conceptionDate,
                                     height: h * 0.05,
@@ -122,8 +121,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 12),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
+                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                             decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(15),
@@ -144,26 +142,18 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                         onTap: () {
                                           controller
                                               .showDatePicker(
-                                            initialDate:
-                                                controller.conceptionInitialDay,
+                                            initialDate: controller.conceptionInitialDay,
                                             lastDate: DateTime.now(),
-                                            firstDate: DateTime.now()
-                                                .subtract(Duration(days: 266)),
+                                            firstDate: DateTime.now().subtract(Duration(days: 266)),
                                             context: context,
                                           )
                                               .then((selectedDate) {
                                             if (selectedDate != null) {
-                                              controller.conceptionInitialDay =
-                                                  selectedDate;
+                                              controller.conceptionInitialDay = selectedDate;
 
-                                              controller
-                                                      .formattedConceptionDate =
-                                                  SettingsController
-                                                              .appLanguge ==
-                                                          'English'
-                                                      ? DateFormat('dd-MM-yyyy')
-                                                          .format(selectedDate)
-                                                      : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
+                                              controller.formattedConceptionDate = SettingsController.appLanguge == 'English'
+                                                  ? DateFormat('dd-MM-yyyy').format(selectedDate)
+                                                  : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
 
                                               controller.update();
                                             }
@@ -176,53 +166,34 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                       )
                                     : GestureDetector(
                                         onTap: () async {
-                                          Jalali? picked =
-                                              await showPersianDatePicker(
-                                                  context: context,
-                                                  initialDate: Jalali.now(),
-                                                  firstDate: Jalali
-                                                      .fromDateTime(DateTime
-                                                              .now()
-                                                          .subtract(Duration(
-                                                              days: 266))),
-                                                  lastDate: Jalali.now(),
-                                                  initialEntryMode:
-                                                      PDatePickerEntryMode
-                                                          .calendarOnly,
-                                                  initialDatePickerMode:
-                                                      PDatePickerMode.day,
-                                                  builder: (context, child) {
-                                                    return Theme(
-                                                      data: ThemeData(
-                                                        colorScheme:
-                                                            ColorScheme.light(
-                                                          primary:
-                                                              AppColors.primary,
-                                                          onPrimary:
-                                                              Colors.white,
-                                                          surface:
-                                                              AppColors.primary,
-                                                          onSurface:
-                                                              AppColors.black,
-                                                        ),
-                                                      ),
-                                                      child: child!,
-                                                    );
-                                                  });
+                                          Jalali? picked = await showPersianDatePicker(
+                                              context: context,
+                                              initialDate: Jalali.now(),
+                                              firstDate: Jalali.fromDateTime(DateTime.now().subtract(Duration(days: 266))),
+                                              lastDate: Jalali.now(),
+                                              initialEntryMode: PDatePickerEntryMode.calendarOnly,
+                                              initialDatePickerMode: PDatePickerMode.day,
+                                              builder: (context, child) {
+                                                return Theme(
+                                                  data: ThemeData(
+                                                    colorScheme: ColorScheme.light(
+                                                      primary: AppColors.primary,
+                                                      onPrimary: Colors.white,
+                                                      surface: AppColors.primary,
+                                                      onSurface: AppColors.black,
+                                                    ),
+                                                  ),
+                                                  child: child!,
+                                                );
+                                              });
                                           if (picked != null) {
-                                            Gregorian gregorianDate =
-                                                picked.toGregorian();
+                                            Gregorian gregorianDate = picked.toGregorian();
 
                                             DateTime gregorianDateTime =
-                                                DateTime(
-                                                    gregorianDate.year,
-                                                    gregorianDate.month,
-                                                    gregorianDate.day);
-                                            controller.conceptionInitialDay =
-                                                gregorianDateTime;
+                                                DateTime(gregorianDate.year, gregorianDate.month, gregorianDate.day);
+                                            controller.conceptionInitialDay = gregorianDateTime;
 
-                                            controller.formattedConceptionDate =
-                                                '${picked.year}-${picked.month}-${picked.day}';
+                                            controller.formattedConceptionDate = '${picked.year}-${picked.month}-${picked.day}';
                                             controller.update();
                                           }
                                         },
@@ -251,11 +222,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 12,
-                                          bottom: 8,
-                                          top: 10,
-                                          right: 10),
+                                      padding: EdgeInsets.only(left: 12, bottom: 8, top: 10, right: 10),
                                       child: Image.asset(
                                         AppImages.periodsDate,
                                         height: h * 0.05,
@@ -274,15 +241,13 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(bottom: 12),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 15),
+                                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                                 decoration: BoxDecoration(
                                   color: AppColors.white,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       '${controller.formattedPregnancyDate}',
@@ -297,30 +262,18 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                             onTap: () {
                                               controller
                                                   .showDatePicker(
-                                                initialDate: controller
-                                                    .pregnancyInitialDay,
+                                                initialDate: controller.pregnancyInitialDay,
                                                 lastDate: DateTime.now(),
-                                                firstDate: DateTime.now()
-                                                    .subtract(
-                                                        Duration(days: 266)),
+                                                firstDate: DateTime.now().subtract(Duration(days: 266)),
                                                 context: context,
                                               )
                                                   .then((selectedDate) {
                                                 if (selectedDate != null) {
-                                                  controller
-                                                          .pregnancyInitialDay =
-                                                      selectedDate;
+                                                  controller.pregnancyInitialDay = selectedDate;
 
-                                                  controller
-                                                          .formattedPregnancyDate =
-                                                      SettingsController
-                                                                  .appLanguge ==
-                                                              'English'
-                                                          ? DateFormat(
-                                                                  'dd-MM-yyyy')
-                                                              .format(
-                                                                  selectedDate)
-                                                          : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
+                                                  controller.formattedPregnancyDate = SettingsController.appLanguge == 'English'
+                                                      ? DateFormat('dd-MM-yyyy').format(selectedDate)
+                                                      : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
 
                                                   controller.update();
                                                 }
@@ -333,57 +286,34 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                           )
                                         : GestureDetector(
                                             onTap: () async {
-                                              Jalali? picked =
-                                                  await showPersianDatePicker(
-                                                      context: context,
-                                                      initialDate: Jalali.now(),
-                                                      firstDate: Jalali
-                                                          .fromDateTime(DateTime
-                                                                  .now()
-                                                              .subtract(Duration(
-                                                                  days: 266))),
-                                                      lastDate: Jalali.now(),
-                                                      initialEntryMode:
-                                                          PDatePickerEntryMode
-                                                              .calendarOnly,
-                                                      initialDatePickerMode:
-                                                          PDatePickerMode.day,
-                                                      builder:
-                                                          (context, child) {
-                                                        return Theme(
-                                                          data: ThemeData(
-                                                            colorScheme:
-                                                                ColorScheme
-                                                                    .light(
-                                                              primary: AppColors
-                                                                  .primary,
-                                                              onPrimary:
-                                                                  Colors.white,
-                                                              surface: AppColors
-                                                                  .primary,
-                                                              onSurface:
-                                                                  AppColors
-                                                                      .black,
-                                                            ),
-                                                          ),
-                                                          child: child!,
-                                                        );
-                                                      });
+                                              Jalali? picked = await showPersianDatePicker(
+                                                  context: context,
+                                                  initialDate: Jalali.now(),
+                                                  firstDate: Jalali.fromDateTime(DateTime.now().subtract(Duration(days: 266))),
+                                                  lastDate: Jalali.now(),
+                                                  initialEntryMode: PDatePickerEntryMode.calendarOnly,
+                                                  initialDatePickerMode: PDatePickerMode.day,
+                                                  builder: (context, child) {
+                                                    return Theme(
+                                                      data: ThemeData(
+                                                        colorScheme: ColorScheme.light(
+                                                          primary: AppColors.primary,
+                                                          onPrimary: Colors.white,
+                                                          surface: AppColors.primary,
+                                                          onSurface: AppColors.black,
+                                                        ),
+                                                      ),
+                                                      child: child!,
+                                                    );
+                                                  });
                                               if (picked != null) {
-                                                Gregorian gregorianDate =
-                                                    picked.toGregorian();
+                                                Gregorian gregorianDate = picked.toGregorian();
 
                                                 DateTime gregorianDateTime =
-                                                    DateTime(
-                                                        gregorianDate.year,
-                                                        gregorianDate.month,
-                                                        gregorianDate.day);
-                                                controller.pregnancyInitialDay =
-                                                    gregorianDateTime;
+                                                    DateTime(gregorianDate.year, gregorianDate.month, gregorianDate.day);
+                                                controller.pregnancyInitialDay = gregorianDateTime;
 
-                                                controller
-                                                        .formattedPregnancyDate =
-                                                    '${picked.year}-${picked.month}-${picked.day}';
+                                                controller.formattedPregnancyDate = '${picked.year}-${picked.month}-${picked.day}';
                                                 controller.update();
                                               }
                                             },
@@ -454,8 +384,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                         )
                       : controller.type == 'DueDate'
                           ? Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: w * 0.05),
+                              padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -468,11 +397,7 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                     child: Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 12,
-                                              bottom: 8,
-                                              top: 10,
-                                              right: 20),
+                                          padding: EdgeInsets.only(left: 12, bottom: 8, top: 10, right: 20),
                                           child: Image.asset(
                                             AppImages.dueDate,
                                             height: h * 0.05,
@@ -502,15 +427,13 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(bottom: 12),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
+                                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                                     decoration: BoxDecoration(
                                       color: AppColors.white,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           controller.formattedDueDate,
@@ -520,35 +443,23 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        SettingsController.appLanguge ==
-                                                'English'
+                                        SettingsController.appLanguge == 'English'
                                             ? GestureDetector(
                                                 onTap: () {
                                                   controller
                                                       .showDatePicker(
-                                                    initialDate: controller
-                                                        .dueInitialDay,
-                                                    lastDate: DateTime.now()
-                                                        .add(Duration(
-                                                            days: 300)),
+                                                    initialDate: controller.dueInitialDay,
+                                                    lastDate: DateTime.now().add(Duration(days: 300)),
                                                     firstDate: DateTime.now(),
                                                     context: context,
                                                   )
                                                       .then((selectedDate) {
                                                     if (selectedDate != null) {
-                                                      controller.dueInitialDay =
-                                                          selectedDate;
+                                                      controller.dueInitialDay = selectedDate;
 
-                                                      controller
-                                                              .formattedDueDate =
-                                                          SettingsController
-                                                                      .appLanguge ==
-                                                                  'English'
-                                                              ? DateFormat(
-                                                                      'dd-MM-yyyy')
-                                                                  .format(
-                                                                      selectedDate)
-                                                              : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
+                                                      controller.formattedDueDate = SettingsController.appLanguge == 'English'
+                                                          ? DateFormat('dd-MM-yyyy').format(selectedDate)
+                                                          : '${selectedDate.toJalali().formatter.wN}, ${selectedDate.toJalali().formatter.d}-${selectedDate.toJalali().formatter.mm}-${selectedDate.toJalali().formatter.yyyy}';
 
                                                       controller.update();
                                                     }
@@ -561,60 +472,34 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                                               )
                                             : GestureDetector(
                                                 onTap: () async {
-                                                  Jalali? picked =
-                                                      await showPersianDatePicker(
-                                                          context: context,
-                                                          initialDate:
-                                                              Jalali.now(),
-                                                          firstDate:
-                                                              Jalali.now(),
-                                                          lastDate: Jalali.now()
-                                                              .addDays(300),
-                                                          initialEntryMode:
-                                                              PDatePickerEntryMode
-                                                                  .calendarOnly,
-                                                          initialDatePickerMode:
-                                                              PDatePickerMode
-                                                                  .day,
-                                                          builder:
-                                                              (context, child) {
-                                                            return Theme(
-                                                              data: ThemeData(
-                                                                colorScheme:
-                                                                    ColorScheme
-                                                                        .light(
-                                                                  primary:
-                                                                      AppColors
-                                                                          .primary,
-                                                                  onPrimary:
-                                                                      Colors
-                                                                          .white,
-                                                                  surface:
-                                                                      AppColors
-                                                                          .primary,
-                                                                  onSurface:
-                                                                      AppColors
-                                                                          .black,
-                                                                ),
-                                                              ),
-                                                              child: child!,
-                                                            );
-                                                          });
+                                                  Jalali? picked = await showPersianDatePicker(
+                                                      context: context,
+                                                      initialDate: Jalali.now(),
+                                                      firstDate: Jalali.now(),
+                                                      lastDate: Jalali.now().addDays(300),
+                                                      initialEntryMode: PDatePickerEntryMode.calendarOnly,
+                                                      initialDatePickerMode: PDatePickerMode.day,
+                                                      builder: (context, child) {
+                                                        return Theme(
+                                                          data: ThemeData(
+                                                            colorScheme: ColorScheme.light(
+                                                              primary: AppColors.primary,
+                                                              onPrimary: Colors.white,
+                                                              surface: AppColors.primary,
+                                                              onSurface: AppColors.black,
+                                                            ),
+                                                          ),
+                                                          child: child!,
+                                                        );
+                                                      });
                                                   if (picked != null) {
-                                                    Gregorian gregorianDate =
-                                                        picked.toGregorian();
+                                                    Gregorian gregorianDate = picked.toGregorian();
 
                                                     DateTime gregorianDateTime =
-                                                        DateTime(
-                                                            gregorianDate.year,
-                                                            gregorianDate.month,
-                                                            gregorianDate.day);
-                                                    controller.dueInitialDay =
-                                                        gregorianDateTime;
+                                                        DateTime(gregorianDate.year, gregorianDate.month, gregorianDate.day);
+                                                    controller.dueInitialDay = gregorianDateTime;
 
-                                                    controller
-                                                            .formattedDueDate =
-                                                        '${picked.year}-${picked.month}-${picked.day}';
+                                                    controller.formattedDueDate = '${picked.year}-${picked.month}-${picked.day}';
                                                     controller.update();
                                                   }
                                                 },
@@ -638,14 +523,11 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                   Map<String, dynamic> body = {};
                   Get.back();
                   if (controller.type == 'LastPeriod') {
-                    int difference = DateTime.now()
-                        .difference(controller.pregnancyInitialDay)
-                        .inDays;
+                    int difference = DateTime.now().difference(controller.pregnancyInitialDay).inDays;
                     if (difference > 15) {
                       body = {
                         "type": "lastPeriod",
-                        "date":
-                            "${DateFormat('yyyy-MM-dd').format(controller.pregnancyInitialDay).toEnglishDigit()}"
+                        "date": "${DateFormat('yyyy-MM-dd').format(controller.pregnancyInitialDay).toEnglishDigit()}"
                       };
 
                       controller.pregnancyCalculation(body: body);
@@ -665,19 +547,14 @@ class PregnancyCalculation extends GetView<PregnancyTrackerNewController> {
                   } else if (controller.type == 'ConceptionDate') {
                     body = {
                       "type": "conception",
-                      "date":
-                          "${DateFormat('yyyy-MM-dd').format(controller.conceptionInitialDay).toEnglishDigit()}"
+                      "date": "${DateFormat('yyyy-MM-dd').format(controller.conceptionInitialDay).toEnglishDigit()}"
                     };
 
                     log('body ---------->>>>>>>> ${body}');
                     controller.pregnancyCalculation(body: body);
                     Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
                   } else {
-                    body = {
-                      "type": "dueDate",
-                      "date":
-                          "${DateFormat('yyyy-MM-dd').format(controller.dueInitialDay).toEnglishDigit()}"
-                    };
+                    body = {"type": "dueDate", "date": "${DateFormat('yyyy-MM-dd').format(controller.dueInitialDay).toEnglishDigit()}"};
                     controller.pregnancyCalculation(body: body);
                     Get.offAndToNamed(Routes.PREGNANCY_TRIMSTER);
                   }

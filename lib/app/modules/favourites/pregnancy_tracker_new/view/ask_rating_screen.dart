@@ -20,11 +20,7 @@ class _AskRatingScreenState extends State<AskRatingScreen> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(
-                top: h * 0.1,
-                left: w * 0.05,
-                right: w * 0.05,
-                bottom: h * 0.04),
+            padding: EdgeInsets.only(top: h * 0.1, left: w * 0.05, right: w * 0.05, bottom: h * 0.04),
             child: Image.asset(AppImages.askRating),
           ),
           SizedBox(

@@ -9,8 +9,7 @@ class PregnancyTrackerRepo {
   Dio dio = AppDioService.getDioInstance();
   var _cachedDio = AppDioService.getCachedDio;
 
-  Future<PregnancyDetailsModel> checkPregnancy(
-      {CancelToken? cancelToken}) async {
+  Future<PregnancyDetailsModel> checkPregnancy({CancelToken? cancelToken}) async {
     // var response = await _cachedDio.get(
     //   ApiConsts.checkPregnancy,
     //   // cancelToken: cancelToken,
@@ -41,8 +40,7 @@ class PregnancyTrackerRepo {
     }
   }
 
-  Future<PregnancyDetailsModel> calculateDate(
-      {Map<String, dynamic>? body, CancelToken? cancelToken}) async {
+  Future<PregnancyDetailsModel> calculateDate({Map<String, dynamic>? body, CancelToken? cancelToken}) async {
     var response = await _cachedDio.post(
       ApiConsts.calculateDate,
       data: body,
@@ -54,8 +52,7 @@ class PregnancyTrackerRepo {
     return PregnancyDetailsModel.fromJson(response.data);
   }
 
-  Future<Map<String, dynamic>> deleteTracker(
-      {String? id, CancelToken? cancelToken}) async {
+  Future<Map<String, dynamic>> deleteTracker({String? id, CancelToken? cancelToken}) async {
     var response = await _cachedDio.delete(
       ApiConsts.deleteTracker + id!,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),

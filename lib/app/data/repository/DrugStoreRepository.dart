@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
+
 // import 'package:file/file.dart';
 // import 'package:dio/dio.dart';
 
@@ -13,6 +14,7 @@ class DrugStoreRepository {
   static Dio dio = AppDioService.getDioInstance();
 
   static var _cachedDio = AppDioService.getCachedDio;
+
 /*  static Future<List<DrugStore>> fetchDrugStores1(
     int page,
     bool the24Hours, {
@@ -54,9 +56,7 @@ class DrugStoreRepository {
     CancelToken? cancelToken,
   }) async {
     Map<String, dynamic> requestParameter = {};
-    if (filterName == 'نږدې  درملتون' ||
-        filterName == 'نزدیکترین دواخانه' ||
-        filterName == 'Nearest Pharmacy') {
+    if (filterName == 'نږدې  درملتون' || filterName == 'نزدیکترین دواخانه' || filterName == 'Nearest Pharmacy') {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
@@ -68,7 +68,8 @@ class DrugStoreRepository {
       requestParameter = {
         "limit": limitPerPage,
         "page": page,
-        "sort": sort,
+        "sort": 'promoted',
+        // "sort": sort ?? '',
       };
     }
 

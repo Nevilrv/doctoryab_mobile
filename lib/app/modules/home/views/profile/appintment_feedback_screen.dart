@@ -15,6 +15,7 @@ import 'package:get/get.dart';
 
 class AppointmentFeedbackScreen extends StatelessWidget {
   History? history;
+
   AppointmentFeedbackScreen({Key? key, this.history}) : super(key: key);
 
   List question = [
@@ -22,6 +23,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
     "How do you rate doctor expertise and knowledge?",
     "How do you rate cleanliness?"
   ];
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -33,19 +35,18 @@ class AppointmentFeedbackScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text('give_feedback'.tr,
-              style: AppTextStyle.boldPrimary20
-                  .copyWith(fontWeight: FontWeight.w600)),
+          title: Text('give_feedback'.tr, style: AppTextStyle.boldPrimary20.copyWith(fontWeight: FontWeight.w600)),
           centerTitle: true,
           leading: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: RotatedBox(
-                  quarterTurns:
-                      SettingsController.appLanguge == "English" ? 0 : 2,
-                  child: Icon(Icons.arrow_back_ios_new,
-                      color: AppColors.primary))),
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+            // child: RotatedBox(
+            //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+            //   child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+            // ),
+          ),
           elevation: 0,
           // actions: [
           //   Padding(
@@ -63,16 +64,14 @@ class AppointmentFeedbackScreen extends StatelessWidget {
           //   )
           // ],
         ),
-        body: SingleChildScrollView(
-            child: GetBuilder<AppointmentHistoryController>(
+        body: SingleChildScrollView(child: GetBuilder<AppointmentHistoryController>(
           builder: (controller) {
             return Container(
               height: h * 0.89,
               child: Stack(
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                     child: Column(
                       children: [
                         Container(
@@ -81,35 +80,24 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: AppColors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(0, 4),
-                                    blurRadius: 4,
-                                    color: AppColors.black.withOpacity(0.25))
-                              ],
+                              boxShadow: [BoxShadow(offset: Offset(0, 4), blurRadius: 4, color: AppColors.black.withOpacity(0.25))],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: Column(
                                 children: [
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         // color: Colors.black,
                                         // height: 65,
                                         // width: 65,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: AppColors.lightGrey),
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: CachedNetworkImage(
-                                            imageUrl:
-                                                "${ApiConsts.hostUrl}${history?.doctor?[0].photo}",
+                                            imageUrl: "${ApiConsts.hostUrl}${history?.doctor?[0].photo}",
                                             height: h * 0.11,
                                             width: h * 0.11,
                                             fit: BoxFit.cover,
@@ -131,30 +119,20 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                       Expanded(
                                         flex: 3,
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5),
+                                          padding: const EdgeInsets.symmetric(horizontal: 5),
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               // SizedBox(height: 10),
                                               Text(
                                                 "${history?.doctor?[0].name}",
-                                                style: AppTextTheme.h(12)
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.primary),
+                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                               ),
                                               Text(
                                                 "${history?.doctor?[0].category?.title}",
                                                 style: AppTextTheme.h(11)
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5),
-                                                        fontWeight:
-                                                            FontWeight.w500),
+                                                    .copyWith(color: AppColors.primary.withOpacity(0.5), fontWeight: FontWeight.w500),
                                               ),
                                               SizedBox(height: 2),
                                               Row(
@@ -169,11 +147,8 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                                     direction: Axis.horizontal,
                                                     allowHalfRating: true,
                                                     itemCount: 5,
-                                                    itemPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 1.0),
-                                                    itemBuilder: (context, _) =>
-                                                        Icon(
+                                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                    itemBuilder: (context, _) => Icon(
                                                       Icons.star,
                                                       color: Colors.amber,
                                                       // size: 10,
@@ -196,12 +171,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                                     },
                                                     child: Text(
                                                       '(${history?.doctor?[0].totalFeedbacks == null ? 0 : history?.doctor?[0].totalFeedbacks}) ${"reviews".tr}',
-                                                      style: AppTextTheme.b(12)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5)),
+                                                      style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                     ),
                                                   )
                                                 ],
@@ -218,8 +188,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                       Container(
                                           width: w * 0.2,
                                           child: Divider(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5),
+                                            color: AppColors.primary.withOpacity(0.5),
                                             height: 3,
                                           )),
                                       SizedBox(
@@ -227,9 +196,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                       ),
                                       Text(
                                         'reviews_question'.tr,
-                                        style: AppTextTheme.b(11).copyWith(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5)),
+                                        style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                       ),
                                       SizedBox(
                                         width: w * 0.02,
@@ -237,8 +204,7 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                       Container(
                                           width: w * 0.2,
                                           child: Divider(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5),
+                                            color: AppColors.primary.withOpacity(0.5),
                                             height: 3,
                                           )),
                                     ],
@@ -252,23 +218,15 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                             children: [
                                               Text(
                                                 question[index],
-                                                style: AppTextTheme.b(12)
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                               ),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
                                               Container(
-                                                decoration: BoxDecoration(
-                                                    color: AppColors.yellow2
-                                                        .withOpacity(0.2)),
+                                                decoration: BoxDecoration(color: AppColors.yellow2.withOpacity(0.2)),
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                                   child: RatingBar.builder(
                                                     // ignoreGestures: true,
                                                     itemSize: 25,
@@ -276,31 +234,24 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                                         ? controller.sRating
                                                         : index == 1
                                                             ? controller.eRating
-                                                            : controller
-                                                                .cRating,
+                                                            : controller.cRating,
                                                     // minRating: 1,
                                                     direction: Axis.horizontal,
                                                     allowHalfRating: true,
                                                     itemCount: 5,
-                                                    itemPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 1.0),
-                                                    itemBuilder: (context, _) =>
-                                                        Icon(
+                                                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                    itemBuilder: (context, _) => Icon(
                                                       Icons.star,
                                                       color: Colors.amber,
                                                       // size: 10,
                                                     ),
                                                     onRatingUpdate: (rating) {
                                                       if (index == 0) {
-                                                        controller.sRating =
-                                                            rating;
+                                                        controller.sRating = rating;
                                                       } else if (index == 1) {
-                                                        controller.eRating =
-                                                            rating;
+                                                        controller.eRating = rating;
                                                       } else {
-                                                        controller.cRating =
-                                                            rating;
+                                                        controller.cRating = rating;
                                                       }
                                                       controller.update();
                                                       print(rating);
@@ -317,31 +268,17 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                     maxLines: 3,
                                     controller: controller.comment,
                                     cursorColor: AppColors.primary,
-                                    style: AppTextTheme.b(12).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5)),
+                                    style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                     decoration: InputDecoration(
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.always,
-                                        labelText: "Evaluate the appointment experience"
-                                            .tr,
-                                        labelStyle: AppTextTheme.b(12).copyWith(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5)),
+                                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                                        labelText: "Evaluate the appointment experience".tr,
+                                        labelStyle: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                         enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            borderSide: BorderSide(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.4),
-                                                width: 2)),
+                                            borderRadius: BorderRadius.circular(4),
+                                            borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2)),
                                         focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            borderSide: BorderSide(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.4),
-                                                width: 2))),
+                                            borderRadius: BorderRadius.circular(4),
+                                            borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2))),
                                   ),
                                   // SizedBox(
                                   //   height: h * 0.03,
@@ -354,41 +291,27 @@ class AppointmentFeedbackScreen extends StatelessWidget {
                                         ))
                                       : GestureDetector(
                                           onTap: () {
-                                            if (controller
-                                                .comment.text.isEmpty) {
-                                              Utils.commonSnackbar(
-                                                  text: "please_add_review".tr,
-                                                  context: context);
+                                            if (controller.comment.text.isEmpty) {
+                                              Utils.commonSnackbar(text: "please_add_review".tr, context: context);
                                             } else {
-                                              controller.addDocFeedback(
-                                                  context: context,
-                                                  doctorId: history
-                                                      ?.doctor?[0].datumId);
+                                              controller.addDocFeedback(context: context, doctorId: history?.doctor?[0].datumId);
                                             }
                                             // Get.to(AppointmentFeedbackScreen());
                                           },
                                           child: Container(
                                             width: w,
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(40),
+                                                borderRadius: BorderRadius.circular(40),
                                                 color: AppColors.primary,
                                                 boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(0, 4),
-                                                      blurRadius: 4,
-                                                      color: AppColors.black
-                                                          .withOpacity(0.25))
+                                                  BoxShadow(offset: Offset(0, 4), blurRadius: 4, color: AppColors.black.withOpacity(0.25))
                                                 ]),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12),
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
                                               child: Center(
                                                 child: Text(
                                                   "submit_a_reviews".tr,
-                                                  style:
-                                                      AppTextStyle.boldWhite10,
+                                                  style: AppTextStyle.boldWhite10,
                                                 ),
                                               ),
                                             ),

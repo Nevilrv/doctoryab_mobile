@@ -19,9 +19,11 @@ class DrugsController extends GetxController {
   TextEditingController searchController = TextEditingController();
   TextEditingController searchSaveController = TextEditingController();
   TextEditingController comment = TextEditingController();
+
   // var pageController = PagingController<int, Datum>(firstPageKey: 1);
   var pageController = PagingController<int, UpdatedDrug>(firstPageKey: 1);
   CancelToken cancelToken = CancelToken();
+
   @override
   void onInit() {
     bannerAds();
@@ -112,10 +114,7 @@ class DrugsController extends GetxController {
   // }
 
   void updatedDrugData(int page) {
-    DrugDatabaseRepository()
-        .updatedFetchDrugs(page, searchController.text,
-            cancelToken: cancelToken)
-        .then((data) {
+    DrugDatabaseRepository().updatedFetchDrugs(page, searchController.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
 
       log('-----data------${data.data}');
@@ -166,8 +165,7 @@ class DrugsController extends GetxController {
               height: Get.height * 0.154,
               width: bannerAd!.size.width.toDouble(),
               alignment: Alignment.center,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: AdWidget(ad: bannerAd!),
@@ -215,13 +213,12 @@ class DrugsController extends GetxController {
   List<DrugFeedback> drugFeedback = [];
   bool isLoading = false;
   bool isLoadingFeedback = false;
-  double ratings = 0.0;
+  double ratings = 5.0;
+
   void drugReview({String? drugId}) {
     isLoading = true;
     update();
-    DrugDatabaseRepository()
-        .fetchDrugsReview(drugId: drugId, cancelToken: cancelToken)
-        .then((data) {
+    DrugDatabaseRepository().fetchDrugsReview(drugId: drugId, cancelToken: cancelToken).then((data) {
       drugFeedback.clear();
       if (data.data['data'] != null) {
         data.data['data'].forEach((element) {
@@ -243,13 +240,7 @@ class DrugsController extends GetxController {
     isLoadingFeedback = true;
     update();
     FocusManager.instance.primaryFocus?.unfocus();
-    DrugDatabaseRepository()
-        .addDrugsReview(
-            drugId: drugId,
-            comment: comment.text,
-            rating: rating,
-            cancelToken: cancelToken)
-        .then((data) {
+    DrugDatabaseRepository().addDrugsReview(drugId: drugId, comment: comment.text, rating: rating, cancelToken: cancelToken).then((data) {
       comment.clear();
       ratings = 0.0;
       isLoadingFeedback = false;

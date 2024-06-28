@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
+import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -13,10 +14,12 @@ import '../controllers/intro_controller.dart';
 
 class IntroView extends GetView<IntroController> {
   final bool splashScreenMode;
+
   IntroView({this.splashScreenMode = true}) {
     log('controller.splahScreenMode ---------->>>>>>>> ${controller.splahScreenMode}');
     controller.splahScreenMode = this.splashScreenMode;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +32,7 @@ class IntroView extends GetView<IntroController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Spacer(flex: 2),
-            Hero(
-                tag: "doctor_svg",
-                child: SvgPicture.asset("assets/svg/d2.svg")),
+            Hero(tag: "doctor_svg", child: SvgPicture.asset("assets/svg/d2.svg")),
             SizedBox(height: 20),
             Hero(
               tag: "heading",
@@ -72,9 +73,11 @@ class IntroView extends GetView<IntroController> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        Expanded(flex: 1, child: Container()),
+                        Expanded(flex: 1, child: SizedBox()),
                         CircularProgressIndicator(
-                          backgroundColor: Get.theme.primaryColor,
+                          backgroundColor: AppColors.white,
+
+                          // backgroundColor: Get.theme.primaryColor,
                         ),
                       ],
                     ),

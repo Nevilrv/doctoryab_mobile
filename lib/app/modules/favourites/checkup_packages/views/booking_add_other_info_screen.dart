@@ -18,8 +18,7 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
   String? selectedDate;
   String? packageId;
-  BookingOtherInfoScreen({Key? key, this.selectedDate, this.packageId})
-      : super(key: key);
+  BookingOtherInfoScreen({Key? key, this.selectedDate, this.packageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +39,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 20, right: 20, top: 45, bottom: 10),
+                        padding: EdgeInsets.only(left: 20, right: 20, top: 45, bottom: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -57,22 +55,19 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
-                                    child: RotatedBox(
-                                  quarterTurns:
-                                      SettingsController.appLanguge == "English"
-                                          ? 0
-                                          : 2,
-                                  child: SvgPicture.asset(
-                                    AppImages.back2,
-                                    height: 14,
+                                  child: RotatedBox(
+                                    quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+                                    child: SvgPicture.asset(
+                                      AppImages.back2,
+                                      height: 14,
+                                    ),
                                   ),
-                                )),
+                                ),
                               ),
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
                                 child: Text(
                                   "confirmation".tr,
                                   textAlign: TextAlign.center,
@@ -128,8 +123,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                 Obx(
                   () {
                     return Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: Container(
                         // height: 220,
 
@@ -160,14 +154,12 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                       height: h * 0.015,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Container(
                                             width: w * 0.2,
                                             child: Divider(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.5),
+                                              color: AppColors.primary.withOpacity(0.5),
                                               height: 3,
                                             )),
                                         SizedBox(
@@ -175,9 +167,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                         ),
                                         Text(
                                           'appointment_details'.tr,
-                                          style: AppTextTheme.b(11).copyWith(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.5)),
+                                          style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                         ),
                                         SizedBox(
                                           width: w * 0.02,
@@ -185,8 +175,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                         Container(
                                             width: w * 0.2,
                                             child: Divider(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.5),
+                                              color: AppColors.primary.withOpacity(0.5),
                                               height: 3,
                                             )),
                                       ],
@@ -204,13 +193,10 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                         ),
                                         decoration: BoxDecoration(
                                             color: AppColors.lightGrey,
-                                            border: Border.all(
-                                                color: AppColors.primary),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
+                                            border: Border.all(color: AppColors.primary),
+                                            borderRadius: BorderRadius.circular(10)),
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
+                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                           child: Row(
                                             children: [
                                               SvgPicture.asset(
@@ -225,10 +211,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                               FittedBox(
                                                 child: Text(
                                                   "$formatedDate",
-                                                  style: AppTextTheme.m(10)
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary),
+                                                  style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                                 ),
                                               ),
                                               Spacer(),
@@ -244,10 +227,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                               FittedBox(
                                                 child: Text(
                                                   "$formatedTime",
-                                                  style: AppTextTheme.m(12)
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary),
+                                                  style: AppTextTheme.m(12).copyWith(color: AppColors.primary),
                                                 ),
                                               ),
                                             ],
@@ -262,21 +242,16 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                       children: [
                                         GestureDetector(
                                             onTap: () {
-                                              controller.isCheckBox.value =
-                                                  !controller.isCheckBox.value;
+                                              controller.isCheckBox.value = !controller.isCheckBox.value;
                                             },
                                             child: SvgPicture.asset(
-                                                controller.isCheckBox.value ==
-                                                        false
-                                                    ? AppImages.Checkbox
-                                                    : AppImages.Checkbox1)),
+                                                controller.isCheckBox.value == false ? AppImages.Checkbox : AppImages.Checkbox1)),
                                         SizedBox(
                                           width: 10,
                                         ),
                                         Text(
                                           "i_m_patient".tr,
-                                          style: AppTextTheme.m(10).copyWith(
-                                              color: AppColors.primary),
+                                          style: AppTextTheme.m(10).copyWith(color: AppColors.primary),
                                         )
                                       ],
                                     ),
@@ -290,25 +265,13 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                 children: [
                                                   Text(
                                                     "full_name".tr,
-                                                    style: AppTextStyle
-                                                        .boldGrey12
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .primary),
+                                                    style: AppTextStyle.boldGrey12
+                                                        .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                                   ),
                                                   Text(
                                                     "*",
-                                                    style: AppTextStyle
-                                                        .boldGrey12
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                AppColors.red3),
+                                                    style: AppTextStyle.boldGrey12
+                                                        .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                                                   ),
                                                 ],
                                               ),
@@ -319,57 +282,41 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                 // onChanged: (_) =>
                                                 //     controller.validateForm(),
                                                 validator: Utils.nameValidator,
-                                                style: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 cursorColor: AppColors.primary,
                                                 // maxLength: 6,
                                                 // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                                keyboardType:
-                                                    TextInputType.name,
+                                                keyboardType: TextInputType.name,
                                                 controller: controller.teName,
                                                 decoration: InputDecoration(
-                                                    hintText:
-                                                        "please_enter_name".tr,
-                                                    hintStyle: AppTextStyle.mediumPrimary12.copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                    hintText: "please_enter_name".tr,
+                                                    hintStyle:
+                                                        AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                     enabledBorder: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         borderSide: BorderSide(
-                                                            color: AppColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.4),
-                                                            strokeAlign: 2,
-                                                            width: 2)),
+                                                            color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
                                                     // prefixIconConstraints:
                                                     //     BoxConstraints.expand(
                                                     //   height: 30,
                                                     //   width: 30,
                                                     // ),
                                                     prefixIcon: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              right: 10),
+                                                      padding: const EdgeInsets.only(left: 10, right: 10),
                                                       child: SvgPicture.asset(
                                                         AppImages.editName,
                                                       ),
                                                     ),
                                                     focusedBorder: OutlineInputBorder(
-                                                        borderRadius: BorderRadius
-                                                            .circular(10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         borderSide: BorderSide(
-                                                            color: AppColors.primary.withOpacity(0.4),
-                                                            strokeAlign: 2,
-                                                            width: 2)),
-                                                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                            color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
+                                                    errorBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                    focusedErrorBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                     contentPadding: EdgeInsets.symmetric(vertical: 0)
                                                     // errorText: controller.nameLastError() == ""
                                                     //     ? null
@@ -387,14 +334,8 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                 children: [
                                                   Text(
                                                     "Phone_number".tr,
-                                                    style: AppTextStyle
-                                                        .boldGrey12
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .primary),
+                                                    style: AppTextStyle.boldGrey12
+                                                        .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                                   ),
                                                 ],
                                               ),
@@ -404,61 +345,42 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                               TextFormField(
                                                 // onChanged: (_) =>
                                                 //     controller.validateForm(),
-                                                validator:
-                                                    Utils.numberValidator,
+                                                validator: Utils.numberValidator,
                                                 cursorColor: AppColors.primary,
-                                                style: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 // maxLength: 6,
                                                 // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                                keyboardType:
-                                                    TextInputType.phone,
-                                                controller:
-                                                    controller.teNewNumber,
+                                                keyboardType: TextInputType.phone,
+                                                controller: controller.teNewNumber,
                                                 decoration: InputDecoration(
-                                                    hintText:
-                                                        "please_enter_phone".tr,
-                                                    hintStyle: AppTextStyle.mediumPrimary12.copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                    hintText: "please_enter_phone".tr,
+                                                    hintStyle:
+                                                        AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                     enabledBorder: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         borderSide: BorderSide(
-                                                            color: AppColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.4),
-                                                            strokeAlign: 2,
-                                                            width: 2)),
+                                                            color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
                                                     // prefixIconConstraints:
                                                     //     BoxConstraints.expand(
                                                     //   height: 30,
                                                     //   width: 30,
                                                     // ),
                                                     prefixIcon: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              right: 10),
+                                                      padding: const EdgeInsets.only(left: 10, right: 10),
                                                       child: SvgPicture.asset(
                                                         AppImages.mobile,
                                                       ),
                                                     ),
                                                     focusedBorder: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         borderSide: BorderSide(
-                                                            color: AppColors.primary.withOpacity(0.4),
-                                                            strokeAlign: 2,
-                                                            width: 2)),
-                                                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                            color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
+                                                    errorBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                    focusedErrorBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                     contentPadding: EdgeInsets.zero
                                                     // errorText: controller.nameLastError() == ""
                                                     //     ? null
@@ -478,14 +400,8 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                 children: [
                                                   Text(
                                                     "age".tr,
-                                                    style: AppTextStyle
-                                                        .boldGrey12
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .primary),
+                                                    style: AppTextStyle.boldGrey12
+                                                        .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                                   ),
                                                 ],
                                               ),
@@ -495,62 +411,42 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                               TextFormField(
                                                 // onChanged: (_) =>
                                                 //     controller.validateForm(),
-                                                validator: (age) =>
-                                                    Utils.ageValidatore(age,
-                                                        minAge: 12,
-                                                        maxAge: 120),
+                                                validator: (age) => Utils.ageValidatore(age, minAge: 12, maxAge: 120),
                                                 cursorColor: AppColors.primary,
-                                                style: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 // maxLength: 6,
                                                 // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                keyboardType: TextInputType.number,
                                                 controller: controller.teAge,
                                                 decoration: InputDecoration(
-                                                    hintText:
-                                                        "please_enter_age".tr,
-                                                    hintStyle: AppTextStyle.mediumPrimary12.copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                    hintText: "please_enter_age".tr,
+                                                    hintStyle:
+                                                        AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                     enabledBorder: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         borderSide: BorderSide(
-                                                            color: AppColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.4),
-                                                            strokeAlign: 2,
-                                                            width: 2)),
+                                                            color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
                                                     // prefixIconConstraints:
                                                     //     BoxConstraints.expand(
                                                     //   height: 30,
                                                     //   width: 30,
                                                     // ),
                                                     prefixIcon: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              right: 10),
+                                                      padding: const EdgeInsets.only(left: 10, right: 10),
                                                       child: SvgPicture.asset(
                                                         AppImages.gift,
                                                       ),
                                                     ),
                                                     focusedBorder: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         borderSide: BorderSide(
-                                                            color: AppColors.primary.withOpacity(0.4),
-                                                            strokeAlign: 2,
-                                                            width: 2)),
-                                                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                            color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
+                                                    errorBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                    focusedErrorBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                     contentPadding: EdgeInsets.zero
                                                     // errorText: controller.nameLastError() == ""
                                                     //     ? null
@@ -568,25 +464,13 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                 children: [
                                                   Text(
                                                     "gender".tr,
-                                                    style: AppTextStyle
-                                                        .boldGrey12
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .primary),
+                                                    style: AppTextStyle.boldGrey12
+                                                        .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                                   ),
                                                   Text(
                                                     "*",
-                                                    style: AppTextStyle
-                                                        .boldGrey12
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                AppColors.red3),
+                                                    style: AppTextStyle.boldGrey12
+                                                        .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                                                   ),
                                                 ],
                                               ),
@@ -597,81 +481,40 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                                 width: w,
                                                 // height: 10,
                                                 decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        width: 2),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                                     color: AppColors.white),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 10,
-                                                          top: 10,
-                                                          bottom: 10,
-                                                          left: 10),
+                                                  padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10, left: 10),
                                                   child: Row(
                                                     children: [
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                right: 10),
+                                                        padding: const EdgeInsets.only(right: 10),
                                                         child: SvgPicture.asset(
                                                           AppImages.user,
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
+                                                          color: AppColors.primary.withOpacity(0.5),
                                                         ),
                                                       ),
                                                       Expanded(
-                                                        child: DropdownButton<
-                                                            String>(
+                                                        child: DropdownButton<String>(
                                                           underline: SizedBox(),
-                                                          value: controller
-                                                                  .selectedGender
-                                                                  .value ??
-                                                              "",
-                                                          icon: Icon(
-                                                              Icons.expand_more,
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.4)),
+                                                          value: controller.selectedGender.value ?? "",
+                                                          icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.4)),
                                                           isDense: true,
-                                                          hint: Text(
-                                                              "Please_select_gender"
-                                                                  .tr,
-                                                              style: AppTextStyle
-                                                                  .mediumPrimary12
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5))),
+                                                          hint: Text("Please_select_gender".tr,
+                                                              style: AppTextStyle.mediumPrimary12
+                                                                  .copyWith(color: AppColors.primary.withOpacity(0.5))),
                                                           isExpanded: true,
-                                                          items: controller
-                                                              .genderList
-                                                              .map((String
-                                                                  value) {
-                                                            return DropdownMenuItem<
-                                                                String>(
+                                                          items: controller.genderList.map((String value) {
+                                                            return DropdownMenuItem<String>(
                                                               value: value,
                                                               child: Text(value,
-                                                                  style: AppTextStyle
-                                                                      .mediumPrimary12
-                                                                      .copyWith(
-                                                                          color: AppColors
-                                                                              .primary
-                                                                              .withOpacity(0.5))),
+                                                                  style: AppTextStyle.mediumPrimary12
+                                                                      .copyWith(color: AppColors.primary.withOpacity(0.5))),
                                                             );
                                                           }).toList(),
                                                           onChanged: (value) {
-                                                            controller
-                                                                .selectedGender
-                                                                .value = value!;
+                                                            controller.selectedGender.value = value!;
                                                           },
                                                         ),
                                                       ),
@@ -683,10 +526,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                           )
                                         : SizedBox(),
                                     SizedBox(
-                                      height:
-                                          controller.isCheckBox.value == true
-                                              ? h * 0.02
-                                              : h * 0.4,
+                                      height: controller.isCheckBox.value == true ? h * 0.02 : h * 0.4,
                                     ),
                                     Container(
                                       height: 70,
@@ -695,43 +535,25 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
                                         child: CustomRoundedButton(
                                           color: AppColors.primary,
                                           textColor: Colors.white,
-                                          splashColor:
-                                              Colors.white.withOpacity(0.2),
-                                          disabledColor: AppColors.easternBlue
-                                              .withOpacity(0.2),
+                                          splashColor: Colors.white.withOpacity(0.2),
+                                          disabledColor: AppColors.easternBlue.withOpacity(0.2),
                                           // height: 50,
                                           width: w,
                                           text: "c_appointment".tr,
-                                          textStyle: AppTextStyle.boldWhite14
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w600),
+                                          textStyle: AppTextStyle.boldWhite14.copyWith(fontWeight: FontWeight.w600),
                                           onTap: () {
-                                            if (controller.isCheckBox.value ==
-                                                true) {
-                                              if (controller
-                                                  .teName.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    text:
-                                                        "please_enter_name".tr,
-                                                    context: context);
-                                              } else if (controller
-                                                  .teNewNumber.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    text:
-                                                        "please_enter_phone".tr,
-                                                    context: context);
-                                              } else if (controller
-                                                  .teAge.text.isEmpty) {
-                                                Utils.commonSnackbar(
-                                                    text: "please_enter_age".tr,
-                                                    context: context);
+                                            if (controller.isCheckBox.value == true) {
+                                              if (controller.teName.text.isEmpty) {
+                                                Utils.commonSnackbar(text: "please_enter_name".tr, context: context);
+                                              } else if (controller.teNewNumber.text.isEmpty) {
+                                                Utils.commonSnackbar(text: "please_enter_phone".tr, context: context);
+                                              } else if (controller.teAge.text.isEmpty) {
+                                                Utils.commonSnackbar(text: "please_enter_age".tr, context: context);
                                               } else {
-                                                controller.bookNow(
-                                                    packageId: packageId);
+                                                controller.bookNow(packageId: packageId);
                                               }
                                             } else {
-                                              controller.bookNow(
-                                                  packageId: packageId);
+                                              controller.bookNow(packageId: packageId);
                                             }
                                           },
                                         ),
@@ -759,8 +581,7 @@ class BookingOtherInfoScreen extends GetView<CheckupPackagesController> {
   }
 
   String get formatedDate {
-    var _str = DateTime.parse(selectedDate!)
-        .toPersianDateStr(useAfghaniMonthName: true);
+    var _str = DateTime.parse(selectedDate!).toPersianDateStr(useAfghaniMonthName: true);
 
     return _str.split(" ")[0] + " " + _str.split(" ")[1];
   }

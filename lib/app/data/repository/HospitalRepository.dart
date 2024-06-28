@@ -72,10 +72,7 @@ class HospitalRepository {
   }
 
   static Future<List<Hospital>> searchHospitals(int page,
-      {int limitPerPage = 10,
-      String? name,
-      required void onError(e),
-      CancelToken? cancelToken}) async {
+      {int limitPerPage = 10, String? name, required void onError(e), CancelToken? cancelToken}) async {
     // TODO move to some utils func
 
     List<Hospital> data = await Utils.parseResponse<Hospital>(

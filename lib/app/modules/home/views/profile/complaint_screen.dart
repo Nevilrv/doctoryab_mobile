@@ -22,26 +22,29 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
     return Container(
       height: h,
       width: w,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/png/bg_blue2.png"), fit: BoxFit.fill)),
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/png/bg_blue2.png"), fit: BoxFit.fill)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text('complaint'.tr, style: TextStyle(fontSize: 16)),
           leading: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: RotatedBox(
-                quarterTurns:
-                    SettingsController.appLanguge == "English" ? 0 : 2,
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: AppColors.white,
-                ),
-              )),
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: AppColors.white,
+            ),
+            // child: RotatedBox(
+            //   quarterTurns:
+            //       SettingsController.appLanguge == "English" ? 0 : 2,
+            //   child: Icon(
+            //     Icons.arrow_back_ios_new,
+            //     color: AppColors.white,
+            //   ),
+            // ),
+          ),
           centerTitle: true,
           elevation: 0,
           // actions: [
@@ -64,8 +67,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
           children: [
             GetBuilder<ComplaintSuggestionController>(
               builder: (controller) => Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
                   children: [
                     Container(
@@ -74,16 +76,10 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: AppColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 4),
-                                blurRadius: 4,
-                                color: AppColors.black.withOpacity(0.25))
-                          ],
+                          boxShadow: [BoxShadow(offset: Offset(0, 4), blurRadius: 4, color: AppColors.black.withOpacity(0.25))],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           child: Column(
                             children: [
                               Row(
@@ -92,8 +88,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                                   Container(
                                       width: w * 0.2,
                                       child: Divider(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5),
+                                        color: AppColors.primary.withOpacity(0.5),
                                         height: 3,
                                       )),
                                   SizedBox(
@@ -101,9 +96,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                                   ),
                                   Text(
                                     'complaint_subject'.tr,
-                                    style: AppTextTheme.b(11).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5)),
+                                    style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                   ),
                                   SizedBox(
                                     width: w * 0.02,
@@ -111,8 +104,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                                   Container(
                                       width: w * 0.2,
                                       child: Divider(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5),
+                                        color: AppColors.primary.withOpacity(0.5),
                                         height: 3,
                                       )),
                                 ],
@@ -123,27 +115,17 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                               TextField(
                                 cursorColor: AppColors.primary,
                                 controller: controller.cTitle,
-                                style: AppTextTheme.b(12).copyWith(
-                                    color: AppColors.primary.withOpacity(0.5)),
+                                style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                 decoration: InputDecoration(
                                     labelText: "topic_title".tr,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
-                                    labelStyle: AppTextTheme.b(12).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5)),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(4),
-                                        borderSide: BorderSide(
-                                            color: AppColors.primary
-                                                .withOpacity(0.4),
-                                            width: 2)),
+                                        borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(4),
-                                        borderSide: BorderSide(
-                                            color: AppColors.primary
-                                                .withOpacity(0.4),
-                                            width: 2))),
+                                        borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2))),
                               ),
                               SizedBox(
                                 height: h * 0.02,
@@ -152,27 +134,17 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                                 maxLines: 10,
                                 cursorColor: AppColors.primary,
                                 controller: controller.cDesc,
-                                style: AppTextTheme.b(12).copyWith(
-                                    color: AppColors.primary.withOpacity(0.5)),
+                                style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                 decoration: InputDecoration(
                                     labelText: "topic_body".tr,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
-                                    labelStyle: AppTextTheme.b(12).copyWith(
-                                        color:
-                                            AppColors.primary.withOpacity(0.5)),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(4),
-                                        borderSide: BorderSide(
-                                            color: AppColors.primary
-                                                .withOpacity(0.4),
-                                            width: 2)),
+                                        borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(4),
-                                        borderSide: BorderSide(
-                                            color: AppColors.primary
-                                                .withOpacity(0.4),
-                                            width: 2))),
+                                        borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2))),
                               ),
                               SizedBox(
                                 height: h * 0.02,
@@ -184,26 +156,16 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                                 },
                                 child: Container(
                                   width: w * 0.4,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: AppColors.primary,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: Offset(0, 4),
-                                            blurRadius: 4,
-                                            color: AppColors.black
-                                                .withOpacity(0.25))
-                                      ]),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.primary, boxShadow: [
+                                    BoxShadow(offset: Offset(0, 4), blurRadius: 4, color: AppColors.black.withOpacity(0.25))
+                                  ]),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: Center(
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          SvgPicture.asset(AppImages.attachment,
-                                              height: 21, width: 21),
+                                          SvgPicture.asset(AppImages.attachment, height: 21, width: 21),
                                           SizedBox(
                                             width: 10,
                                           ),
@@ -227,8 +189,7 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                                         '${controller.image.value.path}',
                                         textAlign: TextAlign.center,
                                         style: AppTextTheme.b(11).copyWith(
-                                          color:
-                                              AppColors.black.withOpacity(0.5),
+                                          color: AppColors.black.withOpacity(0.5),
                                         ),
                                       ),
                                     )
@@ -239,39 +200,26 @@ class ComplaintScreen extends GetView<ComplaintSuggestionController> {
                               Text(
                                 'description'.tr,
                                 textAlign: TextAlign.center,
-                                style: AppTextTheme.b(11).copyWith(
-                                    color: AppColors.primary.withOpacity(0.5)),
+                                style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                               ),
                               Spacer(),
                               GestureDetector(
                                 onTap: () {
                                   if (controller.cTitle.text.isEmpty) {
-                                    Utils.commonSnackbar(
-                                        context: context,
-                                        text: "Please enter title");
+                                    Utils.commonSnackbar(context: context, text: "Please enter title");
                                   } else if (controller.cDesc.text.isEmpty) {
-                                    Utils.commonSnackbar(
-                                        context: context,
-                                        text: "Please enter description");
+                                    Utils.commonSnackbar(context: context, text: "Please enter description");
                                   } else {
                                     controller.complaintApi(context);
                                   }
                                 },
                                 child: Container(
                                   width: w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: AppColors.primary,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: Offset(0, 4),
-                                            blurRadius: 4,
-                                            color: AppColors.black
-                                                .withOpacity(0.25))
-                                      ]),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.primary, boxShadow: [
+                                    BoxShadow(offset: Offset(0, 4), blurRadius: 4, color: AppColors.black.withOpacity(0.25))
+                                  ]),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
                                     child: Center(
                                       child: Text(
                                         "submit".tr,
