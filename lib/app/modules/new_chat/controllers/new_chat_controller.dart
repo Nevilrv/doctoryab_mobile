@@ -66,8 +66,8 @@ class NewChatController extends GetxController {
         sending(false);
         Get.offNamed(Routes.CHAT,
                 arguments: ChatListApiModel(
-                    id: value.chat.id, chatName: value.chat.chatName))
-            .then((value) {
+                    id: value.chat!.id, chatName: value.chat!.chatName))
+            ?.then((value) {
           try {
             Get.find<MessagesListController>().reloadChats();
           } catch (e) {}

@@ -15,11 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
-  DiseaseTreatmentView({Key key}) : super(key: key);
+  DiseaseTreatmentView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    log("call---screen");
     final h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppAppBar.primaryAppBar(title: "all_diseases".tr),
@@ -28,7 +27,11 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
       body: GetBuilder<DiseaseTreatmentController>(
         builder: (controller) {
           return controller.isLoading == true
-              ? Center(child: CircularProgressIndicator(color: AppColors.primary,))
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                )
               : Container(
                   height: h,
                   child: Stack(
@@ -61,7 +64,7 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                           controller.selectedCategory =
                                               controller.category[index];
                                           controller.dieaseDataList(controller
-                                              .category[index].eTitle);
+                                              .category[index].eTitle!);
                                         });
                                         Get.toNamed(
                                           Routes.DISEASE_DETAILS,
@@ -84,7 +87,7 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                               decoration: BoxDecoration(
                                                 // color: AppColors.boxPink3,
                                                 color: Color(int.parse(
-                                                    "0xff${controller.category[index].background.replaceFirst("#", "")}")),
+                                                    "0xff${controller.category[index].background == null ? 'FFFFFF' : controller.category[index].background?.replaceFirst("#", "")}")),
                                                 borderRadius:
                                                     BorderRadius.circular(5),
                                               ),
@@ -112,21 +115,23 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                                             Expanded(
                                               child: Center(
                                                 child: Text(
-                                                  SettingsController
-                                                              .appLanguge ==
+                                                  SettingsController.appLanguge ==
                                                           "English"
                                                       ? controller
                                                           .category[index]
                                                           .eTitle
+                                                          .toString()
                                                       : SettingsController
                                                                   .appLanguge ==
                                                               "فارسی"
                                                           ? controller
                                                               .category[index]
                                                               .fTitle
+                                                              .toString()
                                                           : controller
                                                               .category[index]
-                                                              .pTitle,
+                                                              .pTitle
+                                                              .toString(),
                                                   style: AppTextStyle
                                                       .boldPrimary12
                                                       .copyWith(height: 1.2),
@@ -149,12 +154,13 @@ class DiseaseTreatmentView extends GetView<DiseaseTreatmentController> {
                         ),
                       ),
                       Positioned(
-                          bottom: 20,
-                          left: 20,
-                          right: 20,
-                          child: BottomBarView(
-                            isHomeScreen: false,
-                          ))
+                        bottom: 20,
+                        left: 20,
+                        right: 20,
+                        child: BottomBarView(
+                          isHomeScreen: false,
+                        ),
+                      ),
                     ],
                   ),
                 );

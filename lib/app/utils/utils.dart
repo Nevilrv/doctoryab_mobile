@@ -41,7 +41,7 @@ import '../data/static.dart';
 import 'dart:math' as math;
 
 class Utils {
-  static Widget initBuilder(BuildContext context, Widget widget) {
+  static Widget initBuilder(BuildContext context, Widget? widget) {
     return EasyLoading.init()(context, widget);
   }
 
@@ -71,6 +71,8 @@ class Utils {
   }
 
   static void whereShouldIGo({bool updateProfile = true}) {
+    // Get.offAllNamed(Routes.INTRO);
+    log('SettingsController.userLoginGet ---------->>>>>>>> ${SettingsController.userLoginGet}');
     if (SettingsController.userLoginGet == true) {
       Get.offAllNamed(Routes.HOME);
     } else {
@@ -142,9 +144,9 @@ class Utils {
   //   return regex.hasMatch(s);
   // }
 
-  static Color hexToColor(String hex, {Color defaultColorIfInvalid}) {
+  static Color hexToColor(String hex, {Color? defaultColorIfInvalid}) {
     ////////////
-    int _getColorFromHex(String hexColor) {
+    int? _getColorFromHex(String hexColor) {
       hexColor = hexColor.toUpperCase().replaceAll("#", "");
       if (hexColor.length == 6) {
         hexColor = "FF" + hexColor;
@@ -154,7 +156,7 @@ class Utils {
     ///////////
 
     // if (isColorValid(hex)) {
-    return Color(_getColorFromHex(hex) ?? defaultColorIfInvalid.value);
+    return Color(_getColorFromHex(hex) ?? defaultColorIfInvalid!.value);
     // }
     // return defaultColorIfInvalid;
   }
@@ -168,20 +170,18 @@ class Utils {
       scheme: 'tel',
       path: number,
     );
-    launch(_emailLaunchUri.toString()).onError((error, stackTrace) {
-      ScaffoldMessenger.of(Get.context).showSnackBar(
+    launch(_emailLaunchUri.toString()).then(
+      (value) => ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           content: Text(
-            error.toString(),
+            value.toString(),
           ),
         ),
-      );
-
-      return;
-    });
+      ),
+    );
   }
 
-  static commonSnackbar({BuildContext context, String text}) {
+  static commonSnackbar({required BuildContext context, required String text}) {
     var snackBar = SnackBar(
       content: Text(text.tr, style: AppTextStyle.boldPrimary14),
       backgroundColor: AppColors.white,
@@ -191,9 +191,9 @@ class Utils {
     return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static Future<List<T>> parseResponse<T>(Future<Response<dynamic>> func(),
-      {void onError(e)}) async {
-    List<dynamic> _tmpList;
+  static Future<List> parseResponse<T>(Future<Response<dynamic>> func(),
+      {required void onError(e)}) async {
+    List<dynamic>? _tmpList;
     try {
       var response = await func();
       //TODO move all this to some genric utils func
@@ -246,6 +246,7 @@ class Utils {
         case Post:
           {
             _tmpList = PostModel.fromJson(_data).data;
+
             break;
           }
         case ChatListApiModel:
@@ -260,7 +261,7 @@ class Utils {
           }
       }
     } catch (e, s) {
-      if (onError != null) {
+      if (onError != "") {
         Logger().e("Network-parser-error", e, s);
 
         if (e is DioError) {
@@ -273,33 +274,31 @@ class Utils {
       }
       FirebaseCrashlytics.instance.recordError(e, s);
     }
-    print("tmp-list is empty: ${_tmpList == null}");
-    return _tmpList;
+
+    return _tmpList ?? [];
   }
 
   static void addResponseToPagingController<T>(
       List<T> list, PagingController<int, T> pagingController, int pageKey) {
-    if (list != null) {
-      if (list.length > 0) {
-        pagingController.appendPage(list, pageKey + 1);
-      } else {
-        pagingController.appendLastPage(list);
-      }
+    if (list.length > 0) {
+      pagingController.appendPage(list, pageKey + 1);
+    } else {
+      pagingController.appendLastPage(list);
     }
   }
 
-  static String ageValidatore(String value, {int minAge, int maxAge}) {
+  static String? ageValidatore(String? value, {int? minAge, int? maxAge}) {
     try {
-      value = value.toEnglishDigit();
+      value = value!.toEnglishDigit();
     } catch (e) {}
 
-    if (!value.isNum) return "not_a_valid_number".tr;
+    if (!value!.isNum) return "not_a_valid_number".tr;
 
-    if (int.tryParse(value) < (minAge ?? 0)) {
+    if (int.tryParse(value)! < (minAge ?? 0)) {
       return "must_be_greater_than".trArgs(['${minAge ?? 0}']);
       // nameValid.value = false;
     }
-    if (int.tryParse(value) > (maxAge ?? 120)) {
+    if (int.tryParse(value)! > (maxAge ?? 120)) {
       if (maxAge != null) assert(maxAge > 0);
       return "must_be_less_than".trArgs(['${maxAge ?? 120}']);
       // nameValid.value = false;
@@ -307,12 +306,12 @@ class Utils {
     return null;
   }
 
-  static String numberValidator(String value) {
+  static String? numberValidator(String? value) {
     try {
-      value = value.toEnglishDigit();
+      value = value!.toEnglishDigit();
     } catch (e) {}
     PhoneValidatorUtils phoneValidatorUtils =
-        PhoneValidatorUtils(number: value);
+        PhoneValidatorUtils(number: value!);
     if (phoneValidatorUtils.isValid()) {
       return null;
     }
@@ -320,8 +319,8 @@ class Utils {
     // phoneValidatorUtils = null;
   }
 
-  static String nameValidator(String value) {
-    if (value.length < 5) {
+  static String? nameValidator(String? value) {
+    if (value!.length < 5) {
       return "too_short_min_5".tr;
       // nameValid.value = false;
     } else if (value.length > 30) {
@@ -330,13 +329,13 @@ class Utils {
     return null;
   }
 
-  static String emailValidator(String value) {
+  static String? emailValidator(String? value) {
     String p =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
     RegExp regExp = new RegExp(p);
 
-    if (!regExp.hasMatch(value)) {
+    if (!regExp.hasMatch(value!)) {
       return "valid_email".tr;
       // nameValid.value = false;
     } else if (value == null) {
@@ -388,13 +387,13 @@ class Utils {
       await launch(encodedURl);
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
-      showSnackBar(Get.context, "please_install_google_maps".tr);
+      showSnackBar(Get.context!, "please_install_google_maps".tr);
       throw 'Could not launch $encodedURl';
     }
   }
 
   static Future<void> restartBeta(BuildContext context,
-      {VoidCallback onInit}) async {
+      {required VoidCallback onInit}) async {
     // Phoenix.rebirth(context);
     // Get.find<GetMaterialApp>();
     Get.reset();
@@ -426,8 +425,8 @@ class Utils {
     var _settingsBox = await Hive.openBox('settings');
     Get.put<Box<dynamic>>(_settingsBox, tag: "settings_box");
     Get.put<Box<dynamic>>(_authBox, tag: "auth_box");
-
     Get.put(GlobalKey<NavigatorState>());
+    // Get.lazyPut(() => GlobalKey<NavigatorState>());
     // if (kDebugMode || ApiConsts.debugModeOnRelease) {
     //   Get.put(
     //     Alice(
@@ -448,10 +447,10 @@ class Utils {
   }
 
   static void resetPagingController(PagingController controller) {
-    controller.error = null;
-    controller.itemList = null;
+    // controller.error = null;
+    controller.refresh();
+    controller.itemList?.clear();
     controller.nextPageKey = controller.firstPageKey;
-    // log("leent ${controller.itemList.length}");
   }
 
   static String getFullPathOfAssets(String path) {

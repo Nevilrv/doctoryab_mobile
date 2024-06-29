@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/components/background.dart';
-import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/controller/blood_donor_controller.dart';
@@ -17,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:place_picker/entities/location_result.dart';
 
 class BloodDonorView extends GetView<BloodDonorController> {
-  BloodDonorView({Key key}) : super(key: key);
+  BloodDonorView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,16 +94,16 @@ class BloodDonorView extends GetView<BloodDonorController> {
                             "location".tr,
                             style: AppTextStyle.regularBlack11
                                 .copyWith(color: AppColors.lightPurple4),
-                          ).paddingOnly(top: 15, left: 40,right: 40),
+                          ).paddingOnly(top: 15, left: 40, right: 40),
                           GestureDetector(
                             onTap: () => Get.toNamed(Routes.LOCATION_PICKER,
                                     preventDuplicates: true,
                                     arguments: controller.locationResult())
-                                .then((v) {
+                                ?.then((v) {
                               if (v != null && v is LocationResult) {
                                 controller.locationResult.value = v;
                                 var x = v;
-                                log(x.locality);
+                                // log(x.locality);
                               }
                             }),
                             child: Container(
@@ -156,7 +153,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
                             "gender".tr,
                             style: AppTextStyle.regularBlack11
                                 .copyWith(color: AppColors.lightPurple4),
-                          ).paddingOnly(top: 15, left: 40,right: 40),
+                          ).paddingOnly(top: 15, left: 40, right: 40),
                           _buildGenderRow().paddingHorizontal(25),
                           _buildCheckbox(),
                           SizedBox(height: 40),
@@ -286,7 +283,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
           activeColor: AppColors.darkBlue.withOpacity(0.5),
           contentPadding: EdgeInsets.zero,
           onChanged: (newValue) {
-            controller.iAmOver18.value = newValue;
+            controller.iAmOver18.value = newValue!;
           },
         ),
       ),
@@ -298,7 +295,7 @@ class BloodDonorView extends GetView<BloodDonorController> {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: GestureDetector(
         onTap: () {
-          if (controller.locationResult()?.locality == null) {
+          if (controller.locationResult().locality == null) {
             Utils.commonSnackbar(context: context, text: "please_select_loc");
           } else if (!controller.iAmOver18.value) {
             Utils.commonSnackbar(context: context, text: "please_check");

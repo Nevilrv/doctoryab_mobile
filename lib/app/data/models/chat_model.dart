@@ -328,9 +328,13 @@
 //     final chatApiModel = chatApiModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:developer';
+
+import 'package:just_audio/just_audio.dart';
 
 import '../../controllers/settings_controller.dart';
 
+final player = AudioPlayer();
 List<ChatApiModel> chatApiModelFromJson(String str) => List<ChatApiModel>.from(
     json.decode(str).map((x) => ChatApiModel.fromJson(x)));
 
@@ -349,30 +353,32 @@ class ChatApiModel {
     this.chat,
     this.createdAt,
     this.updatedAt,
+    this.isRead = false,
   });
 
-  List<dynamic> images;
-  List<dynamic> voiceNotes;
-  List<dynamic> documents;
-  List<String> readBy;
-  String id;
-  Sender sender;
-  String content;
-  Chat chat;
-  DateTime createdAt;
-  DateTime updatedAt;
+  List<dynamic>? images;
+  List<dynamic>? voiceNotes;
+  List<dynamic>? documents;
+  List<String>? readBy;
+  String? id;
+  Sender? sender;
+  String? content;
+  Chat? chat;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  bool? isRead;
 
   ChatApiModel copyWith({
-    List<dynamic> images,
-    List<dynamic> voiceNotes,
-    List<dynamic> documents,
-    List<String> readBy,
-    String id,
-    Sender sender,
-    String content,
-    Chat chat,
-    DateTime createdAt,
-    DateTime updatedAt,
+    List<dynamic>? images,
+    List<dynamic>? voiceNotes,
+    List<dynamic>? documents,
+    List<String>? readBy,
+    String? id,
+    Sender? sender,
+    String? content,
+    Chat? chat,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) =>
       ChatApiModel(
         images: images ?? this.images,
@@ -414,27 +420,52 @@ class ChatApiModel {
 
   Map<String, dynamic> toJson() => {
         "images":
-            images == null ? null : List<dynamic>.from(images.map((x) => x)),
+            images == null ? null : List<dynamic>.from(images!.map((x) => x)),
         "voiceNotes": voiceNotes == null
             ? null
-            : List<dynamic>.from(voiceNotes.map((x) => x)),
+            : List<dynamic>.from(voiceNotes!.map((x) => x)),
         "documents": documents == null
             ? null
-            : List<dynamic>.from(documents.map((x) => x)),
+            : List<dynamic>.from(documents!.map((x) => x)),
         "readBy":
-            readBy == null ? null : List<dynamic>.from(readBy.map((x) => x)),
+            readBy == null ? null : List<dynamic>.from(readBy!.map((x) => x)),
         "_id": id == null ? null : id,
-        "sender": sender == null ? null : sender.toJson(),
+        "sender": sender == null ? null : sender!.toJson(),
         "content": content == null ? null : content,
-        "chat": chat == null ? null : chat.toJson(),
-        "createdAt": createdAt == null ? null : createdAt.toIso8601String(),
-        "updatedAt": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "chat": chat == null ? null : chat!.toJson(),
+        "createdAt": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updatedAt": updatedAt == null ? null : updatedAt!.toIso8601String(),
       };
   bool get isUsersMessage {
-    var cond = (this?.sender?.patientId ?? "") !=
-        SettingsController.savedUserProfile.patientID;
+    log("SettingsController.savedUserProfile.patientID--------------> ${SettingsController.savedUserProfile!.patientID}");
+    log("this?.sender?.patientId--------------> ${this.sender?.patientId}");
 
+    var cond = this.sender?.patientId == null
+        ? false
+        : (this.sender?.patientId ?? "") ==
+            SettingsController.savedUserProfile!.patientID;
+    log('-cond-------$cond');
     return cond;
+  }
+}
+
+Future<String> getVoiceDuration({String? url}) async {
+  log("url---------->${url}");
+
+  var voiceDuration;
+  var duration = await player.setUrl(url!);
+
+  if (duration == null) {
+    voiceDuration = '0';
+
+    log("voiceDuration------>${voiceDuration}");
+    return voiceDuration;
+  } else {
+    voiceDuration =
+        "${duration.inMinutes.toString()}:${duration.inSeconds.toString()}";
+    log("voiceDuration------>${voiceDuration}");
+
+    return voiceDuration;
   }
 }
 
@@ -450,24 +481,24 @@ class Chat {
     this.latestMessage,
   });
 
-  bool isGroupChat;
-  List<String> users;
-  String id;
-  String chatName;
-  String reason;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String latestMessage;
+  bool? isGroupChat;
+  List<String>? users;
+  String? id;
+  String? chatName;
+  String? reason;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? latestMessage;
 
   Chat copyWith({
-    bool isGroupChat,
-    List<String> users,
-    String id,
-    String chatName,
-    String reason,
-    DateTime createdAt,
-    DateTime updatedAt,
-    String latestMessage,
+    bool? isGroupChat,
+    List<String>? users,
+    String? id,
+    String? chatName,
+    String? reason,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? latestMessage,
   }) =>
       Chat(
         isGroupChat: isGroupChat ?? this.isGroupChat,
@@ -500,12 +531,13 @@ class Chat {
 
   Map<String, dynamic> toJson() => {
         "isGroupChat": isGroupChat == null ? null : isGroupChat,
-        "users": users == null ? null : List<dynamic>.from(users.map((x) => x)),
+        "users":
+            users == null ? null : List<dynamic>.from(users!.map((x) => x)),
         "_id": id == null ? null : id,
         "chatName": chatName == null ? null : chatName,
         "reason": reason == null ? null : reason,
-        "createdAt": createdAt == null ? null : createdAt.toIso8601String(),
-        "updatedAt": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "createdAt": createdAt == null ? null : createdAt!.toIso8601String(),
+        "updatedAt": updatedAt == null ? null : updatedAt!.toIso8601String(),
         "latestMessage": latestMessage == null ? null : latestMessage,
       };
 }
@@ -523,26 +555,26 @@ class Sender {
     this.name,
   });
 
-  Geometry geometry;
-  String photo;
-  String id;
-  String phone;
-  String fcm;
-  DateTime createAt;
-  String patientId;
-  int age;
-  String name;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? phone;
+  String? fcm;
+  DateTime? createAt;
+  String? patientId;
+  int? age;
+  String? name;
 
   Sender copyWith({
-    Geometry geometry,
-    String photo,
-    String id,
-    String phone,
-    String fcm,
-    DateTime createAt,
-    String patientId,
-    int age,
-    String name,
+    Geometry? geometry,
+    String? photo,
+    String? id,
+    String? phone,
+    String? fcm,
+    DateTime? createAt,
+    String? patientId,
+    int? age,
+    String? name,
   }) =>
       Sender(
         geometry: geometry ?? this.geometry,
@@ -572,12 +604,12 @@ class Sender {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry == null ? null : geometry.toJson(),
+        "geometry": geometry == null ? null : geometry!.toJson(),
         "photo": photo == null ? null : photo,
         "_id": id == null ? null : id,
         "phone": phone == null ? null : phone,
         "fcm": fcm == null ? null : fcm,
-        "createAt": createAt == null ? null : createAt.toIso8601String(),
+        "createAt": createAt == null ? null : createAt!.toIso8601String(),
         "patientID": patientId == null ? null : patientId,
         "age": age == null ? null : age,
         "name": name == null ? null : name,
@@ -590,12 +622,12 @@ class Geometry {
     this.coordinates,
   });
 
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry copyWith({
-    String type,
-    List<double> coordinates,
+    String? type,
+    List<double>? coordinates,
   }) =>
       Geometry(
         type: type ?? this.type,
@@ -613,6 +645,6 @@ class Geometry {
         "type": type == null ? null : type,
         "coordinates": coordinates == null
             ? null
-            : List<dynamic>.from(coordinates.map((x) => x)),
+            : List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

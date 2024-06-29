@@ -11,12 +11,12 @@ class AbroadRepository {
   var _cachedDio = AppDioService.getCachedDio;
 
   Future<dynamic> abroadTreatmentApi({
-    String desc,
-    String country,
-    bool visaSupport,
-    bool accomization,
-    bool service,
-    bool translator,
+    String? desc,
+    String? country,
+    bool? visaSupport,
+    bool? accomization,
+    bool? service,
+    bool? translator,
   }) async {
     log("ApiConsts.abroadTreatment--------------> ${ApiConsts.abroadTreatment}");
 
@@ -37,12 +37,12 @@ class AbroadRepository {
 
   ///complaint image api
   Future<dynamic> abroadImageApi({
-    File image,
-    String id,
+    File? image,
+    String? id,
   }) async {
     FormData formData = FormData.fromMap(
       {
-        "imgs": image.path != ""
+        "imgs": image!.path != ""
             ? await MultipartFile.fromFile(
                 image.path,
                 filename: image.path.split('/').last,
@@ -61,12 +61,12 @@ class AbroadRepository {
   }
 
   Future<dynamic> abroadPDFApi({
-    File pdf,
-    String id,
+    File? pdf,
+    String? id,
   }) async {
     FormData formData = FormData.fromMap(
       {
-        "file": pdf.path != ""
+        "file": pdf!.path != ""
             ? await MultipartFile.fromFile(
                 pdf.path,
                 filename: pdf.path.split('/').last,

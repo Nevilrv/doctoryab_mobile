@@ -81,7 +81,7 @@ extension gestures on Widget {
 }
 
 extension widgetSize on Widget {
-  Widget size({double width, double height}) {
+  Widget size({double? width, double? height}) {
     if (width != null) assert(width > 0);
     if (height != null) assert(height > 0);
     return SizedBox(child: this, width: width, height: height);
@@ -91,7 +91,7 @@ extension widgetSize on Widget {
 //Shadow
 extension widgetShadow on Widget {
   Widget basicShadow(
-      {Color color, Offset offset, double blurRadius, EdgeInsets padding}) {
+      {Color? color, Offset? offset, double? blurRadius, EdgeInsets? padding}) {
     return Container(
       decoration: BoxDecoration(
         boxShadow: [

@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io' show Platform;
 
+import 'package:doctor_yab/app/data/models/diaease_data_list_res_model.dart'
+    as d;
 import 'package:doctor_yab/app/data/repository/DieaseTreatmentRepository.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:get/get.dart';
-import 'package:doctor_yab/app/data/models/diaease_data_list_res_model.dart'
-    as d;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import '../../../../data/models/diaese_category_res_model.dart';
-import 'package:audioplayers/audioplayers.dart' as ap;
-import 'dart:io' show Platform;
 
 class DiseaseTreatmentController extends GetxController {
   List<Datum> category = [];
-  Datum selectedCategory;
+  Datum? selectedCategory;
   List<d.Datum> diaseaList = [];
-  d.Datum selectedDieases;
+  d.Datum? selectedDieases;
 
   bool isLoading = false;
   bool isLoadingList = false;
@@ -37,12 +37,11 @@ class DiseaseTreatmentController extends GetxController {
   }
 
   Future<void> dieaseCategory() async {
-    log("call");
     isLoading = true;
     DieaseTreatementRepository.getDieaseCategory().then((v) {
       isLoading = false;
       if (v.success == true) {
-        category.addAll(v.data);
+        category.addAll(v.data!);
         update();
       } else {
         isLoading = false;
@@ -51,9 +50,7 @@ class DiseaseTreatmentController extends GetxController {
       // v.data.likes.forEach((element) {
       //   if(element.)
       // });
-      log("v--------------> ${v.data}");
     }).catchError((e, s) {
-      log("e--------------> ${e}");
       category = [];
       isLoading = false;
       Future.delayed(Duration(seconds: 3), () {});
@@ -62,20 +59,16 @@ class DiseaseTreatmentController extends GetxController {
   }
 
   Future<void> dieaseDataList(String title) async {
-    log("call");
     isLoadingList = true;
     update();
     DieaseTreatementRepository.getDieaseData(title).then((v) {
       isLoadingList = false;
       update();
       diaseaList.clear();
-      if (v.data.isNotEmpty) {
-        diaseaList.addAll(v.data);
+      if (v.data!.isNotEmpty) {
+        diaseaList.addAll(v.data!);
       }
-
-      log("v--------------> ${v.data}");
     }).catchError((e, s) {
-      log("e--------------> ${e}");
       category = [];
       isLoadingList = false;
       update();
@@ -84,7 +77,7 @@ class DiseaseTreatmentController extends GetxController {
     update();
   }
 
-  BannerAd bannerAd;
+  BannerAd? bannerAd;
   bool isLoadAd = false;
 
   bannerAds() {
@@ -106,6 +99,6 @@ class DiseaseTreatmentController extends GetxController {
           },
         ),
         request: AdRequest());
-    return bannerAd.load();
+    return bannerAd!.load();
   }
 }

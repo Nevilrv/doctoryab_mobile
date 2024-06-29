@@ -1,12 +1,12 @@
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -15,7 +15,6 @@ import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
 import '../controllers/profile_update_controller.dart';
 
 class ProfileUpdateView extends GetView<ProfileUpdateController> {
@@ -37,9 +36,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
     return Container(
       height: h,
       width: w,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/png/bg_blue2.png"), fit: BoxFit.fill)),
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/png/bg_blue2.png"), fit: BoxFit.fill)),
       child: Scaffold(
         // appBar: AppBar(
         //   backgroundColor: Colors.transparent,
@@ -81,13 +78,17 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
             onTap: () {
               Get.back();
             },
-            child: RotatedBox(
-              quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
-              child: Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.white,
-              ),
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: AppColors.white,
             ),
+            // child: RotatedBox(
+            //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+            //   child: Icon(
+            //     Icons.arrow_back_ios_new,
+            //     color: AppColors.white,
+            //   ),
+            // ),
           ),
           centerTitle: true,
           elevation: 0,
@@ -125,12 +126,9 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                     children: [
                       Container(
                         height: h * 0.73,
-                        decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(15)),
+                        decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(15)),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Column(
@@ -144,10 +142,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                       Container(
                                         height: h * 0.1,
                                         decoration: BoxDecoration(
-                                            color: AppColors.primary,
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(15),
-                                                topRight: Radius.circular(15))),
+                                          color: AppColors.primary,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15),
+                                          ),
+                                        ),
                                       ),
                                       Positioned(
                                         left: 0,
@@ -157,27 +157,43 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           height: h * 0.15,
                                           width: h * 0.15,
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: controller
-                                                            .lastUploadedImagePath() !=
-                                                        ""
-                                                    ? FileImage(
-                                                        controller.image.value)
-                                                    : SettingsController
-                                                                .savedUserProfile
-                                                                ?.photo ==
-                                                            null
-                                                        ? AssetImage(
-                                                            "assets/png/person-placeholder.jpg")
-                                                        : NetworkImage(
-                                                            "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
-                                                          ),
-                                                onError:
-                                                    (exception, stackTrace) {
-                                                  return _profilePlaceHolder();
-                                                },
-                                              )),
+                                            shape: BoxShape.circle,
+                                            // image: DecorationImage(
+                                            //   image: controller
+                                            //               .lastUploadedImagePath() !=
+                                            //           ""
+                                            //       ? NetworkImage(
+                                            //           "assets/png/person-placeholder.jpg")
+                                            //       : NetworkImage(
+                                            //           "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
+                                            //         ),
+                                            //   onError:
+                                            //       (exception, stackTrace) {
+                                            //     return _profilePlaceHolder();
+                                            //   },
+                                            // ),
+                                          ),
+                                          child: controller.isLoadImage.value
+                                              ? Center(child: CircularProgressIndicator(color: AppColors.primary))
+                                              : controller.imagePath.isNotEmpty
+                                                  ? Image.file(
+                                                      File(controller.imagePath),
+                                                      // controller.image.value,
+                                                      errorBuilder: (context, error, stackTrace) {
+                                                        return _profilePlaceHolder();
+                                                      },
+                                                    )
+                                                  : SettingsController.savedUserProfile?.photo == null
+                                                      ? Image.asset(
+                                                          "assets/png/person-placeholder.jpg",
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : CachedNetworkImage(
+                                                          imageUrl: "${ApiConsts.hostUrl}${SettingsController.savedUserProfile?.photo}",
+                                                          errorWidget: (context, error, stackTrace) {
+                                                            return _profilePlaceHolder();
+                                                          },
+                                                        ),
                                         ),
                                       ),
                                       Positioned(
@@ -192,19 +208,13 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           child: Container(
                                             height: h * 0.05,
                                             width: h * 0.05,
-                                            decoration: BoxDecoration(
-                                                color: AppColors.white,
-                                                shape: BoxShape.circle),
+                                            decoration: BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
                                             child: Center(
                                               child: Container(
                                                 height: h * 0.04,
                                                 width: h * 0.04,
-                                                decoration: BoxDecoration(
-                                                    color: AppColors.primary,
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                    child: SvgPicture.asset(
-                                                        AppImages.noteEdit)),
+                                                decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
+                                                child: Center(child: SvgPicture.asset(AppImages.noteEdit)),
                                               ),
                                             ),
                                           ),
@@ -218,10 +228,8 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                 ),
                                 Text(
                                   "user_ids".tr,
-                                  style: AppTextStyle.boldGrey12.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.grey1),
+                                  style:
+                                      AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.grey1),
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -230,19 +238,14 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                   width: w,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color:
-                                              AppColors.black.withOpacity(0.2)),
+                                      border: Border.all(color: AppColors.black.withOpacity(0.2)),
                                       color: AppColors.grey2),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                     child: Text(
                                       "${SettingsController.savedUserProfile?.patientID ?? ""}",
-                                      style: AppTextStyle.boldGrey12.copyWith(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.grey1),
+                                      style: AppTextStyle.boldGrey12
+                                          .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.grey1),
                                     ),
                                   ),
                                 ),
@@ -258,8 +261,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                     // autovalidateMode: AutovalidateMode.always,
                                     child: SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Row(
@@ -267,21 +269,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                               Text(
                                                 "full_name".tr,
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: AppColors.red3),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                                               ),
                                             ],
                                           ),
@@ -289,52 +282,35 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             height: 5,
                                           ),
                                           TextFormField(
-                                            onChanged: (_) =>
-                                                controller.validateForm(),
+                                            onChanged: (_) => controller.validateForm(),
                                             validator: Utils.nameValidator,
-                                            style: AppTextStyle.mediumPrimary12
-                                                .copyWith(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                             cursorColor: AppColors.primary,
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.name,
                                             controller: controller.teName,
                                             decoration: InputDecoration(
-                                                hintText:
-                                                    "please_enter_name".tr,
-                                                hintStyle: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                hintText: "please_enter_name".tr,
+                                                hintStyle: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderSide:
+                                                      BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2),
+                                                ),
                                                 // prefixIconConstraints:
                                                 //     BoxConstraints.expand(
                                                 //   height: 30,
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10, right: 10),
+                                                  padding: const EdgeInsets.only(left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.editName,
                                                   ),
                                                 ),
                                                 suffixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 12, right: 12),
+                                                  padding: const EdgeInsets.only(left: 12, right: 12),
                                                   child: SvgPicture.asset(
                                                     AppImages.editPen,
                                                     width: 16,
@@ -342,16 +318,18 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   ),
                                                 ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
-                                                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderSide:
+                                                      BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2),
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2),
+                                                ),
+                                                focusedErrorBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2),
+                                                ),
                                                 contentPadding: EdgeInsets.symmetric(vertical: 0)
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -370,21 +348,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                               Text(
                                                 "eMail".tr,
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: AppColors.red3),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                                               ),
                                             ],
                                           ),
@@ -392,40 +361,24 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             height: 5,
                                           ),
                                           TextFormField(
-                                            onChanged: (_) =>
-                                                controller.validateForm(),
-                                            validator: controller
-                                                        .email.text.isEmpty ||
-                                                    controller.email.text == ""
-                                                ? Utils.emailValidator
-                                                : null,
+                                            onChanged: (_) => controller.validateForm(),
+                                            validator:
+                                                controller.email.text.isEmpty || controller.email.text == "" ? Utils.emailValidator : null,
                                             cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12
-                                                .copyWith(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.5),
+                                            style: AppTextStyle.mediumPrimary12.copyWith(
+                                              color: AppColors.primary.withOpacity(0.5),
                                             ),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                                            keyboardType:
-                                                TextInputType.emailAddress,
+                                            keyboardType: TextInputType.emailAddress,
                                             controller: controller.email,
                                             decoration: InputDecoration(
-                                                hintText:
-                                                    "please_enter_email".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: BorderSide(
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.4),
-                                                      strokeAlign: 2,
-                                                      width: 2),
+                                                hintText: "please_enter_email".tr,
+                                                hintStyle: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderSide:
+                                                      BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2),
                                                 ),
                                                 // prefixIconConstraints:
                                                 //     BoxConstraints.expand(
@@ -433,9 +386,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10, right: 10),
+                                                  padding: const EdgeInsets.only(left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.mail,
                                                   ),
@@ -451,22 +402,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   ),
                                                 // ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide:
+                                                        BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
                                                 errorBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.red,
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 focusedErrorBorder: OutlineInputBorder(
                                                     borderRadius: BorderRadius.circular(10),
                                                     borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
@@ -488,12 +429,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                               Text(
                                                 "Phone_number".tr,
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                               ),
                                             ],
                                           ),
@@ -501,8 +437,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             height: 5,
                                           ),
                                           TextFormField(
-                                            onChanged: (_) =>
-                                                controller.validateForm(),
+                                            onChanged: (_) => controller.validateForm(),
                                             // validator:
                                             //     controller.teNewNumber.text !=
                                             //                 null ||
@@ -512,32 +447,19 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             //         ? Utils.numberValidator
                                             //         : null,
                                             cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12
-                                                .copyWith(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             // validator: Utils.numberValidator,
                                             keyboardType: TextInputType.phone,
                                             controller: controller.teNewNumber,
                                             decoration: InputDecoration(
-                                                hintText:
-                                                    "please_enter_phone".tr,
-                                                hintStyle: AppTextStyle
-                                                    .mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: BorderSide(
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.4),
-                                                      strokeAlign: 2,
-                                                      width: 2),
+                                                hintText: "please_enter_phone".tr,
+                                                hintStyle: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderSide:
+                                                      BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2),
                                                 ),
                                                 // prefixIconConstraints:
                                                 //     BoxConstraints.expand(
@@ -545,9 +467,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10, right: 10),
+                                                  padding: const EdgeInsets.only(left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.mobile,
                                                   ),
@@ -562,30 +482,24 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                 //     height: 16,
                                                 //   ),
                                                 // ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                   borderSide: BorderSide(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.4),
+                                                    color: AppColors.primary.withOpacity(0.4),
                                                     strokeAlign: 2,
                                                     width: 2,
                                                   ),
                                                 ),
                                                 errorBorder: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  borderRadius: BorderRadius.circular(10),
                                                   borderSide: BorderSide(
                                                     color: AppColors.red,
                                                     strokeAlign: 2,
                                                     width: 2,
                                                   ),
                                                 ),
-                                                focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                focusedErrorBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                   borderSide: BorderSide(
                                                     color: AppColors.red,
                                                     strokeAlign: 2,
@@ -612,12 +526,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                               Text(
                                                 "age".tr,
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                               ),
                                             ],
                                           ),
@@ -625,51 +534,34 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             height: 5,
                                           ),
                                           TextFormField(
-                                            onChanged: (_) =>
-                                                controller.validateForm(),
-                                            validator: (age) =>
-                                                Utils.ageValidatore(age,
-                                                    minAge: 12, maxAge: 120),
+                                            onChanged: (_) => controller.validateForm(),
+                                            validator: (age) => Utils.ageValidatore(age!, minAge: 12, maxAge: 120),
                                             cursorColor: AppColors.primary,
-                                            style: AppTextStyle.mediumPrimary12
-                                                .copyWith(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.5)),
+                                            style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                             // maxLength: 6,
                                             // maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                             keyboardType: TextInputType.number,
                                             controller: controller.teAge,
                                             decoration: InputDecoration(
                                                 hintText: "please_enter_age".tr,
-                                                hintStyle: AppTextStyle.mediumPrimary12
-                                                    .copyWith(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.5)),
+                                                hintStyle: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(
-                                                        10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide:
+                                                        BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
                                                 // prefixIconConstraints:
                                                 //     BoxConstraints.expand(
                                                 //   height: 30,
                                                 //   width: 30,
                                                 // ),
                                                 prefixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10, right: 10),
+                                                  padding: const EdgeInsets.only(left: 10, right: 10),
                                                   child: SvgPicture.asset(
                                                     AppImages.gift,
                                                   ),
                                                 ),
                                                 suffixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 12, right: 12),
+                                                  padding: const EdgeInsets.only(left: 12, right: 12),
                                                   child: SvgPicture.asset(
                                                     AppImages.editPen,
                                                     width: 16,
@@ -677,17 +569,15 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                                   ),
                                                 ),
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(
-                                                        10),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.4),
-                                                        strokeAlign: 2,
-                                                        width: 2)),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide:
+                                                        BorderSide(color: AppColors.primary.withOpacity(0.4), strokeAlign: 2, width: 2)),
                                                 errorBorder: OutlineInputBorder(
                                                     borderRadius: BorderRadius.circular(10),
                                                     borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
-                                                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
+                                                focusedErrorBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide: BorderSide(color: AppColors.red, strokeAlign: 2, width: 2)),
                                                 contentPadding: EdgeInsets.zero
                                                 // errorText: controller.nameLastError() == ""
                                                 //     ? null
@@ -706,21 +596,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                               Text(
                                                 "your_city_selection".tr,
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: AppColors.red3),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                                               ),
                                             ],
                                           ),
@@ -731,92 +612,51 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             width: w,
                                             // height: 10,
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.4),
-                                                    width: 2),
+                                                borderRadius: BorderRadius.circular(10),
+                                                border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                                 color: AppColors.white),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10,
-                                                  top: 10,
-                                                  bottom: 10,
-                                                  left: 10),
+                                              padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10, left: 10),
                                               child: Row(
                                                 children: [
                                                   Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
+                                                    padding: const EdgeInsets.only(right: 10),
                                                     child: SvgPicture.asset(
                                                       AppImages.map,
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.4),
+                                                      color: AppColors.primary.withOpacity(0.4),
                                                     ),
                                                   ),
                                                   Container(
                                                     width: w * 0.7,
-                                                    child:
-                                                        DropdownButton<String>(
+                                                    child: DropdownButton<String>(
                                                       underline: SizedBox(),
                                                       // value: controller
                                                       //         .selectedLocation
                                                       //         .value
                                                       //         .toString() ??
                                                       //     "",
-                                                      icon: Icon(
-                                                          Icons.expand_more,
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(
-                                                                  0.4)),
+                                                      icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.4)),
                                                       isDense: true,
                                                       hint: Text(
-                                                          controller.selectedLocation
-                                                                      .value ==
-                                                                  ""
-                                                              ? "Please_select_city"
-                                                                  .tr
-                                                              : controller
-                                                                  .selectedLocation
-                                                                  .value,
-                                                          style: AppTextStyle
-                                                              .mediumPrimary12
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .primary
-                                                                      .withOpacity(
-                                                                          0.5))),
+                                                          controller.selectedLocation.value == ""
+                                                              ? "Please_select_city".tr
+                                                              : controller.selectedLocation.value,
+                                                          style: AppTextStyle.mediumPrimary12
+                                                              .copyWith(color: AppColors.primary.withOpacity(0.5))),
                                                       isExpanded: true,
-                                                      items: controller
-                                                          .locations
-                                                          .map((City value) {
-                                                        return DropdownMenuItem<
-                                                            String>(
+                                                      items: controller.locations.map((City value) {
+                                                        return DropdownMenuItem<String>(
                                                           value: value.eName,
                                                           onTap: () {
-                                                            controller
-                                                                .selectedLocationId
-                                                                .value = value.sId;
-                                                            log("controller.selectedLocationId.value--------------> ${controller.selectedLocationId.value}");
+                                                            controller.selectedLocationId.value = value.sId!;
                                                           },
-                                                          child: Text(
-                                                              value.eName,
-                                                              style: AppTextStyle
-                                                                  .mediumPrimary12
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5))),
+                                                          child: Text(value.eName.toString(),
+                                                              style: AppTextStyle.mediumPrimary12
+                                                                  .copyWith(color: AppColors.primary.withOpacity(0.5))),
                                                         );
                                                       }).toList(),
                                                       onChanged: (value) {
-                                                        controller
-                                                            .selectedLocation
-                                                            .value = value;
+                                                        controller.selectedLocation.value = value!;
                                                       },
                                                     ),
                                                   ),
@@ -832,21 +672,12 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                               Text(
                                                 "gender".tr,
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                                               ),
                                               Text(
                                                 "*",
                                                 style: AppTextStyle.boldGrey12
-                                                    .copyWith(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: AppColors.red3),
+                                                    .copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.red3),
                                               ),
                                             ],
                                           ),
@@ -857,77 +688,40 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                             width: w,
                                             // height: 10,
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.4),
-                                                    width: 2),
+                                                borderRadius: BorderRadius.circular(10),
+                                                border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                                 color: AppColors.white),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10,
-                                                  top: 10,
-                                                  bottom: 10,
-                                                  left: 10),
+                                              padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10, left: 10),
                                               child: Row(
                                                 children: [
                                                   Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
+                                                    padding: const EdgeInsets.only(right: 10),
                                                     child: SvgPicture.asset(
                                                       AppImages.user,
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.5),
+                                                      color: AppColors.primary.withOpacity(0.5),
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    child:
-                                                        DropdownButton<String>(
+                                                    child: DropdownButton<String>(
                                                       underline: SizedBox(),
-                                                      value: controller
-                                                              .selectedGender
-                                                              .value ??
-                                                          "",
-                                                      icon: Icon(
-                                                          Icons.expand_more,
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(
-                                                                  0.4)),
+                                                      value: controller.selectedGender.value ?? "",
+                                                      icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.4)),
                                                       isDense: true,
-                                                      hint: Text(
-                                                          "Please_select_gender"
-                                                              .tr,
-                                                          style: AppTextStyle
-                                                              .mediumPrimary12
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .primary
-                                                                      .withOpacity(
-                                                                          0.5))),
+                                                      hint: Text("Please_select_gender".tr,
+                                                          style: AppTextStyle.mediumPrimary12
+                                                              .copyWith(color: AppColors.primary.withOpacity(0.5))),
                                                       isExpanded: true,
-                                                      items: controller
-                                                          .genderList
-                                                          .map((String value) {
-                                                        return DropdownMenuItem<
-                                                            String>(
+                                                      items: controller.genderList.map((String value) {
+                                                        return DropdownMenuItem<String>(
                                                           value: value,
                                                           child: Text(value,
-                                                              style: AppTextStyle
-                                                                  .mediumPrimary12
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5))),
+                                                              style: AppTextStyle.mediumPrimary12
+                                                                  .copyWith(color: AppColors.primary.withOpacity(0.5))),
                                                         );
                                                       }).toList(),
                                                       onChanged: (value) {
-                                                        controller
-                                                            .selectedGender
-                                                            .value = value;
+                                                        controller.selectedGender.value = value!;
                                                       },
                                                     ),
                                                   ),
@@ -940,30 +734,21 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                                           ),
                                           controller.loading.value == true
                                               ? Center(
-                                                  child:
-                                                      CircularProgressIndicator(
+                                                  child: CircularProgressIndicator(
                                                   color: AppColors.primary,
                                                 ))
                                               : CustomRoundedButton(
-                                                  disabledColor: AppColors
-                                                      .primary
-                                                      .withOpacity(.2),
+                                                  disabledColor: AppColors.primary.withOpacity(.2),
                                                   color: AppColors.primary,
-                                                  textDisabledColor:
-                                                      Colors.white,
+                                                  textDisabledColor: Colors.white,
                                                   textColor: Colors.white,
-                                                  splashColor: AppColors
-                                                      .easternBlue
-                                                      .withAlpha(0),
+                                                  splashColor: AppColors.easternBlue.withAlpha(0),
                                                   text: "save_changes".tr,
                                                   // width: 300,
                                                   onTap: () {
-                                                    if (controller
-                                                        .formKey.currentState
-                                                        .validate()) {
-                                                      Get.focusScope.unfocus();
-                                                      controller
-                                                          .updateApi(context);
+                                                    if (controller.formKey.currentState!.validate()) {
+                                                      Get.focusScope!.unfocus();
+                                                      controller.updateApi(context);
                                                     } else {
                                                       print("ssssssss");
                                                       // Utils.restartApp();
@@ -990,9 +775,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
                       ),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 40),
-                          child: Divider(
-                              thickness: 2,
-                              color: AppColors.white.withOpacity(0.5))),
+                          child: Divider(thickness: 2, color: AppColors.white.withOpacity(0.5))),
                       // Obx(
                       //   () => Container(
                       //       child: Stack(
@@ -1290,7 +1073,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
     );
   }
 
-  Widget _profilePlaceHolder() {
+  _profilePlaceHolder() {
     return Image.asset(
       "assets/png/person-placeholder.jpg",
       width: 150,
@@ -1299,8 +1082,7 @@ class ProfileUpdateView extends GetView<ProfileUpdateController> {
     ).radiusAll(24);
   }
 
-  _button(String text,
-      {Color color, VoidCallback onTap, @required IconData icon}) {
+  _button(String text, {Color? color, VoidCallback? onTap, required IconData icon}) {
     return Container(
       color: color ?? Get.theme.primaryColor,
       child: Row(

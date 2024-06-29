@@ -1,12 +1,12 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/book/controllers/book_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
@@ -18,10 +18,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 class ConfirmationScreen extends GetView<BookController> {
-  const ConfirmationScreen({Key key}) : super(key: key);
+  const ConfirmationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +104,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                     const EdgeInsets.all(8.0),
                                                 child: CachedNetworkImage(
                                                   imageUrl:
-                                                      "${ApiConsts.hostUrl}${controller.doctor.photo}",
+                                                      "${ApiConsts.hostUrl}${controller.doctor!.photo}",
                                                   height: h * 0.11,
                                                   width: h * 0.11,
                                                   fit: BoxFit.cover,
@@ -139,7 +138,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                 children: [
                                                   // SizedBox(height: 10),
                                                   Text(
-                                                    "${controller.doctor.name ?? ""}",
+                                                    "${controller.doctor?.name ?? ""}",
                                                     style: AppTextTheme.h(12)
                                                         .copyWith(
                                                             color: AppColors
@@ -147,7 +146,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                   ),
                                                   SizedBox(height: 2),
                                                   Text(
-                                                    "${controller.doctor.speciality ?? ""}",
+                                                    "${controller.doctor?.speciality ?? ""}",
                                                     style: AppTextTheme.b(11)
                                                         .copyWith(
                                                             color: AppColors
@@ -165,7 +164,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                         itemSize: 17,
                                                         initialRating:
                                                             double.parse(
-                                                          "${controller.doctor.averageRatings == null ? "0.0" : controller.doctor.averageRatings.toString() ?? "0.0"}",
+                                                          "${controller.doctor?.averageRatings == null ? "0.0" : controller.doctor?.averageRatings.toString() ?? "0.0"}",
                                                         ),
                                                         // minRating: 1,
                                                         direction:
@@ -195,7 +194,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                       //       .copyWith(color: AppColors.lgt2),
                                                       // ),
                                                       Text(
-                                                        '(${controller.doctor.totalFeedbacks == null ? 0 : controller.doctor.totalFeedbacks}) Reviews',
+                                                        '(${controller.doctor?.totalFeedbacks == null ? 0 : controller.doctor?.totalFeedbacks}) Reviews',
                                                         style: AppTextTheme.b(
                                                                 11)
                                                             .copyWith(
@@ -425,7 +424,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                       prefixIcon: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 left: 10,
                                                                 right: 10),
                                                         child: SvgPicture.asset(
@@ -520,7 +519,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                       prefixIcon: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 left: 10,
                                                                 right: 10),
                                                         child: SvgPicture.asset(
@@ -618,7 +617,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                       prefixIcon: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 left: 10,
                                                                 right: 10),
                                                         child: SvgPicture.asset(
@@ -704,7 +703,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                         Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   right: 10),
                                                           child:
                                                               SvgPicture.asset(
@@ -761,7 +760,7 @@ class ConfirmationScreen extends GetView<BookController> {
                                                             onChanged: (value) {
                                                               controller
                                                                   .selectedGender
-                                                                  .value = value;
+                                                                  .value = value!;
                                                             },
                                                           ),
                                                         ),

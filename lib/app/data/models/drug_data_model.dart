@@ -1,31 +1,31 @@
 class DrugData {
-  bool verified;
-  bool active;
-  String img;
-  String id;
-  String englishName;
-  String persianName;
-  String genericName;
-  String barcode;
-  String therapeuticClass;
-  String pharmacologicClass;
-  String usage;
-  String usageEnglish;
-  String sideEffectsEnglish;
-  String sideEffects;
-  String dosages;
-  String packsAndPrices;
-  String wholeSalePrice;
-  String warnings;
-  String company;
-  String origin;
-  String notes;
-  String drugType;
-  String pack;
-  AdminId adminId;
-  String createdAt;
-  String updatedAt;
-  int v;
+  bool? verified;
+  bool? active;
+  String? img;
+  String? id;
+  String? englishName;
+  String? persianName;
+  String? genericName;
+  String? barcode;
+  String? therapeuticClass;
+  String? pharmacologicClass;
+  String? usage;
+  String? usageEnglish;
+  String? sideEffectsEnglish;
+  String? sideEffects;
+  String? dosages;
+  String? packsAndPrices;
+  String? wholeSalePrice;
+  String? warnings;
+  String? company;
+  String? origin;
+  String? notes;
+  String? drugType;
+  String? pack;
+  AdminId? adminId;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
 
   DrugData({
     this.verified,
@@ -122,7 +122,7 @@ class DrugData {
         "notes": notes == null ? null : notes,
         "drugType": drugType == null ? null : drugType,
         "pack": pack == null ? null : pack,
-        "adminId": adminId == null ? null : adminId.toJson(),
+        "adminId": adminId == null ? null : adminId!.toJson(),
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "__v": v,
@@ -130,9 +130,9 @@ class DrugData {
 }
 
 class AdminId {
-  String name;
-  String id;
-  String email;
+  String? name;
+  String? id;
+  String? email;
 
   AdminId({
     this.name,

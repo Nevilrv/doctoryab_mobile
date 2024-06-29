@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
-import 'package:doctor_yab/app/modules/hospital_new/tab_main/views/tab_main_view.dart';
-import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
+
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,6 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
-import '../modules/drug_store_lab/views/drug_store_lab_view.dart';
 import '../theme/AppColors.dart';
 import '../theme/TextTheme.dart';
 import '../utils/utils.dart';
@@ -22,14 +19,14 @@ import 'dart:math' as math;
 
 class ProfileViewNew extends StatelessWidget {
   const ProfileViewNew(
-      {Key key,
-      this.photo,
-      this.name,
+      {Key? key,
+      required this.photo,
+      required this.name,
       this.star,
-      this.address,
-      this.geometry,
-      this.phoneNumbers,
-      this.child,
+      required this.address,
+      required this.geometry,
+      required this.phoneNumbers,
+      required this.child,
       this.showChildInBox = true,
       this.numberOfusersRated,
       this.reviewTitle,
@@ -37,28 +34,29 @@ class ProfileViewNew extends StatelessWidget {
       : super(key: key);
   final String photo;
   final String name;
-  final String reviewTitle;
-  final double star;
+  final String? reviewTitle;
+  final double? star;
   final String address;
-  final Geometry geometry;
+  final Geometry? geometry;
   final String phoneNumbers;
   final Widget child;
   final bool showChildInBox;
-  final num numberOfusersRated;
-  final Function() reviewFunction;
+  final num? numberOfusersRated;
+  final Function()? reviewFunction;
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 10),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
         // height: 220,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15), topLeft: Radius.circular(15)),
           // boxShadow: [
           //   BoxShadow(
           //     color: Colors.grey.withOpacity(0.1),
@@ -286,7 +284,7 @@ class ProfileViewNew extends StatelessWidget {
                               width: 5,
                             ),
                             Container(
-                              width: Get.width * 0.74,
+                              width: Get.width * 0.69,
                               child: Text(
                                 "${address}",
                                 style: AppTextStyle.mediumBlack12.copyWith(
@@ -305,8 +303,8 @@ class ProfileViewNew extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Utils.openGoogleMaps(geometry.coordinates[1] ?? 0.0,
-                            geometry?.coordinates[0] ?? 0.0);
+                        Utils.openGoogleMaps(geometry!.coordinates?[1] ?? 0.0,
+                            geometry?.coordinates![0] ?? 0.0);
                       },
                       child: Container(
                         width: w,

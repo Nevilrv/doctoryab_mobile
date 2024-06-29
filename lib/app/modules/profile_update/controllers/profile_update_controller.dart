@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'dart:io' as Io;
 
-import 'package:doctor_yab/app/controllers/auth_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/user_model.dart';
 import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/exception_handler/DioExceptionHandler.dart';
@@ -19,25 +16,27 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
-
-import '../../../data/static.dart';
 
 class ProfileUpdateController extends GetxController {
   //TODO this user must be rx and must be in global
 
   var user = SettingsController.savedUserProfile;
   var imagePicked = false.obs;
-  Rx<Io.File> image = Io.File("").obs;
+
+  // Rx<Io.File> image = Io.File("").obs;
+  String imagePath = "";
   final picker = ImagePicker();
   var isUploadingImage = false.obs;
   var uploadProgress = 0.0.obs;
   var lastUploadedImagePath = "".obs;
   var uploadHadError = false.obs;
+  var isLoadImage = false.obs;
+
   //*
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var formValid = false.obs;
   var loading = false.obs;
+
   //*text Edtings
   TextEditingController teName = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -50,14 +49,14 @@ class ProfileUpdateController extends GetxController {
   var selectedLocation = "".obs;
   var selectedLocationId = "".obs;
   var selectedGender = "Male".obs;
+
   @override
   void onInit() {
-    log("user?.name?.toString()--------------> ${user?.id}");
-    log("user?.name?.toString()--------------> ${user?.gender}");
-    log("user?.name?.toString()--------------> ${user?.language.runtimeType}");
-    ever(image, (_) {
-      uploadImage();
-    });
+    uploadImage();
+
+    // ever(image, (_) {
+    //   uploadImage();
+    // });
 
     super.onInit();
   }
@@ -76,59 +75,97 @@ class ProfileUpdateController extends GetxController {
   }
 
   getData() {
-    print('---->>>>Call');
     teName.text = user?.name?.toString() ?? "";
     teAge.text = user?.age?.toString() ?? "";
-    email.text = user?.email == null ? " " : user.email.toString();
-    selectedLocation.value = SettingsController.auth.savedCity.eName ?? "";
-    selectedLocationId.value = SettingsController.auth.savedCity.sId ?? "";
-    log("selectedLocationId.value--------------> ${selectedLocationId.value}");
+    email.text = user?.email == null ? " " : user!.email.toString();
+    selectedLocation.value = SettingsController.auth.savedCity?.eName ?? "";
+    selectedLocationId.value = SettingsController.auth.savedCity?.sId ?? "";
 
     teNewNumber.text = user?.phone.toString() ?? "";
-    selectedGender.value = user.gender == null ? "Male" : user.gender;
+    selectedGender.value = (user?.gender == null ? "Male" : user?.gender) ?? "Male";
   }
 
   @override
   void onClose() {}
 
   void uploadImage() {
-    isUploadingImage(true);
-    // if (isUpdateType && imagedPicked.value != true) {
-    //   updateName(null);
-    //   return;
-    // }
-    log("isUploadingImage--------------> $isUploadingImage");
+    if (imagePath.isNotEmpty) {
+      isUploadingImage(true);
+      // if (isUpdateType && imagedPicked.value != true) {
+      //   updateName(null);
+      //   return;
+      // }
 
-    AuthRepository().updateImage(image.value, (pr) {
-      uploadProgress.value = pr / 100;
-    }).then((value) {
-      var response = value.data;
-      if (response["success"]) {
-        resetUploadProgress();
-        // SettingsController.userProfileComplete = true;
-        // lastUploadedImagePath.value = response["name"];
-        lastUploadedImagePath.value = image.value.path.toString();
+      AuthRepository().updateImage(Io.File(imagePath), (pr) {
+        uploadProgress.value = pr / 100;
+      }).then((value) {
+        var response = value.data;
+        if (response["success"]) {
+          resetUploadProgress();
+          // SettingsController.userProfileComplete = true;
+          // lastUploadedImagePath.value = response["name"];
+          lastUploadedImagePath.value = imagePath;
 
-        if (SettingsController.savedUserProfile?.photo != null) {
-          User _user = SettingsController.savedUserProfile;
-          // _user.photo = response["photo"];
-          SettingsController.savedUserProfile = _user;
+          if (SettingsController.savedUserProfile?.photo != null) {
+            User? _user = SettingsController.savedUserProfile;
+            // _user.photo = response["photo"];
+            SettingsController.savedUserProfile = _user;
+          }
+        } else {
+          AppGetDialog.show(middleText: response["message"].toString());
         }
-      } else {
-        AppGetDialog.show(middleText: response["message"].toString());
-      }
-      // TODO Not Tested Yet
-    }).catchError((e, s) {
-      DioExceptionHandler.handleException(
-        exception: e,
-        retryCallBak: uploadImage,
-      );
-      resetUploadProgress();
-      uploadHadError(true);
-      // AppGetDialog.show(middleText: e.message.toString());
-      FirebaseCrashlytics.instance.recordError(e, s);
-    });
+        // TODO Not Tested Yet
+      }).catchError((e, s) {
+        DioExceptionHandler.handleException(
+          exception: e,
+          retryCallBak: uploadImage,
+        );
+        resetUploadProgress();
+        uploadHadError(true);
+        // AppGetDialog.show(middleText: e.message.toString());
+        FirebaseCrashlytics.instance.recordError(e, s);
+      });
+    }
   }
+
+  /// Old Upload Iamage
+  // void uploadImage() {
+  //   isUploadingImage(true);
+  //   // if (isUpdateType && imagedPicked.value != true) {
+  //   //   updateName(null);
+  //   //   return;
+  //   // }
+  //
+  //   AuthRepository().updateImage(image.value, (pr) {
+  //     uploadProgress.value = pr / 100;
+  //   }).then((value) {
+  //     var response = value.data;
+  //     if (response["success"]) {
+  //       resetUploadProgress();
+  //       // SettingsController.userProfileComplete = true;
+  //       // lastUploadedImagePath.value = response["name"];
+  //       lastUploadedImagePath.value = image.value.path.toString();
+  //
+  //       if (SettingsController.savedUserProfile?.photo != null) {
+  //         User? _user = SettingsController.savedUserProfile;
+  //         // _user.photo = response["photo"];
+  //         SettingsController.savedUserProfile = _user;
+  //       }
+  //     } else {
+  //       AppGetDialog.show(middleText: response["message"].toString());
+  //     }
+  //     // TODO Not Tested Yet
+  //   }).catchError((e, s) {
+  //     DioExceptionHandler.handleException(
+  //       exception: e,
+  //       retryCallBak: uploadImage,
+  //     );
+  //     resetUploadProgress();
+  //     uploadHadError(true);
+  //     // AppGetDialog.show(middleText: e.message.toString());
+  //     FirebaseCrashlytics.instance.recordError(e, s);
+  //   });
+  // }
 
   var _cachedDio = AppDioService.getCachedDio;
 
@@ -142,13 +179,12 @@ class ProfileUpdateController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -211,8 +247,6 @@ class ProfileUpdateController extends GetxController {
       email: email.text,
     )
         .then((value) {
-      log("value--------------> ${value}");
-
       try {
         User user = User.fromJson(value.data["data"]);
         SettingsController.savedUserProfile = user;
@@ -220,7 +254,8 @@ class ProfileUpdateController extends GetxController {
         SettingsController.userProfileComplete = true;
         Utils.commonSnackbar(text: "update_profile".tr, context: context);
         loading.value = false;
-        Utils.whereShouldIGo();
+
+        // Utils.whereShouldIGo();
       } catch (e, s) {
         //TODO handle
         loading.value = false;
@@ -245,26 +280,14 @@ class ProfileUpdateController extends GetxController {
   }
 
   void pickImage() async {
-    //TODO handle exception
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      isLoadImage(true);
+
       Io.File pickedFileAsFile = Io.File(pickedFile.path);
 
-      //* To resize the image if it lags comment from here
-      // Plugin.Image tmpImg =
-      //     Plugin.decodeImage(pickedFileAsFile.readAsBytesSync());
-
-      // // Resize the image to a 120x? thumbnail (maintaining the aspect ratio).
-      // Plugin.Image thumbnail = Plugin.copyResize(tmpImg, width: 512);
-
-      // // Save the thumbnail as a PNG.
-      // File(pickedFileAsFile.path)
-      //   ..writeAsBytesSync(Plugin.encodePng(thumbnail));
-      //*till here
-
-      //*Image Croper start
-      Io.File croppedFile = await ImageCropper().cropImage(
+      CroppedFile? cropImage = await ImageCropper().cropImage(
         sourcePath: pickedFileAsFile.path,
         maxWidth: 512,
         maxHeight: 512,
@@ -272,38 +295,177 @@ class ProfileUpdateController extends GetxController {
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
         ],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'cropper'.tr,
-          toolbarColor: Get.theme.primaryColor,
-          toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-        ),
-        iosUiSettings: IOSUiSettings(
-          minimumAspectRatio: 1.0,
-          aspectRatioLockEnabled: true,
-        ),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'cropper'.tr,
+            toolbarColor: Get.theme.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true,
+          ),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+            aspectRatioLockEnabled: true,
+          )
+        ],
+        // androidUiSettings: AndroidUiSettings(
+        //   toolbarTitle: 'cropper'.tr,
+        //   toolbarColor: Get.theme.primaryColor,
+        //   toolbarWidgetColor: Colors.white,
+        //   activeControlsWidgetColor: Colors.white,
+        //   initAspectRatio: CropAspectRatioPreset.square,
+        //   lockAspectRatio: true,
+        // ),
+        // iosUiSettings: IOSUiSettings(
+        //   minimumAspectRatio: 1.0,
+        //   aspectRatioLockEnabled: true,
+        // ),
       );
-      //*Image Croper End
-      //file size limit
-      // var pickedFileSize = await pickedFileAsFile.length() / 1024; //In KB
-      var pickedFileSize = await croppedFile.length() / 1024; //In KB
-      // AppGetDialog.show(middleText: pickedFileSize.toString());
-      if (pickedFileSize > ApiConsts.maxImageSizeLimit) {
-        imagePicked(false);
-        AppGetDialog.show(middleText: "max_file_limit_is_5MB".tr);
-        // lastImageError.value = "max_file_limit_is_5MB".tr;
 
-        return;
+      if (cropImage != null) {
+        var pickedFileSize = (await Io.File(cropImage.path).length()) / 1024; //In KB
+
+        if (pickedFileSize > ApiConsts.maxImageSizeLimit) {
+          imagePicked(false);
+          AppGetDialog.show(middleText: "max_file_limit_is_5MB".tr);
+
+          return;
+        }
+
+        imagePath = cropImage.path;
+        update();
+        imagePicked(true);
+        isLoadImage(false);
+        uploadImage();
       }
 
-      image.value = croppedFile;
       imagePicked(true);
+      isLoadImage(false);
     } else {
       imagePicked(false);
+      isLoadImage(false);
     }
+    isLoadImage(false);
   }
+
+  /// Old Image
+
+  // void pickImage() async {
+  //   //TODO handle exception
+  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //
+  //   if (pickedFile != null) {
+  //     Io.File pickedFileAsFile = Io.File(pickedFile.path);
+  //
+  //     //* To resize the image if it lags comment from here
+  //     // Plugin.Image tmpImg =
+  //     //     Plugin.decodeImage(pickedFileAsFile.readAsBytesSync());
+  //
+  //     // // Resize the image to a 120x? thumbnail (maintaining the aspect ratio).
+  //     // Plugin.Image thumbnail = Plugin.copyResize(tmpImg, width: 512);
+  //
+  //     // // Save the thumbnail as a PNG.
+  //     // File(pickedFileAsFile.path)
+  //     //   ..writeAsBytesSync(Plugin.encodePng(thumbnail));
+  //     //*till here
+  //
+  //     //*Image Croper start
+  //
+  //     CroppedFile? cropImage = await ImageCropper().cropImage(
+  //       sourcePath: pickedFileAsFile.path,
+  //       maxWidth: 512,
+  //       maxHeight: 512,
+  //       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+  //       aspectRatioPresets: [
+  //         CropAspectRatioPreset.square,
+  //       ],
+  //       uiSettings: [
+  //         AndroidUiSettings(
+  //           toolbarTitle: 'cropper'.tr,
+  //           toolbarColor: Get.theme.primaryColor,
+  //           toolbarWidgetColor: Colors.white,
+  //           activeControlsWidgetColor: Colors.white,
+  //           initAspectRatio: CropAspectRatioPreset.square,
+  //           lockAspectRatio: true,
+  //         ),
+  //         IOSUiSettings(
+  //           minimumAspectRatio: 1.0,
+  //           aspectRatioLockEnabled: true,
+  //         )
+  //       ],
+  //       // androidUiSettings: AndroidUiSettings(
+  //       //   toolbarTitle: 'cropper'.tr,
+  //       //   toolbarColor: Get.theme.primaryColor,
+  //       //   toolbarWidgetColor: Colors.white,
+  //       //   activeControlsWidgetColor: Colors.white,
+  //       //   initAspectRatio: CropAspectRatioPreset.square,
+  //       //   lockAspectRatio: true,
+  //       // ),
+  //       // iosUiSettings: IOSUiSettings(
+  //       //   minimumAspectRatio: 1.0,
+  //       //   aspectRatioLockEnabled: true,
+  //       // ),
+  //     );
+  //
+  //     cropImage;
+  //
+  //     Io.File? croppedFile = (
+  //       await ImageCropper().cropImage(
+  //         sourcePath: pickedFileAsFile.path,
+  //         maxWidth: 512,
+  //         maxHeight: 512,
+  //         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+  //         aspectRatioPresets: [
+  //           CropAspectRatioPreset.square,
+  //         ],
+  //         uiSettings: [
+  //           AndroidUiSettings(
+  //             toolbarTitle: 'cropper'.tr,
+  //             toolbarColor: Get.theme.primaryColor,
+  //             toolbarWidgetColor: Colors.white,
+  //             activeControlsWidgetColor: Colors.white,
+  //             initAspectRatio: CropAspectRatioPreset.square,
+  //             lockAspectRatio: true,
+  //           ),
+  //           IOSUiSettings(
+  //             minimumAspectRatio: 1.0,
+  //             aspectRatioLockEnabled: true,
+  //           )
+  //         ],
+  //         // androidUiSettings: AndroidUiSettings(
+  //         //   toolbarTitle: 'cropper'.tr,
+  //         //   toolbarColor: Get.theme.primaryColor,
+  //         //   toolbarWidgetColor: Colors.white,
+  //         //   activeControlsWidgetColor: Colors.white,
+  //         //   initAspectRatio: CropAspectRatioPreset.square,
+  //         //   lockAspectRatio: true,
+  //         // ),
+  //         // iosUiSettings: IOSUiSettings(
+  //         //   minimumAspectRatio: 1.0,
+  //         //   aspectRatioLockEnabled: true,
+  //         // ),
+  //       ),
+  //     ) as Io.File?;
+  //     //*Image Croper End
+  //     //file size limit
+  //     // var pickedFileSize = await pickedFileAsFile.length() / 1024; //In KB
+  //     var pickedFileSize = (await croppedFile?.length())! / 1024; //In KB
+  //     // AppGetDialog.show(middleText: pickedFileSize.toString());
+  //     if (pickedFileSize > ApiConsts.maxImageSizeLimit) {
+  //       imagePicked(false);
+  //       AppGetDialog.show(middleText: "max_file_limit_is_5MB".tr);
+  //       // lastImageError.value = "max_file_limit_is_5MB".tr;
+  //
+  //       return;
+  //     }
+  //
+  //     image.value = croppedFile!;
+  //     imagePicked(true);
+  //   } else {
+  //     imagePicked(false);
+  //   }
+  // }
 
   void resetUploadProgress() {
     uploadProgress.value = 0.0;
@@ -313,7 +475,7 @@ class ProfileUpdateController extends GetxController {
 
   //*
   void validateForm() {
-    formValid(formKey.currentState.validate());
-    print(formKey.currentState.validate());
+    formValid(formKey.currentState!.validate());
+    print(formKey.currentState!.validate());
   }
 }

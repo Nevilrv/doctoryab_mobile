@@ -7,7 +7,7 @@ class AppTheme {
   static ThemeData light() {
     return ThemeData(
       fontFamily: AppFonts.acuminSemiCond,
-      brightness: Brightness.light,
+      brightness: Brightness.light, useMaterial3: true,
       scaffoldBackgroundColor: AppColors.scaffoldColor,
       primaryColor: AppColors.primary,
       // accentColor: Colors.white,

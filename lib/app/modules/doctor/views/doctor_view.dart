@@ -1,40 +1,27 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:doctor_yab/app/components/ad_view.dart';
-import 'package:doctor_yab/app/components/address_show_on_map.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
-import 'package:doctor_yab/app/controllers/booking_controller.dart';
-import 'package:doctor_yab/app/data/models/categories_model.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:readmore/readmore.dart';
-
 import 'package:get/get.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
-import '../../../components/full_screen_image_viewer.dart';
 import '../../../data/ApiConsts.dart';
 import '../controllers/doctor_controller.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 
 class DoctorView extends GetView<DoctorController> {
   List tab = ["doctor_information".tr, "reviews".tr];
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -68,10 +55,10 @@ class DoctorView extends GetView<DoctorController> {
             child: Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Container(
-                    height: h * 0.73,
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    height: h * 0.77,
+                    // padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(7),
@@ -94,14 +81,11 @@ class DoctorView extends GetView<DoctorController> {
                               // color: Colors.black,
                               // height: 65,
                               // width: 65,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.lightGrey),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: CachedNetworkImage(
-                                  imageUrl:
-                                      "${ApiConsts.hostUrl}${controller.doctor.photo}",
+                                  imageUrl: "${ApiConsts.hostUrl}${controller.doctor!.photo}",
                                   height: h * 0.11,
                                   width: h * 0.11,
                                   fit: BoxFit.cover,
@@ -123,32 +107,25 @@ class DoctorView extends GetView<DoctorController> {
                             Expanded(
                               flex: 3,
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
+                                padding: const EdgeInsets.symmetric(horizontal: 5),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // SizedBox(height: 10),
                                     Text(
-                                      "${controller.doctor.fullname ?? ""}",
-                                      style: AppTextTheme.h(12)
-                                          .copyWith(color: AppColors.primary),
+                                      "${controller.doctor?.fullname ?? ""}",
+                                      style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                     ),
                                     SizedBox(height: 2),
                                     Text(
-                                      "${controller.doctor.speciality}",
-                                      style: AppTextTheme.b(11).copyWith(
-                                          color: AppColors.primary
-                                              .withOpacity(0.5)),
+                                      "${controller.doctor?.speciality}",
+                                      style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                     ),
                                     SizedBox(height: 2),
                                     GestureDetector(
                                       onTap: () {
-                                        Get.toNamed(Routes.REVIEW, arguments: [
-                                          "Doctor_Review",
-                                          controller.doctor
-                                        ]);
+                                        Get.toNamed(Routes.REVIEW, arguments: ["Doctor_Review", controller.doctor]);
                                       },
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -156,22 +133,15 @@ class DoctorView extends GetView<DoctorController> {
                                           RatingBar.builder(
                                             ignoreGestures: true,
                                             itemSize: 17,
-                                            initialRating: double.parse(controller
-                                                            .doctor
-                                                            .averageRatings ==
-                                                        null
+                                            initialRating: double.parse(controller.doctor?.averageRatings == null
                                                     ? "0.0"
-                                                    : controller.doctor
-                                                            .averageRatings
-                                                            .toString() ??
-                                                        '0.0') ??
+                                                    : controller.doctor?.averageRatings.toString() ?? '0.0') ??
                                                 0.0,
                                             // minRating: 1,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
                                             itemCount: 5,
-                                            itemPadding: EdgeInsets.symmetric(
-                                                horizontal: 1.0),
+                                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                             itemBuilder: (context, _) => Icon(
                                               Icons.star,
                                               color: Colors.amber,
@@ -188,10 +158,8 @@ class DoctorView extends GetView<DoctorController> {
                                           //       .copyWith(color: AppColors.lgt2),
                                           // ),
                                           Text(
-                                            '(${controller.doctor.totalFeedbacks == null ? 0 : controller.doctor.totalFeedbacks ?? 0}) ${'reviews'.tr}',
-                                            style: AppTextTheme.b(11).copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
+                                            '(${controller.doctor?.totalFeedbacks == null ? 0 : controller.doctor?.totalFeedbacks ?? 0}) ${'reviews'.tr}',
+                                            style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                           ),
                                         ],
                                       ),
@@ -224,25 +192,15 @@ class DoctorView extends GetView<DoctorController> {
                                             Expanded(
                                               flex: 2,
                                               child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 3,
-                                                    horizontal: w * 0.02),
+                                                padding: EdgeInsets.symmetric(vertical: 3, horizontal: w * 0.02),
                                                 decoration: BoxDecoration(
                                                     color: AppColors.white,
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.primary),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
+                                                    border: Border.all(color: AppColors.primary),
+                                                    borderRadius: BorderRadius.circular(20)),
                                                 child: Center(
                                                   child: Text(
-                                                    "${"fee".tr} ${controller.doctor.fee == "" ? "0" : controller.doctor.fee ?? "0"} ${"afn".tr}",
-                                                    style: AppTextTheme.m(
-                                                            w * 0.032)
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .primary),
+                                                    "${"fee".tr} ${controller.doctor?.fee == "" ? "0" : controller.doctor?.fee ?? "0"} ${"afn".tr}",
+                                                    style: AppTextTheme.m(w * 0.032).copyWith(color: AppColors.primary),
                                                   ),
                                                 ),
                                               ),
@@ -254,25 +212,15 @@ class DoctorView extends GetView<DoctorController> {
                                             Expanded(
                                               flex: 3,
                                               child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 3,
-                                                    horizontal: w * 0.01),
+                                                padding: EdgeInsets.symmetric(vertical: 3, horizontal: w * 0.01),
                                                 decoration: BoxDecoration(
                                                     color: AppColors.primary,
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.primary),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
+                                                    border: Border.all(color: AppColors.primary),
+                                                    borderRadius: BorderRadius.circular(20)),
                                                 child: Center(
                                                   child: Text(
-                                                    "${"exp".tr} ${controller.doctor.totalExperience == null ? "0" : controller.doctor.totalExperience.toString()} ${"year".tr}",
-                                                    style: AppTextTheme.m(
-                                                            w * 0.032)
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.white),
+                                                    "${"exp".tr} ${controller.doctor?.totalExperience == null ? "0" : controller.doctor?.totalExperience.toString()} ${"year".tr}",
+                                                    style: AppTextTheme.m(w * 0.032).copyWith(color: Colors.white),
                                                   ) /*Text(
                                                         " ${"work_experiance".tr} ${controller.doctorFullData().exp.map((e) {
                                                               if (e.year != null)
@@ -306,8 +254,7 @@ class DoctorView extends GetView<DoctorController> {
                               tab.length,
                               (index) => Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
+                                      padding: const EdgeInsets.symmetric(horizontal: 5),
                                       child: GestureDetector(
                                         onTap: () {
                                           controller.tabIndex.value = index;
@@ -315,25 +262,16 @@ class DoctorView extends GetView<DoctorController> {
                                         child: Container(
                                           width: w * 0.4,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color:
-                                                  controller.tabIndex.value !=
-                                                          index
-                                                      ? AppColors.white
-                                                      : AppColors.primary,
-                                              border: Border.all(
-                                                  color: AppColors.primary)),
+                                              borderRadius: BorderRadius.circular(20),
+                                              color: controller.tabIndex.value != index ? AppColors.white : AppColors.primary,
+                                              border: Border.all(color: AppColors.primary)),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5, vertical: 10),
+                                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                                             child: Center(
                                               child: Center(
                                                   child: Text(
                                                 tab[index],
-                                                style: controller
-                                                            .tabIndex.value !=
-                                                        index
+                                                style: controller.tabIndex.value != index
                                                     ? AppTextStyle.boldPrimary10
                                                     : AppTextStyle.boldWhite10,
                                               )),
@@ -354,32 +292,23 @@ class DoctorView extends GetView<DoctorController> {
                                   physics: BouncingScrollPhysics(),
                                   child: Column(
                                     children: [
-                                      controller.doctor.address == "" ||
-                                              controller.doctor.address == null
+                                      controller.doctor?.address == "" || controller.doctor?.address == null
                                           ? SizedBox()
-                                          : controller.doctor.address == "" ||
-                                                  controller.doctor.address ==
-                                                      null
+                                          : controller.doctor?.address == "" || controller.doctor?.address == null
                                               ? SizedBox()
                                               : Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
                                                       height: h * 0.015,
                                                     ),
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         Container(
                                                             width: w * 0.2,
                                                             child: Divider(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5),
+                                                              color: AppColors.primary.withOpacity(0.5),
                                                               height: 3,
                                                             )),
                                                         SizedBox(
@@ -387,13 +316,7 @@ class DoctorView extends GetView<DoctorController> {
                                                         ),
                                                         Text(
                                                           'doctor_addres'.tr,
-                                                          style: AppTextTheme.b(
-                                                                  11)
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .primary
-                                                                      .withOpacity(
-                                                                          0.5)),
+                                                          style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                         ),
                                                         SizedBox(
                                                           width: w * 0.02,
@@ -401,10 +324,7 @@ class DoctorView extends GetView<DoctorController> {
                                                         Container(
                                                             width: w * 0.2,
                                                             child: Divider(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5),
+                                                              color: AppColors.primary.withOpacity(0.5),
                                                               height: 3,
                                                             )),
                                                       ],
@@ -413,56 +333,35 @@ class DoctorView extends GetView<DoctorController> {
                                                       height: h * 0.015,
                                                     ),
                                                     Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10),
+                                                      padding: EdgeInsets.symmetric(vertical: 10),
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(7),
-                                                        border: Border.all(
-                                                            color: AppColors
-                                                                .primary),
+                                                        borderRadius: BorderRadius.circular(7),
+                                                        border: Border.all(color: AppColors.primary),
                                                         boxShadow: [
                                                           BoxShadow(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.1),
+                                                            color: Colors.black.withOpacity(0.1),
                                                             blurRadius: 6,
-                                                            offset:
-                                                                Offset(0, 4),
+                                                            offset: Offset(0, 4),
                                                           ),
                                                         ],
                                                       ),
                                                       child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 10),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 10),
                                                         child: Row(
                                                           children: [
-                                                            SvgPicture.asset(
-                                                                AppImages.map,
-                                                                height: 22,
-                                                                width: 22),
+                                                            SvgPicture.asset(AppImages.map, height: 22, width: 22),
                                                             SizedBox(
                                                               width: 5,
                                                             ),
                                                             Container(
-                                                              width: Get.width *
-                                                                  0.75,
+                                                              width: Get.width * 0.69,
                                                               child: Text(
-                                                                "${controller.doctor.address}",
-                                                                style: AppTextStyle
-                                                                    .mediumBlack12
-                                                                    .copyWith(
-                                                                        color: AppColors
-                                                                            .lightBlack2,
-                                                                        fontSize:
-                                                                            11,
-                                                                        fontWeight:
-                                                                            FontWeight.w500),
+                                                                "${controller.doctor?.address}",
+                                                                style: AppTextStyle.mediumBlack12.copyWith(
+                                                                    color: AppColors.lightBlack2,
+                                                                    fontSize: 11,
+                                                                    fontWeight: FontWeight.w500),
                                                               ),
                                                             ),
                                                             Spacer(),
@@ -475,42 +374,21 @@ class DoctorView extends GetView<DoctorController> {
                                                     ),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        Utils.openGoogleMaps(
-                                                            controller
-                                                                        .doctor
-                                                                        ?.geometry
-                                                                        ?.coordinates[
-                                                                    1] ??
-                                                                0.0,
-                                                            controller
-                                                                    .doctor
-                                                                    ?.geometry
-                                                                    ?.coordinates[0] ??
-                                                                0.0);
+                                                        Utils.openGoogleMaps(controller.doctor?.geometry?.coordinates![1] ?? 0.0,
+                                                            controller.doctor?.geometry?.coordinates![0] ?? 0.0);
                                                       },
                                                       child: Container(
                                                         width: w,
                                                         decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        7),
-                                                            color: AppColors
-                                                                .primary,
-                                                            border: Border.all(
-                                                                color: AppColors
-                                                                    .primary)),
+                                                            borderRadius: BorderRadius.circular(7),
+                                                            color: AppColors.primary,
+                                                            border: Border.all(color: AppColors.primary)),
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical: 10),
+                                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                                           child: Center(
                                                               child: Text(
                                                             "show_in_map".tr,
-                                                            style: AppTextStyle
-                                                                .boldWhite10
-                                                                .copyWith(
+                                                            style: AppTextStyle.boldWhite10.copyWith(
                                                               fontSize: 11,
                                                             ),
                                                           )),
@@ -519,30 +397,23 @@ class DoctorView extends GetView<DoctorController> {
                                                     ),
                                                   ],
                                                 ),
-                                      controller.doctor.tags.isEmpty
+                                      controller.doctor?.tags?.isEmpty ?? true
                                           ? SizedBox()
                                           : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
                                                   height: h * 0.015,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    SvgPicture.asset(
-                                                        AppImages.certificate,
-                                                        height: 22,
-                                                        width: 22),
+                                                    SvgPicture.asset(AppImages.certificate, height: 22, width: 22),
                                                     Spacer(),
                                                     Container(
                                                         width: w * 0.2,
                                                         child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
+                                                          color: AppColors.primary.withOpacity(0.5),
                                                           height: 3,
                                                         )),
                                                     SizedBox(
@@ -550,12 +421,7 @@ class DoctorView extends GetView<DoctorController> {
                                                     ),
                                                     Text(
                                                       'doctors_tags'.tr,
-                                                      style: AppTextTheme.b(11)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5)),
+                                                      style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                     ),
                                                     SizedBox(
                                                       width: w * 0.02,
@@ -563,9 +429,7 @@ class DoctorView extends GetView<DoctorController> {
                                                     Container(
                                                         width: w * 0.2,
                                                         child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
+                                                          color: AppColors.primary.withOpacity(0.5),
                                                           height: 3,
                                                         )),
                                                     Spacer(),
@@ -575,72 +439,49 @@ class DoctorView extends GetView<DoctorController> {
                                                   height: h * 0.015,
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10),
+                                                  padding: EdgeInsets.symmetric(vertical: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.primary),
+                                                    borderRadius: BorderRadius.circular(7),
+                                                    border: Border.all(color: AppColors.primary),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Colors.black
-                                                            .withOpacity(0.1),
+                                                        color: Colors.black.withOpacity(0.1),
                                                         blurRadius: 6,
                                                         offset: Offset(0, 4),
                                                       ),
                                                     ],
                                                   ),
                                                   child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 10),
                                                     child: Center(
                                                       child: Text(
-                                                        "${controller.doctor.tags.join(',') ?? ""}",
-                                                        style: AppTextStyle
-                                                            .mediumBlack12
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .lightBlack2,
-                                                                fontSize: 11,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
+                                                        "${controller.doctor?.tags?.join(',') ?? ""}",
+                                                        style: AppTextStyle.mediumBlack12.copyWith(
+                                                            color: AppColors.lightBlack2, fontSize: 11, fontWeight: FontWeight.w500),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                      controller.doctor.detail == "" ||
-                                              controller.doctor.detail == null
+                                      controller.doctor?.detail == "" || controller.doctor?.detail == null
                                           ? SizedBox()
                                           : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
                                                   height: h * 0.015,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    SvgPicture.asset(
-                                                        AppImages.circleInfo,
-                                                        width: 22,
-                                                        height: 22),
+                                                    SvgPicture.asset(AppImages.circleInfo, width: 22, height: 22),
                                                     Spacer(),
                                                     Container(
                                                         width: w * 0.2,
                                                         child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
+                                                          color: AppColors.primary.withOpacity(0.5),
                                                           height: 3,
                                                         )),
                                                     SizedBox(
@@ -648,12 +489,7 @@ class DoctorView extends GetView<DoctorController> {
                                                     ),
                                                     Text(
                                                       'about_doctor'.tr,
-                                                      style: AppTextTheme.b(11)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5)),
+                                                      style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                     ),
                                                     SizedBox(
                                                       width: w * 0.02,
@@ -661,9 +497,7 @@ class DoctorView extends GetView<DoctorController> {
                                                     Container(
                                                         width: w * 0.2,
                                                         child: Divider(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(0.5),
+                                                          color: AppColors.primary.withOpacity(0.5),
                                                           height: 3,
                                                         )),
                                                     Spacer(),
@@ -673,41 +507,26 @@ class DoctorView extends GetView<DoctorController> {
                                                   height: h * 0.015,
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10),
+                                                  padding: EdgeInsets.symmetric(vertical: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.primary),
+                                                    borderRadius: BorderRadius.circular(7),
+                                                    border: Border.all(color: AppColors.primary),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Colors.black
-                                                            .withOpacity(0.1),
+                                                        color: Colors.black.withOpacity(0.1),
                                                         blurRadius: 6,
                                                         offset: Offset(0, 4),
                                                       ),
                                                     ],
                                                   ),
                                                   child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 10),
                                                     child: Center(
                                                       child: Text(
-                                                        "${controller.doctor.detail ?? ""}",
-                                                        style: AppTextStyle
-                                                            .mediumBlack12
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .lightBlack2,
-                                                                fontSize: 11,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
+                                                        "${controller.doctor?.detail ?? ""}",
+                                                        style: AppTextStyle.mediumBlack12.copyWith(
+                                                            color: AppColors.lightBlack2, fontSize: 11, fontWeight: FontWeight.w500),
                                                       ),
                                                     ),
                                                   ),
@@ -723,19 +542,12 @@ class DoctorView extends GetView<DoctorController> {
                                             child: CustomRoundedButton(
                                               color: AppColors.primary,
                                               textColor: Colors.white,
-                                              splashColor:
-                                                  Colors.white.withOpacity(0.2),
-                                              disabledColor: AppColors
-                                                  .easternBlue
-                                                  .withOpacity(0.2),
+                                              splashColor: Colors.white.withOpacity(0.2),
+                                              disabledColor: AppColors.easternBlue.withOpacity(0.2),
                                               // height: 50,
                                               width: w,
                                               text: "book_now".tr,
-                                              textStyle: AppTextStyle
-                                                  .boldWhite14
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600),
+                                              textStyle: AppTextStyle.boldWhite14.copyWith(fontWeight: FontWeight.w600),
                                               onTap: () {
                                                 Get.toNamed(
                                                   Routes.BOOK,
@@ -812,74 +624,45 @@ class DoctorView extends GetView<DoctorController> {
                                         onTap: () {
                                           Get.dialog(
                                             StatefulBuilder(
-                                              builder: (context,
-                                                  StateSetter setStates) {
+                                              builder: (context, StateSetter setStates) {
                                                 return Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 30),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 30),
                                                   child: Center(
                                                     child: Container(
                                                       // height: Get.height * 0.3,
                                                       decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
+                                                        borderRadius: BorderRadius.circular(10),
                                                         color: AppColors.white,
                                                       ),
                                                       child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 20,
-                                                                vertical: 10),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                                         child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
+                                                          mainAxisSize: MainAxisSize.min,
                                                           children: [
                                                             Text(
                                                               "add_review".tr,
-                                                              style: AppTextStyle
-                                                                  .boldPrimary16,
+                                                              style: AppTextStyle.boldPrimary16,
                                                             ),
                                                             SizedBox(
                                                               height: 10,
                                                             ),
                                                             TextField(
-                                                              cursorColor:
-                                                                  AppColors
-                                                                      .primary,
-                                                              controller:
-                                                                  controller
-                                                                      .comment,
-                                                              style: AppTextTheme
-                                                                      .b(12)
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
+                                                              cursorColor: AppColors.primary,
+                                                              controller: controller.comment,
+                                                              style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                               decoration: InputDecoration(
-                                                                  labelText: "comment"
-                                                                      .tr,
-                                                                  floatingLabelBehavior:
-                                                                      FloatingLabelBehavior
-                                                                          .always,
-                                                                  labelStyle: AppTextTheme.b(12).copyWith(
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
+                                                                  labelText: "comment".tr,
+                                                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                                  labelStyle: AppTextTheme.b(12)
+                                                                      .copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                                   enabledBorder: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              4),
-                                                                      borderSide: BorderSide(
-                                                                          color: AppColors
-                                                                              .primary
-                                                                              .withOpacity(0.4),
-                                                                          width: 2)),
-                                                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2))),
+                                                                      borderRadius: BorderRadius.circular(4),
+                                                                      borderSide:
+                                                                          BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2)),
+                                                                  focusedBorder: OutlineInputBorder(
+                                                                      borderRadius: BorderRadius.circular(4),
+                                                                      borderSide:
+                                                                          BorderSide(color: AppColors.primary.withOpacity(0.4), width: 2))),
                                                             ),
                                                             SizedBox(
                                                               height: 5,
@@ -887,153 +670,87 @@ class DoctorView extends GetView<DoctorController> {
                                                             Column(
                                                               children: [
                                                                 Text(
-                                                                  "doc_manner"
-                                                                      .tr,
-                                                                  style: AppTextStyle
-                                                                      .boldPrimary12,
+                                                                  "doc_manner".tr,
+                                                                  style: AppTextStyle.boldPrimary12,
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5,
                                                                 ),
-                                                                RatingBar
-                                                                    .builder(
-                                                                  itemSize:
-                                                                      Get.width *
-                                                                          0.06,
-                                                                  initialRating:
-                                                                      controller
-                                                                          .sRating
-                                                                          .value,
+                                                                RatingBar.builder(
+                                                                  itemSize: Get.width * 0.06,
+                                                                  initialRating: controller.sRating.value,
                                                                   // minRating: 1,
-                                                                  direction: Axis
-                                                                      .horizontal,
-                                                                  allowHalfRating:
-                                                                      true,
+                                                                  direction: Axis.horizontal,
+                                                                  allowHalfRating: true,
                                                                   itemCount: 5,
-                                                                  itemPadding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              1.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                              _) =>
-                                                                          Icon(
+                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                  itemBuilder: (context, _) => Icon(
                                                                     Icons.star,
-                                                                    color: Colors
-                                                                        .amber,
+                                                                    color: Colors.amber,
                                                                     // size: 10,
                                                                   ),
-                                                                  onRatingUpdate:
-                                                                      (rating) {
-                                                                    controller
-                                                                        .sRating
-                                                                        .value = rating;
-                                                                    setStates(
-                                                                        () {});
-                                                                    print(
-                                                                        rating);
+                                                                  onRatingUpdate: (rating) {
+                                                                    controller.sRating.value = rating;
+                                                                    setStates(() {});
+                                                                    print(rating);
                                                                   },
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5,
                                                                 ),
                                                                 Text(
-                                                                  "doc_skill"
-                                                                      .tr,
-                                                                  style: AppTextStyle
-                                                                      .boldPrimary12,
+                                                                  "doc_skill".tr,
+                                                                  style: AppTextStyle.boldPrimary12,
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5,
                                                                 ),
-                                                                RatingBar
-                                                                    .builder(
-                                                                  itemSize:
-                                                                      Get.width *
-                                                                          0.06,
-                                                                  initialRating:
-                                                                      controller
-                                                                          .eRating
-                                                                          .value,
+                                                                RatingBar.builder(
+                                                                  itemSize: Get.width * 0.06,
+                                                                  initialRating: controller.eRating.value,
                                                                   // minRating: 1,
-                                                                  direction: Axis
-                                                                      .horizontal,
-                                                                  allowHalfRating:
-                                                                      true,
+                                                                  direction: Axis.horizontal,
+                                                                  allowHalfRating: true,
                                                                   itemCount: 5,
-                                                                  itemPadding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              1.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                              _) =>
-                                                                          Icon(
+                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                  itemBuilder: (context, _) => Icon(
                                                                     Icons.star,
-                                                                    color: Colors
-                                                                        .amber,
+                                                                    color: Colors.amber,
                                                                     // size: 10,
                                                                   ),
-                                                                  onRatingUpdate:
-                                                                      (rating) {
-                                                                    controller
-                                                                        .eRating
-                                                                        .value = rating;
-                                                                    setStates(
-                                                                        () {});
-                                                                    print(
-                                                                        rating);
+                                                                  onRatingUpdate: (rating) {
+                                                                    controller.eRating.value = rating;
+                                                                    setStates(() {});
+                                                                    print(rating);
                                                                   },
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5,
                                                                 ),
                                                                 Text(
-                                                                  "doc_cleanness"
-                                                                      .tr,
-                                                                  style: AppTextStyle
-                                                                      .boldPrimary12,
+                                                                  "doc_cleanness".tr,
+                                                                  style: AppTextStyle.boldPrimary12,
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5,
                                                                 ),
-                                                                RatingBar
-                                                                    .builder(
-                                                                  itemSize:
-                                                                      Get.width *
-                                                                          0.06,
-                                                                  initialRating:
-                                                                      controller
-                                                                          .cRating
-                                                                          .value,
+                                                                RatingBar.builder(
+                                                                  itemSize: Get.width * 0.06,
+                                                                  initialRating: controller.cRating.value,
                                                                   // minRating: 1,
-                                                                  direction: Axis
-                                                                      .horizontal,
-                                                                  allowHalfRating:
-                                                                      true,
+                                                                  direction: Axis.horizontal,
+                                                                  allowHalfRating: true,
                                                                   itemCount: 5,
-                                                                  itemPadding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              1.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                              _) =>
-                                                                          Icon(
+                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                                                  itemBuilder: (context, _) => Icon(
                                                                     Icons.star,
-                                                                    color: Colors
-                                                                        .amber,
+                                                                    color: Colors.amber,
                                                                     // size: 10,
                                                                   ),
-                                                                  onRatingUpdate:
-                                                                      (rating) {
-                                                                    controller
-                                                                        .cRating
-                                                                        .value = rating;
-                                                                    setStates(
-                                                                        () {});
-                                                                    print(
-                                                                        rating);
+                                                                  onRatingUpdate: (rating) {
+                                                                    controller.cRating.value = rating;
+                                                                    setStates(() {});
+                                                                    print(rating);
                                                                   },
                                                                 ),
                                                               ],
@@ -1043,44 +760,19 @@ class DoctorView extends GetView<DoctorController> {
                                                             ),
                                                             GestureDetector(
                                                               onTap: () {
-                                                                log("controller.doctor.id.toString()--------------> ${controller.doctor.id.toString()}");
-                                                                log("controller.doctor.id.toString()--------------> ${controller.doctor.datumId.toString()}");
-
                                                                 controller.addDocFeedback(
-                                                                    doctorId: controller
-                                                                        .doctor
-                                                                        .datumId
-                                                                        .toString(),
-                                                                    context:
-                                                                        context);
+                                                                    doctorId: controller.doctor!.datumId.toString(), context: context);
                                                               },
                                                               child: Container(
                                                                 decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                3),
-                                                                    color: AppColors
-                                                                        .primary),
+                                                                    borderRadius: BorderRadius.circular(3), color: AppColors.primary),
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          5),
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                                                   child: Center(
-                                                                      child:
-                                                                          Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
+                                                                      child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                                     children: [
-                                                                      Text(
-                                                                          "add_review"
-                                                                              .tr,
-                                                                          style:
-                                                                              AppTextStyle.boldWhite14),
+                                                                      Text("add_review".tr, style: AppTextStyle.boldWhite14),
                                                                     ],
                                                                   )),
                                                                 ),
@@ -1101,17 +793,12 @@ class DoctorView extends GetView<DoctorController> {
                                           );
                                         },
                                         child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: AppColors.primary),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: AppColors.primary),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
+                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                             child: Center(
                                                 child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Icon(
                                                   Icons.add,
@@ -1121,9 +808,7 @@ class DoctorView extends GetView<DoctorController> {
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                Text("add_review".tr,
-                                                    style: AppTextStyle
-                                                        .boldWhite14),
+                                                Text("add_review".tr, style: AppTextStyle.boldWhite14),
                                               ],
                                             )),
                                           ),
@@ -1135,113 +820,105 @@ class DoctorView extends GetView<DoctorController> {
                                       Expanded(
                                         child: controller.loading.value == true
                                             ? Center(
-                                                child:
-                                                    CircularProgressIndicator(
+                                                child: CircularProgressIndicator(
                                                 color: AppColors.primary,
                                               ))
                                             : controller.feedbackData.isEmpty
-                                                ? Center(
-                                                    child: Text(
-                                                        "no_result_found".tr))
+                                                ? Center(child: Text("no_result_found".tr))
                                                 : SingleChildScrollView(
-                                                    physics:
-                                                        BouncingScrollPhysics(),
+                                                    physics: BouncingScrollPhysics(),
                                                     child: Column(
-                                                      children: List.generate(
-                                                          controller
-                                                              .feedbackData
-                                                              .length, (index) {
-                                                        var d = DateTime.parse(
-                                                                controller
-                                                                    .feedbackData[
-                                                                        index]
-                                                                    .createAt)
+                                                      children: List.generate(controller.feedbackData.length, (index) {
+                                                        var d = DateTime.parse(controller.feedbackData[index].createAt.toString())
                                                             .toPersianDateStr(
                                                               strDay: false,
                                                               strMonth: true,
-                                                              useAfghaniMonthName:
-                                                                  true,
+                                                              useAfghaniMonthName: true,
                                                             )
                                                             .trim()
                                                             .split(' ');
                                                         return Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10.0),
+                                                          padding: const EdgeInsets.only(bottom: 10.0),
                                                           child: Column(
                                                             children: [
                                                               Container(
                                                                 child: Row(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
                                                                     Expanded(
                                                                       flex: 2,
-                                                                      child:
-                                                                          Column(
+                                                                      child: Column(
                                                                         children: [
                                                                           CircleAvatar(
-                                                                            radius:
-                                                                                35,
-                                                                            backgroundImage:
-                                                                                NetworkImage(
+                                                                            radius: 35,
+                                                                            backgroundImage: NetworkImage(
                                                                               "${ApiConsts.hostUrl}${controller.feedbackData[index].photo}",
                                                                             ),
                                                                           ),
-                                                                          Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            children: [
-                                                                              Text(
-                                                                                "${d[0]}",
-                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                              ),
-                                                                              Text(
-                                                                                " ${d[1]}",
-                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                              ),
-                                                                              Text(
-                                                                                " ${d[3]}",
-                                                                                style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
-                                                                              ),
-                                                                            ],
-                                                                          )
+                                                                          Text(
+                                                                            "${d[0]} ${d[1]} ${d[3]}",
+                                                                            style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                            maxLines: 1,
+                                                                            overflow: TextOverflow.ellipsis,
+                                                                          ),
+
+                                                                          // Row(
+                                                                          //   mainAxisAlignment: MainAxisAlignment.center,
+                                                                          //   children: [
+                                                                          //     Text(
+                                                                          //       "${d[0]}",
+                                                                          //       style:
+                                                                          //           AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                          //     ),
+                                                                          //     // Text(
+                                                                          //     //   " ${d[1]}",
+                                                                          //     //   style:
+                                                                          //     //       AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                          //     // ),
+                                                                          //     // Text(
+                                                                          //     //   " ${d[3]}",
+                                                                          //     //   style:
+                                                                          //     //       AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                          //     // ),
+                                                                          //   ],
+                                                                          // )
                                                                         ],
                                                                       ),
                                                                     ),
                                                                     Expanded(
                                                                       flex: 6,
-                                                                      child:
-                                                                          Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(horizontal: 5),
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.start,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                                                                        child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                                           children: [
                                                                             // SizedBox(height: 10),
                                                                             Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              mainAxisSize: MainAxisSize.min,
+                                                                              // mainAxisSize: MainAxisSize.min,
                                                                               children: [
                                                                                 Container(
                                                                                   width: Get.width * 0.39,
                                                                                   child: Text(
-                                                                                    controller.feedbackData[index].postedBy.name ?? "",
-                                                                                    style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
+                                                                                    controller.feedbackData[index].postedBy?.name ?? "",
+                                                                                    style: AppTextTheme.h(12)
+                                                                                        .copyWith(color: AppColors.primary),
                                                                                   ),
                                                                                 ),
-                                                                                Spacer(),
+
+                                                                                // Spacer(),
                                                                                 RatingBar.builder(
                                                                                   ignoreGestures: true,
                                                                                   itemSize: 17,
-                                                                                  initialRating: double.parse("${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ?? "0.0"),
+                                                                                  initialRating: double.parse(
+                                                                                      "${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ??
+                                                                                          "0.0"),
+
+                                                                                  // initialRating: double.parse(
+                                                                                  //     "${(double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3 == 0.0 ? 5.0 : (double.parse(controller.feedbackData[index].satifyRating.toString()) + double.parse(controller.feedbackData[index].cleaningRating.toString()) + double.parse(controller.feedbackData[index].expertiseRating.toString())) / 3}" ??
+                                                                                  //         "5.0"),
                                                                                   // minRating: 1,
                                                                                   direction: Axis.horizontal,
                                                                                   allowHalfRating: true,
@@ -1265,7 +942,9 @@ class DoctorView extends GetView<DoctorController> {
                                                                               collapseText: 'Read less',
                                                                               maxLines: 3,
                                                                               linkColor: AppColors.primary,
-                                                                              style: AppTextStyle.boldPrimary11.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
+                                                                              style: AppTextStyle.boldPrimary11.copyWith(
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: AppColors.primary.withOpacity(0.5)),
                                                                             ),
                                                                           ],
                                                                         ),
@@ -1274,10 +953,7 @@ class DoctorView extends GetView<DoctorController> {
                                                                   ],
                                                                 ),
                                                               ),
-                                                              Divider(
-                                                                  thickness: 1,
-                                                                  color: AppColors
-                                                                      .primary),
+                                                              Divider(thickness: 1, color: AppColors.primary),
                                                             ],
                                                           ),
                                                         );
@@ -1293,11 +969,7 @@ class DoctorView extends GetView<DoctorController> {
                     ),
                   ),
                 ),
-                Positioned(
-                    bottom: 20,
-                    right: 20,
-                    left: 20,
-                    child: BottomBarView(isHomeScreen: false))
+                Positioned(bottom: 20, right: 20, left: 20, child: BottomBarView(isHomeScreen: false))
               ],
             ),
           );

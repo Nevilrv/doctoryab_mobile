@@ -1,9 +1,4 @@
-import 'dart:developer';
-
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
-import 'package:doctor_yab/app/modules/chat/controllers/chat_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +8,7 @@ import '../../../theme/AppColors.dart';
 import '../../../utils/app_text_styles.dart';
 
 class MessagesListView extends GetView<MessagesListController> {
-  const MessagesListView({Key key}) : super(key: key);
+  const MessagesListView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -50,6 +45,7 @@ class MessagesListView extends GetView<MessagesListController> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               title: Text('messages'.tr),
               centerTitle: true,
@@ -80,9 +76,11 @@ class MessagesListView extends GetView<MessagesListController> {
                 height: 10.0,
               ),
               InkWell(
-                onTap: () {
-                  Get.toNamed(Routes.NEW_CHAT);
-                },
+                onTap: controller.sending()
+                    ? null
+                    : () {
+                        controller.sendMessage();
+                      },
                 child: Stack(
                   children: [
                     Container(
@@ -129,8 +127,6 @@ class MessagesListView extends GetView<MessagesListController> {
                               return MessageTile(
                                 chat: controller.chats[index],
                                 onTap: () {
-                                  log(" controller.chats[index]--------------> ${controller.chats[index].id}");
-
                                   controller.onTapMessageTile(
                                       controller.chats[index]);
                                 },

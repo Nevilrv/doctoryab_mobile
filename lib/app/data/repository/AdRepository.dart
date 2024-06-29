@@ -13,16 +13,16 @@ class AdsRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   static Future<AdsModel> fetchAds(
-      {int limitPerPage = 10, CancelToken cancelToken}) async {
+      {int limitPerPage = 10, CancelToken? cancelToken}) async {
+    log('SettingsController.auth.savedCity ---------->>>>>>>> ${SettingsController.auth.savedCity?.sId}');
     var data = await dio.get(
-      '${ApiConsts.adsPath}/${SettingsController.auth.savedCity.sId}',
+      '${ApiConsts.adsPath}/${SettingsController.auth.savedCity?.sId}',
       cancelToken: cancelToken,
       queryParameters: {},
       // data: {"name": name},
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("data.data--------------> ${data.data}");
 
     return AdsModel.fromJson(data.data);
   }

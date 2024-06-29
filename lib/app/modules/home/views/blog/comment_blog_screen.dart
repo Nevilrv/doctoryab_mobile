@@ -1,12 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:doctor_yab/app/components/background.dart';
-import 'package:doctor_yab/app/data/models/post.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_blog_controller.dart';
-import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/utils.dart';
@@ -14,7 +13,7 @@ import '../../../../utils/utils.dart';
 class CommentView extends GetView<TabBlogController> {
   // final Post data;
   final int index;
-  CommentView(this.index, {Key key}) : super(key: key);
+  CommentView(this.index, {Key? key}) : super(key: key);
   ScrollController scrollController = ScrollController();
 
   @override
@@ -63,7 +62,7 @@ class CommentView extends GetView<TabBlogController> {
                   //this helps to show the loading of next page
 
                   Expanded(
-                    child: controller.postList[index].comments.isEmpty
+                    child: controller.postList[index].comments!.isEmpty
                         ? Center(child: Text("No comments"))
                         : ListView.separated(
                             physics: BouncingScrollPhysics(),
@@ -74,6 +73,7 @@ class CommentView extends GetView<TabBlogController> {
                                 left: Get.width * 0.03,
                                 right: Get.width * 0.03),
                             itemBuilder: (context, i) {
+                              // log('----dddd----${jsonDecode(controller.postList[index].comments[i])}');
                               return Container(
                                 decoration:
                                     BoxDecoration(color: AppColors.white),
@@ -85,12 +85,14 @@ class CommentView extends GetView<TabBlogController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          controller.postList[index].comments[i]
-                                              .whoPosted,
+                                          controller.postList[index]
+                                                  .comments![i].whoPosted ??
+                                              '',
                                           style: AppTextStyle.boldBlack16),
                                       Text(
-                                          controller
-                                              .postList[index].comments[i].text,
+                                          controller.postList[index]
+                                                  .comments![i].text ??
+                                              '',
                                           style: AppTextStyle.boldBlack16
                                               .copyWith(
                                                   fontSize: 12,
@@ -104,7 +106,7 @@ class CommentView extends GetView<TabBlogController> {
                                   height: 22,
                                 ),
                             itemCount:
-                                controller.postList[index].comments.length
+                                controller.postList[index].comments!.length
                             //  controller.chat.value.messages.length,
 
                             ),
@@ -171,7 +173,7 @@ class CommentView extends GetView<TabBlogController> {
                                   } else {
                                     controller
                                         .commentBlog(
-                                            controller.postList[index].id,
+                                            controller.postList[index].id!,
                                             controller.comment.text,
                                             index)
                                         .then((value) {
@@ -193,10 +195,13 @@ class CommentView extends GetView<TabBlogController> {
                                   ),
                                   alignment: Alignment.center,
                                   child: controller.isLoadingComment == true
-                                      ? Center(
-                                          child: CircularProgressIndicator(
-                                          color: AppColors.primary,
-                                        ))
+                                      ? Padding(
+                                          padding: EdgeInsets.all(12),
+                                          child: Center(
+                                              child: CircularProgressIndicator(
+                                            color: AppColors.white,
+                                          )),
+                                        )
                                       : Icon(
                                           Icons.send,
                                           color: AppColors.white,

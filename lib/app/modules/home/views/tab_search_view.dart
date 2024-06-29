@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'dart:math' as math;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctor_yab/app/components/background.dart';
@@ -26,9 +26,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TabSearchView extends GetView<TabSearchController> {
-  TabSearchController controller=Get.put(TabSearchController());
+  TabSearchController controller = Get.put(TabSearchController());
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -112,8 +113,6 @@ class TabSearchView extends GetView<TabSearchController> {
                               physics: BouncingScrollPhysics(),
                               separatorBuilder: (c, i) {
                                 if ((i + 1) % 5 == 0) {
-                                  log("i--------------> $i");
-
                                   // controller.bannerAds();
                                   return GetBuilder<TabSearchController>(
                                     builder: (controller) {
@@ -138,32 +137,72 @@ class TabSearchView extends GetView<TabSearchController> {
                                                     },
                                                   ),
                                                   items: controller.adList
-                                                      .map((item) => Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 5),
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              15)),
-                                                              // margin: EdgeInsets.all(5.0),
-                                                              child: ClipRRect(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            15.0)),
-                                                                child: Image.network(
-                                                                    "${ApiConsts.hostUrl}${item.img}",
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    width:
-                                                                        1000.0),
-                                                              ),
-                                                            ),
-                                                          ))
+                                                      .map(
+                                                          (item) =>
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () async {
+                                                                  if (!await launchUrl(
+                                                                      Uri.parse(
+                                                                          item.link!))) {
+                                                                    throw Exception(
+                                                                        'Could not launch ${item.link}');
+                                                                  }
+                                                                },
+                                                                child: Stack(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              5),
+                                                                      child:
+                                                                          Container(
+                                                                        decoration:
+                                                                            BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                                                        // margin: EdgeInsets.all(5.0),
+                                                                        child:
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(15.0)),
+                                                                          child: Image.network(
+                                                                              "${ApiConsts.hostUrl}${item.img}",
+                                                                              fit: BoxFit.cover,
+                                                                              width: 1000.0),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Positioned(
+                                                                      top: 10,
+                                                                      right: SettingsController.appLanguge !=
+                                                                              "English"
+                                                                          ? null
+                                                                          : 10,
+                                                                      left: SettingsController.appLanguge ==
+                                                                              "English"
+                                                                          ? null
+                                                                          : 10,
+                                                                      child: SettingsController.appLanguge !=
+                                                                              "English"
+                                                                          ? Transform(
+                                                                              alignment: Alignment.center,
+                                                                              transform: Matrix4.rotationY(math.pi),
+                                                                              child: Image.asset(
+                                                                                AppImages.promote,
+                                                                                height: 18,
+                                                                                width: 18,
+                                                                                color: AppColors.white,
+                                                                              ))
+                                                                          : Image.asset(
+                                                                              AppImages.promote,
+                                                                              height: 18,
+                                                                              width: 18,
+                                                                              color: AppColors.white,
+                                                                            ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ))
                                                       .toList()),
                                             ),
                                             Positioned(
@@ -179,7 +218,7 @@ class TabSearchView extends GetView<TabSearchController> {
                                                       (index) => Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 3),
                                                             child: CircleAvatar(
                                                               radius: 5,
@@ -206,7 +245,8 @@ class TabSearchView extends GetView<TabSearchController> {
                                   return SizedBox(height: 5);
                                 }
                               },
-                              builderDelegate: PagedChildBuilderDelegate(
+                              builderDelegate:
+                                  PagedChildBuilderDelegate<Doctor>(
                                 itemBuilder: (context, item, index) {
                                   return _doctorData(
                                     context,
@@ -274,14 +314,13 @@ class TabSearchView extends GetView<TabSearchController> {
     final w = MediaQuery.of(context).size.width;
 
     var date;
-    String slot;
+    String? slot;
 
-    if (item.schedules.isNotEmpty) {
-      if (item.schedules.length == 1) {
+    if (item.schedules!.isNotEmpty) {
+      if (item.schedules!.length == 1) {
         for (int i = 0; i <= 7; i++) {
           DateTime d = DateTime.now().add(Duration(days: i));
-          if (item.schedules[0].dayOfWeek == d.weekday) {
-            log("d--as------------> $d");
+          if (item.schedules![0].dayOfWeek == d.weekday) {
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -290,12 +329,11 @@ class TabSearchView extends GetView<TabSearchController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[0].times.isNotEmpty) {
+            if (item.schedules![0].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[0].times.first} - ${item.schedules[0].times.last}";
+                  "${item.schedules![0].times!.first} - ${item.schedules![0].times!.last}";
             }
-            log("date--------------> $date");
-            log("slot--------------> $slot");
+
             break;
           }
         }
@@ -303,9 +341,9 @@ class TabSearchView extends GetView<TabSearchController> {
         // List<Schedule> dataSort ;
         // dataSort.add(value)
         List da = [];
-        item.schedules.sort((a, b) => a.dayOfWeek.compareTo(b.dayOfWeek));
-        for (int i = 0; i < item.schedules.length; i++) {
-          da.add(item.schedules[i].dayOfWeek);
+        item.schedules!.sort((a, b) => a.dayOfWeek!.compareTo(b.dayOfWeek!));
+        for (int i = 0; i < item.schedules!.length; i++) {
+          da.add(item.schedules![i].dayOfWeek);
         }
         var n = DateTime.now().weekday;
         var finalWeekDay;
@@ -316,29 +354,24 @@ class TabSearchView extends GetView<TabSearchController> {
         } else {
           finalWeekDay = greater.first;
         }
-        log("greater--------------> $greater");
-        Schedule data;
-        item.schedules.forEach((element) {
+
+        Schedule? data;
+        item.schedules!.forEach((element) {
           if (element.dayOfWeek == finalWeekDay) {
             data = element;
           }
         });
 
-        int indexxx = item.schedules.indexOf(data);
-        log("indexxx--------------> $indexxx");
-        log("item.schedules--------------> ${item.schedules}");
+        int indexxx = item.schedules!.indexOf(data!);
 
-        if (indexxx == item.schedules.length - 1) {
+        if (indexxx == item.schedules!.length - 1) {
           indexxx = 0;
         } else {
           indexxx = indexxx + 1;
         }
         for (int i = 0; i <= 7; i++) {
-          log("i--------------> $i");
-
           DateTime d = DateTime.now().add(Duration(days: i));
-          log("item.schedules[indexxx].dayOfWeek--------------> ${item.schedules[indexxx].dayOfWeek}");
-          log("d.weekday--------------> ${d.weekday}");
+
           if (d.weekday == 7) {
             date = d
                 .toPersianDateStr(
@@ -348,18 +381,12 @@ class TabSearchView extends GetView<TabSearchController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[indexxx].times.isNotEmpty) {
+            if (item.schedules![indexxx].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
-
-            log("date--------------> $date");
-            log("slot--------------> $slot");
           }
-          if (item.schedules[indexxx].dayOfWeek == d.weekday) {
-            log("d--------------> $d");
-            log("item.schedules[indexxx + 1].times--------------> ${item.schedules[indexxx].times}");
-
+          if (item.schedules![indexxx].dayOfWeek == d.weekday) {
             date = d
                 .toPersianDateStr(
                   strDay: false,
@@ -368,13 +395,10 @@ class TabSearchView extends GetView<TabSearchController> {
                 )
                 .trim()
                 .split(' ');
-            if (item.schedules[indexxx].times.isNotEmpty) {
+            if (item.schedules![indexxx].times!.isNotEmpty) {
               slot =
-                  "${item.schedules[indexxx].times.first} - ${item.schedules[indexxx].times.last}";
+                  "${item.schedules![indexxx].times!.first} - ${item.schedules![indexxx].times!.last}";
             }
-
-            log("date--------------> $date");
-            log("slot--------------> $slot");
 
             break;
           }
@@ -694,7 +718,7 @@ class TabSearchView extends GetView<TabSearchController> {
           icon: Icon(Icons.clear),
           onPressed: () {
             if (controller.teSearchController.text.isEmpty)
-              Get.focusScope.unfocus();
+              Get.focusScope!.unfocus();
             controller.teSearchController.clear();
             controller.firstSearchInit(false);
           },

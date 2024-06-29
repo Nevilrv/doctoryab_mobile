@@ -29,9 +29,9 @@ class ChatRepository {
   static Future<List<ChatListApiModel>> fetchChatList(
     String searchValue, {
     int limitPerPage = 100,
-    int page,
-    void onError(e),
-    CancelToken cancelToken,
+    int? page,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
@@ -50,28 +50,37 @@ class ChatRepository {
             "searchVal": searchValue,
           },
 
-          // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
       },
       onError: onError,
-    );
+    ) as List<ChatListApiModel>;
+
+    // log("data========================${data}");
+    // return data;
   }
 
   static Future<List<ChatApiModel>> fetchChatsById(
     String chatID, {
-    int limitPerPage = 10,
-    int page,
-    void onError(e),
-    CancelToken cancelToken,
+    int? limitPerPage = 10,
+    int? page,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<ChatApiModel>(
+    List<ChatApiModel> data = await Utils.parseResponse<ChatApiModel>(
       () async {
         // var doctorReports;
-        return await dio.get(
+
+        log('-------------/message/$chatID');
+        log('------/Params/-------------${{
+          "limit": limitPerPage,
+          "page": page,
+          // "searchVal": searchValue,
+        }}');
+        var res = await dio.get(
           // '/findBloodDonors/profile',
           '/message/$chatID',
           cancelToken: cancelToken,
@@ -84,18 +93,22 @@ class ChatRepository {
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
+        log("res--------------> ${res.data}");
+
+        return res;
       },
       onError: onError,
-    );
+    ) as List<ChatApiModel>;
+    return data;
   }
 
   static Future<ChatApiModel> sendMessage(
     String chatID,
     String message, {
-    void onError(e),
-    String type,
-    List<dynamic> images,
-    CancelToken cancelToken,
+    required void onError(e),
+    String? type,
+    List<dynamic>? images,
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
@@ -154,11 +167,11 @@ class ChatRepository {
   }
 
   Future<dynamic> uploadImage({
-    File file,
+    File? file,
   }) async {
     FormData formData = FormData.fromMap(
       {
-        "imgs": file.path != ""
+        "imgs": file!.path != ""
             ? await MultipartFile.fromFile(
                 file.path,
                 filename: file.path.split('/').last,
@@ -175,15 +188,15 @@ class ChatRepository {
       data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }
 
   Future<dynamic> uploadPDF({
-    File file,
+    File? file,
   }) async {
-    File pdfFile = File(file.path.toString());
+    File pdfFile = File(file!.path.toString());
     log("pdfFile--------------> ${pdfFile.path}");
 
     FormData formData = FormData.fromMap(
@@ -202,15 +215,15 @@ class ChatRepository {
         "${ApiConsts.baseUrl}/message/file",
         data: formData,
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge));
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }
 
   Future<dynamic> uploadAudio({
-    File file,
+    File? file,
   }) async {
-    File audioFile = File(file.path.toString());
+    File audioFile = File(file!.path.toString());
     log("file.path--------------> ${audioFile.path}");
 
     FormData formData = FormData.fromMap(
@@ -232,7 +245,7 @@ class ChatRepository {
       data: formData,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response.data--------------> ${response.data}");
+    log("response. ${response.data}");
 
     return response.data;
   }
@@ -240,8 +253,8 @@ class ChatRepository {
   static Future<ChatApiModel> createNewChat(
     String title,
     String message, {
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
@@ -249,12 +262,13 @@ class ChatRepository {
     var response;
     try {
       response = await dio.post(
-        // '/findBloodDonors/profile',
-        '/chat/createChatAndSendMessage/',
+        '/chat/createChatWithoutMessage',
+        // '/chat/createChatAndSendMessage/',
         cancelToken: cancelToken,
         data: {
-          "reason": "$title",
-          "content": "$message",
+          "reason": "",
+          // "reason": "$title",
+          // "content": "$message",
         },
         options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
       );

@@ -3,21 +3,17 @@ import 'dart:developer';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
-import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
-
-import 'package:doctor_yab/app/services/DioService.dart';
-
-import 'package:doctor_yab/app/utils/utils.dart';
-
-import 'package:flutter/cupertino.dart';
-
-import 'package:get/get.dart';
-
 import 'package:doctor_yab/app/data/models/user_model.dart' as u;
+import 'package:doctor_yab/app/data/repository/AuthRepository.dart';
+import 'package:doctor_yab/app/services/DioService.dart';
+import 'package:doctor_yab/app/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 class RegisterGuestUserController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
-  TextEditingController teNewNumber = TextEditingController();
+
+  // TextEditingController teNewNumber = TextEditingController();
   TextEditingController teAge = TextEditingController();
   TextEditingController teName = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -32,6 +28,7 @@ class RegisterGuestUserController extends GetxController {
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   var isLoading = false.obs;
+
   @override
   void onInit() {
     loadCities();
@@ -57,14 +54,12 @@ class RegisterGuestUserController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
-    log("response-statusCode-------------> ${response.statusCode}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -111,26 +106,28 @@ class RegisterGuestUserController extends GetxController {
     // isLoading.value = false;
     // Utils.whereShouldIGo();
     AuthRepository()
-        .registerGuestUserApi(teName.text, teNewNumber.text,
-            selectedGender.value, selectedLocationId.value)
+        .registerGuestUserApi(
+      teName.text,
+      // teNewNumber.text,
+      selectedGender.value,
+      selectedLocationId.value,
+    )
         .then((value) {
       log('value-------------->${value}');
+      log('value---------profile_completed----->${value["profile_completed"]}');
       try {
         SettingsController.userToken = value["jwtoken"];
-        SettingsController.userProfileComplete = value["profile_completed"];
+        SettingsController.userProfileComplete = value["profile_completed"] ?? true;
         SettingsController.userId = value['guestUser']['_id'];
-        SettingsController.savedUserProfile =
-            u.User.fromJson(value['guestUser']);
+        SettingsController.savedUserProfile = u.User.fromJson(value['guestUser']);
         SettingsController.auth.savedCity = City.fromJson(value['city']);
         SettingsController.userLogin = true;
         isLoading.value = false;
         Utils.whereShouldIGo();
-        log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.name}");
       } catch (e) {
         isLoading.value = false;
-        log("e--------------> ${e}");
+        log('e ---------->>>>>>>> ${e}');
       }
-      log("value--------------> ${value}");
     });
   }
 }

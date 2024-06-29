@@ -11,8 +11,8 @@ String checkUpPackageResModelToJson(CheckUpPackageResModel data) =>
     json.encode(data.toJson());
 
 class CheckUpPackageResModel {
-  List<PackageHistory> data;
-  int count;
+  List<PackageHistory>? data;
+  int? count;
 
   CheckUpPackageResModel({
     this.data,
@@ -27,23 +27,23 @@ class CheckUpPackageResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class PackageHistory {
-  bool bookingNotified;
-  bool visited;
-  String id;
-  PackageId packageId;
-  PatientId patientId;
-  String visitDate;
-  Id labId;
-  Id hospitalId;
-  String cityId;
-  String createAt;
-  int v;
+  bool? bookingNotified;
+  bool? visited;
+  String? id;
+  PackageId? packageId;
+  PatientId? patientId;
+  String? visitDate;
+  Id? labId;
+  Id? hospitalId;
+  String? cityId;
+  String? createAt;
+  int? v;
 
   PackageHistory({
     this.bookingNotified,
@@ -77,11 +77,11 @@ class PackageHistory {
         "bookingNotified": bookingNotified,
         "visited": visited,
         "_id": id,
-        "packageId": packageId.toJson(),
-        "patientId": patientId.toJson(),
+        "packageId": packageId!.toJson(),
+        "patientId": patientId!.toJson(),
         "visit_date": visitDate,
         "labId": labId?.toJson(),
-        "hospitalId": hospitalId.toJson(),
+        "hospitalId": hospitalId!.toJson(),
         "cityId": cityId,
         "createAt": createAt,
         "__v": v,
@@ -89,8 +89,8 @@ class PackageHistory {
 }
 
 class Id {
-  String id;
-  String name;
+  String? id;
+  String? name;
 
   Id({
     this.id,
@@ -109,32 +109,32 @@ class Id {
 }
 
 class PackageId {
-  List<dynamic> specialistConsultants;
-  String img;
-  String observerImg;
-  bool isPublished;
-  List<HospitalLocation> hospitalLocation;
-  List<LabLocation> labLocation;
-  List<dynamic> doctorLocation;
-  List<dynamic> cities;
-  String totalFeedbacks;
-  String averageRating;
-  int countOfPatient;
-  String id;
-  String title;
-  String description;
-  List<PackageInclude> packageInclude;
-  String sampleType;
-  String fastingRequired;
-  String byObservation;
-  String duration;
-  String price;
-  String rrp;
-  String discount;
-  String createAt;
-  int v;
-  String publishedAt;
-  String totalTests;
+  List<dynamic>? specialistConsultants;
+  String? img;
+  String? observerImg;
+  bool? isPublished;
+  List<HospitalLocation>? hospitalLocation;
+  List<LabLocation>? labLocation;
+  List<dynamic>? doctorLocation;
+  List<dynamic>? cities;
+  String? totalFeedbacks;
+  String? averageRating;
+  int? countOfPatient;
+  String? id;
+  String? title;
+  String? description;
+  List<PackageInclude>? packageInclude;
+  String? sampleType;
+  String? fastingRequired;
+  String? byObservation;
+  String? duration;
+  String? price;
+  String? rrp;
+  String? discount;
+  String? createAt;
+  int? v;
+  String? publishedAt;
+  String? totalTests;
 
   PackageId({
     this.specialistConsultants,
@@ -201,15 +201,15 @@ class PackageId {
 
   Map<String, dynamic> toJson() => {
         "specialistConsultants":
-            List<dynamic>.from(specialistConsultants.map((x) => x)),
+            List<dynamic>.from(specialistConsultants!.map((x) => x)),
         "img": img,
         "observerImg": observerImg,
         "is_published": isPublished,
         "hospitalLocation":
-            List<dynamic>.from(hospitalLocation.map((x) => x.toJson())),
-        "labLocation": List<dynamic>.from(labLocation.map((x) => x.toJson())),
-        "doctorLocation": List<dynamic>.from(doctorLocation.map((x) => x)),
-        "cities": List<dynamic>.from(cities.map((x) => x)),
+            List<dynamic>.from(hospitalLocation!.map((x) => x.toJson())),
+        "labLocation": List<dynamic>.from(labLocation!.map((x) => x.toJson())),
+        "doctorLocation": List<dynamic>.from(doctorLocation!.map((x) => x)),
+        "cities": List<dynamic>.from(cities!.map((x) => x)),
         "totalFeedbacks": totalFeedbacks,
         "averageRating": averageRating,
         "countOfPatient": countOfPatient,
@@ -217,7 +217,7 @@ class PackageId {
         "title": title,
         "description": description,
         "packageInclude":
-            List<dynamic>.from(packageInclude.map((x) => x.toJson())),
+            List<dynamic>.from(packageInclude!.map((x) => x.toJson())),
         "sampleType": sampleType,
         "fastingRequired": fastingRequired,
         "byObservation": byObservation,
@@ -233,10 +233,10 @@ class PackageId {
 }
 
 class HospitalLocation {
-  String id;
-  String address;
-  String name;
-  String phone;
+  String? id;
+  String? address;
+  String? name;
+  String? phone;
 
   HospitalLocation({
     this.id,
@@ -262,9 +262,9 @@ class HospitalLocation {
 }
 
 class LabLocation {
-  List<String> phone;
-  String id;
-  String name;
+  List<String>? phone;
+  String? id;
+  String? name;
 
   LabLocation({
     this.phone,
@@ -279,16 +279,16 @@ class LabLocation {
       );
 
   Map<String, dynamic> toJson() => {
-        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "phone": List<dynamic>.from(phone!.map((x) => x)),
         "_id": id,
         "name": name,
       };
 }
 
 class PackageInclude {
-  String id;
-  String testTitle;
-  String testDesc;
+  String? id;
+  String? testTitle;
+  String? testDesc;
 
   PackageInclude({
     this.id,
@@ -310,10 +310,10 @@ class PackageInclude {
 }
 
 class PatientId {
-  String id;
-  String phone;
-  String patientId;
-  String name;
+  String? id;
+  String? phone;
+  String? patientId;
+  String? name;
 
   PatientId({
     this.id,

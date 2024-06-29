@@ -18,12 +18,12 @@ class BloodDonorUpdateResponseModel {
     this.data,
   });
 
-  String msg;
-  Data data;
+  String? msg;
+  Data? data;
 
   BloodDonorUpdateResponseModel copyWith({
-    String msg,
-    Data data,
+    String? msg,
+    Data? data,
   }) =>
       BloodDonorUpdateResponseModel(
         msg: msg ?? this.msg,
@@ -38,7 +38,7 @@ class BloodDonorUpdateResponseModel {
 
   Map<String, dynamic> toJson() => {
         "msg": msg,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -57,30 +57,30 @@ class Data {
     this.v,
   });
 
-  Geometry geometry;
-  bool verified;
-  DateTime createAt;
-  String dataId;
-  String donorName;
-  int age;
-  int phone;
-  String bloodGroup;
-  String gender;
-  int id;
-  int v;
+  Geometry? geometry;
+  bool? verified;
+  DateTime? createAt;
+  String? dataId;
+  String? donorName;
+  int? age;
+  int? phone;
+  String? bloodGroup;
+  String? gender;
+  int? id;
+  int? v;
 
   Data copyWith({
-    Geometry geometry,
-    bool verified,
-    DateTime createAt,
-    String dataId,
-    String donorName,
-    int age,
-    int phone,
-    String bloodGroup,
-    String gender,
-    int id,
-    int v,
+    Geometry? geometry,
+    bool? verified,
+    DateTime? createAt,
+    String? dataId,
+    String? donorName,
+    int? age,
+    int? phone,
+    String? bloodGroup,
+    String? gender,
+    int? id,
+    int? v,
   }) =>
       Data(
         geometry: geometry ?? this.geometry,
@@ -111,9 +111,9 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "verified": verified,
-        "createAt": createAt.toIso8601String(),
+        "createAt": createAt!.toIso8601String(),
         "_id": dataId,
         "donorName": donorName,
         "age": age,
@@ -131,12 +131,12 @@ class Geometry {
     this.coordinates,
   });
 
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry copyWith({
-    String type,
-    List<double> coordinates,
+    String? type,
+    List<double>? coordinates,
   }) =>
       Geometry(
         type: type ?? this.type,
@@ -151,6 +151,6 @@ class Geometry {
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

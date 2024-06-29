@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 abstract class TabHomeOthersController extends GetxController {
-  PagingController pageController;
+  PagingController? pageController;
   CancelToken cancelToken = CancelToken();
   bool the24HourState = false;
 
@@ -13,7 +13,7 @@ abstract class TabHomeOthersController extends GetxController {
       cancelToken.cancel();
       cancelToken = CancelToken();
       the24HourState = state;
-      pageController.refresh();
+      pageController?.refresh();
       // });
     }
   }

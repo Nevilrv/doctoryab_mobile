@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SavedDrugsView extends GetView<DrugsController> {
-  SavedDrugsView({Key key}) : super(key: key);
+  SavedDrugsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,8 @@ class SavedDrugsView extends GetView<DrugsController> {
                 ],
               ),
             ),
-            SettingsController.drugData == [] ||
-                    SettingsController.drugData.isEmpty
+            SettingsController.getUpdatedDrugData == [] ||
+                    SettingsController.getUpdatedDrugData.isEmpty
                 ? Padding(
                     padding: EdgeInsets.only(top: h * 0.25),
                     child: Column(
@@ -78,7 +78,7 @@ class SavedDrugsView extends GetView<DrugsController> {
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       physics: BouncingScrollPhysics(),
-                      itemCount: SettingsController.drugData.length,
+                      itemCount: SettingsController.getUpdatedDrugData.length,
                       itemBuilder: (context, index) {
                         return drugsData(h, w, index);
                       },
@@ -94,7 +94,7 @@ class SavedDrugsView extends GetView<DrugsController> {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DRUGS_DETAILS,
-            arguments: SettingsController.drugData[index]);
+            arguments: SettingsController.getUpdatedDrugData[index]);
       },
       child: Container(
         height: h * 0.23,
@@ -119,7 +119,7 @@ class SavedDrugsView extends GetView<DrugsController> {
                   ),
                   child: CachedNetworkImage(
                     imageUrl:
-                        "${ApiConsts.hostUrl}${SettingsController.drugData[index].img}",
+                        "${ApiConsts.hostUrl}${SettingsController.getUpdatedDrugData[index].img}",
                     height: h * 0.082,
                     width: w * 0.178,
                     fit: BoxFit.cover,
@@ -208,19 +208,19 @@ class SavedDrugsView extends GetView<DrugsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${SettingsController.drugData[index].englishName}",
+                    "${SettingsController.getUpdatedDrugData[index].englishDrugName}",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "${SettingsController.drugData[index].persianName}",
+                    "${SettingsController.getUpdatedDrugData[index].localLanguageDrugName}",
                     style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "${SettingsController.drugData[index].company}",
+                    "${SettingsController.getUpdatedDrugData[index].company}",
                     style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -276,20 +276,54 @@ class SavedDrugsView extends GetView<DrugsController> {
                                 Container(
                                   width: w * 0.35,
                                   child: Text(
+                                    // subIndex == 1
+                                    //     ? SettingsController
+                                    //             .getUpdatedDrugData[index].quantity ??
+                                    //         ''
+                                    //     : subIndex == 2
+                                    //         ? controller.data[2]["text"]
+                                    //             .toString()
+                                    //             .trArgs([
+                                    //             SettingsController
+                                    //                 .getUpdatedDrugData[index]
+                                    //                 .packsAndPrices
+                                    //           ])
+                                    //         : SettingsController.getUpdatedDrugData[index]
+                                    //                 .drugTypeEnglish ??
+                                    //             "None",
                                     subIndex == 1
                                         ? SettingsController
-                                            .drugData[index].pack
+                                                .getUpdatedDrugData[index]
+                                                .quantity ??
+                                            "None"
                                         : subIndex == 2
                                             ? controller.data[2]["text"]
                                                 .toString()
                                                 .trArgs([
                                                 SettingsController
-                                                    .drugData[index]
-                                                    .packsAndPrices
+                                                    .getUpdatedDrugData[index]
+                                                    .packsAndPrices!
                                               ])
-                                            : SettingsController
-                                                    .drugData[index].drugType ??
-                                                "None",
+                                            : SettingsController.appLanguge ==
+                                                    'English'
+                                                ? SettingsController
+                                                        .getUpdatedDrugData[
+                                                            index]
+                                                        .drugTypeEnglish ??
+                                                    "None"
+                                                : SettingsController
+                                                            .appLanguge ==
+                                                        'پشتو'
+                                                    ? SettingsController
+                                                            .getUpdatedDrugData[
+                                                                index]
+                                                            .drugTypePashto ??
+                                                        "None"
+                                                    : SettingsController
+                                                            .getUpdatedDrugData[
+                                                                index]
+                                                            .drugTypeDari ??
+                                                        "None",
                                     style: AppTextStyle.regularPrimary9
                                         .copyWith(height: 1),
                                     maxLines: 4,

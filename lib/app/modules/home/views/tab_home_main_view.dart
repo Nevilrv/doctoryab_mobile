@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/shimmer/stories_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -13,17 +12,19 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
 import '../../../components/story_avatar.dart';
 import '../../../data/ApiConsts.dart';
 
 class TabHomeMainView extends GetView<TabHomeMainController> {
-  TabHomeMainController tabHomeMainController =
-      Get.put(TabHomeMainController());
-  NotificationController notificationController =
-      Get.put(NotificationController())..loadNotification();
+  TabHomeMainController tabHomeMainController = Get.put(TabHomeMainController());
+  NotificationController notificationController = Get.put(NotificationController())..loadNotification();
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -41,15 +42,14 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
         });
 
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Obx(() {
             return Background(
               isSecond: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: h * 0.015,
-                  ),
+                  SizedBox(height: h * 0.015),
                   controller.isHomeScreen.value == true
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,50 +66,82 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                           ],
                         )
                       : SizedBox(),
+
+                  /// Old Design
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Center(
-                      child: SizedBox(
-                        child: TabBar(
-                          labelPadding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                          labelColor: Colors.white,
-                          onTap: (value) {
-                            if (value == 0) {
-                              controller.isHomeScreen.value = true;
-                            } else {
-                              controller.isHomeScreen.value = false;
-                            }
-                            log("value--------------> $value");
-                          },
-                          unselectedLabelColor: AppColors.black,
-                          labelStyle: AppTextStyle.regularWhite12
-                              .copyWith(fontWeight: FontWeight.w500),
-                          unselectedLabelStyle: AppTextStyle.mediumBlack12
-                              .copyWith(fontWeight: FontWeight.w500),
-                          indicator: BoxDecoration(
-                            color: Get.theme.primaryColor,
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(20),
+                    child: TabBar(
+                      labelPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 0),
+                      labelColor: Colors.white,
+                      onTap: (value) {
+                        if (value == 0) {
+                          controller.isHomeScreen.value = true;
+                        } else {
+                          controller.isHomeScreen.value = false;
+                        }
+                      },
+                      unselectedLabelColor: AppColors.black,
+                      labelStyle: AppTextStyle.regularWhite12.copyWith(fontWeight: FontWeight.w500),
+                      unselectedLabelStyle: AppTextStyle.mediumBlack12.copyWith(fontWeight: FontWeight.w500),
+                      indicator: BoxDecoration(
+                        color: Get.theme.primaryColor,
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      indicatorColor: Colors.transparent,
+                      indicatorPadding: EdgeInsets.zero,
+                      dividerColor: Colors.transparent,
+                      indicatorWeight: 0,
+                      padding: EdgeInsets.zero,
+                      tabs: [
+                        FittedBox(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04),
+                            // padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02),
+                            child: Text(
+                              "doctors".tr,
+                              style: TextStyle(fontSize: Get.width * 0.033),
+                            ),
                           ),
-                          tabs: [
-                            FittedBox(
-                                child: Text("doctors".tr), fit: BoxFit.cover),
-                            FittedBox(child: Text("hospitals".tr)),
-                            FittedBox(child: Text("drug_store".tr)),
-                            FittedBox(child: Text("labratories".tr)),
-                          ],
-                        ) /*.size(
-                          width: MediaQuery.of(context).size.width > 600 ? 500 : 324,
-                        )*/
-                        ,
-                      )
-                          .paddingSymmetric(horizontal: 10, vertical: 8)
-                          .bgColor(Colors.white)
-                          .radiusAll(30)
-                          // .paddingAll(2)
-                          .basicShadow(),
-                    ),
+                        ),
+                        FittedBox(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04),
+                            // padding: EdgeInsets.symmetric(horizontal: Get.width * 0.01),
+                            child: Text(
+                              "hospitals".tr,
+                              style: TextStyle(fontSize: Get.width * 0.033),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04),
+                            // padding: EdgeInsets.symmetric(horizontal: Get.width * 0.01),
+                            child: Text(
+                              "drug_store".tr,
+                              style: TextStyle(fontSize: Get.width * 0.033),
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04),
+                            // padding: EdgeInsets.symmetric(horizontal: Get.width * 0.005),
+                            child: Text(
+                              "labratories".tr,
+                              style: TextStyle(fontSize: Get.width * 0.033),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                        .paddingSymmetric(vertical: Get.width * 0.02)
+                        .paddingOnly(right: Get.width * 0.02)
+                        .bgColor(Colors.white)
+                        .radiusAll(30)
+                        // .paddingAll(2)
+                        .basicShadow(),
                   ),
                   Expanded(
                     child: TabBarView(
@@ -122,10 +154,11 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 80,
-                    color: AppColors.lightGrey,
-                  ),
+
+                  // Container(
+                  //   height: 80,
+                  //   color: AppColors.lightGrey,
+                  // ),
                 ],
               ),
             );
@@ -151,13 +184,12 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${"hi".tr}, ${SettingsController.savedUserProfile.name ?? ""}!",
+                    "${"hi".tr}, ${SettingsController.savedUserProfile?.name ?? ""}!",
                     style: AppTextStyle.mediumWhite11.copyWith(fontSize: 13),
                   ),
                   Text(
                     "how_do_you_feel_today".tr,
-                    style: AppTextStyle.mediumWhite11.copyWith(
-                        color: AppColors.white.withOpacity(0.5), fontSize: 13),
+                    style: AppTextStyle.mediumWhite11.copyWith(color: AppColors.white.withOpacity(0.5), fontSize: 13),
                   ),
                 ],
               ),
@@ -179,8 +211,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                     right: 2,
                     top: 2,
                     child: CircleAvatar(
-                      backgroundColor: notificationController.notification
-                              .any((element) => element.status == "unread")
+                      backgroundColor: notificationController.notification.any((element) => element.status == "unread")
                           ? AppColors.red2
                           : Colors.transparent,
                       radius: 4,
@@ -258,8 +289,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         StoryAvatar(
-                          assetPath:
-                              "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
+                          assetPath: "${ApiConsts.hostUrl}${controller.dataList()?.data?[index].img}",
                           isActive: true,
                           onTap: () {
                             // controller.resetStrories();
@@ -271,7 +301,7 @@ class TabHomeMainView extends GetView<TabHomeMainController> {
                       ],
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: controller.dataList().data.length,
+                    itemCount: controller.dataList()!.data!.length,
                   ),
             // : Stories(
             //     displayProgress: true,

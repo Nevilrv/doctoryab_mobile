@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 class Background extends StatelessWidget {
   const Background(
-      {Key key,
-      @required this.child,
+      {Key? key,
+      required this.child,
       this.isSecond = false,
       this.isPrimary = false})
       : super(key: key);

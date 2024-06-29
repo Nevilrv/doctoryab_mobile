@@ -5,24 +5,24 @@ import '../../theme/AppColors.dart';
 import '../../theme/TextTheme.dart';
 
 class CustomRoundedButton extends StatelessWidget {
-  final TextStyle textStyle;
-  final Color splashColor;
-  final Color textColor;
-  final Color textDisabledColor;
-  final Color color;
-  final Color disabledColor;
-  final double radius;
-  final double elevation;
-  final EdgeInsetsGeometry padding;
-  final double width;
-  final double height;
-  final String text;
-  final VoidCallback onTap;
-  final bool showBorder;
-  final Widget leading;
-  final Widget trailing;
-  const CustomRoundedButton({
-    Key key,
+  TextStyle? textStyle;
+  Color? splashColor;
+  Color? textColor;
+  Color? textDisabledColor;
+  Color? color;
+  Color? disabledColor;
+  double? radius;
+  double? elevation;
+  EdgeInsetsGeometry? padding;
+  double? width;
+  double? height;
+  String? text;
+  Function()? onTap;
+  bool showBorder;
+  Widget? leading;
+  Widget? trailing;
+  CustomRoundedButton({
+    Key? key,
     this.textStyle,
     this.splashColor,
     this.textColor,
@@ -39,8 +39,7 @@ class CustomRoundedButton extends StatelessWidget {
     @required this.text,
     this.onTap,
     this.showBorder = false,
-  })  : assert(text != null),
-        super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +69,7 @@ class CustomRoundedButton extends StatelessWidget {
           Padding(
             padding: padding ?? const EdgeInsets.all(10.0),
             child: Text(
-              text,
+              text ?? "",
               style: textStyle ??
                   AppTextTheme.m(17).copyWith(
                     color: onTap == null

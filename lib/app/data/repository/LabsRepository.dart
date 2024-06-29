@@ -1,12 +1,7 @@
 import 'dart:developer';
-
-import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-
 import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 
 class LabsRepository {
   static Dio dio = AppDioService.getDioInstance();
@@ -14,14 +9,14 @@ class LabsRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   Future<Response> fetchLabs({
-    int page,
-    int limitPerPage = 50,
-    String sort,
-    double lat,
-    double lon,
-    String filterName,
-    void onError(e),
-    CancelToken cancelToken,
+    int? page,
+    int limitPerPage = 10,
+    String? sort,
+    double? lat,
+    double? lon,
+    String? filterName,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     Map<String, dynamic> requestParameter = {};
 
@@ -67,9 +62,9 @@ class LabsRepository {
   }
 
   Future<Response> searchLabs({
-    String name,
-    void onError(e),
-    CancelToken cancelToken,
+    String? name,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.labsBySearch}$name',

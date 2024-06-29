@@ -11,8 +11,8 @@ class DrugDatabaseRepository {
     int page,
     String name, {
     int limitPerPage = 6,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     print("Query---Parameter---${{
       "limit": limitPerPage,
@@ -29,10 +29,34 @@ class DrugDatabaseRepository {
     return response;
   }
 
+  /// Updated Fetch Drugs
+
+  Future<Response> updatedFetchDrugs(
+    int page,
+    String name, {
+    int limitPerPage = 10,
+    // required void onError(e),
+    CancelToken? cancelToken,
+  }) async {
+    print("Query---Parameter---${{
+      "limit": limitPerPage,
+      "page": page,
+      "name": name
+    }}");
+    final response = await _cachedDio.get(
+      '${ApiConsts.drugDatabaseUpdated}',
+      cancelToken: cancelToken,
+      queryParameters: {"limit": limitPerPage, "page": page, "name": name},
+      options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
+    );
+
+    return response;
+  }
+
   Future<Response> fetchDrugsReview({
-    String drugId,
-    void onError(e),
-    CancelToken cancelToken,
+    String? drugId,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.drugDatabaseReview}$drugId',
@@ -44,11 +68,11 @@ class DrugDatabaseRepository {
   }
 
   Future<Response> addDrugsReview({
-    String drugId,
-    String rating,
-    String comment,
-    void onError(e),
-    CancelToken cancelToken,
+    String? drugId,
+    String? rating,
+    String? comment,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     var data = {"comment": comment, "rating": rating, "drugId": drugId};
     final response = await _cachedDio.post(

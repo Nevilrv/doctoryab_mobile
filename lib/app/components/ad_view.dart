@@ -6,7 +6,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:logger/logger.dart';
@@ -16,7 +16,7 @@ import '/app/extentions/widget_exts.dart';
 
 class AdView extends StatelessWidget {
   PageController pageController = PageController();
-  var dataList = Rx<AdsModel>(null);
+  var dataList = Rxn<AdsModel>(null);
   var selectedPage = 0;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class AdView extends StatelessWidget {
           () => AspectRatio(
             aspectRatio: 343 / 181,
             // child: TestWidget(),
-            child: dataList.value == null
+            child: dataList.value == ""
                 ? Column(
                     children: [
                       Spacer(),
@@ -42,7 +42,7 @@ class AdView extends StatelessWidget {
                             style: TextStyle(color: Colors.black),
                           ),
                           SizedBox(width: 8),
-                          Icon(Entypo.megaphone),
+                          Icon(Icons.phone),
                         ],
                       ),
                       SizedBox(height: 8),
@@ -77,10 +77,10 @@ class AdView extends StatelessWidget {
                         child: PageView.builder(
                           onPageChanged: (i) => selectedPage = i,
                           // physics: BouncingScrollPhysics(),
-                          itemCount: dataList().data.length,
+                          itemCount: dataList()!.data!.length,
                           controller: pageController,
                           itemBuilder: (c, i) {
-                            var _item = dataList().data[i];
+                            var _item = dataList()!.data![i];
                             return CachedNetworkImage(
                               imageUrl: "${ApiConsts.hostUrl}${_item.img}",
                               fit: BoxFit.cover,
@@ -115,7 +115,7 @@ class AdView extends StatelessWidget {
                             ).onTap(() {
                               print("ad tapped");
                               try {
-                                launch(_item.link);
+                                launch(_item.link!);
                               } catch (e, s) {
                                 Logger().e("lucinching-ad-link", e, s);
                               }
@@ -136,7 +136,7 @@ class AdView extends StatelessWidget {
                             ),
                             SizedBox(width: 6),
                             Icon(
-                              Entypo.megaphone,
+                              Icons.campaign_outlined,
                               size: 10,
                             ),
                           ],
@@ -149,7 +149,7 @@ class AdView extends StatelessWidget {
                         bottom: 2,
                         child: SmoothPageIndicator(
                           controller: pageController, // PageController
-                          count: dataList().data.length,
+                          count: dataList()!.data!.length,
                           effect: WormEffect(
                             dotHeight: 8,
                             dotWidth: 8,
@@ -165,11 +165,12 @@ class AdView extends StatelessWidget {
                   ).onTap(() {
                     print("ad tapped");
                     try {
-                      launch(dataList()
-                          .data[() {
+                      launch(dataList()!
+                          .data![() {
                             return selectedPage;
                           }()]
-                          .link);
+                          .link
+                          .toString());
                     } catch (e, s) {
                       Logger().e("lucinching-ad-link", e, s);
                     }

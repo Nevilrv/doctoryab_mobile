@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,15 +7,12 @@ import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/map_screen.dart';
-import 'package:doctor_yab/app/modules/review/view/review_screen.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +21,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TabHomeHospitalsView extends GetView<HospitalsController> {
   // final MaterialStateProperty<Icon> thumbIcon =
@@ -42,33 +39,32 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: RefreshIndicator(
-        onRefresh: () => Future.sync(
-          () async {
-            print(
-                "controller.pageController.firstPageKey>>>>${controller.pageController.firstPageKey}");
-            await Future.delayed(Duration.zero, () {
-              controller.cancelToken.cancel();
-            });
-            controller.cancelToken = new CancelToken();
-            controller.pageController.itemList.clear();
-            controller.loadData(
-              controller.pageController.firstPageKey,
-            );
-          },
-        ),
-        child: SingleChildScrollView(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () async {
+              print("controller.pageController.firstPageKey>>>>${controller.pageController.firstPageKey}");
+              await Future.delayed(Duration.zero, () {
+                controller.cancelToken.cancel();
+              });
+              controller.cancelToken = new CancelToken();
+              controller.pageController.itemList?.clear();
+              controller.loadData(
+                controller.pageController.firstPageKey,
+              );
+            },
+          ),
+          child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: GetBuilder<HospitalsController>(
               builder: (controller) {
                 return Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -76,12 +72,8 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                             onTap: () {
                               List<LatLng> latLng = [];
                               controller.locationData.forEach((element) {
-                                log("element.coordinates[1]--------------> ${element.coordinates}");
                                 if (element.coordinates != null) {
-                                  log(" element.coordinates[0]--------------> ${element.coordinates[0]}");
-                                  log("element.coordinates[1]--------------> ${element.coordinates[1]}");
-                                  latLng.add(LatLng(element.coordinates[1],
-                                      element.coordinates[0]));
+                                  latLng.add(LatLng(element.coordinates![1], element.coordinates![0]));
                                 }
                               });
                               Get.to(MapScreen(
@@ -97,8 +89,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 15),
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
@@ -110,8 +101,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                     ),
                                     Text(
                                       "view_all_in_maps".tr,
-                                      style: AppTextStyle.boldWhite12
-                                          .copyWith(fontSize: 13),
+                                      style: AppTextStyle.boldWhite12.copyWith(fontSize: 13),
                                     ),
                                   ],
                                 ),
@@ -120,23 +110,17 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              controller.isEmergencySelect =
-                                  !controller.isEmergencySelect;
+                              controller.isEmergencySelect = !controller.isEmergencySelect;
                               controller.update();
                               controller.emergencyData();
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.red3,
-                                    width: controller.isEmergencySelect == false
-                                        ? 1
-                                        : 2),
+                                border: Border.all(color: AppColors.red3, width: controller.isEmergencySelect == false ? 1 : 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 9.5, horizontal: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
                                 child: Center(
                                     child: SvgPicture.asset(
                                   AppImages.emergencyBell,
@@ -172,15 +156,12 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 9.5, horizontal: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 10),
                                 child: Center(
-                                    child: SettingsController.appLanguge !=
-                                            "English"
+                                    child: SettingsController.appLanguge != "English"
                                         ? Transform(
                                             alignment: Alignment.center,
-                                            transform:
-                                                Matrix4.rotationY(math.pi),
+                                            transform: Matrix4.rotationY(math.pi),
                                             child: Image.asset(
                                               AppImages.filter,
                                               width: 25,
@@ -201,21 +182,20 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                       ),
                     ),
                     TextField(
-                      style:
-                          AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                      style: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                       cursorColor: AppColors.primary,
                       controller: controller.search,
                       textAlignVertical: TextAlignVertical.center,
                       onChanged: (s) async {
                         if (s.isEmpty) {
-                          controller.pageController.itemList.clear();
+                          controller.pageController.itemList?.clear();
                           controller.loadData(
                             controller.pageController.firstPageKey,
                           );
                         }
                       },
                       onSubmitted: (value) {
-                        controller.pageController.itemList.clear();
+                        controller.pageController.itemList!.clear();
                         controller.searchData(
                           controller.pageController.firstPageKey,
                         );
@@ -224,12 +204,10 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 15),
                         hintText: "search_hospital..".tr,
-                        hintStyle:
-                            AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
+                        hintStyle: AppTextStyle.mediumPrimary11.copyWith(fontSize: 13),
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(11),
-                          child: SvgPicture.asset(AppImages.search,
-                              color: AppColors.primary),
+                          child: SvgPicture.asset(AppImages.search, color: AppColors.primary),
                         ),
                         filled: true,
                         fillColor: AppColors.white.withOpacity(0.1),
@@ -255,14 +233,12 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                       ),
                     ),
 
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     // BannerView(),
                     PagedListView.separated(
                       pagingController: controller.pageController,
                       shrinkWrap: true,
-                      padding: EdgeInsets.only(bottom: 100),
+                      // padding: EdgeInsets.only(bottom: 100),
                       physics: BouncingScrollPhysics(),
                       separatorBuilder: (c, i) {
                         if ((i + 1) % 5 == 0) {
@@ -281,27 +257,54 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                       },
                                     ),
                                     items: controller.adList
-                                        .map((item) => Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                // margin: EdgeInsets.all(5.0),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              15.0)),
-                                                  child: Image.network(
-                                                      "${ApiConsts.hostUrl}${item.img}",
-                                                      fit: BoxFit.cover,
-                                                      width: 1000.0),
+                                        .map(
+                                          (item) => GestureDetector(
+                                            onTap: () async {
+                                              debugPrint("On Hospital TAb ::::::::::::: ${item.link.toString()}");
+
+                                              if (!await launchUrl(Uri.parse(item.link.toString()))) {
+                                                throw Exception('Could not launch ${item.link}');
+                                              }
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 5),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                                    // margin: EdgeInsets.all(5.0),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                      child: Image.network("${ApiConsts.hostUrl}${item.img}",
+                                                          fit: BoxFit.cover, width: 1000.0),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ))
+                                                Positioned(
+                                                  top: 10,
+                                                  right: SettingsController.appLanguge != "English" ? null : 10,
+                                                  left: SettingsController.appLanguge == "English" ? null : 10,
+                                                  child: SettingsController.appLanguge != "English"
+                                                      ? Transform(
+                                                          alignment: Alignment.center,
+                                                          transform: Matrix4.rotationY(math.pi),
+                                                          child: Image.asset(
+                                                            AppImages.promote,
+                                                            height: 18,
+                                                            width: 18,
+                                                            color: AppColors.white,
+                                                          ))
+                                                      : Image.asset(
+                                                          AppImages.promote,
+                                                          height: 18,
+                                                          width: 18,
+                                                          color: AppColors.white,
+                                                        ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
                                         .toList()),
                               ),
                               Positioned(
@@ -312,19 +315,16 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: List.generate(
-                                        controller.adList.length,
-                                        (index) => Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 3),
-                                              child: CircleAvatar(
-                                                radius: 5,
-                                                backgroundColor:
-                                                    controller.adIndex == index
-                                                        ? AppColors.primary
-                                                        : AppColors.primary
-                                                            .withOpacity(0.2),
-                                              ),
-                                            )),
+                                      controller.adList.length,
+                                      (index) => Padding(
+                                        padding: const EdgeInsets.only(left: 3),
+                                        child: CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              controller.adIndex == index ? AppColors.primary : AppColors.primary.withOpacity(0.2),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               )
@@ -334,27 +334,28 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                           return SizedBox(height: 5);
                         }
                       },
-                      builderDelegate: PagedChildBuilderDelegate(
+                      builderDelegate: PagedChildBuilderDelegate<Hospital>(
                         itemBuilder: (context, item, index) {
                           return buildItem(w, item, h, context);
                         },
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            DrugsGridShimmer(
+                        firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                           yCount: 5,
                           xCount: 1,
                           // linesCount: 4,
                         ),
-                        newPageProgressIndicatorBuilder: (_) =>
-                            DrugsGridShimmer(
+                        newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                           yCount: 5,
                           xCount: 1,
                         ),
                       ),
                     ),
+                    SizedBox(height: 100),
                   ],
                 );
               },
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -400,9 +401,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                               // color: Colors.black,
                               // height: 65,
                               // width: 65,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.lightGrey),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: CachedNetworkImage(
@@ -429,16 +428,9 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                 ? SizedBox()
                                 : Positioned(
                                     top: -5,
-                                    left: SettingsController.appLanguge !=
-                                            "English"
-                                        ? null
-                                        : -5,
-                                    right: SettingsController.appLanguge ==
-                                            "English"
-                                        ? null
-                                        : -5,
-                                    child: SvgPicture.asset(
-                                        AppImages.emergencyBell))
+                                    left: SettingsController.appLanguge != "English" ? null : -5,
+                                    right: SettingsController.appLanguge == "English" ? null : -5,
+                                    child: SvgPicture.asset(AppImages.emergencyBell))
                           ],
                         ),
                         Expanded(
@@ -457,8 +449,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                       // color: AppColors.red,
                                       child: Text(
                                         "${item.name ?? ""}",
-                                        style: AppTextTheme.h(12)
-                                            .copyWith(color: AppColors.primary),
+                                        style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                       ),
                                     ),
                                   ],
@@ -470,16 +461,12 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                     RatingBar.builder(
                                       ignoreGestures: true,
                                       itemSize: 17,
-                                      initialRating: double.parse(
-                                          item.averageRatings == null
-                                              ? "0"
-                                              : item.averageRatings.toString()),
+                                      initialRating: double.parse(item.averageRatings == null ? "0" : item.averageRatings.toString()),
                                       // minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                                       itemBuilder: (context, _) => Icon(
                                         Icons.star,
                                         color: Colors.amber,
@@ -492,19 +479,14 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                     SizedBox(width: 4),
                                     GestureDetector(
                                       onTap: () {
-                                        Get.toNamed(Routes.REVIEW, arguments: [
-                                          "Hospital_Review",
-                                          item
-                                        ]);
+                                        Get.toNamed(Routes.REVIEW, arguments: ["Hospital_Review", item]);
                                         // Get.to(ReviewScreen(
                                         //   appBarTitle: "hospital_reviews",
                                         // ));
                                       },
                                       child: Text(
                                         '(${"${item.totalFeedbacks == null ? "0" : item.totalFeedbacks.toString()}"})  ${"reviews".tr}',
-                                        style: AppTextTheme.b(12).copyWith(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5)),
+                                        style: AppTextTheme.b(12).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                       ),
                                     )
                                   ],
@@ -515,41 +497,28 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () {
-                                          Utils.openPhoneDialer(
-                                              context, "${item.phone ?? ""}");
+                                          Utils.openPhoneDialer(context, "${item.phone ?? ""}");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
+                                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                          decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(20)),
                                           child: Row(
                                             children: [
                                               Spacer(),
                                               Center(
                                                 child: Text(
                                                   "call".tr,
-                                                  style: AppTextTheme.m(12)
-                                                      .copyWith(
-                                                          color: Colors.white),
+                                                  style: AppTextTheme.m(12).copyWith(color: Colors.white),
                                                 ),
                                               ),
                                               Spacer(),
-                                              SettingsController.appLanguge !=
-                                                      "English"
+                                              SettingsController.appLanguge != "English"
                                                   ? Transform(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      transform:
-                                                          Matrix4.rotationY(
-                                                              math.pi),
-                                                      child: SvgPicture.asset(
-                                                          AppImages.phone),
+                                                      alignment: Alignment.center,
+                                                      transform: Matrix4.rotationY(math.pi),
+                                                      child: SvgPicture.asset(AppImages.phone),
                                                     )
-                                                  : SvgPicture.asset(
-                                                      AppImages.phone)
+                                                  : SvgPicture.asset(AppImages.phone)
                                             ],
                                           ),
                                         ),
@@ -569,12 +538,9 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primary),
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.lightGrey),
+                        border: Border.all(color: AppColors.primary), borderRadius: BorderRadius.circular(5), color: AppColors.lightGrey),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -587,8 +553,7 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
                             child: Text(
                               "${"${item.address ?? ""}"}",
                               // maxLines: ,
-                              style: AppTextTheme.b(11)
-                                  .copyWith(color: AppColors.primary),
+                              style: AppTextTheme.b(11).copyWith(color: AppColors.primary),
                               // overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -604,10 +569,8 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
               item.active == true
                   ? Positioned(
                       top: -3,
-                      right:
-                          SettingsController.appLanguge != "English" ? null : 0,
-                      left:
-                          SettingsController.appLanguge == "English" ? null : 0,
+                      right: SettingsController.appLanguge != "English" ? null : 0,
+                      left: SettingsController.appLanguge == "English" ? null : 0,
                       child: SettingsController.appLanguge != "English"
                           ? Transform(
                               alignment: Alignment.center,
@@ -633,35 +596,35 @@ class TabHomeHospitalsView extends GetView<HospitalsController> {
     );
   }
 
-  // @override
-  // Widget buildItem(c, it, i) {
-  //   return  NewItems(
-  //     // is24Hour: i % 2 == 0,
-  //     is24Hour: false,
-  //     title: it.name,
-  //     address: it.address,
-  //     phoneNumber: it.phone,
-  //     imagePath: it.photo,
-  //     latLng: it.geometry.coordinates,
-  //   ).onTap(() {
-  //     Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
-  //     // Get.to(
-  //     //   () => DrugStoreLabView(
-  //     //     Labs(),
-  //     //     DRUG_STORE_LAB_PAGE_TYPE.hospital,
-  //     //     hospital: it,
-  //     //   ),
-  //     // );
-  //
-  //     // Get.to(() => DoctorsView(
-  //     //       action: DOCTORS_LOAD_ACTION.ofhospital,
-  //     //       hospitalId: it.id ?? "",
-  //     //       hospitalName: it.name,
-  //     //     ));
-  //     // return;
-  //     // // Get.toNamed(Routes.DOCTORS,
-  //     // //     arguments: [Doctor(id: it.id, fullname: it.name, name: it.name)]);
-  //   })
-  //       ;
-  // }
+// @override
+// Widget buildItem(c, it, i) {
+//   return  NewItems(
+//     // is24Hour: i % 2 == 0,
+//     is24Hour: false,
+//     title: it.name,
+//     address: it.address,
+//     phoneNumber: it.phone,
+//     imagePath: it.photo,
+//     latLng: it.geometry.coordinates,
+//   ).onTap(() {
+//     Get.toNamed(Routes.HOSPITAL_NEW, arguments: it);
+//     // Get.to(
+//     //   () => DrugStoreLabView(
+//     //     Labs(),
+//     //     DRUG_STORE_LAB_PAGE_TYPE.hospital,
+//     //     hospital: it,
+//     //   ),
+//     // );
+//
+//     // Get.to(() => DoctorsView(
+//     //       action: DOCTORS_LOAD_ACTION.ofhospital,
+//     //       hospitalId: it.id ?? "",
+//     //       hospitalName: it.name,
+//     //     ));
+//     // return;
+//     // // Get.toNamed(Routes.DOCTORS,
+//     // //     arguments: [Doctor(id: it.id, fullname: it.name, name: it.name)]);
+//   })
+//       ;
+// }
 }

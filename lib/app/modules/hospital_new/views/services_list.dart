@@ -1,12 +1,9 @@
 import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:doctor_yab/app/modules/hospital_new/controllers/hospital_new_controller.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 
 import '../../../components/ad_view.dart';
-import '../../../components/address_show_on_map.dart';
 import '../../../components/dot_dot_spacer.dart';
 import '../../../data/models/HospitalsModel.dart';
 import '../../../theme/AppColors.dart';
@@ -14,14 +11,14 @@ import '../../../theme/TextTheme.dart';
 import '../../drug_store_lab/views/drug_store_lab_view.dart';
 
 class HospitalServicesList extends GetView<HospitalNewController> {
-  HospitalServicesList({Key key}) : super(key: key);
+  HospitalServicesList({Key? key}) : super(key: key);
   final _checkUpLoaded = false.obs;
-  var j2 = Jiffy([2021, 7, 30]);
+  // var j2 = Jiffy([2021, 7, 30]);
   // Hospital hospital;
-  Hospital _model;
+  Hospital? _model;
   @override
   Widget build(BuildContext context) {
-    _model = controller.hospital;
+    _model = controller.hospital!;
     return SingleChildScrollView(
       // physics: BouncingScrollPhysics(),
       child: Column(
@@ -30,7 +27,7 @@ class HospitalServicesList extends GetView<HospitalNewController> {
           //*timetable
           () {
             var wdgts = <Widget>[];
-            if (_model.checkUp != null && _model.checkUp.isNotEmpty) {
+            if (_model!.checkUp != null && _model!.checkUp!.isNotEmpty) {
               wdgts.add(
                 SizedBox(height: 25),
               );
@@ -54,7 +51,7 @@ class HospitalServicesList extends GetView<HospitalNewController> {
                   //   childAspectRatio: 161 / 261,
                   // ),
                   itemCount:
-                      _model.checkUp?.where((e) => e.isBrief != true)?.length ??
+                      _model!.checkUp?.where((e) => e.isBrief != true).length ??
                           0,
                   itemBuilder: (BuildContext context, int index) {
                     return _checkupWithImage(index).paddingAll(8);
@@ -82,11 +79,11 @@ class HospitalServicesList extends GetView<HospitalNewController> {
 
           () {
             var itms =
-                _model.checkUp?.where((e) => e.isBrief == true)?.toList() ?? [];
+                _model!.checkUp?.where((e) => e.isBrief == true).toList() ?? [];
             // var tmp = itms?.toList();
             // itms.addAll(tmp);
             var widgts = <Widget>[];
-            if (itms != null && itms.isNotEmpty) {
+            if (itms.isNotEmpty) {
               for (var i = 0; i < itms.length; i++) {
                 widgts.add(
                   Row(
@@ -117,8 +114,7 @@ class HospitalServicesList extends GetView<HospitalNewController> {
             }
 
             return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: widgts ?? [Container()]);
+                crossAxisAlignment: CrossAxisAlignment.start, children: widgts);
           }()
         ]..add(AdView()),
       ),
@@ -126,7 +122,7 @@ class HospitalServicesList extends GetView<HospitalNewController> {
   }
 
   Widget _checkupWithImage(int i) {
-    var list = _model.checkUp?.where((e) => e.isBrief != true)?.toList();
+    var list = _model!.checkUp?.where((e) => e.isBrief != true).toList();
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +134,7 @@ class HospitalServicesList extends GetView<HospitalNewController> {
             // height: 100,
             // width: 100,
             // color: Colors.red,
-            child: CachedToFullScreenImage("${list[i].img}"),
+            child: CachedToFullScreenImage("${list![i].img}"),
           ),
         ).radiusAll(10),
         SizedBox(height: 5),

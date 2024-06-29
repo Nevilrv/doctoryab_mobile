@@ -8,7 +8,7 @@ import '../../../utils/app_text_styles.dart';
 import '../controllers/new_chat_controller.dart';
 
 class NewChatView extends GetView<NewChatController> {
-  const NewChatView({Key key}) : super(key: key);
+  const NewChatView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Theme(

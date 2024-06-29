@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/modules/notification/controllers/notification_controller.dart';
 import 'package:doctor_yab/app/modules/profile_update/controllers/profile_update_controller.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +6,17 @@ import 'package:get/get.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../controllers/settings_controller.dart';
-
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
   var selectedIndex = Get.arguments == null ? 0 : Get.arguments['id'];
-  TabController pageController;
+  TabController? pageController;
   var dropdownValue = ''.obs;
-  WebViewController webViewController;
+  WebViewController? webViewController;
   NotificationController notificationController =
       Get.put(NotificationController());
   setIndex(int index) {
     if (Get.arguments == null) {
-      log("index--------------> $index");
-    } else {
-      log(" Get.arguments['id']--------------> ${Get.arguments}");
-    }
+    } else {}
 
     selectedIndex = Get.arguments == null ? index : Get.arguments['id'];
     update();
@@ -32,7 +25,7 @@ class HomeController extends GetxController
   @override
   void onInit() {
     pageController = TabController(length: 5, vsync: this);
-    pageController.animateTo(Get.arguments == null ? 0 : Get.arguments['id']);
+    pageController!.animateTo(Get.arguments == null ? 0 : Get.arguments['id']);
     super.onInit();
     Get.put(ProfileUpdateController());
     notificationController.changeLanguage();
@@ -40,30 +33,27 @@ class HomeController extends GetxController
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await _getPermission();
     });
-    log("jwt: ${SettingsController.userToken}");
   }
 
-  SpeechRecognition speech;
+  SpeechRecognition? speech;
   Future _getPermission() async {
     speech = SpeechRecognition();
-    speech.setAvailabilityHandler(
+    speech?.setAvailabilityHandler(
       (result) {},
     );
-    speech.setRecognitionStartedHandler(
+    speech?.setRecognitionStartedHandler(
       () {},
     );
-    speech.setRecognitionResultHandler(
+    speech?.setRecognitionResultHandler(
       (text) {},
     );
-    speech.setRecognitionCompleteHandler(
+    speech?.setRecognitionCompleteHandler(
       (text) {},
     );
-    speech.setErrorHandler(
+    speech?.setErrorHandler(
       () {},
     );
-    speech.activate('en_US').then((res) {
-      log("speechRecognitionAvailable--------------->$res");
-    });
+    speech?.activate('en_US').then((res) {});
   }
 
   @override
@@ -77,16 +67,11 @@ class HomeController extends GetxController
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> checkForUpdate() async {
     InAppUpdate.checkForUpdate().then((info) {
-      log("------------------------- is_update_available: $info");
       if (info.updateAvailability == UpdateAvailability.updateAvailable) {
         InAppUpdate.performImmediateUpdate().catchError((e) async {
-          log("-----------------------------> performImmediateUpdate_failed ${e.toString()}");
           try {
             await InAppUpdate.startFlexibleUpdate();
-          } catch (e) {
-            log("-----------------------------> startFlexibleUpdate_failed ${e.toString()}");
-          }
-
+          } catch (e) {}
           return AppUpdateResult.inAppUpdateFailed;
         });
       }

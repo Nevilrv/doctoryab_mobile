@@ -23,22 +23,22 @@ class BloodDonorSearchModel {
     this.geometry,
   });
 
-  String bloodGroup;
-  int bloodUnits;
-  bool critical;
-  String condition;
-  String name;
-  String number;
-  Geometry geometry;
+  String? bloodGroup;
+  int? bloodUnits;
+  bool? critical;
+  String? condition;
+  String? name;
+  String? number;
+  Geometry? geometry;
 
   BloodDonorSearchModel copyWith({
-    String bloodGroup,
-    int bloodUnits,
-    bool critical,
-    String condition,
-    String name,
-    String number,
-    Geometry geometry,
+    String? bloodGroup,
+    int? bloodUnits,
+    bool? critical,
+    String? condition,
+    String? name,
+    String? number,
+    Geometry? geometry,
   }) =>
       BloodDonorSearchModel(
         bloodGroup: bloodGroup ?? this.bloodGroup,
@@ -68,6 +68,6 @@ class BloodDonorSearchModel {
         "condition": condition,
         "name": name,
         "number": number,
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
       };
 }

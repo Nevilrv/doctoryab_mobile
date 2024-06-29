@@ -11,7 +11,7 @@ String pharmacyProductResModelToJson(PharmacyProductResModel data) =>
     json.encode(data.toJson());
 
 class PharmacyProductResModel {
-  List<ProductData> data;
+  List<ProductData>? data;
 
   PharmacyProductResModel({
     this.data,
@@ -24,17 +24,17 @@ class PharmacyProductResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class ProductData {
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
-  String img;
+  bool? isBrief;
+  int? price;
+  String? id;
+  String? title;
+  String? content;
+  String? img;
 
   ProductData({
     this.isBrief,

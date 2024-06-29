@@ -19,7 +19,7 @@ class CategoriesRepository {
 
   //* update profile
   Future<dynamic> getCategories(int page,
-      {int limitPerPage = 50 /*10*/, CancelToken cancelToken}) async {
+      {int limitPerPage = 10 /*10*/, CancelToken? cancelToken}) async {
     print("Get---Category---${ApiConsts.categoriesByCityPath}");
     assert(SettingsController.auth.savedCity != null);
     final response = await _cachedDio.get(
@@ -36,9 +36,9 @@ class CategoriesRepository {
 
   //*
   static Future<List<Category>> categoryByDoctor(int page, Doctor doctor,
-      {int limitPerPage = 10, void onError(e)}) async {
+      {int limitPerPage = 10, required void onError(e)}) async {
     //TODO move to some utils func
-    List<Category> _cats;
+    List<Category>? _cats;
     try {
       final response = await dio.get(
         '${ApiConsts.doctorsCategories}',
@@ -63,13 +63,13 @@ class CategoriesRepository {
       }
       FirebaseCrashlytics.instance.recordError(e, s);
     }
-    return _cats;
+    return _cats!;
   }
 
   static Future<dynamic> searchDoctor(int page, Doctor doctor,
-      {int limitPerPage = 10, void onError(e)}) async {
+      {int limitPerPage = 10, required void onError(e)}) async {
     //TODO move to some utils func
-    List<Category> _cats;
+    List<Category>? _cats;
     try {
       final response = await dio.get(
         '${ApiConsts.doctorsCategories}',

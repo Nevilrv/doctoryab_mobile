@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/paging_indicators/dotdot_nomore_items.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
@@ -19,12 +17,12 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class TabDocsView extends GetView<ReportsController> {
-  TabDocsView({Key key}) : super(key: key) {
+  TabDocsView({Key? key}) : super(key: key) {
     if (Get.arguments != null) {
       controller.index = int.parse(Get.arguments['id']);
-      controller.tabIndex.value = controller.index;
+      controller.tabIndex.value = controller.index!;
       controller.pagingController.itemList = [];
-      controller.pagingController.refresh();
+
       if (controller.tabIndex.value == 0) {
         controller.fetchReportsDoctor(controller.pagingController.firstPageKey);
       } else {
@@ -56,20 +54,18 @@ class TabDocsView extends GetView<ReportsController> {
           // ),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            title: Text('reports'.tr,
-                style: AppTextStyle.boldPrimary16
-                    .copyWith(fontWeight: FontWeight.w600)),
+            title: Text('reports'.tr, style: AppTextStyle.boldPrimary16.copyWith(fontWeight: FontWeight.w600)),
             centerTitle: true,
             leading: GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: RotatedBox(
-                  quarterTurns:
-                      SettingsController.appLanguge == "English" ? 0 : 2,
-                  child:
-                      Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
-                )),
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+              // child: RotatedBox(
+              //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+              //   child: Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+              // ),
+            ),
             elevation: 0,
             // actions: [
             //   Padding(
@@ -91,8 +87,7 @@ class TabDocsView extends GetView<ReportsController> {
             return Stack(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: Column(
                     children: [
                       Row(
@@ -100,46 +95,39 @@ class TabDocsView extends GetView<ReportsController> {
                         children: List.generate(
                             tab.length,
                             (index) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
                                   child: GestureDetector(
                                     onTap: () {
-                                      controller.tabIndex.value = index;
+                                      if (controller.isTap.value) {
+                                        controller.tabIndex.value = index;
 
-                                      if (index == 0) {
-                                        controller.pagingController.itemList
-                                            .clear();
-                                        controller.fetchReportsDoctor(controller
-                                            .pagingController.firstPageKey);
-                                      } else {
-                                        controller.pagingController.itemList
-                                            .clear();
-                                        controller.fetchReportsLab(controller
-                                            .pagingController.firstPageKey);
+                                        if (index == 0) {
+                                          controller.pagingController.itemList?.clear();
+
+                                          controller.update();
+                                          controller.fetchReportsDoctor(controller.pagingController.firstPageKey);
+                                        } else {
+                                          controller.pagingController.itemList?.clear();
+                                          controller.update();
+
+                                          controller.fetchReportsLab(controller.pagingController.firstPageKey);
+                                        }
                                       }
                                     },
                                     child: Container(
                                       width: w * 0.4,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color:
-                                              controller.tabIndex.value != index
-                                                  ? AppColors.white
-                                                  : AppColors.primary,
-                                          border: Border.all(
-                                              color: AppColors.primary)),
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: controller.tabIndex.value != index ? AppColors.white : AppColors.primary,
+                                          border: Border.all(color: AppColors.primary)),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 10),
+                                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                                         child: Center(
                                           child: Center(
                                               child: Text(
                                             tab[index],
-                                            style: controller.tabIndex.value !=
-                                                    index
-                                                ? AppTextStyle.boldPrimary10
-                                                : AppTextStyle.boldWhite10,
+                                            style:
+                                                controller.tabIndex.value != index ? AppTextStyle.boldPrimary10 : AppTextStyle.boldWhite10,
                                           )),
                                         ),
                                       ),
@@ -165,118 +153,79 @@ class TabDocsView extends GetView<ReportsController> {
                                 separatorBuilder: (c, i) {
                                   return Divider().paddingAll(10);
                                 },
-                                builderDelegate:
-                                    PagedChildBuilderDelegate<Report>(
+                                builderDelegate: PagedChildBuilderDelegate<Report>(
                                   itemBuilder: (context, item, index) {
-                                    log("item.visitDate--------------> ${item.prescriptionCreateAt}");
-                                    var _d = DateTime.parse(
-                                            item.prescriptionCreateAt == null
-                                                ? DateTime.now().toString()
-                                                : item.prescriptionCreateAt)
-                                        ?.toLocal()
-                                        ?.toPersianDateStr(
+                                    var _d = DateTime.parse(item.prescriptionCreateAt == null
+                                            ? DateTime.now().toString()
+                                            : item.prescriptionCreateAt.toString())
+                                        .toLocal()
+                                        .toPersianDateStr(
                                           strDay: false,
                                           strMonth: true,
                                           useAfghaniMonthName: true,
                                         )
-                                        ?.trim()
-                                        ?.split(' ');
-                                    log("_d --------------> ${_d}");
+                                        .trim()
+                                        .split(' ');
 
                                     // var item = controller.latestVideos[index];
                                     return Container(
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
+                                        padding: const EdgeInsets.symmetric(horizontal: 15),
                                         child: Column(
                                           children: [
                                             Row(
                                               children: [
-                                                item.documents.isEmpty
+                                                item.documents!.isEmpty
                                                     ? SizedBox()
                                                     : Container(
                                                         height: 60,
                                                         width: 60,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: AppColors
-                                                                    .primary),
+                                                        decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary),
                                                         child: Center(
                                                           child: SvgPicture.asset(
-                                                              index % 2 == 0
-                                                                  ? AppImages
-                                                                      .document
-                                                                  : AppImages
-                                                                      .attachment,
-                                                              color: AppColors
-                                                                  .white,
+                                                              index % 2 == 0 ? AppImages.document : AppImages.attachment,
+                                                              color: AppColors.white,
                                                               height: 25,
                                                               width: 25),
                                                         ),
                                                       ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
+                                                item.documents!.isEmpty
+                                                    ? SizedBox()
+                                                    : SizedBox(
+                                                        width: 10,
+                                                      ),
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
-                                                      width:
-                                                          item.documents.isEmpty
-                                                              ? null
-                                                              : w * 0.61,
+                                                      width: item.documents!.isEmpty ? null : w * 0.61,
                                                       child: Text(
                                                         "${"pat_name".tr}: ${item.name ?? ""}",
-                                                        style: AppTextStyle
-                                                            .boldPrimary14,
+                                                        style: AppTextStyle.boldPrimary14,
                                                       ),
                                                     ),
                                                     Container(
-                                                      width:
-                                                          item.documents.isEmpty
-                                                              ? null
-                                                              : w * 0.61,
+                                                      width: item.documents!.isEmpty ? null : w * 0.61,
                                                       child: Text(
-                                                        "${"doctor_name".tr} ${item.doctor[0].name ?? ""}",
-                                                        style: AppTextStyle
-                                                            .boldPrimary14
-                                                            .copyWith(
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: AppColors
-                                                                    .primary
-                                                                    .withOpacity(
-                                                                        0.5)),
+                                                        "${"doctor_name".tr} ${item.doctor![0].name ?? ""}",
+                                                        style: AppTextStyle.boldPrimary14.copyWith(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: AppColors.primary.withOpacity(0.5)),
                                                       ),
                                                     ),
-                                                    item.description == null &&
-                                                            item.advice == null
+                                                    item.description == null && item.advice == null
                                                         ? SizedBox()
                                                         : Container(
-                                                            width: item
-                                                                    .documents
-                                                                    .isEmpty
-                                                                ? null
-                                                                : w * 0.61,
+                                                            width: item.documents!.isEmpty ? w * 0.8 : w * 0.61,
                                                             child: Text(
                                                               "${"doctor_note".tr}: ${item.description ?? item.advice ?? ""}",
-                                                              style: AppTextStyle
-                                                                  .boldPrimary14
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: AppTextStyle.boldPrimary14.copyWith(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: AppColors.primary.withOpacity(0.5)),
                                                             ),
                                                           ),
                                                   ],
@@ -287,94 +236,49 @@ class TabDocsView extends GetView<ReportsController> {
                                               height: h * 0.01,
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                item.prescriptionCreateAt ==
-                                                            null ||
-                                                        item.prescriptionCreateAt ==
-                                                            ""
+                                                item.prescriptionCreateAt == null || item.prescriptionCreateAt == ""
                                                     ? SizedBox()
                                                     : Container(
                                                         // width: 70,
                                                         decoration: BoxDecoration(
-                                                            color: AppColors.red
-                                                                .withOpacity(
-                                                                    0.1),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4)),
+                                                            color: AppColors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      5),
+                                                          padding: const EdgeInsets.symmetric(horizontal: 5),
                                                           child: Center(
                                                             child: Row(
                                                               children: [
                                                                 Text(
                                                                   "${_d[0]}",
                                                                   // "${item.prescriptionCreateAt.toString() == "" || item.prescriptionCreateAt == null ? "" : DateFormat('dd.MM.yyyy').format(DateTime.parse(item.prescriptionCreateAt))}",
-                                                                  style: AppTextStyle
-                                                                      .mediumPrimary12
-                                                                      .copyWith(
-                                                                          color:
-                                                                              AppColors.red),
+                                                                  style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                                 ),
                                                                 Text(
                                                                   " ${_d[1]}",
                                                                   // "${item.prescriptionCreateAt.toString() == "" || item.prescriptionCreateAt == null ? "" : DateFormat('dd.MM.yyyy').format(DateTime.parse(item.prescriptionCreateAt))}",
-                                                                  style: AppTextStyle
-                                                                      .mediumPrimary12
-                                                                      .copyWith(
-                                                                          color:
-                                                                              AppColors.red),
+                                                                  style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                                 ),
                                                                 Text(
                                                                   " ${_d[3]}",
                                                                   // "${item.prescriptionCreateAt.toString() == "" || item.prescriptionCreateAt == null ? "" : DateFormat('dd.MM.yyyy').format(DateTime.parse(item.prescriptionCreateAt))}",
-                                                                  style: AppTextStyle
-                                                                      .mediumPrimary12
-                                                                      .copyWith(
-                                                                          color:
-                                                                              AppColors.red),
+                                                                  style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                item.prescriptionCreateAt ==
-                                                            null ||
-                                                        item.prescriptionCreateAt ==
-                                                            ""
+                                                item.prescriptionCreateAt == null || item.prescriptionCreateAt == ""
                                                     ? SizedBox()
                                                     : Container(
                                                         width: Get.width * 0.2,
                                                         decoration: BoxDecoration(
-                                                            color: AppColors.red
-                                                                .withOpacity(
-                                                                    0.1),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4)),
+                                                            color: AppColors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
                                                         child: Center(
                                                           child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        5,
-                                                                    vertical:
-                                                                        2),
-                                                            child: Divider(
-                                                                thickness: 1,
-                                                                color: AppColors
-                                                                    .red),
+                                                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                                            child: Divider(thickness: 1, color: AppColors.red),
                                                           ),
                                                         ),
                                                       ),
@@ -384,24 +288,13 @@ class TabDocsView extends GetView<ReportsController> {
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                        color: AppColors.red
-                                                            .withOpacity(0.1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4)),
+                                                        color: AppColors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
                                                     child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 5),
+                                                      padding: const EdgeInsets.symmetric(horizontal: 5),
                                                       child: Center(
                                                         child: Text(
                                                           "${"see_all_details".tr}",
-                                                          style: AppTextStyle
-                                                              .mediumPrimary12
-                                                              .copyWith(
-                                                                  color:
-                                                                      AppColors
-                                                                          .red),
+                                                          style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                         ),
                                                       ),
                                                     ),
@@ -414,16 +307,12 @@ class TabDocsView extends GetView<ReportsController> {
                                       ),
                                     );
                                   },
-                                  noMoreItemsIndicatorBuilder: (_) =>
-                                      DotDotPagingNoMoreItems(),
+                                  noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
                                   noItemsFoundIndicatorBuilder: (_) => Padding(
-                                    padding:
-                                        EdgeInsets.only(top: Get.height * 0.25),
-                                    child:
-                                        Center(child: PagingNoItemFountList()),
+                                    padding: EdgeInsets.only(top: Get.height * 0.25),
+                                    child: Center(child: PagingNoItemFountList()),
                                   ),
-                                  firstPageErrorIndicatorBuilder: (context) =>
-                                      PagingErrorView(
+                                  firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                                     controller: controller.pagingController,
                                   ),
                                 ),
@@ -436,52 +325,38 @@ class TabDocsView extends GetView<ReportsController> {
                                 separatorBuilder: (c, i) {
                                   return Divider().paddingAll(10);
                                 },
-                                builderDelegate:
-                                    PagedChildBuilderDelegate<Report>(
+                                builderDelegate: PagedChildBuilderDelegate<Report>(
                                   itemBuilder: (context, item, index) {
-                                    // log("item.visitDate--------------> ${item.prescriptionCreateAt}");
-                                    var _d = DateTime.parse(
-                                            item.prescriptionCreateAt == null
-                                                ? DateTime.now().toString()
-                                                : item.prescriptionCreateAt)
-                                        ?.toLocal()
-                                        ?.toPersianDateStr(
+                                    var _d = DateTime.parse(item.prescriptionCreateAt == null
+                                            ? DateTime.now().toString()
+                                            : item.prescriptionCreateAt.toString())
+                                        .toLocal()
+                                        .toPersianDateStr(
                                           strDay: false,
                                           strMonth: true,
                                           useAfghaniMonthName: true,
                                         )
-                                        ?.trim()
-                                        ?.split(' ');
-                                    log("_d --------------> ${_d}");
+                                        .trim()
+                                        .split(' ');
+
                                     // var item = controller.latestVideos[index];
                                     return Container(
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 5),
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                         child: Column(
                                           children: [
                                             Row(
                                               children: [
-                                                item.documents.isEmpty
+                                                item.documents!.isEmpty
                                                     ? SizedBox()
                                                     : Container(
                                                         height: 60,
                                                         width: 60,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: AppColors
-                                                                    .primary),
+                                                        decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary),
                                                         child: Center(
                                                           child: SvgPicture.asset(
-                                                              index % 2 == 0
-                                                                  ? AppImages
-                                                                      .document
-                                                                  : AppImages
-                                                                      .attachment,
-                                                              color: AppColors
-                                                                  .white,
+                                                              index % 2 == 0 ? AppImages.document : AppImages.attachment,
+                                                              color: AppColors.white,
                                                               height: 25,
                                                               width: 25),
                                                         ),
@@ -490,8 +365,7 @@ class TabDocsView extends GetView<ReportsController> {
                                                   width: 10,
                                                 ),
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     item.name == ""
                                                         ? SizedBox()
@@ -499,51 +373,31 @@ class TabDocsView extends GetView<ReportsController> {
                                                             width: w * 0.61,
                                                             child: Text(
                                                               "${"pat_name".tr}: ${item.name}",
-                                                              style: AppTextStyle
-                                                                  .boldPrimary14,
+                                                              style: AppTextStyle.boldPrimary14,
                                                             ),
                                                           ),
-                                                    item.title == "" ||
-                                                            item.title == null
+                                                    item.title == "" || item.title == null
                                                         ? SizedBox()
                                                         : Container(
                                                             width: w * 0.61,
                                                             child: Text(
                                                               "${"test_name".tr}: ${item.title}",
-                                                              style: AppTextStyle
-                                                                  .boldPrimary14
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
+                                                              style: AppTextStyle.boldPrimary14.copyWith(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: AppColors.primary.withOpacity(0.5)),
                                                             ),
                                                           ),
-                                                    item.description == "" ||
-                                                            item.description ==
-                                                                null
+                                                    item.description == "" || item.description == null
                                                         ? SizedBox()
                                                         : Container(
                                                             width: w * 0.61,
                                                             child: Text(
                                                               "${"test_note".tr}: ${item.description}",
-                                                              style: AppTextStyle
-                                                                  .boldPrimary14
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: AppColors
-                                                                          .primary
-                                                                          .withOpacity(
-                                                                              0.5)),
+                                                              style: AppTextStyle.boldPrimary14.copyWith(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: AppColors.primary.withOpacity(0.5)),
                                                             ),
                                                           ),
                                                   ],
@@ -554,85 +408,42 @@ class TabDocsView extends GetView<ReportsController> {
                                               height: h * 0.01,
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                item.prescriptionCreateAt
-                                                                .toString() ==
-                                                            "" ||
-                                                        item.prescriptionCreateAt ==
-                                                            null
+                                                item.prescriptionCreateAt.toString() == "" || item.prescriptionCreateAt == null
                                                     ? SizedBox()
                                                     : Container(
                                                         decoration: BoxDecoration(
-                                                            color: AppColors.red
-                                                                .withOpacity(
-                                                                    0.1),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4)),
+                                                            color: AppColors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
                                                         child: Center(
                                                           child: Row(
                                                             children: [
                                                               Text(
                                                                 "${_d[0]}",
-                                                                style: AppTextStyle
-                                                                    .mediumPrimary12
-                                                                    .copyWith(
-                                                                        color: AppColors
-                                                                            .red),
+                                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                               ),
                                                               Text(
                                                                 " ${_d[1]}",
-                                                                style: AppTextStyle
-                                                                    .mediumPrimary12
-                                                                    .copyWith(
-                                                                        color: AppColors
-                                                                            .red),
+                                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                               ),
                                                               Text(
                                                                 " ${_d[3]}",
-                                                                style: AppTextStyle
-                                                                    .mediumPrimary12
-                                                                    .copyWith(
-                                                                        color: AppColors
-                                                                            .red),
+                                                                style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
                                                       ),
-                                                item.prescriptionCreateAt
-                                                                .toString() ==
-                                                            "" ||
-                                                        item.prescriptionCreateAt ==
-                                                            null
+                                                item.prescriptionCreateAt.toString() == "" || item.prescriptionCreateAt == null
                                                     ? SizedBox()
                                                     : Container(
                                                         width: Get.width * 0.2,
                                                         decoration: BoxDecoration(
-                                                            color: AppColors.red
-                                                                .withOpacity(
-                                                                    0.1),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4)),
+                                                            color: AppColors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
                                                         child: Center(
                                                           child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        5,
-                                                                    vertical:
-                                                                        2),
-                                                            child: Divider(
-                                                                thickness: 1,
-                                                                color: AppColors
-                                                                    .red),
+                                                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                                            child: Divider(thickness: 1, color: AppColors.red),
                                                           ),
                                                         ),
                                                       ),
@@ -642,24 +453,13 @@ class TabDocsView extends GetView<ReportsController> {
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                        color: AppColors.red
-                                                            .withOpacity(0.1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4)),
+                                                        color: AppColors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
                                                     child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 5),
+                                                      padding: const EdgeInsets.symmetric(horizontal: 5),
                                                       child: Center(
                                                         child: Text(
                                                           "${"see_all_details".tr}",
-                                                          style: AppTextStyle
-                                                              .mediumPrimary12
-                                                              .copyWith(
-                                                                  color:
-                                                                      AppColors
-                                                                          .red),
+                                                          style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.red),
                                                         ),
                                                       ),
                                                     ),
@@ -672,16 +472,12 @@ class TabDocsView extends GetView<ReportsController> {
                                       ),
                                     );
                                   },
-                                  noMoreItemsIndicatorBuilder: (_) =>
-                                      DotDotPagingNoMoreItems(),
+                                  noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
                                   noItemsFoundIndicatorBuilder: (_) => Padding(
-                                    padding:
-                                        EdgeInsets.only(top: Get.height * 0.25),
-                                    child:
-                                        Center(child: PagingNoItemFountList()),
+                                    padding: EdgeInsets.only(top: Get.height * 0.25),
+                                    child: Center(child: PagingNoItemFountList()),
                                   ),
-                                  firstPageErrorIndicatorBuilder: (context) =>
-                                      PagingErrorView(
+                                  firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                                     controller: controller.pagingController,
                                   ),
                                 ),

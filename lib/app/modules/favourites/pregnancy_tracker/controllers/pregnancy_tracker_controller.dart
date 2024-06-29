@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class PregnancyTrackerController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  TabController pageController;
+  TabController? pageController;
 
   @override
   void onInit() {

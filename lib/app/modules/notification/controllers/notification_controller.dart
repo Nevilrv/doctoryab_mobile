@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/notification_model.dart' as n;
 import 'package:doctor_yab/app/data/repository/NotificationRepo.dart';
@@ -19,7 +17,7 @@ class NotificationController extends GetxController {
     try {
       NotificationRepository().loadNotification().then((data) {
         n.NotificationModel res = n.NotificationModel.fromJson(data);
-        res.data.forEach((element) {
+        res.data?.forEach((element) {
           if (element.status == 'read') {
           } else {
             notification.add(element);
@@ -29,14 +27,10 @@ class NotificationController extends GetxController {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           update();
         });
-
-        log("notification--------------> ${notification.length}");
-
-        log("data--------------> $data");
       });
     } catch (e) {
       isLoading = false;
-      log("e------------------------$e");
+
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         update();
       });
@@ -48,9 +42,7 @@ class NotificationController extends GetxController {
       NotificationRepository().notificationStatus(notificationId).then((data) {
         loadNotification();
       });
-    } catch (e) {
-      log("ERROR===> $e");
-    }
+    } catch (e) {}
     update();
   }
 
@@ -58,12 +50,8 @@ class NotificationController extends GetxController {
     try {
       NotificationRepository()
           .changeLanguage(SettingsController.appLanguge)
-          .then((data) {
-        log("422-------------$data");
-      });
-    } catch (e) {
-      log("ERROR===> $e");
-    }
+          .then((data) {});
+    } catch (e) {}
     update();
   }
 }

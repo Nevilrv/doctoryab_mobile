@@ -37,12 +37,14 @@ class PatientInfoController extends GetxController {
 
     ever(iamIll, (_) {
       if (iamIll()) {
-        teName.text = SettingsController.savedUserProfile.name;
-        teAge.text = SettingsController.savedUserProfile.age.toString() ?? "";
-        tePhoneNumber.text =
-            "0" + SettingsController.savedUserProfile.phone.substring(3, 12);
-        _patId = SettingsController.savedUserProfile.patientID;
-        print('_patId: ${SettingsController.savedUserProfile.patientID}');
+        teName.text = SettingsController.savedUserProfile?.name ?? "";
+        teAge.text = SettingsController.savedUserProfile?.age.toString() ?? "";
+        tePhoneNumber.text = "0" +
+            SettingsController.savedUserProfile!.phone!
+                .substring(3, 12)
+                .toString();
+        _patId = SettingsController.savedUserProfile?.patientID ?? "";
+        print('_patId: ${SettingsController.savedUserProfile?.patientID}');
         formValid(true);
       } else {
         _patId = "";
@@ -102,7 +104,7 @@ class PatientInfoController extends GetxController {
   //? Move to Booking controller?
   String get formatedDate {
     var _str = BookingController.to
-        .selectedDate()
+        .selectedDate()!
         .toPersianDateStr(useAfghaniMonthName: true);
 
     return _str.split(" ")[0] + " " + _str.split(" ")[1];
@@ -110,7 +112,7 @@ class PatientInfoController extends GetxController {
 
   //? Move to Booking controller?
   String get formatedTime {
-    var _tmp = BookingController.to.selectedDate().toLocal();
+    var _tmp = BookingController.to.selectedDate()!.toLocal();
 
     return DateFormat.jm()
         .format(_tmp)
@@ -120,7 +122,7 @@ class PatientInfoController extends GetxController {
   }
 
   //TODO there is multiple of this is code. replace all
-  String nameValidator(String value) {
+  String? nameValidator(String value) {
     if (value.length < 5) {
       return "too_short_min_5".tr;
       // nameValid.value = false;
@@ -130,21 +132,21 @@ class PatientInfoController extends GetxController {
     return null;
   }
 
-  String ageValidatore(String value) {
+  String? ageValidatore(String value) {
     if (!value.isNum) return "not_a_valid_number".tr;
 
-    if (int.tryParse(value) < 0) {
+    if (int.tryParse(value)! < 0) {
       return "must_be_greater_than_zero".tr;
       // nameValid.value = false;
     }
-    if (int.tryParse(value) > 120) {
+    if (int.tryParse(value)! > 120) {
       return "must_be_less_than_120".tr;
       // nameValid.value = false;
     }
     return null;
   }
 
-  String numberValidator(String value) {
+  String? numberValidator(String value) {
     PhoneValidatorUtils phoneValidatorUtils =
         PhoneValidatorUtils(number: value);
     if (phoneValidatorUtils.isValid()) {
@@ -155,7 +157,7 @@ class PatientInfoController extends GetxController {
   }
 
   void validateForm() {
-    formValid(formKey.currentState.validate());
-    print(formKey.currentState.validate());
+    formValid(formKey.currentState?.validate());
+    print(formKey.currentState?.validate());
   }
 }

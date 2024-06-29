@@ -24,15 +24,15 @@ class DrugStoreLabView extends StatelessWidget {
   final Labs itemp;
   _Model _model = _Model();
   final DRUG_STORE_LAB_PAGE_TYPE drugStoreLabPageType;
-  var j2 = Jiffy([2021, 7, 30]);
-  Hospital hospital;
+  // var j2 = Jiffy([2021, 7, 30]);
+  Hospital? hospital;
   final _checkUpLoaded = false.obs;
 
   DrugStoreLabView(
     this.itemp,
     this.drugStoreLabPageType, {
     this.hospital,
-    Key key,
+    Key? key,
   })  : assert(
           drugStoreLabPageType == DRUG_STORE_LAB_PAGE_TYPE.hospital
               ? hospital != null
@@ -44,27 +44,27 @@ class DrugStoreLabView extends StatelessWidget {
     if (drugStoreLabPageType == DRUG_STORE_LAB_PAGE_TYPE.hospital &&
         hospital != null) {
       //*make the title
-      _model.title = hospital.name;
+      _model.title = hospital!.name!;
       //* make the lat and lon and address
-      _model.lat = hospital?.geometry?.coordinates[1];
-      _model.lon = hospital?.geometry?.coordinates[0];
+      _model.lat = hospital?.geometry!.coordinates![1];
+      _model.lon = hospital?.geometry!.coordinates![0];
       _model.address = hospital?.address;
       _model.imageUrl = hospital?.photo;
-      _model.phoneNumbers = [hospital?.phone?.toEnglishDigit()];
+      _model.phoneNumbers = [hospital!.phone!.toEnglishDigit()];
       // model.times = itemp?.times; //* we remove this as hasanzada request
     } else {
       //*make the title
       _model.title = itemp.name;
       //* make the lat and lon
       //* make the lat and lon and address
-      _model.lat = itemp.geometry?.coordinates[1];
-      _model.lon = itemp.geometry?.coordinates[0];
-      _model.address = itemp?.address;
-      _model.imageUrl = itemp?.photo;
+      _model.lat = itemp.geometry?.coordinates![1];
+      _model.lon = itemp.geometry?.coordinates![0];
+      _model.address = itemp.address;
+      _model.imageUrl = itemp.photo;
       // model.times = itemp?.times; //* we remove this as hasanzada request
-      _model.checkUp = itemp?.checkUp;
+      _model.checkUp = itemp.checkUp;
       _model.phoneNumbers =
-          itemp?.phone?.map((e) => e.toEnglishDigit())?.toList();
+          itemp.phone?.map((e) => e.toEnglishDigit()).toList();
     }
 
 //*
@@ -77,18 +77,19 @@ class DrugStoreLabView extends StatelessWidget {
     // Intl.defaultLocale = "fa";
 
     return Scaffold(
-      appBar: AppAppBar.specialAppBar(_model.title),
+      appBar: AppAppBar.specialAppBar(_model.title.toString()),
       body: ProfileViewNew(
-        address: _model.address,
-        photo: _model.imageUrl,
+        address: _model.address.toString(),
+        photo: _model.imageUrl.toString(),
         showChildInBox: false,
         // star: _model.stars,
         geometry: Geometry(coordinates: [
-          _model.lon,
-          _model.lat,
+          _model.lon!,
+          _model.lat!,
         ]),
-        name: _model.title,
+        name: _model.title.toString(),
         phoneNumbers: "",
+
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +98,7 @@ class DrugStoreLabView extends StatelessWidget {
                 _checkUpLoaded();
                 return () {
                   var wdgts = <Widget>[];
-                  if (_model.checkUp != null && _model.checkUp.isNotEmpty) {
+                  if (_model.checkUp != null && _model.checkUp!.isNotEmpty) {
                     // wdgts.add(
                     //   SizedBox(height: 25),
                     // );
@@ -134,7 +135,7 @@ class DrugStoreLabView extends StatelessWidget {
                         // ),
                         itemCount: _model.checkUp
                                 ?.where((e) => e.isBrief != true)
-                                ?.length ??
+                                .length ??
                             0,
                         itemBuilder: (BuildContext context, int index) {
                           return _checkupWithImage(index).paddingAll(8);
@@ -151,7 +152,9 @@ class DrugStoreLabView extends StatelessWidget {
                     if (!_checkUpLoaded()) {
                       return Center(
                         child: SizedBox(
-                          child: CircularProgressIndicator(color: AppColors.primary,),
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
                         ),
                       ).paddingAll(30);
                     }
@@ -186,7 +189,7 @@ class DrugStoreLabView extends StatelessWidget {
                 return () {
                   var itms = _model.checkUp
                           ?.where((e) => e.isBrief == true)
-                          ?.toList() ??
+                          .toList() ??
                       [];
                   // var tmp = itms?.toList();
                   // itms.addAll(tmp);
@@ -564,7 +567,7 @@ class DrugStoreLabView extends StatelessWidget {
             // height: 100,
             // width: 100,
             // color: Colors.red,
-            child: CachedToFullScreenImage("${list[i].img}"),
+            child: CachedToFullScreenImage("${list![i].img}"),
           ),
         ).radiusAll(10),
         SizedBox(height: 5),
@@ -608,7 +611,7 @@ class DrugStoreLabView extends StatelessWidget {
     }
     try {
       var resp = drugStoreLabPageType == DRUG_STORE_LAB_PAGE_TYPE.hospital
-          ? await LabsRepository().fetchCheckup(hospital.id)
+          ? await LabsRepository().fetchCheckup(hospital!.id.toString())
           : await DrugStoreRepository().fetchCheckup(itemp.id.toString());
       var res =
           List<CheckUp>.from(resp.data["data"].map((x) => CheckUp.fromJson(x)));
@@ -629,7 +632,7 @@ class DrugStoreLabView extends StatelessWidget {
 class CachedToFullScreenImage extends StatelessWidget {
   const CachedToFullScreenImage(
     String imageUrl, {
-    Key key,
+    Key? key,
   })  : _imageUrl = imageUrl,
         super(key: key);
 
@@ -672,11 +675,11 @@ enum DRUG_STORE_LAB_PAGE_TYPE {
 }
 
 class _Model {
-  String title, imageUrl, address;
-  double lat, lon;
-  List<String> phoneNumbers;
-  List<List<DateTime>> times;
-  List<CheckUp> checkUp;
+  String? title, imageUrl, address;
+  double? lat, lon;
+  List<String>? phoneNumbers;
+  List<List<DateTime>>? times;
+  List<CheckUp>? checkUp;
   _Model({
     this.title,
     this.imageUrl,

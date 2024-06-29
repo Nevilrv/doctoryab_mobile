@@ -4,7 +4,7 @@ import 'package:story_view/controller/story_controller.dart';
 import '../../../data/models/ads_model.dart';
 
 class AppStoryController extends GetxController {
-  StoryController storyC;
+  StoryController? storyC;
   AdsModel stories = Get.arguments[1] as AdsModel;
   int selectedStory = Get.arguments[0] as int;
 
@@ -17,7 +17,7 @@ class AppStoryController extends GetxController {
   @override
   void onReady() {
     for (var i = 0; i < selectedStory; i++) {
-      storyC.next();
+      storyC!.next();
     }
     super.onReady();
   }
@@ -30,7 +30,7 @@ class AppStoryController extends GetxController {
   @override
   void dispose() {
     if (storyC != null) {
-      storyC.dispose();
+      storyC!.dispose();
     }
     super.dispose();
   }

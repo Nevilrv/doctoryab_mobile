@@ -1,6 +1,7 @@
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/repository/StoriesRepository.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/controller/pregnancy_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/home_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_doctors_controller.dart';
 import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/hospitals_controller.dart';
@@ -17,12 +18,12 @@ import '../../../routes/app_pages.dart';
 class TabHomeMainController extends GetxController {
   var selectedCity = City().obs;
   //ads model is same as story
-  var dataList = Rx<AdsModel>(null);
+  var dataList = Rxn<AdsModel>(null);
   TextEditingController searchDoctor = TextEditingController();
   //stories
   @override
   void onInit() {
-    selectedCity.value = SettingsController.auth.savedCity;
+    selectedCity.value = SettingsController.auth.savedCity!;
     super.onInit();
   }
 
@@ -51,7 +52,7 @@ class TabHomeMainController extends GetxController {
       Logger().e("city-change-refresh", e, s);
     }
     try {
-      Get.find<DrugStoreController>().pageController.refresh();
+      Get.find<DrugStoreController>().pageController!.refresh();
     } catch (e, s) {
       Logger().e("city-change-refresh", e, s);
     }
@@ -60,7 +61,7 @@ class TabHomeMainController extends GetxController {
     } catch (e, s) {
       Logger().e("city-change-refresh", e, s);
     }
-    Get.find<HomeController>().pageController.animateTo(0);
+    Get.find<HomeController>().pageController!.animateTo(0);
   }
 
   void _fetchStories() {
@@ -79,7 +80,7 @@ class TabHomeMainController extends GetxController {
     }).catchError((e, s) {
       Logger().e("Error loading stories: ", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchStories();
+        _fetchStories();
       });
     });
   }

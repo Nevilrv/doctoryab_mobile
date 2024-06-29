@@ -2,6 +2,7 @@ import 'package:doctor_yab/app/modules/auth_phone/views/add_personal_info_screen
 import 'package:doctor_yab/app/modules/auth_phone/views/auth_phone_view.dart';
 import 'package:doctor_yab/app/modules/auth_phone/views/register_guest_user_screen.dart';
 import 'package:doctor_yab/app/modules/book/views/confirmation_screen.dart';
+import 'package:doctor_yab/app/modules/chat/views/chat_new.dart';
 import 'package:doctor_yab/app/modules/city_select/city_selection_profile_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donation_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/blood_donation/bindings/blood_donor_binding.dart';
@@ -25,10 +26,15 @@ import 'package:doctor_yab/app/modules/favourites/drug_database/view/drugs_datab
 import 'package:doctor_yab/app/modules/favourites/drug_database/view/saved_drugs_view.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/bindings/pregnancy_tracker_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker/views/pregnancy_tracker_view.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/binding/pregnancy_tracker_new_binding.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/ask_rating_screen.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_calculation_screen.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_completion_screen.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_tracker_new_view.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/pregnancy_trimster_details.dart';
+import 'package:doctor_yab/app/modules/favourites/pregnancy_tracker_new/view/vaccinate_baby_screen.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/bindings/treatment_abroad_binding.dart';
 import 'package:doctor_yab/app/modules/favourites/treatment_abroad/views/treatment_abroad_view.dart';
-import 'package:doctor_yab/app/modules/home/views/blog/comment_blog_screen.dart';
-import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/appointment_history_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/complaint_screen.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/my_doctor_screen.dart';
@@ -56,7 +62,6 @@ import '../modules/blood_donors_results/views/blood_donors_results_view.dart';
 import '../modules/book/bindings/book_binding.dart';
 import '../modules/book/views/book_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
-import '../modules/chat/views/chat_view.dart';
 import '../modules/city_select/bindings/city_select_binding.dart';
 import '../modules/city_select/views/city_select_view.dart';
 import '../modules/doctor/bindings/doctor_binding.dart';
@@ -274,27 +279,27 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOCATION_PICKER,
-      page: () => const LocationPickerView(),
+      page: () => LocationPickerView(),
       binding: LocationPickerBinding(),
     ),
     GetPage(
       name: _Paths.FIND_BLOOD_DONOR,
-      page: () => const FindBloodDonorView(),
+      page: () => FindBloodDonorView(),
       binding: FindBloodDonorBinding(),
     ),
     GetPage(
       name: _Paths.DONOR_LIST,
-      page: () => const DonorListScreen(),
+      page: () => DonorListScreen(),
       binding: FindBloodDonorBinding(),
     ),
     GetPage(
       name: _Paths.BLOOD_DONORS_RESULTS,
-      page: () => const BloodDonorsResultsView(),
+      page: () => BloodDonorsResultsView(),
       binding: BloodDonorsResultsBinding(),
     ),
     GetPage(
       name: _Paths.BLOG,
-      page: () => const BlogView(),
+      page: () => BlogView(),
       binding: BlogBinding(),
     ),
     GetPage(
@@ -309,10 +314,24 @@ class AppPages {
     // ),
     GetPage(
       name: _Paths.APP_STORY,
-      page: () => const AppStoryView(),
+      page: () => AppStoryView(),
       binding: AppStoryBinding(),
     ),
 
+    /// old
+    // GetPage(
+    //   name: _Paths.CHAT,
+    //   page: () => ChatView(),
+    //   binding: ChatBinding(),
+    //   children: [
+    //     GetPage(
+    //       name: _Paths.CHAT,
+    //       page: () => ChatView(),
+    //       binding: ChatBinding(),
+    //     ),
+    //   ],
+    // ),
+    /// new
     GetPage(
       name: _Paths.CHAT,
       page: () => ChatView(),
@@ -327,7 +346,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NEW_CHAT,
-      page: () => const NewChatView(),
+      page: () => NewChatView(),
       binding: NewChatBinding(),
     ),
     GetPage(
@@ -369,6 +388,36 @@ class AppPages {
       name: _Paths.PREGNANCY_TRACKER,
       page: () => PregnancyTrackerView(),
       binding: PregnancyTrackerBinding(),
+    ),
+    GetPage(
+      name: _Paths.PREGNANCY_TRACKER_NEW,
+      page: () => PregnancyTrackerNewView(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.CALCULATION_METHODS,
+      page: () => PregnancyCalculation(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.PREGNANCY_TRIMSTER,
+      page: () => PregnancyTrimster(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.PREGNANCY_COMPLETION,
+      page: () => PregnancyCompletion(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.VACCINATE_BABY,
+      page: () => VaccinateBaby(),
+      binding: PregnancyTrackerNewBinding(),
+    ),
+    GetPage(
+      name: _Paths.ASK_RATING,
+      page: () => AskRatingScreen(),
+      binding: PregnancyTrackerNewBinding(),
     ),
     GetPage(
       name: _Paths.CHECKUP_PACKAGES,

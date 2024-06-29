@@ -59,7 +59,7 @@ class AppImages {
   static const Checkbox1 = "assets/svg/Checkbox1.svg";
   static const Checkbox = "assets/svg/Checkbox.svg";
   static const like1 = "assets/png/like1.png";
-  static const like2 = "assets/svg/Like1.svg";
+  static const like2 = "assets/svg/like1.svg";
   static const comment = "assets/svg/comment.svg";
   static const share = "assets/svg/Share.svg";
   static const check = "assets/svg/Circle_Check.svg";
@@ -67,6 +67,7 @@ class AppImages {
   static const userCircle = "assets/svg/User_Circle.svg";
   static const facebook = "assets/svg/Facebook.svg";
   static const likeFill = "assets/svg/like_fill.svg";
+
   // static const blood1 = "assets/svg/blood.svg";
 
   /// PNG
@@ -75,6 +76,9 @@ class AppImages {
   static const pills = "assets/png/pills.png";
   static const microscope = "assets/png/microscope.png";
   static const blood = "assets/png/blood.png";
+  static const findBloodDonor = "assets/png/findBloodDonor.PNG";
+
+  static const registerAsBloodDonor = "assets/png/registerAsBloodDonor.PNG";
   static const bandage = "assets/png/bandage.png";
   static const airplane = "assets/png/airplane.png";
   static const baby = "assets/png/baby.png";
@@ -124,4 +128,26 @@ class AppImages {
   static const noProfile = "assets/png/no_profile.jpg";
   static const promote = "assets/png/marketing.png";
   static const appleLogin = "assets/png/apple-logo.png";
+  static const thumbsUp = "assets/png/thumb-up.png";
+  static const thumbsDown = "assets/png/thumb-down.png";
+  static const pregnantWomenBg = "assets/png/pregnat_women_bg.png";
+  static const pregnantWomenBgTwo = "assets/png/pregnancy_tracker_two.png";
+  static const periodsDate = "assets/png/periods_date.png";
+  static const dueDate = "assets/png/due_date.png";
+  static const conceptionDate = "assets/png/conception_date.png";
+  static const calender = "assets/png/calender.png";
+  static const arrowImage = "assets/png/arrow.png";
+  static const trimster1 = "assets/png/trimster1.png";
+  static const trimster2 = "assets/png/trimster2.png";
+  static const trimster3 = "assets/png/trimster3.png";
+  static const pregnancyCompletion = "assets/png/pregnancy_completion.png";
+  static const vaccinate = "assets/png/vaccinate.png";
+  static const injection = "assets/png/injection.png";
+  static const askRating = "assets/png/ask_rating.png";
+  static const excellentStar = "assets/png/excellent_star.png";
+  static const angry = "assets/png/angry.png";
+  static const laterFeedback = "assets/png/feedback_later.png";
+  static const bookingDoneCalender = "assets/png/book_done_cal.png";
+  static const pregCompletion = "assets/png/preg_completion.png";
+  static const recalculate = "assets/png/recalculate.png";
 }

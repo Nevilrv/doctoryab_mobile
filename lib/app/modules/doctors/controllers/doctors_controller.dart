@@ -40,31 +40,24 @@ class DoctorsController extends GetxController {
   // var arguments = Get.arguments as CategoryBridge;
   var category = BookingController.to.selectedCategory;
   // bool loadMyDoctorsMode;
-  DOCTORS_LOAD_ACTION action;
-  String hospitalId;
+  DOCTORS_LOAD_ACTION? action;
+  String? hospitalId;
   String sort = "";
   String selectedSort = "".tr;
-  // List<String> filterList = [
-  //   'most_rated'.tr,
-  //   'suggested'.tr,
-  //   'nearest'.tr,
-  //   'sponsored'.tr,
-  //   'A-Z'
-  // ];
+
   List<String> filterList = [
     'promoted'.tr,
     "best_rating".tr,
-    // 'recommended'.tr,
     'nearest'.tr,
     'a-z'.tr
   ];
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   //*Location
-  var permissionStatus = Rx<PermissionStatus>(null);
+  var permissionStatus = Rxn<PermissionStatus>();
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
-  Doctor selectedDoctorData;
+  var latLang = Rxn<LocationData>();
+  Doctor? selectedDoctorData;
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
 
   //*Dio
@@ -81,14 +74,11 @@ class DoctorsController extends GetxController {
     pagingController.addPageRequestListener((pageKey) {
       fetchDoctors(pageKey);
     });
-    // var dummyList = ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
 
     super.onInit();
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
-
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -225,6 +215,7 @@ class DoctorsController extends GetxController {
   }
 
   void fetchDoctors(int pageKey) {
+    log('latLang()?.latitude ---------->>>>>>>> ${latLang()?.latitude}');
     DoctorsRepository()
         .fetchDoctors(
       pageKey,
@@ -241,9 +232,10 @@ class DoctorsController extends GetxController {
       var promotedItems = <Doctor>[];
       var newItems = <Doctor>[];
 
+      log('data.data["data"] ---------->>>>>>>> ${data.data["data"]}');
+
       if (selectedSort == 'promoted'.tr) {
         data.data["data"].forEach((item) {
-          log("item['active']----->${item['active']}");
           if (item['active'] == true) {
             promotedItems.add(Doctor.fromJson(item));
           } else {
@@ -260,7 +252,7 @@ class DoctorsController extends GetxController {
         });
       }
 
-      if (promotedItems == null || promotedItems.length == 0) {
+      if (promotedItems.length == 0) {
         pagingController.appendLastPage(promotedItems);
       } else {
         pagingController.appendPage(promotedItems, pageKey + 1);
@@ -268,13 +260,13 @@ class DoctorsController extends GetxController {
 
       locationData.clear();
       locationTitle.clear();
-      pagingController.itemList.forEach((element) {
-        if (element.geometry.coordinates != null) {
-          locationData.add(element.geometry);
-          locationTitle.add(element.name);
+      pagingController.itemList!.forEach((element) {
+        if (element.geometry!.coordinates != null) {
+          locationData.add(element.geometry!);
+          locationTitle.add(element.name!);
         }
       });
-      log("locationData--------------> ${locationData.length}");
+
       // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -358,8 +350,9 @@ class DoctorsController extends GetxController {
     cancelToken = CancelToken();
     // Utils.resetPagingController(pagingController);
     pagingController.refresh();
-    pagingController.itemList.clear();
+    pagingController.itemList?.clear();
     fetchDoctors(pagingController.firstPageKey);
+    update();
     // fetchDoctors(1);
   }
 
@@ -369,9 +362,9 @@ class DoctorsController extends GetxController {
     try {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
-      log("serv-enabled $_serviceEnabled");
+
       var locationData = await location.getLocation();
-      log("loc" + locationData.toString());
+
       // AuthController.to.setLastUserLocation(
       latLang.value = locationData;
       // Utils.whereShouldIGo();
@@ -469,21 +462,16 @@ class DoctorsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data!.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> $e");
       Logger().e("message", e, s);
-      Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
-      });
+      Future.delayed(Duration(seconds: 3), () {});
     });
   }
 }

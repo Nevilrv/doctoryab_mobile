@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/booking_controller.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/doctors_model.dart';
+import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/DoctorsRepository.dart';
 import 'package:doctor_yab/app/modules/doctors/controllers/doctors_controller.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -14,11 +16,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:location/location.dart' hide PermissionStatus;
-import 'dart:math' as math;
-
 import 'package:permission_handler/permission_handler.dart';
 
 enum FetechingGPSDataStatus {
@@ -32,10 +31,10 @@ class MyDoctorsController extends GetxController {
   // var arguments = Get.arguments as CategoryBridge;
   var category = BookingController.to.selectedCategory;
 
-  String hospitalId;
+  String? hospitalId;
   String sort = "";
   String selectedSort = "promoted".tr;
-  DOCTORS_LOAD_ACTION action;
+  DOCTORS_LOAD_ACTION? action;
   List<String> filterList = [
     'promoted'.tr,
     "best_rating".tr,
@@ -43,14 +42,14 @@ class MyDoctorsController extends GetxController {
     'nearest'.tr,
     'a-z'.tr
   ];
-  var permissionStatus = Rx<PermissionStatus>(null);
+  var permissionStatus = Rxn<PermissionStatus>();
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>();
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
 
   bool _nearByResturantsPageInitDone = false;
-  Doctor selectedDoctorData;
+  Doctor? selectedDoctorData;
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
 
   //*Dio
@@ -63,8 +62,6 @@ class MyDoctorsController extends GetxController {
     // bannerAds();
 
     pagingController.addPageRequestListener((pageKey) {
-      log("my docror-------------------->");
-
       fetchDoctors(pageKey);
     });
     // var dummyList = ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
@@ -83,8 +80,6 @@ class MyDoctorsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
-
     Get.dialog(
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -387,13 +382,13 @@ class MyDoctorsController extends GetxController {
 
       locationData.clear();
       locationTitle.clear();
-      pagingController.itemList.forEach((element) {
-        if (element.geometry.coordinates != null) {
-          locationData.add(element.geometry);
-          locationTitle.add(element.name);
+      pagingController.itemList?.forEach((element) {
+        if (element.geometry!.coordinates != null) {
+          locationData.add(element.geometry!);
+          locationTitle.add(element.name!);
         }
       });
-      log("locationData--------------> ${locationData.length}");
+
       // log("leent ${pagingController.itemList.length}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
@@ -479,7 +474,7 @@ class MyDoctorsController extends GetxController {
     // Utils.resetPagingController(pagingController);
 
     pagingController.refresh();
-    pagingController.itemList.clear();
+    pagingController.itemList?.clear();
     fetchDoctors(pagingController.firstPageKey);
     // fetchDoctors(1);
   }

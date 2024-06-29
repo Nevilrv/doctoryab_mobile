@@ -4,12 +4,12 @@ import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:get/get.dart';
 
 class DoctorListTileShimmer extends StatelessWidget {
-  final Color baseColor;
-  final Color highlightColor;
-  final Color color;
-  final int count;
+  final Color? baseColor;
+  final Color? highlightColor;
+  final Color? color;
+  final int? count;
   const DoctorListTileShimmer({
-    Key key,
+    Key? key,
     this.baseColor,
     // this.baseColor = AppColors.shimmerBaseColor,
     // this.baseColor =  Color.,
@@ -29,8 +29,8 @@ class DoctorListTileShimmer extends StatelessWidget {
         // baseColor: Colors.grey[300],
         // highlightColor: Colors.white,
 
-        baseColor: baseColor ?? Colors.grey[300],
-        highlightColor: highlightColor ?? Colors.grey[100],
+        baseColor: baseColor ?? Colors.grey[300]!,
+        highlightColor: highlightColor ?? Colors.grey[100]!,
         child: Directionality(
           textDirection: Directionality.of(context),
           //  == TextDirection.ltr

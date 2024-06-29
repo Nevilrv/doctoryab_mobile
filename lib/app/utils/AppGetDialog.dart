@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
@@ -24,6 +25,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:logger/logger.dart';
 import 'dart:math' as math;
 
@@ -31,21 +33,23 @@ enum DialogType { ERROR, DONE, QUESTION, MESSAGE }
 
 class AppGetDialog {
   static show({
-    String title,
-    String mainButtonText,
-    String middleText,
-    List<Widget> actions,
-    Widget component,
+    String? title,
+    String? mainButtonText,
+    String? middleText,
+    List<Widget>? actions,
+    Widget? component,
+    Color? color,
+    double? double,
     bool hasOnlyContent = false, //TODO this is bad way, use child instead
   }) {
     title = title == null ? "error".tr : title;
     return Get.defaultDialog(
-      backgroundColor: AppColors.scaffoldColor,
+      backgroundColor: color ?? AppColors.scaffoldColor,
       title: hasOnlyContent ? '' : title,
       // titleStyle: TextStyle(color: AppColors.lgt1),
       titleStyle: hasOnlyContent ? TextStyle(fontSize: 1) : TextStyle(),
-      middleText: hasOnlyContent ? '' : middleText,
-      radius: 10,
+      middleText: hasOnlyContent ? '' : middleText.toString(),
+      radius: double ?? 10,
       content: hasOnlyContent ? component : null,
       actions: actions == null || actions.isEmpty || hasOnlyContent
           ? <Widget>[]
@@ -68,7 +72,7 @@ class AppGetDialog {
     );
   }
 
-  static showSuccess({@required String middleText, VoidCallback onTap}) {
+  static showSuccess({required String? middleText, VoidCallback? onTap}) {
     show(
         hasOnlyContent: true,
         component: Column(
@@ -81,7 +85,7 @@ class AppGetDialog {
               height: 10,
             ),
             Text(
-              middleText,
+              middleText ?? "",
               textAlign: TextAlign.center,
               style: AppTextTheme.b2(),
             ),
@@ -117,11 +121,215 @@ class AppGetDialog {
         ));
   }
 
+  static showAppointmentSuccess(
+      {required String? doctorName, DateTime? date, VoidCallback? onTap}) {
+    show(
+        hasOnlyContent: true,
+        component: Column(
+          children: [
+            Image.asset(
+              AppImages.bookingDoneCalender,
+              height: 45,
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Text(
+              SettingsController.appLanguge == 'English'
+                  ? 'Your appointment is confirmed with $doctorName on ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}.\n\nPlease reach 15 minutes before your Appointment!'
+                  : SettingsController.appLanguge == 'پشتو'
+                      ? ' تاسو په بریالیتوب سره د$doctorName سره په ${intl.DateFormat.yMd().add_jm().format(DateTime.now())} \n\nهیله ده 15 دقیقی مخکی له معاینی څخه ورسیږی'
+                      : ' شما به شکل موفقانه نوبت معاینه از$doctorName به تاریخ ${intl.DateFormat.yMd().add_jm().format(DateTime.now())}  گرفتید \n\n لطفاً ۱۵ دقیقه قبل از وقت معاینه برسید',
+              textAlign: TextAlign.center,
+              style: AppTextTheme.b2(),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 70,
+              child: Center(
+                child: CustomRoundedButton(
+                  color: Color(0xff00A79D),
+                  textColor: Colors.white,
+                  splashColor: Colors.white.withOpacity(0.2),
+                  disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                  // height: 50,
+                  width: 230,
+                  text: "done".tr,
+                  onTap: onTap ??
+                      () {
+                        Get.back();
+                        // // Get.offAllNamed(Routes.HOME);
+                        //
+                        // Get.until((route) => route.isFirst);
+                        // Get.find<HomeController>().pageController.animateTo(2,
+                        //     duration: Duration(milliseconds: 0),
+                        //     curve: Curves.ease);
+                        // Get.find<HomeController>().setIndex(2);
+                      },
+                ),
+              ),
+            ).paddingOnly(bottom: 0, top: 8),
+          ],
+        ));
+  }
+
+  static showCancelAppointment(
+      {required String doctorName, DateTime? date, VoidCallback? onTap}) {
+    show(
+      hasOnlyContent: true,
+      component: Column(
+        children: [
+          Image.asset(
+            AppImages.bookingDoneCalender,
+            height: 45,
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+            SettingsController.appLanguge == 'English'
+                ? 'Are you sure you want to cancel your appointment?'
+                : SettingsController.appLanguge == 'پشتو'
+                    ? 'ایا تاسو ډاډه یاست چې خپل معاینه وخت لغوه کړئ؟'
+                    : 'آیا مطمین هستید که وقت معاینه تانرا فسخ نمایید؟',
+            textAlign: TextAlign.center,
+            style: AppTextTheme.b2(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 70,
+                child: Center(
+                  child: CustomRoundedButton(
+                      color: Color(0xff00A79D),
+                      textColor: Colors.white,
+                      splashColor: Colors.white.withOpacity(0.2),
+                      disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                      // height: 50,
+                      width: 115,
+                      text: "yes".tr,
+                      onTap: onTap
+                      // ??
+                      // () {
+                      //   Get.back();
+                      //   // // Get.offAllNamed(Routes.HOME);
+                      //   //
+                      //   // Get.until((route) => route.isFirst);
+                      //   // Get.find<HomeController>().pageController.animateTo(2,
+                      //   //     duration: Duration(milliseconds: 0),
+                      //   //     curve: Curves.ease);
+                      //   // Get.find<HomeController>().setIndex(2);
+                      // },
+                      ),
+                ),
+              ).paddingOnly(bottom: 0, top: 8, left: 20),
+              Container(
+                height: 70,
+                child: Center(
+                  child: CustomRoundedButton(
+                    color: Color(0xff00A79D),
+                    textColor: Colors.white,
+                    splashColor: Colors.white.withOpacity(0.2),
+                    disabledColor: AppColors.easternBlue.withOpacity(0.2),
+                    // height: 50,
+                    width: 115,
+                    text: "no".tr,
+                    onTap: () {
+                      Get.back();
+                      // // Get.offAllNamed(Routes.HOME);
+                      //
+                      // Get.until((route) => route.isFirst);
+                      // Get.find<HomeController>().pageController.animateTo(2,
+                      //     duration: Duration(milliseconds: 0),
+                      //     curve: Curves.ease);
+                      // Get.find<HomeController>().setIndex(2);
+                    },
+                  ),
+                ),
+              ).paddingOnly(bottom: 0, top: 8, right: 20),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static pregnancyComplete(
+      {required String title,
+      VoidCallback? onTapYes,
+      VoidCallback? onTapNo,
+      String? image}) {
+    show(
+      color: Color(0xffE1F0DA),
+      double: 50.0,
+      hasOnlyContent: true,
+      component: Column(
+        children: [
+          Image.asset(
+            image!,
+            height: 70,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: AppTextTheme.b2(),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                  onTap: onTapYes,
+                  child: Container(
+                      height: 40,
+                      margin: EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                          color: Color(0xff00A79D),
+                          borderRadius: BorderRadius.circular(20)),
+                      width: 100,
+                      child: Center(
+                        child: Text(
+                          "yes".tr,
+                          style: TextStyle(color: AppColors.white),
+                        ),
+                      ))),
+              GestureDetector(
+                  onTap: onTapNo,
+                  child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Color(0xff00A79D),
+                          borderRadius: BorderRadius.circular(20)),
+                      width: 100,
+                      child: Center(
+                        child: Text(
+                          "no".tr,
+                          style: TextStyle(color: AppColors.white),
+                        ),
+                      ))),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   static showWithRetryCallBack(
-      {@required String middleText,
-      Function retryCallBak,
-      String operationTitle,
-      String retryButtonText}) {
+      {required String middleText,
+      Function? retryCallBak,
+      String? operationTitle,
+      String? retryButtonText}) {
     show(
       hasOnlyContent: false,
       middleText: operationTitle == null
@@ -149,7 +357,7 @@ class AppGetDialog {
   //* City Select dialog
   static showSelctCityDialog(
       {bool restartApp = false,
-      cityChangedCallBack(City city),
+      required cityChangedCallBack(City city),
       bool saveInstantlyAfterClick = true}) {
     // var values = <City>[].obs;
     // var currentCity = AuthController.to.getCity();
@@ -167,7 +375,7 @@ class AppGetDialog {
           data.data["data"].forEach((item) {
             newItems.add(City.fromJson(item));
           });
-          if (newItems == null || newItems.length == 0) {
+          if (newItems == "" || newItems.length == 0) {
             _pagedController.appendLastPage(newItems);
           } else {
             var itt = _pagedController.itemList != null
@@ -175,7 +383,7 @@ class AppGetDialog {
                     .where(
                       (element) =>
                           // !(_pagedController.itemList.contains(element)),
-                          !_pagedController.itemList
+                          !_pagedController.itemList!
                               .any((el) => element.sId == el.sId),
                     )
                     .toList()
@@ -190,7 +398,7 @@ class AppGetDialog {
         _pagedController.error = e;
         if (e is FirebaseException) {
           var _eCode = (e).code;
-          if (_eCode != null) {
+          if (_eCode != "") {
             AppGetDialog.show(middleText: _eCode);
           }
         }
@@ -222,7 +430,8 @@ class AppGetDialog {
                   // var item = controller.latestVideos[index];
                   return ListTile(
                     // title: Center(child: Text(city.getMultiLangName())),
-                    title: Center(child: Text(item.getMultiLangName())),
+                    title:
+                        Center(child: Text(item.getMultiLangName().toString())),
                     // leading: Icon(Icons.language),
                     onTap: () {
                       Get.back();
@@ -231,10 +440,9 @@ class AppGetDialog {
                       if (saveInstantlyAfterClick)
                         SettingsController.auth.savedCity = item;
                       // print("dddddddd ${SettingsController.auth.savedCityId}");
-                      if (cityChangedCallBack != null)
-                        cityChangedCallBack(item);
+                      if (cityChangedCallBack != "") cityChangedCallBack(item);
                       if (restartApp)
-                        Phoenix.rebirth(Get.context); //TODO Fix this
+                        Phoenix.rebirth(Get.context!); //TODO Fix this
                     },
                     // trailing: currentCityId == city.id
                     //     ? Icon(Icons.done)
@@ -263,7 +471,7 @@ class AppGetDialog {
   //*
   static showSeleceDoctorCategoryDialog(
     Doctor doctor, {
-    onChange(Category category),
+    required onChange(Category category),
   }) {
     var _pagedController = PagingController<int, Category>(firstPageKey: 1);
     _fetchData(pageKey) {
@@ -274,8 +482,8 @@ class AppGetDialog {
           _pagedController.error = e;
         },
       ).then((data) {
-        if (data != null) {
-          if (data == null || data.length == 0) {
+        if (data != "") {
+          if (data == "" || data.length == 0) {
             _pagedController.appendLastPage(data);
           } else {
             _pagedController.appendPage(data, pageKey + 1);
@@ -306,7 +514,7 @@ class AppGetDialog {
                   title: Center(child: Text(item.title ?? "")),
                   onTap: () {
                     Get.back();
-                    if (onChange != null) onChange(item);
+                    if (onChange != "") onChange(item);
                   },
                 );
               },

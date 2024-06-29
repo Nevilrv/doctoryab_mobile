@@ -12,9 +12,9 @@ String labsFeedbackModelToJson(LabsFeedbackModel data) =>
     json.encode(data.toJson());
 
 class LabsFeedbackModel {
-  List<LabsFeedback> data;
-  int averageRating;
-  int totalRating;
+  List<LabsFeedback>? data;
+  int? averageRating;
+  int? totalRating;
 
   LabsFeedbackModel({
     this.data,
@@ -31,24 +31,24 @@ class LabsFeedbackModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "averageRating": averageRating,
         "totalRating": totalRating,
       };
 }
 
 class LabsFeedback {
-  String datumId;
-  String comment;
-  String whoPosted;
-  PostedBy postedBy;
-  String rating;
-  String photo;
-  String createAt;
-  String commentId;
-  LabId labId;
-  String id;
-  int v;
+  String? datumId;
+  String? comment;
+  String? whoPosted;
+  PostedBy? postedBy;
+  String? rating;
+  String? photo;
+  String? createAt;
+  String? commentId;
+  LabId? labId;
+  String? id;
+  int? v;
 
   LabsFeedback({
     this.datumId,
@@ -82,36 +82,36 @@ class LabsFeedback {
         "_id": datumId,
         "comment": comment,
         "whoPosted": whoPosted,
-        "postedBy": postedBy.toJson(),
+        "postedBy": postedBy!.toJson(),
         "photo": photo,
         "rating": rating,
         "createAt": createAt,
         "commentId": commentId,
-        "labId": labId.toJson(),
+        "labId": labId!.toJson(),
         "ID": id,
         "__v": v,
       };
 }
 
 class LabId {
-  Geometry geometry;
-  String photo;
-  String email;
-  bool isDeleted;
-  List<String> phone;
-  List<List<String>> times;
-  String totalFeedbacks;
-  String averageRating;
-  bool active;
-  String rating;
-  String labIdId;
-  String name;
-  String city;
-  String address;
-  String createAt;
-  List<CheckUp> checkUp;
-  int v;
-  int id;
+  Geometry? geometry;
+  String? photo;
+  String? email;
+  bool? isDeleted;
+  List<String>? phone;
+  List<List<String>>? times;
+  String? totalFeedbacks;
+  String? averageRating;
+  bool? active;
+  String? rating;
+  String? labIdId;
+  String? name;
+  String? city;
+  String? address;
+  String? createAt;
+  List<CheckUp>? checkUp;
+  int? v;
+  int? id;
 
   LabId({
     this.geometry,
@@ -158,13 +158,13 @@ class LabId {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "email": email,
         "is_deleted": isDeleted,
-        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "phone": List<dynamic>.from(phone!.map((x) => x)),
         "times": List<dynamic>.from(
-            times.map((x) => List<dynamic>.from(x.map((x) => x)))),
+            times!.map((x) => List<dynamic>.from(x.map((x) => x)))),
         "totalFeedbacks": totalFeedbacks,
         "averageRating": averageRating,
         "active": active,
@@ -174,19 +174,19 @@ class LabId {
         "city": city,
         "address": address,
         "createAt": createAt,
-        "checkUp": List<dynamic>.from(checkUp.map((x) => x.toJson())),
+        "checkUp": List<dynamic>.from(checkUp!.map((x) => x.toJson())),
         "__v": v,
         "ID": id,
       };
 }
 
 class CheckUp {
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
-  String img;
+  bool? isBrief;
+  int? price;
+  String? id;
+  String? title;
+  String? content;
+  String? img;
 
   CheckUp({
     this.isBrief,
@@ -217,16 +217,16 @@ class CheckUp {
 }
 
 class PostedBy {
-  Geometry geometry;
-  String photo;
-  String id;
-  String phone;
-  String fcm;
-  String createAt;
-  String patientId;
-  int v;
-  int age;
-  String name;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? phone;
+  String? fcm;
+  String? createAt;
+  String? patientId;
+  int? v;
+  int? age;
+  String? name;
 
   PostedBy({
     this.geometry,
@@ -255,7 +255,7 @@ class PostedBy {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "_id": id,
         "phone": phone,

@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:doctor_yab/app/components/SpecialAppBackground.dart';
-import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
 import 'package:doctor_yab/app/components/shimmer/city_shimmer.dart';
@@ -13,23 +11,15 @@ import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
-import 'package:doctor_yab/app/theme/TextTheme.dart';
-import 'package:doctor_yab/app/utils/AppGetDialog.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class CitySelectProfileView extends GetView<CitySelectController> {
   @override
   Widget build(BuildContext context) {
-    log("controller.selectedCityItem--------------> ${controller.selectedCityItem}");
-
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
 
@@ -44,14 +34,15 @@ class CitySelectProfileView extends GetView<CitySelectController> {
           ),
           centerTitle: true,
           leading: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: RotatedBox(
-                  quarterTurns:
-                      SettingsController.appLanguge == "English" ? 0 : 2,
-                  child:
-                      Icon(Icons.arrow_back_ios_new, color: AppColors.white))),
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back_ios_new, color: AppColors.white),
+            // child: RotatedBox(
+            //   quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
+            //   child: Icon(Icons.arrow_back_ios_new, color: AppColors.white),
+            // ),
+          ),
           elevation: 0,
           // actions: [
           //   Padding(
@@ -75,8 +66,7 @@ class CitySelectProfileView extends GetView<CitySelectController> {
             child: Stack(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -104,27 +94,15 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color:
-                                            controller.selectedCityItem.value ==
-                                                    item
-                                                ? AppColors.primary
-                                                : AppColors.white,
+                                        color: controller.selectedCityItem.value == item ? AppColors.primary : AppColors.white,
                                         borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(1, 1),
-                                              color: AppColors.grey,
-                                              blurRadius: 5)
-                                        ]),
+                                        boxShadow: [BoxShadow(offset: Offset(1, 1), color: AppColors.grey, blurRadius: 5)]),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                       child: Center(
                                         child: Text(
-                                          item.getMultiLangName(),
-                                          style: controller
-                                                      .selectedCityItem.value ==
-                                                  item
+                                          item.getMultiLangName().toString(),
+                                          style: controller.selectedCityItem.value == item
                                               ? AppTextStyle.boldWhite14
                                               : AppTextStyle.boldPrimary14,
                                         ),
@@ -134,19 +112,15 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                                 );
                               },
                               // noMoreItemsIndicatorBuilder: (_) => PagingNoMoreItemList(),
-                              noItemsFoundIndicatorBuilder: (_) =>
-                                  PagingNoItemFountList(),
-                              firstPageErrorIndicatorBuilder: (context) =>
-                                  PagingErrorView(
+                              noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
+                              firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                                 controller: controller.pagedController,
                               ),
-                              firstPageProgressIndicatorBuilder: (_) =>
-                                  CityShimmer(
+                              firstPageProgressIndicatorBuilder: (_) => CityShimmer(
                                 linesCount: 4,
                                 baseColor: AppColors.white.withOpacity(0.4),
                               ),
-                              newPageProgressIndicatorBuilder: (_) =>
-                                  CityShimmer(
+                              newPageProgressIndicatorBuilder: (_) => CityShimmer(
                                 linesCount: 2,
                               ),
                             ),
@@ -159,11 +133,8 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                           if (controller.selectedCityItem.value.sId != null) {
                             Get.back();
 
-                            SettingsController.auth.savedCity = City.fromJson(
-                                jsonDecode(jsonEncode(
-                                    controller.selectedCityItem.value)));
-                            Get.find<TabHomeMainController>()
-                                .cityChanged(SettingsController.auth.savedCity);
+                            SettingsController.auth.savedCity = City.fromJson(jsonDecode(jsonEncode(controller.selectedCityItem.value)));
+                            Get.find<TabHomeMainController>().cityChanged(SettingsController.auth.savedCity as City);
                             Get.offAllNamed(Routes.HOME, arguments: {'id': 4});
                           } else {
                             Utils.showSnackBar(context, "Please select city");
@@ -175,25 +146,16 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                             width: w,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.2)),
-                                color: controller.selectedCityItem.value.sId !=
-                                        null
-                                    ? AppColors.white
-                                    : AppColors.primary),
+                                border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                                color: controller.selectedCityItem.value.sId != null ? AppColors.white : AppColors.primary),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               child: Center(
                                 child: Text(
                                   "save_city_selection".tr,
                                   style: AppTextStyle.boldWhite12.copyWith(
                                       fontSize: 11,
-                                      color: controller
-                                                  .selectedCityItem.value.sId !=
-                                              null
-                                          ? AppColors.primary
-                                          : AppColors.white),
+                                      color: controller.selectedCityItem.value.sId != null ? AppColors.primary : AppColors.white),
                                 ),
                               ),
                             ),
@@ -203,9 +165,7 @@ class CitySelectProfileView extends GetView<CitySelectController> {
                       SizedBox(height: h * 0.03),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 40),
-                          child: Divider(
-                              thickness: 2,
-                              color: AppColors.white.withOpacity(0.5))),
+                          child: Divider(thickness: 2, color: AppColors.white.withOpacity(0.5))),
                     ],
                   ),
                 ),

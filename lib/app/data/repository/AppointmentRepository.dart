@@ -13,8 +13,8 @@ class AppointmentRepository {
   static var _cachedDio = AppDioService.getCachedDio;
 
   static Future<Histories> fetchAppointmentHistory(
-      {CancelToken cancelToken}) async {
-    log("url===========>${ApiConsts.getAppointmentHistory}/${SettingsController.userId}");
+      {CancelToken? cancelToken}) async {
+    // log("url===========>${ApiConsts.getAppointmentHistory}/${SettingsController.userId}");
     var data = await _cachedDio.get(
       // '${ApiConsts.getAppointmentHistory}/60a8b056e8c8b437ad3d2d06',
       '${ApiConsts.getAppointmentHistory}',
@@ -24,8 +24,27 @@ class AppointmentRepository {
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("data.data--------------> ${data.data}");
 
     return Histories.fromJson(data.data);
+  }
+
+  ///cancel appointment
+  Future<dynamic> cancelAppointment({
+    String? id,
+    String? patientId,
+  }) async {
+    var headers = ApiConsts().commonHeader;
+    var data = {"id": id, "status": "cancelled", "patientId": patientId};
+    log(" $data");
+
+    var response = await dio.put(
+      ApiConsts.baseUrl + ApiConsts.cancelAppointment,
+      options: Options(
+        method: 'PUT',
+        headers: headers,
+      ),
+      data: data,
+    );
+    return response.data;
   }
 }

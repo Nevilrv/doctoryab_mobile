@@ -19,18 +19,18 @@ class ChatNotificationModel {
     this.messageData,
   });
 
-  String purpose;
-  String chat;
-  String body;
-  String title;
-  String messageData;
+  String? purpose;
+  String? chat;
+  String? body;
+  String? title;
+  String? messageData;
 
   ChatNotificationModel copyWith({
-    String purpose,
-    String chat,
-    String body,
-    String title,
-    String messageData,
+    String? purpose,
+    String? chat,
+    String? body,
+    String? title,
+    String? messageData,
   }) =>
       ChatNotificationModel(
         purpose: purpose ?? this.purpose,
@@ -78,16 +78,16 @@ class ChatNotificationMessageDataModel {
     this.readBy,
   });
 
-  String sender;
-  String content;
-  String chat;
-  List<String> readBy;
+  String? sender;
+  String? content;
+  String? chat;
+  List<String>? readBy;
 
   ChatNotificationMessageDataModel copyWith({
-    String sender,
-    String content,
-    String chat,
-    List<String> readBy,
+    String? sender,
+    String? content,
+    String? chat,
+    List<String>? readBy,
   }) =>
       ChatNotificationMessageDataModel(
         sender: sender ?? this.sender,
@@ -112,6 +112,6 @@ class ChatNotificationMessageDataModel {
         "content": content == null ? null : content,
         "chat": chat == null ? null : chat,
         "readBy":
-            readBy == null ? null : List<dynamic>.from(readBy.map((x) => x)),
+            readBy == null ? null : List<dynamic>.from(readBy!.map((x) => x)),
       };
 }

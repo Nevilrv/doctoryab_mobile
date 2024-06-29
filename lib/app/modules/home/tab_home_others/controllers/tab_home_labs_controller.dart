@@ -30,13 +30,7 @@ enum FetechingGPSDataStatus {
 
 class LabsController extends GetxController {
   var pageController = PagingController<int, Labs>(firstPageKey: 1);
-  // List<String> filterList = [
-  //   'most_rated'.tr,
-  //   'suggested'.tr,
-  //   'nearest'.tr,
-  //   'sponsored'.tr,
-  //   'A-Z'
-  // ];
+
   List<String> filterList = [
     'promoted'.tr,
     "best_rating".tr,
@@ -55,7 +49,6 @@ class LabsController extends GetxController {
   @override
   void onInit() {
     pageController.addPageRequestListener((pageKey) {
-      print('===LISTNER===');
       loadData(pageKey);
     });
     _fetchAds();
@@ -131,7 +124,7 @@ class LabsController extends GetxController {
   }
 
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>(null);
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
@@ -164,41 +157,6 @@ class LabsController extends GetxController {
       sort = "";
       _refreshPage();
     }
-    // switch (v) {
-    //   case 'most_rated'.tr:
-    //     {
-    //       sort = "stars";
-    //       _refreshPage();
-    //       break;
-    //     }
-    //   case 1:
-    //     {
-    //       sort = "";
-    //       _refreshPage();
-    //       break;
-    //     }
-    //   case 2:
-    //     {
-    //       sort = "close";
-    //       if (latLang.value == null)
-    //         _handlePermission();
-    //       else {
-    //         _refreshPage();
-    //       }
-    //       break;
-    //     }
-    //   case 3:
-    //     {
-    //       sort = "name";
-    //       _refreshPage();
-    //       break;
-    //     }
-    //   default:
-    //     {
-    //       sort = "";
-    //       _refreshPage();
-    //     }
-    // }
   }
 
   void _refreshPage() {
@@ -206,7 +164,7 @@ class LabsController extends GetxController {
     cancelToken = CancelToken();
     pageController.refresh();
 
-    pageController.itemList.clear();
+    pageController.itemList!.clear();
     // pageController.itemList = [];
     loadData(pageController.firstPageKey);
   }
@@ -243,7 +201,6 @@ class LabsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
     List<String> filterList = [
       'promoted'.tr,
       "best_rating".tr,
@@ -379,27 +336,6 @@ class LabsController extends GetxController {
       ),
     );
   }
-/*
-  void loadData1(int page) async {
-    LabsRepository.fetchLabs(
-      page,
-      cancelToken: cancelToken,
-      onError: (e) {
-        pageController.error = e;
-        // super.pageController.error = e;
-        Logger().e(
-          "load-Labs",
-          e,
-        );
-      },
-    ).then((data) {
-      Utils.addResponseToPagingController<Labs>(
-        data,
-        pageController,
-        page,
-      );
-    });
-  }*/
 
   void loadData(int page) {
     LabsRepository()
@@ -449,10 +385,10 @@ class LabsController extends GetxController {
 
         locationData.clear();
         locationTitle.clear();
-        pageController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+        pageController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
           }
         });
       } else {}
@@ -472,7 +408,6 @@ class LabsController extends GetxController {
         .searchLabs(name: search.text, cancelToken: cancelToken)
         .then((data) {
       //TODO handle all in model
-      log("data.data[data]--------------> ${data.data["data"]}");
 
       if (data != null) {
         if (data == null) {
@@ -485,9 +420,9 @@ class LabsController extends GetxController {
         locationData.clear();
         locationTitle.clear();
         searchDataList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
           }
         });
         isSearching = false;
@@ -547,21 +482,17 @@ class LabsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> $e");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

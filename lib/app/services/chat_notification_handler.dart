@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:doctor_yab/app/data/models/chat_model.dart';
 import 'package:doctor_yab/app/data/models/chat_notification_model.dart';
+import 'package:doctor_yab/app/data/models/notification_payload_model.dart';
 import 'package:doctor_yab/app/modules/chat/controllers/chat_controller.dart';
 import 'package:doctor_yab/app/modules/home/controllers/messages_list_controller.dart';
 import 'package:doctor_yab/app/services/PushNotificationService.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '../data/models/chat_list_api_model.dart';
-import '../data/models/notification_payload_model.dart';
 import '../routes/app_pages.dart';
 
 class ChatNotificationHandler {
@@ -20,7 +20,7 @@ class ChatNotificationHandler {
     } catch (e) {}
     try {
       var _msgData = ChatNotificationMessageDataModel.fromJson(
-          json.decode(chat.messageData));
+          json.decode(chat.messageData!));
       // PushNotificationService().showNotification(
       //     _msgData?.sender ?? "New Chat", _msgData?.content ?? "Null");
       PushNotificationService().showNotification(
@@ -34,17 +34,17 @@ class ChatNotificationHandler {
   }
 
   static void handleClick(ChatNotificationModel chat) {
-    ChatController _chatController;
+    ChatController? _chatController;
     try {
       _chatController = Get.find<ChatController>();
     } catch (e) {}
     try {
-      var _chatDecoded = Chat.fromJson(json.decode(chat.chat));
+      var _chatDecoded = Chat.fromJson(json.decode(chat.chat!));
 
       var _msgData = ChatNotificationMessageDataModel.fromJson(
-          json.decode(chat.messageData));
-      if (_chatController != null && _chatController?.chatArg()?.id != null) {
-        if (_chatController.chatArg().id != _msgData.chat) {
+          json.decode(chat.messageData!));
+      if (_chatController!.chatArg!().id != "") {
+        if (_chatController.chatArg!().id != _msgData.chat) {
           _chatController.swithChat(ChatListApiModel(
               id: _msgData.chat, chatName: _chatDecoded.chatName));
           // _chatController.chatArg.value = ChatListApiModel(

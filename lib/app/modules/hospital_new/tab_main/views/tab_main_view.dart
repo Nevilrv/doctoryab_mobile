@@ -54,8 +54,8 @@ class TabMainView extends GetView<HospitalNewController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (controller.hospital.description != null &&
-                        controller.hospital.description != "")
+                    if (controller.hospital!.description != null &&
+                        controller.hospital!.description != "")
                       Text(
                         "about".tr,
                         style: AppTextTheme.b(16)
@@ -63,7 +63,7 @@ class TabMainView extends GetView<HospitalNewController> {
                       ),
                     SizedBox(height: 10),
                     Text(
-                      controller.hospital.description,
+                      controller.hospital?.description.toString() ?? "",
                       style: AppTextTheme.l(14).copyWith(),
                     ),
                   ],

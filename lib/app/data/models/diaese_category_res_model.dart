@@ -11,9 +11,9 @@ String dieaseCategoryResModelToJson(DieaseCategoryResModel data) =>
     json.encode(data.toJson());
 
 class DieaseCategoryResModel {
-  bool success;
-  List<Datum> data;
-  int count;
+  bool? success;
+  List<Datum>? data;
+  int? count;
 
   DieaseCategoryResModel({
     this.success,
@@ -30,24 +30,24 @@ class DieaseCategoryResModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class Datum {
-  String id;
-  String photo;
-  String background;
-  bool isDeleted;
-  String fTitle;
-  String eTitle;
-  String pTitle;
-  int order;
-  String detail;
-  String createdAt;
-  String updatedAt;
-  int v;
+  String? id;
+  String? photo;
+  String? background;
+  bool? isDeleted;
+  String? fTitle;
+  String? eTitle;
+  String? pTitle;
+  int? order;
+  String? detail;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
 
   Datum({
     this.id,

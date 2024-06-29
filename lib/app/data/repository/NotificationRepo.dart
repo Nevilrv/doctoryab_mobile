@@ -1,8 +1,5 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-
 import '../../services/DioService.dart';
 import '../ApiConsts.dart';
 
@@ -33,7 +30,7 @@ class NotificationRepository {
 
     var headers = ApiConsts().commonHeader;
     var data = {'language': language};
-    log("data--------------> $data");
+    log(" $data");
 
     var dio = Dio();
     var response = await _cachedDio.put(

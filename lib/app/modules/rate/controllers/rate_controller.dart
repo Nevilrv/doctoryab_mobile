@@ -13,8 +13,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class RateController extends GetxController {
-  Doctor doctor;
-  String patId;
+  Doctor? doctor;
+  String? patId;
   var args = Get.arguments;
   var blaBla = ["doc_manner".tr, "doc_skill".tr, "doc_cleanness".tr];
   var bla2 = <double>[].obs;
@@ -53,7 +53,7 @@ class RateController extends GetxController {
     } catch (e, s) {
       Get.back();
       // Get.back();
-      Utils.showSnackBar(Get.context, "invalid_notification_sent".tr);
+      Utils.showSnackBar(Get.context!, "invalid_notification_sent".tr);
       FirebaseCrashlytics.instance.recordError(e, s);
     }
     super.onInit();
@@ -66,7 +66,7 @@ class RateController extends GetxController {
 
   void rate(BuildContext context) {
     EasyLoading.show(status: "please_wait".tr);
-    DoctorsRepository.rateDoctorByPatId(patId, bla2[2], bla2[1], bla2[0])
+    DoctorsRepository.rateDoctorByPatId(patId!, bla2[2], bla2[1], bla2[0])
         .then((value) {
       Get.back(
           result:

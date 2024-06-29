@@ -7,10 +7,10 @@ class RateItemView extends StatelessWidget {
   final void Function(double) onRate;
 
   const RateItemView(
-      {Key key,
-      @required this.title,
-      @required this.initStars,
-      @required this.onRate})
+      {Key? key,
+      required this.title,
+      required this.initStars,
+      required this.onRate})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

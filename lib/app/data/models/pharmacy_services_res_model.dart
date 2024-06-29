@@ -11,7 +11,7 @@ String pharmacyServicesResModelToJson(PharmacyServicesResModel data) =>
     json.encode(data.toJson());
 
 class PharmacyServicesResModel {
-  List<Services> data;
+  List<Services>? data;
 
   PharmacyServicesResModel({
     this.data,
@@ -24,16 +24,16 @@ class PharmacyServicesResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Services {
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
+  bool? isBrief;
+  int? price;
+  String? id;
+  String? title;
+  String? content;
 
   Services({
     this.isBrief,

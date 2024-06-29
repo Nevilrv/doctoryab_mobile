@@ -14,17 +14,20 @@ class AuthOtpController extends GetxController {
 
   var enableSubmitButton = false.obs;
   TextEditingController textEditingController = TextEditingController();
+
   //countdown
   var countDountController = CountdownController(autoStart: true);
   var countDownFinished = false.obs;
   var waitingForFirebasToResendOtp = false.obs;
+
   //
   final arg = Get.arguments;
+
   @override
   void onInit() {
     ever(otpFormatValid, (_) {
       //
-      if (otpFormatValid()) Get.focusScope.unfocus();
+      if (otpFormatValid()) Get.focusScope!.unfocus();
     });
     super.onInit();
   }
@@ -40,21 +43,19 @@ class AuthOtpController extends GetxController {
   verfyOtp() async {
     // waitingForFirebaseotpToVerify(true);
     EasyLoading.show(status: "please_wait".tr);
+    // EasyLoading.show(status: "please_wait".tr, indicator: CircularProgressIndicator(color: Colors.white));
 
     if (GetPlatform.isWeb) {
       //TODO handle Error
-      UserCredential uc = await AuthController.to.confirmationResult.confirm(
+      UserCredential uc = await AuthController.to.confirmationResult!.confirm(
         textEditingController.text,
       );
       log('signinToFirebaseWithSmsCode--11111');
-      if (uc != null) {
-        EasyLoading.dismiss();
-        Utils.whereShouldIGo();
-      }
+      EasyLoading.dismiss();
+      Utils.whereShouldIGo();
     } else {
       //TODO handle Error
-      await AuthController.to
-          .signinToFirebaseWithSmsCode(smsCode: textEditingController.text);
+      await AuthController.to.signinToFirebaseWithSmsCode(smsCode: textEditingController.text);
     }
   }
 

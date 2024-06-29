@@ -12,17 +12,17 @@ String chatListApiModelToJson(List<ChatListApiModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ChatListApiModel {
-  bool isGroupChat;
-  List<User> users;
-  List<dynamic> documents;
-  String id;
-  String chatName;
-  String reason;
-  String createdAt;
-  String updatedAt;
-  int v;
-  LatestMessage latestMessage;
-  String status;
+  bool? isGroupChat;
+  List<User>? users;
+  List<dynamic>? documents;
+  String? id;
+  String? chatName;
+  String? reason;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
+  LatestMessage? latestMessage;
+  String? status;
 
   ChatListApiModel({
     this.isGroupChat,
@@ -49,37 +49,39 @@ class ChatListApiModel {
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
         v: json["__v"],
-        latestMessage: LatestMessage.fromJson(json["latestMessage"]),
+        latestMessage: json["latestMessage"] == null
+            ? null
+            : LatestMessage.fromJson(json["latestMessage"]),
         status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
         "isGroupChat": isGroupChat,
-        "users": List<dynamic>.from(users.map((x) => x.toJson())),
-        "documents": List<dynamic>.from(documents.map((x) => x)),
+        "users": List<dynamic>.from(users!.map((x) => x.toJson())),
+        "documents": List<dynamic>.from(documents!.map((x) => x)),
         "_id": id,
         "chatName": chatName,
         "reason": reason,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "__v": v,
-        "latestMessage": latestMessage.toJson(),
+        "latestMessage": latestMessage!.toJson(),
         "status": status,
       };
 }
 
 class LatestMessage {
-  List<dynamic> images;
-  List<dynamic> voiceNotes;
-  List<dynamic> documents;
-  List<String> readBy;
-  String id;
-  String content;
-  String chat;
-  String createdAt;
-  String updatedAt;
-  int v;
-  Sender sender;
+  List<dynamic>? images;
+  List<dynamic>? voiceNotes;
+  List<dynamic>? documents;
+  List<String>? readBy;
+  String? id;
+  String? content;
+  String? chat;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
+  Sender? sender;
 
   LatestMessage({
     this.images,
@@ -96,9 +98,15 @@ class LatestMessage {
   });
 
   factory LatestMessage.fromJson(Map<String, dynamic> json) => LatestMessage(
-        images: List<dynamic>.from(json["images"].map((x) => x)),
-        voiceNotes: List<dynamic>.from(json["voiceNotes"].map((x) => x)),
-        documents: List<dynamic>.from(json["documents"].map((x) => x)),
+        images: json["images"] == null
+            ? null
+            : List<dynamic>.from(json["images"].map((x) => x)),
+        voiceNotes: json["voiceNotes"] == null
+            ? null
+            : List<dynamic>.from(json["voiceNotes"].map((x) => x)),
+        documents: json["documents"] == null
+            ? null
+            : List<dynamic>.from(json["documents"].map((x) => x)),
         readBy: List<String>.from(json["readBy"].map((x) => x)),
         id: json["_id"],
         content: json["content"],
@@ -110,10 +118,10 @@ class LatestMessage {
       );
 
   Map<String, dynamic> toJson() => {
-        "images": List<dynamic>.from(images.map((x) => x)),
-        "voiceNotes": List<dynamic>.from(voiceNotes.map((x) => x)),
-        "documents": List<dynamic>.from(documents.map((x) => x)),
-        "readBy": List<dynamic>.from(readBy.map((x) => x)),
+        "images": List<dynamic>.from(images!.map((x) => x)),
+        "voiceNotes": List<dynamic>.from(voiceNotes!.map((x) => x)),
+        "documents": List<dynamic>.from(documents!.map((x) => x)),
+        "readBy": List<dynamic>.from(readBy!.map((x) => x)),
         "_id": id,
         "content": content,
         "chat": chat,
@@ -125,16 +133,16 @@ class LatestMessage {
 }
 
 class Sender {
-  Geometry geometry;
-  String photo;
-  String id;
-  String phone;
-  String fcm;
-  String createAt;
-  String patientId;
-  int v;
-  int age;
-  String name;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? phone;
+  String? fcm;
+  String? createAt;
+  String? patientId;
+  int? v;
+  int? age;
+  String? name;
 
   Sender({
     this.geometry,
@@ -165,7 +173,7 @@ class Sender {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "_id": id,
         "phone": phone,
@@ -179,8 +187,8 @@ class Sender {
 }
 
 class Geometry {
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry({
     this.type,
@@ -198,23 +206,23 @@ class Geometry {
         "type": type == null ? null : type,
         "coordinates": coordinates == null
             ? null
-            : List<dynamic>.from(coordinates.map((x) => x)),
+            : List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }
 
 class User {
-  Geometry geometry;
-  String photo;
-  String id;
-  String phone;
-  String fcm;
-  String createAt;
-  String patientId;
-  int v;
-  int age;
-  String name;
-  List<String> routes;
-  String email;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? phone;
+  String? fcm;
+  String? createAt;
+  String? patientId;
+  int? v;
+  int? age;
+  String? name;
+  List<String>? routes;
+  String? email;
 
   User({
     this.geometry,
@@ -262,7 +270,7 @@ class User {
         "age": age,
         "name": name,
         "routes":
-            routes == null ? [] : List<dynamic>.from(routes.map((x) => x)),
+            routes == null ? [] : List<dynamic>.from(routes!.map((x) => x)),
         "email": email,
       };
 }

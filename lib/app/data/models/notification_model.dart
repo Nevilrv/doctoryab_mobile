@@ -11,8 +11,8 @@ String notificationModelToJson(NotificationModel data) =>
     json.encode(data.toJson());
 
 class NotificationModel {
-  List<Notification> data;
-  int count;
+  List<Notification>? data;
+  int? count;
 
   NotificationModel({
     this.data,
@@ -27,27 +27,27 @@ class NotificationModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class Notification {
-  String id;
-  String title;
-  String status;
-  String body;
-  User user;
-  PrescriptionId prescriptionId;
-  AppointmentId appointmentId;
-  ReportId reportId;
-  int v;
-  String type;
-  BlogId blogId;
-  String bodyInEnglish;
-  String bodyInPashto;
-  String bodyInDari;
-  String doctorId;
+  String? id;
+  String? title;
+  String? status;
+  String? body;
+  User? user;
+  PrescriptionId? prescriptionId;
+  AppointmentId? appointmentId;
+  ReportId? reportId;
+  int? v;
+  String? type;
+  BlogId? blogId;
+  String? bodyInEnglish;
+  String? bodyInPashto;
+  String? bodyInDari;
+  String? doctorId;
 
   Notification({
     this.id,
@@ -99,7 +99,7 @@ class Notification {
         "user": user?.toJson(),
         "prescriptionId": prescriptionId?.toJson(),
         "appointmentId": appointmentId?.toJson(),
-        "reportId": reportId.toJson(),
+        "reportId": reportId!.toJson(),
         "__v": v,
         "type": type,
         "bodyInEnglish": bodyInEnglish,
@@ -111,28 +111,28 @@ class Notification {
 }
 
 class AppointmentId {
-  bool notified24H;
-  bool notified30M;
-  bool bookingNotified;
-  bool visited;
-  int treatmentForDoc;
-  int knowledgeForDoc;
-  int cleaningForDoc;
-  int starsForDoc;
-  String doctorTitle;
-  String doctorDescription;
-  List<dynamic> medicines;
-  String appointmentIdId;
-  String name;
-  int age;
-  String phone;
-  String visitDate;
-  String patientId;
-  String doctor;
-  String role;
-  String id;
-  String createAt;
-  int v;
+  bool? notified24H;
+  bool? notified30M;
+  bool? bookingNotified;
+  bool? visited;
+  int? treatmentForDoc;
+  int? knowledgeForDoc;
+  int? cleaningForDoc;
+  int? starsForDoc;
+  String? doctorTitle;
+  String? doctorDescription;
+  List<dynamic>? medicines;
+  String? appointmentIdId;
+  String? name;
+  int? age;
+  String? phone;
+  String? visitDate;
+  String? patientId;
+  String? doctor;
+  String? role;
+  String? id;
+  String? createAt;
+  int? v;
 
   AppointmentId({
     this.notified24H,
@@ -195,7 +195,7 @@ class AppointmentId {
         "starsForDoc": starsForDoc,
         "DoctorTitle": doctorTitle,
         "DoctorDescription": doctorDescription,
-        "medicines": List<dynamic>.from(medicines.map((x) => x)),
+        "medicines": List<dynamic>.from(medicines!.map((x) => x)),
         "_id": appointmentIdId,
         "name": name,
         "age": age,
@@ -211,20 +211,20 @@ class AppointmentId {
 }
 
 class BlogId {
-  String img;
-  List<dynamic> likes;
-  List<String> shares;
-  List<dynamic> comments;
-  bool isPublished;
-  String id;
-  String name;
-  String desc;
-  String category;
-  String blogTitle;
-  String doctorId;
-  String createAt;
-  int v;
-  String publishedAt;
+  String? img;
+  List<dynamic>? likes;
+  List<String>? shares;
+  List<dynamic>? comments;
+  bool? isPublished;
+  String? id;
+  String? name;
+  String? desc;
+  String? category;
+  String? blogTitle;
+  String? doctorId;
+  String? createAt;
+  int? v;
+  String? publishedAt;
 
   BlogId({
     this.img,
@@ -262,9 +262,9 @@ class BlogId {
 
   Map<String, dynamic> toJson() => {
         "img": img,
-        "likes": List<dynamic>.from(likes.map((x) => x)),
-        "shares": List<dynamic>.from(shares.map((x) => x)),
-        "comments": List<dynamic>.from(comments.map((x) => x)),
+        "likes": List<dynamic>.from(likes!.map((x) => x)),
+        "shares": List<dynamic>.from(shares!.map((x) => x)),
+        "comments": List<dynamic>.from(comments!.map((x) => x)),
         "is_published": isPublished,
         "_id": id,
         "name": name,
@@ -279,25 +279,25 @@ class BlogId {
 }
 
 class PrescriptionId {
-  List<String> documents;
-  List<Medicine> medicines;
-  String id;
-  String phone;
-  String name;
-  int age;
-  String patientId;
-  String bp;
-  String temp;
-  String advice;
-  String doctorSignature;
-  String appointmentDocId;
-  String gender;
-  String prescriptionCreateAt;
-  String weight;
-  String height;
-  String doctor;
-  String createAt;
-  int v;
+  List<String>? documents;
+  List<Medicine>? medicines;
+  String? id;
+  String? phone;
+  String? name;
+  int? age;
+  String? patientId;
+  String? bp;
+  String? temp;
+  String? advice;
+  String? doctorSignature;
+  String? appointmentDocId;
+  String? gender;
+  String? prescriptionCreateAt;
+  String? weight;
+  String? height;
+  String? doctor;
+  String? createAt;
+  int? v;
 
   PrescriptionId({
     this.documents,
@@ -345,8 +345,8 @@ class PrescriptionId {
       );
 
   Map<String, dynamic> toJson() => {
-        "documents": List<dynamic>.from(documents.map((x) => x)),
-        "medicines": List<dynamic>.from(medicines.map((x) => x.toJson())),
+        "documents": List<dynamic>.from(documents!.map((x) => x)),
+        "medicines": List<dynamic>.from(medicines!.map((x) => x.toJson())),
         "_id": id,
         "phone": phone,
         "name": name,
@@ -368,9 +368,9 @@ class PrescriptionId {
 }
 
 class Medicine {
-  String drug;
-  String dosage;
-  String duration;
+  String? drug;
+  String? dosage;
+  String? duration;
 
   Medicine({
     this.drug,
@@ -392,18 +392,18 @@ class Medicine {
 }
 
 class User {
-  Geometry geometry;
-  String photo;
-  String id;
-  String phone;
-  String fcm;
-  String createAt;
-  String patientId;
-  int v;
-  int age;
-  String name;
-  String city;
-  String gender;
+  Geometry? geometry;
+  String? photo;
+  String? id;
+  String? phone;
+  String? fcm;
+  String? createAt;
+  String? patientId;
+  int? v;
+  int? age;
+  String? name;
+  String? city;
+  String? gender;
 
   User({
     this.geometry,
@@ -436,7 +436,7 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "_id": id,
         "phone": phone,
@@ -452,16 +452,16 @@ class User {
 }
 
 class ReportId {
-  List<String> documents;
-  String id;
-  String patientId;
-  String name;
-  String phone;
-  String title;
-  String description;
-  String doctor;
-  String createAt;
-  int v;
+  List<String>? documents;
+  String? id;
+  String? patientId;
+  String? name;
+  String? phone;
+  String? title;
+  String? description;
+  String? doctor;
+  String? createAt;
+  int? v;
 
   ReportId({
     this.documents,
@@ -490,7 +490,7 @@ class ReportId {
       );
 
   Map<String, dynamic> toJson() => {
-        "documents": List<dynamic>.from(documents.map((x) => x)),
+        "documents": List<dynamic>.from(documents!.map((x) => x)),
         "_id": id,
         "patientId": patientId,
         "name": name,
@@ -504,8 +504,8 @@ class ReportId {
 }
 
 class Geometry {
-  String type;
-  List<double> coordinates;
+  String? type;
+  List<double>? coordinates;
 
   Geometry({
     this.type,
@@ -520,6 +520,6 @@ class Geometry {
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

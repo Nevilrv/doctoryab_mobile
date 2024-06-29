@@ -1,14 +1,9 @@
-import 'dart:developer';
-
-import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/modules/favourites/favourites_screen_view.dart';
 import 'package:doctor_yab/app/modules/home/controllers/tab_home_main_controller.dart';
-import 'package:doctor_yab/app/modules/home/tab_home_others/controllers/tab_home_drugstore_controller.dart';
-import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/blog/tab_blog_view.dart';
-import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
+import 'package:doctor_yab/app/modules/home/views/messages_list_view.dart';
 import 'package:doctor_yab/app/modules/home/views/profile/tab_more_view.dart';
-import 'package:doctor_yab/app/modules/hospital_new/tab_main/controllers/tab_main_controller.dart';
+import 'package:doctor_yab/app/modules/home/views/tab_home_main_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -30,24 +25,22 @@ class HomeView extends GetView<HomeController> {
   ];
   @override
   Widget build(BuildContext context) {
-    log("SettingsController.savedUserProfile.sId-SettingsController.savedUserProfile.sId--------------> ${SettingsController.savedUserProfile.id}");
-    log("SettingsController.savedUserProfile.userToken--------------> ${SettingsController.userToken}");
-
     return WillPopScope(
       onWillPop: () async {
         // return controller.pageController.index == 3
         //     ? controller.webViewController.canGoBack()
         //     : true;
 
-        if (controller.pageController.index == 3 &&
-            await controller.webViewController.canGoBack()) {
-          controller.webViewController.goBack();
+        if (controller.pageController?.index == 3 &&
+            await controller.webViewController!.canGoBack()) {
+          controller.webViewController?.goBack();
           return false;
         }
 
         return true;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           toolbarHeight: 0,
           backgroundColor: AppColors.primary,
@@ -76,12 +69,15 @@ class HomeView extends GetView<HomeController> {
 }
 
 class BottomBarView extends StatelessWidget {
-  bool isHomeScreen = true;
-  bool isBlueBottomBar = false;
-  bool isBlueBackground = false;
+  bool? isHomeScreen = true;
+  bool? isBlueBottomBar = false;
+  bool? isBlueBackground = false;
 
   BottomBarView(
-      {Key key, this.isHomeScreen, this.isBlueBackground, this.isBlueBottomBar})
+      {Key? key,
+      this.isHomeScreen,
+      this.isBlueBackground,
+      this.isBlueBottomBar})
       : super(key: key);
   List bottomBarItem = [
     AppImages.home,
@@ -114,7 +110,6 @@ class BottomBarView extends StatelessWidget {
                               width: 62,
                               child: IconButton(
                                 onPressed: () {
-                                  log("isHomeScreen------122--------> $isHomeScreen");
                                   if (isHomeScreen == false) {
                                     Get.offAllNamed(Routes.HOME,
                                         arguments: {'id': index});
@@ -122,7 +117,7 @@ class BottomBarView extends StatelessWidget {
                                   controller.setIndex(index);
                                   controller.selectedIndex = index;
 
-                                  controller.pageController.animateTo(index,
+                                  controller.pageController?.animateTo(index,
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.ease);
                                 },
@@ -170,23 +165,19 @@ class BottomBarView extends StatelessWidget {
                               width: 55,
                               child: IconButton(
                                 onPressed: () {
-                                  log("isHomeScreen----1234----------> $isHomeScreen");
-                                  log("index--------------> $index");
                                   if (index == 0) {
                                     TabHomeMainController tabMainController =
                                         Get.find();
                                     tabMainController.isHomeScreen.value = true;
                                   }
                                   if (isHomeScreen == false) {
-                                    log("isHomeScreen--------------> $isHomeScreen");
-
                                     Get.offAllNamed(Routes.HOME,
                                         arguments: {'id': index});
                                   }
 
                                   controller.setIndex(index);
                                   controller.selectedIndex = index;
-                                  controller.pageController.animateTo(index,
+                                  controller.pageController?.animateTo(index,
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.ease);
                                 },
@@ -248,7 +239,6 @@ class BottomBarView extends StatelessWidget {
                                   width: 62,
                                   child: IconButton(
                                     onPressed: () {
-                                      log("isHomeScreen---111111-----------> $isHomeScreen");
                                       if (isHomeScreen == false) {
                                         Get.offAllNamed(Routes.HOME,
                                             arguments: {'id': index});
@@ -256,7 +246,8 @@ class BottomBarView extends StatelessWidget {
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
 
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 500),
                                           curve: Curves.ease);
                                     },
@@ -305,8 +296,6 @@ class BottomBarView extends StatelessWidget {
                                   width: 55,
                                   child: IconButton(
                                     onPressed: () {
-                                      log("isHomeScreen----222222----------> $isHomeScreen");
-                                      log("index--------------> $index");
                                       if (index == 0) {
                                         TabHomeMainController
                                             tabMainController = Get.find();
@@ -314,15 +303,14 @@ class BottomBarView extends StatelessWidget {
                                             true;
                                       }
                                       if (isHomeScreen == false) {
-                                        log("isHomeScreen--------------> $isHomeScreen");
-
                                         Get.offAllNamed(Routes.HOME,
                                             arguments: {'id': index});
                                       }
 
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 10),
                                           curve: Curves.ease);
                                     },
@@ -389,7 +377,6 @@ class BottomBarView extends StatelessWidget {
                                   width: 62,
                                   child: IconButton(
                                     onPressed: () {
-                                      log("isHomeScreen------77777--------> $isHomeScreen");
                                       if (isHomeScreen == false) {
                                         Get.offAllNamed(Routes.HOME,
                                             arguments: {'id': index});
@@ -397,7 +384,8 @@ class BottomBarView extends StatelessWidget {
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
 
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 500),
                                           curve: Curves.ease);
                                     },
@@ -457,8 +445,6 @@ class BottomBarView extends StatelessWidget {
                                   width: 55,
                                   child: IconButton(
                                     onPressed: () {
-                                      log("isHomeScreen---33333-----------> $isHomeScreen");
-                                      log("index--------------> $index");
                                       if (index == 0) {
                                         TabHomeMainController
                                             tabMainController = Get.find();
@@ -466,15 +452,14 @@ class BottomBarView extends StatelessWidget {
                                             true;
                                       }
                                       if (isHomeScreen == false) {
-                                        log("isHomeScreen--------------> $isHomeScreen");
-
                                         Get.offAllNamed(Routes.HOME,
                                             arguments: {'id': index});
                                       }
 
                                       controller.setIndex(index);
                                       controller.selectedIndex = index;
-                                      controller.pageController.animateTo(index,
+                                      controller.pageController?.animateTo(
+                                          index,
                                           duration: Duration(milliseconds: 10),
                                           curve: Curves.ease);
                                     },

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
@@ -15,16 +13,14 @@ import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class BookingInfoScreen extends GetView<CheckupPackagesController> {
-  Package item;
-  BookingInfoScreen({Key key, this.item}) : super(key: key);
+  Package? item;
+  BookingInfoScreen({Key? key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    log("id-------->${SettingsController.userId}");
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -44,8 +40,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 20, right: 20, top: 45, bottom: 10),
+                          padding: EdgeInsets.only(left: 20, right: 20, top: 45, bottom: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -62,11 +57,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                   ),
                                   child: Center(
                                     child: RotatedBox(
-                                      quarterTurns:
-                                          SettingsController.appLanguge ==
-                                                  "English"
-                                              ? 0
-                                              : 2,
+                                      quarterTurns: SettingsController.appLanguge == "English" ? 0 : 2,
                                       child: SvgPicture.asset(
                                         AppImages.back2,
                                         height: 14,
@@ -77,8 +68,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
                                   child: Text(
                                     "other_information".tr,
                                     textAlign: TextAlign.center,
@@ -132,8 +122,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     child: Column(
                       children: [
                         Row(
@@ -143,10 +132,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             ),
                             Text(
                               "your_city_selection".tr,
-                              style: AppTextStyle.boldGrey12.copyWith(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primary),
+                              style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                             ),
                           ],
                         ),
@@ -164,13 +150,10 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             // height: 10,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.4),
-                                    width: 2),
+                                border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                 color: AppColors.white),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10, top: 7, bottom: 7, left: 10),
+                              padding: const EdgeInsets.only(right: 10, top: 7, bottom: 7, left: 10),
                               child: Row(
                                 children: [
                                   Padding(
@@ -185,50 +168,34 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                     child: DropdownButton<String>(
                                       underline: SizedBox(),
                                       // value: controller.selectedLocation.value ?? "",
-                                      icon: Icon(Icons.expand_more,
-                                          color: AppColors.primary
-                                              .withOpacity(0.5)),
+                                      icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.5)),
                                       isDense: true,
                                       hint: Text(
                                         controller.selectedLocation.value == ""
                                             ? "Please_select_city".tr
                                             : controller.selectedLocation.value,
-                                        style: AppTextStyle.mediumPrimary12
-                                            .copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
+                                        style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                       ),
                                       isExpanded: true,
 
-                                      items: controller.locations
-                                          .map((City value) {
+                                      items: controller.locations.map((City value) {
                                         return DropdownMenuItem<String>(
                                           value: value.sId,
-                                          child: Text(value.eName,
-                                              style: AppTextStyle
-                                                  .mediumPrimary12
-                                                  .copyWith(
-                                                      color:
-                                                          AppColors.primary)),
+                                          child: Text(value.eName.toString(),
+                                              style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                                         );
                                       }).toList(),
                                       onChanged: (value) {
                                         controller.locations.forEach((element) {
                                           if (value == element.sId) {
-                                            controller.selectedLocation.value =
-                                                element.eName;
+                                            controller.selectedLocation.value = element.eName.toString();
                                           }
                                         });
-                                        controller.selectedLocationId.value =
-                                            value;
+                                        controller.selectedLocationId.value = value!;
                                         List<dynamic> list = [];
-                                        if (item.hospitalLocation.isNotEmpty) {
-                                          item.hospitalLocation
-                                              .forEach((element) {
-                                            if (controller
-                                                    .selectedLocationId.value
-                                                    .toString() ==
-                                                element.city.toString()) {
+                                        if (item!.hospitalLocation!.isNotEmpty) {
+                                          item!.hospitalLocation!.forEach((element) {
+                                            if (controller.selectedLocationId.value.toString() == element.city.toString()) {
                                               list.add({
                                                 "id": element.id,
                                                 "name": element.name,
@@ -237,12 +204,9 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                             }
                                           });
                                         }
-                                        if (item.labLocation.isNotEmpty) {
-                                          item.labLocation.forEach((element) {
-                                            if (controller
-                                                    .selectedLocationId.value
-                                                    .toString() ==
-                                                element.city.toString()) {
+                                        if (item!.labLocation!.isNotEmpty) {
+                                          item!.labLocation!.forEach((element) {
+                                            if (controller.selectedLocationId.value.toString() == element.city.toString()) {
                                               list.add({
                                                 "id": element.id,
                                                 "name": element.name,
@@ -251,7 +215,6 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                             }
                                           });
                                         }
-                                        log("list--------------> ${list}");
 
                                         controller.getLabAndHospitalList(list);
 
@@ -274,10 +237,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             ),
                             Text(
                               "select_hospital".tr,
-                              style: AppTextStyle.boldGrey12.copyWith(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primary),
+                              style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                             ),
                           ],
                         ),
@@ -310,8 +270,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                               // Utils.commonSnackbar(
                               //     text: "Please_select_city".tr,
                               //     context: context);
-                            } else if (controller
-                                .selectHospitalLabList.isEmpty) {
+                            } else if (controller.selectHospitalLabList.isEmpty) {
                               Get.showSnackbar(
                                 GetSnackBar(
                                   duration: Duration(seconds: 2),
@@ -343,13 +302,10 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             // height: 10,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.4),
-                                    width: 2),
+                                border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                 color: AppColors.white),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10, top: 7, bottom: 7, left: 10),
+                              padding: const EdgeInsets.only(right: 10, top: 7, bottom: 7, left: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -358,60 +314,38 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       // value: controller.selectedHospitalLab.value ??
                                       //     "",
                                       hint: Text(
-                                        controller.selectedHospitalLabName
-                                                    .value ==
-                                                ""
-                                            ? "please_select_clinic,hospital_or_lab"
-                                                .tr
-                                            : controller
-                                                .selectedHospitalLabName.value,
-                                        style: AppTextStyle.mediumPrimary12
-                                            .copyWith(
-                                                color: AppColors.primary
-                                                    .withOpacity(0.5)),
+                                        controller.selectedHospitalLabName.value == ""
+                                            ? "please_select_clinic,hospital_or_lab".tr
+                                            : controller.selectedHospitalLabName.value,
+                                        style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                       ),
                                       onTap: () {},
-                                      icon: Icon(Icons.expand_more,
-                                          color: AppColors.primary
-                                              .withOpacity(0.4)),
+                                      icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.4)),
                                       isDense: true,
                                       isExpanded: true,
-                                      items: controller.selectHospitalLabList
-                                          .map((dynamic value) {
+                                      items: controller.selectHospitalLabList.map((dynamic value) {
                                         return DropdownMenuItem<dynamic>(
                                           value: value['id'],
-                                          child: Text(value['name'],
-                                              style: AppTextStyle
-                                                  .mediumPrimary12
-                                                  .copyWith(
-                                                      color:
-                                                          AppColors.primary)),
+                                          child:
+                                              Text(value['name'], style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                                         );
                                       }).toList(),
                                       onChanged: (value) {
-                                        controller.selectedHospitalLabId.value =
-                                            value;
-                                        log("controller.selectedHospitalLabId.value--------------> ${controller.selectedHospitalLabId.value}");
+                                        controller.selectedHospitalLabId.value = value;
 
-                                        controller.selectHospitalLabList
-                                            .forEach((element) {
-                                          if (element['id'] ==
-                                              controller.selectedHospitalLabId
-                                                  .value) {
-                                            controller.selectedHospitalLabName
-                                                .value = element['name'];
+                                        controller.selectHospitalLabList.forEach((element) {
+                                          if (element['id'] == controller.selectedHospitalLabId.value) {
+                                            controller.selectedHospitalLabName.value = element['name'];
 
                                             if (element['type'] == "lab") {
-                                              controller.selectedType.value =
-                                                  'lab';
+                                              controller.selectedType.value = 'lab';
                                               controller.getLabScheduleList(
                                                   // labId:
                                                   //     "61a0a8557b2fbfe02f03bbd3",
                                                   labId: element['id'],
                                                   type: 'lab');
                                             } else {
-                                              controller.selectedType.value =
-                                                  'hospital';
+                                              controller.selectedType.value = 'hospital';
                                               controller.getLabScheduleList(
                                                   // hospitalId:
                                                   //     "63495ef6390446114d25be0b",
@@ -442,10 +376,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             ),
                             Text(
                               "select_date".tr,
-                              style: AppTextStyle.boldGrey12.copyWith(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primary),
+                              style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                             ),
                           ],
                         ),
@@ -454,11 +385,8 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            if (controller
-                                .selectedHospitalLabId.value.isEmpty) {
-                              Utils.commonSnackbar(
-                                  text: "please_select_hospital_lab".tr,
-                                  context: context);
+                            if (controller.selectedHospitalLabId.value.isEmpty) {
+                              Utils.commonSnackbar(text: "please_select_hospital_lab".tr, context: context);
                             }
                           },
                           child: Container(
@@ -466,13 +394,10 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             // height: 10,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.4),
-                                    width: 2),
+                                border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                 color: AppColors.white),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10, top: 7, bottom: 7, left: 10),
+                              padding: const EdgeInsets.only(right: 10, top: 7, bottom: 7, left: 10),
                               child: Row(
                                 children: [
                                   Padding(
@@ -491,68 +416,40 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                       //     "",
                                       hint: controller.selectedDate.value == ""
                                           ? Text('please_select_date'.tr,
-                                              style: AppTextStyle
-                                                  .mediumPrimary12
-                                                  .copyWith(
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.5)))
+                                              style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)))
                                           : Row(
                                               children: [
                                                 Text(
                                                   "${DateTime.parse(controller.selectedDate.value).toPersianDateStr(
                                                         strDay: false,
                                                         strMonth: true,
-                                                        useAfghaniMonthName:
-                                                            true,
+                                                        useAfghaniMonthName: true,
                                                       ).trim().split(' ')[0]}",
-                                                  style: AppTextStyle
-                                                      .mediumPrimary12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(
-                                                                  0.5)),
+                                                  style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 ),
                                                 Text(
                                                   " ${DateTime.parse(controller.selectedDate.value).toPersianDateStr(
                                                         strDay: false,
                                                         strMonth: true,
-                                                        useAfghaniMonthName:
-                                                            true,
+                                                        useAfghaniMonthName: true,
                                                       ).trim().split(' ')[1]}",
-                                                  style: AppTextStyle
-                                                      .mediumPrimary12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(
-                                                                  0.5)),
+                                                  style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 ),
                                                 Text(
                                                   " ${DateTime.parse(controller.selectedDate.value).toPersianDateStr(
                                                         strDay: false,
                                                         strMonth: true,
-                                                        useAfghaniMonthName:
-                                                            true,
+                                                        useAfghaniMonthName: true,
                                                       ).trim().split(' ')[3]}",
-                                                  style: AppTextStyle
-                                                      .mediumPrimary12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary
-                                                              .withOpacity(
-                                                                  0.5)),
+                                                  style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5)),
                                                 ),
                                               ],
                                             ),
                                       onTap: () {},
-                                      icon: Icon(Icons.expand_more,
-                                          color: AppColors.primary
-                                              .withOpacity(0.4)),
+                                      icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.4)),
                                       isDense: true,
                                       isExpanded: true,
-                                      items: controller.scheduleListDate
-                                          .map((DateTime value) {
+                                      items: controller.scheduleListDate.map((DateTime value) {
                                         var d = value
                                             .toPersianDateStr(
                                               strDay: false,
@@ -566,24 +463,9 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                           value: value,
                                           child: Row(
                                             children: [
-                                              Text("${d[0]}",
-                                                  style: AppTextStyle
-                                                      .mediumPrimary12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary)),
-                                              Text(" ${d[1]}",
-                                                  style: AppTextStyle
-                                                      .mediumPrimary12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary)),
-                                              Text(" ${d[3]}",
-                                                  style: AppTextStyle
-                                                      .mediumPrimary12
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .primary)),
+                                              Text("${d[0]}", style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
+                                              Text(" ${d[1]}", style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
+                                              Text(" ${d[3]}", style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary)),
                                             ],
                                           ),
                                         );
@@ -617,10 +499,7 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             ),
                             Text(
                               "select_time".tr,
-                              style: AppTextStyle.boldGrey12.copyWith(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primary),
+                              style: AppTextStyle.boldGrey12.copyWith(fontSize: 11, fontWeight: FontWeight.w400, color: AppColors.primary),
                             ),
                           ],
                         ),
@@ -630,12 +509,9 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                         GestureDetector(
                           onTap: () {
                             if (controller.selectedDate.value.isEmpty) {
-                              Utils.commonSnackbar(
-                                  text: "please_select_date".tr,
-                                  context: context);
+                              Utils.commonSnackbar(text: "please_select_date".tr, context: context);
                             } else if (controller.timeList.isEmpty) {
-                              Utils.commonSnackbar(
-                                  text: "no_result_found".tr, context: context);
+                              Utils.commonSnackbar(text: "no_result_found".tr, context: context);
                             }
                           },
                           child: Container(
@@ -643,13 +519,10 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                             // height: 10,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: AppColors.primary.withOpacity(0.4),
-                                    width: 2),
+                                border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
                                 color: AppColors.white),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10, top: 7, bottom: 7, left: 10),
+                              padding: const EdgeInsets.only(right: 10, top: 7, bottom: 7, left: 10),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -659,33 +532,21 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                                           controller.selectedTime.value == ""
                                               ? "please_select_time".tr
                                               : "${DateTime.parse(controller.selectedTime.value).hour.toString().padLeft(2, '0')}:${DateTime.parse(controller.selectedTime.value).minute.toString().padLeft(2, '0')}",
-                                          style: AppTextStyle.mediumPrimary12
-                                              .copyWith(
-                                                  color: AppColors.primary
-                                                      .withOpacity(0.5))),
+                                          style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5))),
                                       // value: controller.selectedTime.value ?? "",
-                                      icon: Icon(Icons.expand_more,
-                                          color: AppColors.primary
-                                              .withOpacity(0.4)),
+                                      icon: Icon(Icons.expand_more, color: AppColors.primary.withOpacity(0.4)),
                                       isDense: true,
                                       isExpanded: true,
-                                      items: controller.timeList
-                                          .map((String value) {
+                                      items: controller.timeList.map((String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(
                                               "${DateTime.parse(value).hour.toString().padLeft(2, '0')}:${DateTime.parse(value).minute.toString().padLeft(2, '0')}",
-                                              style: AppTextStyle
-                                                  .mediumPrimary12
-                                                  .copyWith(
-                                                      color: AppColors.primary
-                                                          .withOpacity(0.5))),
+                                              style: AppTextStyle.mediumPrimary12.copyWith(color: AppColors.primary.withOpacity(0.5))),
                                         );
                                       }).toList(),
                                       onChanged: (value) {
-                                        controller.selectedTime.value = value;
-
-                                        // log("time-------->${DateTime.parse(controller.selectedTime.value).toUtc().toIso8601String()}");
+                                        controller.selectedTime.value = value!;
                                       },
                                     ),
                                   ),
@@ -703,26 +564,19 @@ class BookingInfoScreen extends GetView<CheckupPackagesController> {
                         GestureDetector(
                           onTap: () {
                             if (controller.selectedTime.value == "") {
-                              Utils.commonSnackbar(
-                                  text: "please_select_time".tr,
-                                  context: context);
+                              Utils.commonSnackbar(text: "please_select_time".tr, context: context);
                             } else {
-                              log("controller.selectedTime.value--------------> ${controller.selectedTime.value}");
-
                               Get.to(BookingOtherInfoScreen(
                                 selectedDate: controller.selectedTime.value,
-                                packageId: item.id,
+                                packageId: item!.id.toString(),
                               ));
                             }
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColors.teal,
-                                border: Border.all(color: AppColors.teal)),
+                                borderRadius: BorderRadius.circular(8), color: AppColors.teal, border: Border.all(color: AppColors.teal)),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 7, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
                               child: Center(
                                 child: Text(
                                   "Confirm".tr,

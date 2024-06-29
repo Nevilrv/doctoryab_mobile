@@ -52,7 +52,7 @@ class TabMeetingTimeView extends GetView<TabMeetingTimeController> {
             itemBuilder: (context, item, index) {
               // var item = controller.latestVideos[index];
               return _buildItemView(context, item, index).onTap(() {
-                if (item.doctor.length > 0)
+                if (item.doctor!.length > 0)
                   Get.toNamed(Routes.HISTORY_DETAILS, arguments: item);
               });
             },
@@ -73,7 +73,7 @@ class TabMeetingTimeView extends GetView<TabMeetingTimeController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         () {
-          bool isFutre = item.visitDate.compareTo(DateTime.now()) >= 0;
+          bool isFutre = item.visitDate!.compareTo(DateTime.now()) >= 0;
           if (isFutre && controller.firstFutureItemIndex == null ||
               (controller.firstFutureItemIndex != null &&
                   controller.firstFutureItemIndex == index)) {
@@ -95,10 +95,11 @@ class TabMeetingTimeView extends GetView<TabMeetingTimeController> {
           return SizedBox();
         }(),
         MeetingTimeRow(
-          date: item.visitDate.toLocal(),
-          docName: item.doctor.length > 0 ? item.doctor[0]?.fullname ?? "" : "",
+          date: item.visitDate!.toLocal(),
+          docName:
+              item.doctor!.length > 0 ? item.doctor![0]?.fullname ?? "" : "",
           isActive: !(controller.firstPastItemIndex != null &&
-              index >= controller.firstPastItemIndex),
+              index >= controller.firstPastItemIndex!),
         ),
       ],
     );

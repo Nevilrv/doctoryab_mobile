@@ -32,14 +32,18 @@ class AuthOtpView extends GetView<AuthOtpController> {
                 onTap: () {
                   Get.back();
                 },
-                child: RotatedBox(
-                  quarterTurns:
-                      SettingsController.appLanguge == "English" ? 0 : 2,
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.white,
-                  ),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.white,
                 ),
+                // child: RotatedBox(
+                //   quarterTurns:
+                //       SettingsController.appLanguge == "English" ? 0 : 2,
+                //   child: Icon(
+                //     Icons.arrow_back_ios,
+                //     color: AppColors.white,
+                //   ),
+                // ),
               ),
             ),
 
@@ -59,8 +63,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
               tag: "info_text",
               //TODO handle [Get.arguments] for web
               child: Text(
-                'please_enter_otp_code_sent_to_your_phone'
-                    .trArgs(["${controller.arg}"]),
+                'please_enter_otp_code_sent_to_your_phone'.trArgs(["${controller.arg}"]),
                 style: AppTextTheme.r(14).copyWith(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
@@ -75,9 +78,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
                     hintColor: Colors.white,
                   ),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width < 400
-                        ? double.infinity
-                        : 400,
+                    width: MediaQuery.of(context).size.width < 400 ? double.infinity : 400,
                     child: TextField(
                       style: TextStyle(color: Colors.white),
                       maxLength: 6,
@@ -86,9 +87,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
                       cursorColor: Colors.white,
                       controller: controller.textEditingController,
                       decoration: InputDecoration(
-                        errorText: controller.otpValidationError() == ""
-                            ? null
-                            : controller.otpValidationError(),
+                        errorText: controller.otpValidationError() == "" ? null : controller.otpValidationError(),
                         labelText: 'otp_code'.tr,
                         labelStyle: TextStyle(color: Colors.white),
                         // labelStyle: TextStyle(color: Colors.white),
@@ -109,9 +108,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
                   text: "confirm".tr,
                   width: Get.width,
                   radius: 5,
-                  onTap: !controller.otpFormatValid.value
-                      ? null
-                      : () => controller.verfyOtp(),
+                  onTap: !controller.otpFormatValid.value ? null : () => controller.verfyOtp(),
                 ).paddingOnly(bottom: 40),
               ),
             ),
@@ -128,8 +125,7 @@ class AuthOtpView extends GetView<AuthOtpController> {
                           : Countdown(
                               controller: controller.countDountController,
                               seconds: 60,
-                              build: (BuildContext context, double time) =>
-                                  Text(
+                              build: (BuildContext context, double time) => Text(
                                 '${(time.toInt().toString())}',
                                 style: TextStyle(color: Colors.white),
                               ),
@@ -142,15 +138,11 @@ class AuthOtpView extends GetView<AuthOtpController> {
                     ),
                   ),
                   Obx(() => TextButton(
-                        onPressed: controller.countDownFinished.value
-                            ? controller.resendOtp
-                            : null,
+                        onPressed: controller.countDownFinished.value ? controller.resendOtp : null,
                         child: Text(
                           "resend_code".tr,
                           style: TextStyle(
-                            color: !controller.countDownFinished.value
-                                ? Colors.grey
-                                : Colors.white,
+                            color: !controller.countDownFinished.value ? Colors.grey : Colors.white,
                           ),
                         ),
                       )),

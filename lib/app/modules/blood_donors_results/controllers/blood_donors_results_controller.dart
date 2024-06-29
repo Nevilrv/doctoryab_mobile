@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/blood_donor_search_model.dart';
 import 'package:doctor_yab/app/data/repository/BloodDonorRepository.dart';
@@ -14,7 +11,7 @@ class BloodDonorsResultsController extends GetxController {
   var pagingController = PagingController<int, BloodDonor>(firstPageKey: 1);
   //*Dio
   CancelToken cancelToken = CancelToken();
-  BloodDonorSearchModel bloodDonorSearchModel;
+  BloodDonorSearchModel? bloodDonorSearchModel;
   @override
   void onInit() {
     super.onInit();
@@ -23,7 +20,6 @@ class BloodDonorsResultsController extends GetxController {
     });
     if (Get.arguments is BloodDonorSearchModel) {
       bloodDonorSearchModel = Get.arguments;
-      log("bloodDonorSearchModel--------------> ${jsonEncode(bloodDonorSearchModel)}");
     }
   }
 
@@ -47,14 +43,12 @@ class BloodDonorsResultsController extends GetxController {
   void fetchDonors(
     int pageKey,
   ) {
-    BloodDonorRepository.search(pageKey, bloodDonorSearchModel,
+    BloodDonorRepository.search(pageKey, bloodDonorSearchModel!,
         cancelToken: cancelToken, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;
       }
     }).then((value) {
-      log("value--------------> ${value}");
-
       Utils.addResponseToPagingController<BloodDonor>(
         value,
         pagingController,

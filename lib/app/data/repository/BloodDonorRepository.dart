@@ -27,7 +27,7 @@ class BloodDonorRepository {
       "location": location?.locality,
       "gender": gender,
       "geometry": {
-        "coordinates": [location.latLng.longitude, location.latLng.latitude]
+        "coordinates": [location.latLng!.longitude, location.latLng!.latitude]
       }
     }}");
 
@@ -39,7 +39,7 @@ class BloodDonorRepository {
         // "gender": gender,
         "gender": gender,
         "geometry": {
-          "coordinates": [location.latLng.longitude, location.latLng.latitude]
+          "coordinates": [location.latLng!.longitude, location.latLng!.latitude]
         }
       },
       // cancelToken: loginCancelToken,
@@ -52,8 +52,8 @@ class BloodDonorRepository {
     int page,
     BloodDonorSearchModel b, {
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
@@ -61,6 +61,22 @@ class BloodDonorRepository {
     return await Utils.parseResponse<BloodDonor>(
       () async {
         // var doctorReports;
+
+        log("DATA============12345========${{
+          "bloodGroup": b.bloodGroup,
+          "bloodUnits": b.bloodUnits,
+          "critical": true,
+          "condition": "",
+          "name": b.name,
+          "number": b.number,
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              b.geometry?.coordinates?[0],
+              b.geometry?.coordinates?[1]
+            ]
+          }
+        }}");
         var data = await _cachedDio.post(
           // '/findBloodDonors/profile',
           '/findBloodDonors/profile',
@@ -79,19 +95,21 @@ class BloodDonorRepository {
             "geometry": {
               "type": "Point",
               "coordinates": [
-                b.geometry.coordinates[0],
-                b.geometry.coordinates[1]
+                b.geometry?.coordinates![0],
+                b.geometry?.coordinates![1]
               ]
             }
           },
           // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
-        log("data--------------> ${data}");
+        log("===data=====${data}");
 
         return data;
       },
       onError: onError,
-    );
+    ) as List<BloodDonor>;
+
+    // return data;
   }
 }

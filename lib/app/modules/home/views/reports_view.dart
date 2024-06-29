@@ -80,8 +80,8 @@ class ReportsView extends GetView<ReportsController> {
     // return Text(item.title);
     return ListTile(
       title: Text(item.title ?? ""),
-      subtitle: Text("pat_name".tr + ": " + item.name ?? ""),
-      trailing: (item.documents != null && item.documents.length > 0)
+      subtitle: Text("pat_name".tr + ": " + item.name.toString() ?? ""),
+      trailing: (item.documents != null && item.documents!.length > 0)
           ? Row(
               mainAxisSize: MainAxisSize.min,
               children: [Icon(Icons.attachment), SizedBox(width: 8), _trailing],

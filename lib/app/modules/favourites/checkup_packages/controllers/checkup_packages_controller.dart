@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/HospitalsModel.dart';
 import 'package:doctor_yab/app/data/models/checkUp_packge_res_model.dart';
 import 'package:doctor_yab/app/data/models/checkupPackages_res_model.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/models/hospital_lab_schedule_res_model.dart';
-import 'package:doctor_yab/app/data/models/labs_model.dart';
 import 'package:doctor_yab/app/data/repository/CheckUpRepository.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
@@ -48,18 +46,15 @@ class CheckupPackagesController extends GetxController {
 
     update();
     List<String> data = [];
-    log("picked.weekday.toString()--------------> ${picked.weekday.toString()}");
 
     scheduleList.forEach((element) {
       if (element.dayOfWeek.toString() == picked.weekday.toString()) {
-        data.addAll(element.times);
+        data.addAll(element.times!);
         update();
-        log("element--------------> ${element}");
       } else if (picked.weekday.toString() == "7") {
         if (element.dayOfWeek.toString() == "0") {
-          data.addAll(element.times);
+          data.addAll(element.times!);
           update();
-          log("element--------------> ${element}");
         }
       }
     });
@@ -67,7 +62,6 @@ class CheckupPackagesController extends GetxController {
       timeList.add(
           "${DateTime(picked.year, picked.month, picked.day, int.parse(element.split(":").first), int.parse(element.split(":").last), 0, 0, 0).toLocal()}");
     });
-    log("timeList--------------> ${timeList}");
 
     update();
   }
@@ -78,9 +72,9 @@ class CheckupPackagesController extends GetxController {
   void onInit() {
     selectedTest = 0;
     update();
-    teName.text = SettingsController.savedUserProfile.name ?? "";
-    teNewNumber.text = SettingsController.savedUserProfile.phone ?? "";
-    teAge.text = SettingsController.savedUserProfile.age.toString() ?? "";
+    teName.text = SettingsController.savedUserProfile?.name ?? "";
+    teNewNumber.text = SettingsController.savedUserProfile?.phone ?? "";
+    teAge.text = SettingsController.savedUserProfile?.age.toString() ?? "";
     update();
     pagingController.addPageRequestListener((pageKey) {
       fetchCheckUpPackages(pageKey);
@@ -93,10 +87,9 @@ class CheckupPackagesController extends GetxController {
 
   var loading = false.obs;
   Future<void> bookNow({
-    String packageId,
+    String? packageId,
   }) async {
     loading.value = true;
-    log("selectedDataTime--------------> ${DateTime.parse(selectedTime.value).toUtc().toIso8601String()}");
 
     await PackageRepository()
         .bookTime(
@@ -104,10 +97,7 @@ class CheckupPackagesController extends GetxController {
             packageId: packageId,
             labId: selectedTime.value,
             type: selectedType.value,
-            time: DateTime.parse(selectedTime.value)
-                .toLocal()
-                .toIso8601String()
-                .toString())
+            time: DateTime.parse(selectedTime.value).toLocal().toIso8601String().toString())
         .then((value) {
       loading.value = false;
       var response = value.data;
@@ -126,8 +116,7 @@ class CheckupPackagesController extends GetxController {
                 color: AppColors.white,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: Get.height * 0.03, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: Get.height * 0.03, vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -144,8 +133,7 @@ class CheckupPackagesController extends GetxController {
                     ),
                     Text(
                       "book_success".tr,
-                      style: AppTextStyle.boldPrimary24
-                          .copyWith(color: AppColors.green3),
+                      style: AppTextStyle.boldPrimary24.copyWith(color: AppColors.green3),
                     ),
                     SizedBox(
                       height: Get.height * 0.01,
@@ -153,8 +141,7 @@ class CheckupPackagesController extends GetxController {
                     Text(
                       "Your booking request succesfully, check your e-mail other details!",
                       textAlign: TextAlign.center,
-                      style: AppTextStyle.mediumBlack16
-                          .copyWith(color: AppColors.black3, fontSize: 15),
+                      style: AppTextStyle.mediumBlack16.copyWith(color: AppColors.black3, fontSize: 15),
                     ),
                     SizedBox(
                       height: Get.height * 0.03,
@@ -166,15 +153,10 @@ class CheckupPackagesController extends GetxController {
                       },
                       child: Container(
                         width: Get.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.primary),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.primary),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
-                          child: Center(
-                              child: Text("back_to_checkup_list".tr,
-                                  style: AppTextStyle.boldWhite15)),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          child: Center(child: Text("back_to_checkup_list".tr, style: AppTextStyle.boldWhite15)),
                         ),
                       ),
                     )
@@ -189,17 +171,13 @@ class CheckupPackagesController extends GetxController {
 // cancel: Text("bla bla"),
 // content: Text("bla bldddda"),
       );
-      log("value--------------> ${value}");
     }).catchError(
       (e, s) {
         loading.value = false;
-        log("e--------------> ${e.type}");
-        log("s--------------> ${e.response.data['message']}");
 
         if (e.type == DioErrorType.response) {
           AppGetDialog.showWithRetryCallBack(
-            middleText: e.response.data['message'] ??
-                "check_internet_connection_and_retry".tr,
+            middleText: e.response.data['message'] ?? "check_internet_connection_and_retry".tr,
             // "check_internet_connection_and_retry".tr,
             operationTitle: "",
             retryButtonText: "",
@@ -231,14 +209,12 @@ class CheckupPackagesController extends GetxController {
       },
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
-    log("response--------------> ${response.data}");
-    log("response-statusCode-------------> ${response.statusCode}");
+
     if (response.data['data'] != null) {
       response.data['data'].forEach((element) {
         locations.add(City.fromJson(element));
       });
     }
-    log("response--------------> ${locations.length}");
 
     return response;
   }
@@ -262,13 +238,10 @@ class CheckupPackagesController extends GetxController {
     PackageRepository.fetchPackageHistory(
       cancelToken: cancelToken,
     ).then((value) {
-      CheckUpPackageResModel checkUpPackageResModel =
-          CheckUpPackageResModel.fromJson(value);
-      packageHistory.addAll(checkUpPackageResModel.data);
+      CheckUpPackageResModel checkUpPackageResModel = CheckUpPackageResModel.fromJson(value);
+      packageHistory.addAll(checkUpPackageResModel.data!);
       historyLoading = false;
       update();
-
-      log("value--------------> ${value}");
     }).catchError((e, s) {
       historyLoading = false;
       update();
@@ -280,7 +253,7 @@ class CheckupPackagesController extends GetxController {
 
   var scheduleList = <Schedule>[].obs;
   var scheduleListDate = <DateTime>[].obs;
-  getLabScheduleList({String labId, String hospitalId, String type}) {
+  getLabScheduleList({String? labId, String? hospitalId, String? type}) {
     scheduleList.clear();
     scheduleListDate.clear();
 
@@ -288,57 +261,38 @@ class CheckupPackagesController extends GetxController {
     timeList.clear();
     selectedDate.value = "";
     if (type == "lab") {
-      PackageRepository.fetchLabsSchedule(
-              cancelToken: cancelToken, labId: labId)
-          .then((value) {
-        HospitalLabScheduleResModel resModel =
-            HospitalLabScheduleResModel.fromJson(value);
+      PackageRepository.fetchLabsSchedule(cancelToken: cancelToken, labId: labId).then((value) {
+        HospitalLabScheduleResModel resModel = HospitalLabScheduleResModel.fromJson(value);
 
-        scheduleList.addAll(resModel.data);
+        scheduleList.addAll(resModel.data!);
         scheduleList.forEach((element) {
           for (var i = 0; i < 15; i++) {
-            if (DateTime.now().add(Duration(days: i)).weekday ==
-                element.dayOfWeek) {
+            if (DateTime.now().add(Duration(days: i)).weekday == element.dayOfWeek) {
               scheduleListDate.add(DateTime.now().add(Duration(days: i)));
               scheduleListDate.sort((a, b) {
                 return a.compareTo(b);
               });
             }
-            // log("DateTime.now()----$i----------> ${DateTime.now().add(Duration(days: i)).weekday}");
-            log("scheduleListDate--------------> ${scheduleListDate}");
           }
         });
-        log("value---value-----------> ${value}");
-        log("resModel---resModel-----------> ${resModel}");
       });
     } else {
       PackageRepository.fetchHospitalSchedule(
         cancelToken: cancelToken,
         hospitalId: hospitalId,
       ).then((value) {
-        HospitalLabScheduleResModel resModel =
-            HospitalLabScheduleResModel.fromJson(value);
-        scheduleList.addAll(resModel.data);
+        HospitalLabScheduleResModel resModel = HospitalLabScheduleResModel.fromJson(value);
+        scheduleList.addAll(resModel.data!);
         scheduleList.forEach((element) {
-          // log(" element.dayOfWeek--------------> ${element.dayOfWeek}");
-          // log("DateTime.now()--------------> ${DateTime.now()}");
-
           for (var i = 0; i < 15; i++) {
-            if (DateTime.now().add(Duration(days: i)).weekday ==
-                element.dayOfWeek) {
+            if (DateTime.now().add(Duration(days: i)).weekday == element.dayOfWeek) {
               scheduleListDate.add(DateTime.now().add(Duration(days: i)));
               scheduleListDate.sort((a, b) {
                 return a.compareTo(b);
               });
             }
-            // log("DateTime.now()----$i----------> ${DateTime.now().add(Duration(days: i)).weekday}");
-            log("scheduleListDate--------------> ${scheduleListDate}");
           }
-
-          log("scheduleListDate------scheduleListDate--------> ${scheduleListDate}");
         });
-        log("value---value-----------> ${value}");
-        log("resModel---resModel-----------> ${resModel}");
       });
     }
     update();
@@ -359,13 +313,11 @@ class CheckupPackagesController extends GetxController {
   List<PackageFeedback> packageFeedback = [];
   bool isLoading = false;
   bool isLoadingFeedback = false;
-  double ratings = 0.0;
-  void packageReview({String packageId}) {
+  double ratings = 5.0;
+  void packageReview({String? packageId}) {
     isLoading = true;
     update();
-    PackageRepository()
-        .fetchPackageReview(packageId: packageId, cancelToken: cancelToken)
-        .then((data) {
+    PackageRepository().fetchPackageReview(packageId: packageId, cancelToken: cancelToken).then((data) {
       packageFeedback.clear();
       if (data.data['data'] != null) {
         data.data['data'].forEach((element) {
@@ -374,8 +326,6 @@ class CheckupPackagesController extends GetxController {
       }
       isLoading = false;
       update();
-      log("data--------------> ${data.data}");
-      log("drugFeedback--------------> ${packageFeedback.length}");
     }).catchError((e, s) {
       isLoading = false;
       update();
@@ -385,25 +335,19 @@ class CheckupPackagesController extends GetxController {
     });
   }
 
-  void addPackageFeedback({String packageId, String rating}) {
+  void addPackageFeedback({String? packageId, String? rating}) {
     Get.back();
     isLoadingFeedback = true;
     update();
     FocusManager.instance.primaryFocus?.unfocus();
     PackageRepository()
-        .addPackageReview(
-            packageId: packageId,
-            comment: comment.text,
-            rating: rating,
-            cancelToken: cancelToken)
+        .addPackageReview(packageId: packageId, comment: comment.text, rating: rating, cancelToken: cancelToken)
         .then((data) {
       comment.clear();
       ratings = 0.0;
       isLoadingFeedback = false;
       update();
       packageReview(packageId: packageId);
-      log("data--------------> ${data.data}");
-      log("drugFeedback--------------> ${packageFeedback.length}");
     }).catchError((e, s) {
       isLoadingFeedback = false;
       update();
@@ -414,7 +358,7 @@ class CheckupPackagesController extends GetxController {
   }
 
   int selectedTest = 0;
-  SpeechRecognition speech;
+  SpeechRecognition? speech;
   bool speechRecognitionAvailable = false;
   bool isListening = false;
 
@@ -422,19 +366,19 @@ class CheckupPackagesController extends GetxController {
     isListening = false;
     // print('_MyAppState.activateSpeechRecognizer... ');
     speech = SpeechRecognition();
-    speech.setAvailabilityHandler(onSpeechAvailability);
-    speech.setRecognitionStartedHandler(onRecognitionStarted);
-    speech.setRecognitionResultHandler(onRecognitionResult);
-    speech.setRecognitionCompleteHandler(onRecognitionComplete);
-    speech.setErrorHandler(errorHandler);
-    speech.activate('en_US').then((res) {
+    speech?.setAvailabilityHandler(onSpeechAvailability);
+    speech?.setRecognitionStartedHandler(onRecognitionStarted);
+    speech?.setRecognitionResultHandler(onRecognitionResult);
+    speech?.setRecognitionCompleteHandler(onRecognitionComplete);
+    speech?.setErrorHandler(errorHandler);
+    speech?.activate('en_US').then((res) {
       speechRecognitionAvailable = res;
       update();
     });
   }
 
-  void start() => speech.activate('en_US').then((_) {
-        return speech.listen().then((result) {
+  void start() => speech?.activate('en_US').then((_) {
+        return speech?.listen().then((result) {
           // print('_MyAppState.start => result $result');
 
           isListening = result;
@@ -442,7 +386,7 @@ class CheckupPackagesController extends GetxController {
         });
       });
 
-  void stop() => speech.stop().then((_) {
+  void stop() => speech!.stop().then((_) {
         isListening = false;
         update();
       });
@@ -478,10 +422,7 @@ class CheckupPackagesController extends GetxController {
 
   var pagingController = PagingController<int, Package>(firstPageKey: 1);
   void fetchCheckUpPackages(int pageKey) {
-    PackageRepository()
-        .checkupPackages(pageKey, searchController.text,
-            cancelToken: cancelToken)
-        .then((data) {
+    PackageRepository().checkupPackages(pageKey, searchController.text, cancelToken: cancelToken).then((data) {
       // cancelToken = new CancelToken();
       // print(10 / 0);
       //TODO handle all in model
@@ -490,10 +431,9 @@ class CheckupPackagesController extends GetxController {
           data.data["data"] = [];
         }
         var newItems = CheckupPackagesResModel.fromJson(data.data).data;
-        log("newItems--------------> ${newItems}");
 
         if (newItems == null || newItems.length == 0) {
-          pagingController.appendLastPage(newItems);
+          pagingController.appendLastPage(newItems!);
         } else {
           pagingController.appendPage(newItems, pageKey + 1);
         }
@@ -501,8 +441,6 @@ class CheckupPackagesController extends GetxController {
         // print(data.value.success);
       } else {}
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       // cancelToken = new CancelToken();
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pagingController.error = e;

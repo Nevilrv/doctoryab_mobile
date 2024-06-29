@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/blog_controller.dart';
 
 class BlogView extends GetView<BlogController> {
-  const BlogView({Key key}) : super(key: key);
+  const BlogView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

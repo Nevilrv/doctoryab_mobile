@@ -12,13 +12,53 @@ import '../../../routes/app_pages.dart';
 
 class MessagesListController extends GetxController {
   final isLoading = true.obs;
-  var filterSearch = RxString(null);
+  var filterSearch = RxnString();
   TextEditingController teSearchController = TextEditingController();
+
+  var sending = false.obs;
+  var cancelToken = CancelToken();
 
   RxList<ChatListApiModel> chats = <ChatListApiModel>[].obs;
   CancelToken chatCancelToken = CancelToken();
   var pagingController =
       PagingController<int, ChatListApiModel>(firstPageKey: 1);
+
+  void sendMessage() {
+    sending(true);
+    createChat();
+  }
+
+  Future<void> createChat() async {
+    print('------CALL>>>>SEND');
+    ChatRepository.createNewChat("", "", cancelToken: cancelToken,
+        onError: (e) {
+      if (!(e is DioError && CancelToken.isCancel(e))) {
+        // isLoading.value = false;
+        Future.delayed(Duration(seconds: 2), () {
+          cancelToken.cancel();
+          cancelToken = CancelToken();
+          if (this != null)
+            createChat();
+          else
+            return;
+        });
+      }
+    }).then((value) {
+      if (value != null) {
+        sending(false);
+        Get.toNamed(Routes.CHAT,
+                arguments: ChatListApiModel(
+                    id: value.chat!.id, chatName: value.chat!.chatName))
+            ?.then((value) {
+          try {
+            reloadChats();
+          } catch (e) {}
+        });
+      }
+    }).catchError((e, s) {
+      Logger().e("message", e, s);
+    });
+  }
 
   List<ChatListApiModel> userChats = [
     // ChatModel(
@@ -100,6 +140,7 @@ class MessagesListController extends GetxController {
   void onInit() {
     // chats.value = [_systemChat, ...userChats];
     chats.value = [...userChats];
+
     debounce(filterSearch, (_) {
       // // if (teSearchController.text.trim() != "") {
       // pagingController.error = null;
@@ -125,11 +166,12 @@ class MessagesListController extends GetxController {
 
   @override
   void onClose() {
+    cancelToken.cancel();
     super.onClose();
   }
 
   Future<void> loadChatList({bool cleanTheArray = false}) async {
-    await ChatRepository.fetchChatList(filterSearch.value,
+    await ChatRepository.fetchChatList(filterSearch.value ?? "",
         cancelToken: chatCancelToken, onError: (e) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         // isLoading.value = false;
@@ -138,8 +180,6 @@ class MessagesListController extends GetxController {
         });
       }
     }).then((value) {
-      log("value--------------> $value");
-
       // var _tmp = value.map((item) {
       //   return ChatModel(
       //     sendarName: item.chatName,
@@ -154,14 +194,13 @@ class MessagesListController extends GetxController {
       //   );
       // }).toList();
       // if (cleanTheArray) {
+      log('value ---------->>>>>>>> ${value}');
       chats.clear();
       // }
       chats.addAll(value);
       print(value.toString());
       chats.refresh();
-      value.forEach((element) {
-        log("value--------------> $element");
-      });
+      value.forEach((element) {});
 
       isLoading.value = false;
 

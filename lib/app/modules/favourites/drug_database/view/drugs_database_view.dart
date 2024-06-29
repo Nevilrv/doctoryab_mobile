@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'dart:math' as math;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
 import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
@@ -7,7 +7,7 @@ import 'package:doctor_yab/app/components/shimmer/drugs_shimmer.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/modules/favourites/AD/add_view.dart';
 import 'package:doctor_yab/app/modules/favourites/drug_database/controller/drugs_controller.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
@@ -23,7 +23,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../components/paging_indicators/dotdot_nomore_items.dart';
 
 class DrugsDatabaseView extends GetView<DrugsController> {
-  DrugsDatabaseView({Key key}) : super(key: key);
+  DrugsDatabaseView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
-      appBar:
-          AppAppBar.primaryAppBar(title: "drug_database".tr, savedIcon: true),
+      resizeToAvoidBottomInset: false,
+      appBar: AppAppBar.primaryAppBar(title: "drug_database".tr, savedIcon: true),
       body: Stack(
         children: [
           Padding(
@@ -53,27 +53,21 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     controller.filterSearch == ""
                         ? SizedBox()
                         : Padding(
-                            padding: const EdgeInsets.only(
-                              top: 18,
-                              bottom: 10,
-                            ),
+                            padding: const EdgeInsets.only(top: 18, bottom: 10),
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Divider(
-                                      color: AppColors.primary, thickness: 1),
+                                  child: Divider(color: AppColors.primary, thickness: 1),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 3),
+                                  padding: const EdgeInsets.symmetric(horizontal: 3),
                                   child: Text(
                                     "what_we_found".tr,
                                     style: AppTextStyle.mediumPrimary11,
                                   ),
                                 ),
                                 Expanded(
-                                  child: Divider(
-                                      color: AppColors.primary, thickness: 1),
+                                  child: Divider(color: AppColors.primary, thickness: 1),
                                 ),
                               ],
                             ),
@@ -84,8 +78,6 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (c, i) {
-                          log("i--------------> $i");
-
                           // if (i == 5) {
                           if ((i + 1) % 5 == 0) {
                             return Padding(
@@ -97,26 +89,21 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           }
                           // return SizedBox(height: 15);
                         },
-                        builderDelegate: PagedChildBuilderDelegate(
+                        builderDelegate: PagedChildBuilderDelegate<UpdatedDrug>(
                           itemBuilder: (context, item, index) {
                             return drugsData(h, w, context, item);
                           },
-                          noMoreItemsIndicatorBuilder: (_) =>
-                              DotDotPagingNoMoreItems(),
-                          noItemsFoundIndicatorBuilder: (_) =>
-                              PagingNoItemFountList(),
-                          firstPageErrorIndicatorBuilder: (context) =>
-                              PagingErrorView(
+                          noMoreItemsIndicatorBuilder: (_) => DotDotPagingNoMoreItems(),
+                          noItemsFoundIndicatorBuilder: (_) => PagingNoItemFountList(),
+                          firstPageErrorIndicatorBuilder: (context) => PagingErrorView(
                             controller: controller.pageController,
                           ),
-                          firstPageProgressIndicatorBuilder: (_) =>
-                              DrugsGridShimmer(
+                          firstPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                             yCount: 5,
                             xCount: 1,
                             // linesCount: 4,
                           ),
-                          newPageProgressIndicatorBuilder: (_) =>
-                              DrugsGridShimmer(
+                          newPageProgressIndicatorBuilder: (_) => DrugsGridShimmer(
                             yCount: 5,
                             xCount: 1,
                           ),
@@ -176,9 +163,9 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                         },
                       ),
                     ),*/
-                    const SizedBox(
-                      height: 80.0,
-                    ),
+                    // const SizedBox(
+                    //   height: 80.0,
+                    // ),
                   ],
                 );
               },
@@ -196,12 +183,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
     );
   }
 
-  Widget drugsData(
-    double h,
-    double w,
-    context,
-    Datum item,
-  ) {
+  Widget drugsData(double h, double w, context, UpdatedDrug item) {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.DRUGS_DETAILS, arguments: item);
@@ -274,9 +256,7 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               5,
                               (subIndex) {
                                 return SvgPicture.asset(
-                                  subIndex == 4
-                                      ? AppImages.favGrey
-                                      : AppImages.favGolden,
+                                  subIndex == 4 ? AppImages.favGrey : AppImages.favGolden,
                                   height: 10,
                                   width: 10,
                                 ).paddingOnly(right: subIndex == 4 ? 0 : 6);
@@ -298,27 +278,28 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                               color: AppColors.lightPurple2,
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppImages.circleInfo,
-                                height: 10,
-                                width: 10,
-                                color: AppColors.primary,
-                              ),
-                            ),
+                            child: SettingsController.getUpdatedDrugData.any((element) => element.id!.contains(item.id!))
+                                ? Icon(
+                                    Icons.favorite,
+                                    size: w * 0.03,
+                                    color: AppColors.primary,
+                                  )
+                                : Icon(
+                                    Icons.favorite_border,
+                                    size: w * 0.03,
+                                    color: AppColors.primary,
+                                  ),
                           ),
                           GestureDetector(
                             onTap: () {
-                              SettingsController.drugData = [item];
+                              SettingsController.updatedDrugData = [item];
                               controller.update();
                             },
                             child: Container(
                               height: h * 0.023,
                               width: w * 0.24,
                               decoration: BoxDecoration(
-                                color: SettingsController.drugData.any(
-                                        (element) =>
-                                            element.id.contains(item.id))
+                                color: SettingsController.getUpdatedDrugData.any((element) => element.id!.contains(item.id!))
                                     ? AppColors.primary
                                     : AppColors.lightPurple2,
                                 borderRadius: BorderRadius.circular(3),
@@ -329,27 +310,10 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                                 children: [
                                   Text(
                                     "add_to_list".tr,
-                                    style: SettingsController.drugData.any(
-                                            (element) =>
-                                                element.id.contains(item.id))
+                                    style: SettingsController.getUpdatedDrugData.any((element) => element.id!.contains(item.id!))
                                         ? AppTextStyle.boldWhite8
                                         : AppTextStyle.boldPrimary8,
                                   ),
-                                  SizedBox(
-                                    width: w * 0.005,
-                                  ),
-                                  SettingsController.drugData.any((element) =>
-                                          element.id.contains(item.id))
-                                      ? Icon(
-                                          Icons.favorite,
-                                          size: w * 0.02,
-                                          color: AppColors.white,
-                                        )
-                                      : Icon(
-                                          Icons.favorite_border,
-                                          size: w * 0.02,
-                                          color: AppColors.primary,
-                                        ),
                                 ],
                               ),
                             ),
@@ -365,30 +329,30 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.englishName}",
+                        SettingsController.appLanguge == 'English' ? "${item.englishDrugName}" : "${item.localLanguageDrugName}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "${item.name}",
+                        // SettingsController.appLanguge == 'English'
+                        //     ? "${item.englishDrugName}"
+                        //     : SettingsController.appLanguge == 'پشتو'
+                        //         ? "${item.englishDrugName}"
+                        //         : "${item.englishDrugName}",
+                        "${item.genericName ?? ''}",
                         style: AppTextStyle.boldPrimary12.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "${item.company}",
-                        style:
-                            AppTextStyle.regularPrimary9.copyWith(height: 1.3),
+                        "${item.company ?? ''}",
+                        style: AppTextStyle.regularPrimary9.copyWith(height: 1.3),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                          bottom: h * 0.005,
-                          top: h * 0.005,
-                          right: 20,
-                        ),
+                        padding: EdgeInsets.only(bottom: h * 0.005, top: h * 0.005, right: 20),
                         child: Divider(
                           height: 0,
                           thickness: 1,
@@ -401,59 +365,58 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
                             3,
-                            (subIndex) => Row(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: h * 0.035,
-                                  width: h * 0.035,
-                                  padding: EdgeInsets.all(3),
-                                  margin: EdgeInsets.only(right: 5),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.lightPurple,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Image.asset(
-                                    controller.data[subIndex]["image"],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      controller.data[subIndex]["title"]
-                                          .toString()
-                                          .tr,
-                                      style: AppTextStyle.boldPrimary9
-                                          .copyWith(height: 1.2),
+                            (subIndex) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: h * 0.035,
+                                    width: h * 0.035,
+                                    padding: EdgeInsets.all(3),
+                                    margin: EdgeInsets.only(right: 5),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.lightPurple,
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
-                                    SizedBox(
-                                      height: Get.height * 0.003,
+                                    child: Image.asset(
+                                      controller.data[subIndex]["image"],
+                                      fit: BoxFit.cover,
                                     ),
-                                    Container(
-                                      width: w * 0.33,
-                                      child: Text(
-                                        subIndex == 1
-                                            ? item.pack
-                                            : subIndex == 2
-                                                ? controller.data[2]["text"]
-                                                    .toString()
-                                                    .trArgs(
-                                                        [item.packsAndPrices])
-                                                : item.drugType ?? "None",
-                                        style: AppTextStyle.regularPrimary9
-                                            .copyWith(height: 1),
-                                        maxLines: 4,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        controller.data[subIndex]["title"].toString().tr,
+                                        style: AppTextStyle.boldPrimary9.copyWith(height: 1.2),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                      SizedBox(
+                                        height: Get.height * 0.003,
+                                      ),
+                                      Container(
+                                        width: w * 0.33,
+                                        child: Text(
+                                          subIndex == 1
+                                              ? item.quantity ?? "None"
+                                              : subIndex == 2
+                                                  ? controller.data[2]["text"].toString().trArgs([item.packsAndPrices!])
+                                                  : SettingsController.appLanguge == 'English'
+                                                      ? item.drugTypeEnglish ?? "None"
+                                                      : SettingsController.appLanguge == 'پشتو'
+                                                          ? item.drugTypePashto ?? "None"
+                                                          : item.drugTypeDari ?? "None",
+                                          style: AppTextStyle.regularPrimary9.copyWith(height: 1),
+                                          maxLines: 4,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -465,10 +428,8 @@ class DrugsDatabaseView extends GetView<DrugsController> {
             item.active == true
                 ? Positioned(
                     top: -5,
-                    right:
-                        SettingsController.appLanguge != "English" ? null : -5,
-                    left:
-                        SettingsController.appLanguge == "English" ? null : -5,
+                    right: SettingsController.appLanguge != "English" ? null : -5,
+                    left: SettingsController.appLanguge == "English" ? null : -5,
                     child: SettingsController.appLanguge != "English"
                         ? Transform(
                             alignment: Alignment.center,
@@ -495,24 +456,23 @@ class DrugsDatabaseView extends GetView<DrugsController> {
 
   Widget searchTextField(DrugsController controller) {
     return Padding(
-      padding: const EdgeInsets.only(top: 25),
+      padding: const EdgeInsets.only(top: 5),
       child: TextField(
         controller: controller.searchController,
         onChanged: (s) async {
-          if (s.isEmpty) {
-            controller.search(s);
-            controller.pageController.itemList.clear();
-            controller.drugData(
-              controller.pageController.firstPageKey,
-            );
-          }
+          controller.search(s);
+          controller.pageController.refresh();
+          controller.pageController.itemList!.clear();
+
+          // controller.getUpdatedDrugData(controller.pageController.firstPageKey);
+          controller.updatedDrugData(controller.pageController.firstPageKey);
         },
         onSubmitted: (v) async {
           controller.search(v);
-          controller.pageController.itemList.clear();
-          controller.drugData(
-            controller.pageController.firstPageKey,
-          );
+          controller.pageController.refresh();
+          controller.pageController.itemList!.clear();
+          // controller.getUpdatedDrugData(controller.pageController.firstPageKey);
+          controller.updatedDrugData(controller.pageController.firstPageKey);
         },
         style: AppTextStyle.mediumPrimary11,
         cursorColor: AppColors.primary,

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
@@ -28,7 +29,6 @@ import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../data/models/labs_model.dart';
-import 'dart:math' as math;
 
 enum FetechingGPSDataStatus {
   loading,
@@ -39,17 +39,17 @@ enum FetechingGPSDataStatus {
 
 class DrugStoreController extends TabHomeOthersController {
   TextEditingController search = TextEditingController();
-  @override
-  var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
+
+  PagingController<int, DrugStore> pagingController = PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   var pharmacyId = "".obs;
-  var permissionStatus = Rx<PermissionStatus>(null);
+  var permissionStatus = Rxn<PermissionStatus>();
 
-  var cRating = 0.0.obs;
-  var sRating = 0.0.obs;
-  var eRating = 0.0.obs;
+  var cRating = 5.0.obs;
+  var sRating = 5.0.obs;
+  var eRating = 5.0.obs;
   TextEditingController comment = TextEditingController();
 
   @override
@@ -59,7 +59,7 @@ class DrugStoreController extends TabHomeOthersController {
     print('===onInit===');
     // loadData(pageController.firstPageKey);
 
-    pageController.addPageRequestListener((pageKey) {
+    pagingController.addPageRequestListener((pageKey) {
       print('===LISTNER===');
       loadData(pageKey);
     });
@@ -69,7 +69,6 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> ${selectedSort}");
     filterList = [
       'promoted'.tr,
       "best_rating".tr,
@@ -139,8 +138,7 @@ class DrugStoreController extends TabHomeOthersController {
                   Text(
                     "filter_dialog_description".tr,
                     textAlign: TextAlign.center,
-                    style: AppTextStyle.boldBlack13
-                        .copyWith(fontWeight: FontWeight.w400),
+                    style: AppTextStyle.boldBlack13.copyWith(fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 15),
                   Column(
@@ -159,9 +157,7 @@ class DrugStoreController extends TabHomeOthersController {
                         child: Container(
                           width: Get.width * 0.4,
                           decoration: BoxDecoration(
-                            color: selectedSort == l
-                                ? AppColors.secondary
-                                : AppColors.primary,
+                            color: selectedSort == l ? AppColors.secondary : AppColors.primary,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
@@ -235,15 +231,12 @@ class DrugStoreController extends TabHomeOthersController {
           }
         case PermissionStatus.permanentlyDenied:
           {
-            AppGetDialog.show(
-                middleText:
-                    "you_have_to_allow_location_permission_in_settings".tr,
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => openAppSettings(),
-                    child: Text("open_settings".tr),
-                  ),
-                ]);
+            AppGetDialog.show(middleText: "you_have_to_allow_location_permission_in_settings".tr, actions: <Widget>[
+              TextButton(
+                onPressed: () => openAppSettings(),
+                child: Text("open_settings".tr),
+              ),
+            ]);
             break;
           }
         case PermissionStatus.provisional:
@@ -251,14 +244,13 @@ class DrugStoreController extends TabHomeOthersController {
           break;
       }
     } catch (e) {
-      AppGetDialog.show(
-          middleText:
-              e.toString() ?? "Failed to request location permission :-(");
+      AppGetDialog.show(middleText: e.toString() ?? "Failed to request location permission :-(");
     }
   }
 
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>();
+
   void changeSort(String v) {
     // if (i == selectedSort) {
     //   // Get.back();
@@ -331,10 +323,10 @@ class DrugStoreController extends TabHomeOthersController {
   void _refreshPage() {
     cancelToken.cancel();
     cancelToken = CancelToken();
-    pageController.refresh();
+    pagingController.refresh();
 
     // pageController.itemList.clear();
-    loadData(pageController.firstPageKey);
+    loadData(pagingController.firstPageKey);
   }
 
   Future<void> _getDeviceLocation() async {
@@ -344,8 +336,7 @@ class DrugStoreController extends TabHomeOthersController {
       Location location = new Location();
       bool _serviceEnabled = await location.serviceEnabled();
       print("serv-enabled $_serviceEnabled");
-      var locationData =
-          await location.getLocation().timeout(Duration(seconds: 10));
+      var locationData = await location.getLocation().timeout(Duration(seconds: 10));
       print("loc" + locationData.toString());
 
       // AuthController.to.setLastUserLocation(
@@ -364,8 +355,8 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void addDocFeedback({
-    String pharmacyId,
-    BuildContext context,
+    String? pharmacyId,
+    BuildContext? context,
   }) async {
     try {
       var data = {
@@ -376,27 +367,22 @@ class DrugStoreController extends TabHomeOthersController {
         "pharmacyId": pharmacyId
       };
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postPharmacyFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postPharmacyFeedback}")
           .then((value) {
         Get.back();
-        getDocFeedback(pharmacyId: pharmacyId);
+        getDocFeedback(pharmacyId: pharmacyId!);
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        log("value--------------> ${value}");
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -408,18 +394,17 @@ class DrugStoreController extends TabHomeOthersController {
 
   var feedbackData = <PharmacyFeedback>[];
   var loading = false.obs;
+
   void getDocFeedback({
-    String pharmacyId,
+    String? pharmacyId,
   }) async {
     loading.value = true;
     try {
       var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
+          .getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getPharmacyFeedback}${pharmacyId}')
           .then((value) {
         feedbackData.clear();
-        log("value--------------> ${value.data}");
+
         if (value.data['data'] != null) {
           value.data['data'].forEach((element) {
             feedbackData.add(PharmacyFeedback.fromJson(element));
@@ -428,7 +413,6 @@ class DrugStoreController extends TabHomeOthersController {
           feedbackData = [];
         }
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });
@@ -438,11 +422,11 @@ class DrugStoreController extends TabHomeOthersController {
       if (!cancelToken.isCancelled)
         // throw e;
         print(e);
-      log("e--------------> ${e}");
     }
   }
 
   var light1 = true.obs;
+
   // List<String> filterList = [
   //   'most_rated'.tr,
   //   'suggested'.tr,
@@ -471,40 +455,34 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   bool is24HourSelected = false;
+
   void show24HoursData() {
     if (is24HourSelected == true) {
       List<DrugStore> hoursList = [];
-      pageController.itemList.forEach((element) {
-        if (element.the24Hours.contains(DateTime.now().weekday)) {
+      pagingController.itemList?.forEach((element) {
+        if (element.the24Hours!.contains(DateTime.now().weekday)) {
           hoursList.add(element);
         }
       });
-      pageController.itemList.clear();
+      pagingController.itemList!.clear();
 
       update();
-      pageController.appendLastPage(hoursList);
+      pagingController.appendLastPage(hoursList);
     } else {
-      pageController.itemList.clear();
+      pagingController.itemList!.clear();
 
-      loadData(pageController.firstPageKey);
+      loadData(pagingController.firstPageKey);
       update();
     }
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository()
-        .getDrugDetails(id: id, cancelToken: cancelToken)
-        .then((value) {
-      log("value--------------> $value");
-    });
+    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {});
   }
 
   void searchData(int page) {
-    DrugStoreRepository()
-        .searchDrugStores(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
-      log("data.data[data]--------------> ${data.data["data"]}");
 
       if (data != null) {
         if (data == null) {
@@ -520,10 +498,10 @@ class DrugStoreController extends TabHomeOthersController {
         // if (newItems == null || newItems.length == 0) {
         //   pageController.appendLastPage(newItems);
         // } else {
-        pageController.appendPage(newItems, page + 1);
+        pageController?.appendPage(newItems, page + 1);
         locationData.clear();
         locationTitle.clear();
-        pageController.itemList.forEach((element) {
+        pageController?.itemList?.forEach((element) {
           if (element.geometry.coordinates != null) {
             locationData.add(element.geometry);
             locationTitle.add(element.name);
@@ -533,7 +511,7 @@ class DrugStoreController extends TabHomeOthersController {
       } else {}
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pageController?.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -545,71 +523,63 @@ class DrugStoreController extends TabHomeOthersController {
         .fetchDrugStores(
       page: page,
       sort: sort,
-      the24Hours: the24HourState,
       cancelToken: cancelToken,
       lat: latLang()?.latitude,
       lon: latLang()?.longitude,
       filterName: selectedSort,
-      limitPerPage: 50,
+      limitPerPage: 10,
     )
         .then((data) {
-      //TODO handle all in model
-      print('------->>>>$sort');
-      if (data != null) {
-        if (data == null) {
-          data.data["data"] = [];
-        }
+      debugPrint('Sort Pharmacy ::::::::::::::::: $sort');
 
-        var newItems = <DrugStore>[];
-        var promotedItems = <DrugStore>[];
+      var newItems = <DrugStore>[];
+      var promotedItems = <DrugStore>[];
 
-        if (selectedSort == 'promoted'.tr) {
-          data.data["data"].forEach((item) {
-            if (item['active'] == true) {
-              promotedItems.add(DrugStore.fromJson(item));
-            } else {
-              newItems.add(DrugStore.fromJson(item));
-            }
-          });
+      // if (selectedSort == 'promoted'.tr) {
+      //   data.data["data"].forEach((item) {
+      //     if (item['active'] == true) {
+      //       promotedItems.add(DrugStore.fromJson(item));
+      //     } else {
+      //       newItems.add(DrugStore.fromJson(item));
+      //     }
+      //   });
+      //
+      //   newItems.forEach((element) {
+      //     promotedItems.add(element);
+      //   });
+      // } else {
+      data.data["data"].forEach((item) {
+        promotedItems.add(DrugStore.fromJson(item));
+      });
+      // }
 
-          newItems.forEach((element) {
-            promotedItems.add(element);
-          });
-        } else {
-          data.data["data"].forEach((item) {
-            promotedItems.add(DrugStore.fromJson(item));
-          });
-        }
+      // var newItems = DrugStoresModel.fromJson(data.data).data;
 
-        // var newItems = DrugStoresModel.fromJson(data.data).data;
-
-        print('==newItems===>${promotedItems.length}');
-        if (promotedItems == null || promotedItems.length == 0) {
-          pageController.appendLastPage(promotedItems);
-          locationData.clear();
-          locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
-            }
-          });
-        } else {
-          pageController.appendPage(promotedItems, page + 1);
-          locationData.clear();
-          locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
-            }
-          });
-          log("locationData--------------> ${locationData}");
-        }
-      } else {}
+      print('==newItems===>${promotedItems.length}');
+      if (promotedItems == null || promotedItems.length == 0) {
+        pagingController.appendLastPage(promotedItems);
+        locationData.clear();
+        locationTitle.clear();
+        pagingController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
+          }
+        });
+      } else {
+        pagingController.appendPage(promotedItems, page + 1);
+        locationData.clear();
+        locationTitle.clear();
+        pagingController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
+          }
+        });
+      }
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pagingController.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -618,17 +588,14 @@ class DrugStoreController extends TabHomeOthersController {
 
   var serviceList = <Services>[].obs;
   var productList = <ProductData>[].obs;
+
   void serviceData(String id) {
-    DrugStoreRepository()
-        .fetchPharmacyService(id: id, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().fetchPharmacyService(id: id, cancelToken: cancelToken).then((data) {
       serviceList.clear();
       update();
-      PharmacyServicesResModel resModel =
-          PharmacyServicesResModel.fromJson(data.data);
-      if (resModel.data.isNotEmpty) {
-        serviceList.addAll(resModel.data);
-        log("serviceList--------------> ${serviceList.length}");
+      PharmacyServicesResModel resModel = PharmacyServicesResModel.fromJson(data.data);
+      if (resModel.data?.isNotEmpty ?? true) {
+        serviceList.addAll(resModel.data!);
 
         update();
       } else {
@@ -636,11 +603,9 @@ class DrugStoreController extends TabHomeOthersController {
         update();
       }
       //TODO handle all in model
-
-      log("data---data-----data------> ${data}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pagingController.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -648,16 +613,12 @@ class DrugStoreController extends TabHomeOthersController {
   }
 
   void productData(String id) {
-    DrugStoreRepository()
-        .fetchPharmacyProduct(id: id, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().fetchPharmacyProduct(id: id, cancelToken: cancelToken).then((data) {
       productList.clear();
       update();
-      PharmacyProductResModel resModel =
-          PharmacyProductResModel.fromJson(data.data);
-      if (resModel.data.isNotEmpty) {
-        productList.addAll(resModel.data);
-        log("serviceList--------------> ${productList.length}");
+      PharmacyProductResModel resModel = PharmacyProductResModel.fromJson(data.data);
+      if (resModel.data?.isNotEmpty ?? true) {
+        productList.addAll(resModel.data!);
 
         update();
       } else {
@@ -665,11 +626,9 @@ class DrugStoreController extends TabHomeOthersController {
         update();
       }
       //TODO handle all in model
-
-      log("data---data-----data------> ${data}");
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
-        pageController.error = e;
+        pagingController.error = e;
       }
       log(e.toString());
       FirebaseCrashlytics.instance.recordError(e, s);
@@ -678,42 +637,39 @@ class DrugStoreController extends TabHomeOthersController {
 
   List<Ad> adList = [];
   var adIndex = 0;
+
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }
 }
 
-class DrugStoreLabController extends TabHomeOthersController {
+class DrugStoreLabController extends GetxController {
   TextEditingController search = TextEditingController();
-  @override
   var pageController = PagingController<int, DrugStore>(firstPageKey: 1);
   var tabIndex = 0.obs;
   List<Geometry> locationData = [];
   List<String> locationTitle = [];
   var pharmacyId = "".obs;
 
-  var cRating = 0.0.obs;
-  var sRating = 0.0.obs;
-  var eRating = 0.0.obs;
+  var cRating = 5.0.obs;
+  var sRating = 5.0.obs;
+  var eRating = 5.0.obs;
   TextEditingController comment = TextEditingController();
+  CancelToken cancelToken = CancelToken();
 
   @override
   void onInit() {
@@ -730,8 +686,8 @@ class DrugStoreLabController extends TabHomeOthersController {
   }
 
   void addDocFeedback({
-    String labId,
-    BuildContext context,
+    String? labId,
+    BuildContext? context,
   }) async {
     try {
       var data = {
@@ -742,31 +698,25 @@ class DrugStoreLabController extends TabHomeOthersController {
         "expertiseRating": eRating.toString(),
         "labId": labId
       };
-      log("data--------------> ${data}");
 
       var _response = await DoctorsRepository()
-          .postDoctorFeedback(
-              cancelToken: cancelToken,
-              body: data,
-              url: "${ApiConsts.postLabFeedback}")
+          .postDoctorFeedback(cancelToken: cancelToken, body: data, url: "${ApiConsts.postLabFeedback}")
           .then((value) {
         Get.back();
-        getDocFeedback(labId: labId);
+        getDocFeedback(labId: labId!);
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
-        log("value--------------> ${value}");
-        Utils.commonSnackbar(context: context, text: "review_successfully".tr);
+
+        Utils.commonSnackbar(context: context!, text: "review_successfully".tr);
       }).catchError((e, s) {
         comment.clear();
         cRating.value = 0.0;
         eRating.value = 0.0;
         sRating.value = 0.0;
         Get.back();
-        Utils.commonSnackbar(
-            context: context, text: "${e.response.data['msg']}");
-        log("e------asd--------> ${e.response.data['msg']}");
+        Utils.commonSnackbar(context: context!, text: "${e.response.data['msg']}");
       });
     } on DioError catch (e) {
       await Future.delayed(Duration(seconds: 2), () {});
@@ -778,18 +728,16 @@ class DrugStoreLabController extends TabHomeOthersController {
 
   var feedbackData = <LabsFeedback>[];
   var loading = false.obs;
+
   void getDocFeedback({
-    String labId,
+    String? labId,
   }) async {
     loading.value = true;
     try {
-      var _response = await DoctorsRepository()
-          .getDoctorFeedback(
-              cancelToken: cancelToken,
-              url: '${ApiConsts.getLabFeedback}${labId}')
-          .then((value) {
+      var _response =
+          await DoctorsRepository().getDoctorFeedback(cancelToken: cancelToken, url: '${ApiConsts.getLabFeedback}${labId}').then((value) {
         feedbackData.clear();
-        log("value--------------> ${value.data}");
+
         if (value.data['data'] != null) {
           value.data['data'].forEach((element) {
             feedbackData.add(LabsFeedback.fromJson(element));
@@ -798,7 +746,6 @@ class DrugStoreLabController extends TabHomeOthersController {
           feedbackData = [];
         }
         loading.value = false;
-        log("feedbackData--------------> ${feedbackData}");
 
         // Utils.commonSnackbar(context: context, text: "review_successfully".tr);
       });
@@ -808,166 +755,12 @@ class DrugStoreLabController extends TabHomeOthersController {
       if (!cancelToken.isCancelled)
         // throw e;
         print(e);
-      log("e--------------> ${e}");
     }
   }
 
   var light1 = true.obs;
   String sort = "";
   String selectedSort = "";
-
-  // void _handlePermission() async {
-  //   try {
-  //     var p = await Permission.location.request();
-  //
-  //     switch (p) {
-  //       case PermissionStatus.denied:
-  //         {
-  //           AppGetDialog.show(middleText: "you_denied_request".tr);
-  //           break;
-  //         }
-  //       case PermissionStatus.granted:
-  //         {
-  //           _getDeviceLocation();
-  //           break;
-  //         }
-  //       case PermissionStatus.restricted:
-  //         {
-  //           //TODO urgent must be tested in iphone
-  //           // _getDeviceLocation();
-  //           break;
-  //         }
-  //       case PermissionStatus.limited:
-  //         {
-  //           //TODO urgent must be tested in iphone
-  //
-  //           break;
-  //         }
-  //       case PermissionStatus.permanentlyDenied:
-  //         {
-  //           AppGetDialog.show(
-  //               middleText:
-  //                   "you_have_to_allow_location_permission_in_settings".tr,
-  //               actions: <Widget>[
-  //                 TextButton(
-  //                   onPressed: () => openAppSettings(),
-  //                   child: Text("open_settings".tr),
-  //                 ),
-  //               ]);
-  //           break;
-  //         }
-  //       case PermissionStatus.provisional:
-  //         // TODO: Handle this case.
-  //         break;
-  //     }
-  //   } catch (e) {
-  //     AppGetDialog.show(
-  //         middleText:
-  //             e.toString() ?? "Failed to request location permission :-(");
-  //   }
-  // }
-  //
-  // var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  // var latLang = Rx<LocationData>(null);
-  // void changeSort(String v) {
-  //   // if (i == selectedSort) {
-  //   //   // Get.back();
-  //   //   return;
-  //   // }
-  //
-  //   print('---->>>selectedSort>>>>>$selectedSort');
-  //   selectedSort = v;
-  //   //  ['most_rated'.tr, 'suggested'.tr, 'nearest'.tr, 'A-Z'];
-  //   if (v == 'most_rated'.tr) {
-  //     sort = "stars";
-  //     _refreshPage();
-  //   } else if (v == 'suggested'.tr) {
-  //     sort = "";
-  //     _refreshPage();
-  //   } else if (v == 'nearest'.tr) {
-  //     sort = "close";
-  //     if (latLang.value == null)
-  //       _handlePermission();
-  //     else {
-  //       _refreshPage();
-  //     }
-  //   } else if (v == 'A-Z') {
-  //     sort = "name";
-  //     _refreshPage();
-  //   } else {
-  //     sort = "";
-  //     _refreshPage();
-  //   }
-  //   // switch (v) {
-  //   //   case 'most_rated'.tr:
-  //   //     {
-  //   //       sort = "stars";
-  //   //       _refreshPage();
-  //   //       break;
-  //   //     }
-  //   //   case 1:
-  //   //     {
-  //   //       sort = "";
-  //   //       _refreshPage();
-  //   //       break;
-  //   //     }
-  //   //   case 2:
-  //   //     {
-  //   //       sort = "close";
-  //   //       if (latLang.value == null)
-  //   //         _handlePermission();
-  //   //       else {
-  //   //         _refreshPage();
-  //   //       }
-  //   //       break;
-  //   //     }
-  //   //   case 3:
-  //   //     {
-  //   //       sort = "name";
-  //   //       _refreshPage();
-  //   //       break;
-  //   //     }
-  //   //   default:
-  //   //     {
-  //   //       sort = "";
-  //   //       _refreshPage();
-  //   //     }
-  //   // }
-  // }
-  //
-  // void _refreshPage() {
-  //   cancelToken.cancel();
-  //   cancelToken = CancelToken();
-  //   // Utils.resetPagingController(pagingController);
-  //   pageController.refresh();
-  //   loadData(1);
-  // }
-  //
-  // Future<void> _getDeviceLocation() async {
-  //   fetechingGPSDataStatus(FetechingGPSDataStatus.loading);
-  //   EasyLoading.show(status: "getting_location_from_device".tr);
-  //   try {
-  //     Location location = new Location();
-  //     bool _serviceEnabled = await location.serviceEnabled();
-  //     print("serv-enabled $_serviceEnabled");
-  //     var locationData =
-  //         await location.getLocation().timeout(Duration(seconds: 10));
-  //     print("loc" + locationData.toString());
-  //
-  //     // AuthController.to.setLastUserLocation(
-  //     latLang.value = locationData;
-  //     // Utils.whereShouldIGo();
-  //     fetechingGPSDataStatus(FetechingGPSDataStatus.success);
-  //     EasyLoading.dismiss();
-  //     _refreshPage();
-  //   } catch (e) {
-  //     EasyLoading.dismiss();
-  //
-  //     fetechingGPSDataStatus(FetechingGPSDataStatus.failed);
-  //
-  //     AppGetDialog.show(middleText: "failed_to_get_location_data".tr);
-  //   }
-  // }
 
   @override
   void onReady() {
@@ -980,20 +773,21 @@ class DrugStoreLabController extends TabHomeOthersController {
   }
 
   bool is24HourSelected = false;
+
   void show24HoursData() {
     if (is24HourSelected == true) {
       List<DrugStore> hoursList = [];
-      pageController.itemList.forEach((element) {
-        if (element.the24Hours.contains(DateTime.now().weekday)) {
+      pageController.itemList?.forEach((element) {
+        if (element.the24Hours!.contains(DateTime.now().weekday)) {
           hoursList.add(element);
         }
       });
-      pageController.itemList.clear();
+      pageController.itemList?.clear();
 
       update();
       pageController.appendLastPage(hoursList);
     } else {
-      pageController.itemList.clear();
+      pageController.itemList?.clear();
 
       loadData(pageController.firstPageKey);
       update();
@@ -1001,19 +795,12 @@ class DrugStoreLabController extends TabHomeOthersController {
   }
 
   void getDrugDetails(String id) {
-    DrugStoreRepository()
-        .getDrugDetails(id: id, cancelToken: cancelToken)
-        .then((value) {
-      log("value--------------> ${value}");
-    });
+    DrugStoreRepository().getDrugDetails(id: id, cancelToken: cancelToken).then((value) {});
   }
 
   void searchData(int page) {
-    DrugStoreRepository()
-        .searchDrugStores(name: search.text, cancelToken: cancelToken)
-        .then((data) {
+    DrugStoreRepository().searchDrugStores(name: search.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
-      log("data.data[data]--------------> ${data.data["data"]}");
 
       if (data != null) {
         if (data == null) {
@@ -1032,10 +819,10 @@ class DrugStoreLabController extends TabHomeOthersController {
         pageController.appendPage(newItems, page + 1);
         locationData.clear();
         locationTitle.clear();
-        pageController.itemList.forEach((element) {
-          if (element.geometry.coordinates != null) {
-            locationData.add(element.geometry);
-            locationTitle.add(element.name);
+        pageController.itemList?.forEach((element) {
+          if (element.geometry?.coordinates != null) {
+            locationData.add(element.geometry!);
+            locationTitle.add(element.name!);
           }
         });
         // }
@@ -1051,13 +838,7 @@ class DrugStoreLabController extends TabHomeOthersController {
 
   void loadData(int page) {
     DrugStoreRepository()
-        .fetchDrugStores(
-            page: page,
-            sort: sort,
-            the24Hours: the24HourState,
-            cancelToken: cancelToken,
-            filterName: selectedSort,
-            limitPerPage: 50)
+        .fetchDrugStores(page: page, sort: sort, cancelToken: cancelToken, filterName: selectedSort, limitPerPage: 10)
         .then((data) {
       //TODO handle all in model
 
@@ -1076,23 +857,22 @@ class DrugStoreLabController extends TabHomeOthersController {
           pageController.appendLastPage(newItems);
           locationData.clear();
           locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
+          pageController.itemList?.forEach((element) {
+            if (element.geometry?.coordinates != null) {
+              locationData.add(element.geometry!);
+              locationTitle.add(element.name!);
             }
           });
         } else {
           pageController.appendPage(newItems, page + 1);
           locationData.clear();
           locationTitle.clear();
-          pageController.itemList.forEach((element) {
-            if (element.geometry.coordinates != null) {
-              locationData.add(element.geometry);
-              locationTitle.add(element.name);
+          pageController.itemList?.forEach((element) {
+            if (element.geometry?.coordinates != null) {
+              locationData.add(element.geometry!);
+              locationTitle.add(element.name!);
             }
           });
-          log("locationData--------------> ${locationData}");
         }
       } else {}
     }).catchError((e, s) {
@@ -1106,24 +886,21 @@ class DrugStoreLabController extends TabHomeOthersController {
 
   List<Ad> adList = [];
   var adIndex = 0;
+
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

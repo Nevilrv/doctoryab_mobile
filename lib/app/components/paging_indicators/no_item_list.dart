@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PagingNoItemFountList extends StatelessWidget {
-  final String title, subTitle;
+  final String? title, subTitle;
   const PagingNoItemFountList({
-    Key key,
+    Key? key,
     this.subTitle,
     this.title,
   }) : super(key: key);

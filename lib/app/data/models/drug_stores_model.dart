@@ -13,8 +13,8 @@ String drugStoresModelToJson(DrugStoresModel data) =>
     json.encode(data.toJson());
 
 class DrugStoresModel {
-  List<DrugStore> data;
-  int count;
+  List<DrugStore>? data;
+  int? count;
 
   DrugStoresModel({
     this.data,
@@ -29,35 +29,35 @@ class DrugStoresModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
       };
 }
 
 class DrugStore {
-  String id;
-  Geometry geometry;
-  String photo;
-  bool isDeleted;
-  List<String> phone;
-  List<List<String>> times;
-  List<int> the24Hours;
-  String name;
-  String city;
-  String address;
-  String createAt;
-  int v;
-  String cleaningRating;
-  String expertiseRating;
-  List<Feedback> feedbacks;
-  String satifyRating;
+  String? id;
+  Geometry? geometry;
+  String? photo;
+  bool? isDeleted;
+  List<String>? phone;
+  List<List<String>>? times;
+  List<int>? the24Hours;
+  String? name;
+  String? city;
+  String? address;
+  String? createAt;
+  int? v;
+  String? cleaningRating;
+  String? expertiseRating;
+  List<Feedback>? feedbacks;
+  String? satifyRating;
   dynamic totalFeedbacks;
-  double averageRatings;
-  List<CheckUp> checkUp;
-  String email;
-  String password;
-  List<dynamic> schedule;
-  bool active;
+  double? averageRatings;
+  List<CheckUp>? checkUp;
+  String? email;
+  String? password;
+  List<dynamic>? schedule;
+  bool? active;
 
   DrugStore({
     this.id,
@@ -122,13 +122,13 @@ class DrugStore {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "geometry": geometry.toJson(),
+        "geometry": geometry!.toJson(),
         "photo": photo,
         "is_deleted": isDeleted,
-        "phone": List<dynamic>.from(phone.map((x) => x)),
+        "phone": List<dynamic>.from(phone!.map((x) => x)),
         "times": List<dynamic>.from(
-            times.map((x) => List<dynamic>.from(x.map((x) => x)))),
-        "_24Hours": List<dynamic>.from(the24Hours.map((x) => x)),
+            times!.map((x) => List<dynamic>.from(x.map((x) => x)))),
+        "_24Hours": List<dynamic>.from(the24Hours!.map((x) => x)),
         "name": name,
         "city": city,
         "address": address,
@@ -138,28 +138,28 @@ class DrugStore {
         "expertiseRating": expertiseRating,
         "feedbacks": feedbacks == null
             ? []
-            : List<dynamic>.from(feedbacks.map((x) => x.toJson())),
+            : List<dynamic>.from(feedbacks!.map((x) => x.toJson())),
         "satifyRating": satifyRating,
         "totalFeedbacks": totalFeedbacks,
         "averageRatings": averageRatings,
         "checkUp": checkUp == null
             ? []
-            : List<dynamic>.from(checkUp.map((x) => x.toJson())),
+            : List<dynamic>.from(checkUp!.map((x) => x.toJson())),
         "email": email,
         "password": password,
         "active": active == null ? false : active,
         "schedule":
-            schedule == null ? [] : List<dynamic>.from(schedule.map((x) => x)),
+            schedule == null ? [] : List<dynamic>.from(schedule!.map((x) => x)),
       };
 }
 
 class CheckUp {
-  bool isBrief;
-  int price;
-  String id;
-  String title;
-  String content;
-  String img;
+  bool? isBrief;
+  int? price;
+  String? id;
+  String? title;
+  String? content;
+  String? img;
 
   CheckUp({
     this.isBrief,
@@ -190,16 +190,16 @@ class CheckUp {
 }
 
 class Feedback {
-  String comment;
-  String whoPosted;
-  String postedBy;
-  String photo;
-  String createAt;
-  String commentId;
-  int cleaningRating;
-  int satifyRating;
-  int expertiseRating;
-  String pharmacyId;
+  String? comment;
+  String? whoPosted;
+  String? postedBy;
+  String? photo;
+  String? createAt;
+  String? commentId;
+  int? cleaningRating;
+  int? satifyRating;
+  int? expertiseRating;
+  String? pharmacyId;
 
   Feedback({
     this.comment,

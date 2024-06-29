@@ -19,6 +19,7 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: RefreshIndicator(
           onRefresh: () => Future.sync(
@@ -27,15 +28,13 @@ class TabHomeDoctorsView extends GetView<TabTabHomeController> {
                 controller.cancelToken.cancel();
               });
               controller.cancelToken = new CancelToken();
-              controller.pagingController.itemList.clear();
-              controller.fetchCategories(
-                controller.pagingController.firstPageKey,
-              );
+              controller.pagingController.itemList?.clear();
+              controller.fetchCategories(controller.pagingController.firstPageKey);
             },
           ),
           child: PagedGridView(
             pagingController: controller.pagingController,
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+            padding: EdgeInsets.only(top: 8, bottom: 120, left: 20, right: 20),
             // shrinkWrap: true,
             physics: BouncingScrollPhysics(),
 

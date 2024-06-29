@@ -9,7 +9,7 @@ class SpecialAppBackground extends StatelessWidget {
   /// child is in stack so you can use positioned
   final Widget child;
 
-  const SpecialAppBackground({Key key, @required this.child})
+  const SpecialAppBackground({Key? key, required this.child})
       : assert(child != null),
         super(key: key);
   @override
@@ -50,7 +50,7 @@ class SpecialAppBackground extends StatelessWidget {
           child,
         ],
       ).onTap(() {
-        Get.focusScope.unfocus();
+        Get.focusScope?.unfocus();
       }),
     ));
   }

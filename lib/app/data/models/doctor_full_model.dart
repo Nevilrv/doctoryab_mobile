@@ -52,84 +52,84 @@ class DoctorFullModel {
     this.detail,
   });
 
-  final Geometry geometry;
-  final List<Award> exp;
-  final List<Edu> edu;
-  final List<Award> lang;
-  final List<Award> awards;
-  final String photo;
-  final num stars;
-  final num popularity;
-  final num treatment;
-  final num knowledge;
-  final num cleaning;
-  final num countOfPatient;
-  final bool isDeleted;
-  final num totalStar;
-  final bool confirmed;
-  final List<dynamic> comments;
-  final num doctor;
-  final List<String> tags;
-  final num type;
-  final bool isActive;
-  final String fee;
-  final String id;
-  final String email;
-  final String fullname;
-  final DateTime createAt;
-  final num v;
-  final String address;
-  final String category;
-  final String city;
-  final num day;
-  final num gender;
-  final String lname;
-  final num month;
-  final String name;
-  final String phone;
-  final String speciality;
-  final num year;
-  final String detail;
+  final Geometry? geometry;
+  final List<Award>? exp;
+  final List<Edu>? edu;
+  final List<Award>? lang;
+  final List<Award>? awards;
+  final String? photo;
+  final num? stars;
+  final num? popularity;
+  final num? treatment;
+  final num? knowledge;
+  final num? cleaning;
+  final num? countOfPatient;
+  final bool? isDeleted;
+  final num? totalStar;
+  final bool? confirmed;
+  final List<dynamic>? comments;
+  final num? doctor;
+  final List<String>? tags;
+  final num? type;
+  final bool? isActive;
+  final String? fee;
+  final String? id;
+  final String? email;
+  final String? fullname;
+  final DateTime? createAt;
+  final num? v;
+  final String? address;
+  final String? category;
+  final String? city;
+  final num? day;
+  final num? gender;
+  final String? lname;
+  final num? month;
+  final String? name;
+  final String? phone;
+  final String? speciality;
+  final num? year;
+  final String? detail;
 
   DoctorFullModel copyWith({
-    Geometry geometry,
-    List<Award> exp,
-    List<Edu> edu,
-    List<Award> lang,
-    List<Award> awards,
-    String photo,
-    num stars,
-    num popularity,
-    num treatment,
-    num knowledge,
-    num cleaning,
-    num countOfPatient,
-    bool isDeleted,
-    num totalStar,
-    bool confirmed,
-    List<dynamic> comments,
-    num doctor,
-    List<String> tags,
-    num type,
-    bool isActive,
-    String fee,
-    String id,
-    String email,
-    String fullname,
-    DateTime createAt,
-    num v,
-    String address,
-    String category,
-    String city,
-    num day,
-    num gender,
-    String lname,
-    num month,
-    String name,
-    String phone,
-    String speciality,
-    num year,
-    String detail,
+    Geometry? geometry,
+    List<Award>? exp,
+    List<Edu>? edu,
+    List<Award>? lang,
+    List<Award>? awards,
+    String? photo,
+    num? stars,
+    num? popularity,
+    num? treatment,
+    num? knowledge,
+    num? cleaning,
+    num? countOfPatient,
+    bool? isDeleted,
+    num? totalStar,
+    bool? confirmed,
+    List<dynamic>? comments,
+    num? doctor,
+    List<String>? tags,
+    num? type,
+    bool? isActive,
+    String? fee,
+    String? id,
+    String? email,
+    String? fullname,
+    DateTime? createAt,
+    num? v,
+    String? address,
+    String? category,
+    String? city,
+    num? day,
+    num? gender,
+    String? lname,
+    num? month,
+    String? name,
+    String? phone,
+    String? speciality,
+    num? year,
+    String? detail,
   }) =>
       DoctorFullModel(
         geometry: geometry ?? this.geometry,
@@ -231,17 +231,19 @@ class DoctorFullModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "geometry": geometry == null ? null : geometry.toJson(),
-        "Exp":
-            exp == null ? null : List<dynamic>.from(exp.map((x) => x.toJson())),
-        "Edu":
-            edu == null ? null : List<dynamic>.from(edu.map((x) => x.toJson())),
+        "geometry": geometry == null ? null : geometry!.toJson(),
+        "Exp": exp == null
+            ? null
+            : List<dynamic>.from(exp!.map((x) => x.toJson())),
+        "Edu": edu == null
+            ? null
+            : List<dynamic>.from(edu!.map((x) => x.toJson())),
         "Lang": lang == null
             ? null
-            : List<dynamic>.from(lang.map((x) => x.toJson())),
+            : List<dynamic>.from(lang!.map((x) => x.toJson())),
         "Awards": awards == null
             ? null
-            : List<dynamic>.from(awards.map((x) => x.toJson())),
+            : List<dynamic>.from(awards!.map((x) => x.toJson())),
         "photo": photo == null ? null : photo,
         "stars": stars == null ? null : stars,
         "popularity": popularity == null ? null : popularity,
@@ -254,16 +256,16 @@ class DoctorFullModel {
         "confirmed": confirmed == null ? null : confirmed,
         "comments": comments == null
             ? null
-            : List<dynamic>.from(comments.map((x) => x)),
+            : List<dynamic>.from(comments!.map((x) => x)),
         "doctor": doctor == null ? null : doctor,
-        "tags": tags == null ? null : List<dynamic>.from(tags.map((x) => x)),
+        "tags": tags == null ? null : List<dynamic>.from(tags!.map((x) => x)),
         "type": type == null ? null : type,
         "is_active": isActive == null ? null : isActive,
         "fee": fee == null ? null : fee,
         "_id": id == null ? null : id,
         "email": email == null ? null : email,
         "fullname": fullname == null ? null : fullname,
-        "createAt": createAt == null ? null : createAt.toIso8601String(),
+        "createAt": createAt == null ? null : createAt!.toIso8601String(),
         "__v": v == null ? null : v,
         "address": address == null ? null : address,
         "category": category == null ? null : category,
@@ -290,20 +292,20 @@ class Award {
     this.level,
   });
 
-  final String id;
-  final String name;
-  final num year;
-  final String user;
-  final num v;
-  final num level;
+  final String? id;
+  final String? name;
+  final num? year;
+  final String? user;
+  final num? v;
+  final num? level;
 
   Award copyWith({
-    String id,
-    String name,
-    num year,
-    String user,
-    num v,
-    num level,
+    String? id,
+    String? name,
+    num? year,
+    String? user,
+    num? v,
+    num? level,
   }) =>
       Award(
         id: id ?? this.id,
@@ -343,20 +345,20 @@ class Edu {
     this.v,
   });
 
-  final String id;
-  final String name;
-  final String start;
-  final String end;
-  final String user;
-  final num v;
+  final String? id;
+  final String? name;
+  final String? start;
+  final String? end;
+  final String? user;
+  final num? v;
 
   Edu copyWith({
-    String id,
-    String name,
-    String start,
-    String end,
-    String user,
-    num v,
+    String? id,
+    String? name,
+    String? start,
+    String? end,
+    String? user,
+    num? v,
   }) =>
       Edu(
         id: id ?? this.id,
@@ -392,12 +394,12 @@ class Geometry {
     this.coordinates,
   });
 
-  final String type;
-  final List<double> coordinates;
+  final String? type;
+  final List<double>? coordinates;
 
   Geometry copyWith({
-    String type,
-    List<double> coordinates,
+    String? type,
+    List<double>? coordinates,
   }) =>
       Geometry(
         type: type ?? this.type,
@@ -415,6 +417,6 @@ class Geometry {
         "type": type == null ? null : type,
         "coordinates": coordinates == null
             ? null
-            : List<dynamic>.from(coordinates.map((x) => x)),
+            : List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

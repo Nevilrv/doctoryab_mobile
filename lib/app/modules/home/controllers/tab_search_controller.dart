@@ -12,7 +12,7 @@ import 'package:logger/logger.dart';
 class TabSearchController extends GetxController {
   //
   TextEditingController teSearchController = TextEditingController();
-  var filterName = RxString(null);
+  var filterName = RxnString(null);
 
   //Paging
   var pagingController = PagingController<int, Doctor>(firstPageKey: 1);
@@ -20,7 +20,6 @@ class TabSearchController extends GetxController {
 
   @override
   void onInit() {
-
     // _registerPagingListener();
     debounce(filterName, (_) {
       if (teSearchController.text.trim() != "") {
@@ -82,21 +81,19 @@ class TabSearchController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
+
+      log('v.data  ---------->>>>>>>> ${v.data}');
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

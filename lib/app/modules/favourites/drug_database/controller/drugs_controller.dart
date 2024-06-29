@@ -1,7 +1,8 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 
 import 'package:dio/dio.dart';
-import 'package:doctor_yab/app/data/models/drug_database_model.dart';
+import 'package:doctor_yab/app/data/models/drug_database_updated_model.dart';
 import 'package:doctor_yab/app/data/models/drug_feedback_res_model.dart';
 import 'package:doctor_yab/app/data/repository/DrugDatabaseRepository.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
@@ -12,20 +13,23 @@ import 'package:flutter_speech/flutter_speech.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'dart:io' show Platform;
 
 class DrugsController extends GetxController {
   String filterSearch = "";
   TextEditingController searchController = TextEditingController();
   TextEditingController searchSaveController = TextEditingController();
   TextEditingController comment = TextEditingController();
-  var pageController = PagingController<int, Datum>(firstPageKey: 1);
+
+  // var pageController = PagingController<int, Datum>(firstPageKey: 1);
+  var pageController = PagingController<int, UpdatedDrug>(firstPageKey: 1);
   CancelToken cancelToken = CancelToken();
+
   @override
   void onInit() {
     bannerAds();
     pageController.addPageRequestListener((pageKey) {
-      drugData(pageKey);
+      // drugData(pageKey);
+      updatedDrugData(pageKey);
     });
     activateSpeechRecognizer();
 
@@ -40,7 +44,7 @@ class DrugsController extends GetxController {
 
   @override
   void onClose() {
-    bannerAd.dispose();
+    bannerAd!.dispose();
     // TODO: implement onClose
     super.onClose();
   }
@@ -62,43 +66,87 @@ class DrugsController extends GetxController {
   ];
   List<dynamic> listAd = [];
 
-  void drugData(int page) {
-    DrugDatabaseRepository()
-        .fetchDrugs(page, searchController.text.trim(),
-            cancelToken: cancelToken)
-        .then((data) {
+  // void drugData(int page) {
+  //   DrugDatabaseRepository()
+  //       .fetchDrugs(page, searchController.text.trim(),
+  //           cancelToken: cancelToken)
+  //       .then((data) {
+  //     //TODO handle all in model
+  //
+  //     if (data != null) {
+  //       if (data == null) {
+  //         data.data["data"] = [];
+  //       }
+  //       print('==Datum=Drug==>${data.data}');
+  //
+  //       var newItems = <Datum>[];
+  //       var promotedItems = <Datum>[];
+  //       data.data["data"].forEach((item) {
+  //
+  //         if (item['active'] == true) {
+  //           promotedItems.add(Datum.fromJson(item));
+  //         } else {
+  //           newItems.add(Datum.fromJson(item));
+  //         }
+  //       });
+  //       // data.data["data"].forEach((item) {
+  //       //   newItems.add(Datum.fromJson(item));
+  //       // });
+  //       newItems.forEach((element) {
+  //         promotedItems.add(element);
+  //       });
+  //
+  //       // var newItems = DrugStoresModel.fromJson(data.data).data;
+  //       print('==Datum=Drug==>${promotedItems.length}======$page');
+  //       if (promotedItems == null || promotedItems.length == 0) {
+  //         pageController.appendLastPage(promotedItems);
+  //       } else {
+  //         pageController.appendPage(promotedItems, page + 1);
+  //       }
+  //     } else {}
+  //   }).catchError((e, s) {
+  //     if (!(e is DioError && CancelToken.isCancel(e))) {
+  //       pageController.error = e;
+  //     }
+  //     log(e.toString());
+  //     FirebaseCrashlytics.instance.recordError(e, s);
+  //   });
+  // }
+
+  void updatedDrugData(int page) {
+    DrugDatabaseRepository().updatedFetchDrugs(page, searchController.text, cancelToken: cancelToken).then((data) {
       //TODO handle all in model
 
-      if (data != null) {
-        if (data == null) {
-          data.data["data"] = [];
-        }
-        print('==Datum=Drug==>${data.data}');
+      log('-----data------${data.data}');
 
-        var newItems = <Datum>[];
-        var promotedItems = <Datum>[];
-        data.data["data"].forEach((item) {
-          log("item['active']----->${item['active']}");
-          if (item['active'] == true) {
-            promotedItems.add(Datum.fromJson(item));
-          } else {
-            newItems.add(Datum.fromJson(item));
-          }
-        });
-        // data.data["data"].forEach((item) {
-        //   newItems.add(Datum.fromJson(item));
-        // });
-        newItems.forEach((element) {
-          promotedItems.add(element);
-        });
-        // var newItems = DrugStoresModel.fromJson(data.data).data;
-        print('==Datum=Drug==>${promotedItems.length}======${page}');
-        if (promotedItems == null || promotedItems.length == 0) {
-          pageController.appendLastPage(promotedItems);
+      if (data == null) {
+        data.data["data"] = [];
+      }
+      log('==Datum=Drug==>${data.data}');
+
+      var newItems = <UpdatedDrug>[];
+      var promotedItems = <UpdatedDrug>[];
+      data.data["data"].forEach((item) {
+        if (item['active'] == true) {
+          promotedItems.add(UpdatedDrug.fromJson(item));
         } else {
-          pageController.appendPage(promotedItems, page + 1);
+          newItems.add(UpdatedDrug.fromJson(item));
         }
-      } else {}
+      });
+      // data.data["data"].forEach((item) {
+      //   newItems.add(Datum.fromJson(item));
+      // });
+      newItems.forEach((element) {
+        promotedItems.add(element);
+      });
+
+      // var newItems = DrugStoresModel.fromJson(data.data).data;
+      log('==Datum=Drug==>${promotedItems.length}======$page');
+      if (promotedItems == null || promotedItems.length == 0) {
+        pageController.appendLastPage(promotedItems);
+      } else {
+        pageController.appendPage(promotedItems, page + 1);
+      }
     }).catchError((e, s) {
       if (!(e is DioError && CancelToken.isCancel(e))) {
         pageController.error = e;
@@ -115,29 +163,28 @@ class DrugsController extends GetxController {
           ? SizedBox()
           : Container(
               height: Get.height * 0.154,
-              width: bannerAd.size.width.toDouble(),
+              width: bannerAd!.size.width.toDouble(),
               alignment: Alignment.center,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: AdWidget(ad: bannerAd),
+                child: AdWidget(ad: bannerAd!),
               ),
             ),
     );
   }
 
-  Datum argumentsData;
+  UpdatedDrug? argumentsData;
 
-  setData(Datum value) {
+  setData(UpdatedDrug value) {
     print('======>value===>${value}');
 
-    argumentsData = value ?? Datum();
+    argumentsData = value ?? UpdatedDrug();
 
-    print('======>argumentsData===>${argumentsData.toJson()}');
+    print('======>argumentsData===>${argumentsData!.toJson()}');
   }
 
-  BannerAd bannerAd;
+  BannerAd? bannerAd;
   bool isLoadAd = false;
 
   bannerAds() {
@@ -160,19 +207,18 @@ class DrugsController extends GetxController {
         ),
         request: AdRequest());
     update();
-    return bannerAd.load();
+    return bannerAd!.load();
   }
 
   List<DrugFeedback> drugFeedback = [];
   bool isLoading = false;
   bool isLoadingFeedback = false;
-  double ratings = 0.0;
-  void drugReview({String drugId}) {
+  double ratings = 5.0;
+
+  void drugReview({String? drugId}) {
     isLoading = true;
     update();
-    DrugDatabaseRepository()
-        .fetchDrugsReview(drugId: drugId, cancelToken: cancelToken)
-        .then((data) {
+    DrugDatabaseRepository().fetchDrugsReview(drugId: drugId, cancelToken: cancelToken).then((data) {
       drugFeedback.clear();
       if (data.data['data'] != null) {
         data.data['data'].forEach((element) {
@@ -181,8 +227,6 @@ class DrugsController extends GetxController {
       }
       isLoading = false;
       update();
-      log("data--------------> ${data.data}");
-      log("drugFeedback--------------> ${drugFeedback.length}");
     }).catchError((e, s) {
       isLoading = false;
       update();
@@ -192,24 +236,16 @@ class DrugsController extends GetxController {
     });
   }
 
-  void addDrugFeedback({String drugId, String rating}) {
+  void addDrugFeedback({String? drugId, String? rating}) {
     isLoadingFeedback = true;
     update();
     FocusManager.instance.primaryFocus?.unfocus();
-    DrugDatabaseRepository()
-        .addDrugsReview(
-            drugId: drugId,
-            comment: comment.text,
-            rating: rating,
-            cancelToken: cancelToken)
-        .then((data) {
+    DrugDatabaseRepository().addDrugsReview(drugId: drugId, comment: comment.text, rating: rating, cancelToken: cancelToken).then((data) {
       comment.clear();
       ratings = 0.0;
       isLoadingFeedback = false;
       update();
       drugReview(drugId: drugId);
-      log("data--------------> ${data.data}");
-      log("drugFeedback--------------> ${drugFeedback.length}");
     }).catchError((e, s) {
       isLoadingFeedback = false;
       update();
@@ -220,7 +256,7 @@ class DrugsController extends GetxController {
   }
 
   int selectedTest = 0;
-  SpeechRecognition speech;
+  SpeechRecognition? speech;
   bool speechRecognitionAvailable = false;
   bool isListening = false;
 
@@ -228,19 +264,19 @@ class DrugsController extends GetxController {
     isListening = false;
     // print('_MyAppState.activateSpeechRecognizer... ');
     speech = SpeechRecognition();
-    speech.setAvailabilityHandler(onSpeechAvailability);
-    speech.setRecognitionStartedHandler(onRecognitionStarted);
-    speech.setRecognitionResultHandler(onRecognitionResult);
-    speech.setRecognitionCompleteHandler(onRecognitionComplete);
-    speech.setErrorHandler(errorHandler);
-    speech.activate('en_US').then((res) {
+    speech?.setAvailabilityHandler(onSpeechAvailability);
+    speech?.setRecognitionStartedHandler(onRecognitionStarted);
+    speech?.setRecognitionResultHandler(onRecognitionResult);
+    speech?.setRecognitionCompleteHandler(onRecognitionComplete);
+    speech?.setErrorHandler(errorHandler);
+    speech?.activate('en_US').then((res) {
       speechRecognitionAvailable = res;
       update();
     });
   }
 
-  void start() => speech.activate('en_US').then((_) {
-        return speech.listen().then((result) {
+  void start() => speech?.activate('en_US').then((_) {
+        return speech?.listen().then((result) {
           // print('_MyAppState.start => result $result');
 
           isListening = result;
@@ -248,7 +284,7 @@ class DrugsController extends GetxController {
         });
       });
 
-  void stop() => speech.stop().then((_) {
+  void stop() => speech!.stop().then((_) {
         isListening = false;
         update();
       });

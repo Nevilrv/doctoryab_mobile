@@ -16,12 +16,12 @@ class Histories {
     this.data,
   });
 
-  bool success;
-  List<History> data;
+  bool? success;
+  List<History>? data;
 
   Histories copyWith({
-    bool success,
-    List<History> data,
+    bool? success,
+    List<History>? data,
   }) =>
       Histories(
         success: success ?? this.success,
@@ -39,7 +39,7 @@ class Histories {
         "success": success == null ? null : success,
         "data": data == null
             ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -58,39 +58,42 @@ class History {
     this.patientId,
     this.doctor,
     this.createAt,
+    this.status,
     this.v,
   });
 
-  String id;
-  bool visited;
-  num treatmentForDoc;
-  num knowledgeForDoc;
-  num cleaningForDoc;
-  num starsForDoc;
-  DateTime visitDate;
-  String name;
-  int age;
-  String phone;
-  String patientId;
-  List<Doctor> doctor;
-  String createAt;
-  int v;
+  String? id;
+  bool? visited;
+  num? treatmentForDoc;
+  num? knowledgeForDoc;
+  num? cleaningForDoc;
+  num? starsForDoc;
+  DateTime? visitDate;
+  String? name;
+  int? age;
+  String? phone;
+  String? patientId;
+  List<Doctor>? doctor;
+  String? createAt;
+  String? status;
+  int? v;
 
   History copyWith({
-    String id,
-    bool visited,
-    num treatmentForDoc,
-    num knowledgeForDoc,
-    num cleaningForDoc,
-    num starsForDoc,
-    DateTime visitDate,
-    String name,
-    int age,
-    String phone,
-    String patientId,
-    List<Doctor> doctor,
-    String createAt,
-    int v,
+    String? id,
+    bool? visited,
+    num? treatmentForDoc,
+    num? knowledgeForDoc,
+    num? cleaningForDoc,
+    num? starsForDoc,
+    DateTime? visitDate,
+    String? name,
+    int? age,
+    String? phone,
+    String? patientId,
+    List<Doctor>? doctor,
+    String? createAt,
+    String? status,
+    int? v,
   }) =>
       History(
         id: id ?? this.id,
@@ -106,6 +109,7 @@ class History {
         patientId: patientId ?? this.patientId,
         doctor: doctor ?? this.doctor,
         createAt: createAt ?? this.createAt,
+        status: status ?? this.status,
         v: v ?? this.v,
       );
 
@@ -130,6 +134,7 @@ class History {
             ? null
             : List<Doctor>.from(json["doctor"].map((x) => Doctor.fromJson(x))),
         createAt: json["createAt"] == null ? null : json["createAt"],
+        status: json["status"] == null ? null : json["status"],
         v: json["__v"] == null ? null : json["__v"],
       );
 
@@ -140,15 +145,16 @@ class History {
         "knowledgeForDoc": knowledgeForDoc == null ? null : knowledgeForDoc,
         "cleaningForDoc": cleaningForDoc == null ? null : cleaningForDoc,
         "starsForDoc": starsForDoc == null ? null : starsForDoc,
-        "visit_date": visitDate == null ? null : visitDate.toIso8601String(),
+        "visit_date": visitDate == null ? null : visitDate!.toIso8601String(),
         "name": name == null ? null : name,
         "age": age == null ? null : age,
         "phone": phone == null ? null : phone,
         "patientId": patientId == null ? null : patientId,
         "doctor": doctor == null
             ? null
-            : List<dynamic>.from(doctor.map((x) => x.toJson())),
+            : List<dynamic>.from(doctor!.map((x) => x.toJson())),
         "createAt": createAt == null ? null : createAt,
+        "status": status == null ? null : status,
         "__v": v == null ? null : v,
       };
 }

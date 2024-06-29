@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
 import 'package:dio/dio.dart';
@@ -25,75 +26,58 @@ class BlogRepository {
   //* Search doctors
   static Future<List<BlogCategory>> fetchCategories({
     // int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     // TODO move to some utils func
     // _searchCancelToken.cancel();
     // _searchCancelToken = CancelToken();
-    return await Utils.parseResponse<BlogCategory>(
+    List<BlogCategory> data = await Utils.parseResponse<BlogCategory>(
       () async {
-        // var doctorReports;
+// var doctorReports;
         return await _cachedDio.get(
-          // '/findBloodDonors/profile',
-          '/blogCategory/AllCategories',
+// '/findBloodDonors/profile',
+          ApiConsts.blogCategories,
           cancelToken: cancelToken,
           queryParameters: {
-            // "limit": limitPerPage,
-            // "page": page,
+            "limit": 50,
+            "page": 1,
           },
-
-          // cancelToken: _searchCancelToken,
+// cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
       },
       onError: onError,
-    );
+    ) as List<BlogCategory>;
+    return data;
   }
 
-  //* Search doctors
+  // * Search doctors
   static Future<List<Post>> fetchPostsByCategory(
     int page,
     BlogCategory blogCategory, {
     int limitPerPage = 10,
-    void onError(e),
-    CancelToken cancelToken,
+    required void onError(e),
+    CancelToken? cancelToken,
   }) async {
-    // TODO move to some utils func
-    // _searchCancelToken.cancel();
-    // _searchCancelToken = CancelToken();
     return await Utils.parseResponse<Post>(
       () async {
         // var doctorReports;
-        return await _cachedDio.get(
+        var res = await _cachedDio.get(
           // '/findBloodDonors/profile',
-          '/blogs/getBlogsByCategory/${blogCategory.category}',
+          '${ApiConsts.blogByCategories}${blogCategory.id}',
           cancelToken: cancelToken,
           queryParameters: {
             "limit": limitPerPage,
             "page": page,
           },
-          // data: {
-          //   "bloodGroup": b.bloodGroup,
-          //   "bloodUnits": b.bloodUnits,
-          //   "critical": true,
-          //   "condition": "",
-          //   "name": b.name,
-          //   "number": b.number,
-          //   "geometry": {
-          //     "type": "Point",
-          //     "coordinates": [
-          //       b.geometry.coordinates[0],
-          //       b.geometry.coordinates[1]
-          //     ]
-          //   }
-          // },
-          // cancelToken: _searchCancelToken,
           options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
         );
+
+        return res;
       },
       onError: onError,
-    );
+    ) as List<Post>;
   }
 
   // static Future<BlogLikeResModel> blogLike({
@@ -116,15 +100,15 @@ class BlogRepository {
   //   );
   // }
   static Future<BlogLikeResModel> blogLike(
-      {String postId, String userId, CancelToken cancelToken}) async {
+      {String? postId, String? userId, CancelToken? cancelToken}) async {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
-    log("data--------------> $data");
+    log(" $data");
 
     var dio = Dio();
     var response = await dio.put(
-      ApiConsts.baseUrl  + ApiConsts.blogLike,
+      ApiConsts.baseUrl + ApiConsts.blogLike,
       options: Options(
         method: 'PUT',
         headers: headers,
@@ -135,11 +119,11 @@ class BlogRepository {
   }
 
   static Future<BlogLikeResModel> blogShare(
-      {String postId, String userId, CancelToken cancelToken}) async {
+      {String? postId, String? userId, CancelToken? cancelToken}) async {
     var headers = ApiConsts().commonHeader;
     var data =
         json.encode({"postId": postId.toString(), "userId": userId.toString()});
-    log("data--------------> $data");
+    log(" $data");
     log("ApiConsts.baseUrl + ApiConsts.blogShare,--------------> ${ApiConsts.baseUrl + ApiConsts.blogShare}");
 
     var dio = Dio();
@@ -155,16 +139,18 @@ class BlogRepository {
   }
 
   static Future<BlogLikeResModel> blogComment(
-      {String postId,
-      String userId,
-      String text,
-      CancelToken cancelToken}) async {
+      {String? postId,
+      String? userId,
+      String? text,
+      CancelToken? cancelToken}) async {
     var headers = ApiConsts().commonHeader;
     var data = json.encode({
       "postId": postId.toString(),
       "userId": userId.toString(),
       "text": text
     });
+
+    log('-----65ca3826af16733144b4d9ee------$data');
 
     Dio dio = AppDioService.getDioInstance();
 

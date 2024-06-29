@@ -11,7 +11,7 @@ String hospitalLabScheduleResModelToJson(HospitalLabScheduleResModel data) =>
     json.encode(data.toJson());
 
 class HospitalLabScheduleResModel {
-  List<Schedule> data;
+  List<Schedule>? data;
 
   HospitalLabScheduleResModel({
     this.data,
@@ -24,17 +24,17 @@ class HospitalLabScheduleResModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Schedule {
-  List<String> times;
-  List<int> counts;
-  String id;
-  int dayOfWeek;
-  String user;
-  int v;
+  List<String>? times;
+  List<int>? counts;
+  String? id;
+  int? dayOfWeek;
+  String? user;
+  int? v;
 
   Schedule({
     this.times,
@@ -55,8 +55,8 @@ class Schedule {
       );
 
   Map<String, dynamic> toJson() => {
-        "times": List<dynamic>.from(times.map((x) => x)),
-        "counts": List<dynamic>.from(counts.map((x) => x)),
+        "times": List<dynamic>.from(times!.map((x) => x)),
+        "counts": List<dynamic>.from(counts!.map((x) => x)),
         "_id": id,
         "dayOfWeek": dayOfWeek,
         "user": user,

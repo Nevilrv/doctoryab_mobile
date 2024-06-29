@@ -28,19 +28,19 @@ class TabTabHomeController extends GetxController {
   void onClose() {}
 
   void fetchCategories(int pageKey) {
-    CategoriesRepository()
-        .getCategories(pageKey, cancelToken: cancelToken)
-        .then((data) {
+    CategoriesRepository().getCategories(pageKey, cancelToken: cancelToken).then((data) {
       // cancelToken = new CancelToken();
       // print(10 / 0);
-      //TODO handle all in model
+
+      log("Category Data ::::::::::::::::: ${data.data}");
+
       if (data != null) {
         if (data.data["data"] == null) {
           data.data["data"] = [];
         }
         var newItems = Categories.fromJson(data.data).data;
         if (newItems == null || newItems.length == 0) {
-          pagingController.appendLastPage(newItems);
+          pagingController.appendLastPage(newItems!);
         } else {
           pagingController.appendPage(newItems, pageKey + 1);
         }

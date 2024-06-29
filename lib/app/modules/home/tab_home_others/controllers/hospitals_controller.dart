@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
@@ -118,7 +117,7 @@ class HospitalsController extends GetxController {
   }
 
   var fetechingGPSDataStatus = Rx(FetechingGPSDataStatus.idle);
-  var latLang = Rx<LocationData>(null);
+  var latLang = Rxn<LocationData>(null);
 
   Future<void> _getDeviceLocation() async {
     fetechingGPSDataStatus(FetechingGPSDataStatus.loading);
@@ -140,7 +139,7 @@ class HospitalsController extends GetxController {
       cancelToken = CancelToken();
       // Utils.resetPagingController(pagingController);
       pageController.refresh();
-      pageController.itemList.clear();
+      pageController.itemList!.clear();
       loadData(pageController.firstPageKey);
     } catch (e) {
       EasyLoading.dismiss();
@@ -231,7 +230,6 @@ class HospitalsController extends GetxController {
   }
 
   showFilterDialog() {
-    log("currentSelected--------------> $selectedSort");
     List<String> filterList = [
       'promoted'.tr,
       "best_rating".tr,
@@ -388,17 +386,17 @@ class HospitalsController extends GetxController {
   void emergencyData() {
     if (isEmergencySelect == true) {
       List<Hospital> hoursList = [];
-      pageController.itemList.forEach((element) {
+      pageController.itemList?.forEach((element) {
         if (element.isEmergency == true) {
           hoursList.add(element);
         }
       });
-      pageController.itemList.clear();
+      pageController.itemList!.clear();
 
       update();
       pageController.appendLastPage(hoursList);
     } else {
-      pageController.itemList.clear();
+      pageController.itemList!.clear();
       pageController.refresh();
       // pageController.addPageRequestListener((pageKey) {
       loadData(pageController.firstPageKey);
@@ -432,7 +430,6 @@ class HospitalsController extends GetxController {
       //   pageController,
       //   page,
       // );
-      // log("pageController.itemList--------------> ${pageController.itemList}");
 
       var promotedItems = <Hospital>[];
       var newItems = <Hospital>[];
@@ -462,13 +459,12 @@ class HospitalsController extends GetxController {
 
       locationData.clear();
       locationTitle.clear();
-      pageController.itemList.forEach((element) {
-        if (element.geometry.coordinates != null) {
-          locationData.add(element.geometry);
-          locationTitle.add(element.name);
+      pageController.itemList?.forEach((element) {
+        if (element.geometry?.coordinates != null) {
+          locationData.add(element.geometry!);
+          locationTitle.add(element.name!);
         }
       });
-      log("locationData----HOSPITAl----------> ${locationData.length}");
 
       loader.value = false;
     });
@@ -493,17 +489,15 @@ class HospitalsController extends GetxController {
         pageController,
         page,
       );
-      log("pageController.itemList--------------> ${pageController.itemList}");
 
       locationData.clear();
       locationTitle.clear();
-      pageController.itemList.forEach((element) {
-        if (element.geometry.coordinates != null) {
-          locationData.add(element.geometry);
-          locationTitle.add(element.name);
+      pageController.itemList?.forEach((element) {
+        if (element.geometry?.coordinates != null) {
+          locationData.add(element.geometry!);
+          locationTitle.add(element.name!);
         }
       });
-      log("locationData--------------> ${locationData}");
     });
   }
 
@@ -512,21 +506,17 @@ class HospitalsController extends GetxController {
   void _fetchAds() {
     AdsRepository.fetchAds().then((v) {
       // AdsModel v = AdsModel();
-      log("v.data--------------> ${v.data}");
 
       if (v.data != null) {
-        v.data.forEach((element) {
+        v.data?.forEach((element) {
           adList.add(element);
           update();
-          log("adList--------------> ${adList.length}");
         });
       }
     }).catchError((e, s) {
-      log("e--------------> ${e}");
-
       Logger().e("message", e, s);
       Future.delayed(Duration(seconds: 3), () {
-        if (this != null) _fetchAds();
+        _fetchAds();
       });
     });
   }

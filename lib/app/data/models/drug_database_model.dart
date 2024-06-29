@@ -13,9 +13,9 @@ String drugDatabaseModelToJson(DrugDatabaseModel data) =>
     json.encode(data.toJson());
 
 class DrugDatabaseModel {
-  List<Datum> data;
-  int count;
-  int unVerifiedCount;
+  List<Datum>? data;
+  int? count;
+  int? unVerifiedCount;
 
   DrugDatabaseModel({
     this.data,
@@ -31,58 +31,57 @@ class DrugDatabaseModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "count": count,
         "unVerifiedCount": unVerifiedCount,
       };
 }
 
 class Datum {
-  bool verified;
-  bool active;
-  String img;
-  String id;
+  bool? verified;
+  bool? active;
+  String? img;
+  String? id;
 
   ///based on app language
-  String name;
-  String pashtoName;
-  String englishName;
-  String persianName;
-
-  String genericName;
-  String barcode;
-  String therapeuticClass;
-  String pharmacologicClass;
-  String usage;
-  String usageEnglish;
-  String usageDari;
-  String usagePashto;
-  String sideEffectsEnglish;
-  String sideEffectsDari;
-  String sideEffectsPashto;
-  String sideEffects;
-  String dosages;
-  String dosagesEnglish;
-  String dosagesDari;
-  String dosagesPashto;
-  String packsAndPrices;
-  String wholeSalePrice;
-  String warnings;
-  String warningsEnglish;
-  String warningsDari;
-  String warningsPashto;
-  String company;
-  String origin;
-  String notes;
-  String drugType;
-  String drugTypeEnglish;
-  String drugTypeDari;
-  String drugTypePashto;
-  String pack;
-  AdminId adminId;
-  String createdAt;
-  String updatedAt;
-  int v;
+  String? name;
+  String? pashtoName;
+  String? englishDrugName;
+  String? localLanguageDrugName;
+  String? genericName;
+  String? barcode;
+  String? therapeuticClass;
+  String? pharmacologicClass;
+  String? usage;
+  String? usageEnglish;
+  String? usageDari;
+  String? usagePashto;
+  String? sideEffectsEnglish;
+  String? sideEffectsDari;
+  String? sideEffectsPashto;
+  String? sideEffects;
+  String? dosages;
+  String? dosagesEnglish;
+  String? dosagesDari;
+  String? dosagesPashto;
+  String? packsAndPrices;
+  String? wholeSalePrice;
+  String? warnings;
+  String? warningsEnglish;
+  String? warningsDari;
+  String? warningsPashto;
+  String? company;
+  String? origin;
+  String? notes;
+  String? drugType;
+  String? drugTypeEnglish;
+  String? drugTypeDari;
+  String? drugTypePashto;
+  String? pack;
+  AdminId? adminId;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
 
   Datum({
     this.verified,
@@ -90,8 +89,8 @@ class Datum {
     this.img,
     this.id,
     this.pashtoName,
-    this.englishName,
-    this.persianName,
+    this.englishDrugName,
+    this.localLanguageDrugName,
     this.genericName,
     this.barcode,
     this.therapeuticClass,
@@ -131,20 +130,23 @@ class Datum {
       switch (SettingsController.appLanguge) {
         case "English":
           {
-            var result =
-                this.englishName ?? this.persianName ?? this.pashtoName;
+            var result = this.englishDrugName ??
+                this.localLanguageDrugName ??
+                this.pashtoName;
             return result;
           }
         case "فارسی":
           {
-            var result =
-                this.persianName ?? this.englishName ?? this.pashtoName;
+            var result = this.localLanguageDrugName ??
+                this.englishDrugName ??
+                this.pashtoName;
             return result;
           }
         case "پشتو":
           {
-            var result =
-                this.pashtoName ?? this.englishName ?? this.persianName;
+            var result = this.pashtoName ??
+                this.englishDrugName ??
+                this.localLanguageDrugName;
             return result;
           }
 
@@ -278,8 +280,10 @@ class Datum {
         active: json["active"] == null ? null : json["active"],
         img: json["img"] == null ? null : json["img"],
         id: json["_id"] == null ? null : json["_id"],
-        englishName: json["englishName"] == null ? null : json["englishName"],
-        persianName: json["persianName"] == null ? null : json["persianName"],
+        englishDrugName:
+            json["englishName"] == null ? null : json["englishName"],
+        localLanguageDrugName:
+            json["persianName"] == null ? null : json["persianName"],
         pashtoName: json["pashtoName"] == null ? null : json["pashtoName"],
         genericName: json["genericName"] == null ? null : json["genericName"],
         barcode: json["barcode"] == null ? null : json["barcode"],
@@ -344,8 +348,9 @@ class Datum {
         "active": active == null ? null : active,
         "img": img == null ? null : img,
         "_id": id == null ? null : id,
-        "englishName": englishName == null ? null : englishName,
-        "persianName": persianName == null ? null : persianName,
+        "englishName": englishDrugName == null ? null : englishDrugName,
+        "persianName":
+            localLanguageDrugName == null ? null : localLanguageDrugName,
         "pashtoName": pashtoName == null ? null : pashtoName,
         "genericName": genericName == null ? null : genericName,
         "barcode": barcode == null ? null : barcode,
@@ -363,7 +368,7 @@ class Datum {
         "notes": notes == null ? null : notes,
         "drugType": drugType == null ? null : drugType,
         "pack": pack == null ? null : pack,
-        "adminId": adminId == null ? null : adminId.toJson(),
+        "adminId": adminId == null ? null : adminId!.toJson(),
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "drugTypeEnglish": drugTypeEnglish == null ? null : drugTypeEnglish,
@@ -385,9 +390,9 @@ class Datum {
 }
 
 class AdminId {
-  String name;
-  String id;
-  String email;
+  String? name;
+  String? id;
+  String? email;
 
   AdminId({
     this.name,

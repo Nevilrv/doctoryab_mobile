@@ -24,7 +24,7 @@ import '../../../utils/utils.dart';
 import '../controllers/blood_donors_results_controller.dart';
 
 class BloodDonorsResultsView extends GetView<BloodDonorsResultsController> {
-  const BloodDonorsResultsView({Key key}) : super(key: key);
+  const BloodDonorsResultsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -42,7 +42,8 @@ class BloodDonorsResultsView extends GetView<BloodDonorsResultsController> {
               child: RefreshIndicator(
                 onRefresh: () => Future.sync(
                   () async {
-                    Utils.resetPagingController(controller.pagingController);
+                    controller.pagingController =
+                        PagingController<int, BloodDonor>(firstPageKey: 1);
                     await Future.delayed(Duration.zero, () {
                       controller.cancelToken.cancel();
                     });
@@ -371,10 +372,10 @@ class BloodDonorsResultsView extends GetView<BloodDonorsResultsController> {
   //   );
   // }
   Widget _buildButton(BloodDonor item,
-      {@required Widget icon,
-      @required Widget child,
-      void Function() onTap,
-      Color bgColor}) {
+      {required Widget icon,
+      required Widget child,
+      required void Function() onTap,
+      Color? bgColor}) {
     return Container(
       child: Row(
         mainAxisSize: MainAxisSize.min,

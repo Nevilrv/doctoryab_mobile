@@ -1,32 +1,19 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_yab/app/components/background.dart';
 import 'package:doctor_yab/app/components/buttons/custom_rounded_button.dart';
-import 'package:doctor_yab/app/components/dateSquare.dart';
-import 'package:doctor_yab/app/components/paging_indicators/no_item_list.dart';
-import 'package:doctor_yab/app/components/paging_indicators/paging_error_view.dart';
 import 'package:doctor_yab/app/components/spacialAppBar.dart';
-import 'package:doctor_yab/app/controllers/booking_controller.dart';
-import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
-import 'package:doctor_yab/app/data/models/schedule_model.dart';
-import 'package:doctor_yab/app/modules/banner/banner_view.dart';
 import 'package:doctor_yab/app/modules/home/views/home_view.dart';
 import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
-import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:doctor_yab/app/extentions/widget_exts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-
 import '../controllers/book_controller.dart';
 
 class BookView extends GetView<BookController> {
@@ -111,7 +98,7 @@ class BookView extends GetView<BookController> {
                                                   const EdgeInsets.all(8.0),
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                    "${ApiConsts.hostUrl}${controller.doctor.photo}",
+                                                    "${ApiConsts.hostUrl}${controller.doctor!.photo}",
                                                 height: h * 0.11,
                                                 width: h * 0.11,
                                                 fit: BoxFit.cover,
@@ -144,7 +131,7 @@ class BookView extends GetView<BookController> {
                                                 children: [
                                                   // SizedBox(height: 10),
                                                   Text(
-                                                    "${controller.doctor.name ?? ""}",
+                                                    "${controller.doctor?.name ?? ""}",
                                                     style: AppTextTheme.h(12)
                                                         .copyWith(
                                                             color: AppColors
@@ -152,7 +139,7 @@ class BookView extends GetView<BookController> {
                                                   ),
                                                   SizedBox(height: 2),
                                                   Text(
-                                                    "${controller.doctor.speciality ?? ""}",
+                                                    "${controller.doctor?.speciality ?? ""}",
                                                     style: AppTextTheme.b(11)
                                                         .copyWith(
                                                             color: AppColors
@@ -170,7 +157,7 @@ class BookView extends GetView<BookController> {
                                                         itemSize: 17,
                                                         initialRating:
                                                             double.parse(
-                                                          "${controller.doctor.averageRatings == null ? "0.0" : controller.doctor.averageRatings.toString() ?? "0.0"}",
+                                                          "${controller.doctor?.averageRatings == null ? "0.0" : controller.doctor?.averageRatings.toString() ?? "0.0"}",
                                                         ),
                                                         // minRating: 1,
                                                         direction:
@@ -200,7 +187,7 @@ class BookView extends GetView<BookController> {
                                                       //       .copyWith(color: AppColors.lgt2),
                                                       // ),
                                                       Text(
-                                                        '(${controller.doctor.totalFeedbacks == null ? 0 : controller.doctor.totalFeedbacks}) Reviews',
+                                                        '(${controller.doctor?.totalFeedbacks == null ? 0 : controller.doctor?.totalFeedbacks}) Reviews',
                                                         style: AppTextTheme.b(
                                                                 11)
                                                             .copyWith(
@@ -296,7 +283,7 @@ class BookView extends GetView<BookController> {
                                                               controller
                                                                   .dataList[
                                                                       index]
-                                                                  .date
+                                                                  .date!
                                                                   .toPersianDateStr(
                                                                       showDayStr:
                                                                           true,
@@ -350,7 +337,7 @@ class BookView extends GetView<BookController> {
                                                                     controller
                                                                         .dataList[
                                                                             index]
-                                                                        .times;
+                                                                        .times!;
                                                                 controller
                                                                         .selectedDate =
                                                                     controller
@@ -413,7 +400,7 @@ class BookView extends GetView<BookController> {
                                                                               color: AppColors.white),
                                                                     ),
                                                                     Text(
-                                                                      "(${controller.dataList[index].times.length}) Free Slots",
+                                                                      "(${controller.dataList[index].times?.length}) Free Slots",
                                                                       style: AppTextTheme.b(8).copyWith(
                                                                           color: AppColors
                                                                               .white,

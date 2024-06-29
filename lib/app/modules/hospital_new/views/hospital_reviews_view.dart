@@ -100,7 +100,8 @@ class HospitalReviewsView extends GetView<HospitalNewController> {
             ),
             SizedBox(width: 20),
             Text(
-              Jiffy().format("d/MM/yyyy"),
+              // Jiffy().format("d/MM/yyyy"),
+              Jiffy.now().format(pattern: "d/MM/yyyy"),
               style: AppTextTheme.l(14).copyWith(),
             ),
           ],
@@ -113,7 +114,7 @@ class HospitalReviewsView extends GetView<HospitalNewController> {
           ignoreGestures: true,
           itemSize: 15,
           initialRating:
-              double.tryParse(item.docTotalRating?.toStringAsFixed(1)) ?? 0.0,
+              double.tryParse(item.docTotalRating!.toStringAsFixed(1)) ?? 0.0,
           // minRating: 1,
           direction: Axis.horizontal,
           allowHalfRating: true,

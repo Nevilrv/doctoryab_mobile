@@ -10,12 +10,12 @@ import '../data/static.dart'; //import
 
 class DateSquare extends StatelessWidget {
   final DateTime date;
-  final Color color;
-  final int length;
+  final Color? color;
+  final int? length;
 
   const DateSquare({
-    Key key,
-    @required this.date,
+    Key? key,
+    required this.date,
     this.color,
     this.length,
   }) : super(key: key);
@@ -53,7 +53,7 @@ class DateSquare extends StatelessWidget {
         length != null
             ? FittedBox(
                 child: Text(
-                  'free_times'.trArgs([length?.toString()]),
+                  'free_times'.trArgs([length.toString()]),
                   style: AppTextTheme.m(8).copyWith(color: Colors.white),
                 ),
               )

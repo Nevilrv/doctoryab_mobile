@@ -10,11 +10,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'app/routes/app_pages.dart';
 import 'app/services/LocalizationServices.dart';
 import 'app/utils/utils.dart';
@@ -27,7 +26,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAuth.instance.authStateChanges().listen((user) {
-    log('Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser.uid}');
+    log('Current user id: ${user?.uid}, ${FirebaseAuth.instance.currentUser?.uid}');
   });
 //  await GetStorage.init();
   // Directory directory = await pathProvider.getApplicationDocumentsDirectory();
@@ -42,7 +41,6 @@ Future<void> main() async {
 
     final pushNotificationService = PushNotificationService();
     pushNotificationService.initialise();
-
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
   var fcmToken;
@@ -50,6 +48,7 @@ Future<void> main() async {
     fcmToken = await FirebaseMessaging.instance.getToken();
     log("fcmToken--------------> $fcmToken");
   } catch (e, s) {}
+
   runApp(
     Phoenix(
       child: GetMaterialApp(

@@ -24,7 +24,7 @@ class PackageRepository {
 
   //* update profile
   Future<dynamic> checkupPackages(int page, String text,
-      {int limitPerPage = 10 /*10*/, CancelToken cancelToken}) async {
+      {int limitPerPage = 10 /*10*/, CancelToken? cancelToken}) async {
     print("Get---psckshes---${ApiConsts.checkupPackage}");
     final response = await _cachedDio.get(
       '${ApiConsts.checkupPackage}',
@@ -41,9 +41,9 @@ class PackageRepository {
 
   //*
   static Future<List<Category>> categoryByDoctor(int page, Doctor doctor,
-      {int limitPerPage = 10, void onError(e)}) async {
+      {int limitPerPage = 10, required void onError(e)}) async {
     //TODO move to some utils func
-    List<Category> _cats;
+    List<Category>? _cats;
     try {
       final response = await dio.get(
         '${ApiConsts.doctorsCategories}',
@@ -68,13 +68,13 @@ class PackageRepository {
       }
       FirebaseCrashlytics.instance.recordError(e, s);
     }
-    return _cats;
+    return _cats!;
   }
 
   Future<dynamic> fetchPackageReview({
-    String packageId,
-    void onError(e),
-    CancelToken cancelToken,
+    String? packageId,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.checkupPackageReview}$packageId',
@@ -86,11 +86,11 @@ class PackageRepository {
   }
 
   Future<dynamic> addPackageReview({
-    String packageId,
-    String rating,
-    String comment,
-    void onError(e),
-    CancelToken cancelToken,
+    String? packageId,
+    String? rating,
+    String? comment,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     var data = {"comment": comment, "rating": rating, "packageId": packageId};
     final response = await _cachedDio.post(
@@ -104,11 +104,11 @@ class PackageRepository {
   }
 
   Future<dynamic> bookTime({
-    String packageId,
-    String labId,
-    String hospitalId,
-    String type,
-    String time,
+    String? packageId,
+    String? labId,
+    String? hospitalId,
+    String? type,
+    String? time,
   }) async {
     log("ApiConsts.bookPackageAppointment--------------> ${ApiConsts.bookPackageAppointment}");
 
@@ -136,9 +136,9 @@ class PackageRepository {
   }
 
   static Future<dynamic> fetchLabsSchedule({
-    void onError(e),
-    String labId,
-    CancelToken cancelToken,
+    // required void onError(e),
+    String? labId,
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.labSchedule}${labId}',
@@ -150,8 +150,8 @@ class PackageRepository {
   }
 
   static Future<dynamic> fetchPackageHistory({
-    void onError(e),
-    CancelToken cancelToken,
+    // required void onError(e),
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.getPackageAppointmentHistory}${SettingsController.userId}',
@@ -163,9 +163,9 @@ class PackageRepository {
   }
 
   static Future<dynamic> fetchHospitalSchedule({
-    void onError(e),
-    String hospitalId,
-    CancelToken cancelToken,
+    // required void onError(e),
+    String? hospitalId,
+    CancelToken? cancelToken,
   }) async {
     final response = await _cachedDio.get(
       '${ApiConsts.hospitalSchedule}${hospitalId}',

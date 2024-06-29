@@ -8,14 +8,12 @@ import 'package:doctor_yab/app/routes/app_pages.dart';
 import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/AppImages.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
-import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FavouritesScreenView extends GetView<TabHomeMainController> {
-  FavouritesScreenView({Key key}) : super(key: key);
+  FavouritesScreenView({Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> gridData = [
     {
@@ -42,11 +40,17 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
       "image": AppImages.airplane,
       "routes": Routes.TREATMENT_ABROAD
     },
+    // {
+    //   "color": AppColors.lightBlue2,
+    //   "title": "pregnancy_tracker",
+    //   "image": AppImages.baby,
+    //   "routes": Routes.PREGNANCY_TRACKER
+    // },
     {
       "color": AppColors.lightBlue2,
       "title": "pregnancy_tracker",
       "image": AppImages.baby,
-      "routes": Routes.PREGNANCY_TRACKER
+      "routes": Routes.PREGNANCY_TRACKER_NEW
     },
     {
       "color": AppColors.lightYellow,
@@ -117,32 +121,32 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                if (gridData[index]["title"] ==
-                                    'pregnancy_tracker') {
-                                  Get.defaultDialog(
-                                    backgroundColor: AppColors.scaffoldColor,
-                                    title: '',
-                                    // titleStyle: TextStyle(color: AppColors.lgt1),
-                                    titleStyle: TextStyle(fontSize: 1),
-                                    middleText: 'This Feature will live soon',
-                                    radius: 10,
-                                    confirm: TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "got_it".tr,
-                                        style: TextStyle(
-                                          color: Get.theme.primaryColor,
-                                        ),
-                                      ),
-                                    ),
-
-                                    // cancel: Text("OK"),
-                                  );
-                                } else {
-                                  Get.toNamed(gridData[index]["routes"]);
-                                }
+                                // if (gridData[index]["title"] ==
+                                //     'pregnancy_tracker') {
+                                //   Get.defaultDialog(
+                                //     backgroundColor: AppColors.scaffoldColor,
+                                //     title: '',
+                                //     // titleStyle: TextStyle(color: AppColors.lgt1),
+                                //     titleStyle: TextStyle(fontSize: 1),
+                                //     middleText: 'This Feature will live soon',
+                                //     radius: 10,
+                                //     confirm: TextButton(
+                                //       onPressed: () {
+                                //         Get.back();
+                                //       },
+                                //       child: Text(
+                                //         "got_it".tr,
+                                //         style: TextStyle(
+                                //           color: Get.theme.primaryColor,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //
+                                //     // cancel: Text("OK"),
+                                //   );
+                                // } else {
+                                Get.toNamed(gridData[index]["routes"]);
+                                // }
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(
@@ -212,8 +216,8 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
     return Shimmer.fromColors(
       period: Duration(seconds: 1),
       direction: ShimmerDirection.ltr,
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[100],
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -263,14 +267,14 @@ class FavouritesScreenView extends GetView<TabHomeMainController> {
                     ),
                     itemBuilder: (context, index) => StoryAvatar(
                       assetPath:
-                          "${ApiConsts.hostUrl}${controller.dataList().data[index].img}",
+                          "${ApiConsts.hostUrl}${controller.dataList()!.data![index].img}",
                       isActive: true,
                       onTap: () {
                         return controller.onTapStoryAvatar(index);
                       },
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: controller.dataList().data.length,
+                    itemCount: controller.dataList()!.data!.length,
                   ),
           ),
         ),
