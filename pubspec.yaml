@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.0.1+56
+version: 3.1.2+62
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -34,7 +34,7 @@ dependencies:
   # path: local_packages/alice
   # git:
   #   url: https://github.com/mozaffari/alice.git
-  intl: ^0.18.1
+  # intl: ^0.18.1
   firebase_crashlytics: ^3.3.4
   persian_number_utility: ^1.1.1
   shamsi_date: ^1.0.1
@@ -73,12 +73,13 @@ dependencies:
   firebase_core: ^2.15.0
   get: ^4.6.1
   # alice: 0.3.2
-  alice:
-    path: ../local_pachages/alice
+  alice: 
+    git:
+      url: https://github.com/doctoryab-dev/alice.git
 
   place_picker:
-    path: ../local_pachages/locationpicker
-
+    git:
+      url: https://github.com/doctoryab-dev/location_picker.git
   flutter:
     sdk: flutter
 
@@ -99,7 +100,8 @@ dependencies:
   #  webview_flutter: ^2.0.4
   webview_flutter: ^4.5.0
   stories_for_flutter:
-    path: ../local_pachages/stories_for_flutter
+     git:
+      url: https://github.com/doctoryab-dev/flutter_stories.git
   story_view: ^0.16.3
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0
