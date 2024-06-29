@@ -82,6 +82,8 @@
 	<true/>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>User can search drugs using the voice command.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Users can send voice message in chats. </string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
