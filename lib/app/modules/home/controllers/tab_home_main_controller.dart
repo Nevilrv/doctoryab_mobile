@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/models/city_model.dart';
 import 'package:doctor_yab/app/data/repository/StoriesRepository.dart';
@@ -17,9 +19,11 @@ import '../../../routes/app_pages.dart';
 
 class TabHomeMainController extends GetxController {
   var selectedCity = City().obs;
+
   //ads model is same as story
   var dataList = Rxn<AdsModel>(null);
   TextEditingController searchDoctor = TextEditingController();
+
   //stories
   @override
   void onInit() {
@@ -28,6 +32,7 @@ class TabHomeMainController extends GetxController {
   }
 
   var isHomeScreen = true.obs;
+
   @override
   void onReady() {
     super.onReady();
@@ -36,6 +41,7 @@ class TabHomeMainController extends GetxController {
 
   @override
   void onClose() {}
+
   cityChanged(City city) {
     selectedCity(city);
     // pagingController.refresh();
@@ -66,6 +72,9 @@ class TabHomeMainController extends GetxController {
 
   void _fetchStories() {
     StoriesRepository.fetchAds().then((v) {
+      log("Ad Response ::::::::::::: ${v.data?.length}");
+      log("Ad Response ::::::::::::: ${v.data}");
+
       // AdsModel v = AdsModel();
       if (v.data == null) {
         v.data = <Ad>[Ad()];

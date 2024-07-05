@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
 
@@ -5,14 +7,14 @@ import 'package:dio/dio.dart';
 import 'package:doctor_yab/app/data/models/ads_model.dart';
 import 'package:doctor_yab/app/services/DioService.dart';
 
+
 class StoriesRepository {
   static Dio dio = AppDioService.getDioInstance();
 
   static var _cachedDio = AppDioService.getCachedDio;
-  static Future<AdsModel> fetchAds(
-      {int limitPerPage = /*10*/ 10, CancelToken? cancelToken}) async {
-    print(
-        "SettingsController.auth.savedCity.sId>>>>${SettingsController.auth.savedCity!.sId}");
+
+  static Future<AdsModel> fetchAds({int limitPerPage = /*10*/ 10, CancelToken? cancelToken}) async {
+    print("SettingsController.auth.savedCity.sId>>>> ${SettingsController.auth.savedCity!.sId}");
 
     var data = await dio.get(
       '${ApiConsts.storiesPath}/${SettingsController.auth.savedCity!.sId}',
@@ -25,6 +27,8 @@ class StoriesRepository {
       // cancelToken: _searchCancelToken,
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
+
+    log("Ad Response ::::::::::::: ${data.data}");
     return AdsModel.fromJson(data.data);
   }
 }
