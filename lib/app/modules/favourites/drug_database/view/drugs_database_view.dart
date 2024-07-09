@@ -217,13 +217,14 @@ class DrugsDatabaseView extends GetView<DrugsController> {
                           height: h * 0.082,
                           width: w * 0.178,
                           fit: BoxFit.cover,
-                          placeholder: (_, __) {
-                            return Image.asset(
-                              AppImages.vitamin,
-                              height: h * 0.082,
-                              width: w * 0.178,
-                            );
-                          },
+
+                          // placeholder: (_, __) {
+                          //   return Image.asset(
+                          //     AppImages.vitamin,
+                          //     height: h * 0.082,
+                          //     width: w * 0.178,
+                          //   );
+                          // },
                           errorWidget: (_, __, ___) {
                             return Image.asset(
                               AppImages.vitamin,

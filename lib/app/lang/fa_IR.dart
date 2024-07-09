@@ -149,8 +149,7 @@ const Map<String, String> faIR = {
   "getting_location_from_device": "در حال گرفتن موقعیت دستگاه.",
   "failed_to_get_location_data": "گرفتن اطلاعات موقعیت ناکام شد.",
   "you_denied_request": "اجازه دسترسی رد شد.",
-  "you_have_to_allow_location_permission_in_settings":
-      "از تنظیمات دستگاه به برنامه اجازه دسترسی به معلومات موقعیت خود را بدهد.",
+  "you_have_to_allow_location_permission_in_settings": "از تنظیمات دستگاه به برنامه اجازه دسترسی به معلومات موقعیت خود را بدهد.",
   "open_settings": "باز کردن تنظیمات",
   "design_and_develop_by": "طراحی و توسعه توسط شرکت",
   "loading_ad": "گرفتن تبليغات ...",
@@ -305,9 +304,9 @@ const Map<String, String> faIR = {
   "complaint_subject": "عنوان شکایت ",
   "topic_title": "عنوان ",
   "topic_body": "شکایت تانرا نوشته نمایید",
+  "abroad_details_description": "Please explain reason, why you need to do treatment abroad!",
   "add_attachment": "آپلود فایل ",
-  "description":
-      "شما میتوانید تصویر٬ ویدیو و غیره فایل اضافه نمایید. (فارمت فایل .mp4 ) حجم فایل باید از ۵ ام بی بیشتر نباشد. ",
+  "description": "شما میتوانید تصویر٬ ویدیو و غیره فایل اضافه نمایید. (فارمت فایل .mp4 ) حجم فایل باید از ۵ ام بی بیشتر نباشد. ",
   "suggestion_subject": "عنوان پیشنهاد تان",
   "suggestion_body": "پیشنهاد تانرا نوشته نمایید. ",
   "about_condition": "راجع به وضعیت مریض بگویید؟ ",

@@ -308,6 +308,7 @@ const Map<String, String> enUS = {
   "complaint_subject": "Complaint Subject",
   "topic_title": "Topic title",
   "topic_body": "Write your complaint about the subject",
+  "abroad_details_description": "Please explain reason, why you need to do treatment abroad!",
   "add_attachment": "Add Attachment",
   "description": "You can add images, videos or files.(video format only .mp4) Files and images size max 5mb.",
   "suggestion_subject": "Suggestion Subject",

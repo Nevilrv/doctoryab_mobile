@@ -18,6 +18,7 @@ import 'package:get/get.dart';
 class NotificationView extends GetView<NotificationController> {
   NotificationView({Key? key}) : super(key: key);
   NotificationController controller = Get.find()..loadNotification();
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -49,8 +50,7 @@ class NotificationView extends GetView<NotificationController> {
                               ? Center(child: Text("no_result_found".tr))
                               : ListView.separated(
                                   itemCount: controller.notification.length,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 22),
+                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 22),
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     // var d;
@@ -123,83 +123,36 @@ class NotificationView extends GetView<NotificationController> {
 
                                     log('=============${SettingsController.appLanguge}');
 
-                                    DateTime d;
-                                    if (controller.notification[index].type ==
-                                        "prescription") {
-                                      d = DateTime.parse(controller
-                                          .notification[index]
-                                          .prescriptionId!
-                                          .createAt
-                                          .toString());
-                                    } else if (controller
-                                            .notification[index].type ==
-                                        "appointment") {
-                                      var _date = controller.notification[index]
-                                                  .appointmentId?.createAt ==
-                                              null
+                                    DateTime d = DateTime.now();
+                                    if (controller.notification[index].type == "prescription") {
+                                      if (controller.notification[index].prescriptionId?.createAt != null) {
+                                        d = DateTime.parse(controller.notification[index].prescriptionId?.createAt ?? "");
+                                      }
+                                    } else if (controller.notification[index].type == "appointment") {
+                                      var _date = controller.notification[index].appointmentId?.createAt == null
                                           ? DateTime.now()
                                           : DateTime.fromMillisecondsSinceEpoch(
-                                                  int.parse(controller
-                                                      .notification[index]
-                                                      .appointmentId!
-                                                      .createAt
-                                                      .toString()))
-                                              .toLocal();
+                                              int.parse(controller.notification[index].appointmentId?.createAt ?? ""),
+                                            ).toLocal();
                                       d = DateTime.parse(_date.toString());
-                                    } else if (controller
-                                            .notification[index].type ==
-                                        'labReport') {
-                                      d = DateTime.parse(controller
-                                          .notification[index]
-                                          .reportId!
-                                          .createAt
-                                          .toString());
-                                    } else if (controller
-                                            .notification[index].type ==
-                                        "blog") {
-                                      d = DateTime.parse(controller
-                                          .notification[index]
-                                          .blogId!
-                                          .createAt!);
+                                    } else if (controller.notification[index].type == 'labReport') {
+                                      d = DateTime.parse(controller.notification[index].reportId!.createAt.toString());
+                                    } else if (controller.notification[index].type == "blog") {
+                                      d = DateTime.parse(controller.notification[index].blogId!.createAt!);
                                     } else {
-                                      if (controller.notification[index]
-                                              .prescriptionId !=
-                                          null) {
-                                        d = DateTime.parse(controller
-                                            .notification[index]
-                                            .prescriptionId!
-                                            .createAt!);
-                                      } else if (controller.notification[index]
-                                              .appointmentId !=
-                                          null) {
-                                        var _date = controller
-                                                    .notification[index]
-                                                    .appointmentId!
-                                                    .createAt ==
-                                                null
+                                      if (controller.notification[index].prescriptionId != null) {
+                                        d = DateTime.parse(controller.notification[index].prescriptionId!.createAt!);
+                                      } else if (controller.notification[index].appointmentId != null) {
+                                        var _date = controller.notification[index].appointmentId!.createAt == null
                                             ? DateTime.now()
-                                            : DateTime
-                                                    .fromMillisecondsSinceEpoch(
-                                                        int.parse(controller
-                                                            .notification[index]
-                                                            .appointmentId!
-                                                            .createAt!))
+                                            : DateTime.fromMillisecondsSinceEpoch(
+                                                    int.parse(controller.notification[index].appointmentId!.createAt!))
                                                 .toLocal();
                                         d = DateTime.parse(_date.toString());
-                                      } else if (controller
-                                              .notification[index].blogId !=
-                                          null) {
-                                        d = DateTime.parse(controller
-                                            .notification[index]
-                                            .blogId!
-                                            .createAt!);
-                                      } else if (controller
-                                              .notification[index].reportId !=
-                                          null) {
-                                        d = DateTime.parse(controller
-                                            .notification[index]
-                                            .reportId!
-                                            .createAt!);
+                                      } else if (controller.notification[index].blogId != null) {
+                                        d = DateTime.parse(controller.notification[index].blogId!.createAt!);
+                                      } else if (controller.notification[index].reportId != null) {
+                                        d = DateTime.parse(controller.notification[index].reportId!.createAt!);
                                       } else {
                                         d = DateTime.now();
                                       }
@@ -209,114 +162,50 @@ class NotificationView extends GetView<NotificationController> {
                                       onTap: () async {
                                         log('====HELLOTYPE${controller.notification[index].type}');
 
-                                        if (controller
-                                                .notification[index].status ==
-                                            "unread") {
-                                          controller.changeNotificationStatus(
-                                              controller
-                                                  .notification[index].id!);
+                                        if (controller.notification[index].status == "unread") {
+                                          controller.changeNotificationStatus(controller.notification[index].id!);
                                         }
 
-                                        if (controller
-                                                .notification[index].type ==
-                                            'blog') {
+                                        if (controller.notification[index].type == 'blog') {
                                           HomeController ctl = Get.find();
                                           ctl.selectedIndex = 3;
-                                          Get.to(() => TabBlogView(),
-                                              binding: TabMainBinding(),
-                                              arguments: {
-                                                'id': 'notification'
-                                              });
-                                        } else if (controller
-                                                .notification[index].type ==
-                                            'prescription') {
-                                          Get.toNamed(Routes.REPORT_MEDICAL,
-                                              arguments: {'id': "0"});
-                                        } else if (controller
-                                                .notification[index].type ==
-                                            'labReport') {
-                                          Get.toNamed(Routes.REPORT_MEDICAL,
-                                              arguments: {'id': "1"});
-                                        } else if (controller
-                                                .notification[index].type ==
-                                            'appointment') {
-                                          Get.toNamed(
-                                              Routes.APPOINTMENT_HISTORY);
+                                          Get.to(() => TabBlogView(), binding: TabMainBinding(), arguments: {'id': 'notification'});
+                                        } else if (controller.notification[index].type == 'prescription') {
+                                          Get.toNamed(Routes.REPORT_MEDICAL, arguments: {'id': "0"});
+                                        } else if (controller.notification[index].type == 'labReport') {
+                                          Get.toNamed(Routes.REPORT_MEDICAL, arguments: {'id': "1"});
+                                        } else if (controller.notification[index].type == 'appointment') {
+                                          Get.toNamed(Routes.APPOINTMENT_HISTORY);
                                         }
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Expanded(
                                                 flex: 10,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      controller
-                                                              .notification[
-                                                                  index]
-                                                              .title ??
-                                                          "",
-                                                      style: AppTextStyle
-                                                          .boldPrimary11
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: AppColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.5)),
+                                                      controller.notification[index].title ?? "",
+                                                      style: AppTextStyle.boldPrimary11
+                                                          .copyWith(fontWeight: FontWeight.w500, color: AppColors.primary.withOpacity(0.5)),
                                                     ),
                                                     Text(
-                                                      SettingsController
-                                                                  .appLanguge ==
-                                                              "English"
-                                                          ? controller
-                                                                  .notification[
-                                                                      index]
-                                                                  .bodyInEnglish
-                                                                  ?.toString() ??
-                                                              controller
-                                                                  .notification[
-                                                                      index]
-                                                                  .body!
-                                                          : SettingsController
-                                                                      .appLanguge ==
-                                                                  "فارسی"
-                                                              ? controller
-                                                                      .notification[
-                                                                          index]
-                                                                      .bodyInDari
-                                                                      ?.toString() ??
-                                                                  controller
-                                                                      .notification[
-                                                                          index]
-                                                                      .body!
-                                                              : controller
-                                                                      .notification[
-                                                                          index]
-                                                                      .bodyInPashto
-                                                                      ?.toString() ??
-                                                                  controller
-                                                                      .notification[
-                                                                          index]
-                                                                      .body!,
-                                                      style: AppTextTheme.h(12)
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .primary),
+                                                      SettingsController.appLanguge == "English"
+                                                          ? controller.notification[index].bodyInEnglish?.toString() ??
+                                                              controller.notification[index].body!
+                                                          : SettingsController.appLanguge == "فارسی"
+                                                              ? controller.notification[index].bodyInDari?.toString() ??
+                                                                  controller.notification[index].body!
+                                                              : controller.notification[index].bodyInPashto?.toString() ??
+                                                                  controller.notification[index].body!,
+                                                      style: AppTextTheme.h(12).copyWith(color: AppColors.primary),
                                                     ),
                                                   ],
                                                 ),
@@ -324,24 +213,15 @@ class NotificationView extends GetView<NotificationController> {
                                               Expanded(
                                                 flex: 2,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         Text(
                                                           "${calculateTime(d)}",
-                                                          style: AppTextStyle
-                                                              .boldPrimary11
-                                                              .copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: AppColors
-                                                                      .primary),
+                                                          style: AppTextStyle.boldPrimary11
+                                                              .copyWith(fontWeight: FontWeight.w500, color: AppColors.primary),
                                                         ),
                                                         // Text(
                                                         //   " ${d[1]}",
@@ -372,13 +252,8 @@ class NotificationView extends GetView<NotificationController> {
                                                     ),
                                                     CircleAvatar(
                                                       radius: 5,
-                                                      backgroundColor: controller
-                                                                  .notification[
-                                                                      index]
-                                                                  .status ==
-                                                              "unread"
-                                                          ? AppColors
-                                                              .switchGreen
+                                                      backgroundColor: controller.notification[index].status == "unread"
+                                                          ? AppColors.switchGreen
                                                           : Colors.transparent,
                                                     )
                                                   ],
@@ -391,10 +266,7 @@ class NotificationView extends GetView<NotificationController> {
                                     );
                                   },
                                   separatorBuilder: (context, index) {
-                                    return Divider(
-                                        height: 30,
-                                        thickness: 1,
-                                        color: AppColors.primary);
+                                    return Divider(height: 30, thickness: 1, color: AppColors.primary);
                                   },
                                 ),
                     ),
@@ -417,9 +289,7 @@ class NotificationView extends GetView<NotificationController> {
 
   static String calculateTime(DateTime time) {
     Duration compare(DateTime x, DateTime y) {
-      return Duration(
-          microseconds:
-              (x.microsecondsSinceEpoch - y.microsecondsSinceEpoch).abs());
+      return Duration(microseconds: (x.microsecondsSinceEpoch - y.microsecondsSinceEpoch).abs());
     }
 
     DateTime x = DateTime.now();

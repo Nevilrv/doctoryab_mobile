@@ -305,6 +305,7 @@ const Map<String, String> psAF = {
   "complaint_subject": "د شکایت سرلیک ",
   "topic_title": "سرلیک ",
   "topic_body": "خپل شکایت ولیکی",
+  "abroad_details_description": "Please explain reason, why you need to do treatment abroad!",
   "add_attachment": "د فایل آپلود ",
   "description": "تاسو کولی شی تصویر ویدیو او نور فایلونه اضافه کړی د فایل فارمت mp4 وبږی",
   "suggestion_subject": "ستاسو د وړاندیز عنوان ",
@@ -477,8 +478,7 @@ const Map<String, String> psAF = {
   "vaccinate_your_baby": "خپل ماشوم واکسین کړئ",
   "recommended_vaccines": "وړاندیز شوي واکسینونه",
   "about_vaccination": "د واکسین په اړه معلومات",
-  "about_experience":
-      "موږ ته د ډاکټراب برنامه کارولو تجربې په اړه ووایاست! ستاسو نظرونه د پروګرام د پرمختګ لپاره خورا اغیزمن دي.",
+  "about_experience": "موږ ته د ډاکټراب برنامه کارولو تجربې په اړه ووایاست! ستاسو نظرونه د پروګرام د پرمختګ لپاره خورا اغیزمن دي.",
   "excellent": "ډیر ښه",
   "bad": "ما دا خوښ نه کړ",
   "feedback_later": "بیا به زه یوه نظریه وړاندې کړم!",

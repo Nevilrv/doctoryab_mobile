@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:doctor_yab/app/controllers/settings_controller.dart';
 import 'package:doctor_yab/app/data/static.dart';
 import 'package:doctor_yab/app/lang/en_US.dart';
@@ -79,9 +77,7 @@ class LocalizationService extends Translations {
   }
 
   String standardLandguageCode() {
-    var formated = Get.locale!.languageCode.toLowerCase() +
-        "_" +
-        Get.locale!.countryCode!.toUpperCase();
+    var formated = Get.locale!.languageCode.toLowerCase() + "_" + Get.locale!.countryCode!.toUpperCase();
     print(formated);
     return formated;
   }

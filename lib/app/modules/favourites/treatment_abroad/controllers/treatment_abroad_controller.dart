@@ -17,18 +17,20 @@ class TreatmentAbroadController extends GetxController {
   var translator = "".obs;
   var accomization = "".obs;
   TextEditingController tellAbout = TextEditingController();
+
   @override
   void onInit() {
     log('hello-------------');
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await getAllCountries();
     });
-    // TODO: implement onInit
+
     super.onInit();
   }
 
   RxList<Country> countries = <Country>[].obs;
   var isLoading = false.obs;
+
   Future<void> getAllCountries() async {
     isLoading.value = true;
 
@@ -47,41 +49,35 @@ class TreatmentAbroadController extends GetxController {
   }
 
   var apiLoading = false.obs;
+
   abroadApi(BuildContext context) {
     apiLoading.value = true;
     AbroadRepository()
         .abroadTreatmentApi(
-            desc: tellAbout.text,
-            accomization: accomization.value == "YES" ? true : false,
-            country: selectedCountry.value,
-            service: airportService.value == "YES" ? true : false,
-            translator: translator.value == "YES" ? true : false,
-            visaSupport: visaSupport.value == "YES" ? true : false)
+      desc: tellAbout.text,
+      accomization: accomization.value == "YES" ? true : false,
+      country: selectedCountry.value,
+      service: airportService.value == "YES" ? true : false,
+      translator: translator.value == "YES" ? true : false,
+      visaSupport: visaSupport.value == "YES" ? true : false,
+    )
         .then((value) {
       if (attachmentFile.value != "") {
         if (attachmentFile.value.isPDFFileName) {
-          AbroadRepository()
-              .abroadPDFApi(
-                  pdf: File(attachmentFile.value), id: value['data']['_id'])
-              .then((value) {
+          AbroadRepository().abroadPDFApi(pdf: File(attachmentFile.value), id: value['data']['_id']).then((value) {
             Get.back();
 
-            AppGetDialog.showSuccess(
-                middleText: "done".tr + "\n\n" + "abroad_success".tr);
+            AppGetDialog.showSuccess(middleText: "done".tr + "\n\n" + "abroad_success".tr);
 
             apiLoading.value = false;
           }).catchError((e, s) {
             apiLoading.value = false;
           });
         } else {
-          AbroadRepository()
-              .abroadImageApi(
-                  image: File(attachmentFile.value), id: value['data']['_id'])
-              .then((value) {
+          AbroadRepository().abroadImageApi(image: File(attachmentFile.value), id: value['data']['_id']).then((value) {
             Get.back();
 
-            AppGetDialog.showSuccess(
-                middleText: "done".tr + "\n\n" + "abroad_success".tr);
+            AppGetDialog.showSuccess(middleText: "done".tr + "\n\n" + "abroad_success".tr);
 
             apiLoading.value = false;
           }).catchError((e, s) {
@@ -90,8 +86,7 @@ class TreatmentAbroadController extends GetxController {
         }
       } else {
         Get.back();
-        AppGetDialog.showSuccess(
-            middleText: "done".tr + "\n\n" + "abroad_success".tr);
+        AppGetDialog.showSuccess(middleText: "done".tr + "\n\n" + "abroad_success".tr);
         apiLoading.value = false;
       }
     }).catchError((e, s) {
@@ -107,20 +102,10 @@ class TreatmentAbroadController extends GetxController {
   }
 
   var attachmentFile = "".obs;
+
   void pickAttachment() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'jpeg',
-          'JPEG',
-          'png',
-          'PNG',
-          'JPG',
-          'jpg',
-          "pdf",
-          "PDF"
-        ],
-        allowMultiple: false);
+        type: FileType.custom, allowedExtensions: ['jpeg', 'JPEG', 'png', 'PNG', 'JPG', 'jpg', "pdf", "PDF"], allowMultiple: false);
     attachmentFile.value = result!.files[0].path!;
   }
 }

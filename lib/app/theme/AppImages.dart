@@ -76,9 +76,8 @@ class AppImages {
   static const pills = "assets/png/pills.png";
   static const microscope = "assets/png/microscope.png";
   static const blood = "assets/png/blood.png";
-  static const findBloodDonor = "assets/png/findBloodDonor.PNG";
-
-  static const registerAsBloodDonor = "assets/png/registerAsBloodDonor.PNG";
+  static const findBloodDonor = "assets/png/findBloodDonor.png";
+  static const registerAsBloodDonor = "assets/png/registerAsBloodDonor.png";
   static const bandage = "assets/png/bandage.png";
   static const airplane = "assets/png/airplane.png";
   static const baby = "assets/png/baby.png";

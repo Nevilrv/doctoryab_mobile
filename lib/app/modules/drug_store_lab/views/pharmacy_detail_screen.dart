@@ -10,6 +10,7 @@ import 'package:doctor_yab/app/theme/AppColors.dart';
 import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:expandable_text/expandable_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -453,9 +454,7 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                   "Price of Drugs".tr,
                                                                   style: AppTextStyle.boldPrimary12,
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 5,
-                                                                ),
+                                                                SizedBox(height: 5),
                                                                 RatingBar.builder(
                                                                   itemSize: Get.width * 0.06,
                                                                   initialRating: controller.eRating.value,
@@ -639,19 +638,17 @@ class PharmacyDetailScreen extends GetView<DrugStoreController> {
                                                                           children: [
                                                                             // SizedBox(height: 10),
                                                                             Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                                               mainAxisSize: MainAxisSize.min,
                                                                               children: [
-                                                                                Container(
-                                                                                  width: Get.width * 0.38,
+                                                                                Expanded(
                                                                                   child: Text(
                                                                                     controller.feedbackData[index].postedBy?.name ?? "",
                                                                                     style: AppTextTheme.h(12)
                                                                                         .copyWith(color: AppColors.primary),
                                                                                   ),
                                                                                 ),
-                                                                                Spacer(),
                                                                                 RatingBar.builder(
                                                                                   ignoreGestures: true,
                                                                                   itemSize: 17,

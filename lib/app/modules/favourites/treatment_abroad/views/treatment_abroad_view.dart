@@ -9,6 +9,7 @@ import 'package:doctor_yab/app/theme/TextTheme.dart';
 import 'package:doctor_yab/app/utils/app_text_styles.dart';
 import 'package:doctor_yab/app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
   List countryName = ["Turkiye", "Pakistan", "Iran", "India"];
   List question = ["do_you_need_support".tr, "do_you_need_airport".tr, "do_you_need_translator".tr, "do_you_need_accomization".tr];
   TreatmentAbroadController treatmentAbroadController = Get.find()..getAllCountries();
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -120,32 +122,32 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                           width: w * 0.02,
                                         ),
                                         Container(
-                                            width: w * 0.2,
-                                            child: Divider(
-                                              color: AppColors.primary.withOpacity(0.5),
-                                              height: 3,
-                                            )),
+                                          width: w * 0.2,
+                                          child: Divider(
+                                            color: AppColors.primary.withOpacity(0.5),
+                                            height: 3,
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
+                                    SizedBox(height: 5),
                                     Stack(
                                       clipBehavior: Clip.none,
                                       children: [
                                         Container(
                                           width: w,
                                           decoration: BoxDecoration(
-                                              color: AppColors.white,
-                                              borderRadius: BorderRadius.circular(5),
-                                              // boxShadow: [
-                                              //   BoxShadow(
-                                              //       offset: Offset(0, 4),
-                                              //       blurRadius: 4,
-                                              //       color: AppColors.black
-                                              //           .withOpacity(0.25))
-                                              // ],
-                                              border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2)),
+                                            color: AppColors.white,
+                                            borderRadius: BorderRadius.circular(5),
+                                            // boxShadow: [
+                                            //   BoxShadow(
+                                            //       offset: Offset(0, 4),
+                                            //       blurRadius: 4,
+                                            //       color: AppColors.black
+                                            //           .withOpacity(0.25))
+                                            // ],
+                                            border: Border.all(color: AppColors.primary.withOpacity(0.4), width: 2),
+                                          ),
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                             child: Center(
@@ -153,50 +155,66 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: List.generate(
-                                                    4,
-                                                    (index) => Padding(
-                                                          padding: const EdgeInsets.only(right: 15, top: 5),
-                                                          child: GestureDetector(
-                                                            onTap: () {
-                                                              controller.selectedCountry.value = countryName[index];
-                                                            },
-                                                            child: Container(
-                                                              width: 50,
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  Container(
-                                                                    height: 45,
-                                                                    width: 45,
-                                                                    decoration: BoxDecoration(
-                                                                        shape: BoxShape.circle,
-                                                                        border: Border.all(
-                                                                            color: controller.selectedCountry.value == countryName[index]
-                                                                                ? AppColors.primary
-                                                                                : AppColors.primary.withOpacity(0.4),
-                                                                            width: 2),
-                                                                        image: DecorationImage(image: AssetImage(countryImage[index]))),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 5,
-                                                                  ),
-                                                                  Center(
-                                                                    child: Text(
-                                                                      countryName[index],
-                                                                      maxLines: 2,
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      style: AppTextStyle.mediumPrimary10.copyWith(
-                                                                          color: controller.selectedCountry.value == countryName[index]
-                                                                              ? AppColors.primary
-                                                                              : AppColors.primary.withOpacity(0.4)),
-                                                                    ),
-                                                                  )
-                                                                ],
+                                                  4,
+                                                  (index) => Padding(
+                                                    padding: const EdgeInsets.only(right: 15, top: 5),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        // controller.selectedCountry.value = countryName[index];
+                                                      },
+                                                      child: Container(
+                                                        width: 50,
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Container(
+                                                              height: 45,
+                                                              width: 45,
+                                                              decoration: BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                border: Border.all(
+                                                                    color: controller.selectedCountry.value == countryName[index]
+                                                                        ? AppColors.primary
+                                                                        : AppColors.primary.withOpacity(0.4),
+                                                                    width: 2),
+                                                                image: DecorationImage(
+                                                                  image: AssetImage(countryImage[index]),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        )),
+                                                            SizedBox(height: 5),
+                                                            Center(
+                                                              child: Text(
+                                                                countryName[index],
+                                                                maxLines: 2,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: AppTextStyle.mediumPrimary10.copyWith(
+                                                                  color: controller.selectedCountry.value == countryName[index]
+                                                                      ? AppColors.primary
+                                                                      : AppColors.primary.withOpacity(0.4),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(height: 5),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                controller.selectedCountry.value = countryName[index];
+                                                              },
+                                                              child: Icon(
+                                                                controller.selectedCountry.value == countryName[index]
+                                                                    ? Icons.check_circle_rounded
+                                                                    : Icons.add_circle_outline_rounded,
+                                                                color: AppColors.primary,
+                                                                size: 18,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -218,9 +236,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                         )
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
+                                    SizedBox(height: 5),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
@@ -231,18 +247,14 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                             height: 3,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: w * 0.02,
-                                        ),
+                                        SizedBox(width: w * 0.02),
                                         Text(
                                           'details'.tr,
                                           style: AppTextTheme.b(11).copyWith(
                                             color: AppColors.primary.withOpacity(0.5),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: w * 0.02,
-                                        ),
+                                        SizedBox(width: w * 0.02),
                                         Container(
                                           width: w * 0.2,
                                           child: Divider(
@@ -253,6 +265,16 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                       ],
                                     ),
                                     SizedBox(height: 5),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 30),
+                                      child: Text(
+                                        "abroad_details_description".tr,
+                                        style: AppTextTheme.b(11).copyWith(
+                                          color: AppColors.primary.withOpacity(0.5),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
                                     TextFormField(
                                       maxLines: 3,
                                       cursorColor: AppColors.primary,
@@ -278,9 +300,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                         FocusScope.of(context).unfocus();
                                       },
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
+                                    SizedBox(height: 5),
                                     controller.attachmentFile.value != ""
                                         ? Center(
                                             child: Row(
@@ -293,9 +313,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                                     style: AppTextStyle.boldPrimary12,
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
+                                                SizedBox(width: 10),
                                                 InkWell(
                                                   onTap: () {
                                                     controller.attachmentFile.value = "";
@@ -355,11 +373,12 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Container(
-                                            width: w * 0.2,
-                                            child: Divider(
-                                              color: AppColors.primary.withOpacity(0.5),
-                                              height: 3,
-                                            )),
+                                          width: w * 0.2,
+                                          child: Divider(
+                                            color: AppColors.primary.withOpacity(0.5),
+                                            height: 3,
+                                          ),
+                                        ),
                                         SizedBox(
                                           width: w * 0.02,
                                         ),
@@ -367,15 +386,14 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                           'other_details'.tr,
                                           style: AppTextTheme.b(11).copyWith(color: AppColors.primary.withOpacity(0.5)),
                                         ),
-                                        SizedBox(
-                                          width: w * 0.02,
-                                        ),
+                                        SizedBox(width: w * 0.02),
                                         Container(
-                                            width: w * 0.2,
-                                            child: Divider(
-                                              color: AppColors.primary.withOpacity(0.5),
-                                              height: 3,
-                                            )),
+                                          width: w * 0.2,
+                                          child: Divider(
+                                            color: AppColors.primary.withOpacity(0.5),
+                                            height: 3,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -389,9 +407,7 @@ class TreatmentAbroadView extends GetView<TreatmentAbroadController> {
                                             style: AppTextStyle.boldPrimary14.copyWith(
                                                 color: AppColors.primary.withOpacity(0.8), fontSize: 13, fontWeight: FontWeight.w700),
                                           ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
+                                          SizedBox(height: 5),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [

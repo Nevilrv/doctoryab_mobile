@@ -73,20 +73,18 @@ class DrugDetailsView extends GetView<DrugsController> {
                                     width: 250,
                                     imageUrl: "${ApiConsts.hostUrl}${controller.argumentsData?.img}",
                                     fit: BoxFit.cover,
-                                    placeholder: (_, __) {
-                                      return Image.asset(
-                                        AppImages.vitamin,
-                                      );
-                                    },
+
+                                    // placeholder: (_, __) {
+                                    //   return Image.asset(AppImages.vitamin);
+                                    // },
                                     errorWidget: (_, __, ___) {
-                                      return Image.asset(
-                                        AppImages.vitamin,
-                                      );
+                                      return Image.asset(AppImages.vitamin);
                                     },
                                   ),
                                 ),
                               ),
-                              Center(child: Image.asset(AppImages.vitamins)),
+
+                              // Center(child: Image.asset(AppImages.vitamins)),
                               Positioned(
                                 bottom: -8,
                                 child: IntrinsicWidth(
