@@ -144,35 +144,48 @@ class AuthPhoneController extends GetxController {
 
     AuthCredential credential;
     isLoading.value = true;
+
     // try {
     // googleSignIn.currentUser!.clearAuthCache();
-    googleSignIn.signOut();
+    await googleSignIn.signOut();
 
     final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+    log('GoogleSignInAccount :::::::::::::::: ${googleSignInAccount}');
+
     if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() == 'failed_to_recover_auth') {
       isLoading.value = false;
     }
 
-    print('GoogleSignInAccount>> ${GoogleSignInAccount.kFailedToRecoverAuthError}');
+    log('GoogleSignInAccount kFailedToRecoverAuthError :::::::::::::::::::::: ${GoogleSignInAccount.kFailedToRecoverAuthError}');
 
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+    final GoogleSignInAuthentication? googleSignInAuthentication = await googleSignInAccount?.authentication;
+
+    log('googleSignInAuthentication Access Token 111 :::::::::::::::::::::: ${googleSignInAuthentication?.accessToken}');
+    log('googleSignInAuthentication Id Token 2222 :::::::::::::::::::::: ${googleSignInAuthentication?.idToken}');
 
     credential =
-        GoogleAuthProvider.credential(accessToken: googleSignInAuthentication.accessToken, idToken: googleSignInAuthentication.idToken);
+        GoogleAuthProvider.credential(accessToken: googleSignInAuthentication?.accessToken, idToken: googleSignInAuthentication?.idToken);
+
+    log('googleSignInAuthentication Credential :::::::::::::::::::::: ${credential}');
+
     // final userCredential =
     //     await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
 
     authResult = await FirebaseAuth.instance.signInWithCredential(credential);
 
+    log('authResult ::::::::::::::- ${authResult}');
+
     final User? currentUser = FirebaseAuth.instance.currentUser;
 
-    log('ACCESSTOKEN :- ${googleSignInAuthentication.accessToken}');
+    log('Current User ::::::::::::::- ${currentUser}');
+    log('ACCESSTOKEN ::::::::::::::- ${googleSignInAuthentication?.accessToken}');
 
-    log('CREDINTILA :- ${googleSignInAuthentication.idToken}');
+    log('googleSignInAuthentication idToken :::::::::::::::- ${googleSignInAuthentication?.idToken}');
 
-    if (googleSignInAuthentication.idToken != null) {
+    if (googleSignInAuthentication?.idToken != null) {
       try {
-        AuthRepository().signInWithGoogleFacebboklApi(googleSignInAuthentication.idToken.toString()).then((value) {
+        AuthRepository().signInWithGoogleFacebboklApi(googleSignInAuthentication?.idToken ?? "").then((value) {
           var reponseData = value.data;
 
           SettingsController.userToken = reponseData["jwtoken"];

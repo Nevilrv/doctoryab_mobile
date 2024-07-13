@@ -89,8 +89,7 @@ class AuthController extends GetxController {
         forceResendingToken: resendToken,
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
-          UserCredential uc =
-              await firebaseAuth.signInWithCredential(phoneAuthCredential);
+          UserCredential uc = await firebaseAuth.signInWithCredential(phoneAuthCredential);
           // Get.snackbar('Hi', "auto Signin ${firebaseAuth.currentUser.uid}");
           log("uc--------------> ${uc.user!.getIdToken()}");
           log("uc--------------> ${uc.credential!.accessToken}");
@@ -112,10 +111,10 @@ class AuthController extends GetxController {
           //         await uc.user.getIdToken()); //TODO test exception Handle
           //
         },
+
         verificationFailed: (FirebaseAuthException authException) {
           log('authException ---------->>>>>>>> ${authException}');
-          Logger().e(phoneNumber,
-              'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+          Logger().e(phoneNumber, 'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
           _resetPhoneAuthParams();
           // FirebaseAuthExceptionHandler.handle(authException);
           if (verificationFaildCallBck != null) {
@@ -123,19 +122,12 @@ class AuthController extends GetxController {
           }
         },
         codeSent: (String? verficationID, int? resendToken) {
-          Logger().i(
-              "SMS-Sent",
-              verficationID! +
-                  " " +
-                  resendToken.toString() +
-                  " " +
-                  phoneNumber.toString());
+          Logger().i("SMS-Sent", verficationID! + " " + resendToken.toString() + " " + phoneNumber.toString());
           verificationCode = verficationID;
           this.resendToken = resendToken;
           waitingForFirebaseSmsSend(false);
           //
-          if (smsSentCallBack != null)
-            smsSentCallBack(verficationID, resendToken!);
+          if (smsSentCallBack != null) smsSentCallBack(verficationID, resendToken!);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           verificationId = verificationId;
@@ -270,15 +262,13 @@ class AuthController extends GetxController {
   //user signined to firebase
   bool isUserSignedInedToFirebase() {
     Logger().i("user-signed-in-to-firebase", "${getUser != ""}");
-    print(
-        "Firebase logged in: ${getUser != ""}, ${FirebaseAuth.instance.currentUser}");
+    print("Firebase logged in: ${getUser != ""}, ${FirebaseAuth.instance.currentUser}");
 
     return to.getUser != '';
   }
 
   //sign in to firebase
-  signinToFirebaseWithSmsCode(
-      {required String smsCode, String? verificationCode}) async {
+  signinToFirebaseWithSmsCode({required String smsCode, String? verificationCode}) async {
     assert(verificationCode != null || this.verificationCode != null);
     print('signinToFirebaseWithSmsCode--');
     waitingForFirebaseotpToVerify(true);
@@ -286,10 +276,7 @@ class AuthController extends GetxController {
       smsCode = smsCode.toEnglishDigit();
       await firebaseAuth
           .signInWithCredential(PhoneAuthProvider.credential(
-              verificationId: verificationCode == null
-                  ? this.verificationCode!
-                  : verificationCode,
-              smsCode: smsCode))
+              verificationId: verificationCode == null ? this.verificationCode! : verificationCode, smsCode: smsCode))
           .then((value) async {
         if (value.user != null) {
           print("value.user--------------> ${value.credential}");
@@ -330,17 +317,13 @@ class AuthController extends GetxController {
       var reponseData = response.data;
       // print(reponseData);
       log("reponseData--------------> $reponseData");
-      print(
-          'AppStatics.hive.authBox.get("profile_complete") ---------->>>>>>>> ${AppStatics.hive.authBox.get("profile_complete")}');
-      print(
-          '---reponseData["profile_completed"]------${SettingsController.isUserProfileComplete}');
+      print('AppStatics.hive.authBox.get("profile_complete") ---------->>>>>>>> ${AppStatics.hive.authBox.get("profile_complete")}');
+      print('---reponseData["profile_completed"]------${SettingsController.isUserProfileComplete}');
       try {
-        print(
-            '---reponseData["profile_completed"]------${reponseData["profile_completed"]}');
+        print('---reponseData["profile_completed"]------${reponseData["profile_completed"]}');
 
         waitingForFirebaseotpToVerify(false);
-        SettingsController.userProfileComplete =
-            reponseData["profile_completed"] == null ? false : true;
+        SettingsController.userProfileComplete = reponseData["profile_completed"] == null ? false : true;
         SettingsController.userToken = reponseData["jwtoken"];
 
         if (SettingsController.isUserProfileComplete == false) {
@@ -348,8 +331,7 @@ class AuthController extends GetxController {
         } else {
           SettingsController.userToken = reponseData["jwtoken"];
           log("SettingsController.savedUserProfile.sId--------------> ${SettingsController.userToken}");
-          SettingsController.userProfileComplete =
-              reponseData["profile_completed"] == null ? false : true;
+          SettingsController.userProfileComplete = reponseData["profile_completed"] == null ? false : true;
           SettingsController.userId = reponseData['user']['_id'];
           // SettingsController.auth.savedCity = City.fromJson({
           //   "is_deleted": false,
@@ -361,8 +343,7 @@ class AuthController extends GetxController {
           //   "createdAt": "2023-07-15T19:57:14.442Z",
           //   "updatedAt": "2023-07-25T19:57:16.055Z"
           // });
-          SettingsController.savedUserProfile =
-              u.User.fromJson(reponseData['user']);
+          SettingsController.savedUserProfile = u.User.fromJson(reponseData['user']);
           SettingsController.userLogin = true;
 
           if (SettingsController.isUserProfileComplete == false) {
@@ -398,8 +379,7 @@ class AuthController extends GetxController {
     return numberType == NUMBER_TYPE.INTERNATIONAL
         ? user.phoneNumber
         // : "0" + user.phoneNumber.substring(3, 12);
-        : "0" +
-            user.phoneNumber!.replaceFirst(AppStatics.envVars.countryCode, "");
+        : "0" + user.phoneNumber!.replaceFirst(AppStatics.envVars.countryCode, "");
   }
 
   // Future<void> saveUserToken(String token) async {
