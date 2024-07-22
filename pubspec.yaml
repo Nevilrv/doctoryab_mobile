@@ -15,36 +15,36 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.2+62
+version: 3.0.1+56
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  firebase_database: ^11.0.3
+  firebase_database: ^10.2.4
   # open_file: 3.2.1
   open_filex: ^4.3.2
   # open_file: 
   #   path: ../local_packages/open_file
   permission_handler: ^10.2.0
   # needs IOS Config
-  firebase_messaging: ^15.0.3
+  firebase_messaging: ^14.6.5
   flutter_local_notifications: ^12.0.3
-  # alice: ^0.2.1
-  # path: local_packages/alice
+    # alice: ^0.2.1
+    # path: local_packages/alice
   # git:
   #   url: https://github.com/mozaffari/alice.git
-  # intl: ^0.18.1
-  firebase_crashlytics: ^4.0.3
+  intl: ^0.18.1
+  firebase_crashlytics: ^3.3.4
   persian_number_utility: ^1.1.1
   shamsi_date: ^1.0.1
   url_launcher: ^6.0.3
   flutter_rating_bar: ^4.0.0
   sign_in_with_apple:
   dio_http_cache: ^0.3.0
-  # path: "./local_packages/dio-http-cache-feature-nullsafety-dio4"
-  #https://github.com/hurshi/dio-http-cache/pull/84
-  #  git:
+    # path: "./local_packages/dio-http-cache-feature-nullsafety-dio4"
+    #https://github.com/hurshi/dio-http-cache/pull/84
+    #  git:
   #   url: https://github.com/vrtdev/dio-http-cache.git
   #   ref: feature/nullsafety-dio4
   #  flutter_icons:
@@ -68,18 +68,17 @@ dependencies:
   timer_count_down: ^2.2.1
   pin_code_fields: ^8.0.1
   logger: ^1.1.0
-  firebase_dynamic_links: ^6.0.3
-  firebase_auth: ^5.1.2
-  firebase_core: ^3.2.0
+  firebase_dynamic_links: ^5.0.15
+  firebase_auth: ^4.7.1
+  firebase_core: ^2.15.0
   get: ^4.6.1
   # alice: 0.3.2
   alice:
-    git:
-      url: https://github.com/doctoryab-dev/alice.git
+    path: ../local_pachages/alice
 
   place_picker:
-    git:
-      url: https://github.com/doctoryab-dev/location_picker.git
+    path: ../local_pachages/locationpicker
+
   flutter:
     sdk: flutter
 
@@ -95,13 +94,11 @@ dependencies:
   pinch_zoom: ^2.0.0
   sticky_headers: ^0.3.0+2
   readmore: ^3.0.0
-  flutter_widget_from_html_core: ^0.15.1
   #  flutter_html: ^3.0.0-beta.2
-  #  webview_flutter: ^2.0.4
+  flutter_widget_from_html_core: ^0.15.1
   webview_flutter: ^4.5.0
   stories_for_flutter:
-    git:
-      url: https://github.com/doctoryab-dev/flutter_stories.git
+    path: ../local_pachages/stories_for_flutter
   story_view: ^0.16.3
   socket_io_client: ^2.0.2
   feather_icons: ^1.2.0
@@ -112,7 +109,6 @@ dependencies:
   http_parser: ^4.0.2
   google_maps_flutter:
   flutter_speech: ^2.0.0
-  #  google_mobile_ads: ^2.0.0
   google_mobile_ads: ^4.0.0
   carousel_slider: ^4.2.1
   file_picker:

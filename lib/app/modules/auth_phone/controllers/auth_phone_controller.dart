@@ -38,7 +38,6 @@ class AuthPhoneController extends GetxController {
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   GoogleSignIn googleSignIn = GoogleSignIn();
-
   var isLoading = false.obs;
 
   @override
@@ -150,17 +149,13 @@ class AuthPhoneController extends GetxController {
     await googleSignIn.signOut();
 
     final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-
     log('GoogleSignInAccount :::::::::::::::: ${googleSignInAccount}');
-
     if (GoogleSignInAccount.kFailedToRecoverAuthError.toString() == 'failed_to_recover_auth') {
       isLoading.value = false;
     }
 
     log('GoogleSignInAccount kFailedToRecoverAuthError :::::::::::::::::::::: ${GoogleSignInAccount.kFailedToRecoverAuthError}');
-
     final GoogleSignInAuthentication? googleSignInAuthentication = await googleSignInAccount?.authentication;
-
     log('googleSignInAuthentication Access Token 111 :::::::::::::::::::::: ${googleSignInAuthentication?.accessToken}');
     log('googleSignInAuthentication Id Token 2222 :::::::::::::::::::::: ${googleSignInAuthentication?.idToken}');
 
