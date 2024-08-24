@@ -1,5 +1,6 @@
 // import 'dart:io' as Io;
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -73,8 +74,8 @@ class DrugStoreRepository {
       };
     }
 
-    log('---requestParameter>>>>>$requestParameter');
-    log('---URL>>>>>${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity!.sId}}');
+    log('fetchDrugStores ---requestParameter>>>>> $requestParameter');
+    log('fetchDrugStores ---URL>>>>>${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity!.sId}}');
 
     final response = await _cachedDio.get(
       '${ApiConsts.drugStoreByCity}/${SettingsController.auth.savedCity!.sId}',
@@ -91,7 +92,7 @@ class DrugStoreRepository {
       options: AppDioService.cachedDioOption(ApiConsts.defaultHttpCacheAge),
     );
 
-    print('----response---->>>>$response');
+    log('----response---->>>>${response}');
 
     return response;
   }

@@ -31,10 +31,17 @@ class AddPersonalInfoController extends GetxController {
   var genderList = ['Male', "Female", "Other"];
   var selectedGender = "Male".obs;
   var isLoading = false.obs;
+
+  bool isFromAppleLogin = Get.arguments["isFromAppleLogin"] ?? false;
+
   @override
   void onInit() {
-    loginType = Get.arguments ?? "";
     loadCities();
+    if (isFromAppleLogin) {
+      teName.text = Get.arguments["displayName"] ?? "";
+    } else {
+      loginType = Get.arguments ?? "";
+    }
 
     super.onInit();
   }
@@ -71,22 +78,17 @@ class AddPersonalInfoController extends GetxController {
     // isLoading.value = true;
     if (loginType == "") {
       AuthRepository()
-          .addPersonalInfoApi(teName.text, teNewNumber.text,
-              selectedGender.value, selectedLocationId.value)
+          .addPersonalInfoApi(teName.text, teNewNumber.text, selectedGender.value, selectedLocationId.value)
           .then((value) {
-        print(
-            'SettingsController.userLoginGet ---------->>>>>>>> ${SettingsController.userLoginGet}');
-        print(
-            'value["profile_completed"] ---------->>>>>>>> ${value["profile_completed"]}');
+        print('SettingsController.userLoginGet ---------->>>>>>>> ${SettingsController.userLoginGet}');
+        print('value["profile_completed"] ---------->>>>>>>> ${value["profile_completed"]}');
         try {
-          SettingsController.userProfileComplete =
-              value["profile_completed"] == null ? false : true;
+          SettingsController.userProfileComplete = value["profile_completed"] == null ? false : true;
           SettingsController.userId = value['user']['_id'];
           SettingsController.savedUserProfile = u.User.fromJson(value['user']);
           SettingsController.userLogin = true;
           isLoading.value = false;
-          print(
-              'SettingsController.auth.savedCity ---------->>>>>>>> ${SettingsController.auth.savedCity}');
+          print('SettingsController.auth.savedCity ---------->>>>>>>> ${SettingsController.auth.savedCity}');
           if (SettingsController.auth.savedCity!.sId == '') {
             Get.offAllNamed(Routes.CITY_SELECT);
           } else {

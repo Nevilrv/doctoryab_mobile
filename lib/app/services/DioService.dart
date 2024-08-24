@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:doctor_yab/app/data/ApiConsts.dart';
@@ -8,6 +10,7 @@ import 'package:doctor_yab/app/data/interceptor/JwtTokenInjector.dart';
 class AppDioService {
   static Dio _dio = () {
     var _dio = Dio();
+    log('ApiConsts.baseUrl :::::::::::::::: ${ApiConsts.baseUrl}');
     BaseOptions options = new BaseOptions(
       baseUrl: ApiConsts.baseUrl,
       connectTimeout: 15000,
@@ -47,6 +50,7 @@ class AppDioService {
     return _dio;
   }();
   static Dio _cachedDio = () {
+    log('_cached DioApiConsts.hostUrl==========>>>>>${ApiConsts.hostUrl}');
     var _cachedDio = Dio();
     _cachedDio.options = _dio.options;
     _cachedDio.interceptors.addAll(_dio.interceptors);
@@ -57,6 +61,7 @@ class AppDioService {
     );
     return _cachedDio;
   }();
+
   static Dio getDioInstance() {
     print("base1: ${ApiConsts.baseUrl} ${_dio.options.baseUrl}");
     return _dio;

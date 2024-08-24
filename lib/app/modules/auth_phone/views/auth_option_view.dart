@@ -27,11 +27,9 @@ class AuthView extends GetView<AuthPhoneController> {
   AuthPhoneController controller = Get.put(AuthPhoneController());
 
   String generateNonce([int length = 32]) {
-    final charset =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
   }
 
   String sha256ofString(String input) {
@@ -82,9 +80,7 @@ class AuthView extends GetView<AuthPhoneController> {
                       },
                       child: Container(
                         width: Get.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Center(
@@ -97,8 +93,7 @@ class AuthView extends GetView<AuthPhoneController> {
                               ),
                               Text(
                                 "sign_google".tr,
-                                style: AppTextTheme.b(16)
-                                    .copyWith(color: AppColors.primary),
+                                style: AppTextTheme.b(16).copyWith(color: AppColors.primary),
                               ),
                             ],
                           )),
@@ -136,8 +131,7 @@ class AuthView extends GetView<AuthPhoneController> {
                           final rawNonce = generateNonce();
                           final nonce = sha256ofString(rawNonce);
 
-                          final appleCredential =
-                              await SignInWithApple.getAppleIDCredential(
+                          final appleCredential = await SignInWithApple.getAppleIDCredential(
                             scopes: [
                               AppleIDAuthorizationScopes.email,
                               AppleIDAuthorizationScopes.fullName,
@@ -145,72 +139,58 @@ class AuthView extends GetView<AuthPhoneController> {
                             nonce: nonce,
                           );
                           // Create an `OAuthCredential` from the credential returned by Apple.
-                          final oauthCredential =
-                              OAuthProvider("apple.com").credential(
+                          final oauthCredential = OAuthProvider("apple.com").credential(
                             idToken: appleCredential.identityToken,
                             rawNonce: rawNonce,
                           );
                           // Sign in the user with Firebase. If the nonce we generated earlier does
                           // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-                          final authResult = await _firebaseAuth
-                              .signInWithCredential(oauthCredential);
+                          final authResult = await _firebaseAuth.signInWithCredential(oauthCredential);
 
                           if (authResult.credential != null) {
                             try {
-                              AuthRepository()
-                                  .signInWithGAppleApi(
-                                      oauthCredential.idToken.toString())
-                                  .then((value) {
+                              AuthRepository().signInWithGAppleApi(oauthCredential.idToken.toString()).then((value) {
                                 var reponseData = value.data;
-
-                                SettingsController.userToken =
-                                    reponseData["jwtoken"];
-                                dev.log(
-                                    "SettingsController.userToken--------------> ${SettingsController.userToken}");
-                                SettingsController.userProfileComplete =
-                                    reponseData["profile_completed"];
+                                Iterable<UserInfo> userData =
+                                    authResult.user?.providerData.where((element) => element.displayName != null) ?? [];
+                                SettingsController.userToken = reponseData["jwtoken"];
+                                dev.log("SettingsController.userToken--------------> ${SettingsController.userToken}");
+                                SettingsController.userProfileComplete = reponseData["profile_completed"];
                                 dev.log(
                                     "SettingsController.userProfileComplete--------------> ${reponseData["profile_completed"]}");
-                                SettingsController.userId =
-                                    reponseData['user'] == null
-                                        ? reponseData['newUser']['_id']
-                                        : reponseData['user']['_id'];
+                                SettingsController.userId = reponseData['user'] == null
+                                    ? reponseData['newUser']['_id']
+                                    : reponseData['user']['_id'];
                                 dev.log(
                                     "SettingsController.SettingsController.userId--------------> ${SettingsController.userId}");
 
-                                dev.log(
-                                    "SettingsController.userToken--------------> ${SettingsController.userToken}");
+                                dev.log("SettingsController.userToken--------------> ${SettingsController.userToken}");
 
                                 try {
-                                  SettingsController.savedUserProfile =
-                                      u.User.fromJson(
-                                          reponseData['user'] == null
-                                              ? reponseData['newUser']
-                                              : reponseData['user']);
-                                  if (SettingsController
-                                          .isUserProfileComplete ==
-                                      false) {
-                                    Get.toNamed(Routes.ADD_PERSONAL_INFO);
+                                  SettingsController.savedUserProfile = u.User.fromJson(
+                                      reponseData['user'] == null ? reponseData['newUser'] : reponseData['user']);
+                                  if (SettingsController.isUserProfileComplete == false) {
+                                    if (userData.isNotEmpty) {
+                                      Get.toNamed(Routes.ADD_PERSONAL_INFO, arguments: {
+                                        "isFromAppleLogin": true,
+                                        "displayName": userData.first.displayName
+                                      });
+                                    }
                                   } else {
-                                    SettingsController.auth.savedCity =
-                                        City.fromJson(reponseData['city']);
+                                    SettingsController.auth.savedCity = City.fromJson(reponseData['city']);
                                     SettingsController.userLogin = true;
                                     Get.offAllNamed(Routes.HOME);
                                   }
                                 } catch (e) {
-                                  Utils.commonSnackbar(
-                                      context: context,
-                                      text: "Apple login failed");
+                                  Utils.commonSnackbar(context: context, text: "Apple login failed");
                                 }
                               });
                             } catch (e) {
-                              Utils.commonSnackbar(
-                                  context: context, text: "Apple login failed");
+                              Utils.commonSnackbar(context: context, text: "Apple login failed");
                             }
                           }
 
-                          dev.log(
-                              "credential.idToken/----------------------------->${oauthCredential.idToken}");
+                          dev.log("credential.idToken/----------------------------->${oauthCredential.idToken}");
                           // switch (result.status) {
                           //   case AuthorizationStatus.authorized:
                           //     print(result
@@ -224,16 +204,13 @@ class AuthView extends GetView<AuthPhoneController> {
                           //     break;
                           // }
                         } on FirebaseAuthException catch (e) {
-                          Utils.commonSnackbar(
-                              context: context, text: e.message.toString());
+                          Utils.commonSnackbar(context: context, text: e.message.toString());
                         }
                       },
                       child: Container(
                         width: Get.width,
                         height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Center(
@@ -246,8 +223,7 @@ class AuthView extends GetView<AuthPhoneController> {
                               ),
                               Text(
                                 "sign_Apple".tr,
-                                style: AppTextTheme.b(16)
-                                    .copyWith(color: AppColors.primary),
+                                style: AppTextTheme.b(16).copyWith(color: AppColors.primary),
                               ),
                             ],
                           )),
@@ -263,9 +239,7 @@ class AuthView extends GetView<AuthPhoneController> {
                 },
                 child: Container(
                   width: Get.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Center(
@@ -278,8 +252,7 @@ class AuthView extends GetView<AuthPhoneController> {
                         ),
                         Text(
                           "guest_user".tr,
-                          style: AppTextTheme.b(16)
-                              .copyWith(color: AppColors.primary),
+                          style: AppTextTheme.b(16).copyWith(color: AppColors.primary),
                         ),
                       ],
                     )),
@@ -296,9 +269,7 @@ class AuthView extends GetView<AuthPhoneController> {
                 },
                 child: Container(
                   width: Get.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Center(
@@ -309,18 +280,15 @@ class AuthView extends GetView<AuthPhoneController> {
                             ? Transform(
                                 alignment: Alignment.center,
                                 transform: Matrix4.rotationY(math.pi),
-                                child: SvgPicture.asset(AppImages.phone,
-                                    color: AppColors.primary),
+                                child: SvgPicture.asset(AppImages.phone, color: AppColors.primary),
                               )
-                            : SvgPicture.asset(AppImages.phone,
-                                color: AppColors.primary),
+                            : SvgPicture.asset(AppImages.phone, color: AppColors.primary),
                         SizedBox(
                           width: 5,
                         ),
                         Text(
                           "sign_phone".tr,
-                          style: AppTextTheme.b(16)
-                              .copyWith(color: AppColors.primary),
+                          style: AppTextTheme.b(16).copyWith(color: AppColors.primary),
                         ),
                       ],
                     )),

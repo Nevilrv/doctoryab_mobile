@@ -63,7 +63,7 @@ Future<void> main() async {
         initialBinding: SplashScreenBinding(),
         theme: AppTheme.light(),
         builder: Utils.initBuilder,
-        navigatorKey: Get.find(),
+        // navigatorKey: Get.find(),
         onReady: () {},
       ),
     ),

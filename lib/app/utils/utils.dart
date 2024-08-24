@@ -191,8 +191,7 @@ class Utils {
     return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static Future<List> parseResponse<T>(Future<Response<dynamic>> func(),
-      {required void onError(e)}) async {
+  static Future<List> parseResponse<T>(Future<Response<dynamic>> func(), {required void onError(e)}) async {
     List<dynamic>? _tmpList;
     try {
       var response = await func();
@@ -278,8 +277,7 @@ class Utils {
     return _tmpList ?? [];
   }
 
-  static void addResponseToPagingController<T>(
-      List<T> list, PagingController<int, T> pagingController, int pageKey) {
+  static void addResponseToPagingController<T>(List<T> list, PagingController<int, T> pagingController, int pageKey) {
     if (list.length > 0) {
       pagingController.appendPage(list, pageKey + 1);
     } else {
@@ -310,8 +308,7 @@ class Utils {
     try {
       value = value!.toEnglishDigit();
     } catch (e) {}
-    PhoneValidatorUtils phoneValidatorUtils =
-        PhoneValidatorUtils(number: value!);
+    PhoneValidatorUtils phoneValidatorUtils = PhoneValidatorUtils(number: value!);
     if (phoneValidatorUtils.isValid()) {
       return null;
     }
@@ -378,8 +375,7 @@ class Utils {
 
   //* Google Maps
   static openGoogleMaps(double lat, double lng) async {
-    final String googleMapslocationUrl =
-        "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
+    final String googleMapslocationUrl = "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
 
     final String encodedURl = Uri.encodeFull(googleMapslocationUrl);
 
@@ -392,8 +388,7 @@ class Utils {
     }
   }
 
-  static Future<void> restartBeta(BuildContext context,
-      {required VoidCallback onInit}) async {
+  static Future<void> restartBeta(BuildContext context, {required VoidCallback onInit}) async {
     // Phoenix.rebirth(context);
     // Get.find<GetMaterialApp>();
     Get.reset();
@@ -425,7 +420,7 @@ class Utils {
     var _settingsBox = await Hive.openBox('settings');
     Get.put<Box<dynamic>>(_settingsBox, tag: "settings_box");
     Get.put<Box<dynamic>>(_authBox, tag: "auth_box");
-    Get.put(GlobalKey<NavigatorState>());
+    await Get.put(GlobalKey<NavigatorState>());
     // Get.lazyPut(() => GlobalKey<NavigatorState>());
     // if (kDebugMode || ApiConsts.debugModeOnRelease) {
     //   Get.put(
@@ -478,8 +473,7 @@ class Utils {
                   ),
                   Text(
                     "how_do_you_feel".tr,
-                    style: AppTextStyle.mediumWhite11.copyWith(
-                        color: AppColors.white.withOpacity(0.5), fontSize: 13),
+                    style: AppTextStyle.mediumWhite11.copyWith(color: AppColors.white.withOpacity(0.5), fontSize: 13),
                   ),
                 ],
               ),
